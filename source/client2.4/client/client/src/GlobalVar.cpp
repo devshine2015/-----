@@ -79,8 +79,8 @@ CGameWG             g_oGameWG;
 CGameMovie			g_GameMovie;
 
 
-// 客户端版本号, 在GateServer有验证
-short g_sClientVer = 110;
+// Client version number, verified in GateServer
+short g_sClientVer = 901;
 //short g_sClientVer = 138;
 short g_sKeyData = short(g_sClientVer * g_sClientVer * 0x1232222);
 char g_szSendKey[4];
