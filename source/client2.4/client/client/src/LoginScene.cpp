@@ -1194,7 +1194,7 @@ void CLoginScene::_Connect()
 	}
 	else
 	{
-		CS_Connect(pszSelectGateIP, 1973, g_Config.m_nConnectTimeOut);
+		CS_Connect(pszSelectGateIP, 43000, g_Config.m_nConnectTimeOut);
 	}
 	//#endif
 }
