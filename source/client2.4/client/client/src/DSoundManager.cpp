@@ -1,720 +1,755 @@
-#include "DSoundManager.h"
-#include "DSoundInstance.h"
 #include "stdafx.h"
-#include <fcntl.h>
+#include "DSoundManager.h"
 #include <io.h>
+#include <fcntl.h>
+#include "DSoundInstance.h"
+
 
 // #define USE_OGG_LIB
+
 
 #ifdef USE_OGG_LIB
 #include "ogg/ivorbiscodec.h"
 #include "ogg/ivorbisfile.h"
 #endif
 
-#define SOUND_FLAGS                                                            \
-  (DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME | DSBCAPS_STATIC |                     \
-   DSBCAPS_LOCSOFTWARE | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLFREQUENCY)
-DSoundManager::DSoundManager(HWND theHWnd) {
-  mDSoundDLL = LoadLibrary("dsound.dll");
-  mLastReleaseTick = 0;
-  mPrimaryBuffer = NULL;
-  m_fFadeByWindow = 1.0f;
+#define SOUND_FLAGS (DSBCAPS_CTRLPAN | DSBCAPS_CTRLVOLUME |  DSBCAPS_STATIC | DSBCAPS_LOCSOFTWARE | DSBCAPS_GLOBALFOCUS | DSBCAPS_CTRLFREQUENCY)
+DSoundManager::DSoundManager(HWND theHWnd)
+{
+	mDSoundDLL = LoadLibrary("dsound.dll");
+	mLastReleaseTick = 0;
+	mPrimaryBuffer = NULL;
+	m_fFadeByWindow = 1.0f;
 
-  int i;
+	int i;
 
-  for (i = 0; i < MAX_SOURCE_SOUNDS; i++) {
-    mSourceSounds[i] = NULL;
-    mBaseVolumes[i] = 1;
-    mBasePans[i] = 0;
-  }
+	for (i = 0; i < MAX_SOURCE_SOUNDS; i++)
+	{
+		mSourceSounds[i] = NULL;
+		mBaseVolumes[i] = 1;
+		mBasePans[i] = 0;
+	}
 
-  for (i = 0; i < MAX_CHANNELS; i++)
-    mPlayingSounds[i] = NULL;
+	for (i = 0; i < MAX_CHANNELS; i++)
+		mPlayingSounds[i] = NULL;
 
-  mDirectSound = NULL;
+	mDirectSound = NULL;
 
-  mMasterVolume = 1.0;
+	mMasterVolume = 1.0;
 
-  if (theHWnd != NULL) {
-    typedef HRESULT(WINAPI * DirectSoundCreateFunc)(
-        LPCGUID lpcGuid, LPDIRECTSOUND * ppDS, LPUNKNOWN pUnkOuter);
-    DirectSoundCreateFunc aDirectSoundCreateFunc =
-        (DirectSoundCreateFunc)GetProcAddress(mDSoundDLL, "DirectSoundCreate");
+	if (theHWnd != NULL)
+	{
+		typedef HRESULT (WINAPI *DirectSoundCreateFunc)(LPCGUID lpcGuid, LPDIRECTSOUND * ppDS, LPUNKNOWN  pUnkOuter);
+		DirectSoundCreateFunc aDirectSoundCreateFunc = (DirectSoundCreateFunc)GetProcAddress(mDSoundDLL,"DirectSoundCreate");
 
-    if (aDirectSoundCreateFunc != NULL &&
-        aDirectSoundCreateFunc(NULL, &mDirectSound, NULL) == DS_OK) {
+		if (aDirectSoundCreateFunc != NULL && aDirectSoundCreateFunc(NULL, &mDirectSound, NULL) == DS_OK)
+		{
 
-      HRESULT aResult =
-          mDirectSound->SetCooperativeLevel(theHWnd, DSSCL_PRIORITY);
-      if (SUCCEEDED(aResult)) {
-        // Set primary buffer to 16-bit 44.1Khz
-        WAVEFORMATEX aWaveFormat;
-        DSBUFFERDESC aBufferDesc;
+			HRESULT aResult = mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_PRIORITY);
+			if (SUCCEEDED(aResult))
+			{
+				// Set primary buffer to 16-bit 44.1Khz
+				WAVEFORMATEX aWaveFormat;
+				DSBUFFERDESC aBufferDesc;
 
-        // Set up wave format structure.
-        int aBitCount = 16;
-        int aChannelCount = 2;
-        int aSampleRate = 44100;
+				// Set up wave format structure.
+				int aBitCount = 16;
+				int aChannelCount = 2;
+				int aSampleRate = 44100;
 
-        // Set up wave format structure.
-        memset(&aWaveFormat, 0, sizeof(WAVEFORMATEX));
-        aWaveFormat.cbSize = sizeof(WAVEFORMATEX);
-        aWaveFormat.wFormatTag = WAVE_FORMAT_PCM;
-        aWaveFormat.nChannels = aChannelCount;
-        aWaveFormat.nSamplesPerSec = aSampleRate;
-        aWaveFormat.nBlockAlign = aChannelCount * aBitCount / 8;
-        aWaveFormat.nAvgBytesPerSec =
-            aWaveFormat.nSamplesPerSec * aWaveFormat.nBlockAlign;
-        aWaveFormat.wBitsPerSample = aBitCount;
+				// Set up wave format structure.
+				memset(&aWaveFormat, 0, sizeof(WAVEFORMATEX));
+				aWaveFormat.cbSize = sizeof(WAVEFORMATEX);
+				aWaveFormat.wFormatTag = WAVE_FORMAT_PCM;
+				aWaveFormat.nChannels = aChannelCount;
+				aWaveFormat.nSamplesPerSec = aSampleRate;
+				aWaveFormat.nBlockAlign = aChannelCount*aBitCount/8;
+				aWaveFormat.nAvgBytesPerSec = 
+					aWaveFormat.nSamplesPerSec * aWaveFormat.nBlockAlign;
+				aWaveFormat.wBitsPerSample = aBitCount;
 
-        // Set up DSBUFFERDESC structure.
-        memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
-        aBufferDesc.dwSize = sizeof(DSBUFFERDESC1);
-        aBufferDesc.dwFlags =
-            DSBCAPS_PRIMARYBUFFER; //| DSBCAPS_CTRL3D; // Need default controls
-                                   //(pan, volume, frequency).
-        aBufferDesc.dwBufferBytes = 0;
-        aBufferDesc.lpwfxFormat = NULL; //(LPWAVEFORMATEX)&aWaveFormat;
+				// Set up DSBUFFERDESC structure.
+				memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
+				aBufferDesc.dwSize = sizeof(DSBUFFERDESC1);
+				aBufferDesc.dwFlags = DSBCAPS_PRIMARYBUFFER;//| DSBCAPS_CTRL3D; // Need default controls (pan, volume, frequency).
+				aBufferDesc.dwBufferBytes = 0;
+				aBufferDesc.lpwfxFormat =NULL;//(LPWAVEFORMATEX)&aWaveFormat;
 
-        HRESULT aResult = mDirectSound->CreateSoundBuffer(
-            &aBufferDesc, &mPrimaryBuffer, NULL);
-        if (aResult == DS_OK) {
-          aResult = mPrimaryBuffer->SetFormat(&aWaveFormat);
-        }
-      } else {
-        aResult = mDirectSound->SetCooperativeLevel(theHWnd, DSSCL_NORMAL);
-      }
-    }
-  }
+				HRESULT aResult = mDirectSound->CreateSoundBuffer(&aBufferDesc, &mPrimaryBuffer, NULL);
+				if (aResult == DS_OK)
+				{
+					aResult = mPrimaryBuffer->SetFormat(&aWaveFormat);
+				}
+			}
+			else
+			{
+				aResult = mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
+			}
+		}
+	}	
 }
 
-DSoundManager::~DSoundManager() {
-  ReleaseChannels();
-  ReleaseSounds();
+DSoundManager::~DSoundManager()
+{
+	ReleaseChannels();
+	ReleaseSounds();
 
-  if (mPrimaryBuffer)
-    mPrimaryBuffer->Release();
+	if (mPrimaryBuffer)
+		mPrimaryBuffer->Release();
 
-  if (mDirectSound != NULL)
-    mDirectSound->Release();
+	if (mDirectSound != NULL)
+		mDirectSound->Release();
 
-  FreeLibrary(mDSoundDLL);
+	FreeLibrary( mDSoundDLL);
 }
 
-int DSoundManager::FindFreeChannel() {
-  DWORD aTick = GetTickCount();
-  if (aTick - mLastReleaseTick > 1000) {
-    ReleaseFreeChannels();
-    mLastReleaseTick = aTick;
-  }
+int	DSoundManager::FindFreeChannel()
+{
+	DWORD aTick = GetTickCount();
+	if (aTick-mLastReleaseTick > 1000)
+	{
+		ReleaseFreeChannels();
+		mLastReleaseTick = aTick;
+	}
 
-  for (int i = 0; i < MAX_CHANNELS; i++) {
-    if (mPlayingSounds[i] == NULL)
-      return i;
+	for (int i = 0; i < MAX_CHANNELS; i++)
+	{		
+		if (mPlayingSounds[i] == NULL)
+			return i;
 
-    if (mPlayingSounds[i]->IsReleased()) {
-      delete mPlayingSounds[i];
-      mPlayingSounds[i] = NULL;
-      return i;
-    }
-  }
+		if (mPlayingSounds[i]->IsReleased())
+		{
+			delete mPlayingSounds[i];
+			mPlayingSounds[i] = NULL;
+			return i;
+		}
+	}
 
-  return -1;
+	return -1;
 }
 
-bool DSoundManager::Initialized() {
-  /*
-  if (mDirectSound!=NULL)
-  {
-  mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
-  }
-  */
+bool DSoundManager::Initialized()
+{
+	/*
+	if (mDirectSound!=NULL)
+	{
+	mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
+	}
+	*/
 
-  return (mDirectSound != NULL);
+	return (mDirectSound != NULL);
 }
 
-int DSoundManager::VolumeToDB(double theVolume) {
-  int aVol = (int)((log10(1 + theVolume * 9) - 1.0) * 2333);
-  if (aVol < -2000)
-    aVol = -10000;
+int DSoundManager::VolumeToDB(double theVolume)
+{
+	int aVol = (int) ((log10(1 + theVolume*9) - 1.0) * 2333);
+	if (aVol < -2000)
+		aVol = -10000;
 
-  return aVol;
+	return aVol;
 }
 
-void DSoundManager::SetVolume(double theVolume) {
-  mMasterVolume = theVolume;
+void DSoundManager::SetVolume(double theVolume)
+{
+	mMasterVolume = theVolume;
 
-  for (int i = 0; i < MAX_CHANNELS; i++)
-    if (mPlayingSounds[i] != NULL)
-      mPlayingSounds[i]->RehupVolume();
+	for (int i = 0; i < MAX_CHANNELS; i++)
+		if (mPlayingSounds[i] != NULL)
+			mPlayingSounds[i]->RehupVolume();
 }
 
-bool DSoundManager::LoadWAVSound(unsigned int theSfxID,
-                                 const string &theFilename) {
-  int aDataSize;
+bool DSoundManager::LoadWAVSound(unsigned int theSfxID, const string& theFilename)
+{		
+	int aDataSize;
 
-  FILE *fp;
-  fopen_s(&fp, theFilename.c_str(), "rb");
+	FILE* fp;
+	fopen_s( &fp, theFilename.c_str(), "rb");
 
-  if (fp <= 0)
-    return false;
+	if (fp <= 0)
+		return false;	
 
-  char aChunkType[5];
-  aChunkType[4] = '\0';
-  ulong aChunkSize;
+	char aChunkType[5];	
+	aChunkType[4] = '\0';
+	ulong aChunkSize;
 
-  fread(aChunkType, 1, 4, fp);
-  if (!strcmp(aChunkType, "RIFF") == 0)
-    return false;
-  fread(&aChunkSize, 4, 1, fp);
+	fread(aChunkType, 1, 4, fp);	
+	if (!strcmp(aChunkType, "RIFF") == 0)
+		return false;
+	fread(&aChunkSize, 4, 1, fp);
 
-  fread(aChunkType, 1, 4, fp);
-  if (!strcmp(aChunkType, "WAVE") == 0)
-    return false;
+	fread(aChunkType, 1, 4, fp);	
+	if (!strcmp(aChunkType, "WAVE") == 0)
+		return false;
 
-  ushort aBitCount = 16;
-  ushort aChannelCount = 1;
-  ulong aSampleRate = 22050;
+	ushort aBitCount = 16;
+	ushort aChannelCount = 1;
+	ulong aSampleRate = 22050;
 
-  while (!feof(fp)) {
-    fread(aChunkType, 1, 4, fp);
-    if (fread(&aChunkSize, 4, 1, fp) == 0)
-      return false;
+	while (!feof(fp))
+	{
+		fread(aChunkType, 1, 4, fp);		
+		if (fread(&aChunkSize, 4, 1, fp) == 0)
+			return false;
 
-    int aCurPos = ftell(fp);
+		int aCurPos = ftell(fp);
 
-    if (strcmp(aChunkType, "fmt ") == 0) {
-      ushort aFormatTag;
-      ulong aBytesPerSec;
-      ushort aBlockAlign;
+		if (strcmp(aChunkType, "fmt ") == 0)
+		{
+			ushort aFormatTag;
+			ulong aBytesPerSec;
+			ushort aBlockAlign;			
 
-      fread(&aFormatTag, 2, 1, fp);
-      fread(&aChannelCount, 2, 1, fp);
-      fread(&aSampleRate, 4, 1, fp);
-      fread(&aBytesPerSec, 4, 1, fp);
-      fread(&aBlockAlign, 2, 1, fp);
-      fread(&aBitCount, 2, 1, fp);
+			fread(&aFormatTag, 2, 1, fp);
+			fread(&aChannelCount, 2, 1, fp);
+			fread(&aSampleRate, 4, 1, fp);
+			fread(&aBytesPerSec, 4, 1, fp);
+			fread(&aBlockAlign, 2, 1, fp);
+			fread(&aBitCount, 2, 1, fp);
 
-      if (aFormatTag != 1)
-        return false;
-    } else if (strcmp(aChunkType, "dep ") == 0) {
-      char aStr[256];
-      ushort aStrLen;
+			if (aFormatTag != 1)
+				return false;
+		}
+		else if (strcmp(aChunkType, "dep ") == 0)
+		{
+			char aStr[256];
+			ushort aStrLen;
 
-      fread(&aStrLen, 2, 1, fp);
-      if (aStrLen > 255)
-        aStrLen = 255;
-      fread(aStr, 1, aStrLen, fp);
-      aStr[aStrLen] = '\0';
+			fread(&aStrLen, 2, 1, fp);
+			if (aStrLen > 255)
+				aStrLen = 255;
+			fread(aStr, 1, aStrLen, fp);
+			aStr[aStrLen] = '\0';
 
-      FILETIME aSavedFileTime;
-      fread(&aSavedFileTime, sizeof(FILETIME), 1, fp);
+			FILETIME aSavedFileTime;
+			fread(&aSavedFileTime, sizeof(FILETIME), 1, fp);
 
-      FILETIME anActualFileTime;
-      memset(&anActualFileTime, 0, sizeof(FILETIME));
-      GetTheFileTime(aStr, &anActualFileTime);
+			FILETIME anActualFileTime;
+			memset(&anActualFileTime, 0, sizeof(FILETIME));
+			GetTheFileTime(aStr, &anActualFileTime);
 
-      if ((aSavedFileTime.dwHighDateTime != anActualFileTime.dwHighDateTime) ||
-          (aSavedFileTime.dwLowDateTime != anActualFileTime.dwLowDateTime))
-        return false;
-    } else if (strcmp(aChunkType, "data") == 0) {
-      aDataSize = aChunkSize;
+			if ((aSavedFileTime.dwHighDateTime != anActualFileTime.dwHighDateTime) ||
+				(aSavedFileTime.dwLowDateTime  != anActualFileTime.dwLowDateTime ))
+				return false;				
+		}
+		else if (strcmp(aChunkType, "data") == 0)
+		{
+			aDataSize = aChunkSize;
 
-      mSourceDataSizes[theSfxID] = aChunkSize;
+			mSourceDataSizes[theSfxID] = aChunkSize;
 
-      PCMWAVEFORMAT aWaveFormat;
-      DSBUFFERDESC aBufferDesc;
+			PCMWAVEFORMAT aWaveFormat;
+			DSBUFFERDESC aBufferDesc;    			
 
-      // Set up wave format structure.
-      memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
-      aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
-      aWaveFormat.wf.nChannels = aChannelCount;
-      aWaveFormat.wf.nSamplesPerSec = aSampleRate;
-      aWaveFormat.wf.nBlockAlign = aChannelCount * aBitCount / 8;
-      aWaveFormat.wf.nAvgBytesPerSec =
-          aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;
-      aWaveFormat.wBitsPerSample = aBitCount;
-      // Set up DSBUFFERDESC structure.
-      memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
-      aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
-      // aBufferDesc.dwFlags = DSBCAPS_CTRL3D;
-      aBufferDesc.dwFlags = SOUND_FLAGS; // DSBCAPS_CTRLDEFAULT;
+			// Set up wave format structure.
+			memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
+			aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
+			aWaveFormat.wf.nChannels = aChannelCount;
+			aWaveFormat.wf.nSamplesPerSec = aSampleRate;
+			aWaveFormat.wf.nBlockAlign = aChannelCount*aBitCount/8;
+			aWaveFormat.wf.nAvgBytesPerSec = 
+				aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;
+			aWaveFormat.wBitsPerSample = aBitCount;
+			// Set up DSBUFFERDESC structure.
+			memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
+			aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
+			//aBufferDesc.dwFlags = DSBCAPS_CTRL3D; 
+			aBufferDesc.dwFlags = SOUND_FLAGS; //DSBCAPS_CTRLDEFAULT;
 
-      // aBufferDesc.dwFlags = 0;
+			//aBufferDesc.dwFlags = 0;
 
-      aBufferDesc.dwBufferBytes = aDataSize;
-      aBufferDesc.lpwfxFormat = (LPWAVEFORMATEX)&aWaveFormat;
+			aBufferDesc.dwBufferBytes = aDataSize;                                                             
+			aBufferDesc.lpwfxFormat = (LPWAVEFORMATEX)&aWaveFormat;
 
-      if (mDirectSound->CreateSoundBuffer(
-              &aBufferDesc, &mSourceSounds[theSfxID], NULL) != DS_OK) {
-        fclose(fp);
-        return false;
-      }
+			if (mDirectSound->CreateSoundBuffer(&aBufferDesc, &mSourceSounds[theSfxID], NULL) != DS_OK)
+			{				
+				fclose(fp);
+				return false;
+			}
 
-      void *lpvPtr;
-      DWORD dwBytes;
-      if (mSourceSounds[theSfxID]->Lock(0, aDataSize, &lpvPtr, &dwBytes, NULL,
-                                        NULL, 0) != DS_OK) {
-        fclose(fp);
-        return false;
-      }
 
-      //	int aReadSize = fread(lpvPtr, 1, aDataSize, fp);
-      size_t aReadSize = fread(lpvPtr, 1, aDataSize, fp);
-      fclose(fp);
+			void* lpvPtr;
+			DWORD dwBytes;
+			if (mSourceSounds[theSfxID]->Lock(0, aDataSize, &lpvPtr, &dwBytes, NULL, NULL, 0) != DS_OK)
+			{
+				fclose(fp);
+				return false;
+			}
 
-      if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
-        return false;
+			//	int aReadSize = fread(lpvPtr, 1, aDataSize, fp);
+			size_t aReadSize = fread(lpvPtr, 1, aDataSize, fp);
+			fclose(fp);
 
-      if (aReadSize != aDataSize)
-        return false;
+			if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
+				return false;
 
-      return true;
-    }
+			if (aReadSize != aDataSize)
+				return false;
 
-    fseek(fp, aCurPos + aChunkSize, SEEK_SET);
-  }
+			return true;
+		}
 
-  return false;
+		fseek(fp, aCurPos+aChunkSize, SEEK_SET);
+	}
+
+	return false;
 }
 
 #ifdef USE_OGG_LIB
-bool DSoundManager::LoadOGGSound(unsigned int theSfxID,
-                                 const string &theFilename) {
-  OggVorbis_File vf;
-  int current_section;
+bool DSoundManager::LoadOGGSound(unsigned int theSfxID, const string& theFilename)
+{
+	OggVorbis_File vf;
+	int current_section;
 
-  FILE *aFile;
-  fopen_s(&aFile, theFilename.c_str(), "rb");
-  if (aFile == NULL)
-    return false;
+	FILE *aFile;
+	fopen_s( &aFile, theFilename.c_str(),"rb");
+	if (aFile==NULL)
+		return false;
 
-  if (ov_open(aFile, &vf, NULL, 0) < 0) {
-    fclose(aFile);
-    return false;
-  }
 
-  vorbis_info *anInfo = ov_info(&vf, -1);
+	if(ov_open(aFile, &vf, NULL, 0) < 0) 
+	{
+		fclose(aFile);
+		return false;
+	}
 
-  PCMWAVEFORMAT aWaveFormat;
-  DSBUFFERDESC aBufferDesc;
+	vorbis_info *anInfo = ov_info(&vf,-1);
 
-  // Set up wave format structure.
-  memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
-  aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
-  aWaveFormat.wf.nChannels = anInfo->channels;
-  aWaveFormat.wf.nSamplesPerSec = anInfo->rate;
-  aWaveFormat.wBitsPerSample = 16;
-  aWaveFormat.wf.nBlockAlign =
-      aWaveFormat.wf.nChannels * aWaveFormat.wBitsPerSample / 8;
-  aWaveFormat.wf.nAvgBytesPerSec =
-      aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;
+	PCMWAVEFORMAT aWaveFormat;
+	DSBUFFERDESC aBufferDesc;    			
 
-  int aLenBytes = (int)(ov_pcm_total(&vf, -1) * aWaveFormat.wf.nBlockAlign);
-  memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
+	// Set up wave format structure.
+	memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
+	aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
+	aWaveFormat.wf.nChannels = anInfo->channels;
+	aWaveFormat.wf.nSamplesPerSec = anInfo->rate;
+	aWaveFormat.wBitsPerSample = 16;
+	aWaveFormat.wf.nBlockAlign = aWaveFormat.wf.nChannels*aWaveFormat.wBitsPerSample/8;
+	aWaveFormat.wf.nAvgBytesPerSec = aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;	
 
-  mSourceDataSizes[theSfxID] = aLenBytes;
+	int aLenBytes = (int) (ov_pcm_total(&vf,-1) * aWaveFormat.wf.nBlockAlign);	
+	memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
 
-  // FUNK
-  aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
-  aBufferDesc.dwFlags = SOUND_FLAGS;
-  aBufferDesc.dwBufferBytes = aLenBytes;
-  aBufferDesc.lpwfxFormat = (LPWAVEFORMATEX)&aWaveFormat;
+	mSourceDataSizes[theSfxID] = aLenBytes;
 
-  if (mDirectSound->CreateSoundBuffer(&aBufferDesc, &mSourceSounds[theSfxID],
-                                      NULL) != DS_OK) {
-    ov_clear(&vf);
-    return false;
-  }
+	//FUNK
+	aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
+	aBufferDesc.dwFlags = SOUND_FLAGS;
+	aBufferDesc.dwBufferBytes = aLenBytes;
+	aBufferDesc.lpwfxFormat =(LPWAVEFORMATEX)&aWaveFormat;	
 
-  char *aBuf;
-  DWORD dwBytes;
-  if (mSourceSounds[theSfxID]->Lock(0, aLenBytes, (LPVOID *)&aBuf, &dwBytes,
-                                    NULL, NULL, 0) != DS_OK) {
-    ov_clear(&vf);
-    return false;
-  }
+	if (mDirectSound->CreateSoundBuffer(&aBufferDesc, &mSourceSounds[theSfxID], NULL) != DS_OK)
+	{
+		ov_clear(&vf);
+		return false;
+	}
 
-  char *aPtr = aBuf;
-  int aNumBytes = dwBytes;
-  while (aNumBytes > 0) {
-    long ret = ov_read(&vf, aPtr, aNumBytes, &current_section);
-    if (ret == 0)
-      break;
-    else if (ret < 0)
-      break;
-    else {
-      aPtr += ret;
-      aNumBytes -= ret;
-    }
-  }
+	char* aBuf;
+	DWORD dwBytes;
+	if (mSourceSounds[theSfxID]->Lock(0, aLenBytes, (LPVOID*)&aBuf, &dwBytes, NULL, NULL, 0) != DS_OK)
+	{
+		ov_clear(&vf);
+		return false;
+	}
 
-  mSourceSounds[theSfxID]->Unlock(aBuf, dwBytes, NULL, 0);
-  ov_clear(&vf);
-  return aNumBytes == 0;
+	char *aPtr = aBuf;
+	int aNumBytes = dwBytes;
+	while(aNumBytes > 0)
+	{		
+		long ret=ov_read(&vf,aPtr,aNumBytes,&current_section);
+		if (ret == 0)
+			break;
+		else if (ret < 0) 
+			break;
+		else 
+		{
+			aPtr += ret;
+			aNumBytes -= ret;
+		}
+	}
+
+	mSourceSounds[theSfxID]->Unlock(aBuf, dwBytes, NULL, 0);
+	ov_clear(&vf);
+	return aNumBytes==0;  
 }
 #else
-bool DSoundManager::LoadOGGSound(unsigned int theSfxID,
-                                 const string &theFilename) {
-  return false;
+bool DSoundManager::LoadOGGSound(unsigned int theSfxID, const string& theFilename)
+{
+	return false;
 }
 #endif
 
-bool DSoundManager::LoadAUSound(unsigned int theSfxID,
-                                const string &theFilename) {
-  FILE *fp;
 
-  fopen_s(&fp, theFilename.c_str(), "rb");
+bool DSoundManager::LoadAUSound(unsigned int theSfxID, const string& theFilename)
+{
+	FILE* fp;
 
-  if (fp <= 0)
-    return false;
+	fopen_s( &fp, theFilename.c_str(), "rb");	
 
-  char aHeaderId[5];
-  aHeaderId[4] = '\0';
-  fread(aHeaderId, 1, 4, fp);
-  if (!strcmp(aHeaderId, ".snd") == 0)
-    return false;
+	if (fp <= 0)
+		return false;	
 
-  ulong aHeaderSize;
-  fread(&aHeaderSize, 4, 1, fp);
-  aHeaderSize = LONG_BIGE_TO_NATIVE(aHeaderSize);
+	char aHeaderId[5];	
+	aHeaderId[4] = '\0';	
+	fread(aHeaderId, 1, 4, fp);	
+	if (!strcmp(aHeaderId, ".snd") == 0)
+		return false;
 
-  ulong aDataSize;
-  fread(&aDataSize, 4, 1, fp);
-  aDataSize = LONG_BIGE_TO_NATIVE(aDataSize);
+	ulong aHeaderSize;	
+	fread(&aHeaderSize, 4, 1, fp);
+	aHeaderSize = LONG_BIGE_TO_NATIVE(aHeaderSize);
 
-  ulong anEncoding;
-  fread(&anEncoding, 4, 1, fp);
-  anEncoding = LONG_BIGE_TO_NATIVE(anEncoding);
+	ulong aDataSize;
+	fread(&aDataSize, 4, 1, fp);
+	aDataSize = LONG_BIGE_TO_NATIVE(aDataSize);
 
-  ulong aSampleRate;
-  fread(&aSampleRate, 4, 1, fp);
-  aSampleRate = LONG_BIGE_TO_NATIVE(aSampleRate);
+	ulong anEncoding;
+	fread(&anEncoding, 4, 1, fp);
+	anEncoding = LONG_BIGE_TO_NATIVE(anEncoding);
 
-  ulong aChannelCount;
-  fread(&aChannelCount, 4, 1, fp);
-  aChannelCount = LONG_BIGE_TO_NATIVE(aChannelCount);
+	ulong aSampleRate;
+	fread(&aSampleRate, 4, 1, fp);
+	aSampleRate = LONG_BIGE_TO_NATIVE(aSampleRate);
 
-  fseek(fp, aHeaderSize, SEEK_SET);
+	ulong aChannelCount;
+	fread(&aChannelCount, 4, 1, fp);
+	aChannelCount = LONG_BIGE_TO_NATIVE(aChannelCount);
 
-  bool ulaw = false;
+	fseek(fp, aHeaderSize, SEEK_SET);	
 
-  ulong aSrcBitCount = 8;
-  ulong aBitCount = 16;
-  switch (anEncoding) {
-  case 1:
-    aSrcBitCount = 8;
-    aBitCount = 16;
-    ulaw = true;
-    break;
-  case 2:
-    aSrcBitCount = 8;
-    aBitCount = 8;
-    break;
+	bool ulaw = false;
 
-    /*
-    Support these formats?
+	ulong aSrcBitCount = 8;
+	ulong aBitCount = 16;			
+	switch (anEncoding)
+	{
+	case 1:
+		aSrcBitCount = 8;
+		aBitCount = 16;
+		ulaw = true;
+		break;
+	case 2:
+		aSrcBitCount = 8;
+		aBitCount = 8;
+		break;
 
-    case 3:
-    aBitCount = 16;
-    break;
-    case 4:
-    aBitCount = 24;
-    break;
-    case 5:
-    aBitCount = 32;
-    break;*/
+		/*
+		Support these formats?
 
-  default:
-    return false;
-  }
+		case 3:
+		aBitCount = 16;
+		break;
+		case 4:
+		aBitCount = 24;
+		break;
+		case 5:
+		aBitCount = 32;
+		break;*/
 
-  ulong aDestSize = aDataSize * aBitCount / aSrcBitCount;
-  mSourceDataSizes[theSfxID] = aDestSize;
+	default:
+		return false;		
+	}
 
-  PCMWAVEFORMAT aWaveFormat;
-  DSBUFFERDESC aBufferDesc;
 
-  // Set up wave format structure.
-  memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
-  aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
-  aWaveFormat.wf.nChannels = (WORD)aChannelCount;
-  aWaveFormat.wf.nSamplesPerSec = aSampleRate;
-  aWaveFormat.wf.nBlockAlign = (WORD)(aChannelCount * aBitCount / 8);
-  aWaveFormat.wf.nAvgBytesPerSec =
-      aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;
-  aWaveFormat.wBitsPerSample = (WORD)aBitCount;
-  // Set up DSBUFFERDESC structure.
-  memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
-  aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
-  // aBufferDesc.dwFlags = DSBCAPS_CTRL3D;
-  aBufferDesc.dwFlags = SOUND_FLAGS;
-  aBufferDesc.dwBufferBytes = aDestSize;
-  aBufferDesc.lpwfxFormat = (LPWAVEFORMATEX)&aWaveFormat;
+	ulong aDestSize = aDataSize * aBitCount/aSrcBitCount;
+	mSourceDataSizes[theSfxID] = aDestSize;
 
-  if (mDirectSound->CreateSoundBuffer(&aBufferDesc, &mSourceSounds[theSfxID],
-                                      NULL) != DS_OK) {
-    fclose(fp);
-    return false;
-  }
+	PCMWAVEFORMAT aWaveFormat;
+	DSBUFFERDESC aBufferDesc;    			
 
-  void *lpvPtr;
-  DWORD dwBytes;
-  if (mSourceSounds[theSfxID]->Lock(0, aDestSize, &lpvPtr, &dwBytes, NULL, NULL,
-                                    0) != DS_OK) {
-    fclose(fp);
-    return false;
-  }
+	// Set up wave format structure.
+	memset(&aWaveFormat, 0, sizeof(PCMWAVEFORMAT));
+	aWaveFormat.wf.wFormatTag = WAVE_FORMAT_PCM;
+	aWaveFormat.wf.nChannels = (WORD) aChannelCount;
+	aWaveFormat.wf.nSamplesPerSec = aSampleRate;
+	aWaveFormat.wf.nBlockAlign = (WORD) (aChannelCount*aBitCount/8);
+	aWaveFormat.wf.nAvgBytesPerSec = 
+		aWaveFormat.wf.nSamplesPerSec * aWaveFormat.wf.nBlockAlign;
+	aWaveFormat.wBitsPerSample = (WORD) aBitCount;
+	// Set up DSBUFFERDESC structure.
+	memset(&aBufferDesc, 0, sizeof(DSBUFFERDESC)); // Zero it out.
+	aBufferDesc.dwSize = sizeof(DSBUFFERDESC);
+	//aBufferDesc.dwFlags = DSBCAPS_CTRL3D; 
+	aBufferDesc.dwFlags = SOUND_FLAGS;
+	aBufferDesc.dwBufferBytes = aDestSize;
+	aBufferDesc.lpwfxFormat = (LPWAVEFORMATEX)&aWaveFormat;
 
-  uchar *aSrcBuffer = new uchar[aDataSize];
+	if (mDirectSound->CreateSoundBuffer(&aBufferDesc, &mSourceSounds[theSfxID], NULL) != DS_OK)
+	{
+		fclose(fp);
+		return false;
+	}		
 
-  //	int aReadSize = fread(aSrcBuffer, 1, aDataSize, fp);
-  size_t aReadSize = fread(aSrcBuffer, 1, aDataSize, fp);
-  fclose(fp);
+	void* lpvPtr;
+	DWORD dwBytes;
+	if (mSourceSounds[theSfxID]->Lock(0, aDestSize, &lpvPtr, &dwBytes, NULL, NULL, 0) != DS_OK)
+	{
+		fclose(fp);
+		return false;
+	}
 
-  if (ulaw) {
-    short *aDestBuffer = (short *)lpvPtr;
+	uchar* aSrcBuffer = new uchar[aDataSize];
 
-    for (ulong i = 0; i < aDataSize; i++) {
-      int ch = aSrcBuffer[i];
+	//	int aReadSize = fread(aSrcBuffer, 1, aDataSize, fp);
+	size_t aReadSize = fread(aSrcBuffer, 1, aDataSize, fp);
+	fclose(fp);
 
-      int sign = (ch < 128) ? -1 : 1;
-      ch = ch | 0x80;
-      if (ch > 239)
-        ch = ((0xF0 | 15) - ch) * 2;
-      else if (ch > 223)
-        ch = (((0xE0 | 15) - ch) * 4) + 32;
-      else if (ch > 207)
-        ch = (((0xD0 | 15) - ch) * 8) + 96;
-      else if (ch > 191)
-        ch = (((0xC0 | 15) - ch) * 16) + 224;
-      else if (ch > 175)
-        ch = (((0xB0 | 15) - ch) * 32) + 480;
-      else if (ch > 159)
-        ch = (((0xA0 | 15) - ch) * 64) + 992;
-      else if (ch > 143)
-        ch = (((0x90 | 15) - ch) * 128) + 2016;
-      else if (ch > 128)
-        ch = (((0x80 | 15) - ch) * 256) + 4064;
-      else
-        ch = 0xff;
+	if (ulaw)
+	{
+		short* aDestBuffer = (short*) lpvPtr;
 
-      aDestBuffer[i] = sign * ch * 4;
-    }
-  } else
-    memcpy(lpvPtr, aSrcBuffer, aDataSize);
+		for (ulong i = 0; i < aDataSize; i++)
+		{
+			int ch = aSrcBuffer[i];
 
-  delete[] aSrcBuffer;
+			int sign = (ch < 128) ? -1 : 1;
+			ch = ch | 0x80;
+			if (ch > 239)
+				ch = ((0xF0 | 15) - ch) * 2;
+			else if (ch > 223)
+				ch = (((0xE0 | 15) - ch) * 4) + 32;
+			else if (ch > 207)
+				ch = (((0xD0 | 15) - ch) * 8) + 96;
+			else if (ch > 191)
+				ch = (((0xC0 | 15) - ch) * 16) + 224;
+			else if (ch > 175)
+				ch = (((0xB0 | 15) - ch) * 32) + 480;
+			else if (ch > 159)
+				ch = (((0xA0 | 15) - ch) * 64) + 992;
+			else if (ch > 143)
+				ch = (((0x90 | 15) - ch) * 128) + 2016;
+			else if (ch > 128)
+				ch = (((0x80 | 15) - ch) * 256) + 4064;
+			else
+				ch = 0xff;			
 
-  if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
-    return false;
+			aDestBuffer[i] = sign * ch * 4;
+		}		
+	}
+	else
+		memcpy(lpvPtr, aSrcBuffer, aDataSize);	
 
-  if (aReadSize != aDataSize)
-    return false;
+	delete [] aSrcBuffer;		
 
-  return true;
+	if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
+		return false;
+
+	if (aReadSize != aDataSize)
+		return false;
+
+	return true;
 }
 
-bool DSoundManager::LoadSound(int theSfxID, const string &theFilename) {
-  if (theSfxID >= MAX_SOURCE_SOUNDS)
-    return false;
+bool DSoundManager::LoadSound(int theSfxID, const string& theFilename)
+{
+	if( theSfxID >= MAX_SOURCE_SOUNDS )
+		return false;
 
-  ReleaseSound(theSfxID);
+	ReleaseSound(theSfxID);
 
-  if (!mDirectSound)
-    return true; // sounds just	won't play, but this is not treated as a failure
-                 // condition
+	if (!mDirectSound)
+		return true; // sounds just	won't play, but this is not treated as a failure condition
 
-  mSourceFileNames[theSfxID] = theFilename;
+	mSourceFileNames[theSfxID] = theFilename;
 
-  string aFilename = theFilename;
-  string aCachedName;
+	string aFilename = theFilename;
+	string aCachedName;
 
-  if ((aFilename.length() > 2) && (aFilename[0] != '\\') &&
-      (aFilename[0] != '/') && (aFilename[1] != ':')) {
-    // Not an absolute path
-    aCachedName = "cached\\" + aFilename + ".wav";
-    if (LoadWAVSound(theSfxID, aFilename))
-      return true;
-    MkDir(GetFileDir(aCachedName));
-  }
+	if ((aFilename.length() > 2) && (aFilename[0] != '\\') && (aFilename[0] != '/') &&
+		(aFilename[1] != ':'))
+	{
+		// Not an absolute path
+		aCachedName = "cached\\" + aFilename + ".wav";
+		if (LoadWAVSound(theSfxID, aFilename))
+			return true;
+		MkDir(GetFileDir(aCachedName));
+	}		
 
-  if (LoadWAVSound(theSfxID, aFilename + ".wav"))
-    return true;
+	if (LoadWAVSound(theSfxID, aFilename + ".wav"))	
+		return true;
 
 #ifdef USE_OGG_LIB
-  if (LoadOGGSound(theSfxID, aFilename + ".ogg")) {
-    WriteWAV(theSfxID, aCachedName, aFilename + ".ogg");
-    return true;
-  }
+	if (LoadOGGSound(theSfxID, aFilename + ".ogg"))
+	{		
+		WriteWAV(theSfxID, aCachedName, aFilename + ".ogg");
+		return true;
+	}
 #endif
 
-  if (LoadAUSound(theSfxID, aFilename + ".au")) {
-    WriteWAV(theSfxID, aCachedName, aFilename + ".au");
-    return true;
-  }
+	if (LoadAUSound(theSfxID, aFilename + ".au"))
+	{
+		WriteWAV(theSfxID, aCachedName, aFilename + ".au");
+		return true;
+	}
 
-  return false;
+	return false;
 }
 
-int DSoundManager::LoadSound(const string &theFilename) {
-  int i;
-  for (i = 0; i < MAX_SOURCE_SOUNDS; i++)
-    if (mSourceFileNames[i] == theFilename)
-      return i;
+int DSoundManager::LoadSound(const string& theFilename)
+{
+	int i;
+	for (i = 0; i < MAX_SOURCE_SOUNDS; i++)
+		if (mSourceFileNames[i] == theFilename)
+			return i;
 
-  for (i = MAX_SOURCE_SOUNDS - 1; i >= 0; i--) {
-    if (mSourceSounds[i] == NULL) {
-      if (!LoadSound(i, theFilename))
-        return -1;
-      else
-        return i;
-    }
-  }
+	for (i = MAX_SOURCE_SOUNDS-1; i >= 0; i--)
+	{		
+		if (mSourceSounds[i] == NULL)
+		{
+			if (!LoadSound(i, theFilename))
+				return -1;
+			else
+				return i;
+		}
+	}	
 
-  return -1;
+	return -1;
 }
 
-void DSoundManager::ReleaseSound(unsigned int theSfxID) {
-  if (mSourceSounds[theSfxID] != NULL) {
-    mSourceSounds[theSfxID]->Release();
-    mSourceSounds[theSfxID] = NULL;
-    mSourceFileNames[theSfxID] = "";
-  }
+void DSoundManager::ReleaseSound(unsigned int theSfxID)
+{
+	if (mSourceSounds[theSfxID] != NULL)
+	{
+		mSourceSounds[theSfxID]->Release();
+		mSourceSounds[theSfxID] = NULL;
+		mSourceFileNames[theSfxID] = "";
+	}
 }
 
-bool DSoundManager::SetBaseVolume(unsigned int theSfxID, double theBaseVolume) {
-  if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
-    return false;
+bool DSoundManager::SetBaseVolume(unsigned int theSfxID, double theBaseVolume)
+{
+	if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+		return false;
 
-  mBaseVolumes[theSfxID] = theBaseVolume;
-  return true;
+	mBaseVolumes[theSfxID] = theBaseVolume;
+	return true;
 }
 
-bool DSoundManager::SetBasePan(unsigned int theSfxID, int theBasePan) {
-  if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
-    return false;
+bool DSoundManager::SetBasePan(unsigned int theSfxID, int theBasePan)
+{
+	if ((theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+		return false;
 
-  mBasePans[theSfxID] = theBasePan;
-  return true;
+	mBasePans[theSfxID] = theBasePan;
+	return true;
 }
 
-bool DSoundManager::GetTheFileTime(const string &theDepFile,
-                                   FILETIME *theFileTime) {
-  memset(theFileTime, 0, sizeof(FILETIME));
-  HANDLE aDepFileHandle = CreateFile(theDepFile.c_str(), GENERIC_READ, 0, NULL,
-                                     OPEN_EXISTING, 0, NULL);
-  if (aDepFileHandle == INVALID_HANDLE_VALUE)
-    return false;
+bool DSoundManager::GetTheFileTime(const string& theDepFile, FILETIME* theFileTime)
+{	
+	memset(theFileTime, 0, sizeof(FILETIME));
+	HANDLE aDepFileHandle = CreateFile(theDepFile.c_str(), GENERIC_READ, 0, NULL, OPEN_EXISTING, 0, NULL);
+	if (aDepFileHandle == INVALID_HANDLE_VALUE)
+		return false;
 
-  GetFileTime(aDepFileHandle, NULL, NULL, theFileTime);
-  CloseHandle(aDepFileHandle);
-  return true;
+	GetFileTime(aDepFileHandle, NULL, NULL, theFileTime);	
+	CloseHandle(aDepFileHandle);
+	return true;
 }
 
-bool DSoundManager::WriteWAV(unsigned int theSfxID, const string &theFilename,
-                             const string &theDepFile) {
-  if ((theFilename.length() == 0) || (theSfxID < 0) ||
-      (theSfxID >= MAX_SOURCE_SOUNDS))
-    return false;
+bool DSoundManager::WriteWAV(unsigned int theSfxID, const string& theFilename, const string& theDepFile)
+{
+	if ((theFilename.length() == 0) || (theSfxID < 0) || (theSfxID >= MAX_SOURCE_SOUNDS))
+		return false;
 
-  ulong aDataSize = mSourceDataSizes[theSfxID];
+	ulong aDataSize = mSourceDataSizes[theSfxID];
 
-  void *lpvPtr;
-  DWORD dwBytes;
-  if (mSourceSounds[theSfxID]->Lock(0, aDataSize, &lpvPtr, &dwBytes, NULL, NULL,
-                                    0) != DS_OK)
-    return false;
+	void* lpvPtr;
+	DWORD dwBytes;
+	if (mSourceSounds[theSfxID]->Lock(0, aDataSize, &lpvPtr, &dwBytes, NULL, NULL, 0) != DS_OK)
+		return false;
 
-  FILE *fp;
-  fopen_s(&fp, theFilename.c_str(), "wb");
+	FILE* fp;
+	fopen_s( &fp, theFilename.c_str(), "wb");
 
-  if (fp <= 0) {
-    mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL);
-    return false;
-  }
+	if (fp <= 0)
+	{
+		mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL);
+		return false;
+	}	
 
-  char aChunkType[5];
-  aChunkType[4] = '\0';
-  ulong aChunkSize = 4 + 8 + 16 + 8 + aDataSize;
+	char aChunkType[5];	
+	aChunkType[4] = '\0';
+	ulong aChunkSize = 4 + 8 + 16 + 8 + aDataSize;
 
-  fwrite("RIFF", 1, 4, fp);
-  fwrite(&aChunkSize, 4, 1, fp);
-  fwrite("WAVE", 1, 4, fp);
+	fwrite("RIFF", 1, 4, fp);	
+	fwrite(&aChunkSize, 4, 1, fp);
+	fwrite("WAVE", 1, 4, fp);
 
-  ulong aBufferSize;
-  mSourceSounds[theSfxID]->GetFormat(NULL, 0, &aBufferSize);
+	ulong aBufferSize;
+	mSourceSounds[theSfxID]->GetFormat(NULL, 0, &aBufferSize);
 
-  WAVEFORMATEX *aWaveFormat = (WAVEFORMATEX *)new char[aBufferSize];
-  memset(aWaveFormat, 0, sizeof(WAVEFORMATEX));
-  mSourceSounds[theSfxID]->GetFormat(aWaveFormat, aBufferSize, NULL);
+	WAVEFORMATEX* aWaveFormat = (WAVEFORMATEX*) new char[aBufferSize];
+	memset(aWaveFormat, 0, sizeof(WAVEFORMATEX));	
+	mSourceSounds[theSfxID]->GetFormat(aWaveFormat, aBufferSize, NULL);
 
-  ushort aFormatTag = 1;
-  ushort aChannelCount = aWaveFormat->nChannels;
-  ulong aSampleRate = aWaveFormat->nSamplesPerSec;
-  ushort aBitCount = aWaveFormat->wBitsPerSample;
-  ushort aBlockAlign = (aBitCount * aChannelCount) / 8;
-  ulong aBytesPerSec = aSampleRate * aBlockAlign;
+	ushort aFormatTag = 1;
+	ushort aChannelCount = aWaveFormat->nChannels;
+	ulong aSampleRate = aWaveFormat->nSamplesPerSec;	
+	ushort aBitCount = aWaveFormat->wBitsPerSample;
+	ushort aBlockAlign = (aBitCount * aChannelCount) / 8;
+	ulong aBytesPerSec = aSampleRate * aBlockAlign;
 
-  delete aWaveFormat;
+	delete aWaveFormat;
 
-  aChunkSize = 16;
-  fwrite("fmt ", 1, 4, fp);
-  fwrite(&aChunkSize, 1, 4, fp);
-  fwrite(&aFormatTag, 2, 1, fp);
-  fwrite(&aChannelCount, 2, 1, fp);
-  fwrite(&aSampleRate, 4, 1, fp);
-  fwrite(&aBytesPerSec, 4, 1, fp);
-  fwrite(&aBlockAlign, 2, 1, fp);
-  fwrite(&aBitCount, 2, 1, fp);
+	aChunkSize = 16;
+	fwrite("fmt ", 1, 4, fp);
+	fwrite(&aChunkSize, 1, 4, fp);
+	fwrite(&aFormatTag, 2, 1, fp);
+	fwrite(&aChannelCount, 2, 1, fp);
+	fwrite(&aSampleRate, 4, 1, fp);
+	fwrite(&aBytesPerSec, 4, 1, fp);
+	fwrite(&aBlockAlign, 2, 1, fp);
+	fwrite(&aBitCount, 2, 1, fp);
 
-  FILETIME aFileTime;
-  memset(&aFileTime, 0, sizeof(FILETIME));
-  GetTheFileTime(theDepFile, &aFileTime);
+	FILETIME aFileTime;
+	memset(&aFileTime, 0, sizeof(FILETIME));
+	GetTheFileTime(theDepFile, &aFileTime);
 
-  //	ushort aStrLen = theDepFile.length();
-  size_t aStrLen = theDepFile.length();
-  // aChunkSize = 2 + aStrLen + sizeof(FILETIME);
-  aChunkSize = 2 + (ulong)aStrLen + sizeof(FILETIME);
-  fwrite("dep ", 1, 4, fp);
-  fwrite(&aChunkSize, 4, 1, fp);
-  fwrite(&aStrLen, 2, 1, fp);
-  fwrite(theDepFile.c_str(), 1, aStrLen, fp);
-  fwrite(&aFileTime, sizeof(FILETIME), 1, fp);
+	//	ushort aStrLen = theDepFile.length();
+	size_t aStrLen = theDepFile.length();
+	//aChunkSize = 2 + aStrLen + sizeof(FILETIME);
+	aChunkSize = 2 + (ulong)aStrLen + sizeof(FILETIME);
+	fwrite("dep ", 1, 4, fp);
+	fwrite(&aChunkSize,4, 1, fp);
+	fwrite(&aStrLen, 2, 1, fp);
+	fwrite(theDepFile.c_str(), 1, aStrLen, fp);
+	fwrite(&aFileTime, sizeof(FILETIME), 1, fp);
 
-  fwrite("data", 1, 4, fp);
-  fwrite(&aDataSize, 4, 1, fp);
-  fwrite(lpvPtr, 1, aDataSize, fp);
-  fclose(fp);
+	fwrite("data", 1, 4, fp);
+	fwrite(&aDataSize, 4, 1, fp);
+	fwrite(lpvPtr, 1, aDataSize, fp);
+	fclose(fp);
 
-  if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
-    return false;
+	if (mSourceSounds[theSfxID]->Unlock(lpvPtr, dwBytes, NULL, NULL) != DS_OK)
+		return false;
 
-  return true;
+	return true;
 }
 
-SoundInstance *DSoundManager::GetSoundInstance(unsigned int theSfxID) {
-  if (theSfxID > MAX_SOURCE_SOUNDS)
-    return NULL;
+SoundInstance* DSoundManager::GetSoundInstance(unsigned int theSfxID)
+{
+	if (theSfxID > MAX_SOURCE_SOUNDS)
+		return NULL;
 
-  int aFreeChannel = FindFreeChannel();
-  if (aFreeChannel < 0)
-    return NULL;
+	int aFreeChannel = FindFreeChannel();
+	if (aFreeChannel < 0)
+		return NULL;
 
-  if (mDirectSound == NULL) {
-    mPlayingSounds[aFreeChannel] = new DSoundInstance(this, NULL);
-  } else {
-    if (mSourceSounds[theSfxID] == NULL)
-      return NULL;
+	if (mDirectSound==NULL)
+	{
+		mPlayingSounds[aFreeChannel] = new DSoundInstance(this, NULL);
+	}
+	else
+	{
+		if (mSourceSounds[theSfxID] == NULL)
+			return NULL;
 
-    mPlayingSounds[aFreeChannel] =
-        new DSoundInstance(this, mSourceSounds[theSfxID]);
-  }
+		mPlayingSounds[aFreeChannel] = new DSoundInstance(this, mSourceSounds[theSfxID]);
+	}
 
-  mPlayingSounds[aFreeChannel]->SetBasePan(mBasePans[theSfxID]);
-  mPlayingSounds[aFreeChannel]->SetBaseVolume(mBaseVolumes[theSfxID]);
+	mPlayingSounds[aFreeChannel]->SetBasePan(mBasePans[theSfxID]);
+	mPlayingSounds[aFreeChannel]->SetBaseVolume(mBaseVolumes[theSfxID]);
 
-  return mPlayingSounds[aFreeChannel];
+	return mPlayingSounds[aFreeChannel];
 }
 
 /*-------------------------------------------------------------------------------
@@ -723,132 +758,148 @@ SoundInstance *DSoundManager::GetSoundInstance(unsigned int theSfxID) {
 0.0f 静音			缩到最小,或完全被其它应用程序遮挡
 0.5f 一半的音量		应用程序露出了一部分
 -------------------------------------------------------------------------------*/
-void DSoundManager::FadeByWindow(float fFade) {
-  if (m_fFadeByWindow != fFade) {
-    m_fFadeByWindow += (fFade - m_fFadeByWindow) / 4; //平滑关掉背景音乐
-    if (abs(m_fFadeByWindow - fFade) < 0.1f)
-      m_fFadeByWindow = fFade;
-    for (int i = 0; i < MAX_CHANNELS; i++) {
-      if (mPlayingSounds[i] != NULL)
-        mPlayingSounds[i]->RehupVolume();
-    }
-  }
+void DSoundManager::FadeByWindow(float fFade)
+{
+	if( m_fFadeByWindow!=fFade )
+	{
+		m_fFadeByWindow += (fFade-m_fFadeByWindow) / 4; //平滑关掉背景音乐
+		if( abs(m_fFadeByWindow-fFade)<0.1f )
+			m_fFadeByWindow = fFade;
+		for (int i = 0; i < MAX_CHANNELS; i++)
+		{
+			if (mPlayingSounds[i] != NULL)
+				mPlayingSounds[i]->RehupVolume();
+		}
+	}
 }
 
-void DSoundManager::ReleaseSounds() {
-  for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
-    if (mSourceSounds[i] != NULL) {
-      mSourceSounds[i]->Release();
-      mSourceSounds[i] = NULL;
-    }
+
+void DSoundManager::ReleaseSounds()
+{
+	for (int i = 0; i < MAX_SOURCE_SOUNDS; i++)
+		if (mSourceSounds[i] != NULL)
+		{
+			mSourceSounds[i]->Release();
+			mSourceSounds[i] = NULL;
+		}
 }
 
-void DSoundManager::ReleaseChannels() {
-  for (int i = 0; i < MAX_CHANNELS; i++)
-    if (mPlayingSounds[i] != NULL) {
-      delete mPlayingSounds[i];
-      mPlayingSounds[i] = NULL;
-    }
+void DSoundManager::ReleaseChannels()
+{
+	for (int i = 0; i < MAX_CHANNELS; i++)
+		if (mPlayingSounds[i] != NULL)
+		{
+			delete mPlayingSounds[i];
+			mPlayingSounds[i] = NULL;
+		}
 }
 
-void DSoundManager::ReleaseFreeChannels() {
-  for (int i = 0; i < MAX_CHANNELS; i++)
-    if (mPlayingSounds[i] != NULL && mPlayingSounds[i]->IsReleased()) {
-      delete mPlayingSounds[i];
-      mPlayingSounds[i] = NULL;
-    }
+void DSoundManager::ReleaseFreeChannels()
+{
+	for (int i = 0; i < MAX_CHANNELS; i++)
+		if (mPlayingSounds[i] != NULL && mPlayingSounds[i]->IsReleased())
+		{
+			delete mPlayingSounds[i];
+			mPlayingSounds[i] = NULL;
+		}
 }
 
-void DSoundManager::StopAllSounds() {
-  for (int i = 0; i < MAX_CHANNELS; i++)
-    if (mPlayingSounds[i] != NULL) {
-      bool isAutoRelease = mPlayingSounds[i]->mAutoRelease;
-      mPlayingSounds[i]->Stop();
-      mPlayingSounds[i]->mAutoRelease = isAutoRelease;
-    }
+void DSoundManager::StopAllSounds()
+{
+	for (int i = 0; i < MAX_CHANNELS; i++)
+		if (mPlayingSounds[i] != NULL)
+		{
+			bool isAutoRelease = mPlayingSounds[i]->mAutoRelease;
+			mPlayingSounds[i]->Stop();
+			mPlayingSounds[i]->mAutoRelease = isAutoRelease;
+		}
 }
 
-double DSoundManager::GetMasterVolume() {
-  MIXERCONTROLDETAILS mcd;
-  MIXERCONTROLDETAILS_UNSIGNED mxcd_u;
-  MIXERLINECONTROLS mxlc;
-  MIXERCONTROL mlct;
-  MIXERLINE mixerLine;
-  HMIXER hmx;
-  MIXERCAPS pmxcaps;
 
-  mixerOpen((HMIXER *)&hmx, 0, 0, 0, MIXER_OBJECTF_MIXER);
-  mixerGetDevCaps(0, &pmxcaps, sizeof(pmxcaps));
+double DSoundManager::GetMasterVolume()
+{
+	MIXERCONTROLDETAILS mcd;
+	MIXERCONTROLDETAILS_UNSIGNED mxcd_u;
+	MIXERLINECONTROLS mxlc;
+	MIXERCONTROL mlct;
+	MIXERLINE mixerLine;
+	HMIXER hmx;
+	MIXERCAPS pmxcaps;	
 
-  mxlc.cbStruct = sizeof(mxlc);
-  mxlc.cbmxctrl = sizeof(mlct);
-  mxlc.pamxctrl = &mlct;
-  mxlc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
-  mixerLine.cbStruct = sizeof(mixerLine);
-  mixerLine.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT;
-  mixerGetLineInfo((HMIXEROBJ)hmx, &mixerLine,
-                   MIXER_GETLINEINFOF_COMPONENTTYPE);
-  mxlc.dwLineID = mixerLine.dwLineID;
-  mixerGetLineControls((HMIXEROBJ)hmx, &mxlc, MIXER_GETLINECONTROLSF_ONEBYTYPE);
+	mixerOpen((HMIXER*) &hmx, 0, 0, 0, MIXER_OBJECTF_MIXER);
+	mixerGetDevCaps(0, &pmxcaps, sizeof(pmxcaps));
 
-  mcd.cbStruct = sizeof(mcd);
-  mcd.dwControlID = mlct.dwControlID;
-  mcd.cChannels = 1;
-  mcd.cMultipleItems = 0;
-  mcd.cbDetails = sizeof(mxcd_u);
-  mcd.paDetails = &mxcd_u;
+	mxlc.cbStruct = sizeof(mxlc);	
+	mxlc.cbmxctrl = sizeof(mlct);
+	mxlc.pamxctrl = &mlct;
+	mxlc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
+	mixerLine.cbStruct = sizeof(mixerLine);
+	mixerLine.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT;
+	mixerGetLineInfo((HMIXEROBJ) hmx, &mixerLine, MIXER_GETLINEINFOF_COMPONENTTYPE);
+	mxlc.dwLineID = mixerLine.dwLineID;
+	mixerGetLineControls((HMIXEROBJ) hmx, &mxlc, MIXER_GETLINECONTROLSF_ONEBYTYPE);	
 
-  mixerGetControlDetails((HMIXEROBJ)hmx, &mcd, 0L);
+	mcd.cbStruct = sizeof(mcd);
+	mcd.dwControlID = mlct.dwControlID;
+	mcd.cChannels = 1;
+	mcd.cMultipleItems = 0;
+	mcd.cbDetails = sizeof(mxcd_u);
+	mcd.paDetails = &mxcd_u;
 
-  mixerClose(hmx);
+	mixerGetControlDetails((HMIXEROBJ) hmx, &mcd, 0L);	
 
-  return mxcd_u.dwValue / (double)0xFFFF;
+	mixerClose(hmx);
+
+	return mxcd_u.dwValue / (double) 0xFFFF;
 }
 
-void DSoundManager::SetMasterVolume(double theVolume) {
-  MIXERCONTROLDETAILS mcd;
-  MIXERCONTROLDETAILS_UNSIGNED mxcd_u;
-  MIXERLINECONTROLS mxlc;
-  MIXERCONTROL mlct;
-  MIXERLINE mixerLine;
-  HMIXER hmx;
-  MIXERCAPS pmxcaps;
+void DSoundManager::SetMasterVolume(double theVolume)
+{
+	MIXERCONTROLDETAILS mcd;
+	MIXERCONTROLDETAILS_UNSIGNED mxcd_u;
+	MIXERLINECONTROLS mxlc;
+	MIXERCONTROL mlct;
+	MIXERLINE mixerLine;
+	HMIXER hmx;
+	MIXERCAPS pmxcaps;	
 
-  mixerOpen((HMIXER *)&hmx, 0, 0, 0, MIXER_OBJECTF_MIXER);
-  mixerGetDevCaps(0, &pmxcaps, sizeof(pmxcaps));
+	mixerOpen((HMIXER*) &hmx, 0, 0, 0, MIXER_OBJECTF_MIXER);
+	mixerGetDevCaps(0, &pmxcaps, sizeof(pmxcaps));
 
-  mxlc.cbStruct = sizeof(mxlc);
-  mxlc.cbmxctrl = sizeof(mlct);
-  mxlc.pamxctrl = &mlct;
-  mxlc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
-  mixerLine.cbStruct = sizeof(mixerLine);
-  mixerLine.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT;
-  mixerGetLineInfo((HMIXEROBJ)hmx, &mixerLine,
-                   MIXER_GETLINEINFOF_COMPONENTTYPE);
-  mxlc.dwLineID = mixerLine.dwLineID;
-  mixerGetLineControls((HMIXEROBJ)hmx, &mxlc, MIXER_GETLINECONTROLSF_ONEBYTYPE);
+	mxlc.cbStruct = sizeof(mxlc);	
+	mxlc.cbmxctrl = sizeof(mlct);
+	mxlc.pamxctrl = &mlct;
+	mxlc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
+	mixerLine.cbStruct = sizeof(mixerLine);
+	mixerLine.dwComponentType = MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT;
+	mixerGetLineInfo((HMIXEROBJ) hmx, &mixerLine, MIXER_GETLINEINFOF_COMPONENTTYPE);
+	mxlc.dwLineID = mixerLine.dwLineID;
+	mixerGetLineControls((HMIXEROBJ) hmx, &mxlc, MIXER_GETLINECONTROLSF_ONEBYTYPE);	
 
-  mcd.cbStruct = sizeof(mcd);
-  mcd.dwControlID = mlct.dwControlID;
-  mcd.cChannels = 1;
-  mcd.cMultipleItems = 0;
-  mcd.cbDetails = sizeof(mxcd_u);
-  mcd.paDetails = &mxcd_u;
+	mcd.cbStruct = sizeof(mcd);
+	mcd.dwControlID = mlct.dwControlID;
+	mcd.cChannels = 1;
+	mcd.cMultipleItems = 0;
+	mcd.cbDetails = sizeof(mxcd_u);
+	mcd.paDetails = &mxcd_u;
 
-  mxcd_u.dwValue = (int)(0xFFFF * theVolume);
-  mixerSetControlDetails((HMIXEROBJ)hmx, &mcd, 0L);
+	mxcd_u.dwValue = (int) (0xFFFF * theVolume);
+	mixerSetControlDetails((HMIXEROBJ) hmx, &mcd, 0L);
 
-  mixerClose(hmx);
+	mixerClose(hmx);
 }
 
-void DSoundManager::Flush() {}
+void DSoundManager::Flush()
+{
+}
 
-void DSoundManager::SetCooperativeWindow(HWND theHWnd, bool isWindowed) {
-  if (mDirectSound != NULL)
-    mDirectSound->SetCooperativeLevel(theHWnd, DSSCL_NORMAL);
-  /*
-  if (isWindowed==true) mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
-  else mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_EXCLUSIVE);
-  */
+void DSoundManager::SetCooperativeWindow(HWND theHWnd, bool isWindowed)
+{
+	if (mDirectSound != NULL)
+		mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
+	/*
+	if (isWindowed==true) mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_NORMAL);
+	else mDirectSound->SetCooperativeLevel(theHWnd,DSSCL_EXCLUSIVE);
+	*/
 }
 #undef SOUND_FLAGS

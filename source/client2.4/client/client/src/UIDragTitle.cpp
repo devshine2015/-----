@@ -1,73 +1,83 @@
-#include "uidragtitle.h"
 #include "StdAfx.h"
+#include "uidragtitle.h"
 
 using namespace GUI;
 //---------------------------------------------------------------------------
 // class CDragTitle
 //---------------------------------------------------------------------------
-CDragTitle::CDragTitle(CForm &frmOwn)
-    : CCompent(frmOwn), _pImage(NULL), _IsShowDrag(true) {
-  _pImage = new CGuiPic(this);
-  SetIsDrag(true);
-  _pDrag->SetYare(0);
+CDragTitle::CDragTitle(CForm& frmOwn)
+: CCompent(frmOwn), _pImage(NULL), _IsShowDrag(true)
+{
+    _pImage = new CGuiPic( this );
+    SetIsDrag( true );
+    _pDrag->SetYare(0);
 }
 
-CDragTitle::CDragTitle(const CDragTitle &rhs)
-    : CCompent(rhs), _pImage(new CGuiPic(*rhs._pImage)),
-      _IsShowDrag(rhs._IsShowDrag) {
-  _SetSelf(rhs);
+CDragTitle::CDragTitle( const CDragTitle& rhs )
+: CCompent(rhs), _pImage( new CGuiPic( *rhs._pImage) ), _IsShowDrag(rhs._IsShowDrag)
+{
+    _SetSelf( rhs );
 }
 
-CDragTitle &CDragTitle::operator=(const CDragTitle &rhs) {
-  CCompent::operator=(rhs);
+CDragTitle& CDragTitle::operator=(const CDragTitle& rhs)
+{
+    CCompent::operator =( rhs );
 
-  *_pImage = *(rhs._pImage);
-  _IsShowDrag = rhs._IsShowDrag;
-  _SetSelf(rhs);
-  return *this;
+    *_pImage = *(rhs._pImage);
+    _IsShowDrag = rhs._IsShowDrag;
+    _SetSelf( rhs );
+    return *this;
 }
 
-void CDragTitle::_SetSelf(const CDragTitle &rhs) {}
-
-CDragTitle::~CDragTitle(void) {
-  // delete _pImage;
-  SAFE_DELETE(_pImage); // UI当机处理
+void CDragTitle::_SetSelf( const CDragTitle& rhs )
+{
 }
 
-void CDragTitle::DragRender() {
-  if (!_IsShowDrag)
-    return;
-
-  if (CDrag::IsDraging(this)) {
-    // 显示拖动状态
-    _pImage->Render(GetX() + CDrag::GetDrag()->GetDragX(),
-                    GetY() + CDrag::GetDrag()->GetDragY(), DROP_ALPHA);
-  } else {
-    _pImage->Render(GetX(), GetY());
-  }
+CDragTitle::~CDragTitle(void)
+{
+    //delete _pImage;
+	SAFE_DELETE(_pImage); // UI当机处理
 }
 
-void CDragTitle::Render() {
-  if (!GetIsShow())
-    return;
+void CDragTitle::DragRender()
+{
+	if( !_IsShowDrag )
+		return;
 
-  _pImage->Render(GetX(), GetY());
+    if( CDrag::IsDraging(this) )
+    {
+    	// 显示拖动状态 
+		_pImage->Render( GetX() + CDrag::GetDrag()->GetDragX(), GetY() + CDrag::GetDrag()->GetDragY(), DROP_ALPHA );
+    }
+    else
+    {
+    	_pImage->Render( GetX(), GetY() );
+    }
 }
 
-void CDragTitle::Refresh() {
-  CCompent::Refresh();
+void CDragTitle::Render()
+{	
+    if( !GetIsShow() ) return;
 
-  _pImage->Refresh();
+    _pImage->Render( GetX(), GetY() );
 }
 
-bool CDragTitle::MouseRun(int x, int y, DWORD key) {
-  if (!IsNormal())
-    return false;
+void CDragTitle::Refresh()
+{
+    CCompent::Refresh();
 
-  if (InRect(x, y)) {
-    if (_pDrag && _pDrag->BeginMouseRun(this, _IsMouseIn, x, y, key))
-      return true;
-    return true;
-  }
-  return _IsMouseIn;
+    _pImage->Refresh();
 }
+
+bool CDragTitle::MouseRun( int x, int y, DWORD key )
+{
+    if( !IsNormal() ) return false;
+
+    if( InRect( x, y ) )
+    {
+        if( _pDrag && _pDrag->BeginMouseRun(this, _IsMouseIn, x, y, key ) ) return true;
+        return true;
+    }
+    return _IsMouseIn;
+}
+
