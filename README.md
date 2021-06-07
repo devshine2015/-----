@@ -22,9 +22,3 @@
 1. Start the SQL server (if it isn't by now) and run runall.bat in server folder to start all game server exe's (not applicable to TradeServer and TradeTools yet, they're still being fixed).
 2. Run run.bat in client folder to run client.
 3. Select the only server available, and put the user name *deguix* and pass *123456* and press Enter (it's a fresh account, no chars are there). The game should be working at this point.
-
-## Supplemental - .clang-format file
-- The .clang-format file determines the c++ formatting of the files used by Visual Studio.
-- It's found in the source folder.
-- Note that if you make changes to it, only the files changed by you will have the new formatting.
-- To make all files have the new formatting, use the recurse_clang-format.bat found in the same folder. I don't garantee it will work with all files - Windows tends to hiccup on a couple. If you find any like that, rename them temporarily.
