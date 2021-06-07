@@ -24,13 +24,17 @@ bin-release/
 
 #no necessary files
 *.exe
+source/client2.4/client/client/temp/Release/Game.exe.intermediate.manifest
+source/client2.4/client/client/temp/Release/mt.dep
 
 #for only source
 source/client2.4/Common
 source/client2.4/Engine
 source/server/Common
 client/
-server/
+server/resource
+server/LOG
+server/logfile
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
