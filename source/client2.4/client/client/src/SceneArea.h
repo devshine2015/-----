@@ -5,7 +5,7 @@
 
 struct SAreaUnit
 {
-	short	siType;	// 1£ºÆÕÍ¨Â½µØ£¬2£ºÆÕÍ¨º£Ñó
+	short	siType;	// 1ï¼šæ™®é€šé™†åœ°ï¼Œ2ï¼šæ™®é€šæµ·æ´‹
 };
 
 class	CSceneArea
@@ -16,7 +16,7 @@ class	CSceneArea
 		int		lVersion;
 		long	lFileSize;
 
-		int		iSceneWidth;	// µ¥Î»£ºTile
+		int		iSceneWidth;	// å•ä½ï¼šTile
 		int		iSceneHeight;
 	};
 

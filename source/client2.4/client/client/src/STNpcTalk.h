@@ -37,7 +37,7 @@ protected:
 };
 
 class CSceneItem;
-class CPickState : public CActionState		// ¼ñµÀ¾ß
+class CPickState : public CActionState		// æ¡é“å…·
 {
 public:
 	CPickState(CActor* p);
@@ -74,7 +74,7 @@ private:
 
 };
 
-// ĞŞÕı×´Ì¬,·şÎñÆ÷·µ»ØÊ±²úÉú,¿ªÊ¼Ê±¸Ä±äÊó±ê×´Ì¬,µãÓÒ¼üÊ±È¡Ïû±¾×´Ì¬
+// ä¿®æ­£çŠ¶æ€,æœåŠ¡å™¨è¿”å›æ—¶äº§ç”Ÿ,å¼€å§‹æ—¶æ”¹å˜é¼ æ ‡çŠ¶æ€,ç‚¹å³é”®æ—¶å–æ¶ˆæœ¬çŠ¶æ€
 class CRepairState : public CActionState
 {
 public:
@@ -91,7 +91,7 @@ protected:
 
 };
 
-// ¸ø³èÎïÎ¹Ê³
+// ç»™å® ç‰©å–‚é£Ÿ
 class CFeedState : public CActionState
 {
 public:
@@ -113,7 +113,7 @@ protected:
 };
 
 
-// ¼Àìë×´Ì¬    add by Philip.Wu  2006-06-20  ¼Àìë×´Ì¬
+// ç¥­ç¥€çŠ¶æ€    add by Philip.Wu  2006-06-20  ç¥­ç¥€çŠ¶æ€
 class CFeteState : public CActionState
 {
 public:

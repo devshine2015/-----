@@ -9,8 +9,8 @@ enum EShowWhat
 	eShowAll,
 };
 
-// ÓÃÓÚÎÈ¶¨Ö¡Êı,²¢ÇÒ²»³¬Ö¡
-// ÊµÏÖ·½·¨:½µµÍäÖÈ¾´ÎÊı
+// ç”¨äºç¨³å®šå¸§æ•°,å¹¶ä¸”ä¸è¶…å¸§
+// å®ç°æ–¹æ³•:é™ä½æ¸²æŸ“æ¬¡æ•°
 class CSteadyFrame
 {
 public:
@@ -28,7 +28,7 @@ public:
 
 	bool	Run();
 	
-	// È¡µÃÏÖÔÚWindows´°¿ÚÊÇÈçºÎµÄÏÔÊ¾ Add by Waiting 2009-06-21
+	// å–å¾—ç°åœ¨Windowsçª—å£æ˜¯å¦‚ä½•çš„æ˜¾ç¤º Add by Waiting 2009-06-21
 	EShowWhat GetShowWhat() { return _eShowWhat; }
 
 	// Add by lark.li 20080923 begin
@@ -49,7 +49,7 @@ private:
 	void	_Sleep();
 
 private:
-	static DWORD	_dwFPS;			// Éè¶¨µÄFPS,Ò»ÃëÒªäÖÈ¾¶àÉÙÖ¡
+	static DWORD	_dwFPS;			// è®¾å®šçš„FPS,ä¸€ç§’è¦æ¸²æŸ“å¤šå°‘å¸§
 
 	long	_lRun;
 

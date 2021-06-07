@@ -54,7 +54,7 @@ protected:
 private:
 	static volatile long m_nMembersCount;
 
-    // GroupServer Ïà¹Ø´¦ÀíÀı³ÌºÍÊı¾İ
+    // GroupServer ç›¸å…³å¤„ç†ä¾‹ç¨‹å’Œæ•°æ®
     void Gs_Init();
     GroupServer2* Gs_Find(char const* szGroupName);
     bool Gs_Auth(char const* szGroupName, char const* szGroupPwd);
@@ -75,7 +75,7 @@ private:
 	WPacket ProcessUnknownCmd(RPacket rpkt);
 };
 
-// ÈÏÖ¤
+// è®¤è¯
 
 class AuthQueue : public PKQueue
 {
@@ -89,7 +89,7 @@ protected:
 };
 
 
-//  µÇÂ½ÁÙÊ±¶ÓÁĞ        by Jampe
+//  ç™»é™†ä¸´æ—¶é˜Ÿåˆ—        by Jampe
 typedef std::vector<std::string>     TmpNameList;
 class LoginTmpList
 {
@@ -218,7 +218,7 @@ protected:
 };
 
 
-// È«¾Ö±äÁ¿
+// å…¨å±€å˜é‡
 extern AccountServer2* g_As2;
 extern AuthQueue g_Auth;
 

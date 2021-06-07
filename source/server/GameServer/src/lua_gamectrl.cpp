@@ -4,10 +4,10 @@
 
 std::list<CCharacter*> g_HelpNPCList;
 
-// Ìí¼Ó³öÉúµØÓë³öÉúµã
+// æ·»åŠ å‡ºç”Ÿåœ°ä¸Žå‡ºç”Ÿç‚¹
 int lua_AddBirthPoint(lua_State *L)
 {T_B
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop(L)==4 && lua_isstring(L, 1) && lua_isstring(L, 2) && lua_isnumber(L, 3) && lua_isnumber(L, 4));
 	if(!bValid) 
     {
@@ -21,15 +21,15 @@ int lua_AddBirthPoint(lua_State *L)
 	int y = (int)lua_tonumber(L, 4);
 
 	g_BirthMgr.AddBirthPoint(pszLocation, pszMapName, x, y);
-	//LG("birth", "Ìí¼Ó³öÉúµã[%s] [%s] %d %d\n", pszLocation, pszMapName, x, y);
+	//LG("birth", "æ·»åŠ å‡ºç”Ÿç‚¹[%s] [%s] %d %d\n", pszLocation, pszMapName, x, y);
 	return 0;
 T_E}
 
-// Çå³ýËùÓÐ³öÉúµØÓë³öÉúµã
+// æ¸…é™¤æ‰€æœ‰å‡ºç”Ÿåœ°ä¸Žå‡ºç”Ÿç‚¹
 int lua_ClearAllBirthPoint(lua_State *L)
 {T_B
 	g_BirthMgr.ClearAll();
-	//LG("birth", "Çå³ýÁËËùÓÐ³öÉúµã\n");
+	//LG("birth", "æ¸…é™¤äº†æ‰€æœ‰å‡ºç”Ÿç‚¹\n");
 	return 0;
 T_E}
 
@@ -41,22 +41,22 @@ void ReloadAISdk()
 
 //char g_TradeName[][32] = 
 //{
-//	"ÈËÈË",
-//	"ÈÓ",	
-//	"¼ñ",
-//	"µêÂò",
-//	"Âô",
-//	"ÈÎÎñ¸ø",
-//	"ÈÎÎñÊÕ",
-//	"Âò»õ",
-//	"Âô»õ",
-//	"½øÓÎÏ·",
-//	"³öÓÎÏ·",
-//	"ÈËÌ¯",
-//	"ÏûºÄ",
-//	"É¾³ý",
-//	"ÒøÐÐ",
-//	"×°±¸"
+//	"äººäºº",
+//	"æ‰”",	
+//	"æ¡",
+//	"åº—ä¹°",
+//	"å–",
+//	"ä»»åŠ¡ç»™",
+//	"ä»»åŠ¡æ”¶",
+//	"ä¹°è´§",
+//	"å–è´§",
+//	"è¿›æ¸¸æˆ",
+//	"å‡ºæ¸¸æˆ",
+//	"äººæ‘Š",
+//	"æ¶ˆè€—",
+//	"åˆ é™¤",
+//	"é“¶è¡Œ",
+//	"è£…å¤‡"
 //};
 const char* g_TradeName[] = 
 {
@@ -125,7 +125,7 @@ CCharacter g_cc;
 int lua_TestTest(lua_State *L)
 {
 	g_pTestCha = &g_cc;
-	//g_pTestCha->SetName("¹ÖÎï");
+	//g_pTestCha->SetName("æ€ªç‰©");
 	g_pTestCha->SetName(RES_STRING(GM_LUA_GAMECTRL_CPP_00017));
 	lua_pushlightuserdata(L, g_pTestCha);
 	return 1;
@@ -133,7 +133,7 @@ int lua_TestTest(lua_State *L)
 
 int lua_TestTest1(lua_State *L)
 {
-	//g_pTestCha->SetName("new¹ÖÎï");
+	//g_pTestCha->SetName("newæ€ªç‰©");
 	g_pTestCha->SetName(RES_STRING(GM_LUA_GAMECTRL_CPP_00018));
 	g_pTestCha = NULL;
 	return 0;
@@ -141,7 +141,7 @@ int lua_TestTest1(lua_State *L)
 
 map<string, string> g_HelpList;
 
-// Ìí¼Ó°ïÖúÐÅÏ¢, ½ÓÊÜ2¸ö²ÎÊý: ¹Ø¼ü×Ö °ïÖúÎÄ×Ö
+// æ·»åŠ å¸®åŠ©ä¿¡æ¯, æŽ¥å—2ä¸ªå‚æ•°: å…³é”®å­— å¸®åŠ©æ–‡å­—
 int lua_AddHelpInfo(lua_State *L)
 {
 	BOOL bValid = (lua_gettop(L)==2  && lua_isstring(L, 1) && lua_isstring(L, 2));
@@ -175,7 +175,7 @@ void AddHelpInfo(const char *pszKey, const char *pszInfo)
 
 	g_HelpList[pszKey] = pszInfo;
 
-	//LG("help", "Ä¿Ç°°ïÖúÌõÄ¿Êý = %d\n", g_HelpList.size());
+	//LG("help", "ç›®å‰å¸®åŠ©æ¡ç›®æ•° = %d\n", g_HelpList.size());
 	LG("help", "now helplist amount = %d\n", g_HelpList.size());
 }
 
@@ -184,7 +184,7 @@ void AddMonsterHelp(int nScriptID, int x, int y)
 	CChaRecord	*pCChaRecord = GetChaRecordInfo(nScriptID);
 	if (pCChaRecord == NULL) return;	
 
-	//char szHelp[255]; sprintf(szHelp, "ÌýËµÔÚ±¾º£ÓòµÄ%d, %d¸½½üÓÐÄã´òÌýµÄÉúÎï³öÃ»!", x/100, y/100);
+	//char szHelp[255]; sprintf(szHelp, "å¬è¯´åœ¨æœ¬æµ·åŸŸçš„%d, %dé™„è¿‘æœ‰ä½ æ‰“å¬çš„ç”Ÿç‰©å‡ºæ²¡!", x/100, y/100);
 	char szHelp[255]; sprintf(szHelp, RES_STRING(GM_LUA_GAMECTRL_CPP_00019), x/100, y/100);
 
 	AddHelpInfo(pCChaRecord->szDataName, szHelp);
@@ -192,13 +192,13 @@ void AddMonsterHelp(int nScriptID, int x, int y)
 
 void AddHelpNPC(CCharacter *pNPC)
 {
-	//LG("init", "³É¹¦Ìí¼Ó°ïÖúNPC[%s]\n", pNPC->GetName());
+	//LG("init", "æˆåŠŸæ·»åŠ å¸®åŠ©NPC[%s]\n", pNPC->GetName());
 	LG("init", "Succeed add HelpNPC[%s]\n", pNPC->GetName());
 	g_HelpNPCList.push_back(pNPC);
 }
 
 
-// Í¨¹ý½Å±¾Ìí¼Ó°ïÖúNPC
+// é€šè¿‡è„šæœ¬æ·»åŠ å¸®åŠ©NPC
 int lua_AddHelpNPC(lua_State *L)
 {
 	BOOL bValid = (lua_gettop(L)==1 && lua_isstring(L, 1));
@@ -207,9 +207,9 @@ int lua_AddHelpNPC(lua_State *L)
 		return 0;
 	}
 	
-	const char *pszName  = (const char*)lua_tostring(L, 1); // »ñµÃ°ïÖúNPCµÄÃû×Ö
+	const char *pszName  = (const char*)lua_tostring(L, 1); // èŽ·å¾—å¸®åŠ©NPCçš„åå­—
 	
-	// °´Ãû×Ö²éÕÒNPC¶ÔÏó
+	// æŒ‰åå­—æŸ¥æ‰¾NPCå¯¹è±¡
 	g_pGameApp->BeginGetTNpc();
 	mission::CTalkNpc*	pCTNpc;
 	while (pCTNpc = g_pGameApp->GetNextTNpc())
@@ -227,10 +227,10 @@ int lua_ClearHelpNPC(lua_State *L)
 	return 0;
 }
 
-// ²âÊÔDBLog
+// æµ‹è¯•DBLog
 int lua_TestDBLog(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_isnumber(L, 1));
 	if(!bValid) 
     {
@@ -276,7 +276,7 @@ T_E}
 void RegisterLuaAI(lua_State *L)
 {T_B
 	
-	// Í¨ÓÃ
+	// é€šç”¨
 	REGFN(view);
 	REGFN(EXLG);
 	REGFN(PRINT);
@@ -340,7 +340,7 @@ void RegisterLuaAI(lua_State *L)
 	REGFN(DelCha);
 	REGFN(SetChaLifeTime);
 	
-	// ÊýÖµ¼ÆËã
+	// æ•°å€¼è®¡ç®—
 	REGFN(SetChaAttrMax);
 	REGFN(GetChaDefaultName);
 	REGFN(SetChaAttrI);
@@ -348,92 +348,92 @@ void RegisterLuaAI(lua_State *L)
 	REGFN(IsPlayer);
 	REGFN(IsChaInRegion);
 	
-	// ×é¶Ó
+	// ç»„é˜Ÿ
 	REGFN(IsChaInTeam);
 	REGFN(GetTeamCha);
 
-	// ³öÉúµØÓë³öÉúµã
+	// å‡ºç”Ÿåœ°ä¸Žå‡ºç”Ÿç‚¹
 	REGFN(AddBirthPoint);
 	REGFN(ClearAllBirthPoint);
 
-	// ÌìÆøÇøÓò
+	// å¤©æ°”åŒºåŸŸ
 	REGFN(AddWeatherRegion);
 	REGFN(ClearMapWeather);
 
 	REGFN(TestTest);
 	REGFN(TestTest1);
 	
-	// °ïÖúNPC
+	// å¸®åŠ©NPC
 	REGFN(AddHelpInfo);
 	REGFN(AddHelpNPC);
 	REGFN(ClearHelpNPC);
 
-	// ´¬Ö»¼ÆÊ±
+	// èˆ¹åªè®¡æ—¶
 	REGFN(SetBoatCtrlTick);
 	REGFN(GetBoatCtrlTick);
 
     REGFN(GetRoleID);
 	REGFN(UnlockItem);
 
-	// ²âÊÔ½Å±¾
+	// æµ‹è¯•è„šæœ¬
 	REGFN(TestDBLog);
 	
 T_E}
 
 
 /*
-				¿¨Æ¬ÕÙ»½³èÎïÊµÏÖÁ÷³Ì
+				å¡ç‰‡å¬å”¤å® ç‰©å®žçŽ°æµç¨‹
   
-Ò»:	Ê¹ÓÃ¿¨Æ¬µÀ¾ß, Ö´ÐÐsummon¹ÖÎï
+ä¸€:	ä½¿ç”¨å¡ç‰‡é“å…·, æ‰§è¡Œsummonæ€ªç‰©
 
-¶þ: Îªsummon³öÀ´µÄ¹ÖÎïÉèÖÃ¶¨Ê±ÏûÊ§µÄ¼¼ÄÜ×´Ì¬, ×´Ì¬³ÖÐøÊ±¼ä¾ÍÊÇ¹ÖÎïµÄÉúÃüÊ±¼ä
+äºŒ: ä¸ºsummonå‡ºæ¥çš„æ€ªç‰©è®¾ç½®å®šæ—¶æ¶ˆå¤±çš„æŠ€èƒ½çŠ¶æ€, çŠ¶æ€æŒç»­æ—¶é—´å°±æ˜¯æ€ªç‰©çš„ç”Ÿå‘½æ—¶é—´
 
-Èý: summon³öÀ´µÄ¹ÖÎï£¬Èç¹û¼¼ÄÜ×´Ì¬Ê±¼äµ½ºóÏûÊ§, Ôò¹ÖÎï±»Çå³ý
+ä¸‰: summonå‡ºæ¥çš„æ€ªç‰©ï¼Œå¦‚æžœæŠ€èƒ½çŠ¶æ€æ—¶é—´åˆ°åŽæ¶ˆå¤±, åˆ™æ€ªç‰©è¢«æ¸…é™¤
 
-ËÄ: Ö÷ÈË¾­¹ýÌø×ªµãÊ±, summon³öÀ´µÄ¹ÖÎï±»×Ô¶¯Çå³ý
+å››: ä¸»äººç»è¿‡è·³è½¬ç‚¹æ—¶, summonå‡ºæ¥çš„æ€ªç‰©è¢«è‡ªåŠ¨æ¸…é™¤
 	
-Îå:	³èÎïAI
+äº”:	å® ç‰©AI
 
-    function() Ã»ÓÐÄ¿±ê
+    function() æ²¡æœ‰ç›®æ ‡
 	
-		if(¼ì²â¸½½üÊÇ·ñÓÐºÏÊÊµÄÄ¿±ê)
+		if(æ£€æµ‹é™„è¿‘æ˜¯å¦æœ‰åˆé€‚çš„ç›®æ ‡)
 		{
-			ÉèÖÃÄ¿±ê¶ÔÏó
+			è®¾ç½®ç›®æ ‡å¯¹è±¡
 		}
 		else
 		{
-			Èç¹û¾àÀëÖ÷ÈËÌ«Ô¶, Ôò¿¿½ü
+			å¦‚æžœè·ç¦»ä¸»äººå¤ªè¿œ, åˆ™é è¿‘
 		}
 
-		È¡³ö¹¥»÷Ö÷ÈËµÄ¶ÔÏóÁÐ±íµÄµÚÒ»¸ö
-		if(²»Îª¿Õ)
+		å–å‡ºæ”»å‡»ä¸»äººçš„å¯¹è±¡åˆ—è¡¨çš„ç¬¬ä¸€ä¸ª
+		if(ä¸ä¸ºç©º)
 		{
-			ÉèÖÃÄ¿±ê¶ÔÏó
+			è®¾ç½®ç›®æ ‡å¯¹è±¡
 		}
 		
 	end
 
   
-	function() ÓÐÄ¿±ê
+	function() æœ‰ç›®æ ‡
 		
-		if(Ä¿±ê¾àÀëÖ÷ÈËÌ«Ô¶ || Ä¿±êÒÑËÀ || Ä¿±êÏÂÏßÒÑ²»´æÔÚ)
+		if(ç›®æ ‡è·ç¦»ä¸»äººå¤ªè¿œ || ç›®æ ‡å·²æ­» || ç›®æ ‡ä¸‹çº¿å·²ä¸å­˜åœ¨)
 		{
-			Çå³ýÄ¿±ê
+			æ¸…é™¤ç›®æ ‡
 		}
 		else
 		{
-			¶ÔÄ¿±êÊ¹ÓÃ¼¼ÄÜ
+			å¯¹ç›®æ ‡ä½¿ç”¨æŠ€èƒ½
 		}
 	end
 
  
-Áù: ¿¨Æ¬µÄÊôÐÔÉèÖÃ
+å…­: å¡ç‰‡çš„å±žæ€§è®¾ç½®
 
-    ÊôÐÔ1: ¹ÖÎï±àºÅ
-    ÊôÐÔ2: ±êÊ¶¹ÖÎïµÈ¼¶µÄÊýÖµ
-    ÊôÐÔ3: ¿ÉÒÔÊ¹ÓÃµÄ´ÎÊý
+    å±žæ€§1: æ€ªç‰©ç¼–å·
+    å±žæ€§2: æ ‡è¯†æ€ªç‰©ç­‰çº§çš„æ•°å€¼
+    å±žæ€§3: å¯ä»¥ä½¿ç”¨çš„æ¬¡æ•°
 
-    ÊôÐÔ1µ±»ñµÃ¿¨Æ¬Ê±²úÉú, ÊôÐÔ2ºÍÊôÐÔ3¿ÉÒÔ¶¯Ì¬¸Ä±ä
+    å±žæ€§1å½“èŽ·å¾—å¡ç‰‡æ—¶äº§ç”Ÿ, å±žæ€§2å’Œå±žæ€§3å¯ä»¥åŠ¨æ€æ”¹å˜
 
 
 

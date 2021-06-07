@@ -14,10 +14,10 @@
 
 #define defITEM_ON_TICK		3 * 60 * 1000
 
-enum EItemProtType // µÀ¾ß±£»¤ÀàĞÍ
+enum EItemProtType // é“å…·ä¿æŠ¤ç±»å‹
 {
-	enumITEM_PROT_OWN,	// ×Ô¼ºÍâµÄÆäËûÈË
-	enumITEM_PROT_TEAM,	// ¶ÓÎéÍâµÄÆäËûÈË
+	enumITEM_PROT_OWN,	// è‡ªå·±å¤–çš„å…¶ä»–äºº
+	enumITEM_PROT_TEAM,	// é˜Ÿä¼å¤–çš„å…¶ä»–äºº
 };
 
 class CItem : public Entity
@@ -54,12 +54,12 @@ private:
 	dbc::Char	m_chSpawType;
 	dbc::Long	m_lFromEntityID;
 	dbc::uLong	m_ulStartTick;
-	dbc::uLong	m_ulOnTick;		// Îª0£¬ÔòÓÀ²»Ïú»Ù
+	dbc::uLong	m_ulOnTick;		// ä¸º0ï¼Œåˆ™æ°¸ä¸é”€æ¯
 
-	dbc::Char	m_chProtType;	// ±£»¤ÀàĞÍ
-	dbc::uLong	m_ulProtOnTick;	// ±£»¤Ê±¼ä£¬0ÔòÓÀ¾Ã±£»¤
-	dbc::uLong	m_ulProtID;		// µÀ¾ß±£»¤µÄ½ÇÉ«ID
-	dbc::uLong	m_ulProtHandle;	// µÀ¾ß±£»¤µÄ½ÇÉ«Handle
+	dbc::Char	m_chProtType;	// ä¿æŠ¤ç±»å‹
+	dbc::uLong	m_ulProtOnTick;	// ä¿æŠ¤æ—¶é—´ï¼Œ0åˆ™æ°¸ä¹…ä¿æŠ¤
+	dbc::uLong	m_ulProtID;		// é“å…·ä¿æŠ¤çš„è§’è‰²ID
+	dbc::uLong	m_ulProtHandle;	// é“å…·ä¿æŠ¤çš„è§’è‰²Handle
 
 	virtual void OnBeginSeen(CCharacter *pCCha);
 	virtual void OnEndSeen(CCharacter *pCCha);

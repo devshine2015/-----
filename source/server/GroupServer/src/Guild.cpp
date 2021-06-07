@@ -74,9 +74,9 @@ void ChkGuild::Process()
 					l_lock.unlock();
 					WPacket l_wpk	=g_gpsvr->GetWPacket();
 					l_wpk.WriteCmd(CMD_MC_SYSINFO);
-					/*l_wpk.WriteString(dstring("ÄãËùÊôµÄ¹«»á½«ÔÚ")<<l_remain_min<<"·ÖÖÓÄÚÒòÎª["
-						<<(l_gld->m_stat.IsTrue(0x1)?"»á·Ñ²»×ã":(l_gld->m_stat.IsTrue(0x2)?"³ÉÔ±Êı²»×ã":(l_gld->m_stat.IsTrue(0x4)?"»á³¤ÉùÍû²»×ã":"")))
-						<<"]¶ø½âÉ¢.");
+					/*l_wpk.WriteString(dstring("ä½ æ‰€å±çš„å…¬ä¼šå°†åœ¨")<<l_remain_min<<"åˆ†é’Ÿå†…å› ä¸º["
+						<<(l_gld->m_stat.IsTrue(0x1)?"ä¼šè´¹ä¸è¶³":(l_gld->m_stat.IsTrue(0x2)?"æˆå‘˜æ•°ä¸è¶³":(l_gld->m_stat.IsTrue(0x4)?"ä¼šé•¿å£°æœ›ä¸è¶³":"")))
+						<<"]è€Œè§£æ•£.");
 					*/
 					char l_buf[512];
 					sprintf(l_buf,RES_STRING(GP_GUILD_CPP_00001),l_remain_min, 

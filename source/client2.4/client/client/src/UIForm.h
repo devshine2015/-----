@@ -1,9 +1,9 @@
 //--------------------------------------------------------------
-// Ãû³Æ:±íµ¥Àà
-// ×÷Õß:lh 2004-07-08
-// Éè¼ÆË¼Ïë:¿Ø¼şÈİÆ÷
-// ÓÃÍ¾:ÈÈ¼üÏÔÊ¾Òş²Ø,ÍÏ¶¯
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:è¡¨å•ç±»
+// ä½œè€…:lh 2004-07-08
+// è®¾è®¡æ€æƒ³:æ§ä»¶å®¹å™¨
+// ç”¨é€”:çƒ­é”®æ˜¾ç¤ºéšè—,æ‹–åŠ¨
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //--------------------------------------------------------------
 #pragma once
 #include "uiguidata.h"
@@ -15,8 +15,8 @@ typedef void (*GuiFormCloseEvent)( CForm* pForm, bool& IsClose );
 typedef void (*GuiFormBeforeShowEvent)( CForm* pForm, bool& IsShow );
 typedef void (*GuiFormEscCloseEvent)( CForm* pForm );
 
-// ÓÃÓÚÔÚ±íµ¥ÖĞµÄ°´Å¥¿Ø¼şÊÂ¼ş»Øµ÷,
-// pSenderÎª°´Å¥,nMsgTypeÎªeModalResult
+// ç”¨äºåœ¨è¡¨å•ä¸­çš„æŒ‰é’®æ§ä»¶äº‹ä»¶å›è°ƒ,
+// pSenderä¸ºæŒ‰é’®,nMsgTypeä¸ºeModalResult
 typedef void (*FormMouseEvent) (CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 
@@ -40,7 +40,7 @@ public:
 		mrCancel,
         mrEnd,
 	};
-	enum eFormStyle  //±íµ¥µÄ·ç¸ñ: ÆÕÍ¨,È«¾ÓÖĞ,×óÓÒ¾ÓÖĞ,ÉÏÏÂ¾ÓÖĞ,¾Ó×ó, ¾ÓÓÒ,¾ÓÉÏ,¾ÓÏÂ
+	enum eFormStyle  //è¡¨å•çš„é£æ ¼: æ™®é€š,å…¨å±…ä¸­,å·¦å³å±…ä¸­,ä¸Šä¸‹å±…ä¸­,å±…å·¦, å±…å³,å±…ä¸Š,å±…ä¸‹
 	{
 		fsNone,
 		fsAllCenter,
@@ -75,7 +75,7 @@ public:
 	bool				MenuMouseRun( int x, int y, DWORD key );
 
 public:
-	void				ForEach( CompentFun pFun );		// FormÖĞËùÓĞCompent¶¼Ö´ĞĞÒ»´ÎpFunº¯Êı
+	void				ForEach( CompentFun pFun );		// Formä¸­æ‰€æœ‰Compentéƒ½æ‰§è¡Œä¸€æ¬¡pFunå‡½æ•°
     void                FrameMove(int nCount);
 
 public:
@@ -106,11 +106,11 @@ public:
 	char				GetHotKey()			{ return _cHotKey;		}
 	void				SetHotKeyHandler(GuiHotKeyEvent handler)	{ evtHotkeyHandler=handler; }
 
-    bool                SetNextActiveCompent( bool isNext=true );       // ¼¤»î±íµ¥ÀïÏÂÒ»¸ö¿Ø¼ş,isNext=falseÎªÉÏÒ»¸ö¿Ø¼ş
+    bool                SetNextActiveCompent( bool isNext=true );       // æ¿€æ´»è¡¨å•é‡Œä¸‹ä¸€ä¸ªæ§ä»¶,isNext=falseä¸ºä¸Šä¸€ä¸ªæ§ä»¶
 
 	void				SetActiveCompent( CCompent* pActive );
 
-	// µÃµ½µ±Ç°²Ëµ¥
+	// å¾—åˆ°å½“å‰èœå•
 	void				PopMenu( CMenu* pMenu, int x=0, int y=0 );
 	
     void                SetPointer( void* v )   { _pPointer = v;    }
@@ -129,28 +129,28 @@ public:
 
     CCompent*           FindActiveCompent();
 
-	int					ClearChild();	// ½â³ıËùÓĞÓë×Ó´°¿ÚµÄ¹ØÏµ,·µ»Ø½â³ı¸öÊı
+	int					ClearChild();	// è§£é™¤æ‰€æœ‰ä¸å­çª—å£çš„å…³ç³»,è¿”å›è§£é™¤ä¸ªæ•°
 
-public:		// ÊÂ¼ş
-	GuiEvent			evtShow;		// ÏÔÊ¾Ê±
-	GuiEvent			evtHide;		// Òş²ØÊ±
-	GuiEvent			evtActive;		// µÃµ½½¹µãÊ±
-	GuiEvent			evtLost;		// Ê§È¥½¹µãÊ±
-	GuiMouseEvent		evtMouseDown;	// Êó±êÓĞ¼üÔÚ´°¿ÚÉÏ°´ÏÂÊ±
+public:		// äº‹ä»¶
+	GuiEvent			evtShow;		// æ˜¾ç¤ºæ—¶
+	GuiEvent			evtHide;		// éšè—æ—¶
+	GuiEvent			evtActive;		// å¾—åˆ°ç„¦ç‚¹æ—¶
+	GuiEvent			evtLost;		// å¤±å»ç„¦ç‚¹æ—¶
+	GuiMouseEvent		evtMouseDown;	// é¼ æ ‡æœ‰é”®åœ¨çª—å£ä¸ŠæŒ‰ä¸‹æ—¶
 	GuiKeyDownEvent		evtKeyDown;
 	GuiKeyCharEvent		evtKeyChar;
     GuiEvent            evtOnSetScreen;
 
-	GuiMouseEvent		evtMouseDragBegin;			// ÍÏ¶¯¿ªÊ¼
+	GuiMouseEvent		evtMouseDragBegin;			// æ‹–åŠ¨å¼€å§‹
 
-	GuiMouseEvent		evtMouseDragEnd;			// ÍÏ¶¯½áÊø
-	GuiHotKeyEvent		evtHotkeyHandler;	//ÈÈ¼ü´¦Àí ·µ»Øtrue±íÊ¾ÒÑ¾­´¦Àí£¬false±íÊ¾Î´´¦Àí
+	GuiMouseEvent		evtMouseDragEnd;			// æ‹–åŠ¨ç»“æŸ
+	GuiHotKeyEvent		evtHotkeyHandler;	//çƒ­é”®å¤„ç† è¿”å›trueè¡¨ç¤ºå·²ç»å¤„ç†ï¼Œfalseè¡¨ç¤ºæœªå¤„ç†
 
 	GuiFormEscCloseEvent	evtEscClose;
 	GuiFormBeforeShowEvent	evtBeforeShow;
-	GuiFormCloseEvent		evtClose;		// ¹Ø±ÕÊ±µ÷ÓÃ
+	GuiFormCloseEvent		evtClose;		// å…³é—­æ—¶è°ƒç”¨
 
-public:		// ÓÃÓÚ¿Ø¼şµÄ»Øµ÷ÊÂ¼ş
+public:		// ç”¨äºæ§ä»¶çš„å›è°ƒäº‹ä»¶
 	FormMouseEvent			evtEntrustMouseEvent;
 
 protected:
@@ -158,39 +158,39 @@ protected:
 	bool				_AddCompent(CCompent* c, bool isCheck);
 	bool				_AddFrameMove(CCompent* c, bool isCheck);
 
-	void				_TempleteInit();	// ½øÈëÄ£°åÇ°µÄ³õÊ¼»¯
-	void				_TempleteClear();	// Ä£°åÍË³öºóµÄÇå³ı
+	void				_TempleteInit();	// è¿›å…¥æ¨¡æ¿å‰çš„åˆå§‹åŒ–
+	void				_TempleteClear();	// æ¨¡æ¿é€€å‡ºåçš„æ¸…é™¤
 
 protected:
     void*               _pPointer;
 
 	typedef vector<CCompent*> vcs;	
-	vcs					_compents;			// ±íµ¥ÄÚ²¿µÄ¿Ø¼ş,Ò²ÊÇÏÔÊ¾¿Ø¼şÊ±µÄË³Ğò
-	vcs					_mouse;				// ´¦Àí¿Ø¼şµÄÊó±ê
-	vcs					_actives;			// ¿É¼¤»îµÄÁĞ±í
-	vcs					_allCompents;		// ËùÓĞ¿Ø¼ş
+	vcs					_compents;			// è¡¨å•å†…éƒ¨çš„æ§ä»¶,ä¹Ÿæ˜¯æ˜¾ç¤ºæ§ä»¶æ—¶çš„é¡ºåº
+	vcs					_mouse;				// å¤„ç†æ§ä»¶çš„é¼ æ ‡
+	vcs					_actives;			// å¯æ¿€æ´»çš„åˆ—è¡¨
+	vcs					_allCompents;		// æ‰€æœ‰æ§ä»¶
 	vcs					_frames;
 
 	typedef list<CForm*> vfrm;
-	vfrm				_childs;			// ×Ó´°Ìå
+	vfrm				_childs;			// å­çª—ä½“
 
-	int					_nActiveCompentID;	// µ±Ç°¼¤»îµÄCompentË÷Òı
+	int					_nActiveCompentID;	// å½“å‰æ¿€æ´»çš„Compentç´¢å¼•
 
-	bool			    _isModal;			// ÏÔÊ¾Ê±ÊÇ·ñ°´Ä£Ì¬ÏÔÊ¾
+	bool			    _isModal;			// æ˜¾ç¤ºæ—¶æ˜¯å¦æŒ‰æ¨¡æ€æ˜¾ç¤º
 	
 	static	CForm*		_pActive;
 
-    eModalResult		_modalResult;		// ´°¿ÚÄ£Ì¬
+    eModalResult		_modalResult;		// çª—å£æ¨¡æ€
 	eFormStyle          _formStyle;
 
-	bool				_IsEscClose;		// Îªtrue,Ôò°´escÊ±¹Ø±Õ±íµ¥
+	bool				_IsEscClose;		// ä¸ºtrue,åˆ™æŒ‰escæ—¶å…³é—­è¡¨å•
 
-	CFramePic*			_pImage;			// ±³¾°Í¼,¹²¶şÖ¡£¬Ò»Ö¡ÎªÆÕÍ¨×´Ì¬£¬Ò»Ö¡Îª¼¤»î×´Ì¬
+	CFramePic*			_pImage;			// èƒŒæ™¯å›¾,å…±äºŒå¸§ï¼Œä¸€å¸§ä¸ºæ™®é€šçŠ¶æ€ï¼Œä¸€å¸§ä¸ºæ¿€æ´»çŠ¶æ€
 	CTextButton*		_pEnterButton;
 
 protected:
-	char				_cHotKey;			// ¼¤»îµÄÈÈ¼ü
-	CMenu*				_pPopMenu;			// µ¯³ö²Ëµ¥
+	char				_cHotKey;			// æ¿€æ´»çš„çƒ­é”®
+	CMenu*				_pPopMenu;			// å¼¹å‡ºèœå•
 
 private:
 	void				_Copy( const CForm* rhs );

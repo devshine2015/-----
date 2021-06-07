@@ -62,7 +62,7 @@ void CPlayerMgr::PlayerLogout(std::string strPlayerName)
 
 	sPlayerData sData=iter->second;
 	CTimeSpan ctSpan=CTime::GetCurrentTime() - sData.ctLoginTime;
-	if (ctSpan > CTimeSpan(5) && ctSpan< CTimeSpan(30, 0, 0, 0))	//¼ÇÂ¼ÓÐÐ§Ê±¼ä5Ãëµ½30Ìì
+	if (ctSpan > CTimeSpan(5) && ctSpan< CTimeSpan(30, 0, 0, 0))	//è®°å½•æœ‰æ•ˆæ—¶é—´5ç§’åˆ°30å¤©
 	{
 		char lpSQLBuf[200];
 		__int64 i64Span=ctSpan.GetTotalSeconds();
@@ -73,7 +73,7 @@ void CPlayerMgr::PlayerLogout(std::string strPlayerName)
 		}
 		else
 		{
-			//Ô­¼ÆÊ±·½Ê½ÔÚµÇÂ½Ê±ÒÑ¾­ÐÞ¸Ä
+			//åŽŸè®¡æ—¶æ–¹å¼åœ¨ç™»é™†æ—¶å·²ç»ä¿®æ”¹
 		}
 	}
 	m_mapPlayers.erase(strPlayerName.c_str());

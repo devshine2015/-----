@@ -575,7 +575,7 @@ inline int lua_AddSkill( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>( RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -587,7 +587,7 @@ inline int lua_AddSkill( lua_State* L )
 	}
 
 	if (pChar->GetPlayer())
-		pChar = pChar->GetPlayer()->GetMainCha(); // ÓÃÓÚµ±½ÇÉ«ÊÇ´¬Ê±
+		pChar = pChar->GetPlayer()->GetMainCha(); // ç”¨äºå½“è§’è‰²æ˜¯èˆ¹æ—¶
 
 	WORD  wSkillID = (WORD)lua_tonumber( L, 3 );
 	BYTE  byLevel   = (BYTE)lua_tonumber( L, 4 );
@@ -596,7 +596,7 @@ inline int lua_AddSkill( lua_State* L )
 
 	if( bRet )
 	{
-		//char szSkill[defSKILL_NAME_LEN] = "Î´Öª";
+		//char szSkill[defSKILL_NAME_LEN] = "æœªçŸ¥";
 		//char* szSkill = const_cast<char*>( RES_STRING(GM_CHARSCRIPT_CPP_00002));
 		char szSkill[defENTITY_NAME_LEN];
 		strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00002), defENTITY_NAME_LEN - 1 );
@@ -608,7 +608,7 @@ inline int lua_AddSkill( lua_State* L )
 		}
 
 		char szData[128];
-		//sprintf( szData, "Äã´Ó%sÄÄÀïÑ§µ½ÁË¼¼ÄÜ¡¶%s¡·¡£", szNpc, szSkill );
+		//sprintf( szData, "ä½ ä»%så“ªé‡Œå­¦åˆ°äº†æŠ€èƒ½ã€Š%sã€‹ã€‚", szNpc, szSkill );
 		sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00003), szNpc, szSkill );
 		pChar->SystemNotice( szData );
 		TL( CHA_MIS, pChar->GetName(), "", szData );
@@ -639,7 +639,7 @@ inline int lua_AddSailExp( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
 	CTalkNpc* pTalk = ( CTalkNpc*)lua_touserdata( L, 2 );
@@ -662,7 +662,7 @@ inline int lua_AddSailExp( lua_State* L )
 
 	pChar->GetPlyMainCha()->AddAttr( ATTR_CSAILEXP, dwValue );
 	char szData[128];
-	//sprintf( szData, "%s¸øÁËÄã%d×ªÉú¾­Ñé£¡", szNpc, dwValue );
+	//sprintf( szData, "%sç»™äº†ä½ %dè½¬ç”Ÿç»éªŒï¼", szNpc, dwValue );
 	sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00004), szNpc, dwValue );
 	pChar->SystemNotice( szData );
 	TL( CHA_MIS, pChar->GetName(), "", szData );
@@ -689,7 +689,7 @@ inline int lua_AddLifeExp( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
 	CTalkNpc* pTalk = ( CTalkNpc*)lua_touserdata( L, 2 );
@@ -712,7 +712,7 @@ inline int lua_AddLifeExp( lua_State* L )
 	
 	pChar->GetPlyMainCha()->AddAttr( ATTR_CLIFEEXP, dwValue );
 	char szData[128];
-	//sprintf( szData, "%s¸øÁËÄã%dÉú»î¾­Ñé£¡", szNpc, dwValue );
+	//sprintf( szData, "%sç»™äº†ä½ %dç”Ÿæ´»ç»éªŒï¼", szNpc, dwValue );
 	sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00005), szNpc, dwValue );
 	pChar->SystemNotice( szData );
 	TL( CHA_MIS, pChar->GetName(), "", szData );
@@ -739,7 +739,7 @@ inline int lua_AddExp( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -764,7 +764,7 @@ inline int lua_AddExp( lua_State* L )
 	
 	BOOL bRet = pChar->GetPlyMainCha()->AddExpAndNotic( dwValue );	
 	char szData[128];
-	//sprintf( szData, "%s¸øÁËÄã%d¾­Ñé£¡", szNpc, dwValue );
+	//sprintf( szData, "%sç»™äº†ä½ %dç»éªŒï¼", szNpc, dwValue );
 	sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00006), szNpc, dwValue );
 	pChar->SystemNotice( szData );
 	TL( CHA_MIS, pChar->GetName(), "", szData );
@@ -791,7 +791,7 @@ inline int lua_AddExpAndType( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -816,36 +816,36 @@ inline int lua_AddExpAndType( lua_State* L )
 	}
 	
 	BOOL bRet;
-	if( byType == mission::MIS_EXP_NOMAL )// ½±ÀøÆÕÍ¨¾­Ñé
+	if( byType == mission::MIS_EXP_NOMAL )// å¥–åŠ±æ™®é€šç»éªŒ
 	{
 		bRet = pChar->GetPlyMainCha()->AddExpAndNotic( dwValue );
 		char szData[128];
-		//sprintf( szData, "%s¸øÁËÄã%d¾­Ñé£¡", szNpc, dwValue );
+		//sprintf( szData, "%sç»™äº†ä½ %dç»éªŒï¼", szNpc, dwValue );
 		sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00006), szNpc, dwValue );
 		pChar->SystemNotice( szData );
 		TL( CHA_MIS, pChar->GetName(), "", szData );
 	}
-	else if( byType == MIS_EXP_SAIL ) 	// ½±Àøº½º£¾­Ñé
+	else if( byType == MIS_EXP_SAIL ) 	// å¥–åŠ±èˆªæµ·ç»éªŒ
 	{
 		bRet = pChar->GetPlyMainCha()->AddAttr( ATTR_CSAILEXP, dwValue );
 		char szData[128];
-		//sprintf( szData, "%s¸øÁËÄã%d×ªÉú¾­Ñé£¡", szNpc, dwValue );
+		//sprintf( szData, "%sç»™äº†ä½ %dè½¬ç”Ÿç»éªŒï¼", szNpc, dwValue );
 		sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00004), szNpc, dwValue );
 		pChar->SystemNotice( szData );
 		TL( CHA_MIS, pChar->GetName(), "", szData );
 	}
-	else if( byType == MIS_EXP_LIFE	)	// ½±ÀøÉú»î¾­Ñé
+	else if( byType == MIS_EXP_LIFE	)	// å¥–åŠ±ç”Ÿæ´»ç»éªŒ
 	{
 		bRet = pChar->GetPlyMainCha()->AddAttr( ATTR_CLIFEEXP, dwValue );
 		char szData[128];
-		//sprintf( szData, "%s¸øÁËÄã%dÉú»î¾­Ñé£¡", szNpc, dwValue );
+		//sprintf( szData, "%sç»™äº†ä½ %dç”Ÿæ´»ç»éªŒï¼", szNpc, dwValue );
 		sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00005), szNpc, dwValue );
 		pChar->SystemNotice( szData );
 		TL( CHA_MIS, pChar->GetName(), "", szData );
 	}
 	else
 	{
-		//pChar->SystemNotice( "¾­ÑéÀàĞÍ´íÎó£¡Name[%s], Type[%d], Exp[%d]£¡", szNpc, byType, dwValue );
+		//pChar->SystemNotice( "ç»éªŒç±»å‹é”™è¯¯ï¼Name[%s], Type[%d], Exp[%d]ï¼", szNpc, byType, dwValue );
 		pChar->SystemNotice( RES_STRING(GM_CHARSCRIPT_CPP_00007), szNpc, byType, dwValue );
 		bRet = FALSE;
 	}
@@ -872,7 +872,7 @@ inline int lua_AddMoney( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] ="ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] ="ç³»ç»Ÿ";
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy( szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
 	
@@ -885,7 +885,7 @@ inline int lua_AddMoney( lua_State* L )
 	DWORD dwMoney = (DWORD)lua_tonumber( L, 3 );
 	pChar->GetPlyMainCha()->AddMoney( szNpc, dwMoney );
 	char szData[128];
-	//sprintf( szData, "%s¸øÁËÄã%d½ğÇ®£¡", szNpc, dwMoney );
+	//sprintf( szData, "%sç»™äº†ä½ %dé‡‘é’±ï¼", szNpc, dwMoney );
 	sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00008), szNpc, dwMoney );
 	TL( CHA_MIS, pChar->GetName(), "", szData );
 	lua_pushnumber( L, LUA_TRUE );
@@ -910,7 +910,7 @@ inline int lua_TakeMoney( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
 
@@ -924,7 +924,7 @@ inline int lua_TakeMoney( lua_State* L )
 	DWORD dwMoney = (DWORD)lua_tonumber( L, 3 );
 	BOOL bRet = pChar->GetPlyMainCha()->TakeMoney( szNpc, dwMoney );
 	char szData[128];
-	//sprintf( szData, "%sÈ¡×ßÁËÄã%d½ğÇ®£¡", szNpc, dwMoney );
+	//sprintf( szData, "%så–èµ°äº†ä½ %dé‡‘é’±ï¼", szNpc, dwMoney );
 	sprintf( szData, RES_STRING(GM_CHARSCRIPT_CPP_00009), szNpc, dwMoney );
 	TL( CHA_MIS, pChar->GetName(), "", szData );
 	lua_pushnumber( L, ( bRet ) ? LUA_TRUE : LUA_FALSE );
@@ -993,7 +993,7 @@ inline int lua_TakeCancelMissionMoney( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -1034,7 +1034,7 @@ T_E}
 
 	//Add by sunny.sun 20080529
 	//Begin
-	inline int lua_GetTicketIssue( lua_State * L)//»ñÈ¡²ÊÆ±ÆÚºÅ
+	inline int lua_GetTicketIssue( lua_State * L)//è·å–å½©ç¥¨æœŸå·
 	{T_B
 	BOOL bValid = lua_gettop( L ) == 1 && lua_islightuserdata( L, 1 );
 	if( !bValid )
@@ -1051,7 +1051,7 @@ T_E}
 	return 1;
 	T_E}
 
-	inline int lua_GetTicketItemno( lua_State * L)//»ñÈ¡²ÊÆ±ºÅÂëÖµ
+	inline int lua_GetTicketItemno( lua_State * L)//è·å–å½©ç¥¨å·ç å€¼
 	{T_B
 		BOOL bValid = ( lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 ) );
 		if( !bValid )
@@ -1095,7 +1095,7 @@ T_E}
 			return 0;
 	T_E}
 
-inline int lua_GetSItemGrid( lua_State * L)//»ñÈ¡½ÇÉ«±³°üÄÚÈİ
+inline int lua_GetSItemGrid( lua_State * L)//è·å–è§’è‰²èƒŒåŒ…å†…å®¹
 {T_B
 	BOOL bValid = ( lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 ) );
 	if( !bValid )
@@ -1127,7 +1127,7 @@ inline int lua_FusionItem( lua_State* L )
 		return 0;
 	}
 
-	//µ±Ê¹ÓÃÍâ¹Û×°±¸ºÍÍâ¹Û×°±¸ÈÚºÏÊ±´¦Àí·½Ê½²»Í¬
+	//å½“ä½¿ç”¨å¤–è§‚è£…å¤‡å’Œå¤–è§‚è£…å¤‡èåˆæ—¶å¤„ç†æ–¹å¼ä¸åŒ
 	//Modify by ning.yan 20080821  begin
 	//if(pItem2->sID >= CItemRecord::enumItemFusionStart)
 	CItemRecord * pItem = GetItemRecordInfo(pItem2->sID);
@@ -1137,7 +1137,7 @@ inline int lua_FusionItem( lua_State* L )
 	}
 	pItem1->CopyInstAttr( *pItem2 );
 
-	//ÈÛºÏºóµÄ×°±¸µÈ¼¶ÉèÖÃ³É10
+	//ç†”åˆåçš„è£…å¤‡ç­‰çº§è®¾ç½®æˆ10
 	pItem1->SetItemLevel(10);
 	
 	lua_pushnumber( L, LUA_TRUE );
@@ -1191,7 +1191,7 @@ inline int lua_GiveItem( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -1228,7 +1228,7 @@ inline int lua_GiveItemX( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[defENTITY_NAME_LEN] = "ÏµÍ³";
+	//char szNpc[defENTITY_NAME_LEN] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -1291,7 +1291,7 @@ inline int lua_TakeItemBagTemp( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[128] = "ÏµÍ³";
+	//char szNpc[128] = "ç³»ç»Ÿ";
 	//char* szNpc = const_cast<char*>(RES_STRING(GM_CHARSCRIPT_CPP_00001));
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
@@ -1328,7 +1328,7 @@ inline int lua_TakeItem( lua_State* L )
 		return 0;
 	}
 
-	//char szNpc[128] = "ÏµÍ³";
+	//char szNpc[128] = "ç³»ç»Ÿ";
 	char szNpc[defENTITY_NAME_LEN];
 	strncpy(szNpc, RES_STRING(GM_CHARSCRIPT_CPP_00001), defENTITY_NAME_LEN - 1 );
 
@@ -1895,7 +1895,7 @@ void ReAllPlayEffect(CCharacter* pChar) {
 	pChar->NotiChgToEyeshot(l_wpk);
 }
 
-// »Ö¸´½ÇÉ«ÊôĞÔÖµ
+// æ¢å¤è§’è‰²å±æ€§å€¼
 inline int lua_ReAll( lua_State* L )
 {T_B
 	BOOL bValid = ( lua_gettop( L ) == 1 && lua_islightuserdata( L, 1 ) );
@@ -1912,7 +1912,7 @@ inline int lua_ReAll( lua_State* L )
 		return 0;
 	}
 	
-	// »Ö¸´
+	// æ¢å¤
 	pChar->RestoreAll();
 	ReAllPlayEffect(pChar);
 	lua_pushnumber( L, LUA_TRUE );
@@ -1935,7 +1935,7 @@ inline int lua_ReAllHp( lua_State* L )
 		return 0;
 	}
 
-	// »Ö¸´
+	// æ¢å¤
 	pChar->RestoreAllHp();
 	ReAllPlayEffect(pChar);
 	lua_pushnumber( L, LUA_TRUE );
@@ -1959,7 +1959,7 @@ inline int lua_ReHp( lua_State* L )
 	}
 
 	BYTE byRate = (BYTE)lua_tonumber( L, 2 );
-	// »Ö¸´
+	// æ¢å¤
 	pChar->RestoreHp( byRate );
 	ReAllPlayEffect(pChar);
 	lua_pushnumber( L, LUA_TRUE );
@@ -1982,7 +1982,7 @@ inline int lua_ReAllSp( lua_State* L )
 		return 0;
 	}
 
-	// »Ö¸´
+	// æ¢å¤
 	pChar->RestoreAllSp();
 	ReAllPlayEffect(pChar);
 	lua_pushnumber( L, LUA_TRUE );
@@ -2006,7 +2006,7 @@ inline int lua_ReSp( lua_State* L )
 	}
 
 	BYTE byRate = (BYTE)lua_tonumber( L, 2 );
-	// »Ö¸´
+	// æ¢å¤
 	pChar->RestoreSp( byRate );
 	ReAllPlayEffect(pChar);
 	lua_pushnumber( L, LUA_TRUE );
@@ -3061,7 +3061,7 @@ inline int lua_SetSpawnPos( lua_State* L )
 	}
 
 	pChar->SetBirthCity( pszCity );
-	//pChar->SystemNotice( "%sµÄÖØÉúµã¡¶%s¡·ÉèÖÃ³É¹¦£¡", pChar->GetName(), pszCity );
+	//pChar->SystemNotice( "%sçš„é‡ç”Ÿç‚¹ã€Š%sã€‹è®¾ç½®æˆåŠŸï¼", pChar->GetName(), pszCity );
 	pChar->SystemNotice( RES_STRING(GM_CHARSCRIPT_CPP_00010), pChar->GetName(), pszCity );
 
 	lua_pushnumber( L, LUA_TRUE );
@@ -3241,7 +3241,7 @@ inline int lua_SaveMissionData( lua_State* L )
 
 	return 1;
 T_E}
-//==========¹«»áBegin=========================================================
+//==========å…¬ä¼šBegin=========================================================
 inline int lua_HasFame( lua_State* L )
 {T_B
 	BOOL bValid = lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 );
@@ -3439,7 +3439,7 @@ inline int lua_IsGuildType( lua_State* L )
 
 	return 1;	
 T_E}
-//===========¹«»áEnd========================================================
+//===========å…¬ä¼šEnd========================================================
 inline int lua_SetPkState( lua_State* L )
 {T_B
 	BOOL bValid = lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 );
@@ -3708,7 +3708,7 @@ inline int lua_BoatBerthList( lua_State* L )
 	USHORT sxPos = (USHORT)lua_tonumber( L, 5 );
 	USHORT syPos = (USHORT)lua_tonumber( L, 6 );
 	USHORT sDir = (USHORT)lua_tonumber( L, 7 );
-	//¹Ø±ÕÃ³Ò×½Ó¿Ú£¬·À¸´ÖÆ
+	//å…³é—­è´¸æ˜“æ¥å£ï¼Œé˜²å¤åˆ¶
 	//BOOL bRet = pChar->BoatBerthList( dwNpcID, byType, sBerth, sxPos, syPos, sDir );
 	BOOL bRet;
 
@@ -4036,7 +4036,7 @@ inline int lua_SetTradeItemLevel( lua_State* L )
 	return 1;
 }
 
-// ¹¨½¨20050730ÒªÇóÌæ»»µÄº¯Êı
+// é¾šå»º20050730è¦æ±‚æ›¿æ¢çš„å‡½æ•°
 inline int lua_TradeItemLevelCheck( lua_State* L )
 {
 	BOOL bValid = lua_gettop( L ) == 3 && lua_islightuserdata( L, 1 ) && lua_isstring( L, 2 ) && 
@@ -4084,7 +4084,7 @@ inline int lua_TradeItemLevelCheck( lua_State* L )
 	return 1;
 }
 
-/* ±»Ìæ»»µôµÄº¯Êı
+/* è¢«æ›¿æ¢æ‰çš„å‡½æ•°
 inline int lua_TradeItemLevelCheck( lua_State* L )
 {
 	BOOL bValid = lua_gettop( L ) == 3 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 ) && 
@@ -4714,7 +4714,7 @@ inline int lua_OpenTiger( lua_State *L )
 	return 1;
 }
 
-// ´ò¿ªÀí·¢½çÃæº¯Êı
+// æ‰“å¼€ç†å‘ç•Œé¢å‡½æ•°
 inline int lua_OpenHair(lua_State *L)
 {
 	BOOL bValid = lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_islightuserdata( L, 2 );
@@ -4732,16 +4732,16 @@ inline int lua_OpenHair(lua_State *L)
 		return 0;
 	}
 	
-	if(pChar->HasTradeAction()) // ÒÑ¾­ÔÚ½»Ò×ÖĞ
+	if(pChar->HasTradeAction()) // å·²ç»åœ¨äº¤æ˜“ä¸­
 	{
-		//LG("hair", "½ÇÉ«[%s]ÒÑ¾­ÔÚ½»Ò×ÖĞ, ÎŞ·¨´ò¿ªÀí·¢½çÃæ!\n", pChar->GetName());
+		//LG("hair", "è§’è‰²[%s]å·²ç»åœ¨äº¤æ˜“ä¸­, æ— æ³•æ‰“å¼€ç†å‘ç•Œé¢!\n", pChar->GetName());
 		LG("hair", RES_STRING(GM_CHARSCRIPT_CPP_00011), pChar->GetName());
 		lua_pushnumber( L, LUA_FALSE);
 		return 1;
 	}
 
 	pChar->Prl_OpenHair();
-	pChar->TradeAction(true); // ÉèÖÃÎª½»Ò××´Ì¬
+	pChar->TradeAction(true); // è®¾ç½®ä¸ºäº¤æ˜“çŠ¶æ€
 	
 	lua_pushnumber( L, LUA_TRUE);
 	return 1;
@@ -4818,7 +4818,7 @@ inline int lua_Garner2RequestReorder(lua_State *L)
 		}
 	}
 	if(-1 == pos)
-		//pMainCha->SystemNotice("¶Ô²»Æğ,ÄúÃ»ÓĞÓÂÕßÖ®Ö¤,ÇëÈ¥ÂÒ¶·¹ÜÀíÔ±´¦ÁìÈ¡ÓÂÕßÖ®Ö¤");
+		//pMainCha->SystemNotice("å¯¹ä¸èµ·,æ‚¨æ²¡æœ‰å‹‡è€…ä¹‹è¯,è¯·å»ä¹±æ–—ç®¡ç†å‘˜å¤„é¢†å–å‹‡è€…ä¹‹è¯");
 		pMainCha->SystemNotice(RES_STRING(GM_CHARSCRIPT_CPP_00012));
 	else
 		pMainCha->Cmd_Garner2_Reorder(pos);
@@ -4910,7 +4910,7 @@ inline int lua_EndAuction(lua_State* L)
 	return 1;
 }
 
-// ´ò¿ª¹«»áÕ½ÅÅÃû
+// æ‰“å¼€å…¬ä¼šæˆ˜æ’å
 inline int lua_ListChallenge( lua_State* L )
 {
 	BOOL bValid = lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_islightuserdata( L, 2 );
@@ -4933,7 +4933,7 @@ inline int lua_ListChallenge( lua_State* L )
 	return 1;
 }
 
-// ´ò¿ª¹«»áÕ½ÅÅÃû
+// æ‰“å¼€å…¬ä¼šæˆ˜æ’å
 inline int lua_HasGuildLevel( lua_State* L )
 {
 	BOOL bValid = lua_gettop( L ) == 2 && lua_islightuserdata( L, 1 ) && lua_isnumber( L, 2 );
@@ -5474,7 +5474,7 @@ inline int lua_LifeSkillBegin(lua_State* L)
 
 	if(pChar->m_CKitbag.IsPwdLocked())
 	{
-		//pChar->SystemNotice("±³°ü±»Ëø¶¨£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷¡£");
+		//pChar->SystemNotice("èƒŒåŒ…è¢«é”å®šï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œã€‚");
 		pChar->SystemNotice(RES_STRING(GM_CHARSCRIPT_CPP_00013));
 		return 1;
 	}
@@ -5482,7 +5482,7 @@ inline int lua_LifeSkillBegin(lua_State* L)
 	//add by ALLEN 2007-10-16
 		if(pChar->IsReadBook())
 	{
-		//pChar->SystemNotice("ÕıÔÚ¶ÁÊé£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷¡£");
+		//pChar->SystemNotice("æ­£åœ¨è¯»ä¹¦ï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œã€‚");
 		pChar->SystemNotice(RES_STRING(GM_CHARSCRIPT_CPP_00014));
 		return 1;
 	}
@@ -5559,7 +5559,7 @@ inline int lua_ClearFightSkill(lua_State* L)
 		SSkillGrid *pSkillGrid = pChar->m_CSkillBag.GetSkillContByID(i);
 		if(pSkillGrid)
 		{
-			//LG("¼¼ÄÜÇå³ı", "[%s] [id:%d lv:%d]\n", pChar->GetName(), i, pSkillGrid->chLv);
+			//LG("æŠ€èƒ½æ¸…é™¤", "[%s] [id:%d lv:%d]\n", pChar->GetName(), i, pSkillGrid->chLv);
 			LG(RES_STRING(GM_CHARSCRIPT_CPP_00015), "[%s] [id:%d lv:%d]\n", pChar->GetName(), i, pSkillGrid->chLv);
 			nSkillPoint += pSkillGrid->chLv;
 			pChar->m_CSkillBag.Del(i);
@@ -5590,10 +5590,10 @@ inline int lua_RefreshCha(lua_State* L)
 
 	pChar->SynSkillStateToEyeshot();
 
-	// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+	// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 	pChar->SynKitbagNew(enumSYN_KITBAG_EQUIP);
 
-	// ÖØĞÂ¼ÆËãÊôĞÔ
+	// é‡æ–°è®¡ç®—å±æ€§
 	g_CParser.DoString("AttrRecheck", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pChar, DOSTRING_PARAM_END);
 	if (pChar->GetPlayer())
 	{
@@ -5741,10 +5741,10 @@ inline int lua_GetActID(lua_State* L)
 	return 1;
 }
 
-//  ·À³ÁÃÔ
+//  é˜²æ²‰è¿·
 inline int lua_GetExpState(lua_State *L)
 {T_B
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -6238,7 +6238,7 @@ BOOL RegisterCharScript()
 {T_B
 	lua_State *L = g_pLuaState;
 
-	// ¹«ÓÃº¯ÊıµÇ¼Ç
+	// å…¬ç”¨å‡½æ•°ç™»è®°
 	REGFN(GetTickCount);
 	REGFN(Msg);
 	REGFN(Exit);
@@ -6246,7 +6246,7 @@ BOOL RegisterCharScript()
 	REGFN(GetSection);
 	REGFN(ToDword);
 
-	// ÈÎÎñÏà¹Øº¯ÊıµÇ¼Ç
+	// ä»»åŠ¡ç›¸å…³å‡½æ•°ç™»è®°
 	REGFN(SetMap);
 	REGFN(SetMapGuildWar);
 	REGFN(AddTrigger);
@@ -6312,7 +6312,7 @@ BOOL RegisterCharScript()
 	REGFN(GetItemP);
 	REGFN(GetEquipItemP);
 
-	// Ëæ»úÈÎÎñº¯Êı
+	// éšæœºä»»åŠ¡å‡½æ•°
 	REGFN(HasRandMission);
 	REGFN(AddRandMission);
 	REGFN(SetRandMissionData);
@@ -6324,7 +6324,7 @@ BOOL RegisterCharScript()
 	REGFN(TakeRandNpcItem);
 	REGFN(TakeAllRandItem);
 
-	// Ëæ»úÈÎÎñÍê³É¼ÆÊı½Ó¿Ú
+	// éšæœºä»»åŠ¡å®Œæˆè®¡æ•°æ¥å£
 	REGFN(CompleteRandMissionCount);
 	REGFN(FailureRandMissionCount);
 	REGFN(AddRandMissionNum);
@@ -6334,27 +6334,27 @@ BOOL RegisterCharScript()
 	REGFN(GetRandMissionCount);
 	REGFN(GetRandMissionNum);
 
-	// »Ö¸´ÊôĞÔ
+	// æ¢å¤å±æ€§
 	REGFN(ReAll);
 	REGFN(ReAllHp);
 	REGFN(ReHp);
 	REGFN(ReAllSp);
 	REGFN(ReSp);
 
-	// ÉèÖÃ½ÇÉ«ÖØÉúµã
+	// è®¾ç½®è§’è‰²é‡ç”Ÿç‚¹
 	REGFN(SetSpawnPos);
 	
-	// ÅĞ¶ÏÊÇ·ñÖ¸¶¨³öÉúµØ
+	// åˆ¤æ–­æ˜¯å¦æŒ‡å®šå‡ºç”Ÿåœ°
 	REGFN(IsSpawnPos);
 
-	// ÖØÉè½ÇÉ«Ö°ÒµÊôĞÔ
+	// é‡è®¾è§’è‰²èŒä¸šå±æ€§
 	REGFN(SetProfession);
 
-	// ÉèÖÃ½ÇÉ«ÏÔÊ¾×´Ì¬
+	// è®¾ç½®è§’è‰²æ˜¾ç¤ºçŠ¶æ€
 	REGFN(Hide);
 	REGFN(Show);
 
-	// ±È½Ï½ÇÉ«ÊôĞÔ
+	// æ¯”è¾ƒè§’è‰²å±æ€§
 	REGFN(GetCharMissionLevel);
 	REGFN(LvEqual);
 	REGFN(LvThan);
@@ -6369,13 +6369,13 @@ BOOL RegisterCharScript()
 	REGFN(IsCategory);
 	REGFN(HasFame);	
 
-	// »ñÈ¡½ÇÉ«ÊôĞÔ
+	// è·å–è§’è‰²å±æ€§
 	REGFN(GetProfession);
 	REGFN(GetCategory);
 	REGFN(GetCatAndPf);
 	REGFN(GetChaBody);
 	
-	// ÕÙ»½»¤ËÍNPC
+	// å¬å”¤æŠ¤é€NPC
 	REGFN(ConvoyNpc);
 	REGFN(ClearConvoyNpc);
 	REGFN(ClearAllConvoyNpc);
@@ -6384,10 +6384,10 @@ BOOL RegisterCharScript()
 
 	REGFN(SetPkState);
 
-	// ÈÎÎñÊı¾İ¿à´æ´¢
+	// ä»»åŠ¡æ•°æ®è‹¦å­˜å‚¨
 	REGFN(SaveMissionData); 
 
-	// ×¢²á¹«»áº¯Êı
+	// æ³¨å†Œå…¬ä¼šå‡½æ•°
 	REGFN(HasGuild);
 	REGFN(CreateGuild);
 	REGFN(ListAllGuild);
@@ -6399,7 +6399,7 @@ BOOL RegisterCharScript()
 	REGFN(HasNavyGuild);
 	REGFN(NoNavyGuild);
 
-	// ´¬Ö»
+	// èˆ¹åª
 	REGFN(IsBoatFull);
 	REGFN(CreateBoat);
 	REGFN(BoatLuanchOut);
@@ -6417,23 +6417,23 @@ BOOL RegisterCharScript()
 	REGFN(IsNeedSupply);
 	REGFN(IsNeedRepair);
 
-	// Ã³Ò×Ö¤²Ù×÷
+	// è´¸æ˜“è¯æ“ä½œ
 	REGFN(AdjustTradeItemCess);
 	REGFN(SetTradeItemLevel);
 	REGFN(TradeItemLevelCheck);
 	REGFN(GetTradeItemData);
 	REGFN(TradeItemDataCheck);
 
-	// »õ²Õ´ò°ü
+	// è´§èˆ±æ‰“åŒ…
 	REGFN(PackBag);
 	REGFN(PackBagList);
 
-	// ½ÇÉ«ºÍ´¬ÊôĞÔÍ¬²½
+	// è§’è‰²å’Œèˆ¹å±æ€§åŒæ­¥
 	REGFN(SetAttrChangeFlag);
 	REGFN(SyncBoat);
 	REGFN(SyncChar);
 
-	// ÒøĞĞ²Ù×÷º¯Êı
+	// é“¶è¡Œæ“ä½œå‡½æ•°
 	REGFN(OpenBank);
 
 	REGFN(OpenRepair);
@@ -6460,40 +6460,40 @@ BOOL RegisterCharScript()
 	REGFN(OpenGMSend);
 	REGFN(OpenGMRecv);
 
-	// Àí·¢½çÃæ´ò¿ªº¯Êı
+	// ç†å‘ç•Œé¢æ‰“å¼€å‡½æ•°
 	REGFN(OpenHair);
 
 
-	// ÈÛºÏµÀ¾ß
+	// ç†”åˆé“å…·
 	REGFN(CheckFusionItem);
 	REGFN(FusionItem);
 	
-	// ×é¶ÓĞÅÏ¢ÅĞ¶Ï
+	// ç»„é˜Ÿä¿¡æ¯åˆ¤æ–­
 	REGFN(IsTeamLeader);
 	REGFN(IsInTeam);
 	REGFN(HasTeammate);
 
-	//Ê¦Í½ÉùÍû½±Àø
+	//å¸ˆå¾’å£°æœ›å¥–åŠ±
 	REGFN(AddCreditX);
 	REGFN(AddMasterCredit);
 	REGFN(DelCredit);
 	REGFN(GetCredit);
 	REGFN(HasMaster);
 
-	//µØÍ¼ĞÅÏ¢×´Ì¬º¯Êı
+	//åœ°å›¾ä¿¡æ¯çŠ¶æ€å‡½æ•°
 	REGFN(GetMapPlayer);
 	REGFN(DealAllPlayerInMap);
 	REGFN(GetMapActivePlayer);
 	REGFN(DealAllActivePlayerInMap);
 	REGFN(SetCopySpecialInter);
 
-	//·´¶·°×Òø
+	//åæ–—ç™½é“¶
 	REGFN(Garner2GetWiner);
 	REGFN(Garner2RequestReorder);
 	REGFN(ClearAllSubMapCha);
 	REGFN(ClearAllSubMapMonster);
 	REGFN(IsGarnerWiner);
-	//Éú»î¼¼ÄÜ
+	//ç”Ÿæ´»æŠ€èƒ½
 	REGFN(LifeSkillBegin);
 	REGFN(ClearFightSkill);
 
@@ -6507,12 +6507,12 @@ BOOL RegisterCharScript()
 
 	REGFN(GetActName);
 	REGFN(GetActID);
-    //  ·À³ÁÃÔ, ¾­ÑéÏà¹Ø
+    //  é˜²æ²‰è¿·, ç»éªŒç›¸å…³
     REGFN(GetExpState);
 
     REGFN(KillCha);
 
-	// ×ÊÔ´×Ö·û´®Ïà¹Ø
+	// èµ„æºå­—ç¬¦ä¸²ç›¸å…³
 	REGFN(GetResString);
 
 	REGFN(GetGmLv);
@@ -6541,10 +6541,10 @@ BOOL RegisterCharScript()
 
 	REGFN(GetPlayerByActName);
 
-	// AIº¯ÊıµÇ¼Ç
+	// AIå‡½æ•°ç™»è®°
 	RegisterLuaAI(g_pLuaState);
 
-	// »ù±¾Âß¼­Ïà¹Øº¯ÊıµÇ¼Ç
+	// åŸºæœ¬é€»è¾‘ç›¸å…³å‡½æ•°ç™»è®°
 	RegisterLuaGameLogic(g_pLuaState);
 	//item tradble
 	REGFN(GetItemTradble);

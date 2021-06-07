@@ -33,9 +33,9 @@ public:
 		return m_ContextRecord;
 	}
 
-	// ³õÊ¼»¯º¯Êı
+	// åˆå§‹åŒ–å‡½æ•°
 	static void InitializeSehTranslator();
-	// ÏµÍ³Òì³£³öÏÖÊ±µÄ»Øµ÷º¯Êı
+	// ç³»ç»Ÿå¼‚å¸¸å‡ºç°æ—¶çš„å›è°ƒå‡½æ•°
 	static void		TransFunc(unsigned int u, EXCEPTION_POINTERS* pExp);
 	static string	name(DWORD code);
 
@@ -48,7 +48,7 @@ protected:
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// ÏµÍ³Òì³£±»×ª»»ºóµÄ C++ ÀàĞÍµÄÒì³£, ºóĞøÀ©³ä
+// ç³»ç»Ÿå¼‚å¸¸è¢«è½¬æ¢åçš„ C++ ç±»å‹çš„å¼‚å¸¸, åç»­æ‰©å……
 ////////////////////////////////////////////////////////////////////////////////
 class SehExceptionAccessViolation : public SehExceptionBase
 {

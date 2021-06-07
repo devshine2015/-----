@@ -5,37 +5,37 @@
 struct NET_CHARTRADE_BOATDATA;
 namespace GUI
 {
-// ÓëÍæ¼Ò½»Ò×
+// ä¸ç©å®¶äº¤æ˜“
 class CTradeMgr : public CUIInterface
 {
 public:
-	void	ShowCharTradeRequest( BYTE byType, DWORD dwRequestID );				// ÏÔÊ¾Ò»¸öÑûÇë¿ò
-	void	ShowCharTrade( BYTE byType, DWORD dwAcceptID,DWORD dwRequestID );	// ÏÔÊ¾½»Ò×½çÃæ
-	void	CancelCharTrade(  DWORD dwCharID );						// È¡Ïû½»Ò×
-	void	ShowCharTradeMoney(DWORD dwCharID, DWORD dwMoney);   // ÏÔÊ¾½»Ò×µÄ½ğ¶î
+	void	ShowCharTradeRequest( BYTE byType, DWORD dwRequestID );				// æ˜¾ç¤ºä¸€ä¸ªé‚€è¯·æ¡†
+	void	ShowCharTrade( BYTE byType, DWORD dwAcceptID,DWORD dwRequestID );	// æ˜¾ç¤ºäº¤æ˜“ç•Œé¢
+	void	CancelCharTrade(  DWORD dwCharID );						// å–æ¶ˆäº¤æ˜“
+	void	ShowCharTradeMoney(DWORD dwCharID, DWORD dwMoney);   // æ˜¾ç¤ºäº¤æ˜“çš„é‡‘é¢
 
 	void	ValidateTradeData( DWORD dwCharID );
 	void	ValidateTrade(  DWORD dwCharID );
-	void	ShowTradeSuccess(); // ÏÔÊ¾½»Ò×³É¹¦
-	void	ShowTradeFailed();  // ÏÔÊ¾½»Ò×Ê§°Ü
+	void	ShowTradeSuccess(); // æ˜¾ç¤ºäº¤æ˜“æˆåŠŸ
+	void	ShowTradeFailed();  // æ˜¾ç¤ºäº¤æ˜“å¤±è´¥
 
-	void    CloseAllForm();		// ¹Ø±Õ´°Ìå
+	void    CloseAllForm();		// å…³é—­çª—ä½“
 
-	// ÍÏ¶¯µ½½»Ò×Ãæ°åÖĞ
+	// æ‹–åŠ¨åˆ°äº¤æ˜“é¢æ¿ä¸­
 	void	DragTradeToItem(DWORD dwCharID,BYTE byIndex,BYTE byItemIndex );
 
-	//sItem: ½»Ò×µÄµÀ¾ßÔÚµÀ¾ß±íÖĞµÄĞòÁĞ£¬ byIndex : ÔÚ½»Ò×±íµ¥ÖĞµÄË÷Òı byCount£º½»Ò×µÄÊıÁ¿
-	//byItemIndex: £º¸øµÀ¾ßÔÚµÀ¾ßÀ¸µÄË÷Òı
+	//sItem: äº¤æ˜“çš„é“å…·åœ¨é“å…·è¡¨ä¸­çš„åºåˆ—ï¼Œ byIndex : åœ¨äº¤æ˜“è¡¨å•ä¸­çš„ç´¢å¼• byCountï¼šäº¤æ˜“çš„æ•°é‡
+	//byItemIndex: ï¼šç»™é“å…·åœ¨é“å…·æ çš„ç´¢å¼•
 	void	DragItemToTrade(DWORD dwCharID,USHORT sItemID,BYTE byIndex,BYTE byCount,BYTE byItemIndex, SItemGrid* pGrid, const NET_CHARTRADE_BOATDATA* const pBoat );
 
 	CGoodsGrid*     GetPlayertradeSaleGrid()    { return  grdSale;		} 
 	CGoodsGrid*		GetRequestGrid()			{ return  grdRequest;	} //
 	CGoodsGrid* GetPlayertradeBuyGrid()     { return  grdBuy;	}
 
-	void			LocalSaleItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );  // ½»Ò×µÄµÀ¾ß
-	void			LocalCancelItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );// È¡Ïû½»Ò×µÄµÀ¾ß
+	void			LocalSaleItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );  // äº¤æ˜“çš„é“å…·
+	void			LocalCancelItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );// å–æ¶ˆäº¤æ˜“çš„é“å…·
 
-	// ÊÇ·ñÕıÔÚ½»Ò×ÖĞ
+	// æ˜¯å¦æ­£åœ¨äº¤æ˜“ä¸­
 	bool			IsTrading();
 
 	CForm*			GetForm()	{ return frmPlayertrade; } //
@@ -49,19 +49,19 @@ protected:
 
 protected:
 	static void _evtSelectYesNoEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
-    static void _evtThrowItemEvent(CGuiData *pSender,int id,bool& isThrow);     // ´ÓµÀ¾ßÀ¸ÖĞÈÓ³öµÀ¾ß
+    static void _evtThrowItemEvent(CGuiData *pSender,int id,bool& isThrow);     // ä»é“å…·æ ä¸­æ‰”å‡ºé“å…·
 
 	static void _evtGoldFormEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 	static void _MainMousePlayerTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
-	static void _evtSelfRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID);		// ½»Ò×½çÃæµã²é¿´×Ô¼ºµÄÎïÆ·µÀ¾ß
-	static void _evtOtherRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID);		// ½»Ò×½çÃæµã²é¿´¶Ô·½µÄÎïÆ·µÀ¾ß
+	static void _evtSelfRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID);		// äº¤æ˜“ç•Œé¢ç‚¹æŸ¥çœ‹è‡ªå·±çš„ç‰©å“é“å…·
+	static void _evtOtherRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID);		// äº¤æ˜“ç•Œé¢ç‚¹æŸ¥çœ‹å¯¹æ–¹çš„ç‰©å“é“å…·
 
 private:
 	static void _evtLocalSaleEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 private:
 	CForm*		frmPlayertrade;
-	CForm*		frmRequest;				//½»Ò××ó±ßµÄµÀ¾ß±íµ¥(»ò´¬²Õ)
+	CForm*		frmRequest;				//äº¤æ˜“å·¦è¾¹çš„é“å…·è¡¨å•(æˆ–èˆ¹èˆ±)
 	CGoodsGrid* grdRequest;
 	CGoodsGrid*	grdBuy;
 	CGoodsGrid*	grdSale;
@@ -75,9 +75,9 @@ private:
 	CCheckBox*		chkTrade;
 	CCheckBox*		chkYes;
 
-	DWORD			m_dwAcceptID;         // ½»Ò×½ÓÊÜ·½
-	DWORD			m_dwRequestID;        // ½»Ò×ÉêÇë·½
-	BYTE			m_bTradeType;		  // ½»Ò×ÀàĞÍ,²Î¿´RoleCommand.h TRADE_CHAR_TYPE
+	DWORD			m_dwAcceptID;         // äº¤æ˜“æ¥å—æ–¹
+	DWORD			m_dwRequestID;        // äº¤æ˜“ç”³è¯·æ–¹
+	BYTE			m_bTradeType;		  // äº¤æ˜“ç±»å‹,å‚çœ‹RoleCommand.h TRADE_CHAR_TYPE
 
 	DWORD			m_dwMainID;
 

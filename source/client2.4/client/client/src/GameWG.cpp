@@ -1,143 +1,110 @@
 
-#include "stdafx.h"
 #include "GameWG.h"
 #include "PacketCmd.h"
+#include "stdafx.h"
 
-#include <windows.h>
 #include <process.h>
 #include <tlhelp32.h>
+#include <windows.h>
 
+CGameWG::CGameWG(void) : m_hThread(0) {}
 
-CGameWG::CGameWG(void)
-	: m_hThread(0)
-{
+CGameWG::~CGameWG(void) {
+  SafeTerminateThread();
+
+  m_lstModule.clear();
 }
 
+// åˆ·æ–°å½“å‰è¿›ç¨‹é‡Œçš„æ¨¡å—
+bool CGameWG::RefreshModule(void) {
+  bool bRet = false;
 
-CGameWG::~CGameWG(void)
-{
-	SafeTerminateThread();
+  try {
+    HANDLE hModuleSnap = NULL;
+    MODULEENTRY32 me32 = {0};
+    std::string strModule;
 
-	m_lstModule.clear();
+    // ä¸ºå½“å‰è¿›ç¨‹é‡Œçš„æ‰€æœ‰æ¨¡å—åˆ›å»ºä¸€ä¸ªå¿«ç…§
+    hModuleSnap =
+        CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, ::GetCurrentProcessId());
+    if (hModuleSnap == INVALID_HANDLE_VALUE)
+      return false;
+
+    me32.dwSize = sizeof(MODULEENTRY32);
+
+    if (Module32First(hModuleSnap, &me32)) {
+      // éå†å½“å‰è¿›ç¨‹é‡Œçš„æ‰€æœ‰æ¨¡å—
+      do {
+        strModule = me32.szModule;
+        m_lstModule.push_back(strModule);
+      } while (Module32Next(hModuleSnap, &me32));
+
+      bRet = true;
+    } else {
+      // æšä¸¾å¤±è´¥
+      bRet = false;
+    }
+
+    // å…³é—­å¿«ç…§
+    CloseHandle(hModuleSnap);
+  } catch (...) {
+  }
+
+  return bRet;
 }
 
+// æ˜¯å¦ä½¿ç”¨äº†â€œæµ·ç›—å¤©ä½¿â€å¤–æŒ‚
+bool CGameWG::IsUseHdts(void) {
+  string strModule;
+  std::list<std::string>::iterator it;
+  for (it = m_lstModule.begin(); it != m_lstModule.end(); ++it) {
+    if (0 == _stricmp(it->c_str(), "hookit.dll")) {
+      return true;
+    }
+  }
 
-// Ë¢ĞÂµ±Ç°½ø³ÌÀïµÄÄ£¿é
-bool CGameWG::RefreshModule(void)
-{
-    bool          bRet        = false;
-
-	try
-	{
-		HANDLE        hModuleSnap = NULL;
-		MODULEENTRY32 me32        = {0};
-		std::string   strModule;
-
-		// Îªµ±Ç°½ø³ÌÀïµÄËùÓĞÄ£¿é´´½¨Ò»¸ö¿ìÕÕ
-		hModuleSnap = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE, ::GetCurrentProcessId()); 
-		if (hModuleSnap == INVALID_HANDLE_VALUE) 
-			return false;
-
-		me32.dwSize = sizeof(MODULEENTRY32); 
-
-		if(Module32First(hModuleSnap, &me32)) 
-		{
-			// ±éÀúµ±Ç°½ø³ÌÀïµÄËùÓĞÄ£¿é
-			do
-			{
-				strModule = me32.szModule;
-				m_lstModule.push_back(strModule);
-			}
-			while(Module32Next(hModuleSnap, &me32));
-
-			bRet = true;
-		}
-		else
-		{
-			// Ã¶¾ÙÊ§°Ü
-			bRet = false;
-		}
-
-		// ¹Ø±Õ¿ìÕÕ
-		CloseHandle (hModuleSnap);
-	}
-	catch(...)
-	{
-		
-	}
-
-    return bRet;
+  return false;
 }
 
-
-// ÊÇ·ñÊ¹ÓÃÁË¡°º£µÁÌìÊ¹¡±Íâ¹Ò
-bool CGameWG::IsUseHdts(void)
-{
-	string strModule;
-	std::list<std::string>::iterator it;
-	for(it = m_lstModule.begin(); it != m_lstModule.end(); ++it)
-	{
-		if(0 == _stricmp(it->c_str(), "hookit.dll"))
-		{
-			return true;
-		}
-	}
-
-	return false;
+// å¯åŠ¨çº¿ç¨‹
+void CGameWG::BeginThread(void) {
+  m_hThread = (HANDLE)_beginthreadex(0, 0, Run, this, 0, 0);
 }
 
+// å®‰å…¨ç»ˆæ­¢çº¿ç¨‹
+void CGameWG::SafeTerminateThread() {
+  if (m_hThread) {
+    TerminateThread(m_hThread, 0);
+    CloseHandle(m_hThread);
 
-// Æô¶¯Ïß³Ì
-void CGameWG::BeginThread(void)
-{
-    m_hThread = (HANDLE)_beginthreadex(0, 0, Run, this, 0, 0);
+    m_hThread = 0;
+  }
 }
 
+// çº¿ç¨‹å›è°ƒ
+UINT CALLBACK CGameWG::Run(void *param) {
+  CGameWG *pGameWG = (CGameWG *)(param);
 
-// °²È«ÖÕÖ¹Ïß³Ì
-void CGameWG::SafeTerminateThread()
-{
-	if(m_hThread)
-	{
-		TerminateThread(m_hThread, 0);
-		CloseHandle(m_hThread);
+  for (;;) {
+    Sleep(60 * 1000); // ä¸€åˆ†é’Ÿåˆ·ä¸€æ¬¡
 
-		m_hThread = 0;
-	}
+    if (!g_NetIF || !g_NetIF->IsConnected()) {
+      // ç½‘ç»œæœªè¿æ¥
+      continue;
+    }
+
+    if (!pGameWG->RefreshModule()) {
+      // åˆ·æ–°æ¨¡å—åˆ—è¡¨
+      continue;
+    }
+
+    if (pGameWG->IsUseHdts()) {
+      // ä½¿ç”¨äº†å¤–æŒ‚â€œæµ·ç›—å¤©ä½¿â€
+
+      CS_ReportWG(RES_STRING(CL_LANGUAGE_MATCH_143));
+      break;
+    }
+  }
+
+  return 0;
 }
-
-
-// Ïß³Ì»Øµ÷
-UINT CALLBACK CGameWG::Run(void* param)
-{
-	CGameWG* pGameWG = (CGameWG*)(param);
-
-	for(;;)
-	{
-		Sleep(60 * 1000);	// Ò»·ÖÖÓË¢Ò»´Î
-
-		if(! g_NetIF || ! g_NetIF->IsConnected())
-		{
-			// ÍøÂçÎ´Á¬½Ó
-			continue;
-		}
-
-		if(! pGameWG->RefreshModule())
-		{
-			// Ë¢ĞÂÄ£¿éÁĞ±í
-			continue;
-		}
-
-		if(pGameWG->IsUseHdts())
-		{
-			// Ê¹ÓÃÁËÍâ¹Ò¡°º£µÁÌìÊ¹¡±
-
-			CS_ReportWG(RES_STRING(CL_LANGUAGE_MATCH_143));
-			break;
-		}
-
-	}
-
-	return 0;
-}
-

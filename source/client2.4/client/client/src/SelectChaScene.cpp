@@ -2,748 +2,683 @@
 
 #include "SelectChaScene.h"
 
-#include "GameApp.h"
 #include "Character.h"
+#include "CharacterAction.h"
+#include "GameApp.h"
+#include "GameConfig.h"
+#include "ItemRecord.h"
+#include "PacketCmd.h"
+#include "SceneItem.h"
 #include "SceneObj.h"
 #include "UiFormMgr.h"
 #include "UiTextButton.h"
-#include "CharacterAction.h"
-#include "SceneItem.h"
-#include "ItemRecord.h"
-#include "PacketCmd.h"
-#include "GameConfig.h"
 
 #include "Character.h"
-#include "caLua.h"
-#include "lualib.h"
-#include "lauxlib.h"
-#include "UIRender.h"
+#include "RenderStateMgr.h"
+#include "UICheckBox.h"
 #include "UIEdit.h"
 #include "UILabel.h"
-#include "uiformmgr.h"
-#include "uitextbutton.h"
-#include "uilabel.h"
-#include "uiprogressbar.h"
-#include "uiscroll.h"
-#include "uilist.h"
+#include "UIRender.h"
+#include "caLua.h"
+#include "lauxlib.h"
+#include "lualib.h"
+#include "uiDoublePwdForm.h"
 #include "uicombo.h"
-#include "uiimage.h"
-#include "UICheckBox.h"
-#include "uiimeinput.h"
+#include "uiformmgr.h"
 #include "uigrid.h"
+#include "uiimage.h"
+#include "uiimeinput.h"
+#include "uilabel.h"
+#include "uilist.h"
 #include "uilistview.h"
 #include "uipage.h"
+#include "uiprogressbar.h"
+#include "uiscroll.h"
+#include "uitextbutton.h"
 #include "uitreeview.h"
-#include "uiimage.h"
-#include "UILabel.h"
-#include "RenderStateMgr.h"
-#include "uiDoublePwdForm.h"
 
 #include "UIMemo.h"
 #include "caLua.h"
 #include "cameractrl.h"
 
 #include "Connection.h"
-#include "ServerSet.h"
 #include "GameAppMsg.h"
+#include "ServerSet.h"
 
-
+#include "CreateChaScene.h"
+#include "GuildData.h"
+#include "NetGuild.h"
 #include "UI3DCompent.h"
+#include "UIChat.h"
 #include "UIForm.h"
+#include "UIItemCommand.h"
 #include "UITemplete.h"
 #include "commfunc.h"
-#include "uiboxform.h"
-#include "CreateChaScene.h"
 #include "loginscene.h"
-#include "UIItemCommand.h"
-#include "GuildData.h"
-#include "UIChat.h"
-#include "NetGuild.h"
-
+#include "uiboxform.h"
 
 //~ Constructors ==============================================================
 CSelectChaScene::CSelectChaScene(stSceneInitParam &param)
-: CGameScene(param) ,m_nCurChaIndex(-1), m_isInit(false), m_isCreateCha(false),
-frmSelectCha(NULL), btnDel(NULL), btnYes(NULL), btnCreate(NULL), btnExit(NULL)
-{
-//	LG( "scene memory", "CSelectChaScene Create\n" );
+    : CGameScene(param), m_nCurChaIndex(-1), m_isInit(false),
+      m_isCreateCha(false), frmSelectCha(NULL), btnDel(NULL), btnYes(NULL),
+      btnCreate(NULL), btnExit(NULL) {
+  //	LG( "scene memory", "CSelectChaScene Create\n" );
 
-    m_XPositions.push_back(2164); 
-	//m_XPositions.push_back(65);    
-    m_XPositions.push_back(2410);           
-    m_XPositions.push_back(2614);           
+  m_XPositions.push_back(2164);
+  // m_XPositions.push_back(65);
+  m_XPositions.push_back(2410);
+  m_XPositions.push_back(2614);
 
-    m_YPositions.push_back(1657);
-	//m_YPositions.push_back(65);
-    m_YPositions.push_back(1389);
-    m_YPositions.push_back(1579);
+  m_YPositions.push_back(1657);
+  // m_YPositions.push_back(65);
+  m_YPositions.push_back(1389);
+  m_YPositions.push_back(1579);
 
-    m_Yaws.push_back(140);
-    m_Yaws.push_back(180);
-    m_Yaws.push_back(220);
+  m_Yaws.push_back(140);
+  m_Yaws.push_back(180);
+  m_Yaws.push_back(220);
 
-    m_FreePositions.push_back(0);   //0 ±Ì æ√ª”–»ÀŒÔ,1±Ì æ”–»ÀŒÔ
-    m_FreePositions.push_back(0);
-    m_FreePositions.push_back(0);
-	for(int i=0; i<3 ; i++)
-		pAure[i] = NULL;
+  m_FreePositions.push_back(0); // 0 Ë°®Á§∫Ê≤°Êúâ‰∫∫Áâ©,1Ë°®Á§∫Êúâ‰∫∫Áâ©
+  m_FreePositions.push_back(0);
+  m_FreePositions.push_back(0);
+  for (int i = 0; i < 3; i++)
+    pAure[i] = NULL;
 
-	ChaFont* pkChaFont = new ChaFont();
-	m_CharactorPtrs.push_back(pkChaFont);
-	pkChaFont = new ChaFont();
-	m_CharactorPtrs.push_back(pkChaFont);
-	pkChaFont = new ChaFont();
-	m_CharactorPtrs.push_back(pkChaFont);
+  ChaFont *pkChaFont = new ChaFont();
+  m_CharactorPtrs.push_back(pkChaFont);
+  pkChaFont = new ChaFont();
+  m_CharactorPtrs.push_back(pkChaFont);
+  pkChaFont = new ChaFont();
+  m_CharactorPtrs.push_back(pkChaFont);
 }
 
 //~ Destructors ===============================================================
-CSelectChaScene::~CSelectChaScene()
-{
-//	LG( "scene memory", "CSelectChaScene Destroy\n" );
+CSelectChaScene::~CSelectChaScene() {
+  //	LG( "scene memory", "CSelectChaScene Destroy\n" );
 
-	const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
-	ChaFontPtrContainerIter iter = m_CharactorPtrs.begin();
-	for (; iter != end; ++iter)
-	{
-		delete (*iter);
-	}
+  const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
+  ChaFontPtrContainerIter iter = m_CharactorPtrs.begin();
+  for (; iter != end; ++iter) {
+    delete (*iter);
+  }
 }
 
-//~ ≥°æ∞œ‡πÿµƒ ===============================================================
+//~ Âú∫ÊôØÁõ∏ÂÖ≥ÁöÑ ===============================================================
 
 //-----------------------------------------------------------------------
-bool CSelectChaScene::_Init()
-{
-	if ( !CGameScene::_Init() )
-	{
-		//∏∏¿‡µ˜”√_Init()≥ˆ¥Ì,ºÚµ•µÿ∑µªÿfalse.
-		return false;
-	}
+bool CSelectChaScene::_Init() {
+  if (!CGameScene::_Init()) {
+    //Áà∂Á±ªË∞ÉÁî®_Init()Âá∫Èîô,ÁÆÄÂçïÂú∞ËøîÂõûfalse.
+    return false;
+  }
 
-	
-    { // save loading res mt flag, and resume these flags in _Clear() before this scene destoried.
-        drIByteSet* res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
-        _loadtex_flag = res_bs->GetValue(OPT_RESMGR_LOADTEXTURE_MT);
-        _loadmesh_flag = res_bs->GetValue(OPT_RESMGR_LOADMESH_MT);
-        res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, 0);
-        res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, 0);
-    }
+  { // save loading res mt flag, and resume these flags in _Clear() before this
+    // scene destoried.
+    drIByteSet *res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
+    _loadtex_flag = res_bs->GetValue(OPT_RESMGR_LOADTEXTURE_MT);
+    _loadmesh_flag = res_bs->GetValue(OPT_RESMGR_LOADMESH_MT);
+    res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, 0);
+    res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, 0);
+  }
 
-    _bEnableCamDrag    = TRUE;
+  _bEnableCamDrag = TRUE;
 #ifdef __FPS_DEBUG__
-	MPTimer tInit; 
-    tInit.Begin();
+  MPTimer tInit;
+  tInit.Begin();
 #endif
-	// Init Onece
-	if (!m_isInit)
-	{
-		m_isInit = true;
+  // Init Onece
+  if (!m_isInit) {
+    m_isInit = true;
 
-		// ÃÌº”±≥æ∞ŒÔº˛
-		pObj =AddSceneObj(512);
+    // Ê∑ªÂä†ËÉåÊôØÁâ©‰ª∂
+    pObj = AddSceneObj(512);
 
-		if(pObj)
-		{
-			pObj->SetCullingFlag(0);
-			pObj->setPos(0,0);
-			pObj->setYaw(180);
+    if (pObj) {
+      pObj->SetCullingFlag(0);
+      pObj->setPos(0, 0);
+      pObj->setYaw(180);
 
-			DWORD num = pObj->GetPrimitiveNum();
-			for(DWORD i = 0; i < num; i++)
-			{
-				pObj->GetPrimitive(i)->SetState(STATE_TRANSPARENT, 0);
-				pObj->GetPrimitive(i)->SetState(STATE_UPDATETRANSPSTATE, 0);
-			}
+      DWORD num = pObj->GetPrimitiveNum();
+      for (DWORD i = 0; i < num; i++) {
+        pObj->GetPrimitive(i)->SetState(STATE_TRANSPARENT, 0);
+        pObj->GetPrimitive(i)->SetState(STATE_UPDATETRANSPSTATE, 0);
+      }
 
-			{
-				pObj->PlayDefaultAnimation();
+      {
+        pObj->PlayDefaultAnimation();
 
-				const DWORD p_id_num = 6;
-				DWORD p_id[p_id_num][5] = 
-				{
-					{ 0, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE },
-					{ 1, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE },
-					{ 2, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE },
-					{ 3, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE },
-					{ 4, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE },
-					{ 26, 0,  0, ANIM_CTRL_TYPE_TEXIMG, PLAY_LOOP },
-				};
+        const DWORD p_id_num = 6;
+        DWORD p_id[p_id_num][5] = {
+            {0, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE},
+            {1, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE},
+            {2, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE},
+            {3, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE},
+            {4, -1, -1, ANIM_CTRL_TYPE_BONE, PLAY_ONCE},
+            {26, 0, 0, ANIM_CTRL_TYPE_TEXIMG, PLAY_LOOP},
+        };
 
-				drIPrimitive* p = 0;
+        drIPrimitive *p = 0;
 
-				drPlayPoseInfo ppi;
-				memset( &ppi, 0, sizeof( ppi ) );
-				ppi.bit_mask = PPI_MASK_DEFAULT;
-				ppi.pose = 0;
-				ppi.frame = 0.0f;
-				ppi.type = PLAY_ONCE;
-				ppi.velocity = 0.5f;
+        drPlayPoseInfo ppi;
+        memset(&ppi, 0, sizeof(ppi));
+        ppi.bit_mask = PPI_MASK_DEFAULT;
+        ppi.pose = 0;
+        ppi.frame = 0.0f;
+        ppi.type = PLAY_ONCE;
+        ppi.velocity = 0.5f;
 
-				drAnimCtrlObjTypeInfo type_info;
+        drAnimCtrlObjTypeInfo type_info;
 
-				for(DWORD i = 0; i < num; i++)
-				{
-					p = pObj->GetPrimitive(i);
+        for (DWORD i = 0; i < num; i++) {
+          p = pObj->GetPrimitive(i);
 
-					for(DWORD j = 0; j < p_id_num; j++)
-					{
-						if(p->GetID() == p_id[j][0])
-						{
-							drIAnimCtrlAgent* anim_agent = p->GetAnimAgent();
-							if(anim_agent == 0)
-								continue;
+          for (DWORD j = 0; j < p_id_num; j++) {
+            if (p->GetID() == p_id[j][0]) {
+              drIAnimCtrlAgent *anim_agent = p->GetAnimAgent();
+              if (anim_agent == 0)
+                continue;
 
-							type_info.type = p_id[j][3];
-							type_info.data[0] = p_id[j][1];
-							type_info.data[1] = p_id[j][2];
-							drIAnimCtrlObj* ctrl_obj = anim_agent->GetAnimCtrlObj(&type_info);
-							if(ctrl_obj == 0)
-								continue;
+              type_info.type = p_id[j][3];
+              type_info.data[0] = p_id[j][1];
+              type_info.data[1] = p_id[j][2];
+              drIAnimCtrlObj *ctrl_obj = anim_agent->GetAnimCtrlObj(&type_info);
+              if (ctrl_obj == 0)
+                continue;
 
-							ppi.type = p_id[j][4];
-							ctrl_obj->PlayPose(&ppi);
-						}
-					}
-				}
-			}
-
-			{
-				const DWORD id_num = 3;
-				const DWORD id_buf[id_num] =
-				{ 46, 47, 48 };
-
-				drIPrimitive* pri;
-				DWORD pri_num = pObj->GetPrimitiveNum();
-
-				for(DWORD j = 0; j < pri_num; j++)
-				{
-					pri = pObj->GetPrimitive(j);
-
-					for(DWORD i =0; i < id_num; i++)
-					{
-						if(pri->GetID() == id_buf[i])
-						{
-							pAure[i] = pri;
-							pAure[i]->SetState(STATE_VISIBLE, 0);
-						}
-					}
-				}
-			}
-		}
-	}
-
-    
-	g_Render.SetClip(g_Config.fnear, g_Config.ffar);
-
-    CCameraCtrl *pCam = g_pGameApp->GetMainCam();
-    if(pCam)
-    {
-        g_pGameApp->EnableCameraFollow(TRUE);	
-        pCam->m_EyePos.x = 23.749f;
-        pCam->m_EyePos.y = 20.923f;
-        pCam->m_EyePos.z = 1.982f;
-
-        pCam->m_RefPos.x = 20.034f;
-        pCam->m_RefPos.y = -194.137f;
-        pCam->m_RefPos.z = 0.868f;
-
-    }
-    g_Render.SetWorldViewFOV(Angle2Radian(70.0f));
-    g_Render.SetWorldViewAspect(1.33f);
-    g_Render.SetClip(1.0f, 2000.0f);
-
-	// øœ∂®≤ªƒ‹Œ™NULlµƒ
-	if(pCam)
-		g_Render.LookAt(pCam->m_EyePos, pCam->m_RefPos);
-    g_Render.SetCurrentView(LERender::VIEW_WORLD);
-    LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-
-    SetupVertexFog(dev_obj, 0, 0, D3DCOLOR_XRGB(28, 221, 246), D3DFOG_EXP2, 1, 0.0006f);
-
-    g_Render.SetRenderStateForced(D3DRS_LIGHTING, 0);
-    g_Render.SetRenderState(D3DRS_AMBIENT, 0xffffffff);
-
-    //≥ı ºªØUI
-    if (!_InitUI())
-    {
-        return false;
-    }
-
-    return true;
-}
-
-//-----------------------------------------------------------------------
-bool CSelectChaScene::_Clear()
-{
-	if (frmSelectCha)
-		frmSelectCha->SetIsShow(false);
-
-    if ( !CGameScene::_Clear() )
-    {
-        //∏∏¿‡Clear ß∞‹,ºÚµ•∑µªÿfalse.
-        return false;
-    }
-
-    { // reset loading res mt flag
-        if(_loadtex_flag != 9 && _loadmesh_flag != 9)
-        {
-            drIByteSet* res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
-            res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, _loadtex_flag);
-            res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, _loadmesh_flag);
+              ppi.type = p_id[j][4];
+              ctrl_obj->PlayPose(&ppi);
+            }
+          }
         }
+      }
+
+      {
+        const DWORD id_num = 3;
+        const DWORD id_buf[id_num] = {46, 47, 48};
+
+        drIPrimitive *pri;
+        DWORD pri_num = pObj->GetPrimitiveNum();
+
+        for (DWORD j = 0; j < pri_num; j++) {
+          pri = pObj->GetPrimitive(j);
+
+          for (DWORD i = 0; i < id_num; i++) {
+            if (pri->GetID() == id_buf[i]) {
+              pAure[i] = pri;
+              pAure[i]->SetState(STATE_VISIBLE, 0);
+            }
+          }
+        }
+      }
     }
+  }
 
-    g_Render.SetClip(1.0f, 1000.0f);
+  g_Render.SetClip(g_Config.fnear, g_Config.ffar);
 
-    return true;
+  CCameraCtrl *pCam = g_pGameApp->GetMainCam();
+  if (pCam) {
+    g_pGameApp->EnableCameraFollow(TRUE);
+    pCam->m_EyePos.x = 23.749f;
+    pCam->m_EyePos.y = 20.923f;
+    pCam->m_EyePos.z = 1.982f;
 
+    pCam->m_RefPos.x = 20.034f;
+    pCam->m_RefPos.y = -194.137f;
+    pCam->m_RefPos.z = 0.868f;
+  }
+  g_Render.SetWorldViewFOV(Angle2Radian(70.0f));
+  g_Render.SetWorldViewAspect(1.33f);
+  g_Render.SetClip(1.0f, 2000.0f);
+
+  // ËÇØÂÆö‰∏çËÉΩ‰∏∫NULlÁöÑ
+  if (pCam)
+    g_Render.LookAt(pCam->m_EyePos, pCam->m_RefPos);
+  g_Render.SetCurrentView(LERender::VIEW_WORLD);
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+
+  SetupVertexFog(dev_obj, 0, 0, D3DCOLOR_XRGB(28, 221, 246), D3DFOG_EXP2, 1,
+                 0.0006f);
+
+  g_Render.SetRenderStateForced(D3DRS_LIGHTING, 0);
+  g_Render.SetRenderState(D3DRS_AMBIENT, 0xffffffff);
+
+  //ÂàùÂßãÂåñUI
+  if (!_InitUI()) {
+    return false;
+  }
+
+  return true;
+}
+
+//-----------------------------------------------------------------------
+bool CSelectChaScene::_Clear() {
+  if (frmSelectCha)
+    frmSelectCha->SetIsShow(false);
+
+  if (!CGameScene::_Clear()) {
+    //Áà∂Á±ªClearÂ§±Ë¥•,ÁÆÄÂçïËøîÂõûfalse.
+    return false;
+  }
+
+  { // reset loading res mt flag
+    if (_loadtex_flag != 9 && _loadmesh_flag != 9) {
+      drIByteSet *res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
+      res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, _loadtex_flag);
+      res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, _loadmesh_flag);
+    }
+  }
+
+  g_Render.SetClip(1.0f, 1000.0f);
+
+  return true;
 }
 //-----------------------------------------------------------------------
-void CSelectChaScene::_Render()
-{
-    //CGameScene::_Render();
+void CSelectChaScene::_Render() {
+  // CGameScene::_Render();
 
 #ifdef __FPS_DEBUG__
-    MPTimer mpt;
-    mpt.Begin();
+  MPTimer mpt;
+  mpt.Begin();
 #endif
-    //CGameScene::_Render();
-    LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-    RenderStateMgr* rsm = g_pGameApp->GetRenderStateMgr();
-	DWORD dwOldState;
+  // CGameScene::_Render();
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+  RenderStateMgr *rsm = g_pGameApp->GetRenderStateMgr();
+  DWORD dwOldState;
 
-    rsm->BeginScene();
+  rsm->BeginScene();
 
-	//‰÷»æ»ÀŒÔ
-	rsm->BeginCharacter();
+  //Ê∏≤Êüì‰∫∫Áâ©
+  rsm->BeginCharacter();
 
+  D3DLIGHTX env_light;
+  D3DLIGHTX env_light_old;
+  memset(&env_light, 0, sizeof(env_light));
+  env_light.Type = D3DLIGHT_DIRECTIONAL;
 
-    D3DLIGHTX env_light;
-    D3DLIGHTX env_light_old;
-    memset(&env_light, 0, sizeof(env_light));
-    env_light.Type = D3DLIGHT_DIRECTIONAL;
+  env_light.Direction.x = -1.0f;
+  env_light.Direction.y = -1.0f;
+  env_light.Direction.z = -0.5f;
+  D3DXVec3Normalize((D3DXVECTOR3 *)&env_light.Direction,
+                    (D3DXVECTOR3 *)&env_light.Direction);
 
-    env_light.Direction.x = -1.0f;
-    env_light.Direction.y = -1.0f;
-    env_light.Direction.z = -0.5f;
-    D3DXVec3Normalize((D3DXVECTOR3*)&env_light.Direction, (D3DXVECTOR3*)&env_light.Direction);
+  LEDwordByte4 c;
+  c.b[3] = 0xff;
+  c.b[2] = 185;
+  c.b[1] = 36;
+  c.b[0] = 54;
+  env_light.Diffuse.r = (float)(c.b[2] / 255.0f);
+  env_light.Diffuse.g = (float)(c.b[1] / 255.0f);
+  env_light.Diffuse.b = (float)(c.b[0] / 255.0f);
 
-    LEDwordByte4 c;
-    c.b[3] = 0xff;
-    c.b[2] = 185;
-    c.b[1] = 36;
-    c.b[0] = 54;
-    env_light.Diffuse.r = (float)(c.b[2] / 255.0f);
-    env_light.Diffuse.g = (float)(c.b[1] / 255.0f);
-    env_light.Diffuse.b = (float)(c.b[0] / 255.0f);
+  g_Render.GetLight(0, &env_light_old);
+  g_Render.SetLight(0, &env_light);
 
-    g_Render.GetLight(0, &env_light_old);
-    g_Render.SetLight(0, &env_light);
+  const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
+  const ChaFontPtrContainerIter begin = m_CharactorPtrs.begin();
+  ChaFontPtrContainerIter iter = begin;
 
-	const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
-	const ChaFontPtrContainerIter begin = m_CharactorPtrs.begin();
-	ChaFontPtrContainerIter iter = begin;
+  dev_obj->GetRenderState(D3DRS_LIGHTING, &dwOldState);
+  for (int i(0); i < 3; i++) {
+    if (pAure[i])
+      pAure[i]->SetState(STATE_VISIBLE, 0);
+  }
+  for (; iter != end; ++iter) {
+    if ((*iter)->pCha == NULL)
+      continue;
 
-	dev_obj->GetRenderState(D3DRS_LIGHTING, &dwOldState);
-	for (int i(0); i<3; i++)
-	{
-		if(pAure[i])
-			pAure[i]->SetState(STATE_VISIBLE, 0);
-	}
-	for (; iter != end; ++iter)
-	{
-		if ((*iter)->pCha == NULL)
-			continue;
+    dev_obj->SetRenderState(D3DRS_LIGHTING, 0);
+    if (m_nCurChaIndex == iter - begin) {
+      dev_obj->SetRenderState(D3DRS_LIGHTING, 1);
+      if (pAure[(*iter)->iPos])
+        pAure[(*iter)->iPos]->SetState(STATE_VISIBLE, 1);
+      (*iter)->pCha->setYaw(m_Yaws[m_nCurChaIndex]);
+    }
 
-		dev_obj->SetRenderState(D3DRS_LIGHTING, 0);
-		if (m_nCurChaIndex == iter - begin)
-		{
-			dev_obj->SetRenderState(D3DRS_LIGHTING, 1);
-			if(pAure[(*iter)->iPos])
-				pAure[(*iter)->iPos]->SetState(STATE_VISIBLE, 1);
-			(*iter)->pCha->setYaw(m_Yaws[m_nCurChaIndex]);
-		}
+    (*iter)->pCha->Render();
+  }
+  dev_obj->SetRenderState(D3DRS_LIGHTING, dwOldState);
 
-		(*iter)->pCha->Render();
-	}
-	dev_obj->SetRenderState(D3DRS_LIGHTING, dwOldState);
+  g_Render.SetLight(0, &env_light_old);
 
-    g_Render.SetLight(0, &env_light_old);
+  rsm->EndCharacter();
 
-	rsm->EndCharacter();
+  //Ê∏≤ÊüìÂú∫ÊôØ
+  rsm->BeginSceneObject();
 
-	//‰÷»æ≥°æ∞
-    rsm->BeginSceneObject();
+  if (pObj)
+    pObj->FrameMove(0);
 
-	if(pObj)
-		pObj->FrameMove(0);
+  dev_obj->GetRenderState(D3DRS_LIGHTING, &dwOldState);
+  dev_obj->SetRenderState(D3DRS_LIGHTING, FALSE);
 
-    dev_obj->GetRenderState(D3DRS_LIGHTING, &dwOldState);
-    dev_obj->SetRenderState(D3DRS_LIGHTING, FALSE);
+  SetupVertexFog(dev_obj, 0, 0, D3DCOLOR_XRGB(255, 104, 13), D3DFOG_EXP2, 1,
+                 0.0025f);
 
-    SetupVertexFog(dev_obj, 0, 0, D3DCOLOR_XRGB(255, 104, 13), D3DFOG_EXP2, 1, 0.0025f);
+  if (pObj)
+    pObj->Render();
 
-	if(pObj)
-		pObj->Render();
+  rsm->EndSceneObject();
 
-    rsm->EndSceneObject();
+  rsm->BeginTranspObject();
+  drUpdateSceneTransparentObject();
+  rsm->EndTranspObject();
 
-    rsm->BeginTranspObject();
-    drUpdateSceneTransparentObject();
-    rsm->EndTranspObject();
+  rsm->EndScene();
 
-    rsm->EndScene();
-
-    dev_obj->SetRenderState(D3DRS_FOGENABLE, FALSE);
+  dev_obj->SetRenderState(D3DRS_FOGENABLE, FALSE);
 }
 
-void CSelectChaScene::_RenderUI()
-{
-    const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
-    for ( ChaFontPtrContainerIter iter = m_CharactorPtrs.begin(); iter != end; ++iter)
-    {		
-		if ((*iter)->pCha == NULL)
-			continue;
+void CSelectChaScene::_RenderUI() {
+  const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
+  for (ChaFontPtrContainerIter iter = m_CharactorPtrs.begin(); iter != end;
+       ++iter) {
+    if ((*iter)->pCha == NULL)
+      continue;
 
-        //‰÷»æ»ÀŒÔ…œ√Êµƒ◊÷
+    //Ê∏≤Êüì‰∫∫Áâ©‰∏äÈù¢ÁöÑÂ≠ó
 
-		if (((*iter)->iFontX == -1) || ((*iter)->iFontY == -1))
-		{
-			int nScreenX, nScreenY;
-			drMatrix44 mat;
+    if (((*iter)->iFontX == -1) || ((*iter)->iFontY == -1)) {
+      int nScreenX, nScreenY;
+      drMatrix44 mat;
 
-			D3DXVECTOR3 pos = (*iter)->pCha->GetPos();
-			(*iter)->pCha->GetRunTimeMatrix(&mat, 1);
+      D3DXVECTOR3 pos = (*iter)->pCha->GetPos();
+      (*iter)->pCha->GetRunTimeMatrix(&mat, 1);
 
-			pos.x = mat._41;
-			pos.y = mat._42;
-			pos.z = mat._43;
+      pos.x = mat._41;
+      pos.y = mat._42;
+      pos.z = mat._43;
 
-			g_Render.WorldToScreen( pos.x, pos.y, pos.z , &nScreenX, &nScreenY );
+      g_Render.WorldToScreen(pos.x, pos.y, pos.z, &nScreenX, &nScreenY);
 
-            //◊÷÷––ƒŒª÷√∫Õ»ÀŒÔŒª÷√µƒ≤Ó
-			nScreenY -= 80;
+      //Â≠ó‰∏≠ÂøÉ‰ΩçÁΩÆÂíå‰∫∫Áâ©‰ΩçÁΩÆÁöÑÂ∑Æ
+      nScreenY -= 80;
 
-			(*iter)->iFontX = nScreenX;
-			(*iter)->iFontY = nScreenY;
-		}
-
-		char szBuf[8];
-        string sFirst = string((*iter)->pCha->getName());
-       /* string sSecond = string("Lv") + string(itoa((*iter)->iLevel, szBuf, 10)) + 
-                       " " + (*iter)->sProfession;*/
-		_itoa_s((*iter)->iLevel, szBuf,sizeof(szBuf) ,10);
-		string sSecond = string("Lv") + string(szBuf) + " " + (*iter)->sProfession;
-        if (sFirst.length() < sSecond.length())
-        {
-            int nBlankNum = (int)(sSecond.length()-sFirst.length())/2;
-            
-            for (int i(0); i<nBlankNum; i++)
-            {
-                sFirst = string(" ") + sFirst;
-            }
-        }
-        else
-        {
-            int nBlankNum = (int)(sFirst.length()-sSecond.length())/2;
-
-            for (int i(0); i<nBlankNum; i++)
-            {
-                sSecond = string(" ") + sSecond;
-            }
-        }
-        CGuiFont::s_Font.TipRender( (sFirst + "\n" + sSecond).c_str(), 
-                                    (*iter)->iFontX, (*iter)->iFontY );
+      (*iter)->iFontX = nScreenX;
+      (*iter)->iFontY = nScreenY;
     }
+
+    char szBuf[8];
+    string sFirst = string((*iter)->pCha->getName());
+    /* string sSecond = string("Lv") + string(itoa((*iter)->iLevel, szBuf, 10))
+       + " " + (*iter)->sProfession;*/
+    _itoa_s((*iter)->iLevel, szBuf, sizeof(szBuf), 10);
+    string sSecond = string("Lv") + string(szBuf) + " " + (*iter)->sProfession;
+    if (sFirst.length() < sSecond.length()) {
+      int nBlankNum = (int)(sSecond.length() - sFirst.length()) / 2;
+
+      for (int i(0); i < nBlankNum; i++) {
+        sFirst = string(" ") + sFirst;
+      }
+    } else {
+      int nBlankNum = (int)(sFirst.length() - sSecond.length()) / 2;
+
+      for (int i(0); i < nBlankNum; i++) {
+        sSecond = string(" ") + sSecond;
+      }
+    }
+    CGuiFont::s_Font.TipRender((sFirst + "\n" + sSecond).c_str(),
+                               (*iter)->iFontX, (*iter)->iFontY);
+  }
 }
 
 //-----------------------------------------------------------------------
-void CSelectChaScene::_FrameMove(DWORD dwTimeParam)
-{
-    CGameScene::_FrameMove(dwTimeParam);
+void CSelectChaScene::_FrameMove(DWORD dwTimeParam) {
+  CGameScene::_FrameMove(dwTimeParam);
 }
 
 //-----------------------------------------------------------------------
-bool CSelectChaScene::_MouseButtonDown(int nButton)	
-{
-	// ¥¥Ω®∂˛¥Œ√‹¬Î¥∞ÃÂœ‘ æ ±£¨≤ª‘ –Ìµ„ª˜»ÀŒÔ  add by Philip.Wu  2006-07-20
-	if(g_stUIDoublePwd.GetIsShowCreateForm() || g_stUIDoublePwd.GetIsShowAlterForm() || g_stUIDoublePwd.GetIsShowDoublePwdForm())
-	{
-		return false;
-	}
+bool CSelectChaScene::_MouseButtonDown(int nButton) {
+  // ÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†ÅÁ™ó‰ΩìÊòæÁ§∫Êó∂Ôºå‰∏çÂÖÅËÆ∏ÁÇπÂáª‰∫∫Áâ©  add by Philip.Wu  2006-07-20
+  if (g_stUIDoublePwd.GetIsShowCreateForm() ||
+      g_stUIDoublePwd.GetIsShowAlterForm() ||
+      g_stUIDoublePwd.GetIsShowDoublePwdForm()) {
+    return false;
+  }
 
-    //≈–∂œ Û±Í «∑Òµ„÷–»ÀŒÔ
-    CCharacter* pCha = this->HitTestCharacter(g_pGameApp->GetMouseX(), 
-                                              g_pGameApp->GetMouseY());
-    if (NULL == pCha)
-    {
-        return false;
-    }
-    
-    //»∑∂®µ„ª˜»ÀŒÔµƒŒª÷√
-    int nIndex(0);
-    const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
-    ChaFontPtrContainerIter iter = m_CharactorPtrs.begin();
-    for (; iter != end; ++iter, ++nIndex)
-    {
-        if ((*iter)->pCha == pCha)
-            break;
-    }
-    if (nIndex > 2)
-    {
-        return false;
-    }
-    
+  //Âà§Êñ≠Èº†Ê†áÊòØÂê¶ÁÇπ‰∏≠‰∫∫Áâ©
+  CCharacter *pCha =
+      this->HitTestCharacter(g_pGameApp->GetMouseX(), g_pGameApp->GetMouseY());
+  if (NULL == pCha) {
+    return false;
+  }
 
-    if (m_nCurChaIndex != nIndex && m_nCurChaIndex != -1)
-    {
-        m_CharactorPtrs[m_nCurChaIndex]->pCha->PlayPose( 1, PLAY_LOOP, -1, 
-                                                CGameApp::GetFrameFPS(), true);
-        SetChaDark(m_CharactorPtrs[m_nCurChaIndex]->pCha);
-    }
+  //Á°ÆÂÆöÁÇπÂáª‰∫∫Áâ©ÁöÑ‰ΩçÁΩÆ
+  int nIndex(0);
+  const ChaFontPtrContainerIter end = m_CharactorPtrs.end();
+  ChaFontPtrContainerIter iter = m_CharactorPtrs.begin();
+  for (; iter != end; ++iter, ++nIndex) {
+    if ((*iter)->pCha == pCha)
+      break;
+  }
+  if (nIndex > 2) {
+    return false;
+  }
 
-    m_nCurChaIndex = nIndex;
+  if (m_nCurChaIndex != nIndex && m_nCurChaIndex != -1) {
+    m_CharactorPtrs[m_nCurChaIndex]->pCha->PlayPose(
+        1, PLAY_LOOP, -1, CGameApp::GetFrameFPS(), true);
+    SetChaDark(m_CharactorPtrs[m_nCurChaIndex]->pCha);
+  }
 
+  m_nCurChaIndex = nIndex;
 
-    m_CharactorPtrs[m_nCurChaIndex]->pCha->PlayPose(2, PLAY_LOOP, -1, 
-                                                CGameApp::GetFrameFPS(), true);
-    m_CharactorPtrs[m_nCurChaIndex]->pCha->SetColor(m_ChaColors[m_nCurChaIndex][0],
-        m_ChaColors[m_nCurChaIndex][1], m_ChaColors[m_nCurChaIndex][2]);
+  m_CharactorPtrs[m_nCurChaIndex]->pCha->PlayPose(
+      2, PLAY_LOOP, -1, CGameApp::GetFrameFPS(), true);
+  m_CharactorPtrs[m_nCurChaIndex]->pCha->SetColor(
+      m_ChaColors[m_nCurChaIndex][0], m_ChaColors[m_nCurChaIndex][1],
+      m_ChaColors[m_nCurChaIndex][2]);
 
+  //Â§ÑÁêÜË°®Âçï‰∏äÁöÑÊåâÈíÆÊòØÂê¶ÂèØÁî®
+  UpdateButton();
 
-    //¥¶¿Ì±Ìµ•…œµƒ∞¥≈• «∑Òø…”√
-    UpdateButton();
-
-    return true;
-
+  return true;
 }
 
 //-----------------------------------------------------------------------
-bool CSelectChaScene::_MouseButtonDB(int nButton)
-{
-    if (!_MouseButtonDown(nButton))
-        return false;
+bool CSelectChaScene::_MouseButtonDB(int nButton) {
+  if (!_MouseButtonDown(nButton))
+    return false;
 
-    SendBeginPlayToServer();
-    g_pGameApp->Waiting();
-    return true;
-}
-
-
-//-----------------------------------------------------------------------
-void CSelectChaScene::_KeyDownEvent( int key )
-{
-	if (m_nCurChaIndex != -1)
-	{ /*”–Ω«…´±ª—°÷–µƒ«Èøˆœ¬*/
-		int iRotate = 0;		// left:-1	right:1
-		if (VK_LEFT == key)
-		{
-			iRotate = -1;
-		}
-		else if (VK_RIGHT == key)
-		{
-			iRotate = 1;
-		}
-
-		m_Yaws[m_nCurChaIndex] += -(iRotate) * 15;
-		m_Yaws[m_nCurChaIndex] = (m_Yaws[m_nCurChaIndex] + 360) % 360;
-	}
+  SendBeginPlayToServer();
+  g_pGameApp->Waiting();
+  return true;
 }
 
 //-----------------------------------------------------------------------
-void CSelectChaScene::LoadingCall()          // ‘⁄◊∞‘ÿloading∫Û,À¢–¬
-{
-    CGameScene::LoadingCall();
-
-	// √ø¥ŒΩ¯”Œœ∑∂ºª·æ≠π˝—°»ÀΩÁ√Ê£¨«Â¿ÌµÙµ¿æﬂººƒ‹µƒCOOLDOWN–≈œ¢
-	CItemCommand::ClearCoolDown();
-
-	// «Âø’π´ª·œ‘ æ£®»Áπ˚ÕÊº“√ªπ´ª·‘Ú≤ªª·Õ®÷™øÕªß∂À£¨ª·“≈¡Ùœ¬«∞“ª¥Œµƒπ´ª·√˚£©
-	//CGuildData::SetGuildMasterID(NULL);
-	//CGuildData::SetGuildName("");
-	//if(g_stUIChat.GetGuildNode()) g_stUIChat.GetGuildNode()->Clear();
-
-	NetPC_GUILD_START_BEGIN(0, 0, 0);
-	NetPC_GUILD_START_END();
-
-	static bool bLoadRes2 = false;
-	if( !bLoadRes2 )
-	{
-		bLoadRes2 = true;
-		//g_pGameApp->LoadRes2();
-		g_pGameApp->LoadRes3();
-		//g_pGameApp->LoadRes4();
-	}
-
-	if(! g_Config.m_IsDoublePwd)
-	{
-        // œ‘ æ¥¥Ω®∂˛¥Œ√‹¬Î¥∞ÃÂ
-		g_stUIDoublePwd.ShowCreateForm();
-
-		//CBoxMgr::ShowSelectBox(_evtCreateDoublePwdEvent, RES_STRING(CL_LANGUAGE_MATCH_800), true);//"µ±«∞’ ∫≈Œ¥¥¥Ω®∂˛¥Œ√‹¬Î\n\n «∑Òœ÷‘⁄¥¥Ω®?"
-	}
-	else if(GetChaCount() == 0 && frmWelcomeNotice)
-	{
-		// µ±«∞ŒﬁΩ«…´£¨œ‘ æ–¬ ÷Ã· æ
-		frmWelcomeNotice->ShowModal();
-	}
-	else if(m_isCreateCha)
-	{
-		m_isCreateCha = false;
-
-		if(GetChaCount() == 1 && frmCreateOKNotice)
-		{
-			// ∏’¥¥Ω®µ⁄“ª∏ˆΩ«…´
-			frmCreateOKNotice->ShowModal();
-		}
-	}
-
-	g_pGameApp->PlayMusic( 1 );
-}
-
-
-//-----------------------------------------------------------------------
-void CSelectChaScene::SetMainCha(int nChaID)
-{
-    CGameScene::SetMainCha(nChaID);
-}
-
-//~ UIœ‡πÿµƒ∫Ø ˝ =============================================================
-
-//-----------------------------------------------------------------------
-bool CSelectChaScene::_InitUI()
-{
-    //—°»ÀΩÁ√Êµƒ±Ìµ•
-    frmSelectCha = CFormMgr::s_Mgr.Find( "frmSelect", GetInitParam()->nUITemplete );
-    if(!frmSelectCha)		return false;
-
-    btnDel = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnDel"));
-    if (!btnDel)            return false;
-    btnYes = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnYes"));
-    if (!btnYes)            return false;
-    btnCreate = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnCreate"));
-    if (!btnCreate)         return false;
-    btnExit = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnNo"));
-    if (!btnExit)            return false;
-	btnAlter = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnAlter"));
-	if (!btnAlter)           return false;
-
-	// …Ë÷√¥¥Ω®∞¥≈•…¡À∏
-	btnCreate->SetFlashCycle();
-
-    frmSelectCha->SetPos(
-        (g_pGameApp->GetWindowWidth() - frmSelectCha->GetWidth())/2,
-        g_pGameApp->GetWindowHeight() - frmSelectCha->GetHeight() - 20 );
-    frmSelectCha->Refresh();
-    frmSelectCha->Show();
-
-    frmSelectCha->evtEntrustMouseEvent = _SelChaFrmMouseEvent;
-
-	// ¥¥Ω®ª∂”≠ΩÁ√Ê   ∏√ΩÁ√ÊΩˆ‘⁄µ±«∞’ ∫≈ƒ⁄ŒﬁΩ«…´ ±≥ˆœ÷
-	frmWelcomeNotice = CFormMgr::s_Mgr.Find("frmWelcomeNotice");
-    if(!frmWelcomeNotice)		return false;
-	frmWelcomeNotice->evtEntrustMouseEvent = _evtWelcomeNoticeEvent;
-
-	// ∂®“Â ◊¥Œ¥¥Ω®Ω«…´≥…π¶Ã· æΩÁ√Ê   ∏√ΩÁ√ÊΩˆ‘⁄∏√’ ∫≈◊ﬂÕÍµ⁄“ª∏ˆΩ«…´µƒ¥¥Ω®¡˜≥Ã∫Ûœ‘ æ
-	frmCreateOKNotice = CFormMgr::s_Mgr.Find("frmCreateOKNotice");
-    if(!frmCreateOKNotice)		return false;
-	frmCreateOKNotice->evtEntrustMouseEvent = _evtCreateOKNoticeEvent;
-
-    // ¥¶¿Ì∞¥≈• «∑Òø…“‘”√
-    UpdateButton();
-
-	frmChaNameAlter = CFormMgr::s_Mgr.Find("frmChaNameAlter");
-	if(! frmChaNameAlter)       return false;
-	frmChaNameAlter->evtEntrustMouseEvent = _evtChaNameAlterMouseEvent;
-
-    return true;
-}
-
-//-----------------------------------------------------------------------
-void CSelectChaScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType, 
-                                           int x, int y, DWORD dwKey)
-{
-    string strName = pSender->GetName();
-
-   // if ( stricmp ("frmSelect", pSender->GetForm()->GetName()) != 0 )
-	 if ( _stricmp ("frmSelect", pSender->GetForm()->GetName()) != 0 )
-    {
-        return ;
+void CSelectChaScene::_KeyDownEvent(int key) {
+  if (m_nCurChaIndex != -1) { /*ÊúâËßíËâ≤Ë¢´ÈÄâ‰∏≠ÁöÑÊÉÖÂÜµ‰∏ã*/
+    int iRotate = 0;          // left:-1	right:1
+    if (VK_LEFT == key) {
+      iRotate = -1;
+    } else if (VK_RIGHT == key) {
+      iRotate = 1;
     }
 
-    if(strName=="btnCreate")
-    {
-        //«–ªªµΩ¥¥Ω®»ÀŒÔ≥°æ∞
-        stSceneInitParam param;
-        param.nTypeID = enumCreateChaScene;
-        param.strName = "";
-        param.strMapFile = "";
-        param.nUITemplete = enumCreateChaForm;
-        param.nMaxCha = 20;
-        param.nMaxObj = 20;
-        param.nMaxItem = 20;
-        param.nMaxEff = 20;
+    m_Yaws[m_nCurChaIndex] += -(iRotate)*15;
+    m_Yaws[m_nCurChaIndex] = (m_Yaws[m_nCurChaIndex] + 360) % 360;
+  }
+}
 
-        CCreateChaScene* pkScene = 
-            dynamic_cast<CCreateChaScene*>(g_pGameApp->CreateScene(&param));
-        if (!pkScene) return;
-        CSelectChaScene& rkSelectChaScene = CSelectChaScene::GetCurrScene();
+//-----------------------------------------------------------------------
+void CSelectChaScene::LoadingCall() // Âú®Ë£ÖËΩΩloadingÂêé,Âà∑Êñ∞
+{
+  CGameScene::LoadingCall();
 
-        g_pGameApp->GotoScene(pkScene, false);
-        pkScene->setLastScene(&rkSelectChaScene);
+  // ÊØèÊ¨°ËøõÊ∏∏ÊàèÈÉΩ‰ºöÁªèËøáÈÄâ‰∫∫ÁïåÈù¢ÔºåÊ∏ÖÁêÜÊéâÈÅìÂÖ∑ÊäÄËÉΩÁöÑCOOLDOWN‰ø°ÊÅØ
+  CItemCommand::ClearCoolDown();
+
+  // Ê∏ÖÁ©∫ÂÖ¨‰ºöÊòæÁ§∫ÔºàÂ¶ÇÊûúÁé©ÂÆ∂Ê≤°ÂÖ¨‰ºöÂàô‰∏ç‰ºöÈÄöÁü•ÂÆ¢Êà∑Á´ØÔºå‰ºöÈÅóÁïô‰∏ãÂâç‰∏ÄÊ¨°ÁöÑÂÖ¨‰ºöÂêçÔºâ
+  // CGuildData::SetGuildMasterID(NULL);
+  // CGuildData::SetGuildName("");
+  // if(g_stUIChat.GetGuildNode()) g_stUIChat.GetGuildNode()->Clear();
+
+  NetPC_GUILD_START_BEGIN(0, 0, 0);
+  NetPC_GUILD_START_END();
+
+  static bool bLoadRes2 = false;
+  if (!bLoadRes2) {
+    bLoadRes2 = true;
+    // g_pGameApp->LoadRes2();
+    g_pGameApp->LoadRes3();
+    // g_pGameApp->LoadRes4();
+  }
+
+  if (!g_Config.m_IsDoublePwd) {
+    // ÊòæÁ§∫ÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†ÅÁ™ó‰Ωì
+    g_stUIDoublePwd.ShowCreateForm();
+
+    // CBoxMgr::ShowSelectBox(_evtCreateDoublePwdEvent,
+    // RES_STRING(CL_LANGUAGE_MATCH_800),
+    // true);//"ÂΩìÂâçÂ∏êÂè∑Êú™ÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†Å\n\nÊòØÂê¶Áé∞Âú®ÂàõÂª∫?"
+  } else if (GetChaCount() == 0 && frmWelcomeNotice) {
+    // ÂΩìÂâçÊó†ËßíËâ≤ÔºåÊòæÁ§∫Êñ∞ÊâãÊèêÁ§∫
+    frmWelcomeNotice->ShowModal();
+  } else if (m_isCreateCha) {
+    m_isCreateCha = false;
+
+    if (GetChaCount() == 1 && frmCreateOKNotice) {
+      // ÂàöÂàõÂª∫Á¨¨‰∏Ä‰∏™ËßíËâ≤
+      frmCreateOKNotice->ShowModal();
     }
-    else if ( strName == "btnYes" )
-    {
-        //Ω¯»Î”Œœ∑
-        //œÚ∑˛ŒÒ∆˜∑¢ÀÕø™ º”Œœ∑µƒœ˚œ¢
-        GetCurrScene().SendBeginPlayToServer();
-        CGameApp::Waiting();
-    }		
-    else if ( strName == "btnDel" )
-    {	
-		if(g_Config.m_IsDoublePwd)
-		{
-			// …æ≥˝Ω«…´–Ë“™∂˛¥Œ√‹¬Î  modify by Philip.Wu  2006-07-19
-			g_stUIDoublePwd.SetType(CDoublePwdMgr::DELETE_CHARACTOR);
-			g_stUIDoublePwd.ShowDoublePwdForm();
-		}
-		else
-		{
-			// …æ≥˝’ ∫≈
-			//CBoxMgr::ShowSelectBox(_CheckFrmMouseEvent, RES_STRING(CL_LANGUAGE_MATCH_384), true);
-		}
-	}
-    else if( strName =="btnNo")
-    {	
-		if( g_TomServer.bEnable )
-		{
-			g_pGameApp->SetIsRun( false );
-			return;
-		}
+  }
 
-        // ÕÀ≥ˆ—°»À≥°æ∞
-        CS_Logout();
-		CS_Disconnect(DS_DISCONN);
-        g_pGameApp->LoadScriptScene( enumLoginScene );
-    }
-	else if( strName == "btnAlter" )
-	{
-		// ∏¸–¬∂˛¥Œ√‹¬Î
+  g_pGameApp->PlayMusic(1);
+}
 
-		g_stUIDoublePwd.ShowAlterForm();
-	}
+//-----------------------------------------------------------------------
+void CSelectChaScene::SetMainCha(int nChaID) { CGameScene::SetMainCha(nChaID); }
 
+//~ UIÁõ∏ÂÖ≥ÁöÑÂáΩÊï∞ =============================================================
+
+//-----------------------------------------------------------------------
+bool CSelectChaScene::_InitUI() {
+  //ÈÄâ‰∫∫ÁïåÈù¢ÁöÑË°®Âçï
+  frmSelectCha = CFormMgr::s_Mgr.Find("frmSelect", GetInitParam()->nUITemplete);
+  if (!frmSelectCha)
+    return false;
+
+  btnDel = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnDel"));
+  if (!btnDel)
+    return false;
+  btnYes = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnYes"));
+  if (!btnYes)
+    return false;
+  btnCreate = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnCreate"));
+  if (!btnCreate)
+    return false;
+  btnExit = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnNo"));
+  if (!btnExit)
+    return false;
+  btnAlter = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnAlter"));
+  if (!btnAlter)
+    return false;
+
+  // ËÆæÁΩÆÂàõÂª∫ÊåâÈíÆÈó™ÁÉÅ
+  btnCreate->SetFlashCycle();
+
+  frmSelectCha->SetPos(
+      (g_pGameApp->GetWindowWidth() - frmSelectCha->GetWidth()) / 2,
+      g_pGameApp->GetWindowHeight() - frmSelectCha->GetHeight() - 20);
+  frmSelectCha->Refresh();
+  frmSelectCha->Show();
+
+  frmSelectCha->evtEntrustMouseEvent = _SelChaFrmMouseEvent;
+
+  // ÂàõÂª∫Ê¨¢ËøéÁïåÈù¢   ËØ•ÁïåÈù¢‰ªÖÂú®ÂΩìÂâçÂ∏êÂè∑ÂÜÖÊó†ËßíËâ≤Êó∂Âá∫Áé∞
+  frmWelcomeNotice = CFormMgr::s_Mgr.Find("frmWelcomeNotice");
+  if (!frmWelcomeNotice)
+    return false;
+  frmWelcomeNotice->evtEntrustMouseEvent = _evtWelcomeNoticeEvent;
+
+  // ÂÆö‰πâÈ¶ñÊ¨°ÂàõÂª∫ËßíËâ≤ÊàêÂäüÊèêÁ§∫ÁïåÈù¢ ËØ•ÁïåÈù¢‰ªÖÂú®ËØ•Â∏êÂè∑Ëµ∞ÂÆåÁ¨¨‰∏Ä‰∏™ËßíËâ≤ÁöÑÂàõÂª∫ÊµÅÁ®ãÂêéÊòæÁ§∫
+  frmCreateOKNotice = CFormMgr::s_Mgr.Find("frmCreateOKNotice");
+  if (!frmCreateOKNotice)
+    return false;
+  frmCreateOKNotice->evtEntrustMouseEvent = _evtCreateOKNoticeEvent;
+
+  // Â§ÑÁêÜÊåâÈíÆÊòØÂê¶ÂèØ‰ª•Áî®
+  UpdateButton();
+
+  frmChaNameAlter = CFormMgr::s_Mgr.Find("frmChaNameAlter");
+  if (!frmChaNameAlter)
+    return false;
+  frmChaNameAlter->evtEntrustMouseEvent = _evtChaNameAlterMouseEvent;
+
+  return true;
+}
+
+//-----------------------------------------------------------------------
+void CSelectChaScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType,
+                                           int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
+
+  // if ( stricmp ("frmSelect", pSender->GetForm()->GetName()) != 0 )
+  if (_stricmp("frmSelect", pSender->GetForm()->GetName()) != 0) {
     return;
+  }
+
+  if (strName == "btnCreate") {
+    //ÂàáÊç¢Âà∞ÂàõÂª∫‰∫∫Áâ©Âú∫ÊôØ
+    stSceneInitParam param;
+    param.nTypeID = enumCreateChaScene;
+    param.strName = "";
+    param.strMapFile = "";
+    param.nUITemplete = enumCreateChaForm;
+    param.nMaxCha = 20;
+    param.nMaxObj = 20;
+    param.nMaxItem = 20;
+    param.nMaxEff = 20;
+
+    CCreateChaScene *pkScene =
+        dynamic_cast<CCreateChaScene *>(g_pGameApp->CreateScene(&param));
+    if (!pkScene)
+      return;
+    CSelectChaScene &rkSelectChaScene = CSelectChaScene::GetCurrScene();
+
+    g_pGameApp->GotoScene(pkScene, false);
+    pkScene->setLastScene(&rkSelectChaScene);
+  } else if (strName == "btnYes") {
+    //ËøõÂÖ•Ê∏∏Êàè
+    //ÂêëÊúçÂä°Âô®ÂèëÈÄÅÂºÄÂßãÊ∏∏ÊàèÁöÑÊ∂àÊÅØ
+    GetCurrScene().SendBeginPlayToServer();
+    CGameApp::Waiting();
+  } else if (strName == "btnDel") {
+    if (g_Config.m_IsDoublePwd) {
+      // Âà†Èô§ËßíËâ≤ÈúÄË¶Å‰∫åÊ¨°ÂØÜÁ†Å  modify by Philip.Wu  2006-07-19
+      g_stUIDoublePwd.SetType(CDoublePwdMgr::DELETE_CHARACTOR);
+      g_stUIDoublePwd.ShowDoublePwdForm();
+    } else {
+      // Âà†Èô§Â∏êÂè∑
+      // CBoxMgr::ShowSelectBox(_CheckFrmMouseEvent,
+      // RES_STRING(CL_LANGUAGE_MATCH_384), true);
+    }
+  } else if (strName == "btnNo") {
+    if (g_TomServer.bEnable) {
+      g_pGameApp->SetIsRun(false);
+      return;
+    }
+
+    // ÈÄÄÂá∫ÈÄâ‰∫∫Âú∫ÊôØ
+    CS_Logout();
+    CS_Disconnect(DS_DISCONN);
+    g_pGameApp->LoadScriptScene(enumLoginScene);
+  } else if (strName == "btnAlter") {
+    // Êõ¥Êñ∞‰∫åÊ¨°ÂØÜÁ†Å
+
+    g_stUIDoublePwd.ShowAlterForm();
+  }
+
+  return;
 }
 
 //-----------------------------------------------------------------------
-// ¥À∫Ø ˝“—◊˜∑œ
-//void CSelectChaScene::_CheckFrmMouseEvent(CCompent *pSender, int nMsgType, 
+// Ê≠§ÂáΩÊï∞Â∑≤‰ΩúÂ∫ü
+// void CSelectChaScene::_CheckFrmMouseEvent(CCompent *pSender, int nMsgType,
 //                                          int x, int y, DWORD dwKey)
 //{
-//    if( nMsgType == CForm::mrYes ) 
+//    if( nMsgType == CForm::mrYes )
 //    {
-//        //œÚ∑˛ŒÒ∆˜∑¢ÀÕ…æ≥˝Ω«…´µƒœ˚œ¢
+//        //ÂêëÊúçÂä°Âô®ÂèëÈÄÅÂà†Èô§ËßíËâ≤ÁöÑÊ∂àÊÅØ
 //        GetCurrScene().SendDelChaToServer();
 //        CGameApp::Waiting();
 //        return;
@@ -751,284 +686,249 @@ void CSelectChaScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType,
 //    return;
 //}
 
-
-// —ØŒ  «∑Ò“™¥¥Ω®∂˛¥Œ√‹¬Î  add by Philip.Wu  2006-07-20
-void CSelectChaScene::_evtCreateDoublePwdEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-    if( nMsgType == CForm::mrYes ) 
-    {
-        // œ‘ æ¥¥Ω®∂˛¥Œ√‹¬Î¥∞ÃÂ
-		g_stUIDoublePwd.ShowCreateForm();
+// ËØ¢ÈóÆÊòØÂê¶Ë¶ÅÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†Å  add by Philip.Wu  2006-07-20
+void CSelectChaScene::_evtCreateDoublePwdEvent(CCompent *pSender, int nMsgType,
+                                               int x, int y, DWORD dwKey) {
+  if (nMsgType == CForm::mrYes) {
+    // ÊòæÁ§∫ÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†ÅÁ™ó‰Ωì
+    g_stUIDoublePwd.ShowCreateForm();
+  } else {
+    // Áé©ÂÆ∂ÂèñÊ∂àÂàõÂª∫‰∫åÊ¨°ÂØÜÁ†ÅÔºåÈÄÄÂá∫
+    if (g_TomServer.bEnable) {
+      g_pGameApp->SetIsRun(false);
+      return;
     }
-	else
-	{
-		// ÕÊº“»°œ˚¥¥Ω®∂˛¥Œ√‹¬Î£¨ÕÀ≥ˆ
-		if( g_TomServer.bEnable )
-		{
-			g_pGameApp->SetIsRun( false );
-			return;
-		}
 
-        // ÕÀ≥ˆ—°»À≥°æ∞
-        CS_Logout();
-		CS_Disconnect(DS_DISCONN);
-        g_pGameApp->LoadScriptScene( enumLoginScene );
-	}
+    // ÈÄÄÂá∫ÈÄâ‰∫∫Âú∫ÊôØ
+    CS_Logout();
+    CS_Disconnect(DS_DISCONN);
+    g_pGameApp->LoadScriptScene(enumLoginScene);
+  }
 }
 
-
-
-//~ ¬ﬂº≠œ‡πÿµƒ∫Ø ˝ ==========================================================
+//~ ÈÄªËæëÁõ∏ÂÖ≥ÁöÑÂáΩÊï∞ ==========================================================
 
 //-----------------------------------------------------------------------
-void CSelectChaScene::DelCurrentSelCha()
-{
-    //‘⁄≥°æ∞÷–…æ≥˝∏√Ω«…´
-	m_CharactorPtrs[m_nCurChaIndex]->pCha->SetValid(false);
+void CSelectChaScene::DelCurrentSelCha() {
+  //Âú®Âú∫ÊôØ‰∏≠Âà†Èô§ËØ•ËßíËâ≤
+  m_CharactorPtrs[m_nCurChaIndex]->pCha->SetValid(false);
 
+  //‰ΩçÁΩÆÁΩÆÁ©∫
+  m_CharactorPtrs[m_nCurChaIndex]->pCha = NULL;
 
-	//Œª÷√÷√ø’
-	m_CharactorPtrs[m_nCurChaIndex]->pCha = NULL;
+  m_FreePositions[m_nCurChaIndex] = 0; //Ë°®Á§∫ËØ•‰ΩçÁΩÆ‰∏∫Á©∫
 
-	m_FreePositions[m_nCurChaIndex] = 0;    //±Ì æ∏√Œª÷√Œ™ø’
+  m_nCurChaIndex = -1;
 
-    m_nCurChaIndex = -1;
+  //Â§ÑÁêÜÁõ∏ÂÖ≥UIÁïåÈù¢
+  UpdateButton();
+  return;
+}
 
-    //¥¶¿Ìœ‡πÿUIΩÁ√Ê
-    UpdateButton();
+//-----------------------------------------------------------------------
+bool CSelectChaScene::CreateCha(const string &sName, int nChaIndex,
+                                stNetChangeChaPart *part) {
+  if (m_nCurChaIndex >= 0 && m_nCurChaIndex <= 2)
+    SetChaDark(m_CharactorPtrs[m_nCurChaIndex]->pCha);
+
+  CCharacter *pCha = this->AddCharacter(part->sTypeID);
+  if (!pCha)
+    return false;
+  pCha->setName(sName.c_str());
+  pCha->UpdataFace(*part);
+
+  //ÊêúÁ¥¢Á¨¨‰∏Ä‰∏™ÂèØÁî®ÁöÑ‰ΩçÁΩÆ
+  int i(0);
+  for (; i < 3; i++) {
+    if (m_FreePositions[i] == 0)
+      break;
+  }
+  if (i == 3) {
+    return false;
+  }
+  pCha->setPos(m_XPositions[i], m_YPositions[i]);
+  pCha->setYaw(m_Yaws[i]);
+  m_FreePositions[i] = 1;
+  pCha->GetColor(m_ChaColors[i]);
+  m_nCurChaIndex = i;
+  // SetChaDark(pCha);
+
+  m_CharactorPtrs[m_nCurChaIndex]->pCha = pCha;
+  m_CharactorPtrs[m_nCurChaIndex]->iLevel = 1;
+  m_CharactorPtrs[m_nCurChaIndex]->sProfession =
+      RES_STRING(CL_LANGUAGE_MATCH_385);
+  m_CharactorPtrs[m_nCurChaIndex]->iPos = m_nCurChaIndex;
+  m_CharactorPtrs[m_nCurChaIndex]->iFontX = -1;
+  m_CharactorPtrs[m_nCurChaIndex]->iFontY = -1;
+
+  m_isCreateCha = true;
+
+  UpdateButton();
+  return true;
+}
+
+//-----------------------------------------------------------------------
+void CSelectChaScene::SendDelChaToServer(const char szPassword2[]) {
+  if (m_nCurChaIndex >= 0 && m_nCurChaIndex <= 2)
+    //ÈÄöÁü•ÊúçÂä°Âô®Âà†Èô§ËßíËâ≤
+    CS_DelCha(m_CharactorPtrs[m_nCurChaIndex]->pCha->getName(), szPassword2);
+}
+
+//-----------------------------------------------------------------------
+void CSelectChaScene::SendBeginPlayToServer() {
+  if (m_nCurChaIndex < 0 && m_nCurChaIndex > 2)
+    return;
+  if (!m_CharactorPtrs[m_nCurChaIndex]->pCha)
     return;
 
+  CS_BeginPlay(m_CharactorPtrs[m_nCurChaIndex]->pCha->getName());
+
+  //  CCharacter * pCha = m_CharactorPtrs[m_nCurChaIndex]->pCha;
+
+  //ÊµãËØï‰ª£Á†Å
+  //     LG( "select","Client Send:%s,%d,%d,%d,%d,%d\n" ,
+  //         pCha->getName(), pCha->GetPartID(0), pCha->GetPartID(1),
+  //         pCha->GetPartID(2), pCha->GetPartID(3),pCha->GetPartID(4));
 }
 
-//-----------------------------------------------------------------------
-bool CSelectChaScene::CreateCha(const string& sName, int nChaIndex, stNetChangeChaPart* part)
-{
-	if (m_nCurChaIndex >= 0 && m_nCurChaIndex <=2)
-		SetChaDark(m_CharactorPtrs[m_nCurChaIndex]->pCha);
+bool CSelectChaScene::SelectCharacters(NetChaBehave *chabehave, int num) {
+  stNetChangeChaPart *part = NULL;
+  num = min(3, num);
+  for (int i = 0; i < num; i++) {
+    part = (stNetChangeChaPart *)chabehave[i].sLook;
 
-    CCharacter* pCha = this->AddCharacter(part->sTypeID);
-    if (!pCha) return false;
-    pCha->setName(sName.c_str());
-    pCha->UpdataFace( *part );
-
-    //À—À˜µ⁄“ª∏ˆø…”√µƒŒª÷√
-    int i(0);
-    for (; i<3; i++)
-    {
-        if (m_FreePositions[i] == 0)
-            break;
+    CCharacter *pCha = this->AddCharacter(part->sTypeID);
+    if (!pCha)
+      return false;
+    pCha->setName(chabehave[i].sCharName);
+    pCha->UpdataFace(*part);
+    if (m_FreePositions[i] == 0) {
+      m_FreePositions[i] = 1;
+      pCha->setPos(m_XPositions[i], m_YPositions[i]);
+      pCha->setYaw(m_Yaws[i]);
     }
-    if (i==3) 
-    {
-        return false;
-    }
-    pCha->setPos(m_XPositions[i], m_YPositions[i]);
-    pCha->setYaw(m_Yaws[i]);
-    m_FreePositions[i] = 1;
     pCha->GetColor(m_ChaColors[i]);
-    m_nCurChaIndex = i;
-    //SetChaDark(pCha);
+    if (i != 0)
+      SetChaDark(pCha);
 
-	m_CharactorPtrs[m_nCurChaIndex]->pCha = pCha;
-	m_CharactorPtrs[m_nCurChaIndex]->iLevel = 1;
-	m_CharactorPtrs[m_nCurChaIndex]->sProfession = RES_STRING(CL_LANGUAGE_MATCH_385);
-	m_CharactorPtrs[m_nCurChaIndex]->iPos = m_nCurChaIndex;
-	m_CharactorPtrs[m_nCurChaIndex]->iFontX = -1;
-	m_CharactorPtrs[m_nCurChaIndex]->iFontY = -1;
+    m_CharactorPtrs[i]->pCha = pCha;
+    m_CharactorPtrs[i]->iLevel = (int)(chabehave[i].iDegree);
+    m_CharactorPtrs[i]->sProfession = chabehave[i].sJob;
+    m_CharactorPtrs[i]->iPos = i;
+    m_CharactorPtrs[i]->iFontX = -1;
+    m_CharactorPtrs[i]->iFontY = -1;
+  }
 
-	m_isCreateCha = true;
+  UpdateButton();
 
-    UpdateButton();
-    return true;
+  return true;
 }
 
 //-----------------------------------------------------------------------
-void CSelectChaScene::SendDelChaToServer(const char szPassword2[])
-{
-    if (m_nCurChaIndex >= 0 && m_nCurChaIndex <= 2)
-		//Õ®÷™∑˛ŒÒ∆˜…æ≥˝Ω«…´
-		CS_DelCha( m_CharactorPtrs[m_nCurChaIndex]->pCha->getName(), szPassword2 ); 
+CSelectChaScene &CSelectChaScene::GetCurrScene() {
+  CSelectChaScene *pScene =
+      dynamic_cast<CSelectChaScene *>(g_pGameApp->GetCurScene());
 
+  if (!pScene)
+    NULL;
+
+  return *pScene;
 }
 
-//-----------------------------------------------------------------------
-void CSelectChaScene::SendBeginPlayToServer()
-{
-    if (m_nCurChaIndex < 0 && m_nCurChaIndex > 2) return;
-    if ( !m_CharactorPtrs[m_nCurChaIndex]->pCha)  return;
-
-    CS_BeginPlay( m_CharactorPtrs[m_nCurChaIndex]->pCha->getName() ); 
-
-//  CCharacter * pCha = m_CharactorPtrs[m_nCurChaIndex]->pCha;
-    
-    //≤‚ ‘¥˙¬Î
-//     LG( "select","Client Send:%s,%d,%d,%d,%d,%d\n" ,
-//         pCha->getName(), pCha->GetPartID(0), pCha->GetPartID(1),
-//         pCha->GetPartID(2), pCha->GetPartID(3),pCha->GetPartID(4));
+void CSelectChaScene::SelectChaError(int error_no, const char *error_info) {
+  g_pGameApp->MsgBox("%s", g_GetServerError(error_no));
+  LG("error", "%s Error, Code:%d, Info: %s", error_info, error_no,
+     g_GetServerError(error_no));
+  CGameApp::Waiting(false);
+}
+void CSelectChaScene::SetChaDark(CCharacter *pCha) {
+  pCha->SetColor(129, 121, 114);
 }
 
-bool CSelectChaScene::SelectCharacters(NetChaBehave* chabehave, int num)
-{
-    stNetChangeChaPart *part = NULL;
-    num = min( 3, num );
-    for (int i=0; i<num; i++)
-    {
-        part = (stNetChangeChaPart*)chabehave[i].sLook;
-
-        CCharacter* pCha = this->AddCharacter(part->sTypeID);
-        if (!pCha) return false;
-        pCha->setName(chabehave[i].sCharName);
-        pCha->UpdataFace( *part );
-        if (m_FreePositions[i] == 0)
-        {
-            m_FreePositions[i] = 1;
-            pCha->setPos(m_XPositions[i], m_YPositions[i]);
-            pCha->setYaw(m_Yaws[i]);
-        }
-        pCha->GetColor(m_ChaColors[i]);
-        if (i != 0)
-            SetChaDark(pCha);
-
-        m_CharactorPtrs[i]->pCha = pCha;
-        m_CharactorPtrs[i]->iLevel = (int)(chabehave[i].iDegree);
-        m_CharactorPtrs[i]->sProfession = chabehave[i].sJob;
-        m_CharactorPtrs[i]->iPos = i;
-		m_CharactorPtrs[i]->iFontX = -1;
-		m_CharactorPtrs[i]->iFontY = -1;
-
+void CSelectChaScene::UpdateButton() {
+  int i(0);
+  for (; i < 3; i++) {
+    if (m_CharactorPtrs[i]->pCha == NULL) {
+      btnCreate->SetIsEnabled(true);
+      break;
     }
+  }
+  if (i == 3)
+    btnCreate->SetIsEnabled(false);
 
-    UpdateButton();
+  if (m_nCurChaIndex < 0 || m_nCurChaIndex > 2) {
+    btnDel->SetIsEnabled(false);
+    btnYes->SetIsEnabled(false);
+  } else {
+    btnDel->SetIsEnabled(true);
+    btnYes->SetIsEnabled(true);
+  }
 
-    return true;
+  if (!g_Config.m_IsDoublePwd) {
+    btnCreate->SetIsEnabled(false);
+    btnAlter->SetIsEnabled(false);
+  } else {
+    btnAlter->SetIsEnabled(true);
+  }
 }
 
-//-----------------------------------------------------------------------
-CSelectChaScene& CSelectChaScene::GetCurrScene()
-{
-    CSelectChaScene* pScene = 
-        dynamic_cast<CSelectChaScene*>(g_pGameApp->GetCurScene());
-
-    if (!pScene) NULL;
-
-    return *pScene;
-}
-
-void CSelectChaScene::SelectChaError( int error_no, const char* error_info )
-{
-    g_pGameApp->MsgBox( "%s", g_GetServerError(error_no) );
-    LG( "error", "%s Error, Code:%d, Info: %s", error_info, error_no, g_GetServerError(error_no) );
-    CGameApp::Waiting( false );
-}
-void CSelectChaScene::SetChaDark(CCharacter* pCha)
-{
-    pCha->SetColor(129, 121, 114);
-}
-
-void CSelectChaScene::UpdateButton()
-{
-	int i(0);
-    for (; i<3; i++)
-	{
-		if (m_CharactorPtrs[i]->pCha == NULL)
-		{
-			btnCreate->SetIsEnabled(true);
-			break;
-		}
-	}
-	if (i == 3)
-        btnCreate->SetIsEnabled(false);
-
-    if (m_nCurChaIndex < 0 || m_nCurChaIndex > 2)
-    {
-        btnDel->SetIsEnabled(false);
-        btnYes->SetIsEnabled(false);
+// Ëé∑ÂæóËßíËâ≤‰∏™Êï∞
+int CSelectChaScene::GetChaCount() {
+  int nCount = 0;
+  for (int i = 0; i < 3; ++i) {
+    if (m_FreePositions[i]) {
+      ++nCount;
     }
-    else
-    {
-        btnDel->SetIsEnabled(true);
-        btnYes->SetIsEnabled(true);
+  }
+
+  return nCount;
+}
+
+void CSelectChaScene::ShowWelcomeNotice(bool bShow) {
+  if (frmWelcomeNotice) {
+    frmWelcomeNotice->ShowModal();
+  }
+}
+
+// Ê¨¢ËøéÁïåÈù¢ ‰∫ã‰ª∂Â§ÑÁêÜ
+void CSelectChaScene::_evtWelcomeNoticeEvent(CCompent *pSender, int nMsgType,
+                                             int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
+  CSelectChaScene *pSelectChaScene =
+      dynamic_cast<CSelectChaScene *>(g_pGameApp->GetCurScene());
+
+  if (pSelectChaScene) {
+    if (strName == "btnYes") {
+      pSelectChaScene->frmWelcomeNotice->Close();
     }
-
-	if(! g_Config.m_IsDoublePwd)
-	{
-		btnCreate->SetIsEnabled(false);
-		btnAlter->SetIsEnabled(false);
-	}
-	else
-	{
-		btnAlter->SetIsEnabled(true);
-	}
+  }
 }
 
+// È¶ñÊ¨°ÂàõÂª∫ËßíËâ≤ÊàêÂäüÊèêÁ§∫ÁïåÈù¢ ‰∫ã‰ª∂Â§ÑÁêÜ
+void CSelectChaScene::_evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType,
+                                              int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
+  CSelectChaScene *pSelectChaScene =
+      dynamic_cast<CSelectChaScene *>(g_pGameApp->GetCurScene());
 
-// ªÒµ√Ω«…´∏ˆ ˝
-int CSelectChaScene::GetChaCount()
-{
-	int nCount = 0;
-	for(int i = 0; i < 3; ++i)
-	{
-		if(m_FreePositions[i])
-		{
-			++nCount;
-		}
-	}
-
-	return nCount;
+  if (pSelectChaScene) {
+    if (strName == "btnYes") {
+      pSelectChaScene->frmCreateOKNotice->Close();
+    }
+  }
 }
 
+// È¶ñÊ¨°ÂàõÂª∫ËßíËâ≤ÊàêÂäüÊèêÁ§∫ÁïåÈù¢ ‰∫ã‰ª∂Â§ÑÁêÜ
+void CSelectChaScene::_evtChaNameAlterMouseEvent(CCompent *pSender,
+                                                 int nMsgType, int x, int y,
+                                                 DWORD dwKey) {
+  string strName = pSender->GetName();
+  CSelectChaScene *pSelectChaScene =
+      dynamic_cast<CSelectChaScene *>(g_pGameApp->GetCurScene());
 
-void CSelectChaScene::ShowWelcomeNotice(bool bShow)
-{
-	if(frmWelcomeNotice)
-	{
-		frmWelcomeNotice->ShowModal();
-	}
-}
-
-
-// ª∂”≠ΩÁ√Ê  ¬º˛¥¶¿Ì
-void CSelectChaScene::_evtWelcomeNoticeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string strName = pSender->GetName();
-	CSelectChaScene* pSelectChaScene = dynamic_cast<CSelectChaScene*>(g_pGameApp->GetCurScene());
-
-	if(pSelectChaScene)
-	{
-		if(strName == "btnYes")
-		{
-			pSelectChaScene->frmWelcomeNotice->Close();
-		}
-	}
-}
-
-
-//  ◊¥Œ¥¥Ω®Ω«…´≥…π¶Ã· æΩÁ√Ê  ¬º˛¥¶¿Ì
-void CSelectChaScene::_evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string strName = pSender->GetName();
-	CSelectChaScene* pSelectChaScene = dynamic_cast<CSelectChaScene*>(g_pGameApp->GetCurScene());
-
-	if(pSelectChaScene)
-	{
-		if(strName == "btnYes")
-		{
-			pSelectChaScene->frmCreateOKNotice->Close();
-		}
-	}
-}
-
-//  ◊¥Œ¥¥Ω®Ω«…´≥…π¶Ã· æΩÁ√Ê  ¬º˛¥¶¿Ì
-void CSelectChaScene::_evtChaNameAlterMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string strName = pSender->GetName();
-	CSelectChaScene* pSelectChaScene = dynamic_cast<CSelectChaScene*>(g_pGameApp->GetCurScene());
-
-	if(pSelectChaScene)
-	{
-		if(strName == "btnYes")
-		{
-			pSelectChaScene->frmCreateOKNotice->Close();
-		}
-	}
+  if (pSelectChaScene) {
+    if (strName == "btnYes") {
+      pSelectChaScene->frmCreateOKNotice->Close();
+    }
+  }
 }

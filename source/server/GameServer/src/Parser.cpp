@@ -27,7 +27,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 {T_B
 	MPTimer t; t.Begin();
 	lua_getglobal(m_pSLua, csString);
-	if (!lua_isfunction(m_pSLua, -1)) // ²»ÊÇº¯ÊýÃû
+	if (!lua_isfunction(m_pSLua, -1)) // ä¸æ˜¯å‡½æ•°å
 	{
 		lua_pop(m_pSLua, 1);
 		if (nRetNum == 1 && chRetType == enumSCRIPT_RETURN_NUMBER)
@@ -35,7 +35,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 			m_nDoStringRet[0] = atoi(csString);
 			return 1;
 		}
-		//LG("lua_err", "Ã»ÓÐ¶¨ÒåµÄDoString(%s)\n", csString);
+		//LG("lua_err", "æ²¡æœ‰å®šä¹‰çš„DoString(%s)\n", csString);
 		LG("lua_err", "no define's DoString(%s)\n", csString);
 		lua_settop(m_pSLua, 0);
 		return 0;
@@ -43,7 +43,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 
 	if (nRetNum > DOSTRING_RETURN_NUM)
 	{
-		//LG("lua_err", "msgDoString(%s) ·µ»ØÖµ¸öÊý´íÎó!!!\n", csString);
+		//LG("lua_err", "msgDoString(%s) è¿”å›žå€¼ä¸ªæ•°é”™è¯¯!!!\n", csString);
 		LG("lua_err", "msgDoString(%s) return value number error!\n", csString);
 
 		lua_settop(m_pSLua, 0);
@@ -94,7 +94,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 				lua_pushstring(m_pSLua, va_arg(list, char *));
 			break;
 		default:
-			//LG("lua_err", "msgDoString(%s) ²ÎÊýÀàÐÍ´íÎó!!!\n", csString);
+			//LG("lua_err", "msgDoString(%s) å‚æ•°ç±»åž‹é”™è¯¯!!!\n", csString);
 			LG("lua_err", "msgDoString(%s) param type error!\n", csString);
 			lua_settop(m_pSLua, 0);
 			return 0;
@@ -121,8 +121,8 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 		{
 			if (!lua_isnumber(m_pSLua, -1 - i))
 			{
-				//LG("lua·µ»ØÖµ´íÎó", "µ÷ÓÃ½Å±¾ %s£¨²ÎÊý%d¸ö£¬·µ»ØÖµ%d¸ö£© Ê±£¬Æä·µ»ØÖµÀàÐÍ²»Æ¥Åä!\n", csString, nParamNum, nRetNum);
-				LG("lua return value error", " when transfer script %s£¨param number%d £¬return value number%d )£¬It return value's type inconsistent!\n", csString, nParamNum, nRetNum);
+				//LG("luaè¿”å›žå€¼é”™è¯¯", "è°ƒç”¨è„šæœ¬ %sï¼ˆå‚æ•°%dä¸ªï¼Œè¿”å›žå€¼%dä¸ªï¼‰ æ—¶ï¼Œå…¶è¿”å›žå€¼ç±»åž‹ä¸åŒ¹é…!\n", csString, nParamNum, nRetNum);
+				LG("lua return value error", " when transfer script %sï¼ˆparam number%d ï¼Œreturn value number%d )ï¼ŒIt return value's type inconsistent!\n", csString, nParamNum, nRetNum);
 				nRet = 0;
 				break;
 			}
@@ -132,8 +132,8 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 		{
 			if (!lua_isstring(m_pSLua, -1 - i))
 			{
-				//LG("lua·µ»ØÖµ´íÎó", "µ÷ÓÃ½Å±¾ %s£¨²ÎÊý%d¸ö£¬·µ»ØÖµ%d¸ö£© Ê±£¬Æä·µ»ØÖµÀàÐÍ²»Æ¥Åä!\n", csString, nParamNum, nRetNum);
-				LG("lua return value error", " when transfer script %s£¨param number%d £¬return value number%d )£¬It return value's type inconsistent!\n", csString, nParamNum, nRetNum);
+				//LG("luaè¿”å›žå€¼é”™è¯¯", "è°ƒç”¨è„šæœ¬ %sï¼ˆå‚æ•°%dä¸ªï¼Œè¿”å›žå€¼%dä¸ªï¼‰ æ—¶ï¼Œå…¶è¿”å›žå€¼ç±»åž‹ä¸åŒ¹é…!\n", csString, nParamNum, nRetNum);
+				LG("lua return value error", " when transfer script %sï¼ˆparam number%d ï¼Œreturn value number%d )ï¼ŒIt return value's type inconsistent!\n", csString, nParamNum, nRetNum);
 				nRet = 0;
 				break;
 			}
@@ -141,7 +141,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 		}
 		else
 		{
-			//LG("lua_err", "msgDoString(%s) ·µ»ØÖµÀàÐÍ´íÎó!!!\n", csString);
+			//LG("lua_err", "msgDoString(%s) è¿”å›žå€¼ç±»åž‹é”™è¯¯!!!\n", csString);
 			LG("lua_err", "msgDoString(%s) return value's type error!!!\n", csString);
 			lua_settop(m_pSLua, 0);
 			return 0;
@@ -153,7 +153,7 @@ int CParser::DoString(const char *csString, char chRetType, int nRetNum, ...)
 	DWORD dwEndTime = t.End();
 	if(dwEndTime > 20)
 	{
-		//LG("script_time", "½Å±¾[%s]»¨·ÑÊ±¼ä¹ý³¤ time = %d\n", csString, dwEndTime);
+		//LG("script_time", "è„šæœ¬[%s]èŠ±è´¹æ—¶é—´è¿‡é•¿ time = %d\n", csString, dwEndTime);
 		LG("script_time", "script[%s]cost time too long time = %d\n", csString, dwEndTime);
 	}
 	return nRet;

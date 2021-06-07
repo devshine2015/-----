@@ -3,8 +3,8 @@
 #include <sstream>
 #endif
 
-// ÓëÒ»¸öÒş²ØµÄWindow Edit¿Ø¼ş°ó¶¨À´´¦ÀíÎÄ×ÖÊäÈë
-// ÒÀ¿¿windows¿Ø¼şÀ´Íê³ÉÎÄ×ÖµÄÌí¼Ó,É¾³ı,ÍË¸ñ,¼ôÇĞ,Õ³Ìù,¹â±êÎ»ÖÃ¼ÆËãµÈ·±ËöµÄ´¦Àí
+// ä¸ä¸€ä¸ªéšè—çš„Window Editæ§ä»¶ç»‘å®šæ¥å¤„ç†æ–‡å­—è¾“å…¥
+// ä¾é windowsæ§ä»¶æ¥å®Œæˆæ–‡å­—çš„æ·»åŠ ,åˆ é™¤,é€€æ ¼,å‰ªåˆ‡,ç²˜è´´,å…‰æ ‡ä½ç½®è®¡ç®—ç­‰ç¹ççš„å¤„ç†
 class CInputBox 
 {
 
@@ -23,26 +23,26 @@ public:
 	void	HandleWindowMsg(DWORD dwMsgType, DWORD dwParam1, DWORD dwParam2);
 	
 	
-	void	SetAccountMode(BOOL bAccount);		// ÉèÖÃÎªÕÊºÅÊäÈëÄ£Ê½, ÆÁ±Îµô¿Õ¸ñ, ¶ººÅµÈ
-	void	SetPasswordMode(BOOL bPassword);	// ÉèÖÃÎªÃÜÂëÄ£Ê½, µÃµ½*ºÅ×Ö·û´®
-	void	SetDigitalMode(BOOL bDigitalMode);	// ÉèÖÃÎªÊı×ÖÄ£Ê½, Ö»½ÓÊÜÊı×ÖÊäÈë
-	void	SetMaxNum(int nMaxNum);				// ÉèÖÃ×î´óÊäÈëµÄÎÄ×ÖÊıÁ¿
-	void	SetMultiMode(BOOL bMultiLine);		// ÉèÖÃÎª¶àĞĞÄ£Ê½	
+	void	SetAccountMode(BOOL bAccount);		// è®¾ç½®ä¸ºå¸å·è¾“å…¥æ¨¡å¼, å±è”½æ‰ç©ºæ ¼, é€—å·ç­‰
+	void	SetPasswordMode(BOOL bPassword);	// è®¾ç½®ä¸ºå¯†ç æ¨¡å¼, å¾—åˆ°*å·å­—ç¬¦ä¸²
+	void	SetDigitalMode(BOOL bDigitalMode);	// è®¾ç½®ä¸ºæ•°å­—æ¨¡å¼, åªæ¥å—æ•°å­—è¾“å…¥
+	void	SetMaxNum(int nMaxNum);				// è®¾ç½®æœ€å¤§è¾“å…¥çš„æ–‡å­—æ•°é‡
+	void	SetMultiMode(BOOL bMultiLine);		// è®¾ç½®ä¸ºå¤šè¡Œæ¨¡å¼	
 	void	SetSel(int nStartChar, int nEndChar);
 
 
-	void	SetCursorTail();					// ½«¹â±êÉèÖÃµ½ÎÄ×ÖÎ²²¿
+	void	SetCursorTail();					// å°†å…‰æ ‡è®¾ç½®åˆ°æ–‡å­—å°¾éƒ¨
 	char*	RefreshText();
 	int		RefreshCursor();
 	void	ClearText();
 	char*	SetText(const char *pszText);
-	void	ReplaceSel(const char *pszRplText, BOOL bCanUndo = TRUE);	//Ìæ»»µ±Ç°Ñ¡ÔñÄÚÈİ - added by Arcol
+	void	ReplaceSel(const char *pszRplText, BOOL bCanUndo = TRUE);	//æ›¿æ¢å½“å‰é€‰æ‹©å†…å®¹ - added by Arcol
 
 protected:
 
-	char	_szText[1024];	// ÊäÈëµÄÎÄ×Ö
-	int		_nCursorPos;	// ¹â±êÔÚÎÄ×Ö´®ÖĞµÄÎ»ÖÃ
-	BOOL	_bAccountMode;	// ÊÇ·ñÊÇÕÊºÅÄ£Ê½
+	char	_szText[1024];	// è¾“å…¥çš„æ–‡å­—
+	int		_nCursorPos;	// å…‰æ ‡åœ¨æ–‡å­—ä¸²ä¸­çš„ä½ç½®
+	BOOL	_bAccountMode;	// æ˜¯å¦æ˜¯å¸å·æ¨¡å¼
 	HWND	_hEdit;
 	bool	_IsDigit;
 };
@@ -125,14 +125,14 @@ inline void CInputBox::SetSel(int nStartChar, int nEndChar)
 
 inline void CInputBox::HandleWindowMsg(DWORD dwMsgType, DWORD dwParam1, DWORD dwParam2)
 {
-	// °ÑÓÎÏ·´°¿ÚµÄwindowsµÄ¼üÅÌÊäÈë´«µİµ½edit¿Ø¼ş
+	// æŠŠæ¸¸æˆçª—å£çš„windowsçš„é”®ç›˜è¾“å…¥ä¼ é€’åˆ°editæ§ä»¶
 	// if(!(dwMsgType==WM_KEYDOWN || dwMsgType==WM_CHAR)) return;
 
 	// if(dwMsgType==WM_IME_NOTIFY || dwMsgType==WM_IME_STARTCOMPOSITION) return;
 
 	if(dwMsgType==WM_KEYDOWN || dwMsgType==WM_KEYUP)
 	{
-		if(dwParam1==VK_UP) return; // ÆÁ±ÎµôUP¼ü, ±ÜÃâ´¥·¢Edit¿Ø¼şµÄ¶ÔÓ¦²Ù×÷
+		if(dwParam1==VK_UP) return; // å±è”½æ‰UPé”®, é¿å…è§¦å‘Editæ§ä»¶çš„å¯¹åº”æ“ä½œ
 		// ::SendMessage(_hEdit, WM_KEYDOWN, dwParam1, dwParam2);
 	}
 	else if(dwMsgType==WM_CHAR)

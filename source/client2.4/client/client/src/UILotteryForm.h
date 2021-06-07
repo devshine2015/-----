@@ -4,7 +4,7 @@
 namespace GUI
 {
 
-// 设置彩票
+// 璁剧疆褰╃エ
 class CLotteryMgr : public CUIInterface
 {
 public:
@@ -72,7 +72,7 @@ private:
 		ITEM_NUM = 6,
 	};
 
-	CForm       *frmNPCLottery;				// 彩票设定界面
+	CForm       *frmNPCLottery;				// 褰╃エ璁惧畾鐣岄潰
 
 	COneCommand *cmdNoItem[ITEM_NUM];
 	COneCommand *cmdLotteryItem;

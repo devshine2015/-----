@@ -76,7 +76,7 @@ void ReloadLuaSdk()
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/NpcDefine.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/templatesdk.lua") );
 
-	// 由updateall会触发ai_sdk更新
+	// 鐢眜pdateall浼氳Е鍙慳i_sdk鏇存柊
 	luaL_dofile( g_pLuaState, GetResPath("script/birth/birth_conf.lua"));
 	luaL_dofile( g_pLuaState, GetResPath("script/ai/ai.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/calculate/skilleffect.lua"));
@@ -84,7 +84,7 @@ void ReloadLuaSdk()
 
 void ReloadNpcScript()
 {
-	// 装载NPC任务数据信息
+	// 瑁呰浇NPC浠诲姟鏁版嵁淇℃伅
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/MissionScript01.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/MissionScript02.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/MissionScript03.lua") );
@@ -97,7 +97,7 @@ void ReloadNpcScript()
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/EudemonScript.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/CharBornScript.lua") );
 
-	// 装载NPC对话数据信息
+	// 瑁呰浇NPC瀵硅瘽鏁版嵁淇℃伅
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/NpcScript01.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/NpcScript02.lua") );
 	luaL_dofile( g_pLuaState, GetResPath("script/MisScript/NpcScript03.lua") );

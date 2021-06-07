@@ -40,7 +40,7 @@ protected:
     float        _fProgressRate;
     float        _fSpeed;
 
-	float		 _fheight;//平滑处理高度
+	float		 _fheight;//骞虫粦澶勭悊楂樺害
 	bool		 _bUpdateHei;
 
     list<STrackPoint> _PointList;

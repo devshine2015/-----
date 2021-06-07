@@ -2,7 +2,7 @@
 #include "UIGlobalVar.h"
 
 
-//2006-1-8 By Arcol:ĞÂµÄ¿ì½İÁÄÌìĞÅÏ¢×é¼şCCharMsgÍê³É£¬´Ë×é¼şÎ´Ê¹ÓÃÒ²Î´¾­²âÊÔ£¬ÒòÔ­½á¹¹±È½Ï»ìÂÒ£¬½¨ÒéÊ¹ÓÃ´ËĞÂ×é¼ş
+//2006-1-8 By Arcol:æ–°çš„å¿«æ·èŠå¤©ä¿¡æ¯ç»„ä»¶CCharMsgå®Œæˆï¼Œæ­¤ç»„ä»¶æœªä½¿ç”¨ä¹Ÿæœªç»æµ‹è¯•ï¼Œå› åŸç»“æ„æ¯”è¾ƒæ··ä¹±ï¼Œå»ºè®®ä½¿ç”¨æ­¤æ–°ç»„ä»¶
 class CCharMsg
 {
 public:
@@ -18,10 +18,10 @@ public:
 		CHANNEL_GUILD			= 64,
 		CHANNEL_SYSTEM			= 128,
 		CHANNEL_PUBLISH			= 256,
-		CHANNEL_SIDE			= 512,	// ÕóÓª
+		CHANNEL_SIDE			= 512,	// é˜µè¥
 
 #ifdef MANAGE_VER
-		CHANNEL_MANAGE			= 1024, // ³¬¼¶¹ÜÀíÔ±
+		CHANNEL_MANAGE			= 1024, // è¶…çº§ç®¡ç†å‘˜
 #endif
 	};
 
@@ -80,7 +80,7 @@ private:
 #ifdef MANAGE_VER
 	static const WORD			m_wTotalChannelsCount = 12;
 #else
-	static const WORD			m_wTotalChannelsCount = 11;	// Ìí¼ÓÕóÓªĞŞ¸Ä 10 -> 11
+	static const WORD			m_wTotalChannelsCount = 11;	// æ·»åŠ é˜µè¥ä¿®æ”¹ 10 -> 11
 #endif
 	static const DWORD			m_dwChannelBufferSize = 100;
 	static sChannelInfo			m_sChannelInfo[m_wTotalChannelsCount];
@@ -281,30 +281,30 @@ private:
 
 
 
-// ÓëÓÎÏ·ÖĞµÄÁÄÌì,¼´×óÏÂ½ÇÓÎÏ·ÖĞµÄÁÄÌì
+// ä¸æ¸¸æˆä¸­çš„èŠå¤©,å³å·¦ä¸‹è§’æ¸¸æˆä¸­çš„èŠå¤©
 class CCozeMgr : public CUIInterface
 {
 	enum 
 	{
-		MAX_PAGE_SAY	= 10,		// °´up,down×î´óÄÜ·­³öµÄĞĞÊı
+		MAX_PAGE_SAY	= 10,		// æŒ‰up,downæœ€å¤§èƒ½ç¿»å‡ºçš„è¡Œæ•°
 	};
 
 	static const int DATA_RECORDS_SIZE = 200;
-	static const int CHANNELS_COUNT = 9;	// ÕóÓªÆµµÀÌí¼Ó, 8 -> 9
+	static const int CHANNELS_COUNT = 9;	// é˜µè¥é¢‘é“æ·»åŠ , 8 -> 9
 
 public:
 	struct stChatColor
 	{
 		stChatColor() : road(0xFFFFFFFF), person(0xFFFFFFFF), team(0xFFFFFFFF), guild(0xFFFFFFFF), world(0xFFFFFFFF), system(0xFFFFFFFF), trade(0xFFFFFFFF), gm(0xFFFFFFFF, side(0xFFFFFFFF)) {}
 
-		DWORD	road;		//a£©	¹«ÁÄ
-		DWORD	person;		//b£©	Ë½ÁÄ
-		DWORD	team;		//c£©	¶ÓÁÄ
-		DWORD	guild;		//d£©	ÍÅÁÄ
-		DWORD   world;		//e£©	¹ã²¥
-		DWORD   system;		//f£©	ÏµÍ³
-		DWORD   trade;		//g£©	½»Ò×
-		DWORD	gm;			//h£©	GM
+		DWORD	road;		//aï¼‰	å…¬èŠ
+		DWORD	person;		//bï¼‰	ç§èŠ
+		DWORD	team;		//cï¼‰	é˜ŸèŠ
+		DWORD	guild;		//dï¼‰	å›¢èŠ
+		DWORD   world;		//eï¼‰	å¹¿æ’­
+		DWORD   system;		//fï¼‰	ç³»ç»Ÿ
+		DWORD   trade;		//gï¼‰	äº¤æ˜“
+		DWORD	gm;			//hï¼‰	GM
 		DWORD	side;
 	};
 
@@ -317,7 +317,7 @@ public:
 		CHANNEL_WORLD,
 		CHANNEL_SYSTEM,
 		CHANNEL_TRADE,
-		CHANNEL_SIDE		// ÕóÓªÆµµÀÌí¼Ó
+		CHANNEL_SIDE		// é˜µè¥é¢‘é“æ·»åŠ 
 	};
 
 	struct sTextInfo
@@ -332,7 +332,7 @@ public:
 	static bool		IsMouseOnSayList( int x, int y );
 
 	static void		OnGmSay( const char* name, const char* say );
-	static void     OnSystemSay( const char* say );							// ÏµÍ³ĞÅÏ¢
+	static void     OnSystemSay( const char* say );							// ç³»ç»Ÿä¿¡æ¯
 	static void		OnRoadSay( CCharacter* p, const char* say );
 	static void		OnWorldSay( const char* name, const char* say );
 	static void		OnTradeSay( const char* name, const char* say );
@@ -359,7 +359,7 @@ private:
 	void		NextChatState();
 
 	static void _evtGmForm( CForm* pForm, bool& IsShow );
-	static void _evtSay(CGuiData *pSender);			// ·¢ËÍÁÄÌì
+	static void _evtSay(CGuiData *pSender);			// å‘é€èŠå¤©
 	static void _evtGmSay(CGuiData *pSender);
 	static bool _evtSayKeyDown(CGuiData *pSender, int& key);
 	static void _evtChannelSelectChange(CGuiData *pSender);
@@ -379,8 +379,8 @@ private:
 	static void _DragMoveOnSay(CGuiData *pSender, int x, int y, DWORD key);
 	static void _DragEndOnSay(CGuiData *pSender, int x, int y, DWORD key);
 
-	static void _evtSelectBudChange(CGuiData *pSender) ;       //°ü×ÓÑ¡Ôñ·¢Éú±ä»¯
-	static void _evtHideSelf(CGuiData *pSender);	// Òş²Ø×Ô¼º
+	static void _evtSelectBudChange(CGuiData *pSender) ;       //åŒ…å­é€‰æ‹©å‘ç”Ÿå˜åŒ–
+	static void _evtHideSelf(CGuiData *pSender);	// éšè—è‡ªå·±
 
 	static void _evtForbidFormLost(CGuiData *pSender);
 	static void _evtForbidSystemChange(CGuiData *pSender);
@@ -423,13 +423,13 @@ private:
 	static CCombo*	m_cmbChannel;
 
 private:
-	string		oldSay[MAX_PAGE_SAY];			// ÒÔÇ°ËµµÄ»°
+	string		oldSay[MAX_PAGE_SAY];			// ä»¥å‰è¯´çš„è¯
 
-	int		_nOldSayRow;		// ÉÏÒ»´ÎËµ»°Ê±¼ÇÂ¼µÄĞĞºÅ,ÓÃÓÚÉÏÏÂ¼üÖ±½ÓÏÔÊ¾ÒÔÇ°´òÈëµÄ»°
+	int		_nOldSayRow;		// ä¸Šä¸€æ¬¡è¯´è¯æ—¶è®°å½•çš„è¡Œå·,ç”¨äºä¸Šä¸‹é”®ç›´æ¥æ˜¾ç¤ºä»¥å‰æ‰“å…¥çš„è¯
 	int		_nSelectSayRow;
 
-	int		_nBeginOnSayY;		// ÍÏ¶¯Ç°lstOnSayµÄYÎ»ÖÃ
-	int		_nBeginOnSayHeight;	// ÍÏ¶¯Ç°lstOnSayµÄ¸ß
+	int		_nBeginOnSayY;		// æ‹–åŠ¨å‰lstOnSayçš„Yä½ç½®
+	int		_nBeginOnSayHeight;	// æ‹–åŠ¨å‰lstOnSayçš„é«˜
 	int		_nDragSystemMinY, _nDragSystemMaxY;
 	int		_nDragMinY, _nDragMaxY;
 

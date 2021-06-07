@@ -98,7 +98,7 @@ namespace mission
 	{T_B
 		if( szFunc[0] == '0' ) return TRUE;
 
-		// ³õÊ¼»¯NPC½Å±¾È«¾Ö±äÁ¿ĞÅÏ¢
+		// åˆå§‹åŒ–NPCè„šæœ¬å…¨å±€å˜é‡ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "ResetNpcInfo" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -113,9 +113,9 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 2, 0, 0 );
 		if( nStatus )
 		{
-			LG( "NpcInit", "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[ResetNpcInfo]µ÷ÓÃÊ§°Ü!", szName );
+			LG( "NpcInit", "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[ResetNpcInfo]è°ƒç”¨å¤±è´¥!", szName );
 			//LG( "NpcInit", "npc[%s]'s script init dispose function[ResetNpcInfo]transfer failed!", szName );
-			//printf( "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[ResetNpcInfo]µ÷ÓÃÊ§°Ü!\n", szName );
+			//printf( "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[ResetNpcInfo]è°ƒç”¨å¤±è´¥!\n", szName );
 			printf( RES_STRING(GM_NPC_CPP_00001), szName );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -123,7 +123,7 @@ namespace mission
 		}
 		lua_settop(g_pLuaState, 0);
 
-		// µ÷ÓÃNPC³õÊ¼»¯È«¾Ö±äÁ¿ĞÅÏ¢Èë¿Úº¯Êı
+		// è°ƒç”¨NPCåˆå§‹åŒ–å…¨å±€å˜é‡ä¿¡æ¯å…¥å£å‡½æ•°
 		lua_getglobal( g_pLuaState, szFunc );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -135,9 +135,9 @@ namespace mission
 		nStatus = lua_pcall( g_pLuaState, 0, 0, 0 );
 		if( nStatus )
 		{
-			LG( "NpcInit", "npc[%s]µÄ½Å±¾Êı¾İ´¦Àíº¯Êı[%s]µ÷ÓÃÊ§°Ü!", szName, szFunc );
+			LG( "NpcInit", "npc[%s]çš„è„šæœ¬æ•°æ®å¤„ç†å‡½æ•°[%s]è°ƒç”¨å¤±è´¥!", szName, szFunc );
 			//LG( "NpcInit", "npc[%s]'s script data dispose function[%s]transfer failed!", szName, szFunc );
-			//printf( "npc[%s]µÄ½Å±¾Êı¾İ´¦Àíº¯Êı[%s]µ÷ÓÃÊ§°Ü!\n", szName, szFunc );
+			//printf( "npc[%s]çš„è„šæœ¬æ•°æ®å¤„ç†å‡½æ•°[%s]è°ƒç”¨å¤±è´¥!\n", szName, szFunc );
 			printf( RES_STRING(GM_NPC_CPP_00002), szName, szFunc );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -145,7 +145,7 @@ namespace mission
 		}
 		lua_settop(g_pLuaState, 0);
 
-		// »ñÈ¡NPCµÄ¶Ô»°ĞÅÏ¢ºÍ½»Ò×ĞÅÏ¢
+		// è·å–NPCçš„å¯¹è¯ä¿¡æ¯å’Œäº¤æ˜“ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "GetNpcInfo" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -160,9 +160,9 @@ namespace mission
 		nStatus = lua_pcall( g_pLuaState, 2, 0, 0 );
 		if( nStatus )
 		{
-			LG( "NpcInit", "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[GetNpcInfo]µ÷ÓÃÊ§°Ü!", szName );
+			LG( "NpcInit", "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[GetNpcInfo]è°ƒç”¨å¤±è´¥!", szName );
 			//LG( "NpcInit", "npc[%s]'s script init dispose function[GetNpcInfo]transfer failed!", szName );
-			//printf( "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[GetNpcInfo]µ÷ÓÃÊ§°Ü!\n", szName );
+			//printf( "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[GetNpcInfo]è°ƒç”¨å¤±è´¥!\n", szName );
 			printf(RES_STRING(GM_NPC_CPP_00003), szName );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -177,13 +177,13 @@ namespace mission
 	BOOL CTalkNpc::Load( const CNpcRecord& recNpc, const CChaRecord& recChar )
 	{T_B
 		Clear();
-		// ÉèÖÃnpcÎªÎ´¼¤»î×´Ì¬
+		// è®¾ç½®npcä¸ºæœªæ¿€æ´»çŠ¶æ€
 		SetEyeshotAbility( false );	
 
-		// ³õÊ¼»¯npc½Å±¾ĞÅÏ¢
+		// åˆå§‹åŒ–npcè„šæœ¬ä¿¡æ¯
 		InitScript( recNpc.szMsgProc, recNpc.szName );
 		
-		// npcÅäÖÃ±í±àºÅ
+		// npcé…ç½®è¡¨ç¼–å·
 		m_sNpcID = recNpc.nID;
 
 		// 
@@ -222,51 +222,51 @@ namespace mission
 		//if( m_sScriptID == INVALID_SCRIPT_NPCHANDLE )
 		//	return EN_OK;
 		
-		// ÅĞ¶ÏÊÇ·ñÔÚ½»Ò××´Ì¬
+		// åˆ¤æ–­æ˜¯å¦åœ¨äº¤æ˜“çŠ¶æ€
 		if( character.GetTradeData() )
 		{
-			//character.SystemNotice( "ÄãÕıÔÚºÍÆäËû½ÇÉ«½»Ò×£¬²»¿ÉÒÔºÍnpc¶Ô»°!" );
+			//character.SystemNotice( "ä½ æ­£åœ¨å’Œå…¶ä»–è§’è‰²äº¤æ˜“ï¼Œä¸å¯ä»¥å’Œnpcå¯¹è¯!" );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00004) );
 			return EN_FAILER;
 		}
 
 		if( character.GetBoat() )
 		{
-			//character.SystemNotice( "ÄãÕıÔÚÔì´¬£¬²»¿ÉÒÔºÍnpc¶Ô»°!" );
+			//character.SystemNotice( "ä½ æ­£åœ¨é€ èˆ¹ï¼Œä¸å¯ä»¥å’Œnpcå¯¹è¯!" );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00005));
 			return EN_FAILER;
 		}
 
 		if( character.GetStallData() )
 		{
-			//character.SystemNotice( "ÄãÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔºÍnpc¶Ô»°!" );
+			//character.SystemNotice( "ä½ æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥å’Œnpcå¯¹è¯!" );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00006) );
 			return EN_FAILER;
 		}
 
 		if( !GetActControl(enumACTCONTROL_TALKTO_NPC) )
 		{
-			//character.SystemNotice( "ÏÖÔÚ²»¿ÉÒÔºÍnpc¶Ô»°!" );
+			//character.SystemNotice( "ç°åœ¨ä¸å¯ä»¥å’Œnpcå¯¹è¯!" );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00007) );
 			return EN_FAILER;
 		}
 
-		// ÅĞ¶ÏÊÇ·ñÔÚ½»Ò××´Ì¬
+		// åˆ¤æ–­æ˜¯å¦åœ¨äº¤æ˜“çŠ¶æ€
 		if( character.m_CKitbag.IsLock() || !character.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//character.SystemNotice( "ÄãµÄ±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔºÍnpc¶Ô»°!" );
+			//character.SystemNotice( "ä½ çš„èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥å’Œnpcå¯¹è¯!" );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00008) );
 			return EN_FAILER;
 		}
 
-		// ¼ì²â½ÇÉ«ÊÇ·ñÔÚnpc20Ã×·¶Î§ÄÚ
+		// æ£€æµ‹è§’è‰²æ˜¯å¦åœ¨npc20ç±³èŒƒå›´å†…
 		//if( !IsDist( GetShape().centre.x, GetShape().centre.y, character.GetShape().centre.x, 
 		//	character.GetShape().centre.y, 20 ) )
 		//{
 		//	return EN_FAILER;
 		//}
 
-		// µ÷ÓÃNPC½Å±¾¶Ô»°´¦Àíº¯Êı
+		// è°ƒç”¨NPCè„šæœ¬å¯¹è¯å¤„ç†å‡½æ•°
 		lua_getglobal( g_pLuaState, "NpcProc" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -283,7 +283,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 4, 0, 0 );
 		if( nStatus )
 		{
-			//character.SystemNotice( "npc[%s]µÄ½Å±¾ÏûÏ¢´¦Àíº¯Êı[NpcProc]µ÷ÓÃÊ§°Ü!", m_name );
+			//character.SystemNotice( "npc[%s]çš„è„šæœ¬æ¶ˆæ¯å¤„ç†å‡½æ•°[NpcProc]è°ƒç”¨å¤±è´¥!", m_name );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00009), m_name );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -314,7 +314,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 3, 1, 0 );
 		if( nStatus )
 		{
-			//character.SystemNotice( "npc[%s]µÄ½Å±¾ÈÎÎñ´¦Àíº¯Êı[NpcState]µ÷ÓÃÊ§°Ü!", m_name );
+			//character.SystemNotice( "npc[%s]çš„è„šæœ¬ä»»åŠ¡å¤„ç†å‡½æ•°[NpcState]è°ƒç”¨å¤±è´¥!", m_name );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00010), m_name );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -325,7 +325,7 @@ namespace mission
 		lua_settop(g_pLuaState, 0);
 		if( dwResult != LUA_TRUE )
 		{
-			//character.SystemNotice( "npc[%s]µÄÈÎÎñ×´Ì¬´¦Àíº¯Êı[NpcState]·µ»ØÊ§°Ü!", m_name );
+			//character.SystemNotice( "npc[%s]çš„ä»»åŠ¡çŠ¶æ€å¤„ç†å‡½æ•°[NpcState]è¿”å›å¤±è´¥!", m_name );
 			character.SystemNotice( RES_STRING(GM_NPC_CPP_00011), m_name );
 			return FALSE;
 		}
@@ -405,11 +405,11 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GAME_TIME )
 			{
-				// ÅĞ¶ÏÊÇ·ñµ½´ïÊ±¼ä¼ä¸ô´¥·¢
+				// åˆ¤æ–­æ˜¯å¦åˆ°è¾¾æ—¶é—´é—´éš”è§¦å‘
 				if( ++m_Trigger[i].wParam4 < m_Trigger[i].wParam2 )
 					continue;
 
-				// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+				// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 				lua_getglobal( g_pLuaState, "TriggerProc" );
 				if( !lua_isfunction( g_pLuaState, -1 ) )
 				{
@@ -427,10 +427,10 @@ namespace mission
 				if( nStatus )
 				{
 #ifdef ROLE_DEBUG_INFO
-					//printf( "CTalkNpc::TimeOut:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü!" );
+					//printf( "CTalkNpc::TimeOut:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥!" );
 					printf( RES_STRING(GM_NPC_CPP_00012) );
 #endif
-					//LG( "trigger_error", "CTalkNpc::TimeOut:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü!" );
+					//LG( "trigger_error", "CTalkNpc::TimeOut:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥!" );
 					LG( "trigger_error", "CTalkNpc::TimeOut:task dispose fuction[TriggerProc]transfer failed!" );
 					lua_callalert( g_pLuaState, nStatus );
 					lua_settop(g_pLuaState, 0);
@@ -441,12 +441,12 @@ namespace mission
 				lua_settop(g_pLuaState, 0);
 				if( dwResult == LUA_TRUE )
 				{
-					// ÅĞ¶ÏÇå³ı´¥·¢Æ÷ĞÅÏ¢
+					// åˆ¤æ–­æ¸…é™¤è§¦å‘å™¨ä¿¡æ¯
 					switch( m_Trigger[i].wParam1 )
 					{
 					case TT_CYCLETIME:
 						{
-							// Çå³ı´¥·¢¼ÆÊı
+							// æ¸…é™¤è§¦å‘è®¡æ•°
 							m_Trigger[i].wParam4 = 0;
 						}
 						break;
@@ -456,7 +456,7 @@ namespace mission
 							{
 								m_Trigger[i].wParam3--;
 								
-								// Çå³ı´¥·¢¼ÆÊı
+								// æ¸…é™¤è§¦å‘è®¡æ•°
 								m_Trigger[i].wParam4 = 0;
 							}
 							else
@@ -466,16 +466,16 @@ namespace mission
 									m_Trigger[i].wTID, m_byNumTrigger, m_Trigger[i].wParam1, m_Trigger[i].wParam1,
 									m_Trigger[i].wParam3, m_Trigger[i].wParam4 );
 #endif
-								// Çå³ı´¥·¢Æ÷
+								// æ¸…é™¤è§¦å‘å™¨
 								ClearTrigger( i-- );
 							}
 						}
 						break;
 					default:
 						{
-							//LG( "trigger_error", "Î´ÖªµÄÊ±¼ä´¥·¢Æ÷Ê±¼ä¼ä¸ôÀàĞÍ!" );
+							//LG( "trigger_error", "æœªçŸ¥çš„æ—¶é—´è§¦å‘å™¨æ—¶é—´é—´éš”ç±»å‹!" );
 							LG( "trigger_error", "unknown time trigger distance taye!" );
-							//printf( "CTalkNpc::Î´ÖªµÄÊ±¼ä´¥·¢Æ÷Ê±¼ä¼ä¸ôÀàĞÍ!Trigger ID = %d", m_Trigger[i].wTID );
+							//printf( "CTalkNpc::æœªçŸ¥çš„æ—¶é—´è§¦å‘å™¨æ—¶é—´é—´éš”ç±»å‹!Trigger ID = %d", m_Trigger[i].wTID );
 							printf( RES_STRING(GM_NPC_CPP_00013), m_Trigger[i].wTID );
 							ClearTrigger( i-- );
 						}
@@ -496,7 +496,7 @@ namespace mission
 	{T_B
 		m_sTime = sTime;
 		
-		// ÅĞ¶ÏÊÇ·ñ»¹Ã»ÓĞ±»ÕÙ»½³öÀ´
+		// åˆ¤æ–­æ˜¯å¦è¿˜æ²¡æœ‰è¢«å¬å”¤å‡ºæ¥
 		if( m_bSummoned == FALSE )
 		{
 			m_bSummoned = TRUE;

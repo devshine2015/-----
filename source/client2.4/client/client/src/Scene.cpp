@@ -1,50 +1,50 @@
-#include "stdafx.h"
 #include "Scene.h"
 #include "Character.h"
-#include "SceneObj.h"
-#include "SceneItem.h"
 #include "EffectObj.h"
 #include "EffectSet.h"
-#include "LEModelEff.h"
-#include "LEFont.h"
-#include "SceneObjSet.h"
 #include "GameApp.h"
 #include "GameConfig.h"
+#include "LEFont.h"
+#include "LEModelEff.h"
+#include "SceneItem.h"
+#include "SceneObj.h"
+#include "SceneObjSet.h"
+#include "stdafx.h"
 #ifdef __EDITOR__
 #include "MPEditor.h"
 #endif
-#include "SceneObjFile.h"
-#include "SmallMap.h"
+#include "Actor.h"
 #include "CharacterAction.h"
 #include "CharacterRecord.h"
-#include "stmove.h"
-#include "Actor.h"
-#include "UIGuiData.h"
-#include "LuaInterface.h"
-#include "UICursor.h"
-#include "GlobalVar.h"
-#include "UIFormMgr.h"
-#include "MapSet.h"
-#include "GameAppMsg.h"
-#include "DrawPointList.h"
-#include "terrainattrib.h"
-#include "PacketCmd.h"
-#include "ItemRecord.h"
-#include "SceneLight.h"
-#include "SceneObjSet.h"
-#include "Track.h"
 #include "CommFunc.h"
-#include "uiminimapform.h"
-#include "uiequipform.h"
-#include "uistartform.h"
-#include "scenesign.h"
-#include "event.h"
-#include "cameractrl.h"
-#include "uiboatform.h"
-#include "UIsystemform.h"
-#include "ui3dcompent.h"
-#include "uiboxform.h"
+#include "DrawPointList.h"
+#include "GameAppMsg.h"
+#include "GlobalVar.h"
+#include "ItemRecord.h"
 #include "LitLoad.h"
+#include "LuaInterface.h"
+#include "MapSet.h"
+#include "PacketCmd.h"
+#include "SceneLight.h"
+#include "SceneObjFile.h"
+#include "SceneObjSet.h"
+#include "SmallMap.h"
+#include "Track.h"
+#include "UICursor.h"
+#include "UIFormMgr.h"
+#include "UIGuiData.h"
+#include "UIsystemform.h"
+#include "cameractrl.h"
+#include "event.h"
+#include "scenesign.h"
+#include "stmove.h"
+#include "terrainattrib.h"
+#include "ui3dcompent.h"
+#include "uiboatform.h"
+#include "uiboxform.h"
+#include "uiequipform.h"
+#include "uiminimapform.h"
+#include "uistartform.h"
 #ifdef _SKYBOX_
 #include "MPSkyBox.h"
 #endif
@@ -57,2398 +57,2154 @@ extern CAudioThread g_AudioThread;
 #endif
 const int VOICE_DIS = 1400;
 
-CAniClock*	    CGameScene::_AniClock = NULL;
-float           CGameScene::_fSoundSize = 128.0f;
-bool            CGameScene::_IsUseSound = true;  
+CAniClock *CGameScene::_AniClock = NULL;
+float CGameScene::_fSoundSize = 128.0f;
+bool CGameScene::_IsUseSound = true;
 
-CMinimap*		CGameScene::_pSmallMap			= NULL;
-BOOL			CGameScene::_bShowMinimap		= TRUE;
-e3DMouseState	CGameScene::_e3DMouseState		= enum3DNone;
+CMinimap *CGameScene::_pSmallMap = NULL;
+BOOL CGameScene::_bShowMinimap = TRUE;
+e3DMouseState CGameScene::_e3DMouseState = enum3DNone;
 
-bool		CGameScene::_IsShowPath			= false;
+bool CGameScene::_IsShowPath = false;
 
-CCharacter* CGameScene::_pMainCha           = NULL;
+CCharacter *CGameScene::_pMainCha = NULL;
 
-//CCharacter2D*	CGameScene::_pCha2D[4];
+// CCharacter2D*	CGameScene::_pCha2D[4];
 
-CBigMap*	CGameScene::_pBigMap			= NULL;
-CLargerMap* CGameScene::_pLargerMap			= NULL;
-
-
-// Added by clp
-std::ostream& operator << ( ostream& os, const ReallyBigObjectInfo &info )
-{
-	os << info.typeID << ' ';
-	os << info.position.x << ' ' << info.position.y << ' ' << info.position.z << ' ';
-	os << info.orientation.w << ' ' << info.orientation.x << ' ' << info.orientation.y << ' ' << info.orientation.z << ' ';
-	os << info.terrainHeight;
-	os << endl;
-	return os;
-}
-
-std::istream& operator >> ( istream& is, ReallyBigObjectInfo &info )
-{
-	is >> info.typeID;
-	is >> info.position.x >> info.position.y >> info.position.z;
-	is >> info.orientation.w >> info.orientation.x >> info.orientation.y >> info.orientation.z;
-	is >> info.terrainHeight;
-	return is;
-}
-
-void operator << ( FILE* file, const ReallyBigObjectInfo &info )
-{
-	fprintf ( file, "%d %f %f %f %f %f %f %f %f\n",
-		info.typeID,
-		info.position.x,
-		info.position.y,
-		info.position.z, 
-		info.orientation.w,
-		info.orientation.x,
-		info.orientation.y,
-		info.orientation.z,
-		info.terrainHeight );
-}
-
-bool operator < ( const ReallyBigObjectInfo &info1, const ReallyBigObjectInfo &info2 )
-{
-	return ( 
-		info1.typeID < info2.typeID ||
-		info1.position.x < info2.position.x ||
-		info1.position.y < info2.position.y ||
-		info1.position.z < info2.position.z ||
-		info1.orientation.w < info2.orientation.w ||
-		info1.orientation.x < info2.orientation.x ||
-		info1.orientation.y < info2.orientation.y ||
-		info1.orientation.z < info2.orientation.z ||
-		info1.terrainHeight < info2.terrainHeight );
-}
-
-
+CBigMap *CGameScene::_pBigMap = NULL;
+CLargerMap *CGameScene::_pLargerMap = NULL;
 
 // Added by clp
-void CGameScene::_RecordRBO()
-{
-	for(int i = 0; i < GetSceneObjCnt(); i++)
-	{
-		CSceneObj *object = GetSceneObj( i );
-		if( this->IsInRBOList ( object ) )
-		{
-			if( object->IsValid() )
-			{
-				struct ReallyBigObjectInfo info;
-				memset ( &info, 0, sizeof ( ReallyBigObjectInfo ) );
-
-				/*info.orientation.w = object->getYaw();
-				info.position.x = object->GetCurX();
-				info.position.y = object->GetCurY();
-				info.position.z = object->getHeightOff();*/
-				info.orientation.w = (FLOAT)object->getYaw();
-				info.position.x = (float)object->GetCurX();
-				info.position.y = (float)object->GetCurY();
-				info.position.z = (float)object->getHeightOff();
-				info.terrainHeight = object->getRBOHeight();
-				info.typeID = object->getTypeID();
-				g_ObjFile.GetRBOinfoList().insert( info );
-			}
-		}
-	}
-	g_ObjFile.end_RBO();
-
-	for( std::set < CSceneObj* >::iterator itr = _reallyBigObjectList.begin();
-		 itr != _reallyBigObjectList.end(); ++itr )
-	{
-		(*itr)->SetValid ( false );
-	}
+std::ostream &operator<<(ostream &os, const ReallyBigObjectInfo &info) {
+  os << info.typeID << ' ';
+  os << info.position.x << ' ' << info.position.y << ' ' << info.position.z
+     << ' ';
+  os << info.orientation.w << ' ' << info.orientation.x << ' '
+     << info.orientation.y << ' ' << info.orientation.z << ' ';
+  os << info.terrainHeight;
+  os << endl;
+  return os;
 }
 
-void CGameScene::_ReadRBO()
-{
-	// –ﬁ∏ƒÃÿ¥Û≥°æ∞ŒÔº˛µƒœ‘ æÃﬁ≥˝bug°£//by clp
-	_reallyBigObjectList.clear();
-	ifstream file ( ( "map\\" + _stInit.strMapFile + ".rbo" ).c_str() );
-	struct ReallyBigObjectInfo info;
-	char c1 = file.get();
-	char c2 = file.get();
-	if ( c1 == '\\' && c2 == '\\' )
-	{
-		string temp;
-		getline ( file, temp, '\n' );
-	}
-	else
-	{
-		file.putback ( c2 );
-		file.putback ( c1 );
-	}
-
-	while ( file >> info )
-	{
-		CSceneObjInfo *pInfo = GetSceneObjInfo(info.typeID);
-		CSceneObj *pObj = AddSceneObj(info.typeID);
-
-		// º«¬ºÃÿ¥ÛŒÔº˛
-		if(pObj)
-		{
-			AddRBO( pObj );
-			/*pObj->setHeightOff( info.position.z );
-			pObj->setPos( info.position.x, info.position.y );
-			pObj->setYaw( info.orientation.w );*/
-			pObj->setHeightOff( (int)info.position.z );
-			pObj->setPos( (int)info.position.x, (int)info.position.y );
-			pObj->setYaw( (int)info.orientation.w );
-			pObj->setRBOHeight( info.terrainHeight );
-
-			pObj->GetObject()->CullPrimitive();
-			bool nonVisible = pObj->GetObject()->GetCullingPrimitiveNum() == pObj->GetObject()->GetPrimitiveNum();
-			if ( nonVisible )
-			{
-				pObj->SetHide ( TRUE );
-			}
-		}
-	}
-	file.close();
+std::istream &operator>>(istream &is, ReallyBigObjectInfo &info) {
+  is >> info.typeID;
+  is >> info.position.x >> info.position.y >> info.position.z;
+  is >> info.orientation.w >> info.orientation.x >> info.orientation.y >>
+      info.orientation.z;
+  is >> info.terrainHeight;
+  return is;
 }
 
-void CGameScene::SetupVertexFog(LEIDeviceObject* dev_obj, float Start, float End, DWORD Color, DWORD Mode, BOOL UseRange, FLOAT Density)
-{
-    // Enable fog blending.
-    dev_obj->SetRenderState(D3DRS_FOGENABLE, TRUE);
- 
-    // Set the fog color.
-    dev_obj->SetRenderState(D3DRS_FOGCOLOR, Color);
-    
-    // Set fog parameters.
-    if(D3DFOG_LINEAR == Mode)
-    {
-        dev_obj->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
-        dev_obj->SetRenderState(D3DRS_FOGSTART, *(DWORD *)(&Start));
-        dev_obj->SetRenderState(D3DRS_FOGEND,   *(DWORD *)(&End));
+void operator<<(FILE *file, const ReallyBigObjectInfo &info) {
+  fprintf(file, "%d %f %f %f %f %f %f %f %f\n", info.typeID, info.position.x,
+          info.position.y, info.position.z, info.orientation.w,
+          info.orientation.x, info.orientation.y, info.orientation.z,
+          info.terrainHeight);
+}
+
+bool operator<(const ReallyBigObjectInfo &info1,
+               const ReallyBigObjectInfo &info2) {
+  return (info1.typeID < info2.typeID || info1.position.x < info2.position.x ||
+          info1.position.y < info2.position.y ||
+          info1.position.z < info2.position.z ||
+          info1.orientation.w < info2.orientation.w ||
+          info1.orientation.x < info2.orientation.x ||
+          info1.orientation.y < info2.orientation.y ||
+          info1.orientation.z < info2.orientation.z ||
+          info1.terrainHeight < info2.terrainHeight);
+}
+
+// Added by clp
+void CGameScene::_RecordRBO() {
+  for (int i = 0; i < GetSceneObjCnt(); i++) {
+    CSceneObj *object = GetSceneObj(i);
+    if (this->IsInRBOList(object)) {
+      if (object->IsValid()) {
+        struct ReallyBigObjectInfo info;
+        memset(&info, 0, sizeof(ReallyBigObjectInfo));
+
+        /*info.orientation.w = object->getYaw();
+        info.position.x = object->GetCurX();
+        info.position.y = object->GetCurY();
+        info.position.z = object->getHeightOff();*/
+        info.orientation.w = (FLOAT)object->getYaw();
+        info.position.x = (float)object->GetCurX();
+        info.position.y = (float)object->GetCurY();
+        info.position.z = (float)object->getHeightOff();
+        info.terrainHeight = object->getRBOHeight();
+        info.typeID = object->getTypeID();
+        g_ObjFile.GetRBOinfoList().insert(info);
+      }
     }
+  }
+  g_ObjFile.end_RBO();
+
+  for (std::set<CSceneObj *>::iterator itr = _reallyBigObjectList.begin();
+       itr != _reallyBigObjectList.end(); ++itr) {
+    (*itr)->SetValid(false);
+  }
+}
+
+void CGameScene::_ReadRBO() {
+  // ‰øÆÊîπÁâπÂ§ßÂú∫ÊôØÁâ©‰ª∂ÁöÑÊòæÁ§∫ÂâîÈô§bug„ÄÇ//by clp
+  _reallyBigObjectList.clear();
+  ifstream file(("map\\" + _stInit.strMapFile + ".rbo").c_str());
+  struct ReallyBigObjectInfo info;
+  char c1 = file.get();
+  char c2 = file.get();
+  if (c1 == '\\' && c2 == '\\') {
+    string temp;
+    getline(file, temp, '\n');
+  } else {
+    file.putback(c2);
+    file.putback(c1);
+  }
+
+  while (file >> info) {
+    CSceneObjInfo *pInfo = GetSceneObjInfo(info.typeID);
+    CSceneObj *pObj = AddSceneObj(info.typeID);
+
+    // ËÆ∞ÂΩïÁâπÂ§ßÁâ©‰ª∂
+    if (pObj) {
+      AddRBO(pObj);
+      /*pObj->setHeightOff( info.position.z );
+      pObj->setPos( info.position.x, info.position.y );
+      pObj->setYaw( info.orientation.w );*/
+      pObj->setHeightOff((int)info.position.z);
+      pObj->setPos((int)info.position.x, (int)info.position.y);
+      pObj->setYaw((int)info.orientation.w);
+      pObj->setRBOHeight(info.terrainHeight);
+
+      pObj->GetObject()->CullPrimitive();
+      bool nonVisible = pObj->GetObject()->GetCullingPrimitiveNum() ==
+                        pObj->GetObject()->GetPrimitiveNum();
+      if (nonVisible) {
+        pObj->SetHide(TRUE);
+      }
+    }
+  }
+  file.close();
+}
+
+void CGameScene::SetupVertexFog(LEIDeviceObject *dev_obj, float Start,
+                                float End, DWORD Color, DWORD Mode,
+                                BOOL UseRange, FLOAT Density) {
+  // Enable fog blending.
+  dev_obj->SetRenderState(D3DRS_FOGENABLE, TRUE);
+
+  // Set the fog color.
+  dev_obj->SetRenderState(D3DRS_FOGCOLOR, Color);
+
+  // Set fog parameters.
+  if (D3DFOG_LINEAR == Mode) {
+    dev_obj->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+    dev_obj->SetRenderState(D3DRS_FOGSTART, *(DWORD *)(&Start));
+    dev_obj->SetRenderState(D3DRS_FOGEND, *(DWORD *)(&End));
+  } else {
+    dev_obj->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
+    dev_obj->SetRenderState(D3DRS_FOGDENSITY, *(DWORD *)(&Density));
+  }
+
+  // Enable range-based fog if desired (only supported for
+  // vertex fog). For this example, it is assumed that UseRange
+  // is set to a nonzero value only if the driver exposes the
+  // D3DPRASTERCAPS_FOGRANGE capability.
+  // Note: This is slightly more performance intensive
+  //       than non-range-based fog.
+  if (UseRange)
+    dev_obj->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
+}
+
+HRESULT scene_OnLostDevice() {
+  //#ifdef USE_RENDER
+  g_pGameApp->GetCurScene()->OnLostDevice();
+  g_pGameApp->OnLostDevice();
+  return TRUE;
+  //#endif
+}
+HRESULT scene_OnResetDevice() {
+  //#ifdef USE_RENDER
+  g_pGameApp->GetCurScene()->OnResetDevice();
+  g_pGameApp->OnResetDevice();
+  //#endif
+  return TRUE;
+}
+void CGameScene::OnLostDevice() {
+  SAFE_DELETE(_pSmallMap);
+
+  SAFE_DELETE(_pLargerMap);
+
+  g_CEffBox.ReleaseBox();
+}
+void CGameScene::OnResetDevice() {
+  // float lerpx =   float(838) / float(1024);
+  // float lerpy =  float(24) / float(768);
+
+  // RECT rc;
+  // rc.left = (LONG)(ResMgr.GetBackBufferWidth() * lerpx);
+  // rc.top  = (LONG)(ResMgr.GetBackBufferHeight() * lerpy);
+  // rc.right= (LONG)(rc.left + 160 * (ResMgr.GetBackBufferWidth() == 1024 ? 1 :
+  // lerpx)); rc.bottom = (LONG)(rc.top + 160* (ResMgr.GetBackBufferHeight() ==
+  // 768 ? 1 : lerpx)); static int n = 0;
+
+  g_CEffBox.Create(g_Render.GetDevice());
+  g_CEffBox.setColor(0xffff0000);
+  g_CEffBox.setWriteFrame(FALSE);
+  g_CEffBox.ShowLine(TRUE);
+
+  // RECT rc;
+  // rc.left = (LONG)(ResMgr.GetBackBufferWidth() - (128 +6));
+  // rc.top  = 8;
+  // rc.right= (LONG)(rc.left + 128);
+  // rc.bottom = (LONG)(rc.top + 128);
+
+  RECT rc;
+  CCompent *pRect = g_stUIMap.GetMinimapRect();
+
+  // rc.left = pRect->GetX();// ResMgr.GetBackBufferWidth() - (128 +
+  // pRect->GetLeft()); rc.top  = pRect->GetY();//pRect->GetTop(); rc.right=
+  // pRect->GetX2();//rc.left + pRect->GetRight(); rc.bottom =
+  // pRect->GetY2();//pRect->GetBottom();
+
+  int lenx = pRect->GetRight() - pRect->GetLeft();
+
+  rc.left = ResMgr.GetBackBufferWidth() - (lenx + pRect->GetLeft());
+  rc.top = pRect->GetTop();
+  rc.right = rc.left + lenx;
+  rc.bottom = rc.top + lenx;
+
+  SAFE_DELETE(_pSmallMap);
+  _pSmallMap = new CMinimap;
+  _pSmallMap->Create(g_Render.GetDevice(), rc, this, 128);
+
+  C3DCompent *pD3d = g_stUIMap.GetBigmapRect();
+  rc.left = pD3d->GetX();
+  rc.top = pD3d->GetY();
+  rc.right = pD3d->GetX2();
+  rc.bottom = pD3d->GetY2();
+
+  SAFE_DELETE(_pLargerMap);
+  _pLargerMap = new CLargerMap;
+  _pLargerMap->Create(g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), 500);
+}
+
+void CGameScene::RegisterFunc() {}
+
+void CGameScene::ShowMinimap(BOOL bShow) {
+  _bShowMinimap = bShow;
+
+  CForm *frmMinimap = CFormMgr::s_Mgr.Find("frmMinimap");
+  if (frmMinimap) {
+    if (bShow)
+      frmMinimap->SetIsShow(true);
     else
-    {
-        dev_obj->SetRenderState(D3DRS_FOGVERTEXMODE, Mode);
-        dev_obj->SetRenderState(D3DRS_FOGDENSITY, *(DWORD *)(&Density));
-    }
+      frmMinimap->SetIsShow(false);
+  }
 
-    // Enable range-based fog if desired (only supported for
-    // vertex fog). For this example, it is assumed that UseRange
-    // is set to a nonzero value only if the driver exposes the 
-    // D3DPRASTERCAPS_FOGRANGE capability.
-    // Note: This is slightly more performance intensive
-    //       than non-range-based fog.
-    if(UseRange)
-        dev_obj->SetRenderState(
-                       D3DRS_RANGEFOGENABLE,
-                       TRUE);
+  /*
+  CCompent*pRect = g_stUIMap.GetMinimapRect();
+  if(pRect)
+  {
+          if(bShow) pRect->SetIsShow(true);
+          else      pRect->SetIsShow(false);
+  }*/
 }
 
+// CForm* frm = g_stUIMain.GetMinimapForm();
+// frm->GetX(), GetX2(), GetY(), GetY2()
 
-HRESULT  scene_OnLostDevice()
-{
-//#ifdef USE_RENDER
-	g_pGameApp->GetCurScene()->OnLostDevice();
-	g_pGameApp->OnLostDevice();
-	return TRUE; 
-//#endif
+bool CGameScene::_InitScene() {
+  // SAFE_DELETE( CGameScene::_pSmallMap );
+  // if(_pSmallMap)	return true;
 
-}
-HRESULT  scene_OnResetDevice()
-{
-//#ifdef USE_RENDER
-	g_pGameApp->GetCurScene()->OnResetDevice();
-	g_pGameApp->OnResetDevice();
-//#endif
-	return TRUE; 
-}
-void	CGameScene::OnLostDevice()
-{
-	SAFE_DELETE( _pSmallMap );
+  _AniClock = new CAniClock[MAX_ANI_CLOCK];
+  for (int i = 0; i < MAX_ANI_CLOCK; i++) {
+    _AniClock[i].Create(32, 0xa0000000);
+  }
 
-	SAFE_DELETE(_pLargerMap);
+  // rc.left = 25;
+  // rc.top  = 25;
+  // rc.right= rc.left + 64;
+  // rc.bottom = rc.top + 64;
 
-	g_CEffBox.ReleaseBox();
+  // for (int n = 0; n < 4; n++)
+  //{
+  //	if(n > 0)
+  //	{
+  //		rc.top  += 80;
+  //		rc.bottom = rc.top + 64;
+  //	}
+  //	_pCha2D[n] = new CCharacter2D;
+  //	_pCha2D[n]->Create(rc);
+  //	//_pCha2D[n]->LoadCha(n + 1);
+  //}
+  _pBigMap = new CBigMap;
 
-}
-void	CGameScene::OnResetDevice()
-{
-	//float lerpx =   float(838) / float(1024);
-	//float lerpy =  float(24) / float(768);
+  LERegisterOutputLoseDeviceProc(scene_OnLostDevice);
+  LERegisterOutputResetDeviceProc(scene_OnResetDevice);
 
-	//RECT rc;
-	//rc.left = (LONG)(ResMgr.GetBackBufferWidth() * lerpx);
-	//rc.top  = (LONG)(ResMgr.GetBackBufferHeight() * lerpy);
-	//rc.right= (LONG)(rc.left + 160 * (ResMgr.GetBackBufferWidth() == 1024 ? 1 : lerpx));
-	//rc.bottom = (LONG)(rc.top + 160* (ResMgr.GetBackBufferHeight() == 768 ? 1 : lerpx));
-	//static int n = 0;
+  // debug by lsh
+  extern LitMgr g_lit_mgr;
+  g_lit_mgr.Load(".\\scripts\\txt\\lit.tx");
 
+  if (!InitItemLit(".\\scripts\\txt\\item.lit"))
+    return false;
 
-	g_CEffBox.Create(g_Render.GetDevice());
-	g_CEffBox.setColor(0xffff0000);
-	g_CEffBox.setWriteFrame(FALSE);
-	g_CEffBox.ShowLine(TRUE);
-
-	//RECT rc;
-	//rc.left = (LONG)(ResMgr.GetBackBufferWidth() - (128 +6));
-	//rc.top  = 8;
-	//rc.right= (LONG)(rc.left + 128);
-	//rc.bottom = (LONG)(rc.top + 128);
-
-	RECT rc;
-	CCompent*pRect = 	g_stUIMap.GetMinimapRect();
-
-	//rc.left = pRect->GetX();// ResMgr.GetBackBufferWidth() - (128 + pRect->GetLeft());
-	//rc.top  = pRect->GetY();//pRect->GetTop();
-	//rc.right= pRect->GetX2();//rc.left + pRect->GetRight();
-	//rc.bottom = pRect->GetY2();//pRect->GetBottom();
-
-	int lenx = pRect->GetRight() - pRect->GetLeft();
-
-	rc.left = ResMgr.GetBackBufferWidth() - (lenx + pRect->GetLeft());
-	rc.top  = pRect->GetTop();
-	rc.right= rc.left + lenx;
-	rc.bottom = rc.top + lenx;
-
-	SAFE_DELETE( _pSmallMap );
-	_pSmallMap = new CMinimap;
-	_pSmallMap->Create(g_Render.GetDevice(),rc,this,128);
-
-	C3DCompent* pD3d = g_stUIMap.GetBigmapRect();
-	rc.left = pD3d->GetX();
-	rc.top  = pD3d->GetY();
-	rc.right= pD3d->GetX2();
-	rc.bottom = pD3d->GetY2();
-
-	SAFE_DELETE(_pLargerMap);
-	_pLargerMap = new CLargerMap;
-	_pLargerMap->Create( g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), 500 );
+  return true;
 }
 
-void	CGameScene::RegisterFunc()
-{
+bool CGameScene::_ClearScene() {
+  SAFE_DELETE(_pLargerMap);
+
+  SAFE_DELETE(_pSmallMap);
+  delete[] _AniClock;
+
+  // SAFE_DELETE( _pCha2D[0] );
+  // SAFE_DELETE( _pCha2D[1] );
+  // SAFE_DELETE( _pCha2D[2] );
+  // SAFE_DELETE( _pCha2D[3] );
+  SAFE_DELETE(_pBigMap);
+
+  ClearItemLit();
+
+  return true;
 }
 
-void CGameScene::ShowMinimap( BOOL bShow )			
-{ 
-	_bShowMinimap = bShow;		
-	
-	CForm* frmMinimap = CFormMgr::s_Mgr.Find("frmMinimap");
-	if(frmMinimap)
-	{
-		if(bShow) frmMinimap->SetIsShow(true);
-		else      frmMinimap->SetIsShow(false);
-	}
+bool CGameScene::_Clear() {
+  // SAFE_DELETE( _pSmallMap );
+  // SAFE_DELETE( m_cAniWnd );
+  _RecordRBO();
 
-	/*
-	CCompent*pRect = g_stUIMap.GetMinimapRect();
-	if(pRect) 
-	{
-		if(bShow) pRect->SetIsShow(true);
-		else      pRect->SetIsShow(false);
-	}*/
-}
-	
+  g_pGameApp->GetCursor()->SceneClear();
 
-//CForm* frm = g_stUIMain.GetMinimapForm();
-//frm->GetX(), GetX2(), GetY(), GetY2()
-
-bool CGameScene::_InitScene()
-{
-	//SAFE_DELETE( CGameScene::_pSmallMap );
-	//if(_pSmallMap)	return true;
-
-    _AniClock = new CAniClock[MAX_ANI_CLOCK];
-    for( int i=0; i<MAX_ANI_CLOCK; i++ )
-    {
-        _AniClock[i].Create( 32, 0xa0000000);
-    }
-
-	//rc.left = 25;
-	//rc.top  = 25;
-	//rc.right= rc.left + 64;
-	//rc.bottom = rc.top + 64; 
-
-	//for (int n = 0; n < 4; n++)
-	//{
-	//	if(n > 0)
-	//	{
-	//		rc.top  += 80;
-	//		rc.bottom = rc.top + 64; 
-	//	}
-	//	_pCha2D[n] = new CCharacter2D;
-	//	_pCha2D[n]->Create(rc);
-	//	//_pCha2D[n]->LoadCha(n + 1);
-	//}
-	_pBigMap = new CBigMap;
-
-	LERegisterOutputLoseDeviceProc(scene_OnLostDevice);
-	LERegisterOutputResetDeviceProc(scene_OnResetDevice);
-
-    // debug by lsh
-    extern LitMgr g_lit_mgr;
-    g_lit_mgr.Load(".\\scripts\\txt\\lit.tx");
-
-	if(!InitItemLit(".\\scripts\\txt\\item.lit"))
-	    return false;
-
-    return true;
+  //  LG( "scene init", "CGameScene::_Clear\n" );
+  return true;
 }
 
-bool CGameScene::_ClearScene()
-{	
-	SAFE_DELETE( _pLargerMap );
-
-	SAFE_DELETE( _pSmallMap );
-    delete [] _AniClock;
-
-	//SAFE_DELETE( _pCha2D[0] );
-	//SAFE_DELETE( _pCha2D[1] );
-	//SAFE_DELETE( _pCha2D[2] );
-	//SAFE_DELETE( _pCha2D[3] );
-	SAFE_DELETE(_pBigMap);
-
-    ClearItemLit();
-
-	return true;
-}
-
-bool	CGameScene::_Clear()
-{ 
-	//SAFE_DELETE( _pSmallMap );
-	//SAFE_DELETE( m_cAniWnd );
-	_RecordRBO();
-
-    g_pGameApp->GetCursor()->SceneClear();
-
-//  LG( "scene init", "CGameScene::_Clear\n" );
-	return true;
-}
-
-CGameScene::CGameScene(stSceneInitParam& param)
-: _pChaArray(NULL),
- _pSceneObjArray(NULL),
- _pSceneItemArray(NULL),
- _pSceneLightArray(NULL),
- _pTerrain(NULL),
- _nChaCnt(0),
- _nSceneObjCnt(0),
- _nSceneItemCnt( 0 ),
- _pEffectArray(NULL),
- _nEffCnt(0),
- _nSceneLightCnt(0),
- _bShowTerrain(FALSE),
- _bShowSceneObj(TRUE),
- _bShowSceneItem( TRUE ),
- _nShowChair( 0 ),
- _dwChaTEXFilter( D3DTEXF_LINEAR ),
- _stInit( param ),
- _pSelCha(NULL),
- _nShadeCnt(0),
- _pShadeArray(NULL),
- _bEnableSceneObjCulling(TRUE),
- _dwMapID(1),
- _bEnableCamDrag(FALSE),
+CGameScene::CGameScene(stSceneInitParam &param)
+    : _pChaArray(NULL), _pSceneObjArray(NULL), _pSceneItemArray(NULL),
+      _pSceneLightArray(NULL), _pTerrain(NULL), _nChaCnt(0), _nSceneObjCnt(0),
+      _nSceneItemCnt(0), _pEffectArray(NULL), _nEffCnt(0), _nSceneLightCnt(0),
+      _bShowTerrain(FALSE), _bShowSceneObj(TRUE), _bShowSceneItem(TRUE),
+      _nShowChair(0), _dwChaTEXFilter(D3DTEXF_LINEAR), _stInit(param),
+      _pSelCha(NULL), _nShadeCnt(0), _pShadeArray(NULL),
+      _bEnableSceneObjCulling(TRUE), _dwMapID(1), _bEnableCamDrag(FALSE),
 #ifdef __FPS_DEBUG__
- m_dwValidSceneObjCnt(0),
- m_dwSceneObjPolyCnt(0),
+      m_dwValidSceneObjCnt(0), m_dwSceneObjPolyCnt(0),
 #endif
- _pMouseInItem(NULL),
- _pcPugMgr(NULL),
- _pMapInfo(NULL),
- m_bShowTerrain(true)
-{
-	g_CEffBox.Create(g_Render.GetDevice());
-	g_CEffBox.setColor(0xffff0000);
-	g_CEffBox.setWriteFrame(FALSE);
-	g_CEffBox.ShowLine(TRUE);
+      _pMouseInItem(NULL), _pcPugMgr(NULL), _pMapInfo(NULL),
+      m_bShowTerrain(true) {
+  g_CEffBox.Create(g_Render.GetDevice());
+  g_CEffBox.setColor(0xffff0000);
+  g_CEffBox.setWriteFrame(FALSE);
+  g_CEffBox.ShowLine(TRUE);
 
-	CPathBox.Create(g_Render.GetDevice(),0.25f);
+  CPathBox.Create(g_Render.GetDevice(), 0.25f);
 
-    _nSceneLightCnt = 100;
-    _pSceneLightArray = new SceneLight[_nSceneLightCnt];
+  _nSceneLightCnt = 100;
+  _pSceneLightArray = new SceneLight[_nSceneLightCnt];
 
-    _bLightEnable[0] = 1; // parallel light is always running
-    _bLightEnable[1] = 0;
-    _bLightEnable[2] = 0;
+  _bLightEnable[0] = 1; // parallel light is always running
+  _bLightEnable[1] = 0;
+  _bLightEnable[2] = 0;
 
-    m_dwEnvColor.a = 1.0f;
-    m_dwEnvColor.r = 1.0f;
-    m_dwEnvColor.g = 1.0f;
-    m_dwEnvColor.b = 1.0f;
+  m_dwEnvColor.a = 1.0f;
+  m_dwEnvColor.r = 1.0f;
+  m_dwEnvColor.g = 1.0f;
+  m_dwEnvColor.b = 1.0f;
 
-	_vecTempShade.resize(200);
+  _vecTempShade.resize(200);
 
-	_pEventMgr = new CEventMgr( this );
+  _pEventMgr = new CEventMgr(this);
 
-#ifdef	_SKYBOX_
-	_bSkyBoxLoad = FALSE;
+#ifdef _SKYBOX_
+  _bSkyBoxLoad = FALSE;
 #endif
 
-    //// begin debug by lsh
-    //SceneLight s;
-    //s.type = SceneLight::SL_LIGHT;
-    //s.x = 730;
-    //s.y = 1486;
-    //s.z = 0;
-    //memset(&s.light, 0, sizeof(s.light));
-    //s.range = 200.0f;
-    //s.pos = D3DXVECTOR3(730.0f, 1486.0f, 0.0f);
-    //s.attenuation1 = 0.5f;
+  //// begin debug by lsh
+  // SceneLight s;
+  // s.type = SceneLight::SL_LIGHT;
+  // s.x = 730;
+  // s.y = 1486;
+  // s.z = 0;
+  // memset(&s.light, 0, sizeof(s.light));
+  // s.range = 200.0f;
+  // s.pos = D3DXVECTOR3(730.0f, 1486.0f, 0.0f);
+  // s.attenuation1 = 0.5f;
 
-    //s.amb.a = 1.0f;
-    //s.amb.r = 1.0f;
-    //s.amb.g = 0.0f;
-    //s.amb.b = 0.0f;
+  // s.amb.a = 1.0f;
+  // s.amb.r = 1.0f;
+  // s.amb.g = 0.0f;
+  // s.amb.b = 0.0f;
 
-    //s.dif.a = 1.0f;
-    //s.dif.r = 1.0f;
-    //s.dif.g = 0.0f;
-    //s.dif.b = 0.0f;
-    //AddSceneLight(&s);
-    //// end
+  // s.dif.a = 1.0f;
+  // s.dif.r = 1.0f;
+  // s.dif.g = 0.0f;
+  // s.dif.b = 0.0f;
+  // AddSceneLight(&s);
+  //// end
 
-	//g_CFont.UseSoft(false);
+  // g_CFont.UseSoft(false);
 
-	//SIZE size;
-	//g_CFont.GetTextSize("hello world",&size);
+  // SIZE size;
+  // g_CFont.GetTextSize("hello world",&size);
 
-	//_iw = 200;
-	//_ih = 0;
+  //_iw = 200;
+  //_ih = 0;
 
-	//LOGFONT LogFont;
-	//ZeroMemory( &LogFont, sizeof(LogFont) );
-	//LogFont.lfHeight			= -12;
-	//LogFont.lfWidth				= 0;
-	//LogFont.lfEscapement		= 0;
-	//LogFont.lfOrientation		= 0;
-	//LogFont.lfWeight			= 0;
-	//LogFont.lfItalic			= 0;
-	//LogFont.lfUnderline			= 0;
-	//LogFont.lfStrikeOut			= FALSE;
-	//LogFont.lfCharSet			= DEFAULT_CHARSET;
-	//LogFont.lfOutPrecision		= OUT_DEFAULT_PRECIS; 
-	//LogFont.lfClipPrecision		= CLIP_DEFAULT_PRECIS; 
-	//LogFont.lfQuality			= ANTIALIASED_QUALITY;
-	//LogFont.lfPitchAndFamily	= VARIABLE_PITCH;
-	//lstrcpy( LogFont.lfFaceName, "–¬ÀŒÃÂ" );
+  // LOGFONT LogFont;
+  // ZeroMemory( &LogFont, sizeof(LogFont) );
+  // LogFont.lfHeight			= -12;
+  // LogFont.lfWidth				= 0;
+  // LogFont.lfEscapement		= 0;
+  // LogFont.lfOrientation		= 0;
+  // LogFont.lfWeight			= 0;
+  // LogFont.lfItalic			= 0;
+  // LogFont.lfUnderline			= 0;
+  // LogFont.lfStrikeOut			= FALSE;
+  // LogFont.lfCharSet			= DEFAULT_CHARSET;
+  // LogFont.lfOutPrecision		= OUT_DEFAULT_PRECIS;
+  // LogFont.lfClipPrecision		= CLIP_DEFAULT_PRECIS;
+  // LogFont.lfQuality			= ANTIALIASED_QUALITY;
+  // LogFont.lfPitchAndFamily	= VARIABLE_PITCH;
+  // lstrcpy( LogFont.lfFaceName, "Êñ∞ÂÆã‰Ωì" );
 
-	//D3DXCreateFontIndirect(g_Render.GetDevice(),&LogFont,&temFont);
+  // D3DXCreateFontIndirect(g_Render.GetDevice(),&LogFont,&temFont);
 
-	//temPanel = new CUIPanel;
-	//temPanel->Create(g_Render.GetDevice());
+  // temPanel = new CUIPanel;
+  // temPanel->Create(g_Render.GetDevice());
 
-	//D3DXCreateSprite( g_Render.GetDevice(), &_2DSprite );
-
+  // D3DXCreateSprite( g_Render.GetDevice(), &_2DSprite );
 }
 
-CGameScene::~CGameScene()
-{
-	_ClearMemory();
+CGameScene::~CGameScene() {
+  _ClearMemory();
 
-	delete _pEventMgr;
+  delete _pEventMgr;
 }
 
-void	CGameScene::SetFrameMove(DWORD dwTime)
-{
-	_FrameMove(dwTime);
+void CGameScene::SetFrameMove(DWORD dwTime) { _FrameMove(dwTime); }
+
+void CGameScene::_ClearAllCha() {
+  SAFE_DELETE_ARRAY(_pChaArray);
+  _nChaCnt = 0;
 }
 
-void CGameScene::_ClearAllCha()
-{
-	SAFE_DELETE_ARRAY(_pChaArray);
-	_nChaCnt = 0;
+void CGameScene::_ClearAllSceneObj() {
+  SAFE_DELETE_ARRAY(_pSceneObjArray);
+  _nSceneObjCnt = 0;
 }
 
-void CGameScene::_ClearAllSceneObj()
-{
-	SAFE_DELETE_ARRAY(_pSceneObjArray);
-	_nSceneObjCnt = 0;
+void CGameScene::_ClearAllSceneItem() {
+  SAFE_DELETE_ARRAY(_pSceneItemArray);
+  _nSceneItemCnt = 0;
 }
 
-void CGameScene::_ClearAllSceneItem()
-{
-	SAFE_DELETE_ARRAY(_pSceneItemArray);
-	_nSceneItemCnt = 0;
+void CGameScene::_ClearAllEff() {
+  SAFE_DELETE_ARRAY(_pEffectArray);
+  _nEffCnt = 0;
 }
 
-void CGameScene::_ClearAllEff()
-{
-	SAFE_DELETE_ARRAY(_pEffectArray);
-	_nEffCnt = 0;
+void CGameScene::_CreateChaArray(int nChaCnt) {
+  _ClearAllCha();
+
+  _pChaArray = new CCharacter[nChaCnt];
+  _free_chas.ReSize(nChaCnt);
+  for (int i = 0; i < nChaCnt; i++) {
+    _pChaArray[i].setID(i);
+    _pChaArray[i].SetScene(this);
+
+    _free_chas.Push(&_pChaArray[i]);
+  }
+
+  _nChaCnt = nChaCnt;
 }
 
-void CGameScene::_CreateChaArray(int nChaCnt)
-{
-	_ClearAllCha();
+void CGameScene::_CreateSceneObjArray(int nSceneObjCnt) {
+  _ClearAllSceneObj();
 
-	_pChaArray = new CCharacter[nChaCnt];
-	_free_chas.ReSize( nChaCnt );
-	for(int i = 0; i < nChaCnt; i++)
-	{
-		_pChaArray[i].setID(i);
-		_pChaArray[i].SetScene(this);
+  _pSceneObjArray = new CSceneObj[nSceneObjCnt];
 
-		_free_chas.Push( &_pChaArray[i] );
-	}
-	
-	_nChaCnt = nChaCnt;
+  for (int i = 0; i < nSceneObjCnt; i++) {
+    _pSceneObjArray[i].setID(i);
+  }
+
+  _nSceneObjCnt = nSceneObjCnt;
 }
 
-void CGameScene::_CreateSceneObjArray(int nSceneObjCnt)
-{
-	_ClearAllSceneObj();
+void CGameScene::_CreateSceneItemArray(int nSceneItemCnt) {
+  _ClearAllSceneItem();
 
-	_pSceneObjArray = new CSceneObj[nSceneObjCnt];
+  _pSceneItemArray = new CSceneItem[nSceneItemCnt];
+  _free_items.ReSize(nSceneItemCnt);
+  for (int i = 0; i < nSceneItemCnt; i++) {
+    _pSceneItemArray[i].setID(i);
+    _pSceneItemArray[i].SetScene(this);
 
-	for(int i = 0; i < nSceneObjCnt; i++)
-	{
-		_pSceneObjArray[i].setID(i);
-	}
-	
-	_nSceneObjCnt = nSceneObjCnt;
-}
+    _free_items.Push(&_pSceneItemArray[i]);
+  }
 
-void CGameScene::_CreateSceneItemArray(int nSceneItemCnt)
-{
-	_ClearAllSceneItem();
-
-	_pSceneItemArray = new CSceneItem[ nSceneItemCnt ];
-	_free_items.ReSize( nSceneItemCnt );
-	for(int i = 0; i < nSceneItemCnt; i++)
-	{
-		_pSceneItemArray[ i ].setID( i );
-		_pSceneItemArray[ i ].SetScene( this );
-
-		_free_items.Push( &_pSceneItemArray[ i ] );
-	}
-	
-	_nSceneItemCnt = nSceneItemCnt;
+  _nSceneItemCnt = nSceneItemCnt;
 }
 
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
-void	CGameScene::_CreateEffectArray(int nEffCnt)
-{
-	_pEffectArray = new CEffectObj[nEffCnt];
-	_free_effs.ReSize( nEffCnt );
-	for(int i = 0; i < nEffCnt; i++)
-	{
-		_pEffectArray[i].setID(i);
-		_pEffectArray[i].SetScene(this);
+void CGameScene::_CreateEffectArray(int nEffCnt) {
+  _pEffectArray = new CEffectObj[nEffCnt];
+  _free_effs.ReSize(nEffCnt);
+  for (int i = 0; i < nEffCnt; i++) {
+    _pEffectArray[i].setID(i);
+    _pEffectArray[i].SetScene(this);
 
-		_free_effs.Push( &_pEffectArray[i] );
-	}
+    _free_effs.Push(&_pEffectArray[i]);
+  }
 
-	_nEffCnt = nEffCnt;
+  _nEffCnt = nEffCnt;
 }
 
-CEffectObj*	CGameScene::GetFirstInvalidEffObj()
-{
-	CEffectObj* pObj = _free_effs.Pop();
-	if( pObj ) return pObj;
+CEffectObj *CGameScene::GetFirstInvalidEffObj() {
+  CEffectObj *pObj = _free_effs.Pop();
+  if (pObj)
+    return pObj;
 
-	if(_pEffectArray==NULL) return NULL;
+  if (_pEffectArray == NULL)
+    return NULL;
 
-	for(int i = 0; i < _nEffCnt; i++)
-	{
-		if(_pEffectArray[i].IsValid()==FALSE)
-		{
-			return &_pEffectArray[i];
-		}
-	}
-	return NULL;
+  for (int i = 0; i < _nEffCnt; i++) {
+    if (_pEffectArray[i].IsValid() == FALSE) {
+      return &_pEffectArray[i];
+    }
+  }
+  return NULL;
 }
 
-CEffectObj*	CGameScene::GetEffect(int nArrayID)
-{
-	if(nArrayID >= _nEffCnt || nArrayID < 0) return NULL;
-	return &_pEffectArray[nArrayID];
+CEffectObj *CGameScene::GetEffect(int nArrayID) {
+  if (nArrayID >= _nEffCnt || nArrayID < 0)
+    return NULL;
+  return &_pEffectArray[nArrayID];
 }
 
 /************************************************************************/
 /*                                                                      */
 /************************************************************************/
-CCharacter* CGameScene::_GetFirstInvalidCha()
-{
-	CCharacter* pCha = _free_chas.Pop();
-	if( pCha ) return pCha;
+CCharacter *CGameScene::_GetFirstInvalidCha() {
+  CCharacter *pCha = _free_chas.Pop();
+  if (pCha)
+    return pCha;
 
-	if(_pChaArray==NULL) return NULL;
-
-	for(int i = 0; i < _nChaCnt; i++)
-	{
-		pCha = &_pChaArray[i];
-		if(pCha->IsValid()==FALSE) return pCha;
-	}
-	return NULL;
-}
-
-CSceneObj*	CGameScene::_GetFirstInvalidSceneObj(int nTypeID, BOOL &bCreate)
-{
-	if(_pSceneObjArray==NULL) return NULL;
-
-	int i;
-    for(i = 0; i < _nSceneObjCnt; i++)
-	{
-		CSceneObj *pObj = &_pSceneObjArray[i];
-        if(pObj->IsValid()==FALSE && pObj->getTypeID()==nTypeID) 
-        {
-            return pObj;
-        }
-    }
-	for(i = 0; i < _nSceneObjCnt; i++)
-	{
-		CSceneObj *pObj = &_pSceneObjArray[i];
-        if(pObj->IsValid()==FALSE) 
-        {
-            bCreate = TRUE;
-            return pObj;
-        }
-	}
+  if (_pChaArray == NULL)
     return NULL;
+
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid() == FALSE)
+      return pCha;
+  }
+  return NULL;
 }
 
-CSceneItem*	CGameScene::_GetFirstInvalidSceneItem()
-{
-	CSceneItem* pObj = _free_items.Pop();
-	if( pObj ) return pObj;
-
-	if(_pSceneItemArray==NULL) 
-        return NULL;
-
-	for(int i = 0; i < _nSceneItemCnt; i++)
-	{
-		pObj = &_pSceneItemArray[i];
-
-		if( pObj->IsValid()==FALSE ) 
-            return pObj;
-	}
-	return NULL;
-}
-
-CCharacter* CGameScene::GetCha(int nArrayID)
-{
-	if(nArrayID >= _nChaCnt || nArrayID < 0) return NULL;
-	return &_pChaArray[nArrayID];
-}
-
-CSceneObj*	CGameScene::GetSceneObj(int nArrayID)
-{
-	if(nArrayID >= _nSceneObjCnt || nArrayID < 0) return NULL;
-	return &_pSceneObjArray[nArrayID];
-}
-
-CSceneItem*	CGameScene::GetSceneItem(int nArrayID)
-{
-	if(nArrayID >= _nSceneItemCnt || nArrayID < 0) 
-        return NULL;
-
-	return &_pSceneItemArray[nArrayID];
-}
-
-CCharacter* CGameScene::AddCharacter( const LoadChaInfo* info )
-{
-	CCharacter *pCha = _GetFirstInvalidCha();
-	if(pCha)
-	{
-		pCha->Destroy();
-        pCha->SetScene( this );
-        if( pCha->LoadCha( info ) == 0 )
-            return NULL;
-		pCha->SetValid(TRUE); 
-		pCha->EnableAI(TRUE);
-			
-        HandleSceneMsg(SCENEMSG_CHA_CREATE, pCha->getID(),info->cha_id);
-	}
-	return pCha;
-
-}
-
-CSceneItem* CGameScene::HitSceneItemText( int nScrX, int nScrY )
-{
-    CSceneItem *pObj = HitTestSceneItem( nScrX, nScrY );
-    if( pObj )
-    {
-        _pMouseInItem = pObj;
-    }
-    
-    if( !_IsShowItemName ) return pObj;
-
-    for( int i = 0; i < _nSceneItemCnt; i++) 
-    {
-        pObj = &_pSceneItemArray[i];
-        if( pObj->IsValid() && !pObj->IsHide() && pObj->IsHitText(nScrX, nScrY) )
-        {
-            return pObj;
-        }
-    }
-
+CSceneObj *CGameScene::_GetFirstInvalidSceneObj(int nTypeID, BOOL &bCreate) {
+  if (_pSceneObjArray == NULL)
     return NULL;
-}
 
-CSceneItem* CGameScene::HitTestSceneItem( int nScrX, int nScrY )
-{
-    CSceneItem *pObj;
-    CSceneItem *pObjXXX = 0;
-
-    float dis = 0.0f;
-    LEPickInfo info;
-    LEVector3 org, ray;
-
-    g_Render.GetPickRayVector( nScrX, nScrY, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
-    LEVector3Normalize( &ray );
-
-	for( int i = 0; i < _nSceneItemCnt; i++) 
-	{
-		pObj = &_pSceneItemArray[i];
-
-        if( pObj->IsValid() && pObj->IsHide()==FALSE && pObj->getAttachedCharacterID()==-1 )
-		{
-            if( SUCCEEDED( pObj->HitTestPrimitive( &info, &org, &ray ) ) )
-            {
-                if( (pObjXXX == NULL) || (dis > info.dis) )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-
-            }
-		}
-	}
-
-    return pObjXXX;
-}
-
-CSceneObj* CGameScene::HitTestSceneObj( int nScrX, int nScrY )
-{
-    CSceneObj *pObj;
-    CSceneObj *pObjXXX = 0;
-
-    float dis = 0.0f;
-    LEPickInfo info;
-    LEVector3 org, ray;
-
-    g_Render.GetPickRayVector( nScrX, nScrY, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
-    LEVector3Normalize( &ray );
-
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		pObj = &_pSceneObjArray[i];
-
-        if( pObj->IsValid() && pObj->IsHide()==FALSE)
-		{
-            if( SUCCEEDED( pObj->HitTestPrimitive( &info, &org, &ray ) ) )
-            {
-                if( (pObjXXX == NULL) || (dis > info.dis) )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-
-            }
-		}
-	}
-
-    return pObjXXX;
-}
-
-CCharacter* CGameScene::HitTestCharacter( int nScrX, int nScrY )
-{
-    CCharacter *pObj;
-    CCharacter *pObjXXX = 0;
-
-    float dis = 0.0f;
-    LEPickInfo info;
-    LEVector3 org, ray;
-
-    g_Render.GetPickRayVector( nScrX, nScrY, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
-    LEVector3Normalize( &ray );
-
-	for( int i = 0; i < _nChaCnt; i++) 
-	{
-		pObj = &_pChaArray[i];
-
-		if( pObj->IsValid() && !pObj->IsHide() )
-		{
-            if( SUCCEEDED( pObj->HitTestPrimitive( &info, &org, &ray ) ) )
-            {
-                if( (pObjXXX==NULL) || (dis > info.dis) )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-            }
-		}
-	}
-
-    return pObjXXX;
-}
-
-CCharacter* CGameScene::HitCharacter( int nScrX, int nScrY )
-{
-    CCharacter *pObj;
-    CCharacter *pObjXXX = 0;
-
-    float dis = 0.0f;
-    LEPickInfo info;
-    LEVector3 org, ray;
-
-    g_Render.GetPickRayVector( nScrX, nScrY, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
-    LEVector3Normalize( &ray );
-
-    for( int i = 0; i < _nChaCnt; i++) 
-    {
-        pObj = &_pChaArray[i];
-
-        if( pObj->IsValid() && !pObj->IsHide() )
-        {
-            if( SUCCEEDED( pObj->HitTestPrimitive( &info, &org, &ray ) ) )
-            {
-                if( !pObjXXX )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-                else if( pObj->getChaCtrlType()>pObjXXX->getChaCtrlType() )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-                else if( pObj->getChaCtrlType()==pObjXXX->getChaCtrlType() && dis > info.dis )
-                {
-                    pObjXXX = pObj;
-                    dis = info.dis;
-                }
-            }
-        }
+  int i;
+  for (i = 0; i < _nSceneObjCnt; i++) {
+    CSceneObj *pObj = &_pSceneObjArray[i];
+    if (pObj->IsValid() == FALSE && pObj->getTypeID() == nTypeID) {
+      return pObj;
     }
-
-    return pObjXXX;
+  }
+  for (i = 0; i < _nSceneObjCnt; i++) {
+    CSceneObj *pObj = &_pSceneObjArray[i];
+    if (pObj->IsValid() == FALSE) {
+      bCreate = TRUE;
+      return pObj;
+    }
+  }
+  return NULL;
 }
 
-int CGameScene::HitTestSceneObjTerrainForInfluence( D3DXVECTOR3* t_pos, const D3DXVECTOR3* nPos )
-{
-    LEPickInfo p;
-    CSceneObj* pObj;
-    DWORD s = 0;
-    LEVector3 h(0.0f, 0.0f, 0.0f);
-    HRESULT ret;
+CSceneItem *CGameScene::_GetFirstInvalidSceneItem() {
+  CSceneItem *pObj = _free_items.Pop();
+  if (pObj)
+    return pObj;
 
+  if (_pSceneItemArray == NULL)
+    return NULL;
 
-    D3DXVECTOR3 org(*nPos);
-    D3DXVECTOR3 ray(0.0f, 0.0f, -1.0f);
+  for (int i = 0; i < _nSceneItemCnt; i++) {
+    pObj = &_pSceneItemArray[i];
 
-    const float __max_visible_size = 25.0f;
-
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		pObj = &_pSceneObjArray[i];
-
-
-		if( pObj && pObj->IsValid() )
-		{
-
-        D3DXVECTOR3 x_pos = pObj->getPos() - *nPos;
-
-        if( x_pos.x * x_pos.x + x_pos.y * x_pos.y > __max_visible_size * __max_visible_size )
-        {
-            //static int discard_num = 0;
-            //LG( "ppp", "Discard: %d\n",++discard_num );
-            continue;
-        }
-
-        //static int hit_num = 0;
-        //LG( "ppp", "Hit: %d\n",++hit_num );
-
-        if( SUCCEEDED( ret = pObj->HitTestHelperMesh( &p, (LEVector3*)&org, (LEVector3*)&ray, "block" ) ) )
-        {
-            if( s == 0 || h.z < p.pos.z )
-            {
-                h = p.pos;
-                s = 2;
-            }
-
-        }
-        if( SUCCEEDED( ret = pObj->HitTestHelperMesh( &p, (LEVector3*)&org, (LEVector3*)&ray, "terrain" ) ) )
-        {
-            if( s == 0 || h.z < p.pos.z )
-            {
-                h = p.pos;
-                s = 1;
-            }
-
-        }
-        }
-
-    } 
-
-
-    //LETile* tile = GetCurMap()->GetGroupTile( (int)org->x, (int)org->y, 0 );
-	float fHeight = 0.0f;
-    if( _pTerrain )
-    {
-        _pTerrain->GetHeight(h.x, h.y);
-    }
-
-    
-    if( s && h.z < fHeight - 0.3f ) // “ÚŒ™√¿ ı‘⁄∆¥ŒÔº˛ ±£¨Õ®≥£ª·Ω´ŒÔº˛¬Ò»Îµÿœ¬“ª∂Œæ‡¿Î
-    {
-        //h.z = 0;
-        s = 0;
-    }
-
-    *(LEVector3*)t_pos = h;
-    
-    return s;
-
-}
-int CGameScene::HitTestSceneObjTerrain( D3DXVECTOR3* t_pos, const D3DXVECTOR3* org, const D3DXVECTOR3* ray )
-{
-    LEPickInfo p;
-    CSceneObj* pObj;
-    DWORD s = 0;
-    LEVector3 h(0.0f, 0.0f, 0.0f);
-    HRESULT ret;
-
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		pObj = &_pSceneObjArray[i];
-
-		if( pObj && pObj->IsValid() )
-		{
-            //if( FAILED( pObj->HitTest( &p, (LEVector3*)org, (LEVector3*)ray ) ) )
-            //    continue;
-
-            if( SUCCEEDED( ret = pObj->HitTestHelperMesh( &p, (LEVector3*)org, (LEVector3*)ray, "block" ) ) )
-            {
-                if( s == 0 || h.z < p.pos.z )
-                {
-                    h = p.pos;
-					s = 2;
-                }
-                
-            }
-            if( SUCCEEDED( ret = pObj->HitTestHelperMesh( &p, (LEVector3*)org, (LEVector3*)ray, "terrain" ) ) )
-            {
-                if( s == 0 || h.z < p.pos.z )
-                {
-                    h = p.pos;
-					s = 1;
-                }
-                
-            }
-        }
-    } 
-
-
-    //LETile* tile = GetCurMap()->GetGroupTile( (int)org->x, (int)org->y, 0 );
-	float fHeight = 0.0f;
-    if( _pTerrain )
-    {
-        _pTerrain->GetHeight(h.x, h.y);
-    }
-
-    
-    if( s && h.z < fHeight - 0.3f ) // “ÚŒ™√¿ ı‘⁄∆¥ŒÔº˛ ±£¨Õ®≥£ª·Ω´ŒÔº˛¬Ò»Îµÿœ¬“ª∂Œæ‡¿Î
-    {
-        h.z = 0;
-        s = 0;
-    }
-
-    //if( s && h.z < g_pGameApp->GetMouseMap()->z )
-    //{
-    //    h = *(LEVector3*)g_pGameApp->GetMouseMap();
-    //    s = 0;
-    //}
-
-    *(LEVector3*)t_pos = h;
-    
-    return s;
+    if (pObj->IsValid() == FALSE)
+      return pObj;
+  }
+  return NULL;
 }
 
-
-int CGameScene::HitTestSceneObjTerrain( D3DXVECTOR3* t_pos, const D3DXVECTOR3* pos )
-{
-
-    LEVector3 org( *(LEVector3*)pos );
-    LEVector3 ray( 0.0f, 0.0f, -1.0f );
-
-    return HitTestSceneObjTerrain( t_pos, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
+CCharacter *CGameScene::GetCha(int nArrayID) {
+  if (nArrayID >= _nChaCnt || nArrayID < 0)
+    return NULL;
+  return &_pChaArray[nArrayID];
 }
 
-int CGameScene::HitTestSceneObjChair( D3DXMATRIX* t_mat, int* h, const D3DXVECTOR3* nOrg, const D3DXVECTOR3* nRay )
-{
-    LEPickInfo u;
-    CSceneObj* pObj;
+CSceneObj *CGameScene::GetSceneObj(int nArrayID) {
+  if (nArrayID >= _nSceneObjCnt || nArrayID < 0)
+    return NULL;
+  return &_pSceneObjArray[nArrayID];
+}
+
+CSceneItem *CGameScene::GetSceneItem(int nArrayID) {
+  if (nArrayID >= _nSceneItemCnt || nArrayID < 0)
+    return NULL;
+
+  return &_pSceneItemArray[nArrayID];
+}
+
+CCharacter *CGameScene::AddCharacter(const LoadChaInfo *info) {
+  CCharacter *pCha = _GetFirstInvalidCha();
+  if (pCha) {
+    pCha->Destroy();
+    pCha->SetScene(this);
+    if (pCha->LoadCha(info) == 0)
+      return NULL;
+    pCha->SetValid(TRUE);
+    pCha->EnableAI(TRUE);
+
+    HandleSceneMsg(SCENEMSG_CHA_CREATE, pCha->getID(), info->cha_id);
+  }
+  return pCha;
+}
+
+CSceneItem *CGameScene::HitSceneItemText(int nScrX, int nScrY) {
+  CSceneItem *pObj = HitTestSceneItem(nScrX, nScrY);
+  if (pObj) {
+    _pMouseInItem = pObj;
+  }
+
+  if (!_IsShowItemName)
+    return pObj;
+
+  for (int i = 0; i < _nSceneItemCnt; i++) {
+    pObj = &_pSceneItemArray[i];
+    if (pObj->IsValid() && !pObj->IsHide() && pObj->IsHitText(nScrX, nScrY)) {
+      return pObj;
+    }
+  }
+
+  return NULL;
+}
+
+CSceneItem *CGameScene::HitTestSceneItem(int nScrX, int nScrY) {
+  CSceneItem *pObj;
+  CSceneItem *pObjXXX = 0;
+
+  float dis = 0.0f;
+  LEPickInfo info;
+  LEVector3 org, ray;
+
+  g_Render.GetPickRayVector(nScrX, nScrY, (D3DXVECTOR3 *)&org,
+                            (D3DXVECTOR3 *)&ray);
+  LEVector3Normalize(&ray);
+
+  for (int i = 0; i < _nSceneItemCnt; i++) {
+    pObj = &_pSceneItemArray[i];
+
+    if (pObj->IsValid() && pObj->IsHide() == FALSE &&
+        pObj->getAttachedCharacterID() == -1) {
+      if (SUCCEEDED(pObj->HitTestPrimitive(&info, &org, &ray))) {
+        if ((pObjXXX == NULL) || (dis > info.dis)) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        }
+      }
+    }
+  }
+
+  return pObjXXX;
+}
+
+CSceneObj *CGameScene::HitTestSceneObj(int nScrX, int nScrY) {
+  CSceneObj *pObj;
+  CSceneObj *pObjXXX = 0;
+
+  float dis = 0.0f;
+  LEPickInfo info;
+  LEVector3 org, ray;
+
+  g_Render.GetPickRayVector(nScrX, nScrY, (D3DXVECTOR3 *)&org,
+                            (D3DXVECTOR3 *)&ray);
+  LEVector3Normalize(&ray);
+
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    pObj = &_pSceneObjArray[i];
+
+    if (pObj->IsValid() && pObj->IsHide() == FALSE) {
+      if (SUCCEEDED(pObj->HitTestPrimitive(&info, &org, &ray))) {
+        if ((pObjXXX == NULL) || (dis > info.dis)) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        }
+      }
+    }
+  }
+
+  return pObjXXX;
+}
+
+CCharacter *CGameScene::HitTestCharacter(int nScrX, int nScrY) {
+  CCharacter *pObj;
+  CCharacter *pObjXXX = 0;
+
+  float dis = 0.0f;
+  LEPickInfo info;
+  LEVector3 org, ray;
+
+  g_Render.GetPickRayVector(nScrX, nScrY, (D3DXVECTOR3 *)&org,
+                            (D3DXVECTOR3 *)&ray);
+  LEVector3Normalize(&ray);
+
+  for (int i = 0; i < _nChaCnt; i++) {
+    pObj = &_pChaArray[i];
+
+    if (pObj->IsValid() && !pObj->IsHide()) {
+      if (SUCCEEDED(pObj->HitTestPrimitive(&info, &org, &ray))) {
+        if ((pObjXXX == NULL) || (dis > info.dis)) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        }
+      }
+    }
+  }
+
+  return pObjXXX;
+}
+
+CCharacter *CGameScene::HitCharacter(int nScrX, int nScrY) {
+  CCharacter *pObj;
+  CCharacter *pObjXXX = 0;
+
+  float dis = 0.0f;
+  LEPickInfo info;
+  LEVector3 org, ray;
+
+  g_Render.GetPickRayVector(nScrX, nScrY, (D3DXVECTOR3 *)&org,
+                            (D3DXVECTOR3 *)&ray);
+  LEVector3Normalize(&ray);
+
+  for (int i = 0; i < _nChaCnt; i++) {
+    pObj = &_pChaArray[i];
+
+    if (pObj->IsValid() && !pObj->IsHide()) {
+      if (SUCCEEDED(pObj->HitTestPrimitive(&info, &org, &ray))) {
+        if (!pObjXXX) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        } else if (pObj->getChaCtrlType() > pObjXXX->getChaCtrlType()) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        } else if (pObj->getChaCtrlType() == pObjXXX->getChaCtrlType() &&
+                   dis > info.dis) {
+          pObjXXX = pObj;
+          dis = info.dis;
+        }
+      }
+    }
+  }
+
+  return pObjXXX;
+}
+
+int CGameScene::HitTestSceneObjTerrainForInfluence(D3DXVECTOR3 *t_pos,
+                                                   const D3DXVECTOR3 *nPos) {
+  LEPickInfo p;
+  CSceneObj *pObj;
+  DWORD s = 0;
+  LEVector3 h(0.0f, 0.0f, 0.0f);
+  HRESULT ret;
+
+  D3DXVECTOR3 org(*nPos);
+  D3DXVECTOR3 ray(0.0f, 0.0f, -1.0f);
+
+  const float __max_visible_size = 25.0f;
+
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    pObj = &_pSceneObjArray[i];
+
+    if (pObj && pObj->IsValid()) {
+
+      D3DXVECTOR3 x_pos = pObj->getPos() - *nPos;
+
+      if (x_pos.x * x_pos.x + x_pos.y * x_pos.y >
+          __max_visible_size * __max_visible_size) {
+        // static int discard_num = 0;
+        // LG( "ppp", "Discard: %d\n",++discard_num );
+        continue;
+      }
+
+      // static int hit_num = 0;
+      // LG( "ppp", "Hit: %d\n",++hit_num );
+
+      if (SUCCEEDED(ret = pObj->HitTestHelperMesh(
+                        &p, (LEVector3 *)&org, (LEVector3 *)&ray, "block"))) {
+        if (s == 0 || h.z < p.pos.z) {
+          h = p.pos;
+          s = 2;
+        }
+      }
+      if (SUCCEEDED(ret = pObj->HitTestHelperMesh(
+                        &p, (LEVector3 *)&org, (LEVector3 *)&ray, "terrain"))) {
+        if (s == 0 || h.z < p.pos.z) {
+          h = p.pos;
+          s = 1;
+        }
+      }
+    }
+  }
+
+  // LETile* tile = GetCurMap()->GetGroupTile( (int)org->x, (int)org->y, 0 );
+  float fHeight = 0.0f;
+  if (_pTerrain) {
+    _pTerrain->GetHeight(h.x, h.y);
+  }
+
+  if (s &&
+      h.z < fHeight - 0.3f) // Âõ†‰∏∫ÁæéÊúØÂú®ÊãºÁâ©‰ª∂Êó∂ÔºåÈÄöÂ∏∏‰ºöÂ∞ÜÁâ©‰ª∂ÂüãÂÖ•Âú∞‰∏ã‰∏ÄÊÆµË∑ùÁ¶ª
+  {
+    // h.z = 0;
+    s = 0;
+  }
+
+  *(LEVector3 *)t_pos = h;
+
+  return s;
+}
+int CGameScene::HitTestSceneObjTerrain(D3DXVECTOR3 *t_pos,
+                                       const D3DXVECTOR3 *org,
+                                       const D3DXVECTOR3 *ray) {
+  LEPickInfo p;
+  CSceneObj *pObj;
+  DWORD s = 0;
+  LEVector3 h(0.0f, 0.0f, 0.0f);
+  HRESULT ret;
+
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    pObj = &_pSceneObjArray[i];
+
+    if (pObj && pObj->IsValid()) {
+      // if( FAILED( pObj->HitTest( &p, (LEVector3*)org, (LEVector3*)ray ) ) )
+      //    continue;
+
+      if (SUCCEEDED(ret = pObj->HitTestHelperMesh(&p, (LEVector3 *)org,
+                                                  (LEVector3 *)ray, "block"))) {
+        if (s == 0 || h.z < p.pos.z) {
+          h = p.pos;
+          s = 2;
+        }
+      }
+      if (SUCCEEDED(ret = pObj->HitTestHelperMesh(
+                        &p, (LEVector3 *)org, (LEVector3 *)ray, "terrain"))) {
+        if (s == 0 || h.z < p.pos.z) {
+          h = p.pos;
+          s = 1;
+        }
+      }
+    }
+  }
+
+  // LETile* tile = GetCurMap()->GetGroupTile( (int)org->x, (int)org->y, 0 );
+  float fHeight = 0.0f;
+  if (_pTerrain) {
+    _pTerrain->GetHeight(h.x, h.y);
+  }
+
+  if (s &&
+      h.z < fHeight - 0.3f) // Âõ†‰∏∫ÁæéÊúØÂú®ÊãºÁâ©‰ª∂Êó∂ÔºåÈÄöÂ∏∏‰ºöÂ∞ÜÁâ©‰ª∂ÂüãÂÖ•Âú∞‰∏ã‰∏ÄÊÆµË∑ùÁ¶ª
+  {
+    h.z = 0;
+    s = 0;
+  }
+
+  // if( s && h.z < g_pGameApp->GetMouseMap()->z )
+  //{
+  //    h = *(LEVector3*)g_pGameApp->GetMouseMap();
+  //    s = 0;
+  //}
+
+  *(LEVector3 *)t_pos = h;
+
+  return s;
+}
+
+int CGameScene::HitTestSceneObjTerrain(D3DXVECTOR3 *t_pos,
+                                       const D3DXVECTOR3 *pos) {
+
+  LEVector3 org(*(LEVector3 *)pos);
+  LEVector3 ray(0.0f, 0.0f, -1.0f);
+
+  return HitTestSceneObjTerrain(t_pos, (D3DXVECTOR3 *)&org,
+                                (D3DXVECTOR3 *)&ray);
+}
+
+int CGameScene::HitTestSceneObjChair(D3DXMATRIX *t_mat, int *h,
+                                     const D3DXVECTOR3 *nOrg,
+                                     const D3DXVECTOR3 *nRay) {
+  LEPickInfo u;
+  CSceneObj *pObj;
 
 #if 1
-    list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POSE].begin();
-    list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POSE].end();
+  list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POSE].begin();
+  list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POSE].end();
 
-    for(; it != it_end; ++it)
-    {
-        int i = (*it);
+  for (; it != it_end; ++it) {
+    int i = (*it);
 #else
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
+  for (int i = 0; i < _nSceneObjCnt; i++) {
 #endif
-		pObj = &_pSceneObjArray[i];
+    pObj = &_pSceneObjArray[i];
 
-		if( pObj && pObj->IsValid() )
-		{
-            LEIPrimitive* p = pObj->GetPrimitive( 0 );
-            if(p == 0)
-                continue;
+    if (pObj && pObj->IsValid()) {
+      LEIPrimitive *p = pObj->GetPrimitive(0);
+      if (p == 0)
+        continue;
 
-            drIHelperObject* ho = p->GetHelperObject();
-            if(ho == 0)
-                continue;
+      drIHelperObject *ho = p->GetHelperObject();
+      if (ho == 0)
+        continue;
 
-            drIHelperBox* hb = ho->GetHelperBox();
-            if(hb == 0)
-                continue;
+      drIHelperBox *hb = ho->GetHelperBox();
+      if (hb == 0)
+        continue;
 
-            drHelperBoxInfo* hbi = hb->GetDataInfoWithID( 0 );
+      drHelperBoxInfo *hbi = hb->GetDataInfoWithID(0);
 
-            if( _tcscmp( hbi->name, "chair" ) == 0 )
-            {
-                if( SUCCEEDED( pObj->HitTestPrimitive( &u, (LEVector3*)nOrg, (LEVector3*)nRay ) ) )
-                {
-                    LEMatrix44Multiply( (LEMatrix44*)t_mat, &hbi->mat, p->GetMatrixGlobal() );
+      if (_tcscmp(hbi->name, "chair") == 0) {
+        if (SUCCEEDED(pObj->HitTestPrimitive(&u, (LEVector3 *)nOrg,
+                                             (LEVector3 *)nRay))) {
+          LEMatrix44Multiply((LEMatrix44 *)t_mat, &hbi->mat,
+                             p->GetMatrixGlobal());
 
-                    *h = pObj->getHeightOff();
-                    return 1;
+          *h = pObj->getHeightOff();
+          return 1;
+        }
+      }
 
-                }
-            }
+      // if( SUCCEEDED( pObj->HitTestPrimitiveHelperBox( &u, (LEVector3*)nOrg,
+      // (LEVector3*)nRay, "chair" ) ) )
+      //{
+      //    LEIPrimitive* p = pObj->GetPrimitive( u.data );
 
-            //if( SUCCEEDED( pObj->HitTestPrimitiveHelperBox( &u, (LEVector3*)nOrg, (LEVector3*)nRay, "chair" ) ) )
-            //{
-            //    LEIPrimitive* p = pObj->GetPrimitive( u.data );
+      //    drIHelperBox* hb = p->GetHelperObject()->GetHelperBox();
+      //    drHelperBoxInfo* hbi = hb->GetDataInfoWithID( u.obj_id );
 
-            //    drIHelperBox* hb = p->GetHelperObject()->GetHelperBox();
-            //    drHelperBoxInfo* hbi = hb->GetDataInfoWithID( u.obj_id );    
+      //    LEMatrix44Multiply( (LEMatrix44*)t_mat, &hbi->mat,
+      //    p->GetMatrixGlobal() );
 
-            //    LEMatrix44Multiply( (LEMatrix44*)t_mat, &hbi->mat, p->GetMatrixGlobal() );
+      //    *h = pObj->getHeightOff();
+      //    return 1;
+      //}
+    }
+  }
 
-            //    *h = pObj->getHeightOff();
-            //    return 1;
-            //}
-		} 
-	}
+  // return HitTestChair( t_mat, nOrg, nRay );
 
-
-    //return HitTestChair( t_mat, nOrg, nRay );
-
-    return 0;
-
+  return 0;
 }
 
-int CGameScene::HitTestSceneObjWall( D3DXMATRIX* t_mat, const D3DXVECTOR3* nOrg, const D3DXVECTOR3* nRay )
-{
-    LEPickInfo u;
-    CSceneObj* pObj;
+int CGameScene::HitTestSceneObjWall(D3DXMATRIX *t_mat, const D3DXVECTOR3 *nOrg,
+                                    const D3DXVECTOR3 *nRay) {
+  LEPickInfo u;
+  CSceneObj *pObj;
 
 #if 1
-    list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POSE].begin();
-    list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POSE].end();
+  list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POSE].begin();
+  list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POSE].end();
 
-    for(; it != it_end; ++it)
-    {
-        int i = (*it);
+  for (; it != it_end; ++it) {
+    int i = (*it);
 #else
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
+  for (int i = 0; i < _nSceneObjCnt; i++) {
 #endif
-		pObj = &_pSceneObjArray[i];
+    pObj = &_pSceneObjArray[i];
 
-		if( pObj->IsValid() )
-		{
-            LEIPrimitive* p = pObj->GetPrimitive( 0 );
-            if(p == 0)
-                continue;
+    if (pObj->IsValid()) {
+      LEIPrimitive *p = pObj->GetPrimitive(0);
+      if (p == 0)
+        continue;
 
-            drIHelperMesh* hm = p->GetHelperObject()->GetHelperMesh();
+      drIHelperMesh *hm = p->GetHelperObject()->GetHelperMesh();
 
-            if( hm )
-            {
-                drHelperMeshInfo* hmi = hm->GetDataInfoWithID( 0 );
+      if (hm) {
+        drHelperMeshInfo *hmi = hm->GetDataInfoWithID(0);
 
-                if( _tcscmp( hmi->name, "wall" ) == 0 )
-                {
-                    if( SUCCEEDED( pObj->HitTestPrimitive( &u, (LEVector3*)nOrg, (LEVector3*)nRay ) ) )
-                    {
-                        LEMatrix44Multiply( (LEMatrix44*)t_mat, &hmi->mat, p->GetMatrixGlobal() );
+        if (_tcscmp(hmi->name, "wall") == 0) {
+          if (SUCCEEDED(pObj->HitTestPrimitive(&u, (LEVector3 *)nOrg,
+                                               (LEVector3 *)nRay))) {
+            LEMatrix44Multiply((LEMatrix44 *)t_mat, &hmi->mat,
+                               p->GetMatrixGlobal());
 
-                        return 1;
+            return 1;
+          }
+        }
+      }
 
-                    }
-                }
-            }
+      // if( SUCCEEDED( pObj->HitTestPrimitiveHelperMesh( &u, (LEVector3*)nOrg,
+      // (LEVector3*)nRay, "wall" ) ) )
+      //{
+      //    LEIPrimitive* p = pObj->GetPrimitive( u.data );
 
-            //if( SUCCEEDED( pObj->HitTestPrimitiveHelperMesh( &u, (LEVector3*)nOrg, (LEVector3*)nRay, "wall" ) ) )
-            //{
-            //    LEIPrimitive* p = pObj->GetPrimitive( u.data );
+      //    drIHelperMesh* hb = p->GetHelperObject()->GetHelperMesh();
+      //    drHelperMeshInfo* hbi = hb->GetDataInfoWithID( u.obj_id );
 
-            //    drIHelperMesh* hb = p->GetHelperObject()->GetHelperMesh();
-            //    drHelperMeshInfo* hbi = hb->GetDataInfoWithID( u.obj_id );    
+      //    LEMatrix44Multiply( (LEMatrix44*)t_mat, &hbi->mat,
+      //    p->GetMatrixGlobal() ); return 1;
+      //}
+    }
+  }
 
-            //    LEMatrix44Multiply( (LEMatrix44*)t_mat, &hbi->mat, p->GetMatrixGlobal() );
-            //    return 1;
-            //}
-		} 
-	}
+  return 0;
+}
 
+int CGameScene::HitTestSceneObjChair(D3DXVECTOR3 *t_pos, int *t_angle, int *h,
+                                     const D3DXVECTOR3 *nOrg,
+                                     const D3DXVECTOR3 *nRay) {
+  D3DXMATRIX mat;
+
+  if (HitTestSceneObjChair(&mat, h, nOrg, nRay) == 0)
     return 0;
 
+  *t_pos = *(D3DXVECTOR3 *)&mat._41;
+  float a = atan2(mat._22, mat._21);
+  *t_angle = (DWORD)(a * 180 / D3DX_PI);
+
+  return 1;
+}
+int CGameScene::HitTestSceneObjWall(D3DXVECTOR3 *t_pos, int *t_angle,
+                                    const D3DXVECTOR3 *nOrg,
+                                    const D3DXVECTOR3 *nRay) {
+  D3DXMATRIX mat;
+
+  if (HitTestSceneObjWall(&mat, nOrg, nRay) == 0)
+    return 0;
+
+  *t_pos = *(D3DXVECTOR3 *)&mat._41;
+  *t_angle = (int)(atan2(mat._22, mat._21) * 180 / D3DX_PI);
+  return 1;
 }
 
-int CGameScene::HitTestSceneObjChair( D3DXVECTOR3* t_pos, int* t_angle, int* h, const D3DXVECTOR3* nOrg, const D3DXVECTOR3* nRay )
-{
-    D3DXMATRIX mat;
-
-    if( HitTestSceneObjChair( &mat, h, nOrg, nRay ) == 0 )
-        return 0;
-
-    *t_pos = *(D3DXVECTOR3*)&mat._41;
-	float a = atan2( mat._22, mat._21 );
-    *t_angle = (DWORD)( a * 180 / D3DX_PI);
-
-    return 1;
-}
-int CGameScene::HitTestSceneObjWall( D3DXVECTOR3* t_pos, int* t_angle, const D3DXVECTOR3* nOrg, const D3DXVECTOR3* nRay )
-{
-    D3DXMATRIX mat;
-
-    if( HitTestSceneObjWall( &mat, nOrg, nRay ) == 0 )
-        return 0;
-
-    *t_pos = *(D3DXVECTOR3*)&mat._41;
-    *t_angle = (int)(atan2( mat._22, mat._21 ) * 180 / D3DX_PI);
-    return 1;
+void CGameScene::ShowSceneObjTerrain(BOOL bShow) {
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    _pSceneObjArray[i].ShowHelperMesh(bShow);
+  }
+  _bShowTerrain = bShow;
 }
 
-void CGameScene::ShowSceneObjTerrain( BOOL bShow )
-{
-	for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		_pSceneObjArray[i].ShowHelperMesh( bShow );
-    }
-    _bShowTerrain = bShow;
-}
-
-int CGameScene::GetMainChaPickRay(LEVector3* org, LEVector3* ray)
-{
-    if(_pMainCha == 0 )
-        return 0;
+int CGameScene::GetMainChaPickRay(LEVector3 *org, LEVector3 *ray) {
+  if (_pMainCha == 0)
+    return 0;
 
 #define USE_MAINCHARACTER_POS
 
-#if(defined USE_CAMERA_TARGET)
-    LEVector3 target = (LEVector3&)GetMainCha()->GetPos();
-    *(D3DXVECTOR3*)(org) = g_pGameApp->GetMainCam()->m_EyePos;
+#if (defined USE_CAMERA_TARGET)
+  LEVector3 target = (LEVector3 &)GetMainCha()->GetPos();
+  *(D3DXVECTOR3 *)(org) = g_pGameApp->GetMainCam()->m_EyePos;
 #endif
 
-#if(defined USE_MAINCHARACTER_POS)
-    LEVector3 target = (LEVector3&)GetMainCha()->GetPos();
-    *org = target;
-    org->z += 100.0f;
+#if (defined USE_MAINCHARACTER_POS)
+  LEVector3 target = (LEVector3 &)GetMainCha()->GetPos();
+  *org = target;
+  org->z += 100.0f;
 #endif
 
-    LEVector3Sub(ray, &target, org);
-    LEVector3Normalize(ray);
+  LEVector3Sub(ray, &target, org);
+  LEVector3Normalize(ray);
 
-    return 1;
+  return 1;
 }
 
-void CGameScene::EnableChaTexLinearFilter( BOOL flag )
-{
-    _dwChaTEXFilter = flag == 1 ? D3DTEXF_LINEAR : D3DTEXF_POINT;
+void CGameScene::EnableChaTexLinearFilter(BOOL flag) {
+  _dwChaTEXFilter = flag == 1 ? D3DTEXF_LINEAR : D3DTEXF_POINT;
 }
 
-CEffectObj*		CGameScene::HitTestEffectObj(int nScrX, int nScrY)
-{
-    LEVector3 org, ray;
-    g_Render.GetPickRayVector( nScrX, nScrY, (D3DXVECTOR3*)&org, (D3DXVECTOR3*)&ray );
-    LEVector3Normalize( &ray );
-	CEffectObj* pEffObj = NULL;
-				
-	//g_CEffBox.Show(FALSE);
+CEffectObj *CGameScene::HitTestEffectObj(int nScrX, int nScrY) {
+  LEVector3 org, ray;
+  g_Render.GetPickRayVector(nScrX, nScrY, (D3DXVECTOR3 *)&org,
+                            (D3DXVECTOR3 *)&ray);
+  LEVector3Normalize(&ray);
+  CEffectObj *pEffObj = NULL;
 
-	for( int i = 0; i < _nEffCnt; i++)
-	{
-		pEffObj = &_pEffectArray[i];
-		if(pEffObj->IsValid())
-		{
-			pEffObj->ShowBox(FALSE);
+  // g_CEffBox.Show(FALSE);
 
-			if(pEffObj->IsSceneEffect())
-				if(pEffObj->HitTestPrimitive(org,ray))
-				{
-					//g_CEffBox.setPos(pEffObj->getPos());
-					//g_CEffBox.Show(TRUE);
-					pEffObj->ShowBox(TRUE);
-					return pEffObj;
-				}
-		}
-	}
-	return NULL;
-}
+  for (int i = 0; i < _nEffCnt; i++) {
+    pEffObj = &_pEffectArray[i];
+    if (pEffObj->IsValid()) {
+      pEffObj->ShowBox(FALSE);
 
-
-
-void CGameScene::UnhideAllSceneObj()
-{
-    CSceneObj* pObj;
-    for( int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		pObj = &_pSceneObjArray[i];
-
-		if( pObj && pObj->IsValid() )
-		{
-            pObj->SetHide(FALSE);
+      if (pEffObj->IsSceneEffect())
+        if (pEffObj->HitTestPrimitive(org, ray)) {
+          // g_CEffBox.setPos(pEffObj->getPos());
+          // g_CEffBox.Show(TRUE);
+          pEffObj->ShowBox(TRUE);
+          return pEffObj;
         }
     }
+  }
+  return NULL;
 }
 
-void CGameScene::ResetAllSceneObjPos()
-{
-	CSceneObj	*pObj;
-	CEffectObj	*pEffObj;
+void CGameScene::UnhideAllSceneObj() {
+  CSceneObj *pObj;
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    pObj = &_pSceneObjArray[i];
 
-	int i;
-	for( i = 0; i < _nSceneObjCnt; i++) 
-	{
-		pObj = &_pSceneObjArray[i];
-		if( pObj->IsValid())
-			pObj->setPos(pObj->GetCurX(), pObj->GetCurY());
-	}
-	for( i = 0; i < _nEffCnt; i++) 
-	{
-		pEffObj = &_pEffectArray[i];
-		if (pEffObj->IsValid())
-			pEffObj->setPos(pEffObj->GetCurX(), pEffObj->GetCurY());
-	}
+    if (pObj && pObj->IsValid()) {
+      pObj->SetHide(FALSE);
+    }
+  }
 }
 
-int CGameScene::GetValidSceneObjCnt()
-{
-	int nValidCnt = 0;
-	for(int i = 0; i < _nSceneObjCnt; i++) 
-	{
-		CSceneObj *pObj = &_pSceneObjArray[i];
-		if(pObj->IsValid())
-		{
-			nValidCnt++;
-		}
-	}
-	return nValidCnt;
+void CGameScene::ResetAllSceneObjPos() {
+  CSceneObj *pObj;
+  CEffectObj *pEffObj;
+
+  int i;
+  for (i = 0; i < _nSceneObjCnt; i++) {
+    pObj = &_pSceneObjArray[i];
+    if (pObj->IsValid())
+      pObj->setPos(pObj->GetCurX(), pObj->GetCurY());
+  }
+  for (i = 0; i < _nEffCnt; i++) {
+    pEffObj = &_pEffectArray[i];
+    if (pEffObj->IsValid())
+      pEffObj->setPos(pEffObj->GetCurX(), pEffObj->GetCurY());
+  }
 }
 
-bool CGameScene::_CreateMemory()
-{
-//  LG( "memory", "Create - Map %s, Eff: %d, Cha: %d, Obj: %d, Item: %d\n", _stInit.strMapFile.c_str(), _stInit.nMaxEff, _stInit.nMaxCha, _stInit.nMaxObj, _stInit.nMaxItem );
-//	LG( "scene init", "Creatememory %s\n", _stInit.strMapFile.c_str() );
-    _pMainCha = NULL;
+int CGameScene::GetValidSceneObjCnt() {
+  int nValidCnt = 0;
+  for (int i = 0; i < _nSceneObjCnt; i++) {
+    CSceneObj *pObj = &_pSceneObjArray[i];
+    if (pObj->IsValid()) {
+      nValidCnt++;
+    }
+  }
+  return nValidCnt;
+}
 
-    LoadMap( _stInit.strMapFile.c_str() );
+bool CGameScene::_CreateMemory() {
+  //  LG( "memory", "Create - Map %s, Eff: %d, Cha: %d, Obj: %d, Item: %d\n",
+  //  _stInit.strMapFile.c_str(), _stInit.nMaxEff, _stInit.nMaxCha,
+  //  _stInit.nMaxObj, _stInit.nMaxItem );
+  //	LG( "scene init", "Creatememory %s\n", _stInit.strMapFile.c_str() );
+  _pMainCha = NULL;
+
+  LoadMap(_stInit.strMapFile.c_str());
 
 #ifdef _SKYBOX_
-	if ( _stInit.nTypeID == enumWorldScene )
-	{
-		if( !LoadSky( _stInit.strMapFile.c_str() ) )
-		{
-			LG( "scene", "msgCGameScene::Load Sky Error, Map name[%s]", _stInit.strMapFile.c_str() );
-		}
-	}	
+  if (_stInit.nTypeID == enumWorldScene) {
+    if (!LoadSky(_stInit.strMapFile.c_str())) {
+      LG("scene", "msgCGameScene::Load Sky Error, Map name[%s]",
+         _stInit.strMapFile.c_str());
+    }
+  }
 #endif
 
-	_nChaCnt = 0;
-	_nSceneObjCnt = 0;
-	_nSceneItemCnt = 0;
-	_nEffCnt = 0 ;
-	if( _stInit.nMaxEff > 0 ) g_stUISystem.m_sysProp.m_videoProp.bPixel1024 ? _CreateEffectArray(_stInit.nMaxEff*2) : _CreateEffectArray(_stInit.nMaxEff);
-	if( _stInit.nMaxCha > 0 ) g_stUISystem.m_sysProp.m_videoProp.bPixel1024 ? _CreateChaArray(_stInit.nMaxCha*2) : _CreateChaArray(_stInit.nMaxCha);
-	if( _stInit.nMaxObj > 0 ) g_stUISystem.m_sysProp.m_videoProp.bPixel1024 ? _CreateSceneObjArray(_stInit.nMaxObj*2) : _CreateSceneObjArray(_stInit.nMaxObj);
-	if( _stInit.nMaxItem > 0 ) g_stUISystem.m_sysProp.m_videoProp.bPixel1024 ? _CreateSceneItemArray(_stInit.nMaxItem*2) : _CreateSceneItemArray(_stInit.nMaxItem);
-//	LG( "scene init", "create array\n" );
+  _nChaCnt = 0;
+  _nSceneObjCnt = 0;
+  _nSceneItemCnt = 0;
+  _nEffCnt = 0;
+  if (_stInit.nMaxEff > 0)
+    g_stUISystem.m_sysProp.m_videoProp.bPixel1024
+        ? _CreateEffectArray(_stInit.nMaxEff * 2)
+        : _CreateEffectArray(_stInit.nMaxEff);
+  if (_stInit.nMaxCha > 0)
+    g_stUISystem.m_sysProp.m_videoProp.bPixel1024
+        ? _CreateChaArray(_stInit.nMaxCha * 2)
+        : _CreateChaArray(_stInit.nMaxCha);
+  if (_stInit.nMaxObj > 0)
+    g_stUISystem.m_sysProp.m_videoProp.bPixel1024
+        ? _CreateSceneObjArray(_stInit.nMaxObj * 2)
+        : _CreateSceneObjArray(_stInit.nMaxObj);
+  if (_stInit.nMaxItem > 0)
+    g_stUISystem.m_sysProp.m_videoProp.bPixel1024
+        ? _CreateSceneItemArray(_stInit.nMaxItem * 2)
+        : _CreateSceneItemArray(_stInit.nMaxItem);
+  //	LG( "scene init", "create array\n" );
 
-	_CreateShadeArray(300);
+  _CreateShadeArray(300);
 
-	//lemon add@2005.2.17
-	_pcPugMgr = new CPugMgr;
-	_pcPugMgr->InitMemory(GetTerrain());
+  // lemon add@2005.2.17
+  _pcPugMgr = new CPugMgr;
+  _pcPugMgr->InitMemory(GetTerrain());
 
-// 	LG( "scene init", "CreateShadeArray\n" );
-// 	LG( "scene init", "init ok\n" );
+  // 	LG( "scene init", "CreateShadeArray\n" );
+  // 	LG( "scene init", "init ok\n" );
 
-	_ReadRBO();
+  _ReadRBO();
 
-	return true;
+  return true;
 }
 
-bool CGameScene::_ClearMemory()
-{
-//  LG( "memory", "\tClear - Map %s, Eff: %d, Cha: %d, Obj: %d, Item: %d\n", _stInit.strMapFile.c_str(), _stInit.nMaxEff, _stInit.nMaxCha, _stInit.nMaxObj, _stInit.nMaxItem );
+bool CGameScene::_ClearMemory() {
+  //  LG( "memory", "\tClear - Map %s, Eff: %d, Cha: %d, Obj: %d, Item: %d\n",
+  //  _stInit.strMapFile.c_str(), _stInit.nMaxEff, _stInit.nMaxCha,
+  //  _stInit.nMaxObj, _stInit.nMaxItem );
 
-    _pMainCha = NULL;
-    //if( CGameApp::IsMusicSystemValid() )	// music
-	   // ::mus_mgr_reset();
+  _pMainCha = NULL;
+  // if( CGameApp::IsMusicSystemValid() )	// music
+  // ::mus_mgr_reset();
 
-    _areaeffs.clear();
+  _areaeffs.clear();
 
-	SAFE_DELETE( _pTerrain )
+  SAFE_DELETE(_pTerrain)
 
-	_ClearAllShade();
-	_ClearAllEff();	// Ãÿ–ß“™œ»«Â≥˝,“ÚŒ™À¸πÿ¡™µΩ»ÀŒÔ,ŒÔº˛
+  _ClearAllShade();
+  _ClearAllEff(); // ÁâπÊïàË¶ÅÂÖàÊ∏ÖÈô§,Âõ†‰∏∫ÂÆÉÂÖ≥ËÅîÂà∞‰∫∫Áâ©,Áâ©‰ª∂
 
-	_ClearAllCha();
-	_ClearAllSceneObj();
-	_ClearAllSceneItem();
-	//lemon add@2005.2.17
-	SAFE_DELETE(_pcPugMgr);
+  _ClearAllCha();
+  _ClearAllSceneObj();
+  _ClearAllSceneItem();
+  // lemon add@2005.2.17
+  SAFE_DELETE(_pcPugMgr);
 
-    SAFE_DELETE_ARRAY(_pSceneLightArray);
-    _nSceneLightCnt = 0;
+  SAFE_DELETE_ARRAY(_pSceneLightArray);
+  _nSceneLightCnt = 0;
 
-	_pMainCha = NULL;
-	_pSelCha = NULL;
+  _pMainCha = NULL;
+  _pSelCha = NULL;
 
-	_pEventMgr->Clear();
+  _pEventMgr->Clear();
 
-    SAFE_DELETE_ARRAY(_TranspObjStateSeq);
-    _dwTranspObjStateNum = 0;
-    _dwTranspObjStateID = 0;
+  SAFE_DELETE_ARRAY(_TranspObjStateSeq);
+  _dwTranspObjStateNum = 0;
+  _dwTranspObjStateID = 0;
 
-	CSynchroManage::I()->Reset();
-	return true;
+  CSynchroManage::I()->Reset();
+  return true;
 }
 
-// π¶ƒ‹£∫Ω´æ‡¿Î£®nCurX, nCurY£©–°”⁄nDist¿Â√◊µƒΩ«…´£¨º”»ÎµΩ—∞æ∂µƒ’œ∞≠÷–
-long CGameScene::AddCharacterBlock(int nCurX, int nCurY, int nDist, BYTE *byBlockBuff, int nBuffWidth, int sRadii )
-{
+// ÂäüËÉΩÔºöÂ∞ÜË∑ùÁ¶ªÔºànCurX, nCurYÔºâÂ∞è‰∫énDistÂéòÁ±≥ÁöÑËßíËâ≤ÔºåÂä†ÂÖ•Âà∞ÂØªÂæÑÁöÑÈöúÁ¢ç‰∏≠
+long CGameScene::AddCharacterBlock(int nCurX, int nCurY, int nDist,
+                                   BYTE *byBlockBuff, int nBuffWidth,
+                                   int sRadii) {
+  return 0;
+
+  long lRet = 1;
+  __int64 nDistX, nDistY;
+
+  int nPosX, nPosY;
+  int nStartX, nEndX, nStartY, nEndY;
+  int i, j, k;
+  int nBuffHeight = nBuffWidth;
+  int nCharacterBlockRadius = 40; //ÂéòÁ±≥
+  const int nBlockUnitWidth = 50, nBlockUnitHeight = 50;
+  int nRange;
+
+  if (_pChaArray == NULL || byBlockBuff == NULL)
     return 0;
 
-	long	lRet = 1;
-	__int64	nDistX, nDistY;
+  nDist *= nDist;
 
-	int		nPosX, nPosY;
-	int		nStartX, nEndX, nStartY, nEndY;
-	int		i, j, k;
-	int		nBuffHeight = nBuffWidth;
-	int		nCharacterBlockRadius = 40;		//¿Â√◊
-	const int		nBlockUnitWidth = 50, nBlockUnitHeight = 50;
-	int     nRange;
+  // float f1, f2, f3;
+  for (i = 0; i < _nChaCnt; i++) {
+    CCharacter *pCha = &_pChaArray[i];
+    if (!pCha->IsValid())
+      continue;
 
-	if(_pChaArray == NULL || byBlockBuff == NULL)
-		return 0;
+    if (pCha == _pMainCha)
+      continue;
 
-	nDist *= nDist;
+    nCharacterBlockRadius = pCha->GetDefaultChaInfo()->sRadii + sRadii;
 
-	//float f1, f2, f3;
-	for(i = 0; i < _nChaCnt; i++)
-	{
-		CCharacter *pCha = &_pChaArray[i];
-		if( !pCha->IsValid() )
-			continue;
+    nPosX = pCha->GetCurX();
+    nPosY = pCha->GetCurY();
+    nDistX = nCurX * nBlockUnitWidth - nPosX;
+    nDistY = nCurY * nBlockUnitHeight - nPosY;
+    nStartX = (nPosX - nCharacterBlockRadius) / nBlockUnitWidth;
+    nEndX = (nPosX + nCharacterBlockRadius - 1) / nBlockUnitWidth;
+    nStartY = (nPosY - nCharacterBlockRadius) / nBlockUnitHeight;
+    nEndY = (nPosY + nCharacterBlockRadius - 1) / nBlockUnitHeight;
 
-		if (pCha == _pMainCha)
-			continue;
-
-		nCharacterBlockRadius = pCha->GetDefaultChaInfo()->sRadii + sRadii;
-
-		nPosX = pCha->GetCurX();
-		nPosY = pCha->GetCurY();
-		nDistX = nCurX * nBlockUnitWidth - nPosX;
-		nDistY = nCurY * nBlockUnitHeight - nPosY;
-		nStartX = (nPosX - nCharacterBlockRadius) / nBlockUnitWidth;
-		nEndX = (nPosX + nCharacterBlockRadius - 1) / nBlockUnitWidth;
-		nStartY = (nPosY - nCharacterBlockRadius) / nBlockUnitHeight;
-		nEndY = (nPosY + nCharacterBlockRadius - 1) / nBlockUnitHeight;
-
-		if( nDistX*nDistX + nDistY*nDistY <= nDist )
-		{
-			for (j = nStartY; j <= nEndY; j++)
-			{
-				for (k = nStartX; k <= nEndX; k++)
-				{
-					nRange = (nBuffHeight / 2 - (nCurY - j)) * nBuffWidth + (nBuffWidth / 2 - (nCurX - k));
-					if( nRange>=0 && nRange<65535 )
-					{
-						byBlockBuff[nRange] = 1;
-					}
-					else
-					{
-						LG( "pathfind", "msgCGameScene::AddCharacterBlock nRange[%d] isn't Valid, Cha name[%s], pos:[%d, %d]", nRange, pCha->getName(), pCha->GetCurX(), pCha->GetCurY() );
-						return 0;
-					}
-				}
-			}
-		}
-	}
-
-	return lRet;
-}
-
-bool CGameScene::_HandleSuperKey()
-{
-#ifdef _DEBUG 
-	if(g_pGameApp->IsKeyDown(DIK_V))
-    {
-        EnableSceneObjCulling(1 - IsSceneObjCulling());
-        TipI(IsSceneObjCulling(), RES_STRING(CL_LANGUAGE_MATCH_329), RES_STRING(CL_LANGUAGE_MATCH_330));
-    }
-	else if(g_pGameApp->IsKeyDown(DIK_F5))
-	{
-		static BOOL g_bEnablePrint = FALSE;
-		g_bEnablePrint = 1 - g_bEnablePrint;
-		g_Render.EnablePrint(INFO_FPS,   g_bEnablePrint);
-		g_Render.EnablePrint(INFO_DEBUG, g_bEnablePrint);
-		TipI(g_bEnablePrint, RES_STRING(CL_LANGUAGE_MATCH_331), RES_STRING(CL_LANGUAGE_MATCH_332));
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_F6))
-	{
-		//g_pGameApp->ResetGameCamera();
-		Tip(RES_STRING(CL_LANGUAGE_MATCH_333));
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_F7))
-	{
-		this->ShowSceneObjTerrain(1 - this->IsSceneObjTerrainVisible());
-		TipI(this->IsSceneObjTerrainVisible(), RES_STRING(CL_LANGUAGE_MATCH_334), RES_STRING(CL_LANGUAGE_MATCH_335));
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_F8))
-	{
-		this->ShowSceneObj(1 - this->IsSceneObjVisible());
-		TipI(this->IsSceneObjVisible(), RES_STRING(CL_LANGUAGE_MATCH_336), RES_STRING(CL_LANGUAGE_MATCH_337));
-	}
-	else if (g_pGameApp->IsKeyDown(DIK_F9)) //À˘”–µ±«∞activeµƒsection◊ˆ∏ﬂ∂»∫Õ◊Ëµ≤º∆À„≤¢¥Ê≈Ã
-	{
-		/*
-        // –ﬁ∏ƒ¥À¥¶“ª∂®“™∑«≥£–°–ƒ£¨
-		// «Î≤ŒøºLEMap::DynamicLoading()£¨»Áπ˚…Ë÷√≤ª’˝»∑£¨ª·µº÷¬–Ë“™µƒsection√ª”–∂¡Ω¯ƒ⁄¥Ê£ª
-		const int	ciSectionWidth = 8;			// µ•Œª£∫tile£®√◊£©
-		const int	ciSectionHeight = 8;		// µ•Œª£∫tile
-		const int	ciRefreshWidth = 3;			// –Ë“™À¢–¬µƒsectionøÌ£¨µ•Œª£∫section
-		const int	ciRefreshHeight = 3;		// –Ë“™À¢–¬µƒsection∏ﬂ£¨µ•Œª£∫section
-		const int	ciMaxObjWidth = 2;			// ◊Ó¥ÛŒÔº˛øÌ∂»£¨µ•Œª£∫section
-		const int	ciMaxObjHeight = 2;			// ◊Ó¥ÛŒÔº˛∏ﬂ∂»£¨µ•Œª£∫section
-		int			iShowSizeX, iShowSizeY;		// µ•Œª£∫tile
-		int			iShowCenterX, iShowCenterY;	// µ•Œª£∫tile
-		int			iSaveSectionBuffer;
-		int			iOriginalWidth, iOriginalHeight;
-		float		fOriginalCenterX, fOriginalCenterY;
-
-		fOriginalCenterX = _pTerrain->GetShowCenterX();
-		fOriginalCenterY = _pTerrain->GetShowCenterY();
-		iOriginalWidth = _pTerrain->GetShowWidth();
-		iOriginalHeight = _pTerrain->GetShowHeight();
-
-		iShowCenterX = ((int)_pTerrain->GetShowCenterX() / ciSectionWidth) * ciSectionWidth + ciSectionWidth / 2;
-		iShowCenterY = ((int)_pTerrain->GetShowCenterY() / ciSectionHeight) * ciSectionHeight + ciSectionHeight / 2;
-		_pTerrain->SetShowCenter((float)iShowCenterX, (float)iShowCenterY);
-		iShowSizeX = (ciMaxObjWidth * 2 + ciRefreshWidth) * ciSectionWidth;
-		iShowSizeY = (ciMaxObjHeight * 2 + ciRefreshHeight) * ciSectionHeight;
-		_pTerrain->SetShowSize(iShowSizeX, iShowSizeY);
-		iSaveSectionBuffer = (iShowSizeX / ciSectionWidth) * (iShowSizeY / ciSectionHeight);
-		_pTerrain->SetSectionBufferSize(iSaveSectionBuffer);
-
-		_pTerrain->ClearAllSection(TRUE);
-		_pTerrain->DynamicLoading(GetTickCount());
-		g_pGameApp->GetCurScene()->ResetAllSceneObjPos();
-
-		int		i, j;
-		int		iCurSectionY, iCurSectionX;
-		for (i = 0; i < ciRefreshHeight; i ++)
-		{
-			iCurSectionY = (int)_pTerrain->GetShowCenterY() / ciSectionHeight - ciRefreshHeight / 2 + i;
-			if (iCurSectionY < 0)
-				continue;
-			for (j = 0; j < ciRefreshWidth; j ++)
-			{
-				iCurSectionX = (int)_pTerrain->GetShowCenterX() / ciSectionWidth - ciRefreshWidth / 2 + j;
-				if (iCurSectionX < 0)
-					continue;
-				g_ObjInfluence.RefreshSectionObjInfluenceInfo(iCurSectionY * _pTerrain->GetSectionCntX() + iCurSectionX);
-			}
-		}
-		_pTerrain->SetSectionBufferSize(MAX_SECTION_BUFFER);
-		_pTerrain->SetShowCenter(fOriginalCenterX, fOriginalCenterY);
-		_pTerrain->SetShowSize(iOriginalWidth, iOriginalHeight);
-		_pTerrain->ClearAllSection(TRUE);
-		_pTerrain->DynamicLoading(GetTickCount());
-        */
-	}
-	else if(g_pGameApp->IsKeyDown( (BYTE)DIKEYBOARD_SYSRQ ) )
-	{
-		if(g_pGameApp->IsEnableSpAvi())
-		{
-			g_pGameApp->EnableSprintAvi(FALSE);
-			return false;
-		}
-		if(g_pGameApp->IsCtrlPress())
-			g_pGameApp->EnableSprintAvi(TRUE);
-		else
-			g_pGameApp->EnableSprintScreen(TRUE);
-
-		if(g_pGameApp->IsShiftPress())
-		{
-			g_pGameApp->SetStartMinimap(0,0,GetTerrain()->GetWidth()/SHOWRSIZE, GetTerrain()->GetHeight()/SHOWRSIZE);
-			//g_pGameApp->SetStartMinimap(1500,3000,2, 2);
-
-			g_pGameApp->EnableSprintSmMap(TRUE);
-		}
-
-	}
-    else if(g_pGameApp->IsKeyDown(DIK_INSERT))
-	{
-		g_pGameApp->EnableSprintAvi(TRUE);
-	}
-    else if(g_pGameApp->IsKeyDown(DIK_HOME))
-	{
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_9))
-	{
-		if( _pTerrain )
-		{
-			int nWidth  = _pTerrain->GetShowWidth();
-			int nHeight = _pTerrain->GetShowHeight();
-			if(nWidth > 8 && nHeight > 8)
-			{
-				_pTerrain->SetShowSize(nWidth - 1, nHeight - 1);
-			}
-		}
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_0))
-	{
-		if( _pTerrain )
-		{
-			int nWidth  = _pTerrain->GetShowWidth();
-			int nHeight = _pTerrain->GetShowHeight();
-			_pTerrain->SetShowSize(nWidth + 1, nHeight + 1);
-		}
-	}
-	else if(g_pGameApp->IsKeyContinue(DIK_F11))
-	{
-		this->ShowChairObj(1 - this->IsShowChairObj());
-		TipI(this->IsShowChairObj(), RES_STRING(CL_LANGUAGE_MATCH_215), RES_STRING(CL_LANGUAGE_MATCH_216));
-	}
-	else if(g_pGameApp->IsKeyDown(DIK_X))
-	{
-		_IsShowPath = !_IsShowPath;
-		g_pGameApp->AddTipText( RES_STRING(CL_LANGUAGE_MATCH_338) );
-	}else if(g_pGameApp->IsKeyDown(DIK_M))
-	{
-		if(!_pBigMap->IsLoad())
-			_pBigMap->Create();
-		else
-			_pBigMap->Destory();
-	}
-#endif
-
-	return false;
-}
-
-CCharacter* CGameScene::SelectCharacter()
-{
-	if( _pSelCha )
-	{
-		// _pSelCha->ShowBoundingObjectPrimitive( 0 );
-		_pSelCha->ShowHelperObject( 0 );
-		// _pSelCha->SetCircleColor(0xff0000ff);
-	}
-
-	_pSelCha = HitTestCharacter( g_pGameApp->GetMouseX(), g_pGameApp->GetMouseY() );
-#ifdef __EDITOR__
-	if( _pSelCha )
-	{
-		// _pSelCha->ShowBoundingObjectPrimitive( 1 );
-		if( g_Editor.IsEnable() ) _pSelCha->ShowHelperObject( 1 );
-
-		// _pSelCha->SetCircleColor(0xffff0000);
-		// _pCurScene->SetMainCha(_pSelCha->getID());
-	}
-#endif
-	return _pSelCha;
-}
-
-CShadeEff*	CGameScene::GetShadeObj(int nArrayID)
-{
-	if(nArrayID >= _nShadeCnt || nArrayID < 0) return NULL;
-	return &_pShadeArray[nArrayID];
-}
-CShadeEff*	CGameScene::GetFirstInvalidShadeObj()
-{
-	if(_pShadeArray==NULL) return NULL;
-
-	for(int i = 0; i < _nShadeCnt; i++)
-	{
-		if(_pShadeArray[i].IsValid()==FALSE)
-			return &_pShadeArray[i];
-	}
-	return NULL;
-}
-void	CGameScene::_CreateShadeArray(int nShadeCnt)
-{
-	_pShadeArray = new CShadeEff[nShadeCnt];
-
-	for(int i = 0; i < nShadeCnt; i++)
-	{
-		_pShadeArray[i].setID(i);
-		_pShadeArray[i].SetScene(this);
-	}
-
-	_nShadeCnt = nShadeCnt;
-}
-void	CGameScene::_ClearAllShade()
-{
-	SAFE_DELETE_ARRAY(_pShadeArray);
-	_nShadeCnt = 0;
-}
-
-BOOL CGameScene::IsPointVisible(float fX, float fY)
-{
-    if(!_pTerrain) return TRUE;
-
-    return _pTerrain->IsPointVisible(fX, fY);
-}
-
-bool CGameScene::GetIsBlockWalk( CCharacter* pCha, int nX, int nY )
-{
-    if( _pTerrain )
-    {
-        return _pTerrain->IsGridBlock( nX/50, nY/50 ) || !g_IsMoveAble( pCha->getChaCtrlType(), pCha->GetDefaultChaInfo()->chTerritory, (EAreaMask)_pTerrain->GetTile(nX/100, nY/100)->sRegion );
-    }
-    return true;
-}
-
-void CGameScene::ClearSceneEffect()
-{
-	for( int i = 0; i < _nEffCnt; i++)
-	{
-		if(_pEffectArray[i].IsValid())
-		{
-			if(_pEffectArray[i].IsSceneEffect())
-				_pEffectArray[i].SetValid(FALSE);
-		}
-	}
-}
-
-bool CGameScene::SwitchMap(int nMapID)
-{    
-	CWaitCursor wait;
-
-	CMapInfo *pMapInfo = ::GetMapInfo(nMapID);
-	if( !pMapInfo ) 
-	{
-		LG( "switchmap", "msgCGameScene::SwitchMap - GetMapInfo(%d) return NULL", nMapID );
-		return false;
-	}
-
-	_dwMapID = nMapID;
-    if( _pTerrain )
-    {
-#ifdef __EDITOR__
-		extern MPEditor g_Editor;
-		g_Editor.Init(nMapID);
-#endif
-        g_pGameApp->SendMessage( APP_SWITCH_MAP, nMapID );
-    }
-
-	_Clear();
-	_ClearMemory();
-	_stInit.strMapFile = pMapInfo->szDataName;
-
-	_CreateMemory();
-	_Init();
-#ifdef __EDITOR__
-	if ( nMapID > 3 )
-	{
-		GetMainCha()->setPos( 10000, 10000 );
-	}
-#endif
-	return true;
-}
-
-void CGameScene::Reload()
-{
-    _Clear();
-    _ClearMemory();
-    _CreateMemory();
-    _Init();
-}
-
-bool CGameScene::LoadMap(const char* file)
-{
-	string strMapFile = file;
-	if( strMapFile.empty() ) return false;
-
-	_pMapInfo = ::GetMapInfo( file );
-
-	SAFE_DELETE( _pTerrain );
-
-	_pTerrain = new LETerrain;
-	// g_ObjInfluence.SetTerrain( _pTerrain );
-
-	extern long CALLBACK TerrainNotice(int nFlag, int nSectionX, int nSectionY, unsigned long dwParam, LETerrain* pThis);
-	_pTerrain->SetMapProcFN(TerrainNotice);
-	string map = strMapFile + ".map";
-	map = "map/" + map;
-
-	_pTerrain->Load( map.c_str(), g_Config.m_bEditor );
-
-	map = strMapFile + ".obj";
-	map = "map/" + map;
-	g_ObjFile.Init(_TEXT((char*)map.c_str()), false);
-
-	_pTerrain->SetShowSize(33, 33);
-
-	// begin debug by lsh
-    //
-    const char* map_name[] =
-    {
-        "garner",
-        "eastgoaf",
-        "magicsea",
-    };
-
-
-    D3DCOLORVALUE map_env[] =
-    {
-        {0.6f, 0.6f, 0.6f, 1.0f},
-        {0.6f, 0.6f, 0.6f, 1.0f},
-        {0.6f, 0.6f, 0.6f, 1.0f},
-    };
-
-    for(DWORD i = 0; i < 3; i++)
-    {
-        if(strcmp(file, map_name[i]) == 0)
-        {
-            m_dwEnvColor = map_env[i];
-            break;
+    if (nDistX * nDistX + nDistY * nDistY <= nDist) {
+      for (j = nStartY; j <= nEndY; j++) {
+        for (k = nStartX; k <= nEndX; k++) {
+          nRange = (nBuffHeight / 2 - (nCurY - j)) * nBuffWidth +
+                   (nBuffWidth / 2 - (nCurX - k));
+          if (nRange >= 0 && nRange < 65535) {
+            byBlockBuff[nRange] = 1;
+          } else {
+            LG("pathfind",
+               "msgCGameScene::AddCharacterBlock nRange[%d] isn't Valid, Cha "
+               "name[%s], pos:[%d, %d]",
+               nRange, pCha->getName(), pCha->GetCurX(), pCha->GetCurY());
+            return 0;
+          }
         }
+      }
     }
-    // end
-	return true;
+  }
+
+  return lRet;
+}
+
+bool CGameScene::_HandleSuperKey() {
+#ifdef _DEBUG
+  if (g_pGameApp->IsKeyDown(DIK_V)) {
+    EnableSceneObjCulling(1 - IsSceneObjCulling());
+    TipI(IsSceneObjCulling(), RES_STRING(CL_LANGUAGE_MATCH_329),
+         RES_STRING(CL_LANGUAGE_MATCH_330));
+  } else if (g_pGameApp->IsKeyDown(DIK_F5)) {
+    static BOOL g_bEnablePrint = FALSE;
+    g_bEnablePrint = 1 - g_bEnablePrint;
+    g_Render.EnablePrint(INFO_FPS, g_bEnablePrint);
+    g_Render.EnablePrint(INFO_DEBUG, g_bEnablePrint);
+    TipI(g_bEnablePrint, RES_STRING(CL_LANGUAGE_MATCH_331),
+         RES_STRING(CL_LANGUAGE_MATCH_332));
+  } else if (g_pGameApp->IsKeyDown(DIK_F6)) {
+    // g_pGameApp->ResetGameCamera();
+    Tip(RES_STRING(CL_LANGUAGE_MATCH_333));
+  } else if (g_pGameApp->IsKeyDown(DIK_F7)) {
+    this->ShowSceneObjTerrain(1 - this->IsSceneObjTerrainVisible());
+    TipI(this->IsSceneObjTerrainVisible(), RES_STRING(CL_LANGUAGE_MATCH_334),
+         RES_STRING(CL_LANGUAGE_MATCH_335));
+  } else if (g_pGameApp->IsKeyDown(DIK_F8)) {
+    this->ShowSceneObj(1 - this->IsSceneObjVisible());
+    TipI(this->IsSceneObjVisible(), RES_STRING(CL_LANGUAGE_MATCH_336),
+         RES_STRING(CL_LANGUAGE_MATCH_337));
+  } else if (g_pGameApp->IsKeyDown(
+                 DIK_F9)) //ÊâÄÊúâÂΩìÂâçactiveÁöÑsectionÂÅöÈ´òÂ∫¶ÂíåÈòªÊå°ËÆ°ÁÆóÂπ∂Â≠òÁõò
+  {
+    /*
+// ‰øÆÊîπÊ≠§Â§Ñ‰∏ÄÂÆöË¶ÅÈùûÂ∏∏Â∞èÂøÉÔºå
+    //
+ËØ∑ÂèÇËÄÉLEMap::DynamicLoading()ÔºåÂ¶ÇÊûúËÆæÁΩÆ‰∏çÊ≠£Á°ÆÔºå‰ºöÂØºËá¥ÈúÄË¶ÅÁöÑsectionÊ≤°ÊúâËØªËøõÂÜÖÂ≠òÔºõ
+    const int	ciSectionWidth = 8;			// Âçï‰ΩçÔºötileÔºàÁ±≥Ôºâ
+    const int	ciSectionHeight = 8;		// Âçï‰ΩçÔºötile
+    const int	ciRefreshWidth = 3;			//
+ÈúÄË¶ÅÂà∑Êñ∞ÁöÑsectionÂÆΩÔºåÂçï‰ΩçÔºösection const int	ciRefreshHeight = 3;
+// ÈúÄË¶ÅÂà∑Êñ∞ÁöÑsectionÈ´òÔºåÂçï‰ΩçÔºösection
+    const int	ciMaxObjWidth = 2;			//
+ÊúÄÂ§ßÁâ©‰ª∂ÂÆΩÂ∫¶ÔºåÂçï‰ΩçÔºösection
+    const int	ciMaxObjHeight = 2;			//
+ÊúÄÂ§ßÁâ©‰ª∂È´òÂ∫¶ÔºåÂçï‰ΩçÔºösection
+    int			iShowSizeX, iShowSizeY;		// Âçï‰ΩçÔºötile
+    int			iShowCenterX, iShowCenterY;	// Âçï‰ΩçÔºötile
+    int			iSaveSectionBuffer;
+    int			iOriginalWidth, iOriginalHeight;
+    float		fOriginalCenterX, fOriginalCenterY;
+
+    fOriginalCenterX = _pTerrain->GetShowCenterX();
+    fOriginalCenterY = _pTerrain->GetShowCenterY();
+    iOriginalWidth = _pTerrain->GetShowWidth();
+    iOriginalHeight = _pTerrain->GetShowHeight();
+
+    iShowCenterX = ((int)_pTerrain->GetShowCenterX() / ciSectionWidth) *
+ciSectionWidth + ciSectionWidth / 2; iShowCenterY =
+((int)_pTerrain->GetShowCenterY() / ciSectionHeight) * ciSectionHeight +
+ciSectionHeight / 2; _pTerrain->SetShowCenter((float)iShowCenterX,
+(float)iShowCenterY); iShowSizeX = (ciMaxObjWidth * 2 + ciRefreshWidth) *
+ciSectionWidth; iShowSizeY = (ciMaxObjHeight * 2 + ciRefreshHeight) *
+ciSectionHeight; _pTerrain->SetShowSize(iShowSizeX, iShowSizeY);
+    iSaveSectionBuffer = (iShowSizeX / ciSectionWidth) * (iShowSizeY /
+ciSectionHeight); _pTerrain->SetSectionBufferSize(iSaveSectionBuffer);
+
+    _pTerrain->ClearAllSection(TRUE);
+    _pTerrain->DynamicLoading(GetTickCount());
+    g_pGameApp->GetCurScene()->ResetAllSceneObjPos();
+
+    int		i, j;
+    int		iCurSectionY, iCurSectionX;
+    for (i = 0; i < ciRefreshHeight; i ++)
+    {
+            iCurSectionY = (int)_pTerrain->GetShowCenterY() / ciSectionHeight -
+ciRefreshHeight / 2 + i; if (iCurSectionY < 0) continue; for (j = 0; j <
+ciRefreshWidth; j ++)
+            {
+                    iCurSectionX = (int)_pTerrain->GetShowCenterX() /
+ciSectionWidth - ciRefreshWidth / 2 + j; if (iCurSectionX < 0) continue;
+                    g_ObjInfluence.RefreshSectionObjInfluenceInfo(iCurSectionY *
+_pTerrain->GetSectionCntX() + iCurSectionX);
+            }
+    }
+    _pTerrain->SetSectionBufferSize(MAX_SECTION_BUFFER);
+    _pTerrain->SetShowCenter(fOriginalCenterX, fOriginalCenterY);
+    _pTerrain->SetShowSize(iOriginalWidth, iOriginalHeight);
+    _pTerrain->ClearAllSection(TRUE);
+    _pTerrain->DynamicLoading(GetTickCount());
+*/
+  } else if (g_pGameApp->IsKeyDown((BYTE)DIKEYBOARD_SYSRQ)) {
+    if (g_pGameApp->IsEnableSpAvi()) {
+      g_pGameApp->EnableSprintAvi(FALSE);
+      return false;
+    }
+    if (g_pGameApp->IsCtrlPress())
+      g_pGameApp->EnableSprintAvi(TRUE);
+    else
+      g_pGameApp->EnableSprintScreen(TRUE);
+
+    if (g_pGameApp->IsShiftPress()) {
+      g_pGameApp->SetStartMinimap(0, 0, GetTerrain()->GetWidth() / SHOWRSIZE,
+                                  GetTerrain()->GetHeight() / SHOWRSIZE);
+      // g_pGameApp->SetStartMinimap(1500,3000,2, 2);
+
+      g_pGameApp->EnableSprintSmMap(TRUE);
+    }
+
+  } else if (g_pGameApp->IsKeyDown(DIK_INSERT)) {
+    g_pGameApp->EnableSprintAvi(TRUE);
+  } else if (g_pGameApp->IsKeyDown(DIK_HOME)) {
+  } else if (g_pGameApp->IsKeyDown(DIK_9)) {
+    if (_pTerrain) {
+      int nWidth = _pTerrain->GetShowWidth();
+      int nHeight = _pTerrain->GetShowHeight();
+      if (nWidth > 8 && nHeight > 8) {
+        _pTerrain->SetShowSize(nWidth - 1, nHeight - 1);
+      }
+    }
+  } else if (g_pGameApp->IsKeyDown(DIK_0)) {
+    if (_pTerrain) {
+      int nWidth = _pTerrain->GetShowWidth();
+      int nHeight = _pTerrain->GetShowHeight();
+      _pTerrain->SetShowSize(nWidth + 1, nHeight + 1);
+    }
+  } else if (g_pGameApp->IsKeyContinue(DIK_F11)) {
+    this->ShowChairObj(1 - this->IsShowChairObj());
+    TipI(this->IsShowChairObj(), RES_STRING(CL_LANGUAGE_MATCH_215),
+         RES_STRING(CL_LANGUAGE_MATCH_216));
+  } else if (g_pGameApp->IsKeyDown(DIK_X)) {
+    _IsShowPath = !_IsShowPath;
+    g_pGameApp->AddTipText(RES_STRING(CL_LANGUAGE_MATCH_338));
+  } else if (g_pGameApp->IsKeyDown(DIK_M)) {
+    if (!_pBigMap->IsLoad())
+      _pBigMap->Create();
+    else
+      _pBigMap->Destory();
+  }
+#endif
+
+  return false;
+}
+
+CCharacter *CGameScene::SelectCharacter() {
+  if (_pSelCha) {
+    // _pSelCha->ShowBoundingObjectPrimitive( 0 );
+    _pSelCha->ShowHelperObject(0);
+    // _pSelCha->SetCircleColor(0xff0000ff);
+  }
+
+  _pSelCha = HitTestCharacter(g_pGameApp->GetMouseX(), g_pGameApp->GetMouseY());
+#ifdef __EDITOR__
+  if (_pSelCha) {
+    // _pSelCha->ShowBoundingObjectPrimitive( 1 );
+    if (g_Editor.IsEnable())
+      _pSelCha->ShowHelperObject(1);
+
+    // _pSelCha->SetCircleColor(0xffff0000);
+    // _pCurScene->SetMainCha(_pSelCha->getID());
+  }
+#endif
+  return _pSelCha;
+}
+
+CShadeEff *CGameScene::GetShadeObj(int nArrayID) {
+  if (nArrayID >= _nShadeCnt || nArrayID < 0)
+    return NULL;
+  return &_pShadeArray[nArrayID];
+}
+CShadeEff *CGameScene::GetFirstInvalidShadeObj() {
+  if (_pShadeArray == NULL)
+    return NULL;
+
+  for (int i = 0; i < _nShadeCnt; i++) {
+    if (_pShadeArray[i].IsValid() == FALSE)
+      return &_pShadeArray[i];
+  }
+  return NULL;
+}
+void CGameScene::_CreateShadeArray(int nShadeCnt) {
+  _pShadeArray = new CShadeEff[nShadeCnt];
+
+  for (int i = 0; i < nShadeCnt; i++) {
+    _pShadeArray[i].setID(i);
+    _pShadeArray[i].SetScene(this);
+  }
+
+  _nShadeCnt = nShadeCnt;
+}
+void CGameScene::_ClearAllShade() {
+  SAFE_DELETE_ARRAY(_pShadeArray);
+  _nShadeCnt = 0;
+}
+
+BOOL CGameScene::IsPointVisible(float fX, float fY) {
+  if (!_pTerrain)
+    return TRUE;
+
+  return _pTerrain->IsPointVisible(fX, fY);
+}
+
+bool CGameScene::GetIsBlockWalk(CCharacter *pCha, int nX, int nY) {
+  if (_pTerrain) {
+    return _pTerrain->IsGridBlock(nX / 50, nY / 50) ||
+           !g_IsMoveAble(
+               pCha->getChaCtrlType(), pCha->GetDefaultChaInfo()->chTerritory,
+               (EAreaMask)_pTerrain->GetTile(nX / 100, nY / 100)->sRegion);
+  }
+  return true;
+}
+
+void CGameScene::ClearSceneEffect() {
+  for (int i = 0; i < _nEffCnt; i++) {
+    if (_pEffectArray[i].IsValid()) {
+      if (_pEffectArray[i].IsSceneEffect())
+        _pEffectArray[i].SetValid(FALSE);
+    }
+  }
+}
+
+bool CGameScene::SwitchMap(int nMapID) {
+  CWaitCursor wait;
+
+  CMapInfo *pMapInfo = ::GetMapInfo(nMapID);
+  if (!pMapInfo) {
+    LG("switchmap", "msgCGameScene::SwitchMap - GetMapInfo(%d) return NULL",
+       nMapID);
+    return false;
+  }
+
+  _dwMapID = nMapID;
+  if (_pTerrain) {
+#ifdef __EDITOR__
+    extern MPEditor g_Editor;
+    g_Editor.Init(nMapID);
+#endif
+    g_pGameApp->SendMessage(APP_SWITCH_MAP, nMapID);
+  }
+
+  _Clear();
+  _ClearMemory();
+  _stInit.strMapFile = pMapInfo->szDataName;
+
+  _CreateMemory();
+  _Init();
+#ifdef __EDITOR__
+  if (nMapID > 3) {
+    GetMainCha()->setPos(10000, 10000);
+  }
+#endif
+  return true;
+}
+
+void CGameScene::Reload() {
+  _Clear();
+  _ClearMemory();
+  _CreateMemory();
+  _Init();
+}
+
+bool CGameScene::LoadMap(const char *file) {
+  string strMapFile = file;
+  if (strMapFile.empty())
+    return false;
+
+  _pMapInfo = ::GetMapInfo(file);
+
+  SAFE_DELETE(_pTerrain);
+
+  _pTerrain = new LETerrain;
+  // g_ObjInfluence.SetTerrain( _pTerrain );
+
+  extern long CALLBACK TerrainNotice(int nFlag, int nSectionX, int nSectionY,
+                                     unsigned long dwParam, LETerrain *pThis);
+  _pTerrain->SetMapProcFN(TerrainNotice);
+  string map = strMapFile + ".map";
+  map = "map/" + map;
+
+  _pTerrain->Load(map.c_str(), g_Config.m_bEditor);
+
+  map = strMapFile + ".obj";
+  map = "map/" + map;
+  g_ObjFile.Init(_TEXT((char *)map.c_str()), false);
+
+  _pTerrain->SetShowSize(33, 33);
+
+  // begin debug by lsh
+  //
+  const char *map_name[] = {
+      "garner",
+      "eastgoaf",
+      "magicsea",
+  };
+
+  D3DCOLORVALUE map_env[] = {
+      {0.6f, 0.6f, 0.6f, 1.0f},
+      {0.6f, 0.6f, 0.6f, 1.0f},
+      {0.6f, 0.6f, 0.6f, 1.0f},
+  };
+
+  for (DWORD i = 0; i < 3; i++) {
+    if (strcmp(file, map_name[i]) == 0) {
+      m_dwEnvColor = map_env[i];
+      break;
+    }
+  }
+  // end
+  return true;
 }
 
 #ifdef _SKYBOX_
-BOOL	CGameScene::LoadSky( const char* strMapName )
-{
-	if ( g_pGameApp->GetSkyBox() && g_pGameApp->GetMainCam() )
-	{
-		char TopFile[64] = "Texture\\SkyBox\\";
-		char BottomFile[64] = "Texture\\SkyBox\\";
-		char FrontFile[64] = "Texture\\SkyBox\\";
-		char BackFile[64] = "Texture\\SkyBox\\";
-		char LeftFile[64] = "Texture\\SkyBox\\";
-		char RightFile[64] = "Texture\\SkyBox\\";
-		strcat_s( TopFile, strMapName );
-		strcat_s( BottomFile, strMapName );
-		strcat_s( FrontFile, strMapName );
-		strcat_s( BackFile, strMapName );
-		strcat_s( LeftFile, strMapName );
-		strcat_s( RightFile, strMapName );
+BOOL CGameScene::LoadSky(const char *strMapName) {
+  if (g_pGameApp->GetSkyBox() && g_pGameApp->GetMainCam()) {
+    char TopFile[64] = "Texture\\SkyBox\\";
+    char BottomFile[64] = "Texture\\SkyBox\\";
+    char FrontFile[64] = "Texture\\SkyBox\\";
+    char BackFile[64] = "Texture\\SkyBox\\";
+    char LeftFile[64] = "Texture\\SkyBox\\";
+    char RightFile[64] = "Texture\\SkyBox\\";
+    strcat_s(TopFile, strMapName);
+    strcat_s(BottomFile, strMapName);
+    strcat_s(FrontFile, strMapName);
+    strcat_s(BackFile, strMapName);
+    strcat_s(LeftFile, strMapName);
+    strcat_s(RightFile, strMapName);
 
-		strcat_s( TopFile, "\\Top.jpg" );
-		strcat_s( BottomFile, "\\Bottom.jpg" );
-		strcat_s( FrontFile, "\\Front.bmp" );
-		strcat_s( BackFile, "\\Back.bmp" );
-		strcat_s( LeftFile, "\\Left.bmp" );
-		strcat_s( RightFile, "\\Right.bmp" );
+    strcat_s(TopFile, "\\Top.jpg");
+    strcat_s(BottomFile, "\\Bottom.jpg");
+    strcat_s(FrontFile, "\\Front.bmp");
+    strcat_s(BackFile, "\\Back.bmp");
+    strcat_s(LeftFile, "\\Left.bmp");
+    strcat_s(RightFile, "\\Right.bmp");
 
-		if (FAILED(g_pGameApp->GetSkyBox()->RestoreDeviceObjects(g_Render.GetDevice(),
-			TopFile, BottomFile, FrontFile, BackFile, LeftFile, RightFile)))
-		{
-			g_pGameApp->MsgBox("Load Sky Error!");
-			return FALSE;
-		}
-		_bSkyBoxLoad = TRUE;			
-	}	
-	return TRUE;
+    if (FAILED(g_pGameApp->GetSkyBox()->RestoreDeviceObjects(
+            g_Render.GetDevice(), TopFile, BottomFile, FrontFile, BackFile,
+            LeftFile, RightFile))) {
+      g_pGameApp->MsgBox("Load Sky Error!");
+      return FALSE;
+    }
+    _bSkyBoxLoad = TRUE;
+  }
+  return TRUE;
 }
 #endif
 
-CCharacter* CGameScene::SearchByID(unsigned long id)
-{
-	CCharacter *pCha;
-	for(int i = 0; i < _nChaCnt; i++)
-	{
-		pCha = &_pChaArray[i];
-		if(pCha->IsValid()&& pCha->getAttachID()==id)
-		{
-			return pCha;
-		}
-	}
-	
-	return NULL;
+CCharacter *CGameScene::SearchByID(unsigned long id) {
+  CCharacter *pCha;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid() && pCha->getAttachID() == id) {
+      return pCha;
+    }
+  }
+
+  return NULL;
 }
 
-CCharacter* CGameScene::SearchByHumanID(unsigned long id)
-{
-	CCharacter *pCha;
-	for(int i = 0; i < _nChaCnt; i++)
-	{
-		pCha = &_pChaArray[i];
-		if(pCha->IsValid()&& pCha->getHumanID()==id)
-		{
-			return pCha;
-		}
-	}
-	
-	return NULL;
+CCharacter *CGameScene::SearchByHumanID(unsigned long id) {
+  CCharacter *pCha;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid() && pCha->getHumanID() == id) {
+      return pCha;
+    }
+  }
+
+  return NULL;
 }
 
-CCharacter* CGameScene::SearchByName(const char* name)
-{
-	CCharacter *pCha;
-	for(int i = 0; i < _nChaCnt; i++)
-	{
-		pCha = &_pChaArray[i];
-		if(pCha->IsValid() && strcmp( pCha->getName(), name )==0 )
-		{
-			return pCha;
-		}
-	}
-	
-	return NULL;
+CCharacter *CGameScene::SearchByName(const char *name) {
+  CCharacter *pCha;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid() && strcmp(pCha->getName(), name) == 0) {
+      return pCha;
+    }
+  }
+
+  return NULL;
 }
 
-CCharacter* CGameScene::SearchByHumanName(const char* name)
-{
-	CCharacter *pCha;
-	for(int i = 0; i < _nChaCnt; i++)
-	{
-		pCha = &_pChaArray[i];
-		if(pCha->IsValid() && strcmp( pCha->getHumanName(), name )==0 )
-		{
-			return pCha;
-		}
-	}
-	
-	return NULL;
+CCharacter *CGameScene::SearchByHumanName(const char *name) {
+  CCharacter *pCha;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid() && strcmp(pCha->getHumanName(), name) == 0) {
+      return pCha;
+    }
+  }
+
+  return NULL;
 }
 
-CSceneItem*	CGameScene::SearchItemByID(unsigned long id)
-{
-	CSceneItem* pItem;
-	for(int i = 0; i < _nSceneItemCnt; i++)
-	{
-		pItem = &_pSceneItemArray[i];
-		if(pItem->IsValid()&& pItem->getAttachID()==id)
-		{
-			return pItem;
-		}
-	}
-	return NULL;
+CSceneItem *CGameScene::SearchItemByID(unsigned long id) {
+  CSceneItem *pItem;
+  for (int i = 0; i < _nSceneItemCnt; i++) {
+    pItem = &_pSceneItemArray[i];
+    if (pItem->IsValid() && pItem->getAttachID() == id) {
+      return pItem;
+    }
+  }
+  return NULL;
 }
 
-void CGameScene::SetMainCha(int nChaID)
-{
-    CCharacter *pCha = GetCha(nChaID);
-    if(!pCha) return;
+void CGameScene::SetMainCha(int nChaID) {
+  CCharacter *pCha = GetCha(nChaID);
+  if (!pCha)
+    return;
 
-	_pMainCha = pCha;
-    pCha->EnableAI(FALSE);
+  _pMainCha = pCha;
+  pCha->EnableAI(FALSE);
 
-	pCha->ResetReadySkill();
+  pCha->ResetReadySkill();
 
-    _UserLeve.AllTrue();
+  _UserLeve.AllTrue();
 
- //   // ÷ÿ…ËæµÕ∑
- //   CCameraCtrl *pCam = g_pGameApp->GetMainCam();
- //   LETerrain *pTerr = GetTerrain();
+  //   // ÈáçËÆæÈïúÂ§¥
+  //   CCameraCtrl *pCam = g_pGameApp->GetMainCam();
+  //   LETerrain *pTerr = GetTerrain();
 
- //   D3DXVECTOR3 vecCha = pCha->GetPos();
- //   vecCha.z = GetGridHeight(vecCha.x,vecCha.y);
+  //   D3DXVECTOR3 vecCha = pCha->GetPos();
+  //   vecCha.z = GetGridHeight(vecCha.x,vecCha.y);
 
-	//pCam->InitModel(pCha->IsBoat() ? 3 : 0,&vecCha);
+  // pCam->InitModel(pCha->IsBoat() ? 3 : 0,&vecCha);
 
-	////pCam->SetFollowObj(vecCha);
- //   //g_pGameApp->GetCameraTrack()->Reset(vecCha.x,vecCha.y,vecCha.z);
+  ////pCam->SetFollowObj(vecCha);
+  //   //g_pGameApp->GetCameraTrack()->Reset(vecCha.x,vecCha.y,vecCha.z);
 
-	////pCam->InitPos( vecCha.x,vecCha.y, vecCha.z );
- //   pCam->SetBufVel( pCha->getMoveSpeed(), nChaID);
+  ////pCam->InitPos( vecCha.x,vecCha.y, vecCha.z );
+  //   pCam->SetBufVel( pCha->getMoveSpeed(), nChaID);
 
+  //   pCam->FrameMove(0);
+  ////g_pGameApp->ResetGameCamera( pCha->IsBoat() ? 3 : 0 );
 
- //   pCam->FrameMove(0);
-	////g_pGameApp->ResetGameCamera( pCha->IsBoat() ? 3 : 0 );
-
-	//pCam->SetViewTransform();
- //   //g_Render.LookAt(pCam->m_EyePos, pCam->m_RefPos);
- //   //g_Render.SetCurrentView(LERender::VIEW_WORLD);
+  // pCam->SetViewTransform();
+  //   //g_Render.LookAt(pCam->m_EyePos, pCam->m_RefPos);
+  //   //g_Render.SetCurrentView(LERender::VIEW_WORLD);
 }
 
-bool CGameScene::_Init()
-{
-    g_pGameApp->GetCursor()->SceneInit( this );
-//  LG( "scene init", "3d cursor init\n" );
+bool CGameScene::_Init() {
+  g_pGameApp->GetCursor()->SceneInit(this);
+  //  LG( "scene init", "3d cursor init\n" );
 
-    g_Render.SetDirectLightDir(g_Config.m_LightDir[0], g_Config.m_LightDir[1], g_Config.m_LightDir[2]);
-    g_Render.SetDirectLightColor(g_Config.m_LightColor[0], g_Config.m_LightColor[1], g_Config.m_LightColor[2], 1.0f);
+  g_Render.SetDirectLightDir(g_Config.m_LightDir[0], g_Config.m_LightDir[1],
+                             g_Config.m_LightDir[2]);
+  g_Render.SetDirectLightColor(g_Config.m_LightColor[0],
+                               g_Config.m_LightColor[1],
+                               g_Config.m_LightColor[2], 1.0f);
 
+  _IsShowItemName = false;
+  _pMouseInItem = NULL;
 
-    _IsShowItemName = false;
-    _pMouseInItem = NULL;
+  _UserLeve.AllTrue();
 
-    _UserLeve.AllTrue();
+  if (!g_pGameApp->GetMainCam()->m_bSelectMode)
+    CUIInterface::All_SwitchMap();
 
-	if(!g_pGameApp->GetMainCam()->m_bSelectMode)
-		CUIInterface::All_SwitchMap();
+  _dwTranspObjStateID = 0;
+  _dwTranspObjStateNum = 1024;
+  _TranspObjStateSeq = new SceneTranspObjStateDesc[_dwTranspObjStateNum];
+  memset(_TranspObjStateSeq, 0,
+         sizeof(SceneTranspObjStateDesc) * _dwTranspObjStateNum);
 
-    _dwTranspObjStateID = 0;
-    _dwTranspObjStateNum =  1024;   
-    _TranspObjStateSeq = new SceneTranspObjStateDesc[_dwTranspObjStateNum];
-    memset(_TranspObjStateSeq, 0, sizeof(SceneTranspObjStateDesc) * _dwTranspObjStateNum);
-
-	CBoxMgr::CloseAllBox();
-//  LG( "scene init", "CGameScene::_Init\n" );
-	return true;
+  CBoxMgr::CloseAllBox();
+  //  LG( "scene init", "CGameScene::_Init\n" );
+  return true;
 }
 
-int CGameScene::UpdateSceneAnimLight()
-{
-    list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].begin();
-    list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].end();
+int CGameScene::UpdateSceneAnimLight() {
+  list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].begin();
+  list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].end();
 
-    // point light
-    int u = 0;
-    SceneLight* s;
+  // point light
+  int u = 0;
+  SceneLight *s;
 
-    for(; it != it_end; ++it)
-    {
-        u = (*it);
-        s = (SceneLight*)&_pSceneObjArray[u];
+  for (; it != it_end; ++it) {
+    u = (*it);
+    s = (SceneLight *)&_pSceneObjArray[u];
 
-        // update lighting animation 
-        if(s->type != SceneLight::SL_LIGHT)
-        {
-            __asm int 3;
-        }
-
-        if(s->UpdateAnimLight())
-        {
-            if(_pTerrain)
-            {
-                _pTerrain->UpdateRender();
-            }
-        }
+    // update lighting animation
+    if (s->type != SceneLight::SL_LIGHT) {
+      __asm int 3;
     }
 
-    return 1;
+    if (s->UpdateAnimLight()) {
+      if (_pTerrain) {
+        _pTerrain->UpdateRender();
+      }
+    }
+  }
+
+  return 1;
 }
 
-int CGameScene::BeginUpdateSceneObjLight(const CSceneObj* obj, BOOL is_enable)
-{
-    if(is_enable == 0)
-        return 1;
-    D3DXVECTOR3* obj_pos = &const_cast<CSceneObj*>(obj)->getPos();
+int CGameScene::BeginUpdateSceneObjLight(const CSceneObj *obj, BOOL is_enable) {
+  if (is_enable == 0)
+    return 1;
+  D3DXVECTOR3 *obj_pos = &const_cast<CSceneObj *>(obj)->getPos();
 
-    int dis[2] = { 0, 0 };
-    int id[2] = { -1, -1};
+  int dis[2] = {0, 0};
+  int id[2] = {-1, -1};
 
-    int a;
-    int u = 0;
-    // dev
-    LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+  int a;
+  int u = 0;
+  // dev
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
 
-    const int max_effected_dis = 100 * 100;
+  const int max_effected_dis = 100 * 100;
 
-    SceneLight* s;
+  SceneLight *s;
 
+  list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].begin();
+  list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].end();
 
-    list<int>::iterator it = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].begin();
-    list<int>::iterator it_end = _SceneObjIdx[SCENEOBJ_TYPE_POINTLIGHT].end();
+  for (; it != it_end; ++it) {
+    u = (*it);
+    s = (SceneLight *)&_pSceneObjArray[u];
 
-    for(; it != it_end; ++it)
-    {
-        u = (*it);
-        s = (SceneLight*)&_pSceneObjArray[u];
+    s->pos = _pSceneObjArray[(*it)].getPos();
 
-        s->pos = _pSceneObjArray[(*it)].getPos();
-
-        if(s->type != SceneLight::SL_LIGHT)
-        {
-            MessageBox(0, "SceneLight::SL_LIGHT error", "x", MB_OK);
-        }
-
-        a = s->GetSquareMagnitude((int)obj_pos->x, (int)obj_pos->y, (int)obj_pos->z);
-
-        if(id[0] == -1 || dis[0] > a)
-        {
-            if(id[1] == -1 || dis[1] > a)
-            {
-                id[0] = id[1];
-                dis[0] = dis[1];
-
-                id[1] = u;
-                dis[1] = a;
-            }
-            else
-            {
-                id[0] = u;
-                dis[0] = a;
-            }
-        }
-
+    if (s->type != SceneLight::SL_LIGHT) {
+      MessageBox(0, "SceneLight::SL_LIGHT error", "x", MB_OK);
     }
 
-    if(id[1] != -1)
-    {
-        if(this->_pTerrain)
-        {
-            _pTerrain->UpdateRender();
-        }
-        // first light
-        s = (SceneLight*)&_pSceneObjArray[id[1]];
-        D3DLIGHTX light;
-        s->GetLightData(&light);
-        dev_obj->SetLight(1, &light);
-        dev_obj->LightEnable(1, 1);
+    a = s->GetSquareMagnitude((int)obj_pos->x, (int)obj_pos->y,
+                              (int)obj_pos->z);
 
-        if(id[0] != -1)
-        {
-            // second light
-            s = (SceneLight*)&_pSceneObjArray[id[0]];
-            s->GetLightData(&light);
-            dev_obj->SetLight(2, &light);
-            dev_obj->LightEnable(2, 1);
-        }
+    if (id[0] == -1 || dis[0] > a) {
+      if (id[1] == -1 || dis[1] > a) {
+        id[0] = id[1];
+        dis[0] = dis[1];
+
+        id[1] = u;
+        dis[1] = a;
+      } else {
+        id[0] = u;
+        dis[0] = a;
+      }
     }
+  }
 
-    return 1;
+  if (id[1] != -1) {
+    if (this->_pTerrain) {
+      _pTerrain->UpdateRender();
+    }
+    // first light
+    s = (SceneLight *)&_pSceneObjArray[id[1]];
+    D3DLIGHTX light;
+    s->GetLightData(&light);
+    dev_obj->SetLight(1, &light);
+    dev_obj->LightEnable(1, 1);
 
+    if (id[0] != -1) {
+      // second light
+      s = (SceneLight *)&_pSceneObjArray[id[0]];
+      s->GetLightData(&light);
+      dev_obj->SetLight(2, &light);
+      dev_obj->LightEnable(2, 1);
+    }
+  }
+
+  return 1;
 }
-int CGameScene::EndUpdateSceneObjLight(const CSceneObj* obj)
-{
-    LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-    
-    dev_obj->LightEnable(1, 0);
-    dev_obj->LightEnable(2, 0);
+int CGameScene::EndUpdateSceneObjLight(const CSceneObj *obj) {
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
 
-    return 1;
+  dev_obj->LightEnable(1, 0);
+  dev_obj->LightEnable(2, 0);
+
+  return 1;
 }
 
-void CGameScene::PlayEnvSound( char* szFile, int nX, int nY, float Gain )
-{
-    if ( !CGameApp::IsMusicSystemValid() || !_IsUseSound ) return;
+void CGameScene::PlayEnvSound(char *szFile, int nX, int nY, float Gain) {
+  if (!CGameApp::IsMusicSystemValid() || !_IsUseSound)
+    return;
 
-	static float &x = g_pGameApp->GetMainCam()->m_RefPos.x;
-	static float &y = g_pGameApp->GetMainCam()->m_RefPos.y;
-	static int dis = 0;
-	dis = GetDistance( nX, nY, (int)(x * 100.0f), (int)(y * 100.0f) );
-    if( dis <= VOICE_DIS )
-	{
+  static float &x = g_pGameApp->GetMainCam()->m_RefPos.x;
+  static float &y = g_pGameApp->GetMainCam()->m_RefPos.y;
+  static int dis = 0;
+  dis = GetDistance(nX, nY, (int)(x * 100.0f), (int)(y * 100.0f));
+  if (dis <= VOICE_DIS) {
 #ifdef __SOUND__
 #ifdef USE_DSOUND
-	// modify by rock.wang 090624 start
-	g_pGameApp->PlaySample( szFile, double(1.0 - dis/1400.0 + Gain), int(( (nX / 100) - x )*200) );
-	// end
+    // modify by rock.wang 090624 start
+    g_pGameApp->PlaySample(szFile, double(1.0 - dis / 1400.0 + Gain),
+                           int(((nX / 100) - x) * 200));
+    // end
 #else
-	dis = (int)(_fSoundSize * ( 1.0f - (float)dis / (float)VOICE_DIS ));
-	ulong musid = AudioSDL::get_instance()->get_resID(szFile, TYPE_WAV);
-	AudioSDL::get_instance()->volume(musid, dis);
+    dis = (int)(_fSoundSize * (1.0f - (float)dis / (float)VOICE_DIS));
+    ulong musid = AudioSDL::get_instance()->get_resID(szFile, TYPE_WAV);
+    AudioSDL::get_instance()->volume(musid, dis);
 
-	// “Ù–ßø®ª˙£®Ω‚æˆø®ª˙£©
-	g_AudioThread.play(musid, false);
+    // Èü≥ÊïàÂç°Êú∫ÔºàËß£ÂÜ≥Âç°Êú∫Ôºâ
+    g_AudioThread.play(musid, false);
 #endif
 #endif
-	}
+  }
 }
 
-void CGameScene::PlayEnvSound( int nX, int nY )
-{
-    if ( !CGameApp::IsMusicSystemValid() ) return;
+void CGameScene::PlayEnvSound(int nX, int nY) {
+  if (!CGameApp::IsMusicSystemValid())
+    return;
 
-	static list<int>::iterator it;
-	static CSceneObjInfo *pInfo;
-	static int r;
-	static int dis;
-	for(it = _SceneObjIdx[SCENEOBJ_TYPE_ENVSOUND].begin(); it!=_SceneObjIdx[SCENEOBJ_TYPE_ENVSOUND].end(); it++)
-	{
-		CSceneObj *pObj = &_pSceneObjArray[*it];
-		if( pObj->IsValid() && !pObj->IsHide() )
-		{
-			pInfo = GetSceneObjInfo( pObj->getTypeID() );
-			if( !pInfo || pInfo->nEnvSoundDis <= 0 )	continue;
+  static list<int>::iterator it;
+  static CSceneObjInfo *pInfo;
+  static int r;
+  static int dis;
+  for (it = _SceneObjIdx[SCENEOBJ_TYPE_ENVSOUND].begin();
+       it != _SceneObjIdx[SCENEOBJ_TYPE_ENVSOUND].end(); it++) {
+    CSceneObj *pObj = &_pSceneObjArray[*it];
+    if (pObj->IsValid() && !pObj->IsHide()) {
+      pInfo = GetSceneObjInfo(pObj->getTypeID());
+      if (!pInfo || pInfo->nEnvSoundDis <= 0)
+        continue;
 
-			dis = GetDistance( pObj->GetCurX(), pObj->GetCurY(), nX, nY ); 
-			if( dis <= pInfo->nEnvSoundDis )
-			{
-				dis = (int)(_fSoundSize * ( 1.0f - (float)dis / (float)pInfo->nEnvSoundDis ));
-				if( pObj->GetMusicID() == -1 )
-				{
-					static char szSoundName[256] = { 0 };
-					_snprintf_s(szSoundName, _countof( szSoundName ), _TRUNCATE, "music/sound/%s.wav", pInfo->szEnvSound);
-				
+      dis = GetDistance(pObj->GetCurX(), pObj->GetCurY(), nX, nY);
+      if (dis <= pInfo->nEnvSoundDis) {
+        dis = (int)(_fSoundSize *
+                    (1.0f - (float)dis / (float)pInfo->nEnvSoundDis));
+        if (pObj->GetMusicID() == -1) {
+          static char szSoundName[256] = {0};
+          _snprintf_s(szSoundName, _countof(szSoundName), _TRUNCATE,
+                      "music/sound/%s.wav", pInfo->szEnvSound);
+
 #ifdef __SOUND__
 #ifndef USE_DSOUND
-					//g_pGameApp->m_pAudioPlayer->CreateInstance( szSoundName );
-					ulong m = GetAudioDevice()->get_resID(szSoundName, TYPE_WAV);
+          // g_pGameApp->m_pAudioPlayer->CreateInstance( szSoundName );
+          ulong m = GetAudioDevice()->get_resID(szSoundName, TYPE_WAV);
 #else
-					g_pGameApp->PlaySample( szSoundName );
+          g_pGameApp->PlaySample(szSoundName);
 #endif
 #endif
-					continue;
-				}
-				//env_snd_vol( pObj->GetMusicID(), dis );
-				//GetAudioDevice()->volume(m, dis);
-			}
-			else
-			{
-				if( pObj->GetMusicID() != -1 )
-				{
-					//env_snd_del( pObj->GetMusicID() );
-					pObj->SetMusicID( -1 );
-				}
-            }
-		}
-	}
+          continue;
+        }
+        // env_snd_vol( pObj->GetMusicID(), dis );
+        // GetAudioDevice()->volume(m, dis);
+      } else {
+        if (pObj->GetMusicID() != -1) {
+          // env_snd_del( pObj->GetMusicID() );
+          pObj->SetMusicID(-1);
+        }
+      }
+    }
+  }
 }
 
-void CGameScene::SetSoundSize( float fVol )
-{
-    if( fVol>=0.0 && fVol<=1.0 )
-    {
-        _fSoundSize = fVol * 128.0f;
-    }
+void CGameScene::SetSoundSize(float fVol) {
+  if (fVol >= 0.0 && fVol <= 1.0) {
+    _fSoundSize = fVol * 128.0f;
+  }
 }
 
-CAniClock* CGameScene::AddAniClock()
-{
-    for( unsigned int i=0; i<MAX_ANI_CLOCK; i++ )
-    {
-        if( _AniClock[i].IsEnd() )
-            return &_AniClock[i];
-    }
+CAniClock *CGameScene::AddAniClock() {
+  for (unsigned int i = 0; i < MAX_ANI_CLOCK; i++) {
+    if (_AniClock[i].IsEnd())
+      return &_AniClock[i];
+  }
 
-    LG( "error", "msgCGameScene::AddAniClock return NULL" );
+  LG("error", "msgCGameScene::AddAniClock return NULL");
+  return NULL;
+}
+int CGameScene::SetTextureLOD(DWORD level) {
+  int i;
+
+  for (i = 0; i < _nChaCnt; i++) {
+    CCharacter *pCha = &_pChaArray[i];
+    if (pCha->IsValid() && !pCha->IsHide()) {
+      pCha->SetTextureLOD(level);
+    }
+  }
+
+  list<int>::iterator it;
+  for (it = _SceneObjIdx[0].begin(); it != _SceneObjIdx[0].end(); it++) {
+    int nArrayID = (*it);
+    CSceneObj *pObj = &_pSceneObjArray[nArrayID];
+    if (pObj->IsValid() && pObj->IsHide() == FALSE) {
+
+      pObj->SetTextureLOD(level);
+    }
+  }
+
+  for (i = 0; i < _nSceneItemCnt; i++) {
+    CSceneItem *pObj = &_pSceneItemArray[i];
+    if (pObj->IsValid() && pObj->IsHide() == FALSE) {
+      pObj->SetTextureLOD(level);
+    }
+  }
+
+  int start_id = LETerrainSet::I()->GetIDStart();
+  int id_cnt = start_id + LETerrainSet::I()->GetIDCnt();
+  LETerrainInfo *info;
+
+  DWORD t_level = level == 0 ? level : 2;
+
+  for (int i = start_id; i < id_cnt; i++) {
+    info = ::GetTerrainInfo(i);
+    if (info) {
+      LEITex *tex = GetTexByID(info->nTextureID);
+      if (tex) {
+        tex->SetLOD(level);
+      }
+    }
+  }
+
+  return 1;
+}
+
+void CGameScene::RefreshLevel() {
+  if (!g_stUIBoat.GetHuman())
+    return;
+
+  // int nMainLevel = g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_LV);
+  int nMainLevel = (int)g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_LV);
+  CCharacter *pCha = NULL;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pCha = &_pChaArray[i];
+    if (pCha->IsValid()) {
+      pCha->RefreshLevel(nMainLevel);
+    }
+  }
+}
+
+CEffectObj *CGameScene::CreateEffect(int nEffectID, int nX, int nY,
+                                     bool isLoop) {
+  CEffectObj *pEffect = GetFirstInvalidEffObj();
+  if (!pEffect)
     return NULL;
-}
-int CGameScene::SetTextureLOD(DWORD level)
-{
-    int i ;
 
-	for(i = 0; i < _nChaCnt; i++) 
-	{
-		CCharacter *pCha = &_pChaArray[i];
-		if(pCha->IsValid() && !pCha->IsHide() )
-		{
-            pCha->SetTextureLOD(level);
-		}
-	}
+  if (!pEffect->Create(nEffectID))
+    return NULL;
 
-    list<int>::iterator it;
-    for(it = _SceneObjIdx[0].begin(); it!=_SceneObjIdx[0].end(); it++)
-    {
-        int nArrayID = (*it);
-        CSceneObj *pObj = &_pSceneObjArray[nArrayID];
-        if(pObj->IsValid() && pObj->IsHide()==FALSE)
-        {
-
-            pObj->SetTextureLOD(level);
-
-        }
-    }
-
-    for(i = 0; i < _nSceneItemCnt; i++) 
-    {
-        CSceneItem *pObj = &_pSceneItemArray[i];
-        if(pObj->IsValid() && pObj->IsHide()==FALSE)
-        {
-            pObj->SetTextureLOD(level);
-        }
-    }
-
-    int start_id = LETerrainSet::I()->GetIDStart();
-    int id_cnt = start_id + LETerrainSet::I()->GetIDCnt();
-    LETerrainInfo* info;
-
-    DWORD t_level = level == 0 ? level : 2;
-
-    for(int i = start_id; i < id_cnt; i++)
-    {
-        info = ::GetTerrainInfo(i);
-        if(info)
-        {
-            LEITex* tex = GetTexByID(info->nTextureID);
-            if(tex)
-            {
-                tex->SetLOD(level);
-            }
-        }
-    }
-
-    return 1;
-
+  D3DXVECTOR3 pos;
+  pos.x = (float)nX / 100.0f;
+  pos.y = (float)nY / 100.0f;
+  pos.z = GetGridHeight(pos.x, pos.y);
+  pEffect->setLoop(isLoop);
+  pEffect->SetUpdateHieght(true);
+  pEffect->Emission(-1, &pos, NULL);
+  pEffect->SetValid(TRUE);
+  return pEffect;
 }
 
-void CGameScene::RefreshLevel()
-{
-	if( !g_stUIBoat.GetHuman() ) return;
+void CGameScene::LoadingCall() {
+  //	LG( "scene init", "LoadingCall:%s\t%d\n", _stInit.strMapFile.c_str(),
+  //GetTickCount() );
 
-   // int nMainLevel = g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_LV); 
-	 int nMainLevel = (int)g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_LV); 
-    CCharacter *pCha=NULL;
-    for(int i = 0; i < _nChaCnt; i++) 
-    {
-        pCha = &_pChaArray[i];
-        if( pCha->IsValid() )
-        {
-            pCha->RefreshLevel( nMainLevel );
-        }
+  CCharacter *pObj = NULL;
+  for (int i = 0; i < _nChaCnt; i++) {
+    pObj = &_pChaArray[i];
+    if (pObj->IsValid() && !pObj->IsHide()) {
+      pObj->LoadingCall();
     }
+  }
+  pObj = GetMainCha();
+  if (!pObj)
+    return;
+
+  RefreshLevel();
+
+  //////////////////////////////////////////////////////////////////////////
+  SAFE_DELETE(_pSmallMap);
+  _pSmallMap = new CMinimap;
+
+  RECT rc;
+
+  CCompent *pRect = g_stUIMap.GetMinimapRect();
+
+  int lenx = pRect->GetRight() - pRect->GetLeft();
+
+  rc.left = ResMgr.GetBackBufferWidth() - (lenx + pRect->GetLeft());
+  rc.top = pRect->GetTop();
+  rc.right = rc.left + lenx;
+  rc.bottom = rc.top + lenx;
+
+  _pSmallMap->Create(g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), lenx);
+
+  // CCompent*pRect = g_stUIMap.GetL
+
+  C3DCompent *pD3d = g_stUIMap.GetBigmapRect();
+  rc.left = pD3d->GetX();
+  rc.top = pD3d->GetY();
+  rc.right = pD3d->GetX2();
+  rc.bottom = pD3d->GetY2();
+
+  SAFE_DELETE(_pLargerMap);
+  _pLargerMap = new CLargerMap;
+  _pLargerMap->Create(g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), 500);
+
+  //	LG( "scene init", "create small map\n" );
+  //////////////////////////////////////////////////////////////////////////
+
+  // ÈáçËÆæÈïúÂ§¥
+  CCameraCtrl *pCam = g_pGameApp->GetMainCam();
+  LETerrain *pTerr = GetTerrain();
+
+  D3DXVECTOR3 vecCha = pObj->GetPos();
+  vecCha.z = GetGridHeight(vecCha.x * 100, vecCha.y * 100);
+
+  pCam->InitModel(pObj->IsBoat() ? 3 : 0, &vecCha);
+
+  // pCam->SetFollowObj(vecCha);
+  // g_pGameApp->GetCameraTrack()->Reset(vecCha.x,vecCha.y,vecCha.z);
+
+  pCam->InitPos(vecCha.x, vecCha.y, vecCha.z);
+  pCam->SetBufVel(pObj->getMoveSpeed(), pObj->getID());
+
+  pCam->FrameMove(0);
+  // g_pGameApp->ResetGameCamera( pCha->IsBoat() ? 3 : 0 );
+
+  pCam->SetViewTransform();
+
+  //
+  // CCameraCtrl *pCam = g_pGameApp->GetMainCam();
+  if (pCam->m_bEnableRota !=
+      (BOOL)g_stUISystem.m_sysProp.m_videoProp.bCameraRotate) {
+    pCam->EnableRotation(g_stUISystem.m_sysProp.m_videoProp.bCameraRotate);
+  }
 }
 
-CEffectObj* CGameScene::CreateEffect( int nEffectID, int nX, int nY, bool isLoop )
-{
-	CEffectObj	*pEffect = GetFirstInvalidEffObj();
-	if( !pEffect ) return NULL;
-
-	if( !pEffect->Create( nEffectID ) )
-		return NULL;
-
-	D3DXVECTOR3 pos;
-	pos.x = (float)nX / 100.0f;
-	pos.y = (float)nY / 100.0f;
-	pos.z = GetGridHeight( pos.x, pos.y );
-    pEffect->setLoop( isLoop );
-	pEffect->SetUpdateHieght( true );
-	pEffect->Emission( -1, &pos, NULL );
-	pEffect->SetValid(TRUE);
-    return pEffect;
+BYTE CGameScene::GetTileTexAttr(int ix, int iy) {
+  if (!_pTerrain)
+    return 0;
+  LETile *pTile = _pTerrain->GetTile(ix, iy);
+  if (!pTile)
+    return 0;
+  if (_pTerrain->GetGridHeight(ix * 2, iy * 2) >
+      _pTerrain->GetTileHeight(ix, iy))
+    return 0;
+  LETerrainInfo *pInfo = GetTerrainInfo(pTile->TexLayer[0].btTexNo);
+  if (!pInfo)
+    return 0;
+  return pInfo->btAttr;
 }
 
-void CGameScene::LoadingCall()
-{
-//	LG( "scene init", "LoadingCall:%s\t%d\n", _stInit.strMapFile.c_str(), GetTickCount() );
+void CGameScene::AddAreaEff(CEffectObj *pEffectObj) {
+  _areaeffs.push_back(pEffectObj);
+}
 
-    CCharacter *pObj = NULL;
-	for( int i = 0; i < _nChaCnt; i++) 
-	{
-		pObj = &_pChaArray[i];
-		if( pObj->IsValid() && !pObj->IsHide() )
-		{
-            pObj->LoadingCall();
-        }
+bool CGameScene::DelAreaEff(long nAreaID, int nEffectID) {
+  int nCount = 0;
+  if (nEffectID == 0) {
+    for (areaeffs::iterator it = _areaeffs.begin(); it != _areaeffs.end();
+         it++) {
+      if ((*it)->getTag() == nAreaID) {
+        (*it)->SetValid(FALSE);
+        (*it) = NULL;
+        nCount++;
+      }
     }
-	pObj = GetMainCha();
-	if(!pObj) return;
-
-	RefreshLevel();
-
-	//////////////////////////////////////////////////////////////////////////
-	SAFE_DELETE(_pSmallMap);
-	_pSmallMap = new CMinimap;
-
-	RECT rc;
-
-	CCompent*pRect = g_stUIMap.GetMinimapRect();
-
-	int lenx = pRect->GetRight() - pRect->GetLeft();
-
-
-	rc.left = ResMgr.GetBackBufferWidth() - (lenx + pRect->GetLeft());
-	rc.top  = pRect->GetTop();
-	rc.right= rc.left + lenx;
-	rc.bottom = rc.top + lenx;
-
-	_pSmallMap->Create( g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), lenx);
-
-	//CCompent*pRect = g_stUIMap.GetL
-
-	C3DCompent* pD3d = g_stUIMap.GetBigmapRect();
-	rc.left = pD3d->GetX();
-	rc.top  = pD3d->GetY();
-	rc.right= pD3d->GetX2();
-	rc.bottom = pD3d->GetY2();
-
-	SAFE_DELETE(_pLargerMap);
-	_pLargerMap = new CLargerMap;
-	_pLargerMap->Create( g_Render.GetDevice(), rc, g_pGameApp->GetCurScene(), 500 );
-
-//	LG( "scene init", "create small map\n" );
-//////////////////////////////////////////////////////////////////////////
-
-	   // ÷ÿ…ËæµÕ∑
-	   CCameraCtrl *pCam = g_pGameApp->GetMainCam();
-	   LETerrain *pTerr = GetTerrain();
-
-	   D3DXVECTOR3 vecCha = pObj->GetPos();
-	   vecCha.z = GetGridHeight(vecCha.x * 100,vecCha.y * 100);
-
-	pCam->InitModel(pObj->IsBoat() ? 3 : 0,&vecCha);
-
-	//pCam->SetFollowObj(vecCha);
-	   //g_pGameApp->GetCameraTrack()->Reset(vecCha.x,vecCha.y,vecCha.z);
-
-	pCam->InitPos( vecCha.x,vecCha.y, vecCha.z );
-	   pCam->SetBufVel( pObj->getMoveSpeed(), pObj->getID());
-
-
-	   pCam->FrameMove(0);
-	//g_pGameApp->ResetGameCamera( pCha->IsBoat() ? 3 : 0 );
-
-	pCam->SetViewTransform();
-
-	//
-	//CCameraCtrl *pCam = g_pGameApp->GetMainCam();
-	if(pCam->m_bEnableRota != (BOOL)g_stUISystem.m_sysProp.m_videoProp.bCameraRotate)
-	{
-		pCam->EnableRotation( g_stUISystem.m_sysProp.m_videoProp.bCameraRotate );
-	}
-}
-
-BYTE	CGameScene::GetTileTexAttr(int ix, int iy)
-{
-	if(!_pTerrain)
-		return 0;
-	LETile* pTile = _pTerrain->GetTile(ix,iy);
-	if(!pTile)
-		return 0;
-	if(_pTerrain->GetGridHeight(ix * 2,iy * 2) > _pTerrain->GetTileHeight(ix,iy))
-		return 0;
-	LETerrainInfo* pInfo = GetTerrainInfo(pTile->TexLayer[0].btTexNo);
-	if(!pInfo)
-		return 0;
-	return pInfo->btAttr;
-}
-
-void CGameScene::AddAreaEff( CEffectObj* pEffectObj )
-{
-    _areaeffs.push_back( pEffectObj );
-}
-
-bool CGameScene::DelAreaEff( long nAreaID, int nEffectID )
-{
-    int nCount = 0;
-    if( nEffectID==0 )
-    {
-        for( areaeffs::iterator it=_areaeffs.begin(); it!=_areaeffs.end(); it++ )
-        {
-            if( (*it)->getTag()==nAreaID )
-            {
-                (*it)->SetValid( FALSE );
-                (*it) = NULL;
-                nCount++;
-            }
-        }
+  } else {
+    for (areaeffs::iterator it = _areaeffs.begin(); it != _areaeffs.end();
+         it++) {
+      if ((*it)->getTag() == nAreaID && (*it)->getIdxID() == nEffectID) {
+        (*it)->SetValid(FALSE);
+        (*it) = NULL;
+        nCount++;
+      }
     }
-    else
-    {
-        for( areaeffs::iterator it=_areaeffs.begin(); it!=_areaeffs.end(); it++ )
-        {
-            if( (*it)->getTag()==nAreaID && (*it)->getIdxID()==nEffectID )
-            {
-                (*it)->SetValid( FALSE );
-                (*it) = NULL;
-                nCount++;
-            }
-        }
-    }
-    if( nCount>0 )
-    {
-        _areaeffs.remove( NULL );
-        return true;
-    }
-    return false;
+  }
+  if (nCount > 0) {
+    _areaeffs.remove(NULL);
+    return true;
+  }
+  return false;
 }
-

@@ -1,748 +1,700 @@
-#include "StdAfx.h"
 #include "uiLotteryform.h"
-#include "uiformmgr.h"
+#include "GameApp.h"
+#include "StdAfx.h"
+#include "StoneSet.h"
+#include "StringLib.h"
+#include "UIBoxform.h"
+#include "UIList.h"
+#include "UIProgressBar.h"
+#include "WorldScene.h"
+#include "character.h"
+#include "forgerecord.h"
+#include "gameapp.h"
+#include "packetCmd.h"
+#include "packetcmd.h"
+#include "scene.h"
+#include "uiequipform.h"
+#include "uifastcommand.h"
 #include "uiform.h"
+#include "uiformmgr.h"
+#include "uigoodsgrid.h"
+#include "uiitemcommand.h"
 #include "uilabel.h"
 #include "uimemo.h"
 #include "uitextbutton.h"
-#include "scene.h"
-#include "uiitemcommand.h"
-#include "uifastcommand.h"
-#include "forgerecord.h"
-#include "gameapp.h"
-#include "uigoodsgrid.h"
-#include "uiequipform.h"
-#include "packetcmd.h"
-#include "character.h"
-#include "UIBoxform.h"
-#include "packetCmd.h"
-#include "StoneSet.h"
-#include "GameApp.h"
-#include "UIProgressBar.h"
-#include "WorldScene.h"
-#include "UIList.h"
-#include "StringLib.h"
 
 using namespace GUI;
 
-static int         g_nForgeIndex  =-1;
+static int g_nForgeIndex = -1;
 
 //---------------------------------------------------------------------------
 // class CLotteryMgr
 //---------------------------------------------------------------------------
-bool CLotteryMgr::Init()
-{
-	CFormMgr &mgr = CFormMgr::s_Mgr;
-	//≥ı ºªØnpc∂‘ª∞±Ìµ•
-	frmNPCLottery  = mgr.Find("frmNPCLottery" );
-	if ( !frmNPCLottery )
-	{	
-		LG("gui", RES_STRING(CL_LANGUAGE_MATCH_560));
-		return false;
-	}
+bool CLotteryMgr::Init() {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+  //ÂàùÂßãÂåñnpcÂØπËØùË°®Âçï
+  frmNPCLottery = mgr.Find("frmNPCLottery");
+  if (!frmNPCLottery) {
+    LG("gui", RES_STRING(CL_LANGUAGE_MATCH_560));
+    return false;
+  }
 
-	frmNPCLottery->evtEntrustMouseEvent = _MainMouseEvent;
-	frmNPCLottery->evtClose = _OnClose;
+  frmNPCLottery->evtEntrustMouseEvent = _MainMouseEvent;
+  frmNPCLottery->evtClose = _OnClose;
 
-	// ◊∞±∏¿∏
-	char szBuf[32];
-	for (int i(0); i<ITEM_NUM; i++)
-	{
-		_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE,  "cmdNoItem%d", i);
-		cmdNoItem[i] = dynamic_cast<COneCommand*>(frmNPCLottery->Find(szBuf));
-		
-		if( cmdNoItem[i]->GetDrag() )
-		{
-			cmdNoItem[i]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
-		}
+  // Ë£ÖÂ§áÊ†è
+  char szBuf[32];
+  for (int i(0); i < ITEM_NUM; i++) {
+    _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE, "cmdNoItem%d", i);
+    cmdNoItem[i] = dynamic_cast<COneCommand *>(frmNPCLottery->Find(szBuf));
 
-		if (!cmdNoItem[i]) 
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCLottery->GetName(), szBuf);
-	}
-	cmdNoItem[IITEM_NO1]->evtBeforeAccept = _DragEvtNo1;
-	cmdNoItem[IITEM_NO2]->evtBeforeAccept = _DragEvtNo2;
-	cmdNoItem[IITEM_NO3]->evtBeforeAccept = _DragEvtNo3;
-	cmdNoItem[IITEM_NO4]->evtBeforeAccept = _DragEvtNo4;
-	cmdNoItem[IITEM_NO5]->evtBeforeAccept = _DragEvtNo5;
-	cmdNoItem[IITEM_NO6]->evtBeforeAccept = _DragEvtNo6;
+    if (cmdNoItem[i]->GetDrag()) {
+      cmdNoItem[i]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
+    }
 
-	cmdLotteryItem = dynamic_cast<COneCommand*>(frmNPCLottery->Find("cmdLotteryItem"));
-	cmdLotteryItem->evtBeforeAccept = _DragEvtLottery;
-	
-	labLotteryIssue = dynamic_cast<CLabelEx*>(frmNPCLottery->Find("labLotteryIssue"));
-	labLotteryID = dynamic_cast<CLabelEx*>(frmNPCLottery->Find("labLotteryID"));
-	labLotteryDate = dynamic_cast<CLabelEx*>(frmNPCLottery->Find("labLotteryDate"));
+    if (!cmdNoItem[i])
+      return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCLottery->GetName(),
+                   szBuf);
+  }
+  cmdNoItem[IITEM_NO1]->evtBeforeAccept = _DragEvtNo1;
+  cmdNoItem[IITEM_NO2]->evtBeforeAccept = _DragEvtNo2;
+  cmdNoItem[IITEM_NO3]->evtBeforeAccept = _DragEvtNo3;
+  cmdNoItem[IITEM_NO4]->evtBeforeAccept = _DragEvtNo4;
+  cmdNoItem[IITEM_NO5]->evtBeforeAccept = _DragEvtNo5;
+  cmdNoItem[IITEM_NO6]->evtBeforeAccept = _DragEvtNo6;
 
-	btnYes = dynamic_cast<CTextButton*>(frmNPCLottery->Find("btnLotteryYes"));
-	if( !btnYes ) 
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCLottery->GetName(), "btnLotteryYes");
+  cmdLotteryItem =
+      dynamic_cast<COneCommand *>(frmNPCLottery->Find("cmdLotteryItem"));
+  cmdLotteryItem->evtBeforeAccept = _DragEvtLottery;
 
-	btnYes->SetIsEnabled(false); 
-	return true;
+  labLotteryIssue =
+      dynamic_cast<CLabelEx *>(frmNPCLottery->Find("labLotteryIssue"));
+  labLotteryID = dynamic_cast<CLabelEx *>(frmNPCLottery->Find("labLotteryID"));
+  labLotteryDate =
+      dynamic_cast<CLabelEx *>(frmNPCLottery->Find("labLotteryDate"));
+
+  btnYes = dynamic_cast<CTextButton *>(frmNPCLottery->Find("btnLotteryYes"));
+  if (!btnYes)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCLottery->GetName(),
+                 "btnLotteryYes");
+
+  btnYes->SetIsEnabled(false);
+  return true;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::CloseForm()
-{
+void CLotteryMgr::CloseForm() {}
+
+//---------------------------------------------------------------------------
+void CLotteryMgr::ShowLottery(bool bShow) {
+  Clear();
+
+  if (bShow) {
+    frmNPCLottery->SetPos(150, 150);
+    frmNPCLottery->Reset();
+    frmNPCLottery->Refresh();
+    frmNPCLottery->Show();
+
+    //ÂêåÊó∂ÊâìÂºÄÁé©ÂÆ∂ÁöÑË£ÖÂ§áÊ†è
+    int x = frmNPCLottery->GetX() + frmNPCLottery->GetWidth();
+    int y = frmNPCLottery->GetY();
+    g_stUIEquip.GetItemForm()->SetPos(x, y);
+    g_stUIEquip.GetItemForm()->Refresh();
+
+    if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow())) {
+      g_stUIEquip.GetItemForm()->Show();
+    }
+  } else {
+    frmNPCLottery->Close();
+    g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
+  }
+
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::ShowLottery(bool bShow)
-{
-	Clear();
-
-	if (bShow)
-	{
-		frmNPCLottery->SetPos(150, 150);
-		frmNPCLottery->Reset();
-		frmNPCLottery->Refresh();
-		frmNPCLottery->Show();
-
-		//Õ¨ ±¥Úø™ÕÊº“µƒ◊∞±∏¿∏
-		int x = frmNPCLottery->GetX() + frmNPCLottery->GetWidth();
-		int y = frmNPCLottery->GetY();
-		g_stUIEquip.GetItemForm()->SetPos(x, y);
-		g_stUIEquip.GetItemForm()->Refresh();
-
-		if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow()))
-		{
-			g_stUIEquip.GetItemForm()->Show();
-		}
-	}
-	else
-	{
-		frmNPCLottery->Close();
-		g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
-	}
-
-	return;
+int CLotteryMgr::GetForgeComIndex(COneCommand *oneCommand) {
+  for (int i(0); i < ITEM_NUM; i++)
+    if (cmdNoItem[i] == oneCommand)
+      return i;
+  return -1;
 }
 
 //---------------------------------------------------------------------------
-int  CLotteryMgr::GetForgeComIndex(COneCommand* oneCommand)
-{
-	for (int i(0); i<ITEM_NUM; i++)
-		if (cmdNoItem[i] == oneCommand)
-			return i;
-	return -1;
+void CLotteryMgr::Clear() {
+  ClearUI();
+
+  ClearItem();
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::Clear()
-{
-	ClearUI();
+void CLotteryMgr::ClearUI() { btnYes->SetIsEnabled(false); }
 
-	ClearItem();
+//---------------------------------------------------------------------------
+void CLotteryMgr::ClearItem() {
+  for (int i(0); i < ITEM_NUM; ++i) {
+    PopItem(i);
+  }
+
+  PopLottery();
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::ClearUI()
-{
-	btnYes->SetIsEnabled(false);
+bool CLotteryMgr::SendLotteryProtocol() {
+  stNetItemLotteryAsk kNetItemLotteryeAsk;
+
+  kNetItemLotteryeAsk.SGroup[0].sCellNum = 1; // ÂßãÁªàÊòØ1
+  kNetItemLotteryeAsk.SGroup[0].pCell = new SLotteryCell::SCell[1];
+  kNetItemLotteryeAsk.SGroup[0].pCell[0].sNum = 1;
+  kNetItemLotteryeAsk.SGroup[0].pCell[0].sPosID = m_iLotteryPos;
+
+  for (int i = 0; i < ITEM_NUM; ++i) {
+    kNetItemLotteryeAsk.SGroup[i + 1].sCellNum = 1; // ÂßãÁªàÊòØ1
+    kNetItemLotteryeAsk.SGroup[i + 1].pCell = new SLotteryCell::SCell[1];
+    kNetItemLotteryeAsk.SGroup[i + 1].pCell[0].sNum = 1;
+    kNetItemLotteryeAsk.SGroup[i + 1].pCell[0].sPosID = m_iLotteryItemPos[i];
+  }
+  CS_ItemLotteryAsk(true, &kNetItemLotteryeAsk);
+
+  // ‰∏çÁî®Âà†Èô§Ôºå‰ªñÊîæÂà∞SLotteryCellÁöÑÊûêÊûÑÂáΩÊï∞Èáå‰∫Ü
+  /*
+  for (int i = 0; i<ITEM_NUM; ++i)
+  {
+          delete[] kNetItemLotteryeAsk.SGroup[i].pCell;
+  }*/
+
+  return true;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::ClearItem()
-{
-	for (int i(0); i<ITEM_NUM; ++i)
-	{
-		PopItem(i);
-	}
+void CLotteryMgr::LotterySuccess(long lChaID) {
+  if (!CGameApp::GetCurScene())
+    return;
 
-	PopLottery();
+  CCharacter *pCha = CGameApp::GetCurScene()->SearchByID(lChaID);
+  if (!pCha)
+    return;
+
+  if (pCha->IsMainCha())
+    this->ShowLottery(false);
 }
 
 //---------------------------------------------------------------------------
-bool CLotteryMgr::SendLotteryProtocol()
-{
-	stNetItemLotteryAsk kNetItemLotteryeAsk;
-	
-	kNetItemLotteryeAsk.SGroup[0].sCellNum = 1;		//  º÷’ «1
-	kNetItemLotteryeAsk.SGroup[0].pCell = new SLotteryCell::SCell[1];
-	kNetItemLotteryeAsk.SGroup[0].pCell[0].sNum = 1;
-	kNetItemLotteryeAsk.SGroup[0].pCell[0].sPosID = m_iLotteryPos;
+void CLotteryMgr::LotteryFailed(long lChaID) {
+  if (!CGameApp::GetCurScene())
+    return;
 
-	for (int i = 0; i<ITEM_NUM; ++i)
-	{
-		kNetItemLotteryeAsk.SGroup[i+1].sCellNum = 1;		//  º÷’ «1
-		kNetItemLotteryeAsk.SGroup[i+1].pCell = new SLotteryCell::SCell[1];
-		kNetItemLotteryeAsk.SGroup[i+1].pCell[0].sNum = 1;
-		kNetItemLotteryeAsk.SGroup[i+1].pCell[0].sPosID = m_iLotteryItemPos[i];
-	}
-	CS_ItemLotteryAsk(true, &kNetItemLotteryeAsk);
+  CCharacter *pCha = CGameApp::GetCurScene()->SearchByID(lChaID);
+  if (!pCha)
+    return;
 
-	// ≤ª”√…æ≥˝£¨À˚∑≈µΩSLotteryCellµƒŒˆππ∫Ø ˝¿Ô¡À
-	/*
-	for (int i = 0; i<ITEM_NUM; ++i)
-	{
-		delete[] kNetItemLotteryeAsk.SGroup[i].pCell;	
-	}*/
-
-	return true;
-
+  if (pCha->IsMainCha())
+    this->ShowLottery(false);
 }
 
-//---------------------------------------------------------------------------
-void CLotteryMgr::LotterySuccess(long lChaID)
-{
-	if( !CGameApp::GetCurScene() ) return;
-
-	CCharacter* pCha = CGameApp::GetCurScene()->SearchByID( lChaID );
-	if( !pCha ) return;
-
-	if( pCha->IsMainCha() )
-		this->ShowLottery(false);
-}
-
-//---------------------------------------------------------------------------
-void CLotteryMgr::LotteryFailed(long lChaID)
-{
-	if( !CGameApp::GetCurScene() ) return;
-
-	CCharacter* pCha = CGameApp::GetCurScene()->SearchByID( lChaID );
-	if( !pCha ) return;
-
-	if( pCha->IsMainCha() )
-		this->ShowLottery(false);
-}
-
-void CLotteryMgr::LotteryOther(long lChaID)
-{
-	this->ShowLottery(false);
-}
-
+void CLotteryMgr::LotteryOther(long lChaID) { this->ShowLottery(false); }
 
 //---------------------------------------------------------------------------
 // Callback Function
 //---------------------------------------------------------------------------
-void CLotteryMgr::_MainMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	if( name=="btnClose"  || name == "btnLotteryNo" )  
-	{ 
-		return;
-	}
-	else if( name == g_stUILottery.btnYes->GetName() ) 
-	{
-		g_stUILottery.btnYes->SetIsEnabled(false);
+void CLotteryMgr::_MainMouseEvent(CCompent *pSender, int nMsgType, int x, int y,
+                                  DWORD dwKey) {
+  string name = pSender->GetName();
+  if (name == "btnClose" || name == "btnLotteryNo") {
+    return;
+  } else if (name == g_stUILottery.btnYes->GetName()) {
+    g_stUILottery.btnYes->SetIsEnabled(false);
 
-		g_stUILottery.SendLotteryProtocol();
-	}
+    g_stUILottery.SendLotteryProtocol();
+  }
 
-	return;
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo(int index, CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	if(g_stUILottery.m_iLotteryPos == NO_USE)
-	{
-		//g_pGameApp->MsgBox("«Îœ»—°‘Ò≤ ∆±£°");
-		g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00001));
-		return;
-	}
+void CLotteryMgr::_DragEvtNo(int index, CGuiData *pSender, CCommandObj *pItem,
+                             bool &isAccept) {
+  if (g_stUILottery.m_iLotteryPos == NO_USE) {
+    // g_pGameApp->MsgBox("ËØ∑ÂÖàÈÄâÊã©ÂΩ©Á•®ÔºÅ");
+    g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00001));
+    return;
+  }
 
-	if (!g_stUILottery.IsValidDragSource())
-		return;
+  if (!g_stUILottery.IsValidDragSource())
+    return;
 
-	CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand) return;
-	if( !(pItemCommand->GetIsValid())) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand)
+    return;
+  if (!(pItemCommand->GetIsValid()))
+    return;
 
-	//Add by sunny.sun 20080612 for change ball
-	//Begin
-	CItemCommand* pItemChangeNo = (CItemCommand*)g_stUILottery.cmdNoItem[index]->GetCommand();
-	if(pItemChangeNo)
-	{
-		//g_pGameApp->MsgBox("≤ªø…÷ÿ–¬ÃÊªª∫≈¬Î«Ú£°");
-		g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00003));
-		return ;	
-	}
+  // Add by sunny.sun 20080612 for change ball
+  // Begin
+  CItemCommand *pItemChangeNo =
+      (CItemCommand *)g_stUILottery.cmdNoItem[index]->GetCommand();
+  if (pItemChangeNo) {
+    // g_pGameApp->MsgBox("‰∏çÂèØÈáçÊñ∞ÊõøÊç¢Âè∑Á†ÅÁêÉÔºÅ");
+    g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00003));
+    return;
+  }
 
-	if (g_stUILottery.IsNo(*pItemCommand))
-	{
-		g_stUILottery.PushItem(index, *pItemCommand);
-		g_stUILottery.SetLotteryUI();
-	}
-	else
-	{
-		//g_pGameApp->MsgBox("À˘—°µƒ≤ª «∫≈¬Î«Ú£¨«Î÷ÿ–¬—°‘Ò£°");
-		g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00002));
-	}
-	CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-	
-	if( pItemRecord->lID == 5839  )
-	{
-		for(int i(0); i < ITEM_NUM ;i++)
-		{	
-			//CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-			CItemCommand* pItemNo = (CItemCommand*)g_stUILottery.cmdNoItem[i]->GetCommand();
-			if(pItemNo)
-			{
-				if( pItemNo->GetItemInfo()->lID == 5839)
-				{	
-					//g_pGameApp->MsgBox("÷ªƒ‹∑≈÷√“ª∏ˆX«Ú£°");
-					g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00004));
-					return ;
-				}
-			}
-		}
-	}
-	g_stUILottery.PushItem(index, *pItemCommand);
-	g_stUILottery.SetLotteryUI();
-	//End
+  if (g_stUILottery.IsNo(*pItemCommand)) {
+    g_stUILottery.PushItem(index, *pItemCommand);
+    g_stUILottery.SetLotteryUI();
+  } else {
+    // g_pGameApp->MsgBox("ÊâÄÈÄâÁöÑ‰∏çÊòØÂè∑Á†ÅÁêÉÔºåËØ∑ÈáçÊñ∞ÈÄâÊã©ÔºÅ");
+    g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00002));
+  }
+  CItemRecord *pItemRecord = pItemCommand->GetItemInfo();
 
-	//
+  if (pItemRecord->lID == 5839) {
+    for (int i(0); i < ITEM_NUM; i++) {
+      // CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
+      CItemCommand *pItemNo =
+          (CItemCommand *)g_stUILottery.cmdNoItem[i]->GetCommand();
+      if (pItemNo) {
+        if (pItemNo->GetItemInfo()->lID == 5839) {
+          // g_pGameApp->MsgBox("Âè™ËÉΩÊîæÁΩÆ‰∏Ä‰∏™XÁêÉÔºÅ");
+          g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00004));
+          return;
+        }
+      }
+    }
+  }
+  g_stUILottery.PushItem(index, *pItemCommand);
+  g_stUILottery.SetLotteryUI();
+  // End
 
-	//
+  //
 
-	for (int i(0); i<ITEM_NUM; ++i)
-	{
-		if(g_stUILottery.m_iLotteryItemPos[i] == NO_USE)
-			return;
-	}
+  //
 
-	g_stUILottery.btnYes->SetIsEnabled(true);
+  for (int i(0); i < ITEM_NUM; ++i) {
+    if (g_stUILottery.m_iLotteryItemPos[i] == NO_USE)
+      return;
+  }
+
+  g_stUILottery.btnYes->SetIsEnabled(true);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo1(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO1, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo1(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO1, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo2(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO2, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo2(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO2, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo3(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO3, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo3(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO3, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo4(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO4, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo4(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO4, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo5(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO5, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo5(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO5, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtNo6(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	_DragEvtNo(IITEM_NO6, pSender, pItem, isAccept);
+void CLotteryMgr::_DragEvtNo6(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  _DragEvtNo(IITEM_NO6, pSender, pItem, isAccept);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_DragEvtLottery(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	if (!g_stUILottery.IsValidDragSource())
-		return;
+void CLotteryMgr::_DragEvtLottery(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  if (!g_stUILottery.IsValidDragSource())
+    return;
 
-	CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand) return;
-	if( !(pItemCommand->GetIsValid())) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand)
+    return;
+  if (!(pItemCommand->GetIsValid()))
+    return;
 
-	if (g_stUILottery.IsLottery(*pItemCommand))
-	{
-		CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-		SItemGrid* pItemGrid = &pItemCommand->GetData();
+  if (g_stUILottery.IsLottery(*pItemCommand)) {
+    CItemRecord *pItemRecord = pItemCommand->GetItemInfo();
+    SItemGrid *pItemGrid = &pItemCommand->GetData();
 
-		if( (float((short)pItemGrid->sInstAttr[0][1]) / 1000) > 0)
-		{	
-			//g_pGameApp->MsgBox("¥À≤ ∆±“—ÃÓπ˝£°");
-			g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00005));
-			return;
-		}
-		g_stUILottery.PushLottery(*pItemCommand);
-		g_stUILottery.SetLotteryUI();
-	}
-	else
-	{
-		//g_pGameApp->MsgBox("±ÿ–Ë∑≈÷√≤ ∆±£°");
-		g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00006));
-	}
-	return;
+    if ((float((short)pItemGrid->sInstAttr[0][1]) / 1000) > 0) {
+      // g_pGameApp->MsgBox("Ê≠§ÂΩ©Á•®Â∑≤Â°´ËøáÔºÅ");
+      g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00005));
+      return;
+    }
+    g_stUILottery.PushLottery(*pItemCommand);
+    g_stUILottery.SetLotteryUI();
+  } else {
+    // g_pGameApp->MsgBox("ÂøÖÈúÄÊîæÁΩÆÂΩ©Á•®ÔºÅ");
+    g_pGameApp->MsgBox(RES_STRING(CL_UILOTTERYFORM_CPP_00006));
+  }
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_evtConfirmEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if (g_stUILottery.m_isConfirm = nMsgType != CForm::mrYes)
-			CS_ItemLotteryAnswer( false );
+void CLotteryMgr::_evtConfirmEvent(CCompent *pSender, int nMsgType, int x,
+                                   int y, DWORD dwKey) {
+  if (g_stUILottery.m_isConfirm = nMsgType != CForm::mrYes)
+    CS_ItemLotteryAnswer(false);
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::_OnClose(CForm* pForm, bool& IsClose)
-{
-	g_stUILottery.Clear();
+void CLotteryMgr::_OnClose(CForm *pForm, bool &IsClose) {
+  g_stUILottery.Clear();
 
-	CS_ItemLotteryAsk(false);
-
+  CS_ItemLotteryAsk(false);
 }
 
-void CLotteryMgr::_DragBeforeEvt(CGuiData *pSender, int x, int y, DWORD key)
-{
-	if( pSender->GetDrag() ) 
-		pSender->GetDrag()->Reset();
+void CLotteryMgr::_DragBeforeEvt(CGuiData *pSender, int x, int y, DWORD key) {
+  if (pSender->GetDrag())
+    pSender->GetDrag()->Reset();
 }
 
 //---------------------------------------------------------------------------
 // Help Function
 //---------------------------------------------------------------------------
-bool CLotteryMgr::IsNo(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CLotteryMgr::IsNo(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == NO_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == NO_TYPE;
 
-	return false;
+  return false;
 }
 
-bool CLotteryMgr::IsLottery(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CLotteryMgr::IsLottery(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == LOTTERY_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == LOTTERY_TYPE;
 
-	return false;
+  return false;
 }
 
-bool CLotteryMgr::IsValidDragSource()
-{
-	CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-	if( pGood == g_stUIEquip.GetGoodsGrid() ) return true;
+bool CLotteryMgr::IsValidDragSource() {
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood == g_stUIEquip.GetGoodsGrid())
+    return true;
 
-	return false;
-}
-
-
-//---------------------------------------------------------------------------
-void CLotteryMgr::PushItem(int iIndex, CItemCommand& rItem)
-{
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iLotteryItemPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	rItem.SetIsValid(false);
-
-	// Ω´¥¥Ω®µƒItem∑≈»ÎCmd÷–£¨’‚¿Ô”√newΩ´ª·‘⁄PopItem()÷–…æ≥˝
-	CItemCommand* pItemCmd = new CItemCommand(rItem);
-	pItemCmd->SetIsValid(true);
-	cmdNoItem[iIndex]->AddCommand(pItemCmd);
-
-	return;
-}
-
-void CLotteryMgr::PushLottery(CItemCommand& rItem)
-{
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iLotteryPos = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	rItem.SetIsValid(false);
-
-	// Ω´¥¥Ω®µƒItem∑≈»ÎCmd÷–£¨’‚¿Ô”√newΩ´ª·‘⁄PopItem()÷–…æ≥˝
-	CItemCommand* pItemCmd = new CItemCommand(rItem);
-	pItemCmd->SetIsValid(true);
-	cmdLotteryItem->AddCommand(pItemCmd);
-
-	return;
+  return false;
 }
 
 //---------------------------------------------------------------------------
-void CLotteryMgr::PopItem(int iIndex)
-{
-	// …æ≥˝Cmd÷–µƒItem£¨∏√Itemª·‘⁄PushItem()÷–”…new…˙≥…
-	CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(cmdNoItem[iIndex]->GetCommand());
+void CLotteryMgr::PushItem(int iIndex, CItemCommand &rItem) {
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iLotteryItemPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  rItem.SetIsValid(false);
 
-	if (pItemCommand)
-		cmdNoItem[iIndex]->DelCommand();	// ∏√∫Ø ˝Ω´…æ≥˝delete Item
+  // Â∞ÜÂàõÂª∫ÁöÑItemÊîæÂÖ•Cmd‰∏≠ÔºåËøôÈáåÁî®newÂ∞Ü‰ºöÂú®PopItem()‰∏≠Âà†Èô§
+  CItemCommand *pItemCmd = new CItemCommand(rItem);
+  pItemCmd->SetIsValid(true);
+  cmdNoItem[iIndex]->AddCommand(pItemCmd);
 
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	CCommandObj* pItem = g_stUIEquip.GetGoodsGrid()->GetItem(m_iLotteryItemPos[iIndex]);
-
-	if (pItem)
-	{
-		pItem->SetIsValid(true);
-	}
-
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iLotteryItemPos[iIndex] = NO_USE;
-
-	this->SetLotteryUI();
-
-	return;
+  return;
 }
 
-void CLotteryMgr::PopLottery()
-{
-	// …æ≥˝Cmd÷–µƒItem£¨∏√Itemª·‘⁄PushItem()÷–”…new…˙≥…
-	CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(cmdLotteryItem->GetCommand());
+void CLotteryMgr::PushLottery(CItemCommand &rItem) {
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iLotteryPos = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  rItem.SetIsValid(false);
 
-	if (pItemCommand)
-		cmdLotteryItem->DelCommand();	// ∏√∫Ø ˝Ω´…æ≥˝delete Item
+  // Â∞ÜÂàõÂª∫ÁöÑItemÊîæÂÖ•Cmd‰∏≠ÔºåËøôÈáåÁî®newÂ∞Ü‰ºöÂú®PopItem()‰∏≠Âà†Èô§
+  CItemCommand *pItemCmd = new CItemCommand(rItem);
+  pItemCmd->SetIsValid(true);
+  cmdLotteryItem->AddCommand(pItemCmd);
 
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	CCommandObj* pItem = g_stUIEquip.GetGoodsGrid()->GetItem(m_iLotteryPos);
-
-	if (pItem)
-	{
-		pItem->SetIsValid(true);
-	}
-
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iLotteryPos = NO_USE;
-
-	this->SetLotteryUI();
-
-	return;
-}
-
-
-
-//---------------------------------------------------------------------------
-void CLotteryMgr::SetLotteryUI()
-{
-	// ≤ ∆±∆⁄∫≈£∫	XXX
-	// ≤ ∆±ID£∫		∑˛ŒÒ∆˜ID(XX)≤ ∆±∆⁄∫≈(XXX)≤ ∆±–Ú∫≈(XXXXXX)
-	// ≤ ∆±»’∆⁄£∫	2008ƒÍ05‘¬15»’ 16µ„35∑÷
-	// ≤ ∆±∫≈¬Î£∫	1 2 3 4 5 X
-	//
-
-	CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(cmdLotteryItem->GetCommand());
-	
-	if (!pItemCommand)
-		return;
-
-	CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-	
-	if (!pItemRecord)
-		return;
-
-	SItemGrid* pItemGrid = &pItemCommand->GetData();
-
-	if(!pItemGrid)
-		return;
-
-	int i = pItemGrid->sNum;
-	
-	///*
-	//’Ê∫Ï÷ÆΩ£      +5
-	//≤Â≤€“ª      3º∂        ∫Ï±¶ Ø     
-	//≤Â≤€∂˛      Œﬁ         
-	//≤Â≤€»˝     °™°™         °™°™
-	//æ´¡∂º”≥…    π•ª˜+18    ◊®◊¢+79    …¡±‹+99
-	//∏Ωº”º”≥…     °™°™ 
-	//±¶ Ø–ßπ˚     π•ª˜+2      ◊®◊¢+1 
-	//*/
-
-	//char szBuf[64];
-	//if (cmdForgeItem[EQUIP]->GetCommand())
-	//{
-	//	// Œ‰∆˜µƒ√Ë ˆ
-	//	CItemCommand* pItemCommand =  
-	//		dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
-	//	if (!pItemCommand)
-	//		return;
-	//	CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-	//	if (!pItemRecord)
-	//		return;
-
-	//	SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
-
-	//	string sEquipState("");
-	//	// Œ‰∆˜√˚
-	//	CItemRow* pItem = lstForgeItemState->GetItems()->GetItem(0);
-	//	if (pItem)
-	//	{
-	//		sEquipState = pItemRecord->szName;
-	//		sEquipState += "  +";
-	//		sEquipState += itoa(rItemForgeInfo.nLevel,szBuf, 10);
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-
-	//	// Œ‰∆˜≤Â≤€“ª
-	//	pItem = lstForgeItemState->GetItems()->GetItem(1);
-	//	if (pItem)
-	//	{
-	//		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_835);
-	//		if (rItemForgeInfo.nHoleNum < 1)
-	//			sEquipState += "--  --\n";
-	//		else
-	//		{
-	//			if (rItemForgeInfo.nStoneNum < 1)
-	//			{
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-	//			}
-	//			else
-	//			{
-	//				sEquipState += itoa(rItemForgeInfo.nStoneLevel[0], szBuf, 10);
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-	//				sEquipState += rItemForgeInfo.pStoneInfo[0]->szDataName;
-	//				sEquipState += "\n";
-	//			}
-	//		}
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-
-	//	// Œ‰∆˜≤Â≤€∂˛
-	//	pItem = lstForgeItemState->GetItems()->GetItem(2);
-	//	if (pItem)
-	//	{
-	//		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_838);
-	//		if (rItemForgeInfo.nHoleNum < 2)
-	//			sEquipState += "--  --\n";
-	//		else
-	//		{
-	//			if (rItemForgeInfo.nStoneNum < 2)
-	//			{
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-	//			}
-	//			else
-	//			{
-	//				sEquipState += itoa(rItemForgeInfo.nStoneLevel[1], szBuf, 10);
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-	//				sEquipState += rItemForgeInfo.pStoneInfo[1]->szDataName;
-	//				sEquipState += "\n";
-	//			}
-	//		}
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-
-	//	// Œ‰∆˜≤Â≤€»˝
-	//	pItem = lstForgeItemState->GetItems()->GetItem(3);
-	//	if (pItem)
-	//	{
-	//		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_839);
-	//		if (rItemForgeInfo.nHoleNum < 3)
-	//			sEquipState += "--  --\n";
-	//		else
-	//		{
-	//			if (rItemForgeInfo.nStoneNum < 3)
-	//			{
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-	//			}
-	//			else
-	//			{
-	//				sEquipState += itoa(rItemForgeInfo.nStoneLevel[2], szBuf, 10);
-	//				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-	//				sEquipState += rItemForgeInfo.pStoneInfo[2]->szDataName;
-	//				sEquipState += "\n";
-	//			}
-	//		}
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-
-	//	// Œ‰∆˜æ´¡∂º”≥…
-	//	pItem = lstForgeItemState->GetItems()->GetItem(4);
-	//	if (pItem)
-	//	{
-	//		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_840);
-	//		for (int i(0); i<rItemForgeInfo.nStoneNum; ++i)
-	//		{
-	//			sEquipState += rItemForgeInfo.szStoneHint[i];	
-	//			sEquipState += "  ";
-	//		}
-	//		if (sEquipState == RES_STRING(CL_LANGUAGE_MATCH_840))
-	//			sEquipState += "--";
-
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-
-
-	//	// Œ‰∆˜æ´¡∂º”≥…
-	//	pItem = lstForgeItemState->GetItems()->GetItem(5);
-	//	if (pItem)
-	//	{
-	//		string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_841);
-
-	//		pItem->GetBegin()->SetString(sEquipState.c_str());
-	//	}
-	//}
-	//else
-	//{
-	//	CItemRow* pItem;
-	//	for (int i(0); i<6; ++i)
-	//	{
-	//		pItem = lstForgeItemState->GetItems()->GetItem(i);
-	//		if (pItem)
-	//			pItem->GetBegin()->SetString("");
-	//	}
-
-	//}
-
-	////		±¶ Ø–ßπ˚     π•ª˜+2      ◊®◊¢+1 
-	//if (!m_isMilling)
-	//{
-	//	if (cmdForgeItem[GEN_STONE]->GetCommand())
-	//	{
-	//		CItemCommand* pItemCommand =  
-	//			dynamic_cast<CItemCommand*>(cmdForgeItem[GEN_STONE]->GetCommand());
-	//		if (!pItemCommand)
-	//			return;
-
-	//		CItemRow* pItem;
-	//		pItem = lstForgeItemState->GetItems()->GetItem(6);
-	//		if (pItem)
-	//		{
-	//			string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_842) + pItemCommand->GetStoneHint(1);
-	//			pItem->GetBegin()->SetString(sEquipState.c_str());
-	//		}
-	//	}
-	//	else
-	//	{
-	//		CItemRow* pItem;
-	//		pItem = lstForgeItemState->GetItems()->GetItem(6);
-	//		if (pItem)
-	//		{
-	//			pItem->GetBegin()->SetString("");
-	//		}
-	//	}
-
-
-
-	//}
-	//	// ∆‰À˚UI…Ë÷√
-
-	//if (cmdForgeItem[EQUIP]->GetCommand() 
-	//	&& cmdForgeItem[GEN_STONE]->GetCommand() 
-	//	&& cmdForgeItem[FORGE_STONE]->GetCommand())
-	//{
-	//	labForgeGold->SetCaption(StringSplitNum(m_isMilling ? CalMillingMoney() : CalForgeMoney()));
-	//	assert(btnYes);
-	//	btnYes->SetIsEnabled(true);
-	//}
-	//else
-	//{
-	//	labForgeGold->SetCaption("");
-	//	assert(btnYes);
-	//	btnYes->SetIsEnabled(false);
-	//}
-
-
+  return;
 }
 
 //---------------------------------------------------------------------------
-long CLotteryMgr::CalLotteryMoney()
-{
-	//CItemCommand* pItemCommand =  
-	//			dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
+void CLotteryMgr::PopItem(int iIndex) {
+  // Âà†Èô§Cmd‰∏≠ÁöÑItemÔºåËØ•Item‰ºöÂú®PushItem()‰∏≠Áî±newÁîüÊàê
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdNoItem[iIndex]->GetCommand());
 
-	//SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
-	//if (rItemForgeInfo.IsForge)
-	//{
-	//	return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
-	//}
-	return 0;
+  if (pItemCommand)
+    cmdNoItem[iIndex]->DelCommand(); // ËØ•ÂáΩÊï∞Â∞ÜÂà†Èô§delete Item
 
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  CCommandObj *pItem =
+      g_stUIEquip.GetGoodsGrid()->GetItem(m_iLotteryItemPos[iIndex]);
+
+  if (pItem) {
+    pItem->SetIsValid(true);
+  }
+
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iLotteryItemPos[iIndex] = NO_USE;
+
+  this->SetLotteryUI();
+
+  return;
 }
 
+void CLotteryMgr::PopLottery() {
+  // Âà†Èô§Cmd‰∏≠ÁöÑItemÔºåËØ•Item‰ºöÂú®PushItem()‰∏≠Áî±newÁîüÊàê
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdLotteryItem->GetCommand());
+
+  if (pItemCommand)
+    cmdLotteryItem->DelCommand(); // ËØ•ÂáΩÊï∞Â∞ÜÂà†Èô§delete Item
+
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  CCommandObj *pItem = g_stUIEquip.GetGoodsGrid()->GetItem(m_iLotteryPos);
+
+  if (pItem) {
+    pItem->SetIsValid(true);
+  }
+
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iLotteryPos = NO_USE;
+
+  this->SetLotteryUI();
+
+  return;
+}
+
+//---------------------------------------------------------------------------
+void CLotteryMgr::SetLotteryUI() {
+  // ÂΩ©Á•®ÊúüÂè∑Ôºö	XXX
+  // ÂΩ©Á•®IDÔºö		ÊúçÂä°Âô®ID(XX)ÂΩ©Á•®ÊúüÂè∑(XXX)ÂΩ©Á•®Â∫èÂè∑(XXXXXX)
+  // ÂΩ©Á•®Êó•ÊúüÔºö	2008Âπ¥05Êúà15Êó• 16ÁÇπ35ÂàÜ
+  // ÂΩ©Á•®Âè∑Á†ÅÔºö	1 2 3 4 5 X
+  //
+
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdLotteryItem->GetCommand());
+
+  if (!pItemCommand)
+    return;
+
+  CItemRecord *pItemRecord = pItemCommand->GetItemInfo();
+
+  if (!pItemRecord)
+    return;
+
+  SItemGrid *pItemGrid = &pItemCommand->GetData();
+
+  if (!pItemGrid)
+    return;
+
+  int i = pItemGrid->sNum;
+
+  ///*
+  //ÁúüÁ∫¢‰πãÂâë      +5
+  //ÊèíÊßΩ‰∏Ä      3Á∫ß        Á∫¢ÂÆùÁü≥
+  //ÊèíÊßΩ‰∫å      Êó†
+  //ÊèíÊßΩ‰∏â     ‚Äî‚Äî         ‚Äî‚Äî
+  //Á≤æÁÇºÂä†Êàê    ÊîªÂáª+18    ‰∏ìÊ≥®+79    Èó™ÈÅø+99
+  //ÈôÑÂä†Âä†Êàê     ‚Äî‚Äî
+  //ÂÆùÁü≥ÊïàÊûú     ÊîªÂáª+2      ‰∏ìÊ≥®+1
+  //*/
+
+  // char szBuf[64];
+  // if (cmdForgeItem[EQUIP]->GetCommand())
+  //{
+  //	// Ê≠¶Âô®ÁöÑÊèèËø∞
+  //	CItemCommand* pItemCommand =
+  //		dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
+  //	if (!pItemCommand)
+  //		return;
+  //	CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
+  //	if (!pItemRecord)
+  //		return;
+
+  //	SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
+
+  //	string sEquipState("");
+  //	// Ê≠¶Âô®Âêç
+  //	CItemRow* pItem = lstForgeItemState->GetItems()->GetItem(0);
+  //	if (pItem)
+  //	{
+  //		sEquipState = pItemRecord->szName;
+  //		sEquipState += "  +";
+  //		sEquipState += itoa(rItemForgeInfo.nLevel,szBuf, 10);
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+
+  //	// Ê≠¶Âô®ÊèíÊßΩ‰∏Ä
+  //	pItem = lstForgeItemState->GetItems()->GetItem(1);
+  //	if (pItem)
+  //	{
+  //		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_835);
+  //		if (rItemForgeInfo.nHoleNum < 1)
+  //			sEquipState += "--  --\n";
+  //		else
+  //		{
+  //			if (rItemForgeInfo.nStoneNum < 1)
+  //			{
+  //				sEquipState +=
+  //RES_STRING(CL_LANGUAGE_MATCH_836);
+  //			}
+  //			else
+  //			{
+  //				sEquipState += itoa(rItemForgeInfo.nStoneLevel[0], szBuf,
+  //10); 				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837); 				sEquipState +=
+  //rItemForgeInfo.pStoneInfo[0]->szDataName; 				sEquipState += "\n";
+  //			}
+  //		}
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+
+  //	// Ê≠¶Âô®ÊèíÊßΩ‰∫å
+  //	pItem = lstForgeItemState->GetItems()->GetItem(2);
+  //	if (pItem)
+  //	{
+  //		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_838);
+  //		if (rItemForgeInfo.nHoleNum < 2)
+  //			sEquipState += "--  --\n";
+  //		else
+  //		{
+  //			if (rItemForgeInfo.nStoneNum < 2)
+  //			{
+  //				sEquipState +=
+  //RES_STRING(CL_LANGUAGE_MATCH_836);
+  //			}
+  //			else
+  //			{
+  //				sEquipState += itoa(rItemForgeInfo.nStoneLevel[1], szBuf,
+  //10); 				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837); 				sEquipState +=
+  //rItemForgeInfo.pStoneInfo[1]->szDataName; 				sEquipState += "\n";
+  //			}
+  //		}
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+
+  //	// Ê≠¶Âô®ÊèíÊßΩ‰∏â
+  //	pItem = lstForgeItemState->GetItems()->GetItem(3);
+  //	if (pItem)
+  //	{
+  //		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_839);
+  //		if (rItemForgeInfo.nHoleNum < 3)
+  //			sEquipState += "--  --\n";
+  //		else
+  //		{
+  //			if (rItemForgeInfo.nStoneNum < 3)
+  //			{
+  //				sEquipState +=
+  //RES_STRING(CL_LANGUAGE_MATCH_836);
+  //			}
+  //			else
+  //			{
+  //				sEquipState += itoa(rItemForgeInfo.nStoneLevel[2], szBuf,
+  //10); 				sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837); 				sEquipState +=
+  //rItemForgeInfo.pStoneInfo[2]->szDataName; 				sEquipState += "\n";
+  //			}
+  //		}
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+
+  //	// Ê≠¶Âô®Á≤æÁÇºÂä†Êàê
+  //	pItem = lstForgeItemState->GetItems()->GetItem(4);
+  //	if (pItem)
+  //	{
+  //		sEquipState = RES_STRING(CL_LANGUAGE_MATCH_840);
+  //		for (int i(0); i<rItemForgeInfo.nStoneNum; ++i)
+  //		{
+  //			sEquipState += rItemForgeInfo.szStoneHint[i];
+  //			sEquipState += "  ";
+  //		}
+  //		if (sEquipState == RES_STRING(CL_LANGUAGE_MATCH_840))
+  //			sEquipState += "--";
+
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+
+  //	// Ê≠¶Âô®Á≤æÁÇºÂä†Êàê
+  //	pItem = lstForgeItemState->GetItems()->GetItem(5);
+  //	if (pItem)
+  //	{
+  //		string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_841);
+
+  //		pItem->GetBegin()->SetString(sEquipState.c_str());
+  //	}
+  //}
+  // else
+  //{
+  //	CItemRow* pItem;
+  //	for (int i(0); i<6; ++i)
+  //	{
+  //		pItem = lstForgeItemState->GetItems()->GetItem(i);
+  //		if (pItem)
+  //			pItem->GetBegin()->SetString("");
+  //	}
+
+  //}
+
+  ////		ÂÆùÁü≥ÊïàÊûú     ÊîªÂáª+2      ‰∏ìÊ≥®+1
+  // if (!m_isMilling)
+  //{
+  //	if (cmdForgeItem[GEN_STONE]->GetCommand())
+  //	{
+  //		CItemCommand* pItemCommand =
+  //			dynamic_cast<CItemCommand*>(cmdForgeItem[GEN_STONE]->GetCommand());
+  //		if (!pItemCommand)
+  //			return;
+
+  //		CItemRow* pItem;
+  //		pItem = lstForgeItemState->GetItems()->GetItem(6);
+  //		if (pItem)
+  //		{
+  //			string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_842) +
+  //pItemCommand->GetStoneHint(1);
+  //			pItem->GetBegin()->SetString(sEquipState.c_str());
+  //		}
+  //	}
+  //	else
+  //	{
+  //		CItemRow* pItem;
+  //		pItem = lstForgeItemState->GetItems()->GetItem(6);
+  //		if (pItem)
+  //		{
+  //			pItem->GetBegin()->SetString("");
+  //		}
+  //	}
+
+  //}
+  //	// ÂÖ∂‰ªñUIËÆæÁΩÆ
+
+  // if (cmdForgeItem[EQUIP]->GetCommand()
+  //	&& cmdForgeItem[GEN_STONE]->GetCommand()
+  //	&& cmdForgeItem[FORGE_STONE]->GetCommand())
+  //{
+  //	labForgeGold->SetCaption(StringSplitNum(m_isMilling ? CalMillingMoney()
+  //: CalForgeMoney())); 	assert(btnYes); 	btnYes->SetIsEnabled(true);
+  //}
+  // else
+  //{
+  //	labForgeGold->SetCaption("");
+  //	assert(btnYes);
+  //	btnYes->SetIsEnabled(false);
+  //}
+}
+
+//---------------------------------------------------------------------------
+long CLotteryMgr::CalLotteryMoney() {
+  // CItemCommand* pItemCommand =
+  //			dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
+
+  // SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
+  // if (rItemForgeInfo.IsForge)
+  //{
+  //	return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
+  //}
+  return 0;
+}

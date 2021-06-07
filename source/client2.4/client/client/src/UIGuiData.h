@@ -1,12 +1,12 @@
 //--------------------------------------------------------------
-// Ãû³Æ:GUI½Ó¿Ú
-// ×÷Õß:lh 2004-07-15
-// Éè¼ÆË¼Ïë:CGuiDat¹ÜÀíÄÚ´æ£¬Ìá¹©¿Ø¼ş½Ó¿Ú
-//		     CFormÏÔÊ¾£¬´¦ÀíÊÂ¼ş£¬ÇĞ»»¿Ø¼ş½¹µã£¬×°ÔØ´æ´¢×ÊÔ´ÎÄ¼ş
-// ×¢:ËùÓĞÊµÀıÖ»ÄÜÔÚÔÚ¶ÑÖĞÉú³É£¬ÓÉ³ÌĞò¿ªÊ¼Ê±¾²Ì¬·ÖÅä
-//    ÍË³öÊ±ÊÍ·Å×ÊÔ´
-// ĞŞ¸ÄÈÕÆÚ:2004-10-26 by lh
-// ĞŞ¸ÄÄÚÈİ:½«CItemObjµÄ½Å±¾¹¦ÄÜ·ÖÀëÎªCUIScript,CItemRowÖ§³Ö¶àÌ¬
+// åç§°:GUIæ¥å£
+// ä½œè€…:lh 2004-07-15
+// è®¾è®¡æ€æƒ³:CGuiDatç®¡ç†å†…å­˜ï¼Œæä¾›æ§ä»¶æ¥å£
+//		     CFormæ˜¾ç¤ºï¼Œå¤„ç†äº‹ä»¶ï¼Œåˆ‡æ¢æ§ä»¶ç„¦ç‚¹ï¼Œè£…è½½å­˜å‚¨èµ„æºæ–‡ä»¶
+// æ³¨:æ‰€æœ‰å®ä¾‹åªèƒ½åœ¨åœ¨å †ä¸­ç”Ÿæˆï¼Œç”±ç¨‹åºå¼€å§‹æ—¶é™æ€åˆ†é…
+//    é€€å‡ºæ—¶é‡Šæ”¾èµ„æº
+// ä¿®æ”¹æ—¥æœŸ:2004-10-26 by lh
+// ä¿®æ”¹å†…å®¹:å°†CItemObjçš„è„šæœ¬åŠŸèƒ½åˆ†ç¦»ä¸ºCUIScript,CItemRowæ”¯æŒå¤šæ€
 //--------------------------------------------------------------
 
 #pragma once
@@ -21,7 +21,7 @@
 #include "UIPicture.h"
 using namespace std;
 
-// ÒÔÏÂºêÓÃÓÚÖ§³ÖGui¿ËÂ¡
+// ä»¥ä¸‹å®ç”¨äºæ”¯æŒGuiå…‹éš†
 #define GUI_CLONE(TName)	\
 public:							\
 	virtual CGuiData* Clone() { return new (##TName)(*this); }	\
@@ -34,13 +34,13 @@ public:							\
 
 namespace GUI
 {
-// ÓÃÓÚº¯ÊıMouseRunµÄ²ÎÊıkeyÖĞ,Êó±êĞĞÎªµÄ¼¯ºÏ
+// ç”¨äºå‡½æ•°MouseRunçš„å‚æ•°keyä¸­,é¼ æ ‡è¡Œä¸ºçš„é›†åˆ
 enum eMouseState
 {
 	Mouse_LDown		= 0x0001,
 	Mouse_MDown		= 0x0002,
 	Mouse_RDown		= 0x0004,
-	Mouse_Down		= 0x0008,	// ÓĞ¼ü°´ÏÂ
+	Mouse_Down		= 0x0008,	// æœ‰é”®æŒ‰ä¸‹
 	Mouse_LUp		= 0x0010,
 	Mouse_MUp		= 0x0020,
 	Mouse_RUp		= 0x0040,
@@ -48,27 +48,27 @@ enum eMouseState
 	Mouse_LDB		= 0x0100,
 	Mouse_MDB		= 0x0200,
 	Mouse_RDB		= 0x0400,
-	Mouse_LClick	= 0x0800,	// Êó±ê×ó¼üµã»÷
+	Mouse_LClick	= 0x0800,	// é¼ æ ‡å·¦é”®ç‚¹å‡»
 	Mouse_MClick	= 0x1000,	
 	Mouse_RClick	= 0x2000,	
 };
 
 enum eCompentAlign
 {
-	caNone,				// ²»¸Ä±äÎ»ÖÃ
-	caLeft,				// ³äÂú×ó±ß
-	caLeftUp,			// ·ÅÖÃÔÚ×î×óÉÏ½Ç
+	caNone,				// ä¸æ”¹å˜ä½ç½®
+	caLeft,				// å……æ»¡å·¦è¾¹
+	caLeftUp,			// æ”¾ç½®åœ¨æœ€å·¦ä¸Šè§’
 	caUp,
 	caRightUp,
 	caRight,
 	caRightBottom,
 	caBottom,
 	caLeftBottom,	
-	caClient,			// ³äÂúÈ«²¿
-    caCenter,           // ÍêÈ«¾ÓÖĞ
-    caWidthCenter,      // Ë®Æ½¾ÓÖĞ
-    caHeightCenter,     // ÉÏÏÂ¾ÓÖĞ
-	caEnd,				// ½áÊø·û£¬ÎŞÒâÒå
+	caClient,			// å……æ»¡å…¨éƒ¨
+    caCenter,           // å®Œå…¨å±…ä¸­
+    caWidthCenter,      // æ°´å¹³å±…ä¸­
+    caHeightCenter,     // ä¸Šä¸‹å±…ä¸­
+	caEnd,				// ç»“æŸç¬¦ï¼Œæ— æ„ä¹‰
 };
 
 const BYTE DROP_ALPHA = 0xA0;
@@ -86,7 +86,7 @@ typedef void (*CompentFun)(CCompent* pSender, unsigned int index );
 typedef bool (*GuiHotKeyEvent)(CForm *pSender, char key );
 typedef void (*GuiItemClickEvent)(string strItem);
 
-// GUI¶ÔÏóÍÏ¶¯
+// GUIå¯¹è±¡æ‹–åŠ¨
 class CDrag
 {
 public:
@@ -104,7 +104,7 @@ public:
 	void			SetYare( unsigned int n )	{ if(n<30) _nYareLen = n; }
 
 	bool			MouseRun( int x, int y, DWORD key );
-	int				BeginMouseRun( CGuiData* gui, bool InRect, int x, int y, DWORD key );	// È·¶¨Êó±ê×´Ì¬,·µ»Ø0ÎŞ¶¯×÷
+	int				BeginMouseRun( CGuiData* gui, bool InRect, int x, int y, DWORD key );	// ç¡®å®šé¼ æ ‡çŠ¶æ€,è¿”å›0æ— åŠ¨ä½œ
 
 	static CDrag*		GetDrag()		{ return _pDrag;	}
 	static CGuiData*	GetParent()		{ return _pParent;	}
@@ -140,13 +140,13 @@ public:
 	CCursor::eState	GetDragCursor()							{ return _crDrag;	}
 
 public:
-	GuiMouseEvent	evtMouseDragBegin;			// ¿ªÊ¼ÍÏ¶¯
-	GuiMouseEvent	evtMouseDragMove;			// ÕıÔÚÍÏ¶¯ÊÂ¼ş
-	GuiMouseEvent	evtMouseDragEnd;			// ÍÏ¶¯½áÊø
+	GuiMouseEvent	evtMouseDragBegin;			// å¼€å§‹æ‹–åŠ¨
+	GuiMouseEvent	evtMouseDragMove;			// æ­£åœ¨æ‹–åŠ¨äº‹ä»¶
+	GuiMouseEvent	evtMouseDragEnd;			// æ‹–åŠ¨ç»“æŸ
 
 private:
-	static CDrag*		_pDrag;					// ÕıÔÚÍÏ¶¯ÖĞµÄ¶ÔÏó
-	static CGuiData*	_pParent;				// ÕıÔÚÍÏ¶¯ÖĞµÄgui
+	static CDrag*		_pDrag;					// æ­£åœ¨æ‹–åŠ¨ä¸­çš„å¯¹è±¡
+	static CGuiData*	_pParent;				// æ­£åœ¨æ‹–åŠ¨ä¸­çš„gui
 
 	static int			_nDragX, _nDragY;
 	static int			_nStartX, _nStartY;
@@ -154,19 +154,19 @@ private:
 	int				_nYareLen;
 	eState			_eState;
 
-	bool			_IsMove;					// µ±ÒÆ¶¯½áÊøºó,Ö±½Ó½«¿Ø¼şÒÆ¶¯
-	bool			_IsUseGrid;					// ÊÇ·ñÊ¹ÓÃ¶ÔÆë±í¸ñ
+	bool			_IsMove;					// å½“ç§»åŠ¨ç»“æŸå,ç›´æ¥å°†æ§ä»¶ç§»åŠ¨
+	bool			_IsUseGrid;					// æ˜¯å¦ä½¿ç”¨å¯¹é½è¡¨æ ¼
 
-	CCursor::eState	_crDragIn;					// ½øÈëÍÏ¶¯ÇøÓòÄÚµÄ¹â±ê
-	CCursor::eState	_crDrag;					// ÍÏ¶¯Ê±µÄ¹â±ê
-    static 	CCursor::eState	_crNormal;			// Õı³£Çé¿öÏÂµÄ¹â±ê
+	CCursor::eState	_crDragIn;					// è¿›å…¥æ‹–åŠ¨åŒºåŸŸå†…çš„å…‰æ ‡
+	CCursor::eState	_crDrag;					// æ‹–åŠ¨æ—¶çš„å…‰æ ‡
+    static 	CCursor::eState	_crNormal;			// æ­£å¸¸æƒ…å†µä¸‹çš„å…‰æ ‡
 
-	static DWORD    _dwGridWidth, _dwGridHeight;// ¶ÔÆë±í¸ñµÄ¿í¸ß
-	static DWORD	_dwMouseUpTime;				// ÓÃÓÚ¿ªÊ¼ÍÏ¶¯ºó,ÒÑ¾­Ã»ÓĞMouseUPÏûÏ¢,µ«Êó±êÈ´ÒÑËÉ¿ª´ïµ½Ò»¶¨Ê±¼äºóÈ¡ÏûÍÏ¶¯
+	static DWORD    _dwGridWidth, _dwGridHeight;// å¯¹é½è¡¨æ ¼çš„å®½é«˜
+	static DWORD	_dwMouseUpTime;				// ç”¨äºå¼€å§‹æ‹–åŠ¨å,å·²ç»æ²¡æœ‰MouseUPæ¶ˆæ¯,ä½†é¼ æ ‡å´å·²æ¾å¼€è¾¾åˆ°ä¸€å®šæ—¶é—´åå–æ¶ˆæ‹–åŠ¨
 
 };
 
-// ÒÔÏÂºêÓÃÓÚÖ§³ÖGui¿ËÂ¡
+// ä»¥ä¸‹å®ç”¨äºæ”¯æŒGuiå…‹éš†
 #define ITEM_CLONE(TName)	\
 public:							\
 	virtual TName* Clone() { return new (##TName)(*this); }	\
@@ -178,7 +178,7 @@ public:							\
 	}
 
 
-// ÏÔÊ¾ÔÚGUI¶ÔÏóÖĞµÄĞ¡¶ÔÏó
+// æ˜¾ç¤ºåœ¨GUIå¯¹è±¡ä¸­çš„å°å¯¹è±¡
 class CItemObj		
 {
 public:
@@ -204,7 +204,7 @@ public:
 
 };
 
-// GUI×æÏÈÀà
+// GUIç¥–å…ˆç±»
 class CForm;
 class CGuiData
 {
@@ -216,12 +216,12 @@ public:
 	virtual ~CGuiData();
 	GUI_CLONE(CGuiData)
 
-	virtual void		Init() {}			// ÓÃÓÚÍâ²¿³õÊ¼»¯£¬Èç×°ÔØÍ¼Æ¬µÈ
+	virtual void		Init() {}			// ç”¨äºå¤–éƒ¨åˆå§‹åŒ–ï¼Œå¦‚è£…è½½å›¾ç‰‡ç­‰
 
-	virtual void		Render(){}			// ÏÔÊ¾
-	virtual void		Refresh();			// ÓÃÓÚË¢ĞÂÏÔÊ¾ÓÃµÄ¾ø¶Ô×ø±ê
+	virtual void		Render(){}			// æ˜¾ç¤º
+	virtual void		Refresh();			// ç”¨äºåˆ·æ–°æ˜¾ç¤ºç”¨çš„ç»å¯¹åæ ‡
 
-	// ¼üÅÌÊó±ê´¦Àí¹ı³Ì£¬ÒÑ´¦Àí£¬·µ»Øtrue
+	// é”®ç›˜é¼ æ ‡å¤„ç†è¿‡ç¨‹ï¼Œå·²å¤„ç†ï¼Œè¿”å›true
 	virtual bool		MouseRun( int x, int y, DWORD key );
 	virtual bool		MouseScroll( int nScroll )		{ return _IsMouseIn;}
 
@@ -234,7 +234,7 @@ public:
 	virtual CGuiPic*	GetImage()						{ return NULL;		}
 
 	virtual CForm*		GetForm()						{ return NULL;		}
-	virtual void		SetCaption( const char * str) {}	// ÉèÖÃÏÔÊ¾µÄÎÄ±¾
+	virtual void		SetCaption( const char * str) {}	// è®¾ç½®æ˜¾ç¤ºçš„æ–‡æœ¬
 	virtual void		SetTextColor( DWORD color ) {}
 	virtual void		SetIsDrag( bool v );
 
@@ -245,13 +245,13 @@ public:
 
     virtual void        RenderHint( int x, int y );
 
-    virtual bool        IsAllowActive();            // ÅĞ¶ÏÊÇ·ñ¿ÉÒÔ¼¤»î
+    virtual bool        IsAllowActive();            // åˆ¤æ–­æ˜¯å¦å¯ä»¥æ¿€æ´»
 
-	virtual void		Reset()					{};	// ÓÃÓÚÍâ²¿µ÷ÓÃ,ÈÃ¹ö¶¯ÌõÇåÁãµÈ¹¤×÷
+	virtual void		Reset()					{};	// ç”¨äºå¤–éƒ¨è°ƒç”¨,è®©æ»šåŠ¨æ¡æ¸…é›¶ç­‰å·¥ä½œ
 
 public:
-	static HWND		GetHWND();						// µÃµ½windows handle
-	static CGuiData* GetGui( DWORD dwID ) {			// ¸ù¾İË÷ÒıµÃµ½¿Ø¼ş¶ÔÏó
+	static HWND		GetHWND();						// å¾—åˆ°windows handle
+	static CGuiData* GetGui( DWORD dwID ) {			// æ ¹æ®ç´¢å¼•å¾—åˆ°æ§ä»¶å¯¹è±¡
         if( dwID==0 )
             return NULL;
 		if( dwID > _AllGui.size() ) 
@@ -261,8 +261,8 @@ public:
         }
 		return _AllGui[dwID-1]; 
 	}
-	static void		ClearAllGui();					// Çå³ıËùÓĞ¿Ø¼ş
-	static void		InitMemory();					// ÔÚÉú³ÉËùÓĞ¿Ø¼şºóµ÷ÓÃ
+	static void		ClearAllGui();					// æ¸…é™¤æ‰€æœ‰æ§ä»¶
+	static void		InitMemory();					// åœ¨ç”Ÿæˆæ‰€æœ‰æ§ä»¶åè°ƒç”¨
 
     static bool         SetHintItem( CItemObj* pObj );
     static CItemObj*    GetHintItem()                   { return _pHintItem;    }
@@ -304,54 +304,54 @@ public:
 	void		SetPointer( void* v )		{ _pVoid = v;					}
 	void*		GetPointer()				{ return _pVoid;				}
 
-	void		ScriptSetShow( bool v )		{ _bShow = v;					}	// Íâ²¿½Å±¾ÓÃ
+	void		ScriptSetShow( bool v )		{ _bShow = v;					}	// å¤–éƒ¨è„šæœ¬ç”¨
 
 	int			nTag;
 
 public:
 	
 	bool		InRect(int x, int y)		{ return _IsMouseIn = ( x >= _nX1 && x<= _nX2 && y >=_nY1 && y <=_nY2 );	}
-	bool        IsNoDrag(int x, int y, DWORD key);		// Èç¹ûÃ»ÓĞ¿ªÊ¼ÍÏ¶¯,²¢ÇÒµãÔÚÇøÓòÄÚ,·µ»Øtrue
+	bool        IsNoDrag(int x, int y, DWORD key);		// å¦‚æœæ²¡æœ‰å¼€å§‹æ‹–åŠ¨,å¹¶ä¸”ç‚¹åœ¨åŒºåŸŸå†…,è¿”å›true
 
 	static void SetScreen( float dx, float dy, float sx, float sy ) {
 		_fDrawX = dx, _fDrawY = dy,  _fScreenX = sx,  _fScreenY = sy;
 	}
-	void		LineFrame();					// »­Ò»¸ö±ß¿ò
-	void        SelectChaLineFrame() ;          //»­Ò»¸öËÀÈË¿ò
+	void		LineFrame();					// ç”»ä¸€ä¸ªè¾¹æ¡†
+	void        SelectChaLineFrame() ;          //ç”»ä¸€ä¸ªæ­»äººæ¡†
 
-	void		LineThinFrame();				// »­Ò»¸öÏ¸¿ò
-	void		FillFrame();					// Ìî³ä
+	void		LineThinFrame();				// ç”»ä¸€ä¸ªç»†æ¡†
+	void		FillFrame();					// å¡«å……
 
 	static void	SetMousePos( int x, int y )	{ _nMouseX=x; _nMouseY=y;		}
 	static int  GetMouseX()					{ return _nMouseX;				}
 	static int  GetMouseY()					{ return _nMouseY;				}
 	
-	static void SetCursor( CCursor::eState v )	{ _eCursor = v;				}		// ½öÓÃÓÚMouseRunÖĞ
+	static void SetCursor( CCursor::eState v )	{ _eCursor = v;				}		// ä»…ç”¨äºMouseRunä¸­
 	static CCursor::eState GetCursor()		{ return _eCursor;				}
 
 protected:
-	virtual void _AddForm() {}			// ½«×Ô¼º¼ÓÈëµ½ËùÊôµÄFormÖĞ
+	virtual void _AddForm() {}			// å°†è‡ªå·±åŠ å…¥åˆ°æ‰€å±çš„Formä¸­
 
 protected:
 	typedef vector<CGuiData*> vcs;
-	static vcs	_AllGui;		// ´æ·ÅËùÓĞµÄ¿Ø¼ş×ÊÔ´
+	static vcs	_AllGui;		// å­˜æ”¾æ‰€æœ‰çš„æ§ä»¶èµ„æº
 
-	DWORD		_dwID;			// ×¢²á¿Ø¼şµÄID-¼´Ë÷Òı£¬Íâ²¿²»¿É¸Ä±ä
+	DWORD		_dwID;			// æ³¨å†Œæ§ä»¶çš„ID-å³ç´¢å¼•ï¼Œå¤–éƒ¨ä¸å¯æ”¹å˜
 
 	CGuiData*	_pParent;
 
-	string		_strName;				// ±êÊ¶
-	int			_nWidth, _nHeight;		// ¿í¸ß
-	int			_nLeft, _nTop;			// Ïà¶Ô×ø±ê
+	string		_strName;				// æ ‡è¯†
+	int			_nWidth, _nHeight;		// å®½é«˜
+	int			_nLeft, _nTop;			// ç›¸å¯¹åæ ‡
 
-	int			_nX1,_nX2, _nY1, _nY2;	// ÏÔÊ¾ÓÃµÄ¾ø¶Ô×ø±ê
+	int			_nX1,_nX2, _nY1, _nY2;	// æ˜¾ç¤ºç”¨çš„ç»å¯¹åæ ‡
 
-	bool		_bShow;			// ÊÇ·ñÏÔÊ¾
-	bool		_bEnabled;		// ÊÇ·ñ¿ÉÓÃ
+	bool		_bShow;			// æ˜¯å¦æ˜¾ç¤º
+	bool		_bEnabled;		// æ˜¯å¦å¯ç”¨
 	CDrag*		_pDrag;
 
-	bool		_IsMouseIn;		// Êó±êÊÇ·ñÔÚÇøÓòÄÚ
-    string		_strHint;		// ¿Ø¼şÌáÊ¾
+	bool		_IsMouseIn;		// é¼ æ ‡æ˜¯å¦åœ¨åŒºåŸŸå†…
+    string		_strHint;		// æ§ä»¶æç¤º
 
 	void*		_pVoid;
 
@@ -362,11 +362,11 @@ protected:
 
 private:
 	static		float		_fDrawX, _fDrawY,  _fScreenX,  _fScreenY;
-	static		CGuiPic		_imgLevel,	_imgVertical;	// ÓÃÓÚ»­±ß¿òµÄË®Æ½ÏßºÍ´¹Ö±Ïß
+	static		CGuiPic		_imgLevel,	_imgVertical;	// ç”¨äºç”»è¾¹æ¡†çš„æ°´å¹³çº¿å’Œå‚ç›´çº¿
     static      CItemObj*   _pHintItem;
 
-	static		int			_nMouseX,	_nMouseY;		// Ä¿Ç°Êó±êËùÔÚµÄÎ»ÖÃ
-	static		CCursor::eState		_eCursor;			// ÏÔÊ¾ÔÚguiÉÏµÄ¹â±ê
+	static		int			_nMouseX,	_nMouseY;		// ç›®å‰é¼ æ ‡æ‰€åœ¨çš„ä½ç½®
+	static		CCursor::eState		_eCursor;			// æ˜¾ç¤ºåœ¨guiä¸Šçš„å…‰æ ‡
 };
 
 class CGuiTime;
@@ -377,8 +377,8 @@ class CGuiTime
 	friend class CFormMgr;
 public:
 	static  CGuiTime*	Create( DWORD dwInterval=0, GuiTimerEvent evt=NULL );
-	static  void		RemoveAllTimer(); //°²È«ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
-	bool	Release();					// Íâ²¿É¾³ı¶ÔÏó
+	static  void		RemoveAllTimer(); //å®‰å…¨é‡Šæ”¾å†…å­˜ by Waiting 2009-06-18
+	bool	Release();					// å¤–éƒ¨åˆ é™¤å¯¹è±¡
 
 	static void			FrameMove(DWORD dwTime);
 	static  CGuiTime*	Find( DWORD id ); 
@@ -394,7 +394,7 @@ public:
 	void	SetUserPoint( PVOID v )	{ _lpData = v;			}
 	PVOID	GetUserPoint()			{ return _lpData;		}
 	
-	bool	IsTime()				{	// ÊÇ·ñµ½´ïÊ±¼äµã,²»ÄÜ×èÈû
+	bool	IsTime()				{	// æ˜¯å¦åˆ°è¾¾æ—¶é—´ç‚¹,ä¸èƒ½é˜»å¡
 		if( _IsTime ) {
 			_IsTime = false;
 			return true;
@@ -405,13 +405,13 @@ public: // event
 	GuiTimerEvent	evtTime;
 
 private:
-	DWORD	_dwIndex;			// Î¨Ò»ID
-	DWORD 	_dwInterval;		// µÈÓÚÁã,²»¼¤»î;
+	DWORD	_dwIndex;			// å”¯ä¸€ID
+	DWORD 	_dwInterval;		// ç­‰äºé›¶,ä¸æ¿€æ´»;
 
 	bool	_IsTime;
 	DWORD	_dwLastTime;
 
-	// ÓÃ»§Êı¾İ
+	// ç”¨æˆ·æ•°æ®
 	DWORD	_nEventID;
 	PVOID	_lpData;
 
@@ -427,7 +427,7 @@ private:
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline bool	CGuiData::IsNoDrag(int x, int y, DWORD key)
 { 
 	InRect( x, y );

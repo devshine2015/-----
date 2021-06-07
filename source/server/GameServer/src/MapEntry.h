@@ -51,7 +51,7 @@ private:
 
 };
 
-// µØÍ¼¶¯Ì¬Èë¿Úµ¥Ôª
+// åœ°å›¾åŠ¨æ€å…¥å£å•å…ƒ
 class	CDynMapEntryCell
 {
 public:
@@ -117,7 +117,7 @@ private:
 	void*		m_pPos;
 };
 
-// ¶¯Ì¬µØÍ¼Èë¿ÚÁ´±í£¬¼ÍÂ¼±¾½ø³ÌµÄËùÓĞµ±Ç°´æÔÚµÄ¶¯Ì¬Èë¿Ú
+// åŠ¨æ€åœ°å›¾å…¥å£é“¾è¡¨ï¼Œçºªå½•æœ¬è¿›ç¨‹çš„æ‰€æœ‰å½“å‰å­˜åœ¨çš„åŠ¨æ€å…¥å£
 class	CDynMapEntry
 {
 public:
@@ -138,10 +138,10 @@ private:
 
 extern CDynMapEntry g_CDMapEntry;
 
-// ¶ÓÎéÌôÕ½µØÍ¼Èë¿Ú
+// é˜Ÿä¼æŒ‘æˆ˜åœ°å›¾å…¥å£
 extern void	g_SetTeamFightMapName(const char *cszMapName);
 
-extern char	g_szTFightMapName[MAX_MAPNAME_LENGTH];	// ¶ÓÎéÌôÕ½µØÍ¼Ãû
+extern char	g_szTFightMapName[MAX_MAPNAME_LENGTH];	// é˜Ÿä¼æŒ‘æˆ˜åœ°å›¾å
 //
 
 #endif // MAPENTRY_H

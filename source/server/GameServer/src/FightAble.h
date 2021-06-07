@@ -19,25 +19,25 @@
 #include "Timer.h"
 #include "SkillTemp.h"
 
-enum EItemInstance // ´Ë´¦ĞèÒª¸ú½Å±¾Í³Ò»
+enum EItemInstance // æ­¤å¤„éœ€è¦è·Ÿè„šæœ¬ç»Ÿä¸€
 {
-	enumITEM_INST_BUY	= 0,		// ÉÌµêÂòÂô
-	enumITEM_INST_MONS	= 1,		// ¹ÖÎïµôÂä
-	enumITEM_INST_COMP	= 2,		// ºÏ³É
-	enumITEM_INST_TASK	= 3,		// ÈÎÎñ»ñµÃ
+	enumITEM_INST_BUY	= 0,		// å•†åº—ä¹°å–
+	enumITEM_INST_MONS	= 1,		// æ€ªç‰©æ‰è½
+	enumITEM_INST_COMP	= 2,		// åˆæˆ
+	enumITEM_INST_TASK	= 3,		// ä»»åŠ¡è·å¾—
 };
 
 enum EFightChaType
 {
-	enumFIGHT_CHA_SRC		= 0,	// ¹¥»÷Õß
-	enumFIGHT_CHA_TAR		= 1,	// ÊÜ»÷Õß
-	enumFIGHT_CHA_SPLASH	= 2,	// ½¦ÉäÕß
+	enumFIGHT_CHA_SRC		= 0,	// æ”»å‡»è€…
+	enumFIGHT_CHA_TAR		= 1,	// å—å‡»è€…
+	enumFIGHT_CHA_SPLASH	= 2,	// æº…å°„è€…
 };
 
 struct SFireUnit
 {
 #ifdef defPROTOCOL_HAVE_PACKETID
-	dbc::uLong	ulPacketID;	// °üµÄID
+	dbc::uLong	ulPacketID;	// åŒ…çš„ID
 #endif
 	dbc::uChar	uchFightID;
 
@@ -47,7 +47,7 @@ struct SFireUnit
 	dbc::Long	lTarInfo1;
 	dbc::Long	lTarInfo2;
 
-	dbc::Short		sExecTime;	// Ö´ĞĞ´ÎÊı
+	dbc::Short		sExecTime;	// æ‰§è¡Œæ¬¡æ•°
 	CSkillRecord	*pCSkillRecord;
 	CSkillTempData	*pCSkillTData;
 };
@@ -57,19 +57,19 @@ struct SFightInit
 	CSkillRecord	*pCSkillRecord;
 	SSkillGrid		*pSSkillGrid;
 	CSkillTempData	*pCSkillTData;
-	// lInfo1,lInfo2 ÈôÄ¿±êÊÇÊµÌå,Ôò·Ö±ğÊÇWorldID,Handle ·ñÔò·Ö±ğÊÇ×ø±êµÄx,y
+	// lInfo1,lInfo2 è‹¥ç›®æ ‡æ˜¯å®ä½“,åˆ™åˆ†åˆ«æ˜¯WorldID,Handle å¦åˆ™åˆ†åˆ«æ˜¯åæ ‡çš„x,y
 	struct
 	{
-		dbc::Char		chTarType;	// 0£¬ÎŞÄ¿±ê¡£1£¬Ä¿±êÊÇÊµÌå¡£2£¬Ä¿±êÊÇ×ø±ê
+		dbc::Char		chTarType;	// 0ï¼Œæ— ç›®æ ‡ã€‚1ï¼Œç›®æ ‡æ˜¯å®ä½“ã€‚2ï¼Œç›®æ ‡æ˜¯åæ ‡
 		dbc::Long		lTarInfo1;
 		dbc::Long		lTarInfo2;
 	};
 
-	dbc::Short		sStopState;		// ¼¼ÄÜÍ£Ö¹ºóµÄ×´Ì¬£¨enumEXISTS_WAITING, enumEXISTS_SLEEPING£©
+	dbc::Short		sStopState;		// æŠ€èƒ½åœæ­¢åçš„çŠ¶æ€ï¼ˆenumEXISTS_WAITING, enumEXISTS_SLEEPINGï¼‰
 };
 
 /*
-*	¿ÉÕ½¶·ÊµÌå
+*	å¯æˆ˜æ–—å®ä½“
 *	lark.li
 */
 class	CFightAble : public CAttachable
@@ -77,13 +77,13 @@ class	CFightAble : public CAttachable
 public:
 	struct SFightProc
 	{
-		dbc::Short	sState;			// ²Î¼ûCompCommand.hÖĞµÄEFightStateÃ¶¾ÙÀàĞÍ
-		dbc::Short	sRequestState;	// ÇëÇóµÄ×´Ì¬£º0£¬Î´ÇëÇó¡£1£¬ÇëÇóÍ£Ö¹¹¥»÷¡£2£¬ÇëÇó¿ªÊ¼¹¥»÷
+		dbc::Short	sState;			// å‚è§CompCommand.hä¸­çš„EFightStateæšä¸¾ç±»å‹
+		dbc::Short	sRequestState;	// è¯·æ±‚çš„çŠ¶æ€ï¼š0ï¼Œæœªè¯·æ±‚ã€‚1ï¼Œè¯·æ±‚åœæ­¢æ”»å‡»ã€‚2ï¼Œè¯·æ±‚å¼€å§‹æ”»å‡»
 
-		bool		bCrt;			// ±¬»÷
+		bool		bCrt;			// çˆ†å‡»
 		bool		bMiss;			// Miss
 
-		long		lERangeBParam[defSKILL_RANGE_BASEP_NUM];	// ÇøÓò»ù±¾²ÎÊı£¨ÖĞĞÄ×ø±ê£¬·½Ïò£©
+		long		lERangeBParam[defSKILL_RANGE_BASEP_NUM];	// åŒºåŸŸåŸºæœ¬å‚æ•°ï¼ˆä¸­å¿ƒåæ ‡ï¼Œæ–¹å‘ï¼‰
 	};
 
 	dbc::Short	GetFightState(void) {return m_SFightProc.sState;}
@@ -108,7 +108,7 @@ public:
 	void	SynSkillStateToEyeshot(void);
 	void	SynSkillStateToUnit(CFightAble *pCObj);
 	void	SynLookEnergy(void);
-	// Êı¾İ±¨×éÖ¯
+	// æ•°æ®æŠ¥ç»„ç»‡
 	void	WriteSkillState(WPACKET &pk);
 	void	WriteAttr(WPACKET &pk, dbc::Short sSynType);
 	void	WriteMonsAttr(WPACKET &pk, dbc::Short sSynType);
@@ -132,13 +132,13 @@ public:
 	void	CountSailLevel(void);
 	void	CountLifeLevel(void);
 
-	// ÈÎÎñÊÂ¼ş´¦Àí½Ó¿Ú
+	// ä»»åŠ¡äº‹ä»¶å¤„ç†æ¥å£
 	virtual void AfterObjDie(CCharacter *pCAtk, CCharacter *pCDead) {}
 	virtual void OnLevelUp( USHORT sLevel ) {};
 	virtual void OnSailLvUp( USHORT sLevel ) {};
 	virtual void OnLifeLvUp( USHORT sLevel ) {};
 
-	// ²É¼¯×ÊÔ´£¬±©ÎïÆ·	
+	// é‡‡é›†èµ„æºï¼Œæš´ç‰©å“	
 	void	SpawnResource( CCharacter *pCAtk, dbc::Long lSkillLv );
 	void	ItemCount(CCharacter *pAtk);
 	void	ItemInstance(dbc::Char chType, SItemGrid *pGridContent);
@@ -172,14 +172,14 @@ public:
 	void			SetDie(CCharacter *pCSkillSrcCha);
 	virtual void	Die(){};
 
-	CCharacter* SkillPopBoat(dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// ·Å´¬
-	bool SkillPopBoat(CCharacter *pCBoat, dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// ·Å´¬
-	bool SkillInBoat(CCharacter* pCBoat);	// ÉÏ´¬
-	bool SkillOutBoat(dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// ÏÂ´¬
-	bool SkillPushBoat(CCharacter* pCBoat, bool bFree = true);	// ÊÕ´¬
+	CCharacter* SkillPopBoat(dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// æ”¾èˆ¹
+	bool SkillPopBoat(CCharacter *pCBoat, dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// æ”¾èˆ¹
+	bool SkillInBoat(CCharacter* pCBoat);	// ä¸Šèˆ¹
+	bool SkillOutBoat(dbc::Long lPosX, dbc::Long lPosY, dbc::Short sDir = -1);	// ä¸‹èˆ¹
+	bool SkillPushBoat(CCharacter* pCBoat, bool bFree = true);	// æ”¶èˆ¹
 
-	dbc::uLong	m_ulPacketID;		// °üµÄID
-	dbc::uChar	m_uchFightID;		// ¹¥»÷µÄ±àºÅ£¬Ö»ÊÇÎªÁË¿Í»§¶ËÆ¥ÅäµÄÓÃÍ¾
+	dbc::uLong	m_ulPacketID;		// åŒ…çš„ID
+	dbc::uChar	m_uchFightID;		// æ”»å‡»çš„ç¼–å·ï¼Œåªæ˜¯ä¸ºäº†å®¢æˆ·ç«¯åŒ¹é…çš„ç”¨é€”
 
 	SFightInit	m_SFightInit;
 	SFightProc	m_SFightProc;
@@ -199,8 +199,8 @@ protected:
 	void	Finally();
 
 	CFightAble	*	IsFightAble(){return this;}
-	void	WritePK(WPACKET& wpk);			//Ğ´ÈëÍæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)µÄËùÓĞÊı¾İ
-	void	ReadPK(RPACKET& rpk);			//ÖØ¹¹Íæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)
+	void	WritePK(WPACKET& wpk);			//å†™å…¥ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)çš„æ‰€æœ‰æ•°æ®
+	void	ReadPK(RPACKET& rpk);			//é‡æ„ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)
 
 	bool	GetFightTargetShape(Square *pSTarShape);
 
@@ -220,14 +220,14 @@ private:
 	virtual void BreakAction(RPACKET pk = NULL) {};
 	virtual void EndAction(RPACKET pk = NULL) {}
 
-	bool SkillGeneral(dbc::Long lDistance, dbc::Short sExecTime = 1); // ÆÕÍ¨¼¼ÄÜ
+	bool SkillGeneral(dbc::Long lDistance, dbc::Short sExecTime = 1); // æ™®é€šæŠ€èƒ½
 
-	dbc::uShort	m_usTickInterval;	// Õ½¶·Ö´ĞĞµÄĞÄÌø£¨ÆµÂÊ£©£¬µ¥Î»£¨ºÁÃë£©
-	dbc::uLong	m_ulLastTick;		// µ¥Î»£¨ºÁÃë£©
+	dbc::uShort	m_usTickInterval;	// æˆ˜æ–—æ‰§è¡Œçš„å¿ƒè·³ï¼ˆé¢‘ç‡ï¼‰ï¼Œå•ä½ï¼ˆæ¯«ç§’ï¼‰
+	dbc::uLong	m_ulLastTick;		// å•ä½ï¼ˆæ¯«ç§’ï¼‰
 	bool		m_bOnFight;
 
-	bool		m_bLookAttrChange;	// Íâ¹ÛÊôĞÔ¸Ä±ä
-	CFightAble*	m_pCItemHostObj;	// µôÁÏµÄÊôÖ÷
+	bool		m_bLookAttrChange;	// å¤–è§‚å±æ€§æ”¹å˜
+	CFightAble*	m_pCItemHostObj;	// æ‰æ–™çš„å±ä¸»
 
 };
 
@@ -237,10 +237,10 @@ public:
 	struct SMgrUnit
 	{
 		SFireUnit	SFireSrc;
-		dbc::uLong	ulLeftTick;	// Ê£ÓàÊ±¼ä
+		dbc::uLong	ulLeftTick;	// å‰©ä½™æ—¶é—´
 		SubMap		*pCMap;
-		Point		STargetPos;	// Ä¿±êÎ»ÖÃ
-		long		lERangeBParam[defSKILL_RANGE_BASEP_NUM];	// ÇøÓò»ù±¾²ÎÊı£¨ÖĞĞÄ×ø±ê£¬·½Ïò£©
+		Point		STargetPos;	// ç›®æ ‡ä½ç½®
+		long		lERangeBParam[defSKILL_RANGE_BASEP_NUM];	// åŒºåŸŸåŸºæœ¬å‚æ•°ï¼ˆä¸­å¿ƒåæ ‡ï¼Œæ–¹å‘ï¼‰
 		SMgrUnit	*pSNext;
 	};
 
@@ -253,10 +253,10 @@ public:
 
 private:
 	unsigned long	m_ulTick;
-	unsigned short	m_usFreq;	// Ö´ĞĞĞÄÌø£¨ÆµÂÊ£©
+	unsigned short	m_usFreq;	// æ‰§è¡Œå¿ƒè·³ï¼ˆé¢‘ç‡ï¼‰
 
-	SMgrUnit	*m_pSExecQueue;	// Ö´ĞĞ¶ÓÁĞ
-	SMgrUnit	*m_pSFreeQueue;	// ¿ÕÏĞ¶ÓÁĞ
+	SMgrUnit	*m_pSExecQueue;	// æ‰§è¡Œé˜Ÿåˆ—
+	SMgrUnit	*m_pSFreeQueue;	// ç©ºé—²é˜Ÿåˆ—
 
 };
 

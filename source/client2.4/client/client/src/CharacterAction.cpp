@@ -3,366 +3,367 @@
 #include "CharacterAction.h"
 
 CGameCharacterAction g_PoseData;
-void InitPoseData()
-{
-    g_PoseData.Init( _TEXT("scripts\\txt\\CharacterAction.tx") );
+void InitPoseData() {
+  g_PoseData.Init(_TEXT("scripts\\txt\\CharacterAction.tx"));
 }
 
-bool GetCharacterAction(int nTypeID, SCharacterAction *SCharAct)
-{
-    return g_PoseData.GetCharAction(nTypeID, SCharAct);
+bool GetCharacterAction(int nTypeID, SCharacterAction *SCharAct) {
+  return g_PoseData.GetCharAction(nTypeID, SCharAct);
 }
 
-CGameCharacterAction::CGameCharacterAction()
-{
-	m_iMaxCharacterType = 0;
-	m_iActualCharacterType = 0;
-	m_SCharacterAction = NULL;
+CGameCharacterAction::CGameCharacterAction() {
+  m_iMaxCharacterType = 0;
+  m_iActualCharacterType = 0;
+  m_SCharacterAction = NULL;
 }
 
-CGameCharacterAction::~CGameCharacterAction()
-{
-	Free();
-}
+CGameCharacterAction::~CGameCharacterAction() { Free(); }
 
-bool CGameCharacterAction::Init(_TCHAR *ptcsFileName)
-{
-	bool		bRet = true;
-	_TCHAR		tcsLine[1024], tcsTemp[1024];
-	short		iCurType, iCurActNO, iCurKeyFrame;
-	long		lIndex, lOldIndex, lFilePos;
-	FILE		*fFile = NULL;
+bool CGameCharacterAction::Init(_TCHAR *ptcsFileName) {
+  bool bRet = true;
+  _TCHAR tcsLine[1024], tcsTemp[1024];
+  short iCurType, iCurActNO, iCurKeyFrame;
+  long lIndex, lOldIndex, lFilePos;
+  FILE *fFile = NULL;
 
-	m_iMaxCharacterType = 0;
-	m_iActualCharacterType = 0;
-	m_SCharacterAction = NULL;
+  m_iMaxCharacterType = 0;
+  m_iActualCharacterType = 0;
+  m_SCharacterAction = NULL;
 
-	_tfopen_s( &fFile, ptcsFileName, _TEXT("rb"));
-	if (fFile == NULL)
-	{
-		LG("error", "msgLoad Raw Data Info Txt File [%s] Fail!\n", ptcsFileName);
-		bRet = false;
-		goto end;
-	}
+  _tfopen_s(&fFile, ptcsFileName, _TEXT("rb"));
+  if (fFile == NULL) {
+    LG("error", "msgLoad Raw Data Info Txt File [%s] Fail!\n", ptcsFileName);
+    bRet = false;
+    goto end;
+  }
 
-	// »ñµÃ"½ÇÉ«¶¯×÷ÀàĞÍµÄ×î´óÖµ"(m_iMaxCharacterType),ÒÔ¼°"½ÇÉ«¶¯×÷ÀàĞÍµÄÓĞĞ§ÊıÄ¿"(m_iActualCharacterType);
-	while (!feof(fFile))
-	{
-		lIndex = 0;
-		_fgetts(tcsLine, 1023, fFile);
-		StringSkipCompartment(tcsLine, &lIndex, " ", 1);
-		if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //»Ø³µ, »»ĞĞ
-			continue;
-		if (tcsLine[lIndex] == _TEXT('/') && tcsLine[lIndex + 1] == _TEXT('/')) // ×¢ÊÍ
-			continue;
-		if (tcsLine[lIndex] == _TEXT('\t')) // tab¼ü (ÔÚ¸ÃÎÄ±¾ÖĞÓÃÓÚ"½ÇÉ«ÀàĞÍµÄÒ»¸ö¶¯×÷"ĞĞµÄ¿ªÊ¼·ûºÅ)
-			continue;
+  // è·å¾—"è§’è‰²åŠ¨ä½œç±»å‹çš„æœ€å¤§å€¼"(m_iMaxCharacterType),ä»¥åŠ"è§’è‰²åŠ¨ä½œç±»å‹çš„æœ‰æ•ˆæ•°ç›®"(m_iActualCharacterType);
+  while (!feof(fFile)) {
+    lIndex = 0;
+    _fgetts(tcsLine, 1023, fFile);
+    StringSkipCompartment(tcsLine, &lIndex, " ", 1);
+    if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //å›è½¦, æ¢è¡Œ
+      continue;
+    if (tcsLine[lIndex] == _TEXT('/') &&
+        tcsLine[lIndex + 1] == _TEXT('/')) // æ³¨é‡Š
+      continue;
+    if (tcsLine[lIndex] ==
+        _TEXT('\t')) // tabé”® (åœ¨è¯¥æ–‡æœ¬ä¸­ç”¨äº"è§’è‰²ç±»å‹çš„ä¸€ä¸ªåŠ¨ä½œ"è¡Œçš„å¼€å§‹ç¬¦å·)
+      continue;
 
-		m_iActualCharacterType ++;
+    m_iActualCharacterType++;
 
-		StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
-		if (m_iMaxCharacterType < _ttoi(tcsTemp))
-			m_iMaxCharacterType = _ttoi(tcsTemp);
-	}
-	//
+    StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+    if (m_iMaxCharacterType < _ttoi(tcsTemp))
+      m_iMaxCharacterType = _ttoi(tcsTemp);
+  }
+  //
 
-	if (m_iActualCharacterType < 1)
-	{
-		bRet = true;
-		goto end;
-	}
+  if (m_iActualCharacterType < 1) {
+    bRet = true;
+    goto end;
+  }
 
-	m_SCharacterAction = new (SCharacterAction[m_iMaxCharacterType]);
-	if (m_SCharacterAction == NULL)
-	{
-		m_iMaxCharacterType = 0;
-		bRet = false;
-		goto end;
-	}
-	memset((void *)m_SCharacterAction, 0, sizeof(SCharacterAction) * m_iMaxCharacterType);
+  m_SCharacterAction = new (SCharacterAction[m_iMaxCharacterType]);
+  if (m_SCharacterAction == NULL) {
+    m_iMaxCharacterType = 0;
+    bRet = false;
+    goto end;
+  }
+  memset((void *)m_SCharacterAction, 0,
+         sizeof(SCharacterAction) * m_iMaxCharacterType);
 
-	// »ñµÃµ¥¸ö½ÇÉ«ĞÅÏ¢
-	fseek(fFile, 0, SEEK_SET);
-	while (!feof(fFile))
-	{
-		lIndex = 0;
-		_fgetts(tcsLine, 1023, fFile);
-		StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
-		if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //»Ø³µ, »»ĞĞ
-			continue;
-		if (tcsLine[lIndex] == _TEXT('/') && tcsLine[lIndex + 1] == _TEXT('/')) // ×¢ÊÍ
-			continue;
-		if (tcsLine[lIndex] == _TEXT('\t')) // tab¼ü (ÔÚ¸ÃÎÄ±¾ÖĞÓÃÓÚ"½ÇÉ«ÀàĞÍµÄÒ»¸ö¶¯×÷ĞĞµÄ¿ªÊ¼·ûºÅ)
-			continue;
+  // è·å¾—å•ä¸ªè§’è‰²ä¿¡æ¯
+  fseek(fFile, 0, SEEK_SET);
+  while (!feof(fFile)) {
+    lIndex = 0;
+    _fgetts(tcsLine, 1023, fFile);
+    StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
+    if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //å›è½¦, æ¢è¡Œ
+      continue;
+    if (tcsLine[lIndex] == _TEXT('/') &&
+        tcsLine[lIndex + 1] == _TEXT('/')) // æ³¨é‡Š
+      continue;
+    if (tcsLine[lIndex] ==
+        _TEXT('\t')) // tabé”® (åœ¨è¯¥æ–‡æœ¬ä¸­ç”¨äº"è§’è‰²ç±»å‹çš„ä¸€ä¸ªåŠ¨ä½œè¡Œçš„å¼€å§‹ç¬¦å·)
+      continue;
 
-		StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
-		iCurType = _ttoi(tcsTemp) - 1;
-		if (iCurType < 0)
-			continue;
-		// ½ÇÉ«µÄ¶¯×÷ÊıÄ¿
-		m_SCharacterAction[iCurType].m_SActionInfo = NULL;
-		m_SCharacterAction[iCurType].m_iActualActionNum = 0;
-		m_SCharacterAction[iCurType].m_iCharacterType = iCurType + 1;
-		m_SCharacterAction[iCurType].m_iMaxActionNum = 0;
-		lFilePos = ftell(fFile);
-		while (!feof(fFile))
-		{
-			lIndex = 0;
-			_fgetts(tcsLine, 1023, fFile);
-			StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
-			if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //»Ø³µ, »»ĞĞ
-				continue;
-			if (tcsLine[lIndex] == _TEXT('/') && tcsLine[lIndex + 1] == _TEXT('/')) // ×¢ÊÍ
-				continue;
-			if (tcsLine[lIndex] == _TEXT('\t')) // tab¼ü
-			{
-				m_SCharacterAction[iCurType].m_iActualActionNum ++;
+    StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+    iCurType = _ttoi(tcsTemp) - 1;
+    if (iCurType < 0)
+      continue;
+    // è§’è‰²çš„åŠ¨ä½œæ•°ç›®
+    m_SCharacterAction[iCurType].m_SActionInfo = NULL;
+    m_SCharacterAction[iCurType].m_iActualActionNum = 0;
+    m_SCharacterAction[iCurType].m_iCharacterType = iCurType + 1;
+    m_SCharacterAction[iCurType].m_iMaxActionNum = 0;
+    lFilePos = ftell(fFile);
+    while (!feof(fFile)) {
+      lIndex = 0;
+      _fgetts(tcsLine, 1023, fFile);
+      StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
+      if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //å›è½¦, æ¢è¡Œ
+        continue;
+      if (tcsLine[lIndex] == _TEXT('/') &&
+          tcsLine[lIndex + 1] == _TEXT('/')) // æ³¨é‡Š
+        continue;
+      if (tcsLine[lIndex] == _TEXT('\t')) // tabé”®
+      {
+        m_SCharacterAction[iCurType].m_iActualActionNum++;
 
-				StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+        StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
 
-				// ÁÙÊ±´úÂë£¬ ÓÃÓÚÌáÊ¾¸üĞÂÎÄ¼ş°æ±¾¡£
-				if (_ttoi(tcsTemp) < 1)
-				{
-					MessageBox(NULL, _TEXT(RES_STRING(CL_LANGUAGE_MATCH_24)), _TEXT(RES_STRING(CL_LANGUAGE_MATCH_25)), 0);
-					goto end;
-				}
-				//
+        // ä¸´æ—¶ä»£ç ï¼Œ ç”¨äºæç¤ºæ›´æ–°æ–‡ä»¶ç‰ˆæœ¬ã€‚
+        if (_ttoi(tcsTemp) < 1) {
+          MessageBox(NULL, _TEXT(RES_STRING(CL_LANGUAGE_MATCH_24)),
+                     _TEXT(RES_STRING(CL_LANGUAGE_MATCH_25)), 0);
+          goto end;
+        }
+        //
 
-				if (m_SCharacterAction[iCurType].m_iMaxActionNum < _ttoi(tcsTemp))
-					m_SCharacterAction[iCurType].m_iMaxActionNum = _ttoi(tcsTemp);
-			}
-			else
-				break;
-		}
-		if (m_SCharacterAction[iCurType].m_iActualActionNum < 1)
-			continue;
+        if (m_SCharacterAction[iCurType].m_iMaxActionNum < _ttoi(tcsTemp))
+          m_SCharacterAction[iCurType].m_iMaxActionNum = _ttoi(tcsTemp);
+      } else
+        break;
+    }
+    if (m_SCharacterAction[iCurType].m_iActualActionNum < 1)
+      continue;
 
-		m_SCharacterAction[iCurType].m_SActionInfo = new (SActionInfo[m_SCharacterAction[iCurType].m_iMaxActionNum]);
-		if (m_SCharacterAction[iCurType].m_SActionInfo == NULL)
-		{
-			m_SCharacterAction[iCurType].m_iMaxActionNum = 0;
-			bRet = false;
-			goto end;
-		}
-		memset((void *)(m_SCharacterAction[iCurType].m_SActionInfo), 0, sizeof(SActionInfo) * m_SCharacterAction[iCurType].m_iMaxActionNum);
+    m_SCharacterAction[iCurType].m_SActionInfo =
+        new (SActionInfo[m_SCharacterAction[iCurType].m_iMaxActionNum]);
+    if (m_SCharacterAction[iCurType].m_SActionInfo == NULL) {
+      m_SCharacterAction[iCurType].m_iMaxActionNum = 0;
+      bRet = false;
+      goto end;
+    }
+    memset((void *)(m_SCharacterAction[iCurType].m_SActionInfo), 0,
+           sizeof(SActionInfo) * m_SCharacterAction[iCurType].m_iMaxActionNum);
 
-		// µ¥¸ö¶¯×÷ĞÅÏ¢
-        SActionInfo* s;
-		fseek(fFile, lFilePos, SEEK_SET);
-		while (!feof(fFile))
-		{
-			lFilePos = ftell(fFile);
-			lIndex = 0;
-			_fgetts(tcsLine, 1023, fFile);
-			StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
-			if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //»Ø³µ, »»ĞĞ
-				continue;
-			if (tcsLine[lIndex] == _TEXT('/') && tcsLine[lIndex + 1] == _TEXT('/')) // ×¢ÊÍ
-				continue;
-			if (tcsLine[lIndex] == _TEXT('\t')) // tab¼ü
-			{
-				StringSkipCompartment(tcsLine, &lIndex, _TEXT("\x09"), 1);
-				StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+    // å•ä¸ªåŠ¨ä½œä¿¡æ¯
+    SActionInfo *s;
+    fseek(fFile, lFilePos, SEEK_SET);
+    while (!feof(fFile)) {
+      lFilePos = ftell(fFile);
+      lIndex = 0;
+      _fgetts(tcsLine, 1023, fFile);
+      StringSkipCompartment(tcsLine, &lIndex, _TEXT(" "), 1);
+      if (tcsLine[lIndex] == 0x0a || tcsLine[lIndex] == 0x0d) //å›è½¦, æ¢è¡Œ
+        continue;
+      if (tcsLine[lIndex] == _TEXT('/') &&
+          tcsLine[lIndex + 1] == _TEXT('/')) // æ³¨é‡Š
+        continue;
+      if (tcsLine[lIndex] == _TEXT('\t')) // tabé”®
+      {
+        StringSkipCompartment(tcsLine, &lIndex, _TEXT("\x09"), 1);
+        StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
 
-				iCurActNO = _ttoi(tcsTemp);
-				if (iCurActNO < 1)
-					continue;
+        iCurActNO = _ttoi(tcsTemp);
+        if (iCurActNO < 1)
+          continue;
 
-                s = &m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1];
-				//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sActionNO = iCurActNO;
-                s->m_sActionNO = iCurActNO;
+        s = &m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1];
+        // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sActionNO
+        // = iCurActNO;
+        s->m_sActionNO = iCurActNO;
 
-				StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
-				//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sStartFrame = _ttoi(tcsTemp);
-                s->info.start = _ttoi(tcsTemp);
+        StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+        // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO -
+        // 1].m_sStartFrame = _ttoi(tcsTemp);
+        s->info.start = _ttoi(tcsTemp);
 
-				StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
-				//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sEndFrame = _ttoi(tcsTemp);
-                s->info.end = _ttoi(tcsTemp); 
+        StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5);
+        // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sEndFrame
+        // = _ttoi(tcsTemp);
+        s->info.end = _ttoi(tcsTemp);
 
-				StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				lOldIndex = lIndex;
-				// ¹Ø¼üÖ¡ÊıÄ¿
-				iCurKeyFrame = 0;
-				while (StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5))
-				{
-					iCurKeyFrame ++;
-					StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				}
-				if (iCurKeyFrame < 1)
-					continue;
+        StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        lOldIndex = lIndex;
+        // å…³é”®å¸§æ•°ç›®
+        iCurKeyFrame = 0;
+        while (StringGet(tcsTemp, 1023, tcsLine, &lIndex,
+                         _TEXT(" ,\x09\x0a\x0d"), 5)) {
+          iCurKeyFrame++;
+          StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        }
+        if (iCurKeyFrame < 1)
+          continue;
 
-                if(iCurKeyFrame > MAX_KEY_FRAME_NUM)
-                    iCurKeyFrame = MAX_KEY_FRAME_NUM;
+        if (iCurKeyFrame > MAX_KEY_FRAME_NUM)
+          iCurKeyFrame = MAX_KEY_FRAME_NUM;
 
-				//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrameNum = iCurKeyFrame;
-                s->info.key_frame_num = iCurKeyFrame;
+        // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO -
+        // 1].m_sKeyFrameNum = iCurKeyFrame;
+        s->info.key_frame_num = iCurKeyFrame;
 
-				//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrame
-				//	= new (short[m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrameNum]);
-				//if (m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrame == NULL)
-				//{
-				//	m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrameNum = 0;
-				//	bRet = false;
-				//	goto end;
-				//}
+        // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrame
+        //	= new
+        //(short[m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO -
+        //1].m_sKeyFrameNum]); if
+        // (m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrame
+        // == NULL)
+        //{
+        //	m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO -
+        //1].m_sKeyFrameNum = 0; 	bRet = false; 	goto end;
+        //}
 
-				lIndex = lOldIndex;
-				// ¹Ø¼üÖ¡
-				iCurKeyFrame = 0;
-				while (StringGet(tcsTemp, 1023, tcsLine, &lIndex, _TEXT(" ,\x09\x0a\x0d"), 5))
-				{
-					//m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO - 1].m_sKeyFrame[iCurKeyFrame] = _ttoi(tcsTemp);
-                    s->info.key_frame_seq[iCurKeyFrame] = _ttoi(tcsTemp);
-					iCurKeyFrame ++;
-					StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
-				}
-			}
-			else
-			{
-				fseek(fFile, lFilePos, SEEK_SET);
-				break;
-			}
-		}
-	}
-	//
+        lIndex = lOldIndex;
+        // å…³é”®å¸§
+        iCurKeyFrame = 0;
+        while (StringGet(tcsTemp, 1023, tcsLine, &lIndex,
+                         _TEXT(" ,\x09\x0a\x0d"), 5)) {
+          // m_SCharacterAction[iCurType].m_SActionInfo[iCurActNO -
+          // 1].m_sKeyFrame[iCurKeyFrame] = _ttoi(tcsTemp);
+          s->info.key_frame_seq[iCurKeyFrame] = _ttoi(tcsTemp);
+          iCurKeyFrame++;
+          StringSkipCompartment(tcsLine, &lIndex, _TEXT(" ,\x09"), 3);
+        }
+      } else {
+        fseek(fFile, lFilePos, SEEK_SET);
+        break;
+      }
+    }
+  }
+  //
 
 end:
-	if (fFile)
-		fclose(fFile);
-	if (!bRet)
-		Free();
+  if (fFile)
+    fclose(fFile);
+  if (!bRet)
+    Free();
 
-	return bRet;
+  return bRet;
 }
 
-void CGameCharacterAction::Free(void)
-{
-	//short	i, j;
-	short	i;
+void CGameCharacterAction::Free(void) {
+  // short	i, j;
+  short i;
 
-	if (m_SCharacterAction)
-	{
-		for (i = 0; i < m_iMaxCharacterType; i ++)
-		{
-			//for (j = 0; j < m_SCharacterAction[i].m_iMaxActionNum; j ++)
-			//{
-			//	if (m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame)
-			//	{
-			//		delete [] m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame;
-			//		m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame = NULL;
-			//	}
-			//}
-			
-			//delete [] m_SCharacterAction[i].m_SActionInfo;
-			//m_SCharacterAction[i].m_SActionInfo = NULL;
-			SAFE_DELETE_ARRAY(m_SCharacterAction[i].m_SActionInfo); // UIµ±»ú´¦Àí
-		}
-		//delete [] m_SCharacterAction;
-		//m_SCharacterAction = NULL;
-		SAFE_DELETE_ARRAY(m_SCharacterAction); // UIµ±»ú´¦Àí
-	}
-}
+  if (m_SCharacterAction) {
+    for (i = 0; i < m_iMaxCharacterType; i++) {
+      // for (j = 0; j < m_SCharacterAction[i].m_iMaxActionNum; j ++)
+      //{
+      //	if (m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame)
+      //	{
+      //		delete []
+      //m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame;
+      //		m_SCharacterAction[i].m_SActionInfo[j].m_sKeyFrame =
+      //NULL;
+      //	}
+      //}
 
-bool CGameCharacterAction::GetCharMaxActNum(int iCharType, int *iMaxActNum)
-{
-	if (m_SCharacterAction == NULL)
-		return false;
-	if (iCharType < 1 || iCharType > m_iMaxCharacterType)
-		return false;
-
-	*iMaxActNum = m_SCharacterAction[iCharType - 1].m_iMaxActionNum;
-
-	return true;
-}
-
-bool CGameCharacterAction::GetCharActualActNum(int iCharType, int *iActualActNum)
-{
-	if (m_SCharacterAction == NULL)
-		return false;
-	if (iCharType < 1 || iCharType > m_iMaxCharacterType)
-		return false;
-
-	*iActualActNum = m_SCharacterAction[iCharType - 1].m_iActualActionNum;
-
-	return true;
-}
-
-bool CGameCharacterAction::GetCharFrameInfo(int iCharType, int iActionNO, int *iStartFrame, int *iEndFrame)
-{
-	if (m_SCharacterAction == NULL)
-		return false;
-	if (iCharType < 1 || iCharType > m_iMaxCharacterType)
-		return false;
-	if (m_SCharacterAction[iCharType - 1].m_iCharacterType < 1)
-		return false;
-	if (iActionNO < 1 || iActionNO > m_SCharacterAction[iCharType - 1].m_iMaxActionNum)
-		return false;
-	if (m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].m_sActionNO < 1)
-		return false;
-
-	//*iStartFrame = m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].m_sStartFrame;
-	//*iEndFrame = m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].m_sEndFrame;
-
-    *iStartFrame = m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].info.start;
-    *iEndFrame = m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].info.end;
-
-	return true;
-}
-
-bool CGameCharacterAction::GetCharAction(int iCharType, SCharacterAction *SCharAct)
-{
-	if (m_SCharacterAction == NULL || SCharAct == NULL)
-		return false;
-	if (iCharType < 1 || iCharType > m_iMaxCharacterType)
-		return false;
-	if (m_SCharacterAction[iCharType - 1].m_iCharacterType < 1)
-		return false;
-
-	memcpy((void *)SCharAct, (void *)(m_SCharacterAction + iCharType - 1), sizeof(SCharacterAction));
-
-	return true;
-}
-
-// ´Ó¸ø¶¨×Ö·û´Ü(_TCHAR *in)µÄ¸ø¶¨Î»ÖÃ(long *in_from)»ñÈ¡×Ö·û´Ü£¬
-// Ö±µ½Óöµ½×Ö·û´ÜÁĞ±í(_TCHAR *end_list)ÖĞµÄÈÎÒ»×Ö·ûÊ±½áÊø
-long StringGet(_TCHAR *out, long out_max, _TCHAR *in, long *in_from, _TCHAR *end_list, long end_len)
-{
-    long offset=-1;    // set offset of get string to -1 for the first do process
-    long i;    // temp variable
-
-    --(*in_from);   // dec (*in_from) for the first do process
-    do
-    {
-        out[++offset]=in[++(*in_from)];
-        for(i=end_len-1;i>=0;--i)
-        {
-            if(out[offset]==end_list[i])
-            {
-                out[offset]=0x00;
-                break;
-            }
-        }
-    }while(out[offset] && offset<out_max);
-    return offset;
-}
-
-// ´Ó¸ø¶¨×Ö·û´Ü(_TCHAR *in)µÄ¸ø¶¨Î»ÖÃ(long *in_from)ÌŞ³ı×Ö·û´ÜÁĞ±í(_TCHAR *end_list)ÖĞµÄÈÎÒ»×Ö·û
-void StringSkipCompartment(_TCHAR *in, long *in_from, _TCHAR *skip_list, long skip_len)
-{
-    long i;    // temp variable
-
-    while(in[(*in_from)])
-    {
-        for(i=skip_len-1;i>=0;--i)
-        {
-            if(in[(*in_from)]==skip_list[i])    
-                break;
-        }
-        if(i<0) break;  // dismatch skip conditions, finished
-        else ++(*in_from);  // match skip conditions, skip it
+      // delete [] m_SCharacterAction[i].m_SActionInfo;
+      // m_SCharacterAction[i].m_SActionInfo = NULL;
+      SAFE_DELETE_ARRAY(m_SCharacterAction[i].m_SActionInfo); // UIå½“æœºå¤„ç†
     }
+    // delete [] m_SCharacterAction;
+    // m_SCharacterAction = NULL;
+    SAFE_DELETE_ARRAY(m_SCharacterAction); // UIå½“æœºå¤„ç†
+  }
+}
+
+bool CGameCharacterAction::GetCharMaxActNum(int iCharType, int *iMaxActNum) {
+  if (m_SCharacterAction == NULL)
+    return false;
+  if (iCharType < 1 || iCharType > m_iMaxCharacterType)
+    return false;
+
+  *iMaxActNum = m_SCharacterAction[iCharType - 1].m_iMaxActionNum;
+
+  return true;
+}
+
+bool CGameCharacterAction::GetCharActualActNum(int iCharType,
+                                               int *iActualActNum) {
+  if (m_SCharacterAction == NULL)
+    return false;
+  if (iCharType < 1 || iCharType > m_iMaxCharacterType)
+    return false;
+
+  *iActualActNum = m_SCharacterAction[iCharType - 1].m_iActualActionNum;
+
+  return true;
+}
+
+bool CGameCharacterAction::GetCharFrameInfo(int iCharType, int iActionNO,
+                                            int *iStartFrame, int *iEndFrame) {
+  if (m_SCharacterAction == NULL)
+    return false;
+  if (iCharType < 1 || iCharType > m_iMaxCharacterType)
+    return false;
+  if (m_SCharacterAction[iCharType - 1].m_iCharacterType < 1)
+    return false;
+  if (iActionNO < 1 ||
+      iActionNO > m_SCharacterAction[iCharType - 1].m_iMaxActionNum)
+    return false;
+  if (m_SCharacterAction[iCharType - 1]
+          .m_SActionInfo[iActionNO - 1]
+          .m_sActionNO < 1)
+    return false;
+
+  //*iStartFrame = m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO -
+  //1].m_sStartFrame; *iEndFrame = m_SCharacterAction[iCharType -
+  //1].m_SActionInfo[iActionNO - 1].m_sEndFrame;
+
+  *iStartFrame =
+      m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].info.start;
+  *iEndFrame =
+      m_SCharacterAction[iCharType - 1].m_SActionInfo[iActionNO - 1].info.end;
+
+  return true;
+}
+
+bool CGameCharacterAction::GetCharAction(int iCharType,
+                                         SCharacterAction *SCharAct) {
+  if (m_SCharacterAction == NULL || SCharAct == NULL)
+    return false;
+  if (iCharType < 1 || iCharType > m_iMaxCharacterType)
+    return false;
+  if (m_SCharacterAction[iCharType - 1].m_iCharacterType < 1)
+    return false;
+
+  memcpy((void *)SCharAct, (void *)(m_SCharacterAction + iCharType - 1),
+         sizeof(SCharacterAction));
+
+  return true;
+}
+
+// ä»ç»™å®šå­—ç¬¦çªœ(_TCHAR *in)çš„ç»™å®šä½ç½®(long *in_from)è·å–å­—ç¬¦çªœï¼Œ
+// ç›´åˆ°é‡åˆ°å­—ç¬¦çªœåˆ—è¡¨(_TCHAR *end_list)ä¸­çš„ä»»ä¸€å­—ç¬¦æ—¶ç»“æŸ
+long StringGet(_TCHAR *out, long out_max, _TCHAR *in, long *in_from,
+               _TCHAR *end_list, long end_len) {
+  long offset = -1; // set offset of get string to -1 for the first do process
+  long i;           // temp variable
+
+  --(*in_from); // dec (*in_from) for the first do process
+  do {
+    out[++offset] = in[++(*in_from)];
+    for (i = end_len - 1; i >= 0; --i) {
+      if (out[offset] == end_list[i]) {
+        out[offset] = 0x00;
+        break;
+      }
+    }
+  } while (out[offset] && offset < out_max);
+  return offset;
+}
+
+// ä»ç»™å®šå­—ç¬¦çªœ(_TCHAR *in)çš„ç»™å®šä½ç½®(long *in_from)å‰”é™¤å­—ç¬¦çªœåˆ—è¡¨(_TCHAR
+// *end_list)ä¸­çš„ä»»ä¸€å­—ç¬¦
+void StringSkipCompartment(_TCHAR *in, long *in_from, _TCHAR *skip_list,
+                           long skip_len) {
+  long i; // temp variable
+
+  while (in[(*in_from)]) {
+    for (i = skip_len - 1; i >= 0; --i) {
+      if (in[(*in_from)] == skip_list[i])
+        break;
+    }
+    if (i < 0)
+      break; // dismatch skip conditions, finished
+    else
+      ++(*in_from); // match skip conditions, skip it
+  }
 }

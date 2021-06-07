@@ -4,7 +4,7 @@
 namespace GUI
 {
 
-// µÀ¾ß¾«Á¶
+// é“å…·ç²¾ç‚¼
 class CForgeMgr : public CUIInterface
 {
 public:
@@ -58,13 +58,13 @@ private:
 
 private:
 	enum {
-		EQUIP = 0,			// ×°±¸Ë÷Òı
-		GEN_STONE = 1,		// Í¨ÓÃ±¦Ê¯Ë÷Òı
-		FORGE_STONE = 2,	// ¾«Á·±¦Ê¯Ë÷Òı
+		EQUIP = 0,			// è£…å¤‡ç´¢å¼•
+		GEN_STONE = 1,		// é€šç”¨å®çŸ³ç´¢å¼•
+		FORGE_STONE = 2,	// ç²¾ç»ƒå®çŸ³ç´¢å¼•
 		ITEM_NUM = 3,
 	};
 
-	CForm       *frmNPCforge ;//µÀ¾ß¾«Á·½çÃæ
+	CForm       *frmNPCforge ;//é“å…·ç²¾ç»ƒç•Œé¢
 	COneCommand *cmdForgeItem[ITEM_NUM];
 	CLabelEx    *labForgeGold;
 	CProgressBar *proNPCforge;
@@ -82,7 +82,7 @@ private:
 	//static const long FORGE_PER_LEVEL_MONEY = 100000;
 	static const long FORGE_PER_LEVEL_MONEY = 10000;	//	modify by alfred.shi 20080804
 	static const long MILLING_PER_LEVEL_MONEY = 50000;
-	static const int FORGE_PRO_TIME = 10000;	//10Ãë
+	static const int FORGE_PRO_TIME = 10000;	//10ç§’
 	static const int FORGE_SUCCESS_EFF_ID = 345;
 	static const int FORGE_FAILED_EFF_ID = 346;
 

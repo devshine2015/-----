@@ -2,15 +2,15 @@
 #include "util.h"
 #include "TableData.h"
 
-#define NPC_MAXSIZE_NAME			128 // npcÃû³Æ³¤¶È
+#define NPC_MAXSIZE_NAME			128 // npcåç§°é•¿åº¦
 
 class NPCData : public CRawDataInfo
 {
 public:
-	char szName[NPC_MAXSIZE_NAME];		// µØÍ¼ÖĞÏÔÊ¾npcÃû³Æ
-	char szArea[NPC_MAXSIZE_NAME];		// Î»ÖÃ»òÕßµÈ¼¶
-	DWORD dwxPos0, dwyPos0;				// npcÎ»ÖÃĞÅÏ¢
-	char szMapName[NPC_MAXSIZE_NAME];	// npcËùÔÚµØÍ¼Ãû³Æ
+	char szName[NPC_MAXSIZE_NAME];		// åœ°å›¾ä¸­æ˜¾ç¤ºnpcåç§°
+	char szArea[NPC_MAXSIZE_NAME];		// ä½ç½®æˆ–è€…ç­‰çº§
+	DWORD dwxPos0, dwyPos0;				// npcä½ç½®ä¿¡æ¯
+	char szMapName[NPC_MAXSIZE_NAME];	// npcæ‰€åœ¨åœ°å›¾åç§°
 };
 
 
@@ -29,7 +29,7 @@ public:
 
 protected:
 
-	static NPCHelper* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static NPCHelper* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
 
 
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)

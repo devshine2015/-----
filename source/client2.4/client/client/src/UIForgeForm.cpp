@@ -1,834 +1,717 @@
-#include "StdAfx.h"
 #include "uiforgeform.h"
-#include "uiformmgr.h"
+#include "GameApp.h"
+#include "StdAfx.h"
+#include "StoneSet.h"
+#include "StringLib.h"
+#include "UIBoxform.h"
+#include "UIList.h"
+#include "UIProgressBar.h"
+#include "WorldScene.h"
+#include "character.h"
+#include "forgerecord.h"
+#include "gameapp.h"
+#include "packetCmd.h"
+#include "packetcmd.h"
+#include "scene.h"
+#include "uiequipform.h"
+#include "uifastcommand.h"
 #include "uiform.h"
+#include "uiformmgr.h"
+#include "uigoodsgrid.h"
+#include "uihelpinfoform.h"
+#include "uiitemcommand.h"
 #include "uilabel.h"
 #include "uimemo.h"
 #include "uitextbutton.h"
-#include "scene.h"
-#include "uiitemcommand.h"
-#include "uifastcommand.h"
-#include "forgerecord.h"
-#include "gameapp.h"
-#include "uigoodsgrid.h"
-#include "uiequipform.h"
-#include "packetcmd.h"
-#include "character.h"
-#include "UIBoxform.h"
-#include "packetCmd.h"
-#include "StoneSet.h"
-#include "GameApp.h"
-#include "UIProgressBar.h"
-#include "WorldScene.h"
-#include "UIList.h"
-#include "StringLib.h"
-#include "uihelpinfoform.h"
-
-
 
 using namespace GUI;
 
-static int         g_nForgeIndex  =-1;
+static int g_nForgeIndex = -1;
 
 //---------------------------------------------------------------------------
 // class CForgeMgr
 //---------------------------------------------------------------------------
-bool CForgeMgr::Init()
-{
-	CFormMgr &mgr = CFormMgr::s_Mgr;
-	//≥ı ºªØnpc∂‘ª∞±Ìµ•
-	frmNPCforge  = mgr.Find("frmNPCforge" );
-	if ( !frmNPCforge )
-	{	
-		LG("gui", RES_STRING(CL_LANGUAGE_MATCH_560));
-		return false;
-	}
-	
-	frmNPCforge->evtEntrustMouseEvent = _MainMouseEvent;
-	frmNPCforge->evtClose = _OnClose;
+bool CForgeMgr::Init() {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+  //ÂàùÂßãÂåñnpcÂØπËØùË°®Âçï
+  frmNPCforge = mgr.Find("frmNPCforge");
+  if (!frmNPCforge) {
+    LG("gui", RES_STRING(CL_LANGUAGE_MATCH_560));
+    return false;
+  }
 
-	CTextButton* btnHelp = static_cast<CTextButton*>( frmNPCforge->Find( "btnHelp" ) );
-	if( !btnHelp )
-		return false;
-	btnHelp->evtMouseClick = evtShowHelpInfo;
-	
-	labForgeGold = dynamic_cast<CLabelEx*> (frmNPCforge->Find("labForgeGold")) ;
-	if( !labForgeGold ) 
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "labForgeGold");	
-	labForgeGold->SetCaption("");
+  frmNPCforge->evtEntrustMouseEvent = _MainMouseEvent;
+  frmNPCforge->evtClose = _OnClose;
 
-	// ◊∞±∏¿∏
-	char szBuf[32];
-	for (int i(0); i<ITEM_NUM; i++)
-	{
-		_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE,  "cmdForgeItem%d", i);
-		cmdForgeItem[i] = dynamic_cast<COneCommand*>(frmNPCforge->Find(szBuf));
-		if (!cmdForgeItem[i]) 
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_561),
-						 frmNPCforge->GetName(), 
-						 szBuf);
-	}
-	cmdForgeItem[EQUIP]->evtBeforeAccept = _DragEvtEquip;
-	cmdForgeItem[GEN_STONE]->evtBeforeAccept = _DragEvtGenStone;
-	cmdForgeItem[FORGE_STONE]->evtBeforeAccept = _DragEvtForgStone;
-	if( cmdForgeItem[EQUIP]->GetDrag() )
-	{
-		cmdForgeItem[EQUIP]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
-	}
-	if( cmdForgeItem[GEN_STONE]->GetDrag() )
-	{
-		cmdForgeItem[GEN_STONE]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
-	}
-	if( cmdForgeItem[FORGE_STONE]->GetDrag() )
-	{
-		cmdForgeItem[FORGE_STONE]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
-	}
+  CTextButton *btnHelp =
+      static_cast<CTextButton *>(frmNPCforge->Find("btnHelp"));
+  if (!btnHelp)
+    return false;
+  btnHelp->evtMouseClick = evtShowHelpInfo;
 
-	proNPCforge = dynamic_cast<CProgressBar*>(frmNPCforge->Find("proNPCforge"));
-	if( !proNPCforge ) 
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "proNPCforge");
-	proNPCforge->evtTimeArrive = _ProTimeArriveEvt;
+  labForgeGold = dynamic_cast<CLabelEx *>(frmNPCforge->Find("labForgeGold"));
+  if (!labForgeGold)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "labForgeGold");
+  labForgeGold->SetCaption("");
 
-	btnForgeYes = dynamic_cast<CTextButton*>(frmNPCforge->Find("btnForgeYes"));
-	if( !btnForgeYes ) 
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "btnForgeYes");
+  // Ë£ÖÂ§áÊ†è
+  char szBuf[32];
+  for (int i(0); i < ITEM_NUM; i++) {
+    _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE, "cmdForgeItem%d", i);
+    cmdForgeItem[i] = dynamic_cast<COneCommand *>(frmNPCforge->Find(szBuf));
+    if (!cmdForgeItem[i])
+      return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                   szBuf);
+  }
+  cmdForgeItem[EQUIP]->evtBeforeAccept = _DragEvtEquip;
+  cmdForgeItem[GEN_STONE]->evtBeforeAccept = _DragEvtGenStone;
+  cmdForgeItem[FORGE_STONE]->evtBeforeAccept = _DragEvtForgStone;
+  if (cmdForgeItem[EQUIP]->GetDrag()) {
+    cmdForgeItem[EQUIP]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
+  }
+  if (cmdForgeItem[GEN_STONE]->GetDrag()) {
+    cmdForgeItem[GEN_STONE]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
+  }
+  if (cmdForgeItem[FORGE_STONE]->GetDrag()) {
+    cmdForgeItem[FORGE_STONE]->GetDrag()->evtMouseDragBegin = _DragBeforeEvt;
+  }
 
-	btnMillingYes = dynamic_cast<CTextButton*>(frmNPCforge->Find("btnMillingYes"));
-	if( !btnMillingYes ) 
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "btnMillingYes");
-	btnMillingYes->SetIsShow(false);
+  proNPCforge = dynamic_cast<CProgressBar *>(frmNPCforge->Find("proNPCforge"));
+  if (!proNPCforge)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "proNPCforge");
+  proNPCforge->evtTimeArrive = _ProTimeArriveEvt;
 
-	lstForgeItemState = dynamic_cast<CList*>(frmNPCforge->Find("lstForgeItemState"));
-	if (!lstForgeItemState)
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "lstForgeItemState");
+  btnForgeYes = dynamic_cast<CTextButton *>(frmNPCforge->Find("btnForgeYes"));
+  if (!btnForgeYes)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "btnForgeYes");
 
-	imgMillingTitle = dynamic_cast<CImage*>(frmNPCforge->Find("imgMillingTitle"));
-	if (!imgMillingTitle)
-		return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(), "imgMillingTitle");
+  btnMillingYes =
+      dynamic_cast<CTextButton *>(frmNPCforge->Find("btnMillingYes"));
+  if (!btnMillingYes)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "btnMillingYes");
+  btnMillingYes->SetIsShow(false);
 
-	btnYes = btnForgeYes;
+  lstForgeItemState =
+      dynamic_cast<CList *>(frmNPCforge->Find("lstForgeItemState"));
+  if (!lstForgeItemState)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "lstForgeItemState");
 
-	return true;
+  imgMillingTitle =
+      dynamic_cast<CImage *>(frmNPCforge->Find("imgMillingTitle"));
+  if (!imgMillingTitle)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_561), frmNPCforge->GetName(),
+                 "imgMillingTitle");
+
+  btnYes = btnForgeYes;
+
+  return true;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::CloseForm()
-{
+void CForgeMgr::CloseForm() {}
+
+//---------------------------------------------------------------------------
+void CForgeMgr::SwitchMap() { Clear(); }
+
+//---------------------------------------------------------------------------
+void CForgeMgr::ShowForge(bool bShow, bool isMilling) {
+  Clear();
+
+  m_isMilling = isMilling;
+
+  if (bShow) {
+    frmNPCforge->SetPos(150, 150);
+    frmNPCforge->Reset();
+    frmNPCforge->Refresh();
+    frmNPCforge->Show();
+
+    //ÂêåÊó∂ÊâìÂºÄÁé©ÂÆ∂ÁöÑË£ÖÂ§áÊ†è
+    int x = frmNPCforge->GetX() + frmNPCforge->GetWidth();
+    int y = frmNPCforge->GetY();
+    g_stUIEquip.GetItemForm()->SetPos(x, y);
+    g_stUIEquip.GetItemForm()->Refresh();
+
+    if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow())) {
+      g_stUIEquip.GetItemForm()->Show();
+    }
+
+    //Êõ¥Êñ∞ÁïåÈù¢ÔºàÊâìÁ£®ÊàñÁ≤æÁÇºÔºâ
+    btnMillingYes->SetIsShow(m_isMilling);
+    btnForgeYes->SetIsShow(!m_isMilling);
+    btnYes = m_isMilling ? btnMillingYes : btnForgeYes;
+
+    if (m_isMilling) {
+      cmdForgeItem[EQUIP]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_562));
+      cmdForgeItem[GEN_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_563));
+      cmdForgeItem[FORGE_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_564));
+      imgMillingTitle->SetIsShow(true);
+    } else {
+      cmdForgeItem[EQUIP]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_565));
+      cmdForgeItem[GEN_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_566));
+      cmdForgeItem[FORGE_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_567));
+      imgMillingTitle->SetIsShow(false);
+    }
+  } else {
+    frmNPCforge->Close();
+    g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
+  }
+
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::SwitchMap()
-{
-	Clear();
+void CForgeMgr::ShowConfirmDialog(long lMoney) {
+  char szBuf[255] = {0};
+  _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE,
+              RES_STRING(CL_LANGUAGE_MATCH_568), lMoney);
+  g_stUIBox.ShowSelectBox(_evtConfirmEvent, szBuf, true);
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::ShowForge(bool bShow, bool isMilling)
-{
-	Clear();
+int CForgeMgr::GetForgeComIndex(COneCommand *oneCommand) {
+  for (int i(0); i < ITEM_NUM; i++)
+    if (cmdForgeItem[i] == oneCommand)
+      return i;
+  return -1;
+}
 
-	m_isMilling = isMilling;
+void CForgeMgr::DragToEquipGrid(int iIndex) { PopItem(iIndex); }
 
-	if (bShow)
-	{
-		frmNPCforge->SetPos(150, 150);
-		frmNPCforge->Reset();
-		frmNPCforge->Refresh();
-		frmNPCforge->Show();
+//---------------------------------------------------------------------------
+void CForgeMgr::Clear() {
+  ClearUI();
 
-		//Õ¨ ±¥Úø™ÕÊº“µƒ◊∞±∏¿∏
-		int x = frmNPCforge->GetX() + frmNPCforge->GetWidth();
-		int y = frmNPCforge->GetY();
-		g_stUIEquip.GetItemForm()->SetPos(x, y);
-		g_stUIEquip.GetItemForm()->Refresh();
-
-		if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow()))
-		{
-			g_stUIEquip.GetItemForm()->Show();
-		}
-
-		//∏¸–¬ΩÁ√Ê£®¥Úƒ•ªÚæ´¡∂£©
-		btnMillingYes->SetIsShow(m_isMilling);
-		btnForgeYes->SetIsShow(!m_isMilling);
-		btnYes = m_isMilling ? btnMillingYes : btnForgeYes;
-
-		if (m_isMilling)
-		{
-			cmdForgeItem[EQUIP]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_562));
-			cmdForgeItem[GEN_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_563));
-			cmdForgeItem[FORGE_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_564));
-			imgMillingTitle->SetIsShow(true);
-		}
-		else
-		{
-			cmdForgeItem[EQUIP]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_565));
-			cmdForgeItem[GEN_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_566));
-			cmdForgeItem[FORGE_STONE]->SetHint(RES_STRING(CL_LANGUAGE_MATCH_567));
-			imgMillingTitle->SetIsShow(false);
-		}
-	}
-	else
-	{
-		frmNPCforge->Close();
-		g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
-	}
-
-	return;
+  ClearItem();
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::ShowConfirmDialog(long lMoney)
-{
-	char szBuf[255] = { 0 };
-	_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE , RES_STRING(CL_LANGUAGE_MATCH_568), lMoney );
-	g_stUIBox.ShowSelectBox( _evtConfirmEvent, szBuf, true );
-
+void CForgeMgr::ClearUI() {
+  labForgeGold->SetCaption("");
+  proNPCforge->SetPosition(0);
+  btnForgeYes->SetIsEnabled(false);
+  btnMillingYes->SetIsEnabled(false);
 }
 
 //---------------------------------------------------------------------------
-int  CForgeMgr::GetForgeComIndex(COneCommand* oneCommand)
-{
-	for (int i(0); i<ITEM_NUM; i++)
-		if (cmdForgeItem[i] == oneCommand)
-			return i;
-	return -1;
-}
-
-void CForgeMgr::DragToEquipGrid(int iIndex)
-{
-	PopItem(iIndex);
+void CForgeMgr::ClearItem() {
+  for (int i(0); i < ITEM_NUM; ++i) {
+    PopItem(i);
+  }
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::Clear()
-{
-	ClearUI();
+bool CForgeMgr::SendForgeProtocol() {
+  stNetItemForgeAsk kNetItemForgeAsk;
 
-	ClearItem();
+  kNetItemForgeAsk.chType =
+      m_isMilling ? MILLING_TYPE : FORGE_TYPE; // ÊâìÁ£®ÊàñÁ≤æÁÇº
+
+  for (int i(0); i < ITEM_NUM; ++i) {
+    kNetItemForgeAsk.SGroup[i].sCellNum = 1; // ÂßãÁªàÊòØ1
+    kNetItemForgeAsk.SGroup[i].pCell = new SForgeCell::SCell[1];
+    kNetItemForgeAsk.SGroup[i].pCell[0].sNum = 1;
+    kNetItemForgeAsk.SGroup[i].pCell[0].sPosID = m_iForgeItemPos[i];
+  }
+  CS_ItemForgeAsk(true, &kNetItemForgeAsk);
+
+  return true;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::ClearUI()
-{
-	labForgeGold->SetCaption("");
-	proNPCforge->SetPosition(0);
-	btnForgeYes->SetIsEnabled(false);
-	btnMillingYes->SetIsEnabled(false);
+void CForgeMgr::ForgeSuccess(long lChaID) {
+  if (!CGameApp::GetCurScene())
+    return;
 
+  CCharacter *pCha = CGameApp::GetCurScene()->SearchByID(lChaID);
+  if (!pCha)
+    return;
+
+  pCha->SelfEffect(FORGE_SUCCESS_EFF_ID);
+
+  if (pCha->IsMainCha())
+    this->ShowForge(false);
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::ClearItem()
-{
-	for (int i(0); i<ITEM_NUM; ++i)
-	{
-		PopItem(i);
-	}
+void CForgeMgr::ForgeFailed(long lChaID) {
+  if (!CGameApp::GetCurScene())
+    return;
+
+  CCharacter *pCha = CGameApp::GetCurScene()->SearchByID(lChaID);
+  if (!pCha)
+    return;
+
+  pCha->SelfEffect(FORGE_FAILED_EFF_ID);
+
+  if (pCha->IsMainCha())
+    this->ShowForge(false);
 }
 
-//---------------------------------------------------------------------------
-bool CForgeMgr::SendForgeProtocol()
-{
-	stNetItemForgeAsk kNetItemForgeAsk;
-	
-	kNetItemForgeAsk.chType = m_isMilling? MILLING_TYPE : FORGE_TYPE;	// ¥Úƒ•ªÚæ´¡∂
+void CForgeMgr::ForgeOther(long lChaID) { this->ShowForge(false); }
 
-	for (int i(0); i<ITEM_NUM; ++i)
-	{
-		kNetItemForgeAsk.SGroup[i].sCellNum = 1;		//  º÷’ «1
-		kNetItemForgeAsk.SGroup[i].pCell = new SForgeCell::SCell[1];
-		kNetItemForgeAsk.SGroup[i].pCell[0].sNum = 1;
-		kNetItemForgeAsk.SGroup[i].pCell[0].sPosID = m_iForgeItemPos[i];
-	}
-	CS_ItemForgeAsk(true, &kNetItemForgeAsk);
-
-	return true;
-
-}
-
-//---------------------------------------------------------------------------
-void CForgeMgr::ForgeSuccess(long lChaID)
-{
-	if( !CGameApp::GetCurScene() ) return;
-
-	CCharacter* pCha = CGameApp::GetCurScene()->SearchByID( lChaID );
-	if( !pCha ) return;
-
-	pCha->SelfEffect(FORGE_SUCCESS_EFF_ID);
-
-	if( pCha->IsMainCha() )
-		this->ShowForge(false);
-}
-
-//---------------------------------------------------------------------------
-void CForgeMgr::ForgeFailed(long lChaID)
-{
-	if( !CGameApp::GetCurScene() ) return;
-
-	CCharacter* pCha = CGameApp::GetCurScene()->SearchByID( lChaID );
-	if( !pCha ) return;
-
-	pCha->SelfEffect(FORGE_FAILED_EFF_ID);
-
-	if( pCha->IsMainCha() )
-		this->ShowForge(false);
-}
-
-void CForgeMgr::ForgeOther(long lChaID)
-{
-	this->ShowForge(false);
-}
-
-bool CForgeMgr::IsRunning()		
-{ 
-	return proNPCforge->IsRuning();	
-}
-
-
-
+bool CForgeMgr::IsRunning() { return proNPCforge->IsRuning(); }
 
 //---------------------------------------------------------------------------
 // Callback Function
 //---------------------------------------------------------------------------
-void CForgeMgr::_MainMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	if( name=="btnClose"  || name == "btnForgeNo" )  
-	{ ///πÿ±’±Ìµ•
-		// »Áπ˚πˆ∂ØÃı’˝‘⁄πˆ∂Ø∞¥»°œ˚º¸‘Ú£¨∑¢ÀÕ»°œ˚–≠“È∏¯∑˛ŒÒ∆˜
-		//»´≤ø“∆µΩOnClose ¬º˛÷–
-		//if (g_stUIForge.proNPCforge->IsRuning())
-		//{
-		//	g_stUIForge.proNPCforge->Start(0);
-		//	CS_ItemForgeAnswer( false );
-		//}
-		//else
-		//{
-		//	g_stUIForge.ShowForge(false);
-		//}
-		return;
-	}
-	else if( name == g_stUIForge.btnYes->GetName() ) 
-	{
-		g_stUIForge.btnYes->SetIsEnabled(false);
+void CForgeMgr::_MainMouseEvent(CCompent *pSender, int nMsgType, int x, int y,
+                                DWORD dwKey) {
+  string name = pSender->GetName();
+  if (name == "btnClose" || name == "btnForgeNo") { ///ÂÖ≥Èó≠Ë°®Âçï
+    // Â¶ÇÊûúÊªöÂä®Êù°Ê≠£Âú®ÊªöÂä®ÊåâÂèñÊ∂àÈîÆÂàôÔºåÂèëÈÄÅÂèñÊ∂àÂçèËÆÆÁªôÊúçÂä°Âô®
+    //ÂÖ®ÈÉ®ÁßªÂà∞OnClose‰∫ã‰ª∂‰∏≠
+    // if (g_stUIForge.proNPCforge->IsRuning())
+    //{
+    //	g_stUIForge.proNPCforge->Start(0);
+    //	CS_ItemForgeAnswer( false );
+    //}
+    // else
+    //{
+    //	g_stUIForge.ShowForge(false);
+    //}
+    return;
+  } else if (name == g_stUIForge.btnYes->GetName()) {
+    g_stUIForge.btnYes->SetIsEnabled(false);
 
-		g_stUIForge.SendForgeProtocol();
-	}
-		
-	return;
+    g_stUIForge.SendForgeProtocol();
+  }
+
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::_DragEvtEquip(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	if (g_stUIForge.IsRunning())
-		return;
+void CForgeMgr::_DragEvtEquip(CGuiData *pSender, CCommandObj *pItem,
+                              bool &isAccept) {
+  if (g_stUIForge.IsRunning())
+    return;
 
-	if (!g_stUIForge.IsValidDragSource())
-		return;
+  if (!g_stUIForge.IsValidDragSource())
+    return;
 
-	CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand) return;
-	if( !(pItemCommand->GetIsValid())) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand)
+    return;
+  if (!(pItemCommand->GetIsValid()))
+    return;
 
-
-	if (g_stUIForge.IsEquip(*pItemCommand))
-	{
-		g_stUIForge.PushItem(EQUIP, *pItemCommand);
-		g_stUIForge.SetForgeUI();
-	}
-	else
-	{
-		g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_569));
-	}
-	return;
+  if (g_stUIForge.IsEquip(*pItemCommand)) {
+    g_stUIForge.PushItem(EQUIP, *pItemCommand);
+    g_stUIForge.SetForgeUI();
+  } else {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_569));
+  }
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::_DragEvtGenStone(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	if (g_stUIForge.IsRunning())
-		return;
+void CForgeMgr::_DragEvtGenStone(CGuiData *pSender, CCommandObj *pItem,
+                                 bool &isAccept) {
+  if (g_stUIForge.IsRunning())
+    return;
 
-	if (!g_stUIForge.IsValidDragSource())
-		return;
+  if (!g_stUIForge.IsValidDragSource())
+    return;
 
-	CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand ) return;
-	if( !(pItemCommand->GetIsValid())) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand)
+    return;
+  if (!(pItemCommand->GetIsValid()))
+    return;
 
-	if (g_stUIForge.m_isMilling)
-	{ //’‚¿Ô «¥Úƒ•
-		if (g_stUIForge.IsMillingReinforce(*pItemCommand))
-		{
-			g_stUIForge.PushItem(GEN_STONE, *pItemCommand);
-			g_stUIForge.SetForgeUI();
-		}
-		else
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_570));
-		}
-	}
-	else
-	{ //’‚¿Ô «æ´¡∂
-		if (g_stUIForge.IsGenStone(*pItemCommand))
-		{
-			g_stUIForge.PushItem(GEN_STONE, *pItemCommand);
-			g_stUIForge.SetForgeUI();
-		}
-		else
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_571));
-		}
-	}
-	return;
+  if (g_stUIForge.m_isMilling) { //ËøôÈáåÊòØÊâìÁ£®
+    if (g_stUIForge.IsMillingReinforce(*pItemCommand)) {
+      g_stUIForge.PushItem(GEN_STONE, *pItemCommand);
+      g_stUIForge.SetForgeUI();
+    } else {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_570));
+    }
+  } else { //ËøôÈáåÊòØÁ≤æÁÇº
+    if (g_stUIForge.IsGenStone(*pItemCommand)) {
+      g_stUIForge.PushItem(GEN_STONE, *pItemCommand);
+      g_stUIForge.SetForgeUI();
+    } else {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_571));
+    }
+  }
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::_DragEvtForgStone(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-{
-	if (g_stUIForge.IsRunning())
-		return;
+void CForgeMgr::_DragEvtForgStone(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  if (g_stUIForge.IsRunning())
+    return;
 
-	if (!g_stUIForge.IsValidDragSource())
-		return;
+  if (!g_stUIForge.IsValidDragSource())
+    return;
 
-	CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand) return;
-	if (!(pItemCommand->GetIsValid())) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand)
+    return;
+  if (!(pItemCommand->GetIsValid()))
+    return;
 
-	if (g_stUIForge.m_isMilling)
-	{ //’‚¿Ô «¥Úƒ•
-		if (g_stUIForge.IsMillingKatalyst(*pItemCommand))
-		{
-			g_stUIForge.PushItem(FORGE_STONE, *pItemCommand);
-			g_stUIForge.SetForgeUI();
-		}
-		else
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_572));
-		}
-	}
-	else
-	{ //’‚¿Ô «æ´¡∂
-		if (g_stUIForge.IsForgStone(*pItemCommand))
-		{
-			g_stUIForge.PushItem(FORGE_STONE, *pItemCommand);
-			g_stUIForge.SetForgeUI();
-		}
-		else
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_573));
-		}
-	}
-	return;
+  if (g_stUIForge.m_isMilling) { //ËøôÈáåÊòØÊâìÁ£®
+    if (g_stUIForge.IsMillingKatalyst(*pItemCommand)) {
+      g_stUIForge.PushItem(FORGE_STONE, *pItemCommand);
+      g_stUIForge.SetForgeUI();
+    } else {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_572));
+    }
+  } else { //ËøôÈáåÊòØÁ≤æÁÇº
+    if (g_stUIForge.IsForgStone(*pItemCommand)) {
+      g_stUIForge.PushItem(FORGE_STONE, *pItemCommand);
+      g_stUIForge.SetForgeUI();
+    } else {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_573));
+    }
+  }
+  return;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::_evtConfirmEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if (g_stUIForge.m_isConfirm = nMsgType==CForm::mrYes)
-		g_stUIForge.proNPCforge->Start(FORGE_PRO_TIME);
-	else
-		CS_ItemForgeAnswer( false );
-
+void CForgeMgr::_evtConfirmEvent(CCompent *pSender, int nMsgType, int x, int y,
+                                 DWORD dwKey) {
+  if (g_stUIForge.m_isConfirm = nMsgType == CForm::mrYes)
+    g_stUIForge.proNPCforge->Start(FORGE_PRO_TIME);
+  else
+    CS_ItemForgeAnswer(false);
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::_OnClose(CForm* pForm, bool& IsClose)
-{
-	if (g_stUIForge.proNPCforge->IsRuning())
-	{
-		g_stUIForge.proNPCforge->Start(0);
-		CS_ItemForgeAnswer( false );
-	}
-	g_stUIForge.Clear();
-	g_FormHelpInfo.ShowHelpInfo( false, "" );
+void CForgeMgr::_OnClose(CForm *pForm, bool &IsClose) {
+  if (g_stUIForge.proNPCforge->IsRuning()) {
+    g_stUIForge.proNPCforge->Start(0);
+    CS_ItemForgeAnswer(false);
+  }
+  g_stUIForge.Clear();
+  g_FormHelpInfo.ShowHelpInfo(false, "");
 
-	CS_ItemForgeAsk(false);
-
+  CS_ItemForgeAsk(false);
 }
 
-void CForgeMgr::_ProTimeArriveEvt(CGuiData *pSender)
-{
-	CS_ItemForgeAnswer( g_stUIForge.m_isConfirm );
+void CForgeMgr::_ProTimeArriveEvt(CGuiData *pSender) {
+  CS_ItemForgeAnswer(g_stUIForge.m_isConfirm);
 }
 
-void CForgeMgr::_DragBeforeEvt(CGuiData *pSender, int x, int y, DWORD key)
-{
-	if ( g_stUIForge.IsRunning() )
-		if( pSender->GetDrag() ) 
-			pSender->GetDrag()->Reset();
+void CForgeMgr::_DragBeforeEvt(CGuiData *pSender, int x, int y, DWORD key) {
+  if (g_stUIForge.IsRunning())
+    if (pSender->GetDrag())
+      pSender->GetDrag()->Reset();
 }
-
 
 //---------------------------------------------------------------------------
 // Help Function
 //---------------------------------------------------------------------------
-bool CForgeMgr::IsEquip(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CForgeMgr::IsEquip(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-	{
-		short sType = pItemRecord->sType;
-		//	Close by alfred.shi 20080912 √±◊”“≤ø…“‘¥Úƒ•
-		if (sType < EQUIP_TYPE && sType != 12 && sType != 13 && sType != 17 && sType != 18 && sType != 19 /*&& sType != 20*/ && sType != 21)
-			return true;
-	}
+  if (pItemRecord) {
+    short sType = pItemRecord->sType;
+    //	Close by alfred.shi 20080912 Â∏ΩÂ≠ê‰πüÂèØ‰ª•ÊâìÁ£®
+    if (sType < EQUIP_TYPE && sType != 12 && sType != 13 && sType != 17 &&
+        sType != 18 && sType != 19 /*&& sType != 20*/ && sType != 21)
+      return true;
+  }
 
-	return false;
+  return false;
 }
 
 //---------------------------------------------------------------------------
-bool CForgeMgr::IsGenStone(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CForgeMgr::IsGenStone(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == GEN_STONE_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == GEN_STONE_TYPE;
 
-		return false;
+  return false;
 }
 
 //---------------------------------------------------------------------------
-bool CForgeMgr::IsForgStone(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CForgeMgr::IsForgStone(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == FORGE_STONE_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == FORGE_STONE_TYPE;
 
-		return false;
+  return false;
 }
 //---------------------------------------------------------------------------
-bool CForgeMgr::IsMillingReinforce(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CForgeMgr::IsMillingReinforce(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == MILLING_Reinforce_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == MILLING_Reinforce_TYPE;
 
-	return false;
-
+  return false;
 }
 //---------------------------------------------------------------------------
-bool CForgeMgr::IsMillingKatalyst(CItemCommand& rItem)
-{
-	CItemRecord* pItemRecord = rItem.GetItemInfo();
+bool CForgeMgr::IsMillingKatalyst(CItemCommand &rItem) {
+  CItemRecord *pItemRecord = rItem.GetItemInfo();
 
-	if (pItemRecord) 
-		return pItemRecord->sType == MILLING_Katalyst_TYPE;
+  if (pItemRecord)
+    return pItemRecord->sType == MILLING_Katalyst_TYPE;
 
-	return false;
-
+  return false;
 }
 //---------------------------------------------------------------------------
 
+bool CForgeMgr::IsValidDragSource() {
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood == g_stUIEquip.GetGoodsGrid())
+    return true;
 
-bool CForgeMgr::IsValidDragSource()
-{
-	CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-	if( pGood == g_stUIEquip.GetGoodsGrid() ) return true;
-
-	return false;
-}
-
-
-//---------------------------------------------------------------------------
-void CForgeMgr::PushItem(int iIndex, CItemCommand& rItem)
-{
-	// ≤Èø¥‘≠¿¥µƒCmd÷– «∑Ò“—æ≠”–Item¡À£¨»Áπ˚”–‘Ú“∆≥ˆ
-	CItemCommand* pItemCommand =  
-		dynamic_cast<CItemCommand*>(cmdForgeItem[iIndex]->GetCommand());
-	if (pItemCommand)
-	{
-		PopItem(iIndex);
-	}
-
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iForgeItemPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	rItem.SetIsValid(false);
-
-	// Ω´¥¥Ω®µƒItem∑≈»ÎCmd÷–£¨’‚¿Ô”√newΩ´ª·‘⁄PopItem()÷–…æ≥˝
-	CItemCommand* pItemCmd = new CItemCommand(rItem);
-	pItemCmd->SetIsValid(true);
-	cmdForgeItem[iIndex]->AddCommand(pItemCmd);
-
-	return;
+  return false;
 }
 
 //---------------------------------------------------------------------------
-void CForgeMgr::PopItem(int iIndex)
-{
-	// …æ≥˝Cmd÷–µƒItem£¨∏√Itemª·‘⁄PushItem()÷–”…new…˙≥…
-	CItemCommand* pItemCommand =  
-		dynamic_cast<CItemCommand*>(cmdForgeItem[iIndex]->GetCommand());
-	if (pItemCommand)
-		cmdForgeItem[iIndex]->DelCommand();	// ∏√∫Ø ˝Ω´…æ≥˝delete Item
+void CForgeMgr::PushItem(int iIndex, CItemCommand &rItem) {
+  // Êü•ÁúãÂéüÊù•ÁöÑCmd‰∏≠ÊòØÂê¶Â∑≤ÁªèÊúâItem‰∫ÜÔºåÂ¶ÇÊûúÊúâÂàôÁßªÂá∫
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdForgeItem[iIndex]->GetCommand());
+  if (pItemCommand) {
+    PopItem(iIndex);
+  }
 
-	// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-	CCommandObj* pItem = 
-				g_stUIEquip.GetGoodsGrid()->GetItem(m_iForgeItemPos[iIndex]);
-	if (pItem)
-	{
-		pItem->SetIsValid(true);
-	}
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iForgeItemPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  rItem.SetIsValid(false);
 
-	// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-	m_iForgeItemPos[iIndex] = NO_USE;
+  // Â∞ÜÂàõÂª∫ÁöÑItemÊîæÂÖ•Cmd‰∏≠ÔºåËøôÈáåÁî®newÂ∞Ü‰ºöÂú®PopItem()‰∏≠Âà†Èô§
+  CItemCommand *pItemCmd = new CItemCommand(rItem);
+  pItemCmd->SetIsValid(true);
+  cmdForgeItem[iIndex]->AddCommand(pItemCmd);
 
-	this->SetForgeUI();
-
-	return;
-}
-
-
-
-//---------------------------------------------------------------------------
-void CForgeMgr::SetForgeUI()
-{
-
-	/*
-	’Ê∫Ï÷ÆΩ£      +5
-	≤Â≤€“ª      3º∂        ∫Ï±¶ Ø     
-	≤Â≤€∂˛      Œﬁ         
-	≤Â≤€»˝     °™°™         °™°™
-	æ´¡∂º”≥…    π•ª˜+18    ◊®◊¢+79    …¡±‹+99
-	∏Ωº”º”≥…     °™°™ 
-	±¶ Ø–ßπ˚     π•ª˜+2      ◊®◊¢+1 
-	*/
-
-	char szBuf[64];
-	if (cmdForgeItem[EQUIP]->GetCommand())
-	{
-		// Œ‰∆˜µƒ√Ë ˆ
-		CItemCommand* pItemCommand =  
-			dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
-		if (!pItemCommand)
-			return;
-		CItemRecord* pItemRecord = pItemCommand->GetItemInfo();
-		if (!pItemRecord)
-			return;
-
-		SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
-
-		string sEquipState("");
-		// Œ‰∆˜√˚
-		CItemRow* pItem = lstForgeItemState->GetItems()->GetItem(0);
-		if (pItem)
-		{
-			sEquipState = pItemRecord->szName;
-			sEquipState += "  +";
-			//	sEquipState += itoa(rItemForgeInfo.nLevel,szBuf, 10);
-			_itoa_s(rItemForgeInfo.nLevel,szBuf,sizeof(szBuf) ,10);
-			sEquipState += szBuf;
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-
-		// Œ‰∆˜≤Â≤€“ª
-		pItem = lstForgeItemState->GetItems()->GetItem(1);
-		if (pItem)
-		{
-			sEquipState = RES_STRING(CL_LANGUAGE_MATCH_835);
-			if (rItemForgeInfo.nHoleNum < 1)
-				sEquipState += "--  --\n";
-			else
-			{
-				if (rItemForgeInfo.nStoneNum < 1)
-				{
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-				}
-				else
-				{
-					//	sEquipState += itoa(rItemForgeInfo.nStoneLevel[0], szBuf, 10);
-					_itoa_s(rItemForgeInfo.nStoneLevel[0], szBuf,sizeof(szBuf) ,10);
-					sEquipState += szBuf;
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-					sEquipState += rItemForgeInfo.pStoneInfo[0]->szDataName;
-					sEquipState += "\n";
-				}
-			}
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-
-		// Œ‰∆˜≤Â≤€∂˛
-		pItem = lstForgeItemState->GetItems()->GetItem(2);
-		if (pItem)
-		{
-			sEquipState = RES_STRING(CL_LANGUAGE_MATCH_838);
-			if (rItemForgeInfo.nHoleNum < 2)
-				sEquipState += "--  --\n";
-			else
-			{
-				if (rItemForgeInfo.nStoneNum < 2)
-				{
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-				}
-				else
-				{
-					//	sEquipState += itoa(rItemForgeInfo.nStoneLevel[1], szBuf, 10);
-					_itoa_s(rItemForgeInfo.nStoneLevel[1], szBuf,sizeof(szBuf) ,10);
-					sEquipState += szBuf;
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-					sEquipState += rItemForgeInfo.pStoneInfo[1]->szDataName;
-					sEquipState += "\n";
-				}
-			}
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-
-		// Œ‰∆˜≤Â≤€»˝
-		pItem = lstForgeItemState->GetItems()->GetItem(3);
-		if (pItem)
-		{
-			sEquipState = RES_STRING(CL_LANGUAGE_MATCH_839);
-			if (rItemForgeInfo.nHoleNum < 3)
-				sEquipState += "--  --\n";
-			else
-			{
-				if (rItemForgeInfo.nStoneNum < 3)
-				{
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
-				}
-				else
-				{
-					//	sEquipState += itoa(rItemForgeInfo.nStoneLevel[2], szBuf, 10);
-					_itoa_s(rItemForgeInfo.nStoneLevel[2], szBuf,sizeof(szBuf) ,10);
-					sEquipState += szBuf;
-					sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
-					sEquipState += rItemForgeInfo.pStoneInfo[2]->szDataName;
-					sEquipState += "\n";
-				}
-			}
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-
-		// Œ‰∆˜æ´¡∂º”≥…
-		pItem = lstForgeItemState->GetItems()->GetItem(4);
-		if (pItem)
-		{
-			sEquipState = RES_STRING(CL_LANGUAGE_MATCH_840);
-			for (int i(0); i<rItemForgeInfo.nStoneNum; ++i)
-			{
-				sEquipState += rItemForgeInfo.szStoneHint[i];	
-				sEquipState += "  ";
-			}
-			if (sEquipState == RES_STRING(CL_LANGUAGE_MATCH_840))
-				sEquipState += "--";
-
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-
-
-		// Œ‰∆˜æ´¡∂º”≥…
-		pItem = lstForgeItemState->GetItems()->GetItem(5);
-		if (pItem)
-		{
-			string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_841);
-
-			pItem->GetBegin()->SetString(sEquipState.c_str());
-		}
-	}
-	else
-	{
-		CItemRow* pItem;
-		for (int i(0); i<6; ++i)
-		{
-			pItem = lstForgeItemState->GetItems()->GetItem(i);
-			if (pItem)
-				pItem->GetBegin()->SetString("");
-		}
-
-	}
-
-	//		±¶ Ø–ßπ˚     π•ª˜+2      ◊®◊¢+1 
-	if (!m_isMilling)
-	{
-		if (cmdForgeItem[GEN_STONE]->GetCommand())
-		{
-			CItemCommand* pItemCommand =  
-				dynamic_cast<CItemCommand*>(cmdForgeItem[GEN_STONE]->GetCommand());
-			if (!pItemCommand)
-				return;
-
-			CItemRow* pItem;
-			pItem = lstForgeItemState->GetItems()->GetItem(6);
-			if (pItem)
-			{
-				string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_842) + pItemCommand->GetStoneHint(1);
-				pItem->GetBegin()->SetString(sEquipState.c_str());
-			}
-		}
-		else
-		{
-			CItemRow* pItem;
-			pItem = lstForgeItemState->GetItems()->GetItem(6);
-			if (pItem)
-			{
-				pItem->GetBegin()->SetString("");
-			}
-		}
-
-
-
-	}
-		// ∆‰À˚UI…Ë÷√
-
-	if (cmdForgeItem[EQUIP]->GetCommand() 
-		&& cmdForgeItem[GEN_STONE]->GetCommand() 
-		&& cmdForgeItem[FORGE_STONE]->GetCommand())
-	{
-		labForgeGold->SetCaption(StringSplitNum(m_isMilling ? CalMillingMoney() : CalForgeMoney()));
-		assert(btnYes);
-		btnYes->SetIsEnabled(true);
-	}
-	else
-	{
-		labForgeGold->SetCaption("");
-		assert(btnYes);
-		btnYes->SetIsEnabled(false);
-	}
-
-
+  return;
 }
 
 //---------------------------------------------------------------------------
-long CForgeMgr::CalForgeMoney()
-{
-	CItemCommand* pItemCommand =  
-				dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
+void CForgeMgr::PopItem(int iIndex) {
+  // Âà†Èô§Cmd‰∏≠ÁöÑItemÔºåËØ•Item‰ºöÂú®PushItem()‰∏≠Áî±newÁîüÊàê
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdForgeItem[iIndex]->GetCommand());
+  if (pItemCommand)
+    cmdForgeItem[iIndex]->DelCommand(); // ËØ•ÂáΩÊï∞Â∞ÜÂà†Èô§delete Item
 
-	SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
-	if (rItemForgeInfo.IsForge)
-	{
-		//	add by alfred.shi 20080804 begin
-		//  delete by rock.wang 2009.05.15 Start (µ⁄“ª¥Œæ´¡∂Ω«Æ–Ë«Û”…1K…˝÷¡1W)
-		// if(rItemForgeInfo.nLevel < 1)
-		//	return ((long)( FORGE_PER_LEVEL_MONEY/10));
-		// else
-		//  End
-			return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
-		//	end
-		//return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
-	}
-	return 0;
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+  CCommandObj *pItem =
+      g_stUIEquip.GetGoodsGrid()->GetItem(m_iForgeItemPos[iIndex]);
+  if (pItem) {
+    pItem->SetIsValid(true);
+  }
 
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  m_iForgeItemPos[iIndex] = NO_USE;
+
+  this->SetForgeUI();
+
+  return;
+}
+
+//---------------------------------------------------------------------------
+void CForgeMgr::SetForgeUI() {
+
+  /*
+  ÁúüÁ∫¢‰πãÂâë      +5
+  ÊèíÊßΩ‰∏Ä      3Á∫ß        Á∫¢ÂÆùÁü≥
+  ÊèíÊßΩ‰∫å      Êó†
+  ÊèíÊßΩ‰∏â     ‚Äî‚Äî         ‚Äî‚Äî
+  Á≤æÁÇºÂä†Êàê    ÊîªÂáª+18    ‰∏ìÊ≥®+79    Èó™ÈÅø+99
+  ÈôÑÂä†Âä†Êàê     ‚Äî‚Äî
+  ÂÆùÁü≥ÊïàÊûú     ÊîªÂáª+2      ‰∏ìÊ≥®+1
+  */
+
+  char szBuf[64];
+  if (cmdForgeItem[EQUIP]->GetCommand()) {
+    // Ê≠¶Âô®ÁöÑÊèèËø∞
+    CItemCommand *pItemCommand =
+        dynamic_cast<CItemCommand *>(cmdForgeItem[EQUIP]->GetCommand());
+    if (!pItemCommand)
+      return;
+    CItemRecord *pItemRecord = pItemCommand->GetItemInfo();
+    if (!pItemRecord)
+      return;
+
+    SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
+
+    string sEquipState("");
+    // Ê≠¶Âô®Âêç
+    CItemRow *pItem = lstForgeItemState->GetItems()->GetItem(0);
+    if (pItem) {
+      sEquipState = pItemRecord->szName;
+      sEquipState += "  +";
+      //	sEquipState += itoa(rItemForgeInfo.nLevel,szBuf, 10);
+      _itoa_s(rItemForgeInfo.nLevel, szBuf, sizeof(szBuf), 10);
+      sEquipState += szBuf;
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+
+    // Ê≠¶Âô®ÊèíÊßΩ‰∏Ä
+    pItem = lstForgeItemState->GetItems()->GetItem(1);
+    if (pItem) {
+      sEquipState = RES_STRING(CL_LANGUAGE_MATCH_835);
+      if (rItemForgeInfo.nHoleNum < 1)
+        sEquipState += "--  --\n";
+      else {
+        if (rItemForgeInfo.nStoneNum < 1) {
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
+        } else {
+          //	sEquipState += itoa(rItemForgeInfo.nStoneLevel[0], szBuf, 10);
+          _itoa_s(rItemForgeInfo.nStoneLevel[0], szBuf, sizeof(szBuf), 10);
+          sEquipState += szBuf;
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
+          sEquipState += rItemForgeInfo.pStoneInfo[0]->szDataName;
+          sEquipState += "\n";
+        }
+      }
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+
+    // Ê≠¶Âô®ÊèíÊßΩ‰∫å
+    pItem = lstForgeItemState->GetItems()->GetItem(2);
+    if (pItem) {
+      sEquipState = RES_STRING(CL_LANGUAGE_MATCH_838);
+      if (rItemForgeInfo.nHoleNum < 2)
+        sEquipState += "--  --\n";
+      else {
+        if (rItemForgeInfo.nStoneNum < 2) {
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
+        } else {
+          //	sEquipState += itoa(rItemForgeInfo.nStoneLevel[1], szBuf, 10);
+          _itoa_s(rItemForgeInfo.nStoneLevel[1], szBuf, sizeof(szBuf), 10);
+          sEquipState += szBuf;
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
+          sEquipState += rItemForgeInfo.pStoneInfo[1]->szDataName;
+          sEquipState += "\n";
+        }
+      }
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+
+    // Ê≠¶Âô®ÊèíÊßΩ‰∏â
+    pItem = lstForgeItemState->GetItems()->GetItem(3);
+    if (pItem) {
+      sEquipState = RES_STRING(CL_LANGUAGE_MATCH_839);
+      if (rItemForgeInfo.nHoleNum < 3)
+        sEquipState += "--  --\n";
+      else {
+        if (rItemForgeInfo.nStoneNum < 3) {
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_836);
+        } else {
+          //	sEquipState += itoa(rItemForgeInfo.nStoneLevel[2], szBuf, 10);
+          _itoa_s(rItemForgeInfo.nStoneLevel[2], szBuf, sizeof(szBuf), 10);
+          sEquipState += szBuf;
+          sEquipState += RES_STRING(CL_LANGUAGE_MATCH_837);
+          sEquipState += rItemForgeInfo.pStoneInfo[2]->szDataName;
+          sEquipState += "\n";
+        }
+      }
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+
+    // Ê≠¶Âô®Á≤æÁÇºÂä†Êàê
+    pItem = lstForgeItemState->GetItems()->GetItem(4);
+    if (pItem) {
+      sEquipState = RES_STRING(CL_LANGUAGE_MATCH_840);
+      for (int i(0); i < rItemForgeInfo.nStoneNum; ++i) {
+        sEquipState += rItemForgeInfo.szStoneHint[i];
+        sEquipState += "  ";
+      }
+      if (sEquipState == RES_STRING(CL_LANGUAGE_MATCH_840))
+        sEquipState += "--";
+
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+
+    // Ê≠¶Âô®Á≤æÁÇºÂä†Êàê
+    pItem = lstForgeItemState->GetItems()->GetItem(5);
+    if (pItem) {
+      string sEquipState = RES_STRING(CL_LANGUAGE_MATCH_841);
+
+      pItem->GetBegin()->SetString(sEquipState.c_str());
+    }
+  } else {
+    CItemRow *pItem;
+    for (int i(0); i < 6; ++i) {
+      pItem = lstForgeItemState->GetItems()->GetItem(i);
+      if (pItem)
+        pItem->GetBegin()->SetString("");
+    }
+  }
+
+  //		ÂÆùÁü≥ÊïàÊûú     ÊîªÂáª+2      ‰∏ìÊ≥®+1
+  if (!m_isMilling) {
+    if (cmdForgeItem[GEN_STONE]->GetCommand()) {
+      CItemCommand *pItemCommand =
+          dynamic_cast<CItemCommand *>(cmdForgeItem[GEN_STONE]->GetCommand());
+      if (!pItemCommand)
+        return;
+
+      CItemRow *pItem;
+      pItem = lstForgeItemState->GetItems()->GetItem(6);
+      if (pItem) {
+        string sEquipState =
+            RES_STRING(CL_LANGUAGE_MATCH_842) + pItemCommand->GetStoneHint(1);
+        pItem->GetBegin()->SetString(sEquipState.c_str());
+      }
+    } else {
+      CItemRow *pItem;
+      pItem = lstForgeItemState->GetItems()->GetItem(6);
+      if (pItem) {
+        pItem->GetBegin()->SetString("");
+      }
+    }
+  }
+  // ÂÖ∂‰ªñUIËÆæÁΩÆ
+
+  if (cmdForgeItem[EQUIP]->GetCommand() &&
+      cmdForgeItem[GEN_STONE]->GetCommand() &&
+      cmdForgeItem[FORGE_STONE]->GetCommand()) {
+    labForgeGold->SetCaption(
+        StringSplitNum(m_isMilling ? CalMillingMoney() : CalForgeMoney()));
+    assert(btnYes);
+    btnYes->SetIsEnabled(true);
+  } else {
+    labForgeGold->SetCaption("");
+    assert(btnYes);
+    btnYes->SetIsEnabled(false);
+  }
+}
+
+//---------------------------------------------------------------------------
+long CForgeMgr::CalForgeMoney() {
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdForgeItem[EQUIP]->GetCommand());
+
+  SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
+  if (rItemForgeInfo.IsForge) {
+    //	add by alfred.shi 20080804 begin
+    //  delete by rock.wang 2009.05.15 Start (Á¨¨‰∏ÄÊ¨°Á≤æÁÇºÈáëÈí±ÈúÄÊ±ÇÁî±1KÂçáËá≥1W)
+    // if(rItemForgeInfo.nLevel < 1)
+    //	return ((long)( FORGE_PER_LEVEL_MONEY/10));
+    // else
+    //  End
+    return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
+    //	end
+    // return ((long)((rItemForgeInfo.nLevel + 1)) * FORGE_PER_LEVEL_MONEY);
+  }
+  return 0;
 }
 //---------------------------------------------------------------------------
-long CForgeMgr::CalMillingMoney()
-{
-	CItemCommand* pItemCommand =  
-		dynamic_cast<CItemCommand*>(cmdForgeItem[EQUIP]->GetCommand());
+long CForgeMgr::CalMillingMoney() {
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdForgeItem[EQUIP]->GetCommand());
 
-	SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
-	return ((long)((rItemForgeInfo.nHoleNum + 1)) * MILLING_PER_LEVEL_MONEY);
+  SItemForge rItemForgeInfo = pItemCommand->GetForgeInfo();
+  return ((long)((rItemForgeInfo.nHoleNum + 1)) * MILLING_PER_LEVEL_MONEY);
 }
 
-void CForgeMgr::evtShowHelpInfo( CGuiData* pSender, int x, int y, DWORD key )
-{
-	g_FormHelpInfo.ShowHelpInfo( !g_FormHelpInfo.IsShown(), "frmNPCforge" );
+void CForgeMgr::evtShowHelpInfo(CGuiData *pSender, int x, int y, DWORD key) {
+  g_FormHelpInfo.ShowHelpInfo(!g_FormHelpInfo.IsShown(), "frmNPCforge");
 }
-
-

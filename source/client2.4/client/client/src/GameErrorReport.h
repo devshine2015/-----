@@ -1,7 +1,7 @@
 #ifndef __GAME_ERROR_REPORT_H
 #define __GAME_ERROR_REPORT_H
 #include "ErrorReport.h"
-extern BOOL CheckDxVersion(DWORD &ver); // �汾�˶�
+extern BOOL CheckDxVersion(DWORD &ver); // 版本核对
 extern void GameErrorLog(const char* format, ...);
 extern void GameErrorReport(const char* format, ...);
 extern void GameErrorClear();

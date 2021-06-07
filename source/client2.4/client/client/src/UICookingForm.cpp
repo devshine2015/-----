@@ -1,476 +1,438 @@
 
-#include "stdafx.h"
 #include "UICookingForm.h"
-#include "uiformmgr.h"
+#include "GameApp.h"
+#include "NetProtocol.h"
 #include "UIGoodsGrid.h"
+#include "packetCmd.h"
+#include "stdafx.h"
 #include "uiEquipForm.h"
 #include "uiItemCommand.h"
+#include "uiformmgr.h"
 #include "uinpctalkform.h"
 #include "uiprogressbar.h"
-#include "NetProtocol.h"
-#include "packetCmd.h"
-#include "GameApp.h"
 
+namespace GUI {
+CCookingMgr::CCookingMgr() {}
 
-namespace GUI
-{
-    CCookingMgr::CCookingMgr()
-    {
+CCookingMgr::~CCookingMgr() {}
+
+void CCookingMgr::ShowCookingForm(bool bShow /* = true*/) {
+  if (frmCooking->GetIsShow()) {
+    return;
+  }
+  if (bShow) {
+    bLock = false;
+    ClearCommand();
+    btnForgeYes->SetIsEnabled(false);
+    btnForgeNo->SetIsEnabled(false);
+    frmCooking->Show();
+  } else {
+    if (!bLock) {
+      frmCooking->Hide();
     }
+  }
+}
 
-    CCookingMgr::~CCookingMgr()
-    {
+void CCookingMgr::CheckResult(short sRet) {
+  CItemRecord *pCItemRec = NULL;
+  CItemCommand *pItemCommand = NULL;
+  ClearCommand(true);
+  if (sRet >= 0) {
+    pItemCommand =
+        dynamic_cast<CItemCommand *>(g_stUIEquip.GetGoodsGrid()->GetItem(sRet));
+    if (pItemCommand) {
+      PushItem(6, *pItemCommand, true);
     }
+  }
+  /*if(g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[1]))
+  {
+          for(int i = 0; i < (COOKING_COUNT - 1); i++)
+          {
+                  if(NO_USE != iCookingPos[i])
+                  {
+                          pItemCommand =
+  dynamic_cast<CItemCommand*>(g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[i]));
+                          if(pItemCommand)
+                          {
+                                  if(3 == i)
+                                  {
+                                          int iItem =
+  (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_STR);
+                                          if(pItemCommand->GetItemInfo()->lID ==
+  iItem)
+                                          {
+                                                  PushItem(i, *pItemCommand,
+  true);
+                                          }
+                                  }
+                                  else if(4 == i)
+                                  {
+                                          int iItem =
+  (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_CON);
+                                          if(pItemCommand->GetItemInfo()->lID ==
+  iItem)
+                                          {
+                                                  PushItem(i, *pItemCommand,
+  true);
+                                          }
+                                  }
+                                  else if(5 == i)
+                                  {
+                                          int iItem =
+  (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_DEX);
+                                          if(pItemCommand->GetItemInfo()->lID ==
+  iItem)
+                                          {
+                                                  PushItem(i, *pItemCommand,
+  true);
+                                          }
+                                  }
+                                  else
+                                  {
+                                          PushItem(i, *pItemCommand, true);
+                                  }
+                          }
+                          else
+                          {
+                                  iCookingPos[i] = NO_USE;
+                          }
+                  }
+          }
+  }*/
+  btnForgeYes->SetIsEnabled(true);
+  btnForgeNo->SetIsEnabled(true);
+}
 
-    void CCookingMgr::ShowCookingForm(bool bShow/* = true*/)
-    {
-        if(frmCooking->GetIsShow())
-        {
-            return;
-        }
-        if(bShow)
-        {
-            bLock = false;
-            ClearCommand();
-            btnForgeYes->SetIsEnabled(false);
-            btnForgeNo->SetIsEnabled(false);
-            frmCooking->Show();
-        }
-        else
-        {
-            if(!bLock)
-            {
-                frmCooking->Hide();
-            }
-        }
+void CCookingMgr::StartTime(short time) {
+  if (!time) {
+    bLock = false;
+    btnForgeYes->SetIsEnabled(true);
+    btnForgeNo->SetIsEnabled(true);
+    return;
+  }
+  sTime = time * 1000;
+  proCooking->SetRange(0.0f, (float)sTime);
+  dwStartTime = g_pGameApp->GetCurTick();
+  proCooking->Start(sTime);
+}
+
+int CCookingMgr::GetComIndex(COneCommand *oneCommand) {
+  for (int i = 0; i < COOKING_COUNT; i++) {
+    if (cmdCooking[i] == oneCommand)
+      return i;
+  }
+  return -1;
+}
+
+void CCookingMgr::DragToEquipGrid(int index) { PopItem(index); }
+
+bool CCookingMgr::Init() {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+
+  frmCooking = mgr.Find("frmCooking");
+  if (!frmCooking) {
+    LG("gui", "frmCooking not found.\n");
+    return false;
+  }
+
+  proCooking = dynamic_cast<CProgressBar *>(frmCooking->Find("proCooking"));
+  if (!proCooking) {
+    LG("gui", "frmCooking::proCooking not found.\n");
+    return false;
+  }
+  proCooking->evtTimeArrive = _ProTimeArriveEvt;
+
+  btnForgeYes = dynamic_cast<CTextButton *>(frmCooking->Find("btnForgeYes"));
+  if (!btnForgeYes) {
+    LG("gui", "frmCooking::btnForgeYes not found.\n");
+    return false;
+  }
+  btnForgeYes->SetIsEnabled(false);
+
+  btnForgeNo = dynamic_cast<CTextButton *>(frmCooking->Find("btnForgeNo"));
+  if (!btnForgeNo) {
+    LG("gui", "frmCooking::btnForgeNo not found.\n");
+    return false;
+  }
+  btnForgeNo->SetIsEnabled(false);
+
+  char buff[32] = {0};
+  for (int i = 0; i < COOKING_COUNT; i++) {
+    _snprintf_s(buff, _countof(buff), _TRUNCATE, "cmdItemBase%i", (i + 1));
+    cmdCooking[i] = dynamic_cast<COneCommand *>(frmCooking->Find(buff));
+    if (!cmdCooking[i]) {
+      LG("gui", "frmCooking::%s not found.\n", buff);
+      return false;
     }
+    iCookingPos[i] = NO_USE;
+  }
 
-    void CCookingMgr::CheckResult(short sRet)
-    {
-        CItemRecord*    pCItemRec = NULL;
-        CItemCommand*   pItemCommand = NULL;
-        ClearCommand(true);
-        if(sRet >= 0)
-        {
-            pItemCommand = dynamic_cast<CItemCommand*>(g_stUIEquip.GetGoodsGrid()->GetItem(sRet));
-            if(pItemCommand)
-            {
-                PushItem(6, *pItemCommand, true);
-            }
-        }
-		/*if(g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[1]))
-		{
-			for(int i = 0; i < (COOKING_COUNT - 1); i++)
-			{
-				if(NO_USE != iCookingPos[i])
-				{
-					pItemCommand = dynamic_cast<CItemCommand*>(g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[i]));
-					if(pItemCommand)
-					{
-						if(3 == i)
-						{
-							int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_STR);
-							if(pItemCommand->GetItemInfo()->lID == iItem)
-							{
-								PushItem(i, *pItemCommand, true);
-							}
-						}
-						else if(4 == i)
-						{
-							int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_CON);
-							if(pItemCommand->GetItemInfo()->lID == iItem)
-							{
-								PushItem(i, *pItemCommand, true);
-							}
-						}
-						else if(5 == i)
-						{
-							int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_DEX);
-							if(pItemCommand->GetItemInfo()->lID == iItem)
-							{
-								PushItem(i, *pItemCommand, true);
-							}
-						}
-						else
-						{
-							PushItem(i, *pItemCommand, true);
-						}
-					}
-					else
-					{
-						iCookingPos[i] = NO_USE;
-					}
-				}
-			}
-		}*/
-        btnForgeYes->SetIsEnabled(true);
-        btnForgeNo->SetIsEnabled(true);
+  cmdCooking[0]->evtBeforeAccept = _evtDragItemBase1;
+  cmdCooking[1]->evtBeforeAccept = _evtDragItemBase2;
+  cmdCooking[2]->evtBeforeAccept = _evtDragItemBase3;
+  cmdCooking[3]->evtBeforeAccept = _evtDragItemBase4;
+  cmdCooking[4]->evtBeforeAccept = _evtDragItemBase5;
+  cmdCooking[5]->evtBeforeAccept = _evtDragItemBase6;
+
+  frmCooking->evtClose = _evtCloseCooking;
+  frmCooking->evtEntrustMouseEvent = _evtbtnForgeYes;
+  dwStartTime = 0;
+  bLock = false;
+  return true;
+}
+
+void CCookingMgr::CloseForm() {}
+
+void CCookingMgr::ClearCommand(bool bRetry /* = false*/) {
+  if (bLock) {
+    return;
+  }
+  for (int i = 0; i < COOKING_COUNT; i++) {
+    PopItem(i, bRetry);
+  }
+  if (proCooking->IsRuning()) {
+    proCooking->Start(0);
+  }
+  proCooking->SetPosition(0.0f);
+}
+
+void CCookingMgr::PopItem(int iIndex, bool bRetry /* = false*/) {
+  //  ÊòØÂê¶ÈîÅÂÆö
+  if (bLock) {
+    return;
+  }
+  // Âà†Èô§Cmd‰∏≠ÁöÑItemÔºåËØ•Item‰ºöÂú®PushItem()‰∏≠Áî±newÁîüÊàê
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdCooking[iIndex]->GetCommand());
+  if (!pItemCommand)
+    return;
+
+  cmdCooking[iIndex]->DelCommand(); // ËØ•ÂáΩÊï∞Â∞ÜÂà†Èô§delete Item
+
+  // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÊÅ¢Â§çÊàêÂèØÁî®
+  CCommandObj *pItem = g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[iIndex]);
+  if (pItem && (6 != iIndex)) {
+    pItem->SetIsValid(true);
+  }
+
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  if (!bRetry) {
+    iCookingPos[iIndex] = NO_USE;
+  }
+}
+
+void CCookingMgr::PushItem(int iIndex, CItemCommand &rItem,
+                           bool bRetry /* = false*/) {
+  if (iIndex < 0 || iIndex >= COOKING_COUNT)
+    return;
+
+  //  ÊòØÂê¶ÈîÅÂÆö
+  if (bLock) {
+    return;
+  }
+  // Âà§Êñ≠ÈÅìÂÖ∑ÊòØÂê¶ÂèØ‰ª•Êãñ
+  if (!rItem.GetIsValid()) {
+    return;
+  }
+
+  // Êü•ÁúãÂéüÊù•ÁöÑCmd‰∏≠ÊòØÂê¶Â∑≤ÁªèÊúâItem‰∫ÜÔºåÂ¶ÇÊûúÊúâÂàôÁßªÂá∫
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdCooking[iIndex]->GetCommand());
+  if (pItemCommand) {
+    PopItem(iIndex);
+  }
+
+  // ËÆ∞ÂΩïItemÂú®Áâ©ÂìÅÊ†è‰∏≠ÁöÑ‰ΩçÁΩÆ
+  if (!bRetry) {
+    iCookingPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
+  }
+
+  if (6 != iIndex) {
+    // Â∞ÜItemÁõ∏Â∫îÁöÑÁâ©ÂìÅÊ†èÁÅ∞Ë∞É
+    rItem.SetIsValid(false);
+  }
+
+  // Â∞ÜÂàõÂª∫ÁöÑItemÊîæÂÖ•Cmd‰∏≠ÔºåËøôÈáåÁî®newÂ∞Ü‰ºöÂú®PopItem()‰∏≠Âà†Èô§
+  CItemCommand *pItemCmd = new CItemCommand(rItem);
+  pItemCmd->SetIsValid(true);
+  cmdCooking[iIndex]->AddCommand(pItemCmd);
+
+  SetCookingUI();
+}
+
+void CCookingMgr::SetCookingUI() {
+  btnForgeYes->SetIsEnabled(true);
+  btnForgeNo->SetIsEnabled(true);
+}
+
+void CCookingMgr::_evtbtnForgeYes(CCompent *pSender, int nMsgType, int x, int y,
+                                  DWORD dwKey) {
+  string szName = pSender->GetName();
+  if (szName == "btnForgeYes") {
+    g_stUICooking.btnForgeYes->SetIsEnabled(false);
+    // CS_LifeSkill(3, g_stUINpcTalk.GetNpcId());
+    CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos,
+               (COOKING_COUNT - 1), 0, true);
+    g_stUICooking.bLock = true;
+  } else if (szName == "btnForgeNo") {
+    if (g_stUICooking.proCooking->IsRuning()) {
+      g_stUICooking.proCooking->Start(0);
+      g_stUICooking.dwEndTime = g_pGameApp->GetCurTick();
+      DWORD Percent = g_stUICooking.dwEndTime - g_stUICooking.dwStartTime;
+      Percent =
+          (DWORD)((float)((float)Percent / (float)g_stUICooking.sTime) * 100);
+      CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos,
+                 (COOKING_COUNT - 1), (short)Percent);
+      g_stUICooking.bLock = false;
     }
+  }
+}
 
-    void CCookingMgr::StartTime(short time)
-    {
-        if(!time)
-        {
-            bLock = false;
-            btnForgeYes->SetIsEnabled(true);
-            btnForgeNo->SetIsEnabled(true);
-            return;
-        }
-        sTime = time * 1000;
-        proCooking->SetRange(0.0f, (float)sTime);
-        dwStartTime = g_pGameApp->GetCurTick();
-        proCooking->Start(sTime);
+void CCookingMgr::_evtCloseCooking(CForm *pForm, bool &IsClose) {
+  if (g_stUICooking.bLock) {
+    IsClose = true;
+    return;
+  }
+  g_stUICooking.ClearCommand();
+  CS_UnlockCharacter();
+}
+
+void CCookingMgr::_ProTimeArriveEvt(CGuiData *pSender) {
+  g_stUICooking.proCooking->SetPosition((float)g_stUICooking.sTime);
+  CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos,
+             (COOKING_COUNT - 1), 100);
+  g_stUICooking.bLock = false;
+}
+
+void CCookingMgr::_evtDragItemBase1(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  if (!g_stUICooking.cmdCooking[1]->GetCommand()) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
+    return;
+  }
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  //	Modify by alfred.shi begin
+  if ((pItemCommand->GetItemInfo()->lID != 6529 &&
+       pItemCommand->GetItemInfo()->lID != 6530 &&
+       pItemCommand->GetItemInfo()->lID != 6531))
+    if (/*pItemCommand->GetItemInfo()->sType != 41 && */ (
+        pItemCommand->GetItemInfo()->lID != 6529 &&
+        pItemCommand->GetItemInfo()->lID != 6530 &&
+        pItemCommand->GetItemInfo()->lID != 6531)) {
+      return;
     }
+  //	End
 
-    int CCookingMgr::GetComIndex(COneCommand* oneCommand)
-    {
-        for (int i =0; i < COOKING_COUNT; i++)
-        {
-		    if (cmdCooking[i] == oneCommand)
-			    return i;
-        }
-	    return -1;
-    }
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(0, *pItemCommand);
+}
 
-    void CCookingMgr::DragToEquipGrid(int index)
-    {
-        PopItem(index);
-    }
+void CCookingMgr::_evtDragItemBase2(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  if (pItemCommand->GetItemInfo()->lID != 2302) {
+    return;
+  }
 
-    bool CCookingMgr::Init()
-    {
-        CFormMgr &mgr = CFormMgr::s_Mgr;
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(1, *pItemCommand);
+}
 
-        frmCooking = mgr.Find("frmCooking");
-        if(!frmCooking)
-        {
-            LG("gui", "frmCooking not found.\n");
-            return false;
-        }
+void CCookingMgr::_evtDragItemBase3(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  if (!g_stUICooking.cmdCooking[1]->GetCommand()) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
+    return;
+  }
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  if (pItemCommand->GetItemInfo()->lID != 1067) {
+    return;
+  }
 
-        proCooking = dynamic_cast<CProgressBar*>(frmCooking->Find("proCooking"));
-        if(!proCooking)
-        {
-            LG("gui", "frmCooking::proCooking not found.\n");
-            return false;
-        }
-        proCooking->evtTimeArrive = _ProTimeArriveEvt;
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(2, *pItemCommand);
+}
 
-        btnForgeYes = dynamic_cast<CTextButton*>(frmCooking->Find("btnForgeYes"));
-        if(!btnForgeYes)
-        {
-            LG("gui", "frmCooking::btnForgeYes not found.\n");
-            return false;
-        }
-        btnForgeYes->SetIsEnabled(false);
+void CCookingMgr::_evtDragItemBase4(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  //  ÊùêÊñô1
+  if (!g_stUICooking.cmdCooking[1]->GetCommand()) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
+    return;
+  }
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  int iItem =
+      (dynamic_cast<CItemCommand *>(g_stUICooking.cmdCooking[1]->GetCommand()))
+          ->GetData()
+          .GetInstAttr(ITEMATTR_VAL_STR);
+  if (pItemCommand->GetItemInfo()->lID != iItem) {
+    return;
+  }
 
-        btnForgeNo = dynamic_cast<CTextButton*>(frmCooking->Find("btnForgeNo"));
-        if(!btnForgeNo)
-        {
-            LG("gui", "frmCooking::btnForgeNo not found.\n");
-            return false;
-        }
-        btnForgeNo->SetIsEnabled(false);
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(3, *pItemCommand);
+}
 
-        char buff[32] = {0};
-        for(int i = 0; i < COOKING_COUNT; i++)
-        {
-            _snprintf_s( buff, _countof( buff ), _TRUNCATE,  "cmdItemBase%i", (i+1));
-            cmdCooking[i] = dynamic_cast<COneCommand*>(frmCooking->Find(buff));
-            if(!cmdCooking[i])
-            {
-                LG("gui", "frmCooking::%s not found.\n", buff);
-                return false;
-            }
-            iCookingPos[i] = NO_USE;
-        }
+void CCookingMgr::_evtDragItemBase5(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  //  ÊùêÊñô2
+  if (!g_stUICooking.cmdCooking[1]->GetCommand()) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
+    return;
+  }
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  int iItem =
+      (dynamic_cast<CItemCommand *>(g_stUICooking.cmdCooking[1]->GetCommand()))
+          ->GetData()
+          .GetInstAttr(ITEMATTR_VAL_CON);
+  if (pItemCommand->GetItemInfo()->lID != iItem) {
+    return;
+  }
 
-        cmdCooking[0]->evtBeforeAccept = _evtDragItemBase1;
-        cmdCooking[1]->evtBeforeAccept = _evtDragItemBase2;
-        cmdCooking[2]->evtBeforeAccept = _evtDragItemBase3;
-        cmdCooking[3]->evtBeforeAccept = _evtDragItemBase4;
-        cmdCooking[4]->evtBeforeAccept = _evtDragItemBase5;
-        cmdCooking[5]->evtBeforeAccept = _evtDragItemBase6;
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(4, *pItemCommand);
+}
 
+void CCookingMgr::_evtDragItemBase6(CGuiData *pSender, CCommandObj *pItem,
+                                    bool &isAccept) {
+  //  ÊùêÊñô3
+  if (!g_stUICooking.cmdCooking[1]->GetCommand()) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
+    return;
+  }
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  /* int iItem =
+   (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_DEX);
+   if(pItemCommand->GetItemInfo()->lID != iItem)
+   {
+       return;
+   }*/
 
-        frmCooking->evtClose = _evtCloseCooking;
-        frmCooking->evtEntrustMouseEvent = _evtbtnForgeYes;
-        dwStartTime = 0;
-        bLock = false;
-        return true;
-    }
-
-    void CCookingMgr::CloseForm()
-    {
-    }
-
-    void CCookingMgr::ClearCommand(bool bRetry/* = false*/)
-    {
-        if(bLock)
-        {
-            return;
-        }
-        for(int i = 0; i < COOKING_COUNT; i++)
-        {
-            PopItem(i, bRetry);
-        }
-        if(proCooking->IsRuning())
-        {
-            proCooking->Start(0);
-        }
-        proCooking->SetPosition(0.0f);
-    }
-
-    void CCookingMgr::PopItem(int iIndex, bool bRetry/* = false*/)
-    {
-        //   «∑ÒÀ¯∂®
-        if(bLock)
-        {
-            return;
-        }
-        // …æ≥˝Cmd÷–µƒItem£¨∏√Itemª·‘⁄PushItem()÷–”…new…˙≥…
-		CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(cmdCooking[iIndex]->GetCommand());
-		if (! pItemCommand)
-            return;
-
-		cmdCooking[iIndex]->DelCommand();	// ∏√∫Ø ˝Ω´…æ≥˝delete Item
-
-		// Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª÷∏¥≥…ø…”√
-		CCommandObj* pItem = g_stUIEquip.GetGoodsGrid()->GetItem(iCookingPos[iIndex]);
-		if (pItem && (6 != iIndex))
-		{
-			pItem->SetIsValid(true);
-		}
-
-		// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-        if(!bRetry)
-        {
-		    iCookingPos[iIndex] = NO_USE;
-        }
-    }
-
-    void CCookingMgr::PushItem(int iIndex, CItemCommand& rItem, bool bRetry/* = false*/)
-    {
-		if(iIndex <0 || iIndex >= COOKING_COUNT)
-			return;
-
-        //   «∑ÒÀ¯∂®
-        if(bLock)
-        {
-            return;
-        }
-        // ≈–∂œµ¿æﬂ «∑Òø…“‘Õœ
-		if(! rItem.GetIsValid())
-		{
-			return;
-		}
-
-		// ≤Èø¥‘≠¿¥µƒCmd÷– «∑Ò“—æ≠”–Item¡À£¨»Áπ˚”–‘Ú“∆≥ˆ
-		CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(cmdCooking[iIndex]->GetCommand());
-		if (pItemCommand)
-		{
-			PopItem(iIndex);
-		}
-
-		// º«¬ºItem‘⁄ŒÔ∆∑¿∏÷–µƒŒª÷√
-        if(!bRetry)
-        {
-            iCookingPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
-        }
-
-        if(6 != iIndex)
-        {
-		    // Ω´Itemœ‡”¶µƒŒÔ∆∑¿∏ª“µ˜
-		    rItem.SetIsValid(false);
-        }
-
-		// Ω´¥¥Ω®µƒItem∑≈»ÎCmd÷–£¨’‚¿Ô”√newΩ´ª·‘⁄PopItem()÷–…æ≥˝
-		CItemCommand* pItemCmd = new CItemCommand(rItem);
-		pItemCmd->SetIsValid(true);
-		cmdCooking[iIndex]->AddCommand(pItemCmd);
-
-		SetCookingUI();
-    }
-
-    void CCookingMgr::SetCookingUI()
-    {
-        btnForgeYes->SetIsEnabled(true);
-        btnForgeNo->SetIsEnabled(true);
-    }
-
-    void CCookingMgr::_evtbtnForgeYes(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-    {
-        string szName = pSender->GetName();
-        if(szName == "btnForgeYes")
-        {
-            g_stUICooking.btnForgeYes->SetIsEnabled(false);
-            //CS_LifeSkill(3, g_stUINpcTalk.GetNpcId());
-            CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos, (COOKING_COUNT - 1), 0, true);
-            g_stUICooking.bLock = true;
-        }
-        else if(szName == "btnForgeNo")
-        {
-            if(g_stUICooking.proCooking->IsRuning())
-            {
-                g_stUICooking.proCooking->Start(0);
-                g_stUICooking.dwEndTime = g_pGameApp->GetCurTick();
-                DWORD Percent = g_stUICooking.dwEndTime - g_stUICooking.dwStartTime;
-                Percent = (DWORD)((float)((float)Percent / (float)g_stUICooking.sTime) * 100);
-                CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos, (COOKING_COUNT - 1), (short)Percent);
-                g_stUICooking.bLock = false;
-            }
-        }
-    }
-
-    void CCookingMgr::_evtCloseCooking(CForm* pForm, bool& IsClose)
-    {
-        if(g_stUICooking.bLock)
-        {
-            IsClose = true;
-            return;
-        }
-        g_stUICooking.ClearCommand();
-        CS_UnlockCharacter();
-    }
-
-    void CCookingMgr::_ProTimeArriveEvt(CGuiData *pSender)
-    {
-        g_stUICooking.proCooking->SetPosition((float)g_stUICooking.sTime);
-        CS_Cooking(g_stUINpcTalk.GetNpcId(), g_stUICooking.iCookingPos, (COOKING_COUNT - 1), 100);
-        g_stUICooking.bLock = false;
-    }
-
-    void CCookingMgr::_evtDragItemBase1(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        if(!g_stUICooking.cmdCooking[1]->GetCommand())
-        {
-            g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
-            return;
-        }
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-		//	Modify by alfred.shi begin
-		if((pItemCommand->GetItemInfo()->lID != 6529&&pItemCommand->GetItemInfo()->lID != 6530
-			&&pItemCommand->GetItemInfo()->lID != 6531))
-        if(/*pItemCommand->GetItemInfo()->sType != 41 && */(pItemCommand->GetItemInfo()->lID != 6529
-			&&pItemCommand->GetItemInfo()->lID != 6530&&pItemCommand->GetItemInfo()->lID != 6531))
-        {
-            return;
-        }
-		//	End
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(0, *pItemCommand);
-    }
-
-    void CCookingMgr::_evtDragItemBase2(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        if(pItemCommand->GetItemInfo()->lID != 2302)
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(1, *pItemCommand);
-    }
-
-    void CCookingMgr::_evtDragItemBase3(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        if(!g_stUICooking.cmdCooking[1]->GetCommand())
-        {
-            g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
-            return;
-        }
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        if(pItemCommand->GetItemInfo()->lID != 1067)
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(2, *pItemCommand);
-    }
-
-    void CCookingMgr::_evtDragItemBase4(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        //  ≤ƒ¡œ1
-        if(!g_stUICooking.cmdCooking[1]->GetCommand())
-        {
-            g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
-            return;
-        }
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_STR);
-        if(pItemCommand->GetItemInfo()->lID != iItem)
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(3, *pItemCommand);
-    }
-
-    void CCookingMgr::_evtDragItemBase5(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        //  ≤ƒ¡œ2
-        if(!g_stUICooking.cmdCooking[1]->GetCommand())
-        {
-            g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
-            return;
-        }
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_CON);
-        if(pItemCommand->GetItemInfo()->lID != iItem)
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(4, *pItemCommand);
-    }
-
-    void CCookingMgr::_evtDragItemBase6(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        //  ≤ƒ¡œ3
-        if(!g_stUICooking.cmdCooking[1]->GetCommand())
-        {
-            g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_896));
-            return;
-        }
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-       /* int iItem = (dynamic_cast<CItemCommand*>(g_stUICooking.cmdCooking[1]->GetCommand()))->GetData().GetInstAttr(ITEMATTR_VAL_DEX);
-        if(pItemCommand->GetItemInfo()->lID != iItem)
-        {
-            return;
-        }*/
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUICooking.PushItem(5, *pItemCommand);
-    }
-};
-
-
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUICooking.PushItem(5, *pItemCommand);
+}
+}; // namespace GUI

@@ -16,10 +16,10 @@ namespace GUI
 	// 
 	enum MEMO_LINE_TYPE
 	{
-		MEMO_LINE_TITLE,		// ÎÄ×Ö±êÌâ
-		MEMO_LINE_DESP,			// ÎÄ×ÖÃèÊö
-		MEMO_LINE_INTERVAL,		// ¼ä¸ôĞĞ
-		MEMO_LINE_ICON,			// Í¼±ê	
+		MEMO_LINE_TITLE,		// æ–‡å­—æ ‡é¢˜
+		MEMO_LINE_DESP,			// æ–‡å­—æè¿°
+		MEMO_LINE_INTERVAL,		// é—´éš”è¡Œ
+		MEMO_LINE_ICON,			// å›¾æ ‡	
 	};
 
 	class CMemo : public CCompent
@@ -50,7 +50,7 @@ namespace GUI
 		bool	MouseScroll( int nScroll ) ;
 
 	public:
-		GuiEvent	evtSelectChange;				// Ñ¡Ôñ·¢ÉúÁË±ä»¯
+		GuiEvent	evtSelectChange;				// é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
 		void	SetMaxNumPerRow(int n) { _nMaxNum = n; }
 		int		GetMaxNumPerRow() {  return _nMaxNum; } 
 		void	SetPageShowNum(int n) {  _nPageShowNum = n; }
@@ -81,14 +81,14 @@ namespace GUI
 		void	_SetScrollRange();
 		void	_Copy( const CMemo& rhs );
 		void	_SetSelf();
-		void	_CheckTextAlign();			// ¼ì²éÎÄ±¾ÅÅÁĞ·½Ê½
-		void	_CheckScroll();			// ¼ì²éÊÇ·ñÏÔÊ¾¹ö¶¯Öá
+		void	_CheckTextAlign();			// æ£€æŸ¥æ–‡æœ¬æ’åˆ—æ–¹å¼
+		void	_CheckScroll();			// æ£€æŸ¥æ˜¯å¦æ˜¾ç¤ºæ»šåŠ¨è½´
 
 		string  _strCaption;
 		string  _str[MEMO_MAX_LINE];
 		bool	_IsTextCenter;
 
-		int		_nLeftMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+		int		_nLeftMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 		int		_nTopMargin;
 		int		_nRightMargin;
 		int		_nBottomMargin;
@@ -103,7 +103,7 @@ namespace GUI
 		int		_nMisRowNum;
 		int		_nMemoNum;
 		string	_strItem[MEMO_MAX_ITEM];
-		string	_strItemEx[MEMO_MAX_ITEM];		// ¶îÍâÊı¾İ,²»ÏÔÊ¾
+		string	_strItemEx[MEMO_MAX_ITEM];		// é¢å¤–æ•°æ®,ä¸æ˜¾ç¤º
 		string	_strMis[MEMO_MAX_ITEM];
 		int		_nSelectItem;
 		int		_nSelectMis;
@@ -148,8 +148,8 @@ namespace GUI
 		void        Init();
 
 		bool		MouseScroll( int nScroll ) ;
-		GuiEvent	evtSelectChange; // Ñ¡Ôñ·¢ÉúÁË±ä»¯
-		GuiItemClickEvent evtClickItem;	// µã»÷ÁËÄª¸ö×Ö·û´®
+		GuiEvent	evtSelectChange; // é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
+		GuiItemClickEvent evtClickItem;	// ç‚¹å‡»äº†è«ä¸ªå­—ç¬¦ä¸²
 		void		SetMaxNumPerRow(int n) { _nMaxNum  = n; }
 		int			GetMaxNumPerRow() { return _nMaxNum; } 
 		void		SetRowNum(int n) { _nRowNum = n; }
@@ -180,15 +180,15 @@ namespace GUI
 			CGraph* pIcon;
 			USHORT	sData;
 			BYTE	byData;
-			BYTE	byType;		  // ĞÅÏ¢ÀàĞÍ
-			USHORT	sxPos, syPos; // ĞĞºÍÁĞ
+			BYTE	byType;		  // ä¿¡æ¯ç±»å‹
+			USHORT	sxPos, syPos; // è¡Œå’Œåˆ—
 		};
 
-		// ĞèÒªÏÔÊ¾µÄÈÎÎñÊı¾İĞÅÏ¢
+		// éœ€è¦æ˜¾ç¤ºçš„ä»»åŠ¡æ•°æ®ä¿¡æ¯
 		USHORT		m_sNumInfo;
-		MEMO_INFO	m_MemoInfo[MEMO_MAX_LINE];	// ÈÎÎñ½çÃæÏÔÊ¾½âÎöºóÊı¾İ
-		NET_MISPAGE m_PageInfo;					// ÈÎÎñÊı¾İÔ­Ê¼ĞÅÏ¢
-		BOOL		m_bUpdate;					// ÈÎÎñÊı¾İÊÇ·ñÒÑ±»¸üĞÂ
+		MEMO_INFO	m_MemoInfo[MEMO_MAX_LINE];	// ä»»åŠ¡ç•Œé¢æ˜¾ç¤ºè§£æåæ•°æ®
+		NET_MISPAGE m_PageInfo;					// ä»»åŠ¡æ•°æ®åŸå§‹ä¿¡æ¯
+		BOOL		m_bUpdate;					// ä»»åŠ¡æ•°æ®æ˜¯å¦å·²è¢«æ›´æ–°
 
 		// Add by lark.li 20080721 begin
 		int	m_SelMem;
@@ -202,7 +202,7 @@ namespace GUI
 		void	_SetScrollRange();
 		void	_Copy( const CMemoEx& rhs );
 		void	_SetSelf();
-		void	_CheckScroll();			// ¼ì²éÊÇ·ñÏÔÊ¾¹ö¶¯Öá
+		void	_CheckScroll();			// æ£€æŸ¥æ˜¯å¦æ˜¾ç¤ºæ»šåŠ¨è½´
 		void	ParseMisPage();
 		BOOL	ParseScript( char* pszTemp, USHORT& sNumLine, USHORT& sRow, USHORT& sCom, USHORT sStartCom, USHORT sMaxCom, DWORD dwDefColor, MEMO_INFO* pInfo, USHORT sMaxInfo );
 		BOOL	SelPrizeItem( int nxPos, int nyPos, DWORD dwKey );
@@ -211,14 +211,14 @@ namespace GUI
 		int SelMemInfo(int x, int y, DWORD key);
 		// End
 	private:
-		DWORD	_color;				// ×ÖÌåÑÕÉ«
+		DWORD	_color;				// å­—ä½“é¢œè‰²
 		CScroll*	_pScroll;
-		int		_nFirst, _nLast;	// ÏÔÊ¾µÄµÚÒ»ĞĞºÍ×îºóÒ»ĞĞ
-		int		_nPageShowNum ;		// Ò»Ò³×î¶à¿ÉÒÔÏÔÊ¾µÄĞĞÊı
-		int		_nLeftMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-		int		_nTopMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-		int		_nRightMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-		int		_nBottomMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+		int		_nFirst, _nLast;	// æ˜¾ç¤ºçš„ç¬¬ä¸€è¡Œå’Œæœ€åä¸€è¡Œ
+		int		_nPageShowNum ;		// ä¸€é¡µæœ€å¤šå¯ä»¥æ˜¾ç¤ºçš„è¡Œæ•°
+		int		_nLeftMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+		int		_nTopMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+		int		_nRightMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+		int		_nBottomMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 		int		_nRowHeight;
 		int     _nTitleHeight;
 		int     _nIconHeight;
@@ -226,7 +226,7 @@ namespace GUI
 		int     _nRowNum; 
 		int     _nPhraseNum;
 
-		// ¼ÇÂ¼½±ÀøÎïÆ·Ñ¡ÔñÏî
+		// è®°å½•å¥–åŠ±ç‰©å“é€‰æ‹©é¡¹
 		BYTE	m_bySelPrize;
 		CGuiPic* m_pPrizePic;
 		CGuiPic* m_pPrizeSelPic;
@@ -245,25 +245,25 @@ namespace GUI
 
 	enum MEMO_COL_TYPE
 	{
-		COL_ICON			= 0, // Í¼±ê
-		COL_TEXT			= 1, // ÎÄ±¾
+		COL_ICON			= 0, // å›¾æ ‡
+		COL_TEXT			= 1, // æ–‡æœ¬
 	};
 
 	enum MEMO_COLOR_TYPE
 	{
-		TEXT_COLOR_WIGHT	= 0, // °×É«
-		TEXT_COLOR_BLACK	= 1, // ºÚÉ«
-		TEXT_COLOR_RED		= 2, // ºìÉ«
-		TEXT_COLOR_GREEN	= 3, // ÂÌÉ«
-		TEXT_COLOR_BLUE		= 4, // À¶É«
-		TEXT_COLOR_GRAY		= 5, // »ÒÉ«
-		TEXT_COLOR_PURPLE	= 6, // ×ÏÉ«
+		TEXT_COLOR_WIGHT	= 0, // ç™½è‰²
+		TEXT_COLOR_BLACK	= 1, // é»‘è‰²
+		TEXT_COLOR_RED		= 2, // çº¢è‰²
+		TEXT_COLOR_GREEN	= 3, // ç»¿è‰²
+		TEXT_COLOR_BLUE		= 4, // è“è‰²
+		TEXT_COLOR_GRAY		= 5, // ç°è‰²
+		TEXT_COLOR_PURPLE	= 6, // ç´«è‰²
 	};
 	
 	enum MEMO_FONT_TYPE
 	{
-		TEXT_FONT_9			= 0, // 9ºÅ×Ö
-		TEXT_FONT_10		= 1, // 10ºÅ×Ö
+		TEXT_FONT_9			= 0, // 9å·å­—
+		TEXT_FONT_10		= 1, // 10å·å­—
 	};
 
 	class CRichMemo : public CCompent
@@ -281,14 +281,14 @@ namespace GUI
 		virtual bool MouseRun( int x, int y, DWORD key );
 		virtual bool IsHandleMouse() { return true; }
 	
-		// ¹ö¶¯Ìõ´¦Àí
+		// æ»šåŠ¨æ¡å¤„ç†
 		CScroll* GetScroll() { return m_pScroll; }
 		bool	MouseScroll( int nScroll );
 
-		// ¹ö¶¯Ìõ¹ö¶¯ÊÂ¼ş´¦Àí
+		// æ»šåŠ¨æ¡æ»šåŠ¨äº‹ä»¶å¤„ç†
 		void	OnScrollChange();
 
-		// ÉèÖÃ¿Ø¼şÏÔÊ¾ĞÅÏ¢½Ó¿Ú		
+		// è®¾ç½®æ§ä»¶æ˜¾ç¤ºä¿¡æ¯æ¥å£		
 		void	Clear();
 		void	AddText( const char szTitle[], const char szText[], BYTE byColType, BYTE byFontType );
 		void	SetClipRect( const RECT& rect ) { m_ShowRect = rect; }
@@ -300,38 +300,38 @@ namespace GUI
 		void	AutoScroll();		
 
 	protected:
-		// ÏÔÊ¾ÁĞĞÅÏ¢½á¹¹
+		// æ˜¾ç¤ºåˆ—ä¿¡æ¯ç»“æ„
 		struct MEMO_COLINFO
 		{
 			string  strDesp;
 			CGraph* pIcon;
 			BYTE	byType;
-			DWORD	dwColor;	// ×ÖÌåÑÕÉ«
+			DWORD	dwColor;	// å­—ä½“é¢œè‰²
 			USHORT  sxPos;
 		};
 
-		// Ã¿ĞĞÁĞĞÅÏ¢Êı×é
+		// æ¯è¡Œåˆ—ä¿¡æ¯æ•°ç»„
 		typedef vector<MEMO_COLINFO> MEMO_COLINFO_ARRAY;
 
-		// ĞĞĞÅÏ¢ÏÔÊ¾½á¹¹
+		// è¡Œä¿¡æ¯æ˜¾ç¤ºç»“æ„
 		struct MEMO_LINE_INFO
 		{
 			MEMO_COLINFO_ARRAY ColInfoArray;
-			BYTE	byFontType; // ×ÖÌåÀàĞÍ
-			USHORT  sFontWidth;	// ÏÔÊ¾×ÖÌå¿í¸ß
+			BYTE	byFontType; // å­—ä½“ç±»å‹
+			USHORT  sFontWidth;	// æ˜¾ç¤ºå­—ä½“å®½é«˜
 			USHORT	sFontHeight;
-			USHORT  sHeight;	// ÏÔÊ¾ĞĞ¸ß¶È
+			USHORT  sHeight;	// æ˜¾ç¤ºè¡Œé«˜åº¦
 		};
 
-		// ËùÓĞĞèÒªÏÔÊ¾µÄĞĞĞÅÏ¢ÁĞ±í
+		// æ‰€æœ‰éœ€è¦æ˜¾ç¤ºçš„è¡Œä¿¡æ¯åˆ—è¡¨
 		typedef list<MEMO_LINE_INFO*> MEMO_LINEINFO_LIST;
 			MEMO_LINEINFO_LIST	m_LineList;
 
-		// Ã¿¸ö±êÌâ¶ÎĞÅÏ¢½á¹¹
+		// æ¯ä¸ªæ ‡é¢˜æ®µä¿¡æ¯ç»“æ„
 		struct MEMO_SECTION_INFO
 		{
-			BYTE	byFontType; // ×ÖÌåÀàĞÍ
-			USHORT  sFontWidth;	// ÏÔÊ¾×ÖÌå¿í¸ß
+			BYTE	byFontType; // å­—ä½“ç±»å‹
+			USHORT  sFontWidth;	// æ˜¾ç¤ºå­—ä½“å®½é«˜
 			USHORT	sFontHeight;
 			DWORD	dwColor;
 			string  strTitle;
@@ -349,14 +349,14 @@ namespace GUI
 		CGraph* GetImage( const char szImage[] );
 
 	private:
-		CImageList*	m_pImageList;   // ÏÔÊ¾Í¼ĞÎÁĞ±í
-		CScroll*	m_pScroll;		// ¹ö¶¯Ìõ¿Ø¼ş
-		RECT		m_ShowRect;		// ¿Ø¼şÓĞĞ§ÏÔÊ¾ÇøÓò²Ã¼ô
-		USHORT		m_sMaxLine;		// ×î´ó¿ÉÒÔÏÔÊ¾µÄ¶ÎĞÅÏ¢ÊıÁ¿
-		DWORD		m_dwTitleColor;	// ±êÌâ×ÖÌåµÄÑÕÉ«
-		BYTE		m_byTitleFont;	// ±êÌâ×ÖÌåµÄ´óĞ¡
-		BYTE		m_byDist;		// ÉèÖÃÃ¿ĞĞÏÔÊ¾¼ä¸ô¾àÀë
-		BOOL		m_bAutoScroll;  // ÊÇ·ñ×Ô¶¯¹öÆÁ
+		CImageList*	m_pImageList;   // æ˜¾ç¤ºå›¾å½¢åˆ—è¡¨
+		CScroll*	m_pScroll;		// æ»šåŠ¨æ¡æ§ä»¶
+		RECT		m_ShowRect;		// æ§ä»¶æœ‰æ•ˆæ˜¾ç¤ºåŒºåŸŸè£å‰ª
+		USHORT		m_sMaxLine;		// æœ€å¤§å¯ä»¥æ˜¾ç¤ºçš„æ®µä¿¡æ¯æ•°é‡
+		DWORD		m_dwTitleColor;	// æ ‡é¢˜å­—ä½“çš„é¢œè‰²
+		BYTE		m_byTitleFont;	// æ ‡é¢˜å­—ä½“çš„å¤§å°
+		BYTE		m_byDist;		// è®¾ç½®æ¯è¡Œæ˜¾ç¤ºé—´éš”è·ç¦»
+		BOOL		m_bAutoScroll;  // æ˜¯å¦è‡ªåŠ¨æ»šå±
 	};
 
 

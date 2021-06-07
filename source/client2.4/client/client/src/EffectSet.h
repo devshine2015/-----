@@ -9,7 +9,7 @@
 //
 //	CEffectInfo()
 //	{
-//	   strcpy(szName, "ÎÞÃûÌØÐ§");
+//	   strcpy(szName, "æ— åç‰¹æ•ˆ");
 //	   nPhotoTexID = 0;
 //	   nHeightOff  = 0;
 //	   nEffType	= 0;
@@ -44,7 +44,7 @@
 //
 //protected:
 //
-//	static CEffectSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+//	static CEffectSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
 //   
 //	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 //	{
@@ -167,7 +167,7 @@ public:
 
 protected:
 
-	static CMagicSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CMagicSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
 
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{
@@ -268,10 +268,10 @@ public:
 		nAni = 0;
 		nRow = 0;
 		nCol  = 0;
-		nUseAlphaTest = 0;//ÊÇ·ñÊ¹ÓÃÍ¸Ã÷É«
-		nAlphaType = 0;//alpha  ÀàÐÍ
+		nUseAlphaTest = 0;//æ˜¯å¦ä½¿ç”¨é€æ˜Žè‰²
+		nAlphaType = 0;//alpha  ç±»åž‹
 
-		nColorR = 0;//ÑÕÉ«
+		nColorR = 0;//é¢œè‰²
 		nColorG = 0;
 		nColorB = 0;
 		nColorA = 0;
@@ -286,15 +286,15 @@ public:
 	int		nRow;
 	int		nCol;
 
-	int		nUseAlphaTest;//ÊÇ·ñÊ¹ÓÃÍ¸Ã÷É«
-	int		nAlphaType;//alpha  ÀàÐÍ
+	int		nUseAlphaTest;//æ˜¯å¦ä½¿ç”¨é€æ˜Žè‰²
+	int		nAlphaType;//alpha  ç±»åž‹
 
-	int		nColorR;//ÑÕÉ«
+	int		nColorR;//é¢œè‰²
 	int		nColorG;
 	int		nColorB;
 	int		nColorA;
 
-	int		nType;//0ÊÇ¸úËæ½ÇÉ«µÄ£¬1ÊÇ¸úËæÌØÐ§µÄ£¬
+	int		nType;//0æ˜¯è·Ÿéšè§’è‰²çš„ï¼Œ1æ˜¯è·Ÿéšç‰¹æ•ˆçš„ï¼Œ
 };
 
 
@@ -314,7 +314,7 @@ public:
 
 protected:
 
-	static CShadeSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CShadeSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
 
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{
@@ -362,10 +362,10 @@ protected:
 		pInfo->nRow   	= Str2Int(ParamList[3].c_str());
 		pInfo->nCol     = Str2Int(ParamList[4].c_str());
 
-		pInfo->nUseAlphaTest = Str2Int(ParamList[5].c_str());//ÊÇ·ñÊ¹ÓÃÍ¸Ã÷É«
-		pInfo->nAlphaType = Str2Int(ParamList[6].c_str());//alpha  ÀàÐÍ
+		pInfo->nUseAlphaTest = Str2Int(ParamList[5].c_str());//æ˜¯å¦ä½¿ç”¨é€æ˜Žè‰²
+		pInfo->nAlphaType = Str2Int(ParamList[6].c_str());//alpha  ç±»åž‹
 
-		pInfo->nColorR = Str2Int(ParamList[7].c_str());//ÑÕÉ«
+		pInfo->nColorR = Str2Int(ParamList[7].c_str());//é¢œè‰²
 		pInfo->nColorG = Str2Int(ParamList[8].c_str());
 		pInfo->nColorB = Str2Int(ParamList[9].c_str());
 		pInfo->nColorA = Str2Int(ParamList[10].c_str());

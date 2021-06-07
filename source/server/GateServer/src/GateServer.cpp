@@ -86,7 +86,7 @@ GateServer::GateServer(char const* fname)
 ,m_clcomm(NULL),m_gpcomm(NULL),m_gmcomm(NULL),m_clproc(NULL)
 {
 	TcpCommApp::WSAStartup();
-	srand((unsigned int)time(NULL)); // ³õÊ¼»¯Ëæ»úÊıÖÖ×Ó
+	srand((unsigned int)time(NULL)); // åˆå§‹åŒ–éšæœºæ•°ç§å­
 
 	m_tch.Init();
 	player_heap.Init();
@@ -157,13 +157,13 @@ void GateServer::RunLoop()
 	l_str.SetSize(256);
 	while(!g_exit)
 	{
-		//std::cout<<"ÇëÊäÈëÃüÁî(exit»òCtrl+CÍË³ö):\n";
+		//std::cout<<"è¯·è¾“å…¥å‘½ä»¤(exitæˆ–Ctrl+Cé€€å‡º):\n";
 		std::cout<< RES_STRING(GS_GATESERVER_CPP_00001); //Modify by lark.li 20070130
 		std::cin.getline(l_str.GetBuffer(),256);
 
 		if(l_str =="exit" || g_exit)
 		{
-			//std::cout<<"¿ªÊ¼ÍË³ö..."<<std::endl;
+			//std::cout<<"å¼€å§‹é€€å‡º..."<<std::endl;
 			std::cout<< RES_STRING(GS_GATESERVER_CPP_00002)<<std::endl;
 			break;
 		}else	if(l_str =="getinfo")
@@ -173,39 +173,39 @@ void GateServer::RunLoop()
 			l_band	=cli_conn->GetBandwidthStat();
 			std::cout<<"getinfo: GetBandwidthStat..."<<std::endl;
 
-			//std::cout<<"¿Í»§Êı£º"<<cli_conn->GetSockTotal()<<std::endl;
+			//std::cout<<"å®¢æˆ·æ•°ï¼š"<<cli_conn->GetSockTotal()<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00003)<<cli_conn->GetSockTotal()<<std::endl;
-			//std::cout<<"[·¢ËÍ]{pkt/s:"<<l_band.m_sendpktps<<"}{pkt:"<<l_band.m_sendpkts<<"}{KB/s:"<<l_band.m_sendbyteps/1024<<"}{KB:"<<l_band.m_sendbytes/1024<<"}"<<std::endl;
+			//std::cout<<"[å‘é€]{pkt/s:"<<l_band.m_sendpktps<<"}{pkt:"<<l_band.m_sendpkts<<"}{KB/s:"<<l_band.m_sendbyteps/1024<<"}{KB:"<<l_band.m_sendbytes/1024<<"}"<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00004)<<l_band.m_sendpktps<<"}{pkt:"<<l_band.m_sendpkts<<"}{KB/s:"<<l_band.m_sendbyteps/1024<<"}{KB:"<<l_band.m_sendbytes/1024<<"}"<<std::endl;
-			//std::cout<<"[½ÓÊÕ]{pkt/s:"<<l_band.m_recvpktps<<"}{pkt:"<<l_band.m_recvpkts<<"}{KB/s:"<<l_band.m_recvbyteps/1024<<"}{KB:"<<l_band.m_recvbytes/1024<<"}"<<std::endl;
+			//std::cout<<"[æ¥æ”¶]{pkt/s:"<<l_band.m_recvpktps<<"}{pkt:"<<l_band.m_recvpkts<<"}{KB/s:"<<l_band.m_recvbyteps/1024<<"}{KB:"<<l_band.m_recvbytes/1024<<"}"<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00005)<<l_band.m_recvpktps<<"}{pkt:"<<l_band.m_recvpkts<<"}{KB/s:"<<l_band.m_recvbyteps/1024<<"}{KB:"<<l_band.m_recvbytes/1024<<"}"<<std::endl;
 
 			if(l_band.m_sendpktps	>sendpkps_max)			sendpkps_max	=l_band.m_sendpktps;
 			if(l_band.m_sendbyteps/1024 >sendbandps_max)	sendbandps_max	=l_band.m_sendbyteps/1024;
 			if(l_band.m_recvpktps >recvpkps_max)			recvpkps_max	=l_band.m_recvpktps;
 			if(l_band.m_recvbyteps/1024 >recvbandps_max)	recvbandps_max	=l_band.m_recvbyteps/1024;
-			//std::cout<<"[Max·¢ËÍ]{pkt/s:"<<sendpkps_max<<"}{KB/s:"<<sendbandps_max<<"}"<<std::endl;
+			//std::cout<<"[Maxå‘é€]{pkt/s:"<<sendpkps_max<<"}{KB/s:"<<sendbandps_max<<"}"<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00006)<<sendpkps_max<<"}{KB/s:"<<sendbandps_max<<"}"<<std::endl;
-			//std::cout<<"[Max½ÓÊÕ]{pkt/s:"<<recvpkps_max<<"}{KB/s:"<<recvbandps_max<<"}"<<std::endl;
+			//std::cout<<"[Maxæ¥æ”¶]{pkt/s:"<<recvpkps_max<<"}{KB/s:"<<recvbandps_max<<"}"<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00007)<<recvpkps_max<<"}{KB/s:"<<recvbandps_max<<"}"<<std::endl;
 		}else	if(l_str	=="clmax")
 		{
 			recvpkps_max=recvbandps_max=sendpkps_max=sendbandps_max=0;
 		}else	if(l_str	=="getmaxcon")
 		{
-			//std::cout<<"µ±Ç°ÔÊĞí×î´óÁ¬½ÓÖµ£º"<<g_gtsvr->cli_conn->GetMaxCon()<<std::endl;
+			//std::cout<<"å½“å‰å…è®¸æœ€å¤§è¿æ¥å€¼ï¼š"<<g_gtsvr->cli_conn->GetMaxCon()<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00008)<<g_gtsvr->cli_conn->GetMaxCon()<<std::endl;
 		}else	if(!strncmp(l_str.c_str(),"setmaxcon",9))
 		{
 			uShort l_maxcon	=atoi(l_str.c_str() +9);
 			if(l_maxcon >1500)
 			{
-				//std::cout<<"×î´óÁ¬½ÓÊı²»ÄÜ³¬¹ı1500,µ±Ç°µÄ×î´óÁ¬½ÓÒÑÉèÖÃ³É×î´óÖµ1500"<<std::endl;
+				//std::cout<<"æœ€å¤§è¿æ¥æ•°ä¸èƒ½è¶…è¿‡1500,å½“å‰çš„æœ€å¤§è¿æ¥å·²è®¾ç½®æˆæœ€å¤§å€¼1500"<<std::endl;
 				std::cout<<RES_STRING(GS_GATESERVER_CPP_00009)<<std::endl;
 				l_maxcon	=1500;
 			}else
 			{
-				//std::cout<<"ÉèÖÃ³É¹¦£¬×î´óÁ¬½ÓÊı:"<<l_maxcon<<std::endl;
+				//std::cout<<"è®¾ç½®æˆåŠŸï¼Œæœ€å¤§è¿æ¥æ•°:"<<l_maxcon<<std::endl;
 				std::cout<<RES_STRING(GS_GATESERVER_CPP_00010)<<l_maxcon<<std::endl;
 			}
 			g_gtsvr->cli_conn->SetMaxCon(l_maxcon);
@@ -224,7 +224,7 @@ void GateServer::RunLoop()
 			pstring = strchr( pstring, ',' );
 			if( !pstring )
 			{
-				//std::cout<<"setshowrange ²ÎÊı1,²ÎÊı2" <<std::endl;
+				//std::cout<<"setshowrange å‚æ•°1,å‚æ•°2" <<std::endl;
 				std::cout<<RES_STRING(GS_GATESERVER_CPP_00011) <<std::endl;
 			}
 			else
@@ -258,7 +258,7 @@ void GateServer::RunLoop()
 		}
 		else
 		{
-			//std::cout<<"²»Ö§³ÖµÄÃüÁî£¡"<<std::endl;
+			//std::cout<<"ä¸æ”¯æŒçš„å‘½ä»¤ï¼"<<std::endl;
 			std::cout<<RES_STRING(GS_GATESERVER_CPP_00012)<<std::endl;
 		}
 	}
@@ -269,7 +269,7 @@ void GateServer::RunLoop()
 //---------------------------------------------------------------------------
 bool Player::InitReference(DataSocket* datasock)
 {
-	MutexArmor lock(g_gtsvr->_mtxother);//×éÖ¯ÖØ¸´½øÈë
+	MutexArmor lock(g_gtsvr->_mtxother);//ç»„ç»‡é‡å¤è¿›å…¥
 	if(datasock && !datasock->GetPointer())
 	{
 		datasock->SetPointer(this);
@@ -283,7 +283,7 @@ bool Player::InitReference(DataSocket* datasock)
 		{
 			try
 			{
-				//printf( "InitReference warning: %sÖØ¸´½øÈëÁ¬½ÓĞÅÏ¢£¡", datasock->GetPeerIP() );
+				//printf( "InitReference warning: %sé‡å¤è¿›å…¥è¿æ¥ä¿¡æ¯ï¼", datasock->GetPeerIP() );
 				printf( RES_STRING(GS_GATESERVER_CPP_00013), datasock->GetPeerIP() );
 				Player* l_ply = (Player*)datasock->GetPointer();
 				if( l_ply )
@@ -294,7 +294,7 @@ bool Player::InitReference(DataSocket* datasock)
 			}
 			catch(...)
 			{
-				//printf( "InitReference warning: %sÖØ¸´½øÈëÁ¬½ÓĞÅÏ¢£¡exception", datasock->GetPeerIP() );
+				//printf( "InitReference warning: %sé‡å¤è¿›å…¥è¿æ¥ä¿¡æ¯ï¼exception", datasock->GetPeerIP() );
 				printf( RES_STRING(GS_GATESERVER_CPP_00014), datasock->GetPeerIP() );
 			}
 		}
@@ -478,7 +478,7 @@ GateServerApp::GateServerApp()
 
 void GateServerApp::ServiceStart()
 {
-	// Æô¶¯·şÎñÆ÷
+	// å¯åŠ¨æœåŠ¡å™¨
 	try
 	{
 		const char* file_cfg = "GateServer.cfg";
@@ -491,7 +491,7 @@ void GateServerApp::ServiceStart()
 		{
 			_pUdpManage = new CUdpManage;
 			if( !_pUdpManage->Init( 1976, _NotifySocketNumEvent ) )
-				//cout << "¼àÌıÊıÁ¿¹¦ÄÜ´´½¨Ê§°Ü" << endl;
+				//cout << "ç›‘å¬æ•°é‡åŠŸèƒ½åˆ›å»ºå¤±è´¥" << endl;
 				cout << RES_STRING(GS_GATESERVER_CPP_00015) << endl;
 		}
 	}
@@ -503,14 +503,14 @@ void GateServerApp::ServiceStart()
 	}
 	catch (...)
 	{
-		//cout << "GateServer ³õÊ¼»¯ÆÚ¼ä·¢ÉúÎ´Öª´íÎó£¬ÇëÍ¨Öª¿ª·¢Õß!" << endl;
+		//cout << "GateServer åˆå§‹åŒ–æœŸé—´å‘ç”ŸæœªçŸ¥é”™è¯¯ï¼Œè¯·é€šçŸ¥å¼€å‘è€…!" << endl;
 		cout << RES_STRING(GS_GATESERVER_CPP_00016) << endl;
 		Sleep(10 * 1000);
 		exit(-2);
 	}
 
-	// ·şÎñÆ÷Æô¶¯³É¹¦£¬½øÈëÖ÷Ñ­»·
-	//cout << "GateServer Æô¶¯³É¹¦!" << endl;
+	// æœåŠ¡å™¨å¯åŠ¨æˆåŠŸï¼Œè¿›å…¥ä¸»å¾ªç¯
+	//cout << "GateServer å¯åŠ¨æˆåŠŸ!" << endl;
 	cout << RES_STRING(GS_GATESERVER_CPP_00017) << endl;
 }
 void GateServerApp::ServiceStop()
@@ -521,11 +521,11 @@ void GateServerApp::ServiceStop()
 		_pUdpManage = NULL;
 	}
 
-	// ·şÎñÆ÷ÍË³ö
+	// æœåŠ¡å™¨é€€å‡º
 	delete g_gtsvr;
 	g_app = NULL;
 
-	//cout << "GateServer ³É¹¦ÍË³ö!" << endl;
+	//cout << "GateServer æˆåŠŸé€€å‡º!" << endl;
 	cout << RES_STRING(GS_GATESERVER_CPP_00018) << endl;
 	Sleep(2000);
 }
@@ -539,7 +539,7 @@ void GateServerApp::_NotifySocketNumEvent( CUdpManage* pManage, CUdpServer* pUdp
 		static DWORD dwLastTime = 0;
 		static DWORD dwCount = 0;
 
-		// Ã¿ÎåÃëÈ¡Ò»´ÎÈËÊı,µÈ´ı¹¨½¡µÄÈ¡×ÜÊıµÄĞÂ½Ó¿ÚJerry
+		// æ¯äº”ç§’å–ä¸€æ¬¡äººæ•°,ç­‰å¾…é¾šå¥çš„å–æ€»æ•°çš„æ–°æ¥å£Jerry
 		dwTime = ::GetTickCount();
 		if( dwTime>dwLastTime )
 		{
@@ -552,7 +552,7 @@ void GateServerApp::_NotifySocketNumEvent( CUdpManage* pManage, CUdpServer* pUdp
 	}
 }
 
-// È«¾Ö GateServer ¶ÔÏó
+// å…¨å±€ GateServer å¯¹è±¡
 GateServer* g_gtsvr;
 bool volatile g_appexit = false;
 

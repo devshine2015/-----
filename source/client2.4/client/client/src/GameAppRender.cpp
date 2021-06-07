@@ -1,22 +1,22 @@
-#include "Stdafx.h"
 #include "GameApp.h"
+#include "Stdafx.h"
 #ifdef __EDITOR__
 #include "MPEditor.h"
 #endif
-#include "Scene.h"
-#include "FindPath.h"
-#include "UIFormMgr.h" 
-#include "GlobalVar.h"
-#include "DrawPointList.h"
-#include "SmallMap.h"
-#include "Character.h"
-#include "UICursor.h"
-#include "Track.h"
-#include "cameractrl.h"
-#include "SceneObj.h"
 #include "CPerformance.h"
-#include "UIFont.h"
 #include "CaLua.h"
+#include "Character.h"
+#include "DrawPointList.h"
+#include "FindPath.h"
+#include "GlobalVar.h"
+#include "Scene.h"
+#include "SceneObj.h"
+#include "SmallMap.h"
+#include "Track.h"
+#include "UICursor.h"
+#include "UIFont.h"
+#include "UIFormMgr.h"
+#include "cameractrl.h"
 #ifdef _SKYBOX_
 #include "MPSkyBox.h"
 #include "WorldScene.h"
@@ -27,11 +27,9 @@
 #endif
 Ctemp tmap;
 
-
-struct _RHFFVF
-{
-    drVector4 pos;
-    DWORD dif;
+struct _RHFFVF {
+  drVector4 pos;
+  DWORD dif;
 };
 
 #ifdef __FPS_DEBUG__
@@ -44,44 +42,44 @@ DWORD m_dw_pNotify = 0;
 DWORD m_dw_pNotify1 = 0;
 #endif
 
-BOOL RenderHintFrame(const RECT* rc, DWORD color)
-{
-    //color = 0xffff0000;
+BOOL RenderHintFrame(const RECT *rc, DWORD color) {
+  // color = 0xffff0000;
 
-    DWORD rs_lgt;
-    DWORD rs_vc;
-    _RHFFVF vert[5];
-    vert[0].pos = drVector4((float)rc->left, (float)rc->top, 0, 1.0f);
-    vert[1].pos = drVector4((float)rc->right, (float)rc->top, 0, 1.0f);
-    vert[2].pos = drVector4((float)rc->right, (float)rc->bottom, 0, 1.0f);
-    vert[3].pos = drVector4((float)rc->left, (float)rc->bottom, 0, 1.0f);
-    vert[4].pos = vert[0].pos;
-    vert[0].dif = vert[1].dif = vert[2].dif = vert[3].dif = vert[4].dif = color;
-    LEIResourceMgr* res_mgr = g_Render.GetInterfaceMgr()->res_mgr;
-    LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-    drIDynamicStreamMgr* dns_mgr = res_mgr->GetDynamicStreamMgr();
-    dev_obj->GetRenderState(D3DRS_LIGHTING, &rs_lgt);
-    dev_obj->GetRenderState(D3DRS_COLORVERTEX, &rs_vc);
-    dev_obj->SetRenderStateForced(D3DRS_LIGHTING, 0);
-    dev_obj->SetRenderStateForced(D3DRS_COLORVERTEX, 1);
-  
-    drMaterial mtl;
-    memset(&mtl, 0, sizeof(mtl));
-    mtl.amb.a = mtl.amb.r = mtl.amb.g = mtl.amb.b = 1.0f;
-    dev_obj->SetMaterial(&mtl);
+  DWORD rs_lgt;
+  DWORD rs_vc;
+  _RHFFVF vert[5];
+  vert[0].pos = drVector4((float)rc->left, (float)rc->top, 0, 1.0f);
+  vert[1].pos = drVector4((float)rc->right, (float)rc->top, 0, 1.0f);
+  vert[2].pos = drVector4((float)rc->right, (float)rc->bottom, 0, 1.0f);
+  vert[3].pos = drVector4((float)rc->left, (float)rc->bottom, 0, 1.0f);
+  vert[4].pos = vert[0].pos;
+  vert[0].dif = vert[1].dif = vert[2].dif = vert[3].dif = vert[4].dif = color;
+  LEIResourceMgr *res_mgr = g_Render.GetInterfaceMgr()->res_mgr;
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+  drIDynamicStreamMgr *dns_mgr = res_mgr->GetDynamicStreamMgr();
+  dev_obj->GetRenderState(D3DRS_LIGHTING, &rs_lgt);
+  dev_obj->GetRenderState(D3DRS_COLORVERTEX, &rs_vc);
+  dev_obj->SetRenderStateForced(D3DRS_LIGHTING, 0);
+  dev_obj->SetRenderStateForced(D3DRS_COLORVERTEX, 1);
 
-    dev_obj->SetTexture(0, NULL);
+  drMaterial mtl;
+  memset(&mtl, 0, sizeof(mtl));
+  mtl.amb.a = mtl.amb.r = mtl.amb.g = mtl.amb.b = 1.0f;
+  dev_obj->SetMaterial(&mtl);
 
-    if(DR_FAILED(dns_mgr->DrawPrimitive(D3DPT_LINESTRIP, 4, vert, sizeof(_RHFFVF), (D3DFORMAT)(D3DFVF_XYZRHW|D3DFVF_DIFFUSE))))
-    {
-        dev_obj->SetRenderState(D3DRS_LIGHTING, rs_lgt);
-        dev_obj->SetRenderState(D3DRS_COLORVERTEX, rs_vc);
-        return 0;
-    }
+  dev_obj->SetTexture(0, NULL);
 
+  if (DR_FAILED(dns_mgr->DrawPrimitive(
+          D3DPT_LINESTRIP, 4, vert, sizeof(_RHFFVF),
+          (D3DFORMAT)(D3DFVF_XYZRHW | D3DFVF_DIFFUSE)))) {
     dev_obj->SetRenderState(D3DRS_LIGHTING, rs_lgt);
     dev_obj->SetRenderState(D3DRS_COLORVERTEX, rs_vc);
-    return 1;
+    return 0;
+  }
+
+  dev_obj->SetRenderState(D3DRS_LIGHTING, rs_lgt);
+  dev_obj->SetRenderState(D3DRS_COLORVERTEX, rs_vc);
+  return 1;
 };
 
 #ifdef _SKYBOX_
@@ -90,279 +88,294 @@ extern MINDPOWER_API DWORD g_dwRenderTerrainTime;
 extern MINDPOWER_API DWORD g_dwRenderTerrainCnt;
 #endif
 
-//CMinimap* minimap = NULL;
-// Game SDK ¿ò¼Üº¯Êý, ÐèÓÃ»§Ìî³ä
-void CGameApp::_Render()
-{
-	if( !m_bPlayFlash )
-	{
-		ResMgr.RestoreEffect();
+// CMinimap* minimap = NULL;
+// Game SDK æ¡†æž¶å‡½æ•°, éœ€ç”¨æˆ·å¡«å……
+void CGameApp::_Render() {
+  if (!m_bPlayFlash) {
+    ResMgr.RestoreEffect();
 
-		if(IsEnableSpSmMap())
-		{
-			_CreateSmMap( _pCurScene->GetTerrain() );
-		}
+    if (IsEnableSpSmMap()) {
+      _CreateSmMap(_pCurScene->GetTerrain());
+    }
 
-		if(btest)
-		{
-			CreateCharImg();
-			return;
-		}
-	}
+    if (btest) {
+      CreateCharImg();
+      return;
+    }
+  }
 
-
-	// SceneµÄ»æÖÆ------------------------------------------------------------
+  // Sceneçš„ç»˜åˆ¶------------------------------------------------------------
 #ifdef __FPS_DEBUG__
-	MPTimer tScene; tScene.Begin();
+  MPTimer tScene;
+  tScene.Begin();
 #endif
 #ifdef _SKYBOX_
-	if( _pCurScene->IsShowSky() )
-	{
-		/*float Start = 10000.0f, End = 20000.0f;
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGENABLE, TRUE);
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGCOLOR, 0x00a4a4a4);
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
-		g_Render.GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);*/
-		
+  if (_pCurScene->IsShowSky()) {
+    /*float Start = 10000.0f, End = 20000.0f;
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGENABLE, TRUE);
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGCOLOR, 0x00a4a4a4);
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGSTART, *(DWORD*)(&Start));
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGEND, *(DWORD*)(&End));
+    g_Render.GetDevice()->SetRenderState(D3DRS_FOGENABLE, FALSE);*/
 
-		g_Render.SetClip(1.0f, 30000.0f);
-		LEMatrix44 mat;
-		D3DXMatrixIdentity(&mat);
-		// ÒÔÖ÷½ÇÎªÖÐÐÄ¹¹½¨Ìì¿ÕºÐ
-		D3DXMatrixTranslation(&mat, _pCurScene->GetMainCha()->GetPos().x, _pCurScene->GetMainCha()->GetPos().y, 0);
-		g_Render.SetTransformWorld(&mat);
+    g_Render.SetClip(1.0f, 30000.0f);
+    LEMatrix44 mat;
+    D3DXMatrixIdentity(&mat);
+    // ä»¥ä¸»è§’ä¸ºä¸­å¿ƒæž„å»ºå¤©ç©ºç›’
+    D3DXMatrixTranslation(&mat, _pCurScene->GetMainCha()->GetPos().x,
+                          _pCurScene->GetMainCha()->GetPos().y, 0);
+    g_Render.SetTransformWorld(&mat);
 
-		g_Render.GetDevice()->SetRenderState(D3DRS_ZENABLE, FALSE);
-		g_Render.GetDevice()->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE);
-		GetSkyBox()->Render(g_Render.GetWorldViewMatrix());
-		g_Render.GetDevice()->SetRenderState(D3DRS_ZENABLE, TRUE);
-		g_Render.GetDevice()->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE);
-	}
+    g_Render.GetDevice()->SetRenderState(D3DRS_ZENABLE, FALSE);
+    g_Render.GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, FALSE);
+    GetSkyBox()->Render(g_Render.GetWorldViewMatrix());
+    g_Render.GetDevice()->SetRenderState(D3DRS_ZENABLE, TRUE);
+    g_Render.GetDevice()->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+  }
 #endif
 
-	_pCurScene->_Render();
+  _pCurScene->_Render();
 #ifdef __FPS_DEBUG__
-	m_dwRenderSceneTime = tScene.End();
+  m_dwRenderSceneTime = tScene.End();
 #endif
 
-	if( ! m_bPlayFlash )
-	{
+  if (!m_bPlayFlash) {
 #ifdef TESTDEMO
-		g_pTestDemo->Render();
+    g_pTestDemo->Render();
 #endif
-		// ÍâÎ§¹¤¾ßµÄäÖÈ¾(ÓëSceneÏà¹Ø, ÐèÒªÔÚ½çÃæÖ®Ç°)-------------------------------------------
-		_pDrawPoints->Reader();
+    // å¤–å›´å·¥å…·çš„æ¸²æŸ“(ä¸ŽSceneç›¸å…³,
+    // éœ€è¦åœ¨ç•Œé¢ä¹‹å‰)-------------------------------------------
+    _pDrawPoints->Reader();
 #ifdef __EDITOR__
-		g_Editor.Render();
-		g_Render.RenderAllLines();
+    g_Editor.Render();
+    g_Render.RenderAllLines();
 #endif
-		// ½çÃæ¿Ø¼þµÄäÖÈ¾-----------------------------------------------------------------------
+    // ç•Œé¢æŽ§ä»¶çš„æ¸²æŸ“-----------------------------------------------------------------------
 #ifdef __FPS_DEBUG__
-		MPTimer tUI; tUI.Begin();
-		MPTimer tUITemp; tUITemp.Begin();
-#endif
-
-		_stCursorMgr.Render();
-#ifdef __FPS_DEBUG__
-		m_dw_stCursorMgr = tUITemp.End();
-		tUITemp.Begin();
-#endif
-		_pCurScene->_RenderUI();
-#ifdef __FPS_DEBUG__
-		m_dw_pCurScene = tUITemp.End();
+    MPTimer tUI;
+    tUI.Begin();
+    MPTimer tUITemp;
+    tUITemp.Begin();
 #endif
 
-		// Ð¡µØÍ¼äÖÈ¾----------------------------------------------------------------------------
-		CCharacter *pMainCha =_pCurScene->GetMainCha();
+    _stCursorMgr.Render();
 #ifdef __FPS_DEBUG__
-		MPTimer mpt; mpt.Begin();
+    m_dw_stCursorMgr = tUITemp.End();
+    tUITemp.Begin();
 #endif
-		if( CGameScene::_bShowMinimap && CGameScene::_pSmallMap )
-		{
-			if(pMainCha)
-			{
-				CGameScene::_pSmallMap->MoveTo( GetMainCam()->m_RefPos,-GetMainCam()->m_vDir,\
-					GetMainCam()->m_fAngle,GetMainCam()->m_fxy/7,pMainCha->getYaw());
-				CGameScene::_pSmallMap->Render();
-			}
-		}
+    _pCurScene->_RenderUI();
 #ifdef __FPS_DEBUG__
-		m_dwRenderMMap = mpt.End();
-		tUITemp.Begin();
-#endif
-		CFormMgr::s_Mgr.Render();
-#ifdef __FPS_DEBUG__
-		m_dwCFormMgr__s_Mgr_Render = tUITemp.End();
-		tUITemp.Begin();
-#endif
-		CFormMgr::s_Mgr.RenderHint( GetMouseX(), GetMouseY() );
-#ifdef __FPS_DEBUG__
-		m_dwCFormMgr__s_Mgr_RenderHint = tUITemp.End();
-		tUITemp.Begin();
-#endif
-		CCursor::I()->Render();  
-#ifdef __FPS_DEBUG__
-		m_dwCCursor__I__Render = tUITemp.End();
-		tUITemp.Begin();
+    m_dw_pCurScene = tUITemp.End();
 #endif
 
-		if( _dwNotifyTime>GetCurTick() )
-		{
-			_pNotify->Render();
-		}
-		else if( _dwNotifyTime ) //µ±¹«¸æ²»ÔÙÐèÒªÊ±£¬Çåµô Add by waiting 2009-06-10
-		{
-			_pNotify->PopFront();
-			_dwNotifyTime = 0;
-		}
+    // å°åœ°å›¾æ¸²æŸ“----------------------------------------------------------------------------
+    CCharacter *pMainCha = _pCurScene->GetMainCha();
 #ifdef __FPS_DEBUG__
-		m_dw_pNotify = tUITemp.End();
-		tUITemp.Begin();
+    MPTimer mpt;
+    mpt.Begin();
+#endif
+    if (CGameScene::_bShowMinimap && CGameScene::_pSmallMap) {
+      if (pMainCha) {
+        CGameScene::_pSmallMap->MoveTo(
+            GetMainCam()->m_RefPos, -GetMainCam()->m_vDir,
+            GetMainCam()->m_fAngle, GetMainCam()->m_fxy / 7,
+            pMainCha->getYaw());
+        CGameScene::_pSmallMap->Render();
+      }
+    }
+#ifdef __FPS_DEBUG__
+    m_dwRenderMMap = mpt.End();
+    tUITemp.Begin();
+#endif
+    CFormMgr::s_Mgr.Render();
+#ifdef __FPS_DEBUG__
+    m_dwCFormMgr__s_Mgr_Render = tUITemp.End();
+    tUITemp.Begin();
+#endif
+    CFormMgr::s_Mgr.RenderHint(GetMouseX(), GetMouseY());
+#ifdef __FPS_DEBUG__
+    m_dwCFormMgr__s_Mgr_RenderHint = tUITemp.End();
+    tUITemp.Begin();
+#endif
+    CCursor::I()->Render();
+#ifdef __FPS_DEBUG__
+    m_dwCCursor__I__Render = tUITemp.End();
+    tUITemp.Begin();
 #endif
 
-		if(_dwNotifyTime1>GetCurTick() )
-		{
-			_pNotify1->Render();//Add by sunny.sun20080804
-		}
-		else if( _dwNotifyTime1 ) //µ±¹«¸æ²»ÔÙÐèÒªÊ±£¬Çåµô Add by waiting 2009-06-10
-		{
-			_pNotify1->PopFront();
-			_dwNotifyTime1 = 0;
-		}
+    if (_dwNotifyTime > GetCurTick()) {
+      _pNotify->Render();
+    } else if (_dwNotifyTime) //å½“å…¬å‘Šä¸å†éœ€è¦æ—¶ï¼Œæ¸…æŽ‰ Add by waiting 2009-06-10
+    {
+      _pNotify->PopFront();
+      _dwNotifyTime = 0;
+    }
 #ifdef __FPS_DEBUG__
-		m_dw_pNotify1 = tUITemp.End();
-		tUITemp.Begin();
-#endif
-#ifdef __FPS_DEBUG__
-		m_dwRenderUITime = tUI.End();
+    m_dw_pNotify = tUITemp.End();
+    tUITemp.Begin();
 #endif
 
-		ResMgr.RestoreEffect();
-
+    if (_dwNotifyTime1 > GetCurTick()) {
+      _pNotify1->Render();     // Add by sunny.sun20080804
+    } else if (_dwNotifyTime1) //å½“å…¬å‘Šä¸å†éœ€è¦æ—¶ï¼Œæ¸…æŽ‰ Add by waiting
+                               //2009-06-10
+    {
+      _pNotify1->PopFront();
+      _dwNotifyTime1 = 0;
+    }
 #ifdef __FPS_DEBUG__
-		MPTimer mt; mt.Begin();
+    m_dw_pNotify1 = tUITemp.End();
+    tUITemp.Begin();
 #endif
-		if(CGameScene::_pBigMap)
-			CGameScene::_pBigMap->Render();
-
-		// ÆÁÄ»ÌáÊ¾µÄäÖÈ¾-----------------------------------------------------------------------
-		if(_IsRenderTipText) _RenderTipText();
-
-		if( _stMidFont.dwBeginTime > GetCurTick() )
-		{
-			_stMidFont.btAlpha = (BYTE)(255.0f * (float)(_stMidFont.dwBeginTime - GetCurTick()) / (float)SHOW_TEXT_TIME);
-
-			DWORD dwAlpha = _stMidFont.btAlpha << 24;
-			DWORD dwColor = dwAlpha | 0x00f01000; 
-
-			SIZE size;
-			_MidFont.GetTextSize( _stMidFont.szText, &size );        
-			_MidFont.DrawText(_stMidFont.szText, (GetWindowWidth() - size.cx) / 2, (GetWindowHeight() - size.cy) / 3, dwColor);
-		}
-
-		//²¶»ñÆÁÄ», ÐèÒªÔÚ×îºó-------------------------------------------------------------
-		if(IsEnableSpAvi())  
-			_CreateAviScreen();
-	}
 #ifdef __FPS_DEBUG__
-	int y = 80;
-	const int dy = 18;
+    m_dwRenderUITime = tUI.End();
+#endif
+
+    ResMgr.RestoreEffect();
+
+#ifdef __FPS_DEBUG__
+    MPTimer mt;
+    mt.Begin();
+#endif
+    if (CGameScene::_pBigMap)
+      CGameScene::_pBigMap->Render();
+
+    // å±å¹•æç¤ºçš„æ¸²æŸ“-----------------------------------------------------------------------
+    if (_IsRenderTipText)
+      _RenderTipText();
+
+    if (_stMidFont.dwBeginTime > GetCurTick()) {
+      _stMidFont.btAlpha =
+          (BYTE)(255.0f * (float)(_stMidFont.dwBeginTime - GetCurTick()) /
+                 (float)SHOW_TEXT_TIME);
+
+      DWORD dwAlpha = _stMidFont.btAlpha << 24;
+      DWORD dwColor = dwAlpha | 0x00f01000;
+
+      SIZE size;
+      _MidFont.GetTextSize(_stMidFont.szText, &size);
+      _MidFont.DrawText(_stMidFont.szText, (GetWindowWidth() - size.cx) / 2,
+                        (GetWindowHeight() - size.cy) / 3, dwColor);
+    }
+
+    //æ•èŽ·å±å¹•,
+    //éœ€è¦åœ¨æœ€åŽ-------------------------------------------------------------
+    if (IsEnableSpAvi())
+      _CreateAviScreen();
+  }
+#ifdef __FPS_DEBUG__
+  int y = 80;
+  const int dy = 18;
 #ifdef __MEM_DEBUG__
-	y+=dy; g_Render.Print(INFO_FPS, 5, y, "==Mem==");
-	char szBuf_UseMem[64];
-	FormatDollorString(szBuf_UseMem, 64, GetCurUseMemory());
-	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Game:%s", szBuf_UseMem);
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "==Mem==");
+  char szBuf_UseMem[64];
+  FormatDollorString(szBuf_UseMem, 64, GetCurUseMemory());
+  y += dy;
+  g_Render.Print(INFO_FPS, 15, y, "Game:%s", szBuf_UseMem);
 
-	FormatDollorString(szBuf_UseMem, 64, ResMgr.GetCurUseMemory());
-	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Eng:%s", szBuf_UseMem);
+  FormatDollorString(szBuf_UseMem, 64, ResMgr.GetCurUseMemory());
+  y += dy;
+  g_Render.Print(INFO_FPS, 15, y, "Eng:%s", szBuf_UseMem);
 
-	FormatDollorString(szBuf_UseMem, 64, g_Render.GetRegisteredDevMemSize());
-	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Dev:%s", szBuf_UseMem);
+  FormatDollorString(szBuf_UseMem, 64, g_Render.GetRegisteredDevMemSize());
+  y += dy;
+  g_Render.Print(INFO_FPS, 15, y, "Dev:%s", szBuf_UseMem);
 
-//	FormatDollorString(szBuf_UseMem, 64, CLU_GetCurUseMemory());
-//	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Lua:%s", szBuf_UseMem);
+  //	FormatDollorString(szBuf_UseMem, 64, CLU_GetCurUseMemory());
+  //	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Lua:%s", szBuf_UseMem);
 
-	FormatDollorString(szBuf_UseMem, 64, GetCurUseMemory() + ResMgr.GetCurUseMemory() + g_Render.GetRegisteredDevMemSize() /*+ CLU_GetCurUseMemory()*/);
-	y+=dy; g_Render.Print(INFO_FPS, 15, y, "Total:%s", szBuf_UseMem);
-#endif//__MEM_DEBUG__
+  FormatDollorString(
+      szBuf_UseMem, 64,
+      GetCurUseMemory() + ResMgr.GetCurUseMemory() +
+          g_Render.GetRegisteredDevMemSize() /*+ CLU_GetCurUseMemory()*/);
+  y += dy;
+  g_Render.Print(INFO_FPS, 15, y, "Total:%s", szBuf_UseMem);
+#endif //__MEM_DEBUG__
 
 #if defined(_SKYBOX_) && defined(_DEBUG)
-	y+=dy; g_Render.Print(INFO_FPS, 5, y, "Terrain(%u)", g_dwRenderTerrainCnt==0 ? 0 : g_dwRenderTerrainTime/g_dwRenderTerrainCnt);
-	y+=dy; g_Render.Print(INFO_FPS, 5, y, "z=(%d)", g_nPosZ);
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "Terrain(%u)",
+                 g_dwRenderTerrainCnt == 0
+                     ? 0
+                     : g_dwRenderTerrainTime / g_dwRenderTerrainCnt);
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "z=(%d)", g_nPosZ);
 #endif
 
-	if( !IsEnableSuperKey() ) 
-		return;
+  if (!IsEnableSuperKey())
+    return;
 
- //	y+=dy; g_Render.Print(INFO_FPS, 5, y, "AppLoop(%u%%)",DWORD(CPerformance::GetTPS(PR_APP_LOOP)*100.0f));	
-	y+=dy; g_Render.Print(INFO_FPS, 5, y, "FrmMove(%u%%), %2d/%2d ",DWORD(CPerformance::GetTPS(PR_FRAME_MOVE)*100.0f), GetFrameMoveUseTime(), GetRenderUseTime());
-  	y+=dy; g_Render.Print(INFO_FPS, 5, y, "Render(%u%%)",DWORD(CPerformance::GetTPS(PR_RENDER)*100.0f));	
-  	y+=dy; g_Render.Print(INFO_FPS, 5, y, "Net(%u%%)",DWORD(CPerformance::GetTPS(PR_NET)*100.0f));
+  //	y+=dy; g_Render.Print(INFO_FPS, 5, y,
+  //"AppLoop(%u%%)",DWORD(CPerformance::GetTPS(PR_APP_LOOP)*100.0f));
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "FrmMove(%u%%), %2d/%2d ",
+                 DWORD(CPerformance::GetTPS(PR_FRAME_MOVE) * 100.0f),
+                 GetFrameMoveUseTime(), GetRenderUseTime());
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "Render(%u%%)",
+                 DWORD(CPerformance::GetTPS(PR_RENDER) * 100.0f));
+  y += dy;
+  g_Render.Print(INFO_FPS, 5, y, "Net(%u%%)",
+                 DWORD(CPerformance::GetTPS(PR_NET) * 100.0f));
 
+  CGameScene *pScene = GetCurScene();
+  if (!pScene)
+    return;
 
-	CGameScene *pScene = GetCurScene();
-	if( !pScene ) return;
+  g_Render.EnableClearTarget(TRUE);
 
-	g_Render.EnableClearTarget(TRUE);
+  LETerrain *pCurTerrain = pScene->GetTerrain();
 
-	LETerrain *pCurTerrain = pScene->GetTerrain();
+  // è¾“å‡ºé¡¹ç›®åˆ—è¡¨
 
-	// Êä³öÏîÄ¿ÁÐ±í
+  // Performance :
 
-	// Performance :
+  // FPS
+  // ç³»ç»Ÿæ€»å¤šè¾¹å½¢æ•°é‡  FrameMoveæ—¶é—´  æ¸²æŸ“æ—¶é—´
+  // åœºæ™¯ç‰©ä»¶æ€»æ•°  å¤šè¾¹å½¢æ•°é‡  æ¸²æŸ“æ—¶é—´
+  // è§’è‰²æ€»æ•°      å¤šè¾¹å½¢æ•°é‡  æ¸²æŸ“æ—¶é—´
 
-	// FPS 
-	// ÏµÍ³×Ü¶à±ßÐÎÊýÁ¿  FrameMoveÊ±¼ä  äÖÈ¾Ê±¼ä
-	// ³¡¾°Îï¼þ×ÜÊý  ¶à±ßÐÎÊýÁ¿  äÖÈ¾Ê±¼ä
-	// ½ÇÉ«×ÜÊý      ¶à±ßÐÎÊýÁ¿  äÖÈ¾Ê±¼ä
+  // ç‰¹æ•ˆæ€»æ•°      æ¸²æŸ“æ—¶é—´
+  // ç³»ç»Ÿå ç”¨å†…å­˜  å ç”¨æ˜¾å­˜
 
-	// ÌØÐ§×ÜÊý      äÖÈ¾Ê±¼ä
-	// ÏµÍ³Õ¼ÓÃÄÚ´æ  Õ¼ÓÃÏÔ´æ
+  // GameLogic :
 
-	// GameLogic :
+  // ä¸»è§’åå­— åæ ‡  æ–¹å‘
+  // æ¨¡åž‹ä¿¡æ¯ è£…å¤‡
+  if (pCurTerrain) {
+    DWORD dwTerrainTime = pCurTerrain->m_dwTerrainRenderTime;
+    DWORD dwSeaTime = pCurTerrain->m_dwSeaRenderTime;
+    char szInfo[255];
+    _snprintf_s(
+        szInfo, _countof(szInfo), _TRUNCATE,
+        "O:%2d Trans:%2d Eff:%2d C:%2d U:%2d T:%2d E:%2d CH:%2d Path:%2d S:%2d",
+        m_dwRenderScneObjTime, m_dwTranspObjTime, m_dwRenderEffectTime,
+        m_dwRenderChaTime, m_dwRenderUITime, dwTerrainTime, dwSeaTime,
+        CGameApp::GetCurScene()->m_dwValidChaCnt, m_dwPathFinding,
+        m_dwRenderSceneTime);
+    y += dy;
+    g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
 
-	// Ö÷½ÇÃû×Ö ×ø±ê  ·½Ïò
-	// Ä£ÐÍÐÅÏ¢ ×°±¸   
-	if(pCurTerrain) 
-	{
-		DWORD dwTerrainTime = pCurTerrain->m_dwTerrainRenderTime;
-		DWORD dwSeaTime     = pCurTerrain->m_dwSeaRenderTime;
-		char szInfo[255];
-		_snprintf_s( szInfo, _countof( szInfo ), _TRUNCATE,  "O:%2d Trans:%2d Eff:%2d C:%2d U:%2d T:%2d E:%2d CH:%2d Path:%2d S:%2d", 
-			m_dwRenderScneObjTime,
-			m_dwTranspObjTime,
-			m_dwRenderEffectTime,
-			m_dwRenderChaTime,
-			m_dwRenderUITime,
-			dwTerrainTime, dwSeaTime,
-			CGameApp::GetCurScene()->m_dwValidChaCnt,
-			m_dwPathFinding,
-			m_dwRenderSceneTime
-			);
-		y+=dy; g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
+    _snprintf_s(szInfo, _countof(szInfo), _TRUNCATE,
+                "U=FM:%2d CM:%2d CS:%2d Hint:%2d Cur:%2d N:%2d N1:%2d M:%2d",
+                m_dwCFormMgr__s_Mgr_Render, m_dw_stCursorMgr, m_dw_pCurScene,
+                m_dwCFormMgr__s_Mgr_RenderHint, m_dwCCursor__I__Render,
+                m_dw_pNotify, m_dw_pNotify1, m_dwRenderMMap);
+    y += dy;
+    g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
 
-
-		_snprintf_s( szInfo, _countof( szInfo ), _TRUNCATE,  "U=FM:%2d CM:%2d CS:%2d Hint:%2d Cur:%2d N:%2d N1:%2d M:%2d", 
-			m_dwCFormMgr__s_Mgr_Render,
-			m_dw_stCursorMgr,
-			m_dw_pCurScene,
-			m_dwCFormMgr__s_Mgr_RenderHint,
-			m_dwCCursor__I__Render,
-			m_dw_pNotify, 
-			m_dw_pNotify1, 
-			m_dwRenderMMap
-			);
-		y+=dy; g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
-
-// 		MPStaticStreamMgrDebugInfo ssmdi;
-// 		MPIStaticStreamMgr* ssm = g_Render.GetInterfaceMgr()->res_mgr->GetStaticStreamMgr();
-// 		ssm->GetDebugInfo(&ssmdi);
-// 		_snprintf_s( szInfo, _countof( szInfo ), _TRUNCATE,  "VB total:%d, used:%d, free:%d, locked:%d\nIB total:%d, used:%d, free:%d, locked:%d",
-// 			ssmdi.vbs_size, ssmdi.vbs_used_size, ssmdi.vbs_free_size, ssmdi.vbs_locked_size,
-// 			ssmdi.ibs_size, ssmdi.ibs_used_size, ssmdi.ibs_free_size, ssmdi.ibs_locked_size);
-// 		y+=dy; g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
+    // 		MPStaticStreamMgrDebugInfo ssmdi;
+    // 		MPIStaticStreamMgr* ssm =
+    // g_Render.GetInterfaceMgr()->res_mgr->GetStaticStreamMgr();
+    // 		ssm->GetDebugInfo(&ssmdi);
+    // 		_snprintf_s( szInfo, _countof( szInfo ), _TRUNCATE,  "VB total:%d,
+    // used:%d, free:%d, locked:%d\nIB total:%d, used:%d, free:%d, locked:%d",
+    // 			ssmdi.vbs_size, ssmdi.vbs_used_size, ssmdi.vbs_free_size,
+    // ssmdi.vbs_locked_size, 			ssmdi.ibs_size, ssmdi.ibs_used_size,
+    // ssmdi.ibs_free_size, ssmdi.ibs_locked_size); 		y+=dy;
+    // g_Render.Print(INFO_FPS, 5, y, "%s", szInfo);
 
 #if 0
 		{
@@ -376,6 +389,6 @@ void CGameApp::_Render()
 			LG("vdmem", buf);
 		}
 #endif
-	}
+  }
 #endif // __FPS_DEBUG__
 }

@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÁĞ±í
-// ×÷Õß:lh 2004-07-21
-// Ë¼Ïë:ÁĞ±íÖĞ¼¯ºÏCListItems,CListItemsÖĞ¼¯ºÏCItemRow
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:åˆ—è¡¨
+// ä½œè€…:lh 2004-07-21
+// æ€æƒ³:åˆ—è¡¨ä¸­é›†åˆCListItems,CListItemsä¸­é›†åˆCItemRow
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -15,14 +15,14 @@ namespace GUI
 
 class CList;
 
-// Ñ¡ÔñÌõ
+// é€‰æ‹©æ¡
 class CSelectItem
 {
 public:
 	CSelectItem();
 	CSelectItem( const CSelectItem& rhs );
 	CSelectItem& operator=( const CSelectItem& rhs );
-	virtual ~CSelectItem(); //°²È«ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
+	virtual ~CSelectItem(); //å®‰å…¨é‡Šæ”¾å†…å­˜ by Waiting 2009-06-18
 
 	void		Render( int x, int y );
 
@@ -46,10 +46,10 @@ private:
 	void		_Copy( const CSelectItem& rhs );
 
 private:	
-	CItemRow*	_pItem;				// Ñ¡ÔñµÄItem
-	bool		_isEnabled;			// ÊÇ·ñÊ¹ÓÃ
+	CItemRow*	_pItem;				// é€‰æ‹©çš„Item
+	bool		_isEnabled;			// æ˜¯å¦ä½¿ç”¨
 	bool		_isSelect;
-	int			_nIndex;			// Ñ¡ÔñµÄË÷Òı£¬Ã»ÓĞÑ¡ÔñÎª-1
+	int			_nIndex;			// é€‰æ‹©çš„ç´¢å¼•ï¼Œæ²¡æœ‰é€‰æ‹©ä¸º-1
 	CGuiPic*	_pImage;
 
 private:
@@ -77,7 +77,7 @@ public:
 	virtual unsigned int GetColumn() { return 1; }
 	virtual CItemRow*	Add( const char* str, DWORD c );
 
-	virtual void		SetRect( int x1, int y1, int x2, int y2, int rowheight ); // ÉèÖÃ¿ÉÒÔµã»÷µÄ·¶Î§
+	virtual void		SetRect( int x1, int y1, int x2, int y2, int rowheight ); // è®¾ç½®å¯ä»¥ç‚¹å‡»çš„èŒƒå›´
 	
 	int					GetColumnWidth( unsigned int nCol=0 )	{ return _GetColumnWidth(nCol); }
 	void				SetParent( CList* pList );
@@ -103,16 +103,16 @@ public:
 	void				SetItemMargin( int left, int top );
 	void				SetImageMargin( int left, int top );
 
-public:		// ¼üÅÌ´¦Àí	
-	void				SelectPrior();			// Ñ¡ÔñÉÏÒ»¸ö	
-	void				SelectNext();			// Ñ¡ÔñÏÂÒ»¸ö
-	void				SelectFirst();			// Ñ¡ÔñµÚÒ»¸ö
-	void				SelectLast();			// Ñ¡Ôñ×îºóÒ»¸ö
-	void				SelectAdd( int page );	// µ±Ç°Ñ¡ÔñÒÆ¶¯¼¸¸ñ
-	void				Select( int n );		// Ñ¡ÔñµÚ¼¸¸ö
+public:		// é”®ç›˜å¤„ç†	
+	void				SelectPrior();			// é€‰æ‹©ä¸Šä¸€ä¸ª	
+	void				SelectNext();			// é€‰æ‹©ä¸‹ä¸€ä¸ª
+	void				SelectFirst();			// é€‰æ‹©ç¬¬ä¸€ä¸ª
+	void				SelectLast();			// é€‰æ‹©æœ€åä¸€ä¸ª
+	void				SelectAdd( int page );	// å½“å‰é€‰æ‹©ç§»åŠ¨å‡ æ ¼
+	void				Select( int n );		// é€‰æ‹©ç¬¬å‡ ä¸ª
 
 protected:
-	void				_CheckMaxRow();			// ¼ì²éÊÇ·ñ´ïµ½×î´óĞĞÊı,·ñÔò,É¾³ı×îÔçµÄÒ»ĞĞ
+	void				_CheckMaxRow();			// æ£€æŸ¥æ˜¯å¦è¾¾åˆ°æœ€å¤§è¡Œæ•°,å¦åˆ™,åˆ é™¤æœ€æ—©çš„ä¸€è¡Œ
 	void				_AddRow( CItemRow* p );
 
 private:
@@ -122,27 +122,27 @@ private:
 protected:
 	typedef		deque<CItemRow*>	vitems;
 	vitems				_items;
-	CSelectItem*		_pSelect;			// Ñ¡ÔñµÄItem
+	CSelectItem*		_pSelect;			// é€‰æ‹©çš„Item
 
-	CGuiPic*			_pItemPic;			// Ö¸Ïò¸¸ÀàµÄÍ¼Æ¬£¬ÓÃÓÚÏÔÊ¾ÔÚÏîÄ¿Ìõ±³¾°ÖĞ
+	CGuiPic*			_pItemPic;			// æŒ‡å‘çˆ¶ç±»çš„å›¾ç‰‡ï¼Œç”¨äºæ˜¾ç¤ºåœ¨é¡¹ç›®æ¡èƒŒæ™¯ä¸­
 	CList*				_pList;
 
 	int					_nX1, _nX2, _nY1, _nY2;
 	int					_nHeight;
 	int					_nShowCount;
 
-	DWORD				_dwFirstShowRow;	// µÚÒ»ĞĞ¿ÉÒÔÏÔÊ¾µÄĞĞÊı
-	DWORD				_dwLastShowRow;		// ×îºóÒ»ĞĞµÄÏÔÊ¾
-	DWORD				_dwCount;			// ×Ü¹²µÄĞĞÊı
-	int					_nMaxRow;			// ÔÊĞíµÄ×î´óĞĞÊı
+	DWORD				_dwFirstShowRow;	// ç¬¬ä¸€è¡Œå¯ä»¥æ˜¾ç¤ºçš„è¡Œæ•°
+	DWORD				_dwLastShowRow;		// æœ€åä¸€è¡Œçš„æ˜¾ç¤º
+	DWORD				_dwCount;			// æ€»å…±çš„è¡Œæ•°
+	int					_nMaxRow;			// å…è®¸çš„æœ€å¤§è¡Œæ•°
 
-	// ÏîÄ¿Ìõ¾àÀë±ß¿òµÄ¾àÀë
+	// é¡¹ç›®æ¡è·ç¦»è¾¹æ¡†çš„è·ç¦»
 	int					_nItemLeft, _nItemTop;
 	int					_nItemX;
 
 	int					_nPicLeft,  _nPicTop;
 	int					_nPicX;
-	bool				_IsMouseFollow;		// Êó±êÊÇ·ñ×Ô¶¯¸úËæ
+	bool				_IsMouseFollow;		// é¼ æ ‡æ˜¯å¦è‡ªåŠ¨è·Ÿéš
 
 protected:
 	static int			_nTmpY;
@@ -174,9 +174,9 @@ private:
 	void				_RefreshColX();
 
 protected:
-	unsigned int		_nCol;			// ÁĞÊı
-	unsigned int*		_nColWidth;		// Ã¿Ò»ÁĞµÄ¿í¶È
-	int*				_nColX;			// Ã¿Ò»ÁĞµÄÎ»ÖÃ
+	unsigned int		_nCol;			// åˆ—æ•°
+	unsigned int*		_nColWidth;		// æ¯ä¸€åˆ—çš„å®½åº¦
+	int*				_nColX;			// æ¯ä¸€åˆ—çš„ä½ç½®
 
 }; 
 
@@ -199,12 +199,12 @@ public:
 	virtual bool		IsHandleMouse()				{ return true;	}
 	virtual void		SetAlpha( BYTE alpha );
 
-public:		// ¼üÅÌ´¦Àí
+public:		// é”®ç›˜å¤„ç†
 	virtual void		OnActive();
 	virtual void		OnLost();
 	virtual bool		OnKeyDown( int key );
 
-	virtual bool		SetShowRow( int n );			// ÉèÖÃÏÔÊ¾Ê±µÄĞĞ¸ß,»á¸Ä±äList×Ü¸ß¶È
+	virtual bool		SetShowRow( int n );			// è®¾ç½®æ˜¾ç¤ºæ—¶çš„è¡Œé«˜,ä¼šæ”¹å˜Listæ€»é«˜åº¦
 
 public:
 	CItemRow*			GetSelectItem()						{ return  _pItems->GetSelect()->GetItem();	}
@@ -240,8 +240,8 @@ public:
 	bool				GetIsChangeColor()			{ return _IsChangeColor;	}
 	
 public:
-	GuiEvent			evtSelectChange;			// Ñ¡Ôñ·¢ÉúÁË±ä»¯
-	GuiMouseEvent		evtListMouseDown;			// Êó±êÔÚÁĞ±íµÄÎÄ×ÖÇø°´ÏÂ
+	GuiEvent			evtSelectChange;			// é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
+	GuiMouseEvent		evtListMouseDown;			// é¼ æ ‡åœ¨åˆ—è¡¨çš„æ–‡å­—åŒºæŒ‰ä¸‹
 	GuiMouseEvent		evtListMouseDB;
 
 protected:
@@ -259,25 +259,25 @@ protected:
 protected:
 	CScroll*			_pScroll;	
 	CListItems*			_pItems;
-	CGuiPic*			_pImage;		// ±³¾°Í¼
+	CGuiPic*			_pImage;		// èƒŒæ™¯å›¾
 	CGuiPic*			_pItemImage;	
 
-	int					_nLeftMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-	int					_nTopMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-	int					_nRightMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
-	int					_nBottomMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+	int					_nLeftMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+	int					_nTopMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+	int					_nRightMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
+	int					_nBottomMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 
-	int					_nRowHeight;	// ĞĞ¸ß
-	int					_nSpaceBottom;	// ¾àµ×²¿¿ÕÏĞĞĞÊı
+	int					_nRowHeight;	// è¡Œé«˜
+	int					_nSpaceBottom;	// è·åº•éƒ¨ç©ºé—²è¡Œæ•°
 
 	DWORD				_dwFontColor;
 	DWORD				_dwSelectColor;
-	bool				_IsChangeColor;	// ²»¸Ä±äÑÕÉ«
+	bool				_IsChangeColor;	// ä¸æ”¹å˜é¢œè‰²
 
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline 	void CSelectItem::SetSelect( CItemRow* pItem, DWORD dwIndex ) 
 {
 	if( _pList->GetIsChangeColor() )

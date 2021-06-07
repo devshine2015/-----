@@ -5,7 +5,7 @@ class CSceneItem;
 class CCharacter;
 class CShadeEff;
 
-// ³¡¾°µÄÓÃ»§±êÖ¾
+// åœºæ™¯çš„ç”¨æˆ·æ ‡å¿—
 class CSceneSign
 {
 public:
@@ -35,10 +35,10 @@ private:
 
 	CGameScene*		_pScene;
 
-	CSceneItem*		_pAttack;		// ¹¥»÷Ê±ÏÔÊ¾µÄ¹â»·
+	CSceneItem*		_pAttack;		// æ”»å‡»æ—¶æ˜¾ç¤ºçš„å…‰ç¯
 	CShadeEff*		_pAttackShade;
-	CSceneItem*		_pMove;         // ÒÆ¶¯»òÊ°È¡Ê±ÏÔÊ¾µÄ¹â»·
-	CCharacter*		_pCha;			// ±»¹¥»÷µÄ½ÇÉ«
+	CSceneItem*		_pMove;         // ç§»åŠ¨æˆ–æ‹¾å–æ—¶æ˜¾ç¤ºçš„å…‰ç¯
+	CCharacter*		_pCha;			// è¢«æ”»å‡»çš„è§’è‰²
 
 	int	_nX, nY, _nH;	
 

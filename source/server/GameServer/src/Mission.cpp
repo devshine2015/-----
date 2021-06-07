@@ -43,13 +43,13 @@ namespace mission
 		memset( m_MissionCount, 0, sizeof(RAND_MISSION_COUNT)*ROLE_MAXNUM_MISSIONCOUNT );
 		m_byNumMisCount = 0;
 
-		// Ä¬ÈÏ½ÇÉ«ÎªÔÚÏß×´Ì¬
+		// é»˜è®¤è§’è‰²ä¸ºåœ¨çº¿çŠ¶æ€
 		m_byOnline = 1;
 	T_E}
 
 	void CCharMission::Finally()
 	{T_B
-		// ½ÇÉ«ÍË³öµØÍ¼Ê±£¬ÒÑ¾­µ÷ÓÃÁËMisClear
+		// è§’è‰²é€€å‡ºåœ°å›¾æ—¶ï¼Œå·²ç»è°ƒç”¨äº†MisClear
 		/*
 		m_byNumTrigger = 0;
 		m_byNumMission = 0;
@@ -65,7 +65,7 @@ namespace mission
 		memset( m_MissionCount, 0, sizeof(RAND_MISSION_COUNT)*ROLE_MAXNUM_MISSIONCOUNT );
 		m_byNumMisCount = 0;
 
-		// Ä¬ÈÏ½ÇÉ«ÎªÔÚÏß×´Ì¬
+		// é»˜è®¤è§’è‰²ä¸ºåœ¨çº¿çŠ¶æ€
 		m_byOnline = 1;
 		*/
 	T_E}
@@ -122,7 +122,7 @@ namespace mission
 				m_Mission[i].wParam1, m_Mission[i].wParam2, m_Mission[i].dwExp, m_Mission[i].dwMoney,	m_Mission[i].byNumData );
 #endif
 
-			// ²éÕÒÈÎÎñ±ê¼Ç¿ªÊ¼ĞÅÏ¢Í·
+			// æŸ¥æ‰¾ä»»åŠ¡æ ‡è®°å¼€å§‹ä¿¡æ¯å¤´
 			for( int n = 0; n < 11; n++  )
 			{
 				pTemp = strstr( pTemp, "," );
@@ -130,7 +130,7 @@ namespace mission
 				pTemp++;
 			}
 
-			// Ëæ»úÈÎÎñÊı¾İĞÅÏ¢
+			// éšæœºä»»åŠ¡æ•°æ®ä¿¡æ¯
 			for( int j = 0; j < ROLE_MAXNUM_RAND_DATA; j++ )
 			{
 				sscanf( pTemp, "%d,%d,%d,%d,%d,%d,", &nData1, &nData2, &nData3, &nData4, &nData5, &nData6 );
@@ -151,7 +151,7 @@ namespace mission
 					m_Mission[i].RandData[j].wParam6 );
 #endif
 
-				// ²éÕÒÏÂÒ»¸ö¼ÇÂ¼Í·
+				// æŸ¥æ‰¾ä¸‹ä¸€ä¸ªè®°å½•å¤´
 				for( int n = 0; n < 6; n++  )
 				{
 					pTemp = strstr( pTemp, "," );
@@ -164,7 +164,7 @@ namespace mission
 			printf( "\n" );
 #endif
 
-			// ÈÎÎñ±ê¼ÇĞÅÏ¢
+			// ä»»åŠ¡æ ‡è®°ä¿¡æ¯
 			for( int j = 0; j < ROLE_MAXNUM_FLAGSIZE; j++ )
 			{
 				sscanf( pTemp, "%d,", &nData1 );
@@ -232,7 +232,7 @@ namespace mission
 				m_Mission[i].wParam1, m_Mission[i].wParam2, m_Mission[i].dwExp, m_Mission[i].dwMoney,	m_Mission[i].byNumData );
 #endif
 
-			// Ëæ»úÈÎÎñÊı¾İĞÅÏ¢
+			// éšæœºä»»åŠ¡æ•°æ®ä¿¡æ¯
 			for( int j = 0; j < ROLE_MAXNUM_RAND_DATA; j++ )
 			{
 				sprintf( pszBuf + strlen( pszBuf ), "%d,%d,%d,%d,%d,%d,", 
@@ -466,7 +466,7 @@ namespace mission
 
 	BOOL CCharMission::MisInitMissionCount( char* pszBuf )
 	{T_B
-		// ½ÇÉ«ÀëÏß²»Ğè¶Á³ö¸ÃĞÅÏ¢
+		// è§’è‰²ç¦»çº¿ä¸éœ€è¯»å‡ºè¯¥ä¿¡æ¯
 		//if( m_byOnline == 0 )
 		//	return TRUE;
 
@@ -527,7 +527,7 @@ namespace mission
 
 	BOOL CCharMission::MisGetMissionCount( char* pszBuf, DWORD dwSize )
 	{T_B
-		// ½ÇÉ«ÀëÏß²»Ğè´æ´¢¸ÃĞÅÏ¢
+		// è§’è‰²ç¦»çº¿ä¸éœ€å­˜å‚¨è¯¥ä¿¡æ¯
 		//if( m_byOnline == 0 )
 		//	return TRUE;
 
@@ -591,7 +591,7 @@ namespace mission
 		m_byNumTrigger = 0;
 		memset( m_Trigger, 0, sizeof(TRIGGER_DATA)*ROLE_MAXNUM_CHARTRIGGER );
 
-		// Çå³ıËùÓĞÈÎÎñ²¢ÇÒÍ¬²½µ½¿Í»§¶Î
+		// æ¸…é™¤æ‰€æœ‰ä»»åŠ¡å¹¶ä¸”åŒæ­¥åˆ°å®¢æˆ·æ®µ
 		MISSION_INFO Info[ROLE_MAXNUM_MISSION];
 		memset( Info, 0, sizeof(MISSION_INFO)*ROLE_MAXNUM_MISSION);
 		memcpy( Info, m_Mission, sizeof(MISSION_INFO)*m_byNumMission ); 
@@ -613,7 +613,7 @@ namespace mission
 		memset( m_MissionCount, 0, sizeof(RAND_MISSION_COUNT)*ROLE_MAXNUM_MISSIONCOUNT );
 		m_byNumMisCount = 0;
 
-		// Ä¬ÈÏ½ÇÉ«ÎªÔÚÏß×´Ì¬
+		// é»˜è®¤è§’è‰²ä¸ºåœ¨çº¿çŠ¶æ€
 		m_byOnline = 1;
 	T_E}
 
@@ -623,10 +623,10 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_KILL )
 			{
-				// ÌØ¶¨µÄ±»´İ»ÙÎï¼şÀàĞÍID
+				// ç‰¹å®šçš„è¢«æ‘§æ¯ç‰©ä»¶ç±»å‹ID
 				if( sWareID == m_Trigger[i].wParam1 )
 				{
-					// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+					// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 					lua_getglobal( g_pLuaState, "TriggerProc" );
 					if( !lua_isfunction( g_pLuaState, -1 ) )
 					{
@@ -637,15 +637,15 @@ namespace mission
 
 					lua_pushlightuserdata( g_pLuaState, (void*)m_pRoleChar );
 					lua_pushnumber( g_pLuaState, m_Trigger[i].wTriggerID );
-					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam1 ); // ¹ÖÎïID
-					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 ); // ĞèÒª´İ»Ù¹ÖÎïÊıÁ¿
-					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam3 ); // ´İ»ÙÎï¼ş±ê¼Ç¼ÇÂ¼ÆğÊ¼µã
+					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam1 ); // æ€ªç‰©ID
+					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 ); // éœ€è¦æ‘§æ¯æ€ªç‰©æ•°é‡
+					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam3 ); // æ‘§æ¯ç‰©ä»¶æ ‡è®°è®°å½•èµ·å§‹ç‚¹
 					lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 );
 
 					int nStatus = lua_pcall( g_pLuaState, 6, 1, 0 );
 					if( nStatus )
 					{
-						m_pRoleChar->SystemNotice( "CCharMission::KillWare:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+						m_pRoleChar->SystemNotice( "CCharMission::KillWare:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 						lua_callalert( g_pLuaState, nStatus );
 						lua_settop(g_pLuaState, 0);
 						return;
@@ -655,7 +655,7 @@ namespace mission
 					lua_settop(g_pLuaState, 0);
 					if( dwResult == LUA_TRUE )
 					{
-						// Ôö¼Ó´İ»ÙÎï¼ş¼ÆÊı
+						// å¢åŠ æ‘§æ¯ç‰©ä»¶è®¡æ•°
 						m_Trigger[i].wParam4++;
 						WPACKET packet = GETWPACKET();
 						WRITE_CMD(packet, CMD_MC_TRIGGER_ACTION );
@@ -665,7 +665,7 @@ namespace mission
 						WRITE_SHORT(packet, m_Trigger[i].wParam4 );
 						m_pRoleChar->ReflectINFof( m_pRoleChar, packet );
 
-						// ÅĞ¶ÏÇå³ı´¥·¢Æ÷ĞÅÏ¢
+						// åˆ¤æ–­æ¸…é™¤è§¦å‘å™¨ä¿¡æ¯
 						if( m_Trigger[i].wParam4 >= m_Trigger[i].wParam2 )
 						{
 #ifdef ROLE_DEBUG_INFO
@@ -677,7 +677,7 @@ namespace mission
 					}
 					else
 					{
-						//m_pRoleChar->SystemNotice( "CCharMission::KillWare:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+						//m_pRoleChar->SystemNotice( "CCharMission::KillWare:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 						//m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00001) );
 					}
 
@@ -693,7 +693,7 @@ namespace mission
 		{
 			if( m_Trigger[i].wMissionID == wRoleID && m_Trigger[i].byType == TE_GET_ITEM )
 			{
-				// ÌØ¶¨µÄ±»´İ»ÙÎï¼şÀàĞÍID
+				// ç‰¹å®šçš„è¢«æ‘§æ¯ç‰©ä»¶ç±»å‹ID
 				if( sItemID == m_Trigger[i].wParam1 )
 				{
 					sCount = m_Trigger[i].wParam4;
@@ -725,7 +725,7 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GET_ITEM )
 			{
-				// ÌØ¶¨µÄ±»´İ»ÙÎï¼şÀàĞÍID
+				// ç‰¹å®šçš„è¢«æ‘§æ¯ç‰©ä»¶ç±»å‹ID
 				if( sItemID == m_Trigger[i].wParam1 )
 				{
 					if( sCount >= m_Trigger[i].wParam2 )
@@ -749,10 +749,10 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GET_ITEM )
 			{
-				// ÌØ¶¨µÄ±»´İ»ÙÎï¼şÀàĞÍID
+				// ç‰¹å®šçš„è¢«æ‘§æ¯ç‰©ä»¶ç±»å‹ID
 				if( sItemID == m_Trigger[i].wParam1 )
 				{
-					// ´¥·¢Æ÷¼ÆÊıÒÑÂú
+					// è§¦å‘å™¨è®¡æ•°å·²æ»¡
 					if( m_Trigger[i].wParam4 >= m_Trigger[i].wParam2 )
 					{
 						continue;
@@ -760,7 +760,7 @@ namespace mission
 
 					for( int n = 0; n < sCount; n++ )
 					{
-						// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+						// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 						lua_getglobal( g_pLuaState, "TriggerProc" );
 						if( !lua_isfunction( g_pLuaState, -1 ) )
 						{
@@ -771,15 +771,15 @@ namespace mission
 
 						lua_pushlightuserdata( g_pLuaState, (void*)m_pRoleChar );
 						lua_pushnumber( g_pLuaState, m_Trigger[i].wTriggerID );
-						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam1 ); // Îï¼şID
-						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 ); // Îï¼şĞèÇóÊıÁ¿
-						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam3 ); // »ñµÃÎï¼ş±ê¼Ç¼ÇÂ¼ÆğÊ¼µã
+						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam1 ); // ç‰©ä»¶ID
+						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 ); // ç‰©ä»¶éœ€æ±‚æ•°é‡
+						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam3 ); // è·å¾—ç‰©ä»¶æ ‡è®°è®°å½•èµ·å§‹ç‚¹
 						lua_pushnumber( g_pLuaState, m_Trigger[i].wParam2 );
 
 						int nStatus = lua_pcall( g_pLuaState, 6, 1, 0 );
 						if( nStatus )
 						{
-							//m_pRoleChar->SystemNotice( "CCharMission::GetItem:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+							//m_pRoleChar->SystemNotice( "CCharMission::GetItem:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 							m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00002) );
 							lua_callalert( g_pLuaState, nStatus );
 							lua_settop(g_pLuaState, 0);
@@ -792,14 +792,14 @@ namespace mission
 						{
 							if( ++m_Trigger[i].wParam4 >= m_Trigger[i].wParam2 )
 							{
-								// ÓàÏÂµÄÎïÆ·¼ÆÊıÁô¸øÆäËû»ñÈ¡ÎïÆ·´¥·¢Æ÷¼ÆÊı
+								// ä½™ä¸‹çš„ç‰©å“è®¡æ•°ç•™ç»™å…¶ä»–è·å–ç‰©å“è§¦å‘å™¨è®¡æ•°
 								sCount -= n;
 								break;
 							}
 						}
 						else
 						{
-							//m_pRoleChar->SystemNotice( "CCharMission::GetItem:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+							//m_pRoleChar->SystemNotice( "CCharMission::GetItem:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 							m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00004) );
 						}
 					}
@@ -812,14 +812,14 @@ namespace mission
 					WRITE_SHORT(packet, m_Trigger[i].wParam4 );
 					m_pRoleChar->ReflectINFof( m_pRoleChar, packet );
 					
-					// ÅĞ¶ÏÇå³ı´¥·¢Æ÷ĞÅÏ¢
+					// åˆ¤æ–­æ¸…é™¤è§¦å‘å™¨ä¿¡æ¯
 					if( m_Trigger[i].wParam4 >= m_Trigger[i].wParam2 )
 					{
 #ifdef ROLE_DEBUG_INFO
 						printf( "GetItem Complete!, ID=%d, p1=%d, p2=%d, p3=%d, p4=%d\n", m_Trigger[i].wTriggerID, 
 							m_Trigger[i].wParam1, m_Trigger[i].wParam2, m_Trigger[i].wParam3, m_Trigger[i].wParam4 );
 #endif
-						// »ñÈ¡ÈÎÎñÎïÆ·¼ÆÊı´¥·¢Æ÷²»×Ô¶¯Çå³ı£¬µÈ´ıÈÎÎñ½áÊøÇå³ı
+						// è·å–ä»»åŠ¡ç‰©å“è®¡æ•°è§¦å‘å™¨ä¸è‡ªåŠ¨æ¸…é™¤ï¼Œç­‰å¾…ä»»åŠ¡ç»“æŸæ¸…é™¤
 						// ClearTrigger( i-- );
 					}
 					return;
@@ -837,11 +837,11 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GAME_TIME )
 			{
-				// ÅĞ¶ÏÊÇ·ñµ½´ïÊ±¼ä¼ä¸ô´¥·¢
+				// åˆ¤æ–­æ˜¯å¦åˆ°è¾¾æ—¶é—´é—´éš”è§¦å‘
 				if( ++m_Trigger[i].wParam4 < m_Trigger[i].wParam2 )
 					continue;
 
-				// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+				// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 				lua_getglobal( g_pLuaState, "TriggerProc" );
 				if( !lua_isfunction( g_pLuaState, -1 ) )
 				{
@@ -858,7 +858,7 @@ namespace mission
 				int nStatus = lua_pcall( g_pLuaState, 4, 1, 0 );
 				if( nStatus )
 				{
-					//m_pRoleChar->SystemNotice( "CCharMission::TimeOut:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+					//m_pRoleChar->SystemNotice( "CCharMission::TimeOut:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 					m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00003) );
 					lua_callalert( g_pLuaState, nStatus );
 					lua_settop(g_pLuaState, 0);
@@ -869,12 +869,12 @@ namespace mission
 				lua_settop(g_pLuaState, 0);
 				if( dwResult == LUA_TRUE )
 				{
-					// ÅĞ¶ÏÇå³ı´¥·¢Æ÷ĞÅÏ¢
+					// åˆ¤æ–­æ¸…é™¤è§¦å‘å™¨ä¿¡æ¯
 					switch( m_Trigger[i].wParam1 )
 					{
 					case TT_CYCLETIME:
 						{
-							// Çå³ı´¥·¢¼ÆÊı
+							// æ¸…é™¤è§¦å‘è®¡æ•°
 							m_Trigger[i].wParam4 = 0;
 						}
 						break;
@@ -884,7 +884,7 @@ namespace mission
 							{
 								m_Trigger[i].wParam3--;
 
-								// Çå³ı´¥·¢¼ÆÊı
+								// æ¸…é™¤è§¦å‘è®¡æ•°
 								m_Trigger[i].wParam4 = 0;
 							}
 							else
@@ -893,16 +893,16 @@ namespace mission
 								printf( "TimeOut Complete!, ID=%d, p1=%d, p2=%d, p3=%d, p4=%d\n", m_Trigger[i].wTriggerID, 
 									m_Trigger[i].wParam1, m_Trigger[i].wParam2, m_Trigger[i].wParam3, m_Trigger[i].wParam4 );
 #endif
-								// Çå³ı´¥·¢Æ÷
+								// æ¸…é™¤è§¦å‘å™¨
 								ClearTrigger( i-- );
 							}
 						}
 						break;
 					default:
 						{
-							//LG( "trigger_error", "Î´ÖªµÄÊ±¼ä´¥·¢Æ÷Ê±¼ä¼ä¸ôÀàĞÍ£¡" );
-							LG( "trigger_error", "unknown time trigger time slot type£¡" );
-							//m_pRoleChar->SystemNotice( "Î´ÖªµÄÊ±¼ä´¥·¢Æ÷Ê±¼ä¼ä¸ôÀàĞÍ£¡TID = %d, Type = %d", m_Trigger[i].wTriggerID, m_Trigger[i].wParam1 );
+							//LG( "trigger_error", "æœªçŸ¥çš„æ—¶é—´è§¦å‘å™¨æ—¶é—´é—´éš”ç±»å‹ï¼" );
+							LG( "trigger_error", "unknown time trigger time slot typeï¼" );
+							//m_pRoleChar->SystemNotice( "æœªçŸ¥çš„æ—¶é—´è§¦å‘å™¨æ—¶é—´é—´éš”ç±»å‹ï¼TID = %d, Type = %d", m_Trigger[i].wTriggerID, m_Trigger[i].wParam1 );
 							m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00005), m_Trigger[i].wTriggerID, m_Trigger[i].wParam1 );
 							ClearTrigger( i-- );
 						}
@@ -911,7 +911,7 @@ namespace mission
 				}
 				else
 				{
-					//m_pRoleChar->SystemNotice( "CCharMission::TimeOut:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+					//m_pRoleChar->SystemNotice( "CCharMission::TimeOut:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 					m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00004) );
 				}
 			}
@@ -924,23 +924,23 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GOTO_MAP )
 			{
-				// ²»ÔÚÍ¬Ò»µØÍ¼
+				// ä¸åœ¨åŒä¸€åœ°å›¾
 				if( byMapID != m_Trigger[i].wParam1 )
 				{
-					// ÒÑ¾­³öÁËÄ¿±êÇøÓò
+					// å·²ç»å‡ºäº†ç›®æ ‡åŒºåŸŸ
 					m_Trigger[i].wParam6 = 0;
 					continue;
 				}
-				// ²»ÔÚÇøÓòÄÚ
+				// ä¸åœ¨åŒºåŸŸå†…
 				if( wxPos > m_Trigger[i].wParam2 && wyPos > m_Trigger[i].wParam3 && 
 					wxPos < m_Trigger[i].wParam2 + m_Trigger[i].wParam4 && 
 					wyPos < m_Trigger[i].wParam3 + m_Trigger[i].wParam4 )
 				{
-					// ÒÑ¾­½øÈëÁËÄ¿±êÇøÓò
+					// å·²ç»è¿›å…¥äº†ç›®æ ‡åŒºåŸŸ
 					if( m_Trigger[i].wParam6 )
 						continue;					
 
-					// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+					// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 					lua_getglobal( g_pLuaState, "TriggerProc" );
 					if( !lua_isfunction( g_pLuaState, -1 ) )
 					{
@@ -957,7 +957,7 @@ namespace mission
 					int nStatus = lua_pcall( g_pLuaState, 4, 1, 0 );
 					if( nStatus )
 					{
-						//m_pRoleChar->SystemNotice( "CCharMission::GotoMap:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+						//m_pRoleChar->SystemNotice( "CCharMission::GotoMap:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 						m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00006) );
 						lua_callalert( g_pLuaState, nStatus );
 						lua_settop(g_pLuaState, 0);
@@ -987,16 +987,16 @@ namespace mission
 					}
 					else
 					{
-						//m_pRoleChar->SystemNotice( "CCharMission::GotoMap:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+						//m_pRoleChar->SystemNotice( "CCharMission::GotoMap:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 						m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00007) );
 					}
 
-					// ÉèÖÃÒÑ¾­µ½´ï¸ÃÇøÓò±ê¼Ç
+					// è®¾ç½®å·²ç»åˆ°è¾¾è¯¥åŒºåŸŸæ ‡è®°
 					m_Trigger[i].wParam6 = 1;
 				}
 				else
 				{
-					// ÒÑ¾­³öÁËÄ¿±êÇøÓò
+					// å·²ç»å‡ºäº†ç›®æ ‡åŒºåŸŸ
 					m_Trigger[i].wParam6 = 0;
 				}
 			}
@@ -1012,7 +1012,7 @@ namespace mission
 				if( m_Trigger[i].wParam2 == 1 && sLevel < m_Trigger[i].wParam1 )
 					continue;
 
-				// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+				// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 				lua_getglobal( g_pLuaState, "TriggerProc" );
 				if( !lua_isfunction( g_pLuaState, -1 ) )
 				{
@@ -1029,7 +1029,7 @@ namespace mission
 				int nStatus = lua_pcall( g_pLuaState, 4, 1, 0 );
 				if( nStatus )
 				{
-					//m_pRoleChar->SystemNotice( "CCharMission::LevelUp:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+					//m_pRoleChar->SystemNotice( "CCharMission::LevelUp:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 					m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00008) );
 					lua_callalert( g_pLuaState, nStatus );
 					lua_settop(g_pLuaState, 0);
@@ -1052,7 +1052,7 @@ namespace mission
 					WRITE_SHORT(packet, 0 );
 					m_pRoleChar->ReflectINFof( m_pRoleChar, packet );
 
-					// ¶¯×÷ºóÖ÷¶¯¹Ø±Õ´¥·¢Æ÷
+					// åŠ¨ä½œåä¸»åŠ¨å…³é—­è§¦å‘å™¨
 					if( m_Trigger[i].wParam2 )
 					{
 						ClearTrigger( i-- );
@@ -1060,7 +1060,7 @@ namespace mission
 				}
 				else
 				{
-					//m_pRoleChar->SystemNotice( "CCharMission::LevelUp:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+					//m_pRoleChar->SystemNotice( "CCharMission::LevelUp:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 					m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00009) );
 				}
 			}
@@ -1069,7 +1069,7 @@ namespace mission
 
 	void CCharMission::CharBorn()
 	{T_B
-		// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+		// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "TriggerProc" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -1086,7 +1086,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 4, 1, 0 );
 		if( nStatus )
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::CharBorn:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::CharBorn:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00010) );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -1107,14 +1107,14 @@ namespace mission
 		}
 		else
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::CharBorn:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::CharBorn:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00011) );
 		}
 	T_E}
 
 	void CCharMission::EquipItem( USHORT sItemID, USHORT sTriID )
 	{T_B
-		// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+		// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "TriggerProc" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -1131,7 +1131,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 4, 1, 0 );
 		if( nStatus )
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::EquipItem:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::EquipItem:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00012) );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -1152,12 +1152,12 @@ namespace mission
 		}
 		else
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::EquipItem:ÈÎÎñ´¦Àíº¯Êı[TriggerProc]µ÷ÓÃ·µ»ØÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::EquipItem:ä»»åŠ¡å¤„ç†å‡½æ•°[TriggerProc]è°ƒç”¨è¿”å›å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00013) );
 		}
 	T_E}
 
-	// ´¥·¢Æ÷ÊÂ¼ş´¦Àí
+	// è§¦å‘å™¨äº‹ä»¶å¤„ç†
 	BOOL CCharMission::MisEventProc( TRIGGER_EVENT e, WPARAM wParam, LPARAM lParam )
 	{
 		switch( e )
@@ -1218,7 +1218,7 @@ namespace mission
 		{
 			if( m_Trigger[i].byType == TE_GET_ITEM && sItemID == m_Trigger[i].wParam1)
 			{
-				// ÅĞ¶ÏÊÇ·ñÈÎÎñÎïÆ·ÊıÁ¿ÒÑ¾­×ã¹»
+				// åˆ¤æ–­æ˜¯å¦ä»»åŠ¡ç‰©å“æ•°é‡å·²ç»è¶³å¤Ÿ
 				return !(m_Trigger[i].wParam4 >= m_Trigger[i].wParam2);
 			}
 		}
@@ -1265,7 +1265,7 @@ namespace mission
 		//}
 		//else
 		//{
-		//	m_pRoleChar->SystemNotice( "Î´ÖªµÄÈÎÎñ×´Ì¬ÀàĞÍ£ºnpcid = 0x%X, state = %d", dwNpcID, byState );
+		//	m_pRoleChar->SystemNotice( "æœªçŸ¥çš„ä»»åŠ¡çŠ¶æ€ç±»å‹ï¼šnpcid = 0x%X, state = %d", dwNpcID, byState );
 		//	return FALSE;
 		//}
 
@@ -1299,7 +1299,7 @@ namespace mission
 
 		if( nIndex == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "GetMissionState:Î´·¢ÏÖ½ÇÉ«¶ÔÓ¦µÄNPCÈÎÎñ×´Ì¬ĞÅÏ¢£¡¸ÃnpcÊÇ·ñĞ¯´øÈÎÎñ£¿" );
+			//m_pRoleChar->SystemNotice( "GetMissionState:æœªå‘ç°è§’è‰²å¯¹åº”çš„NPCä»»åŠ¡çŠ¶æ€ä¿¡æ¯ï¼è¯¥npcæ˜¯å¦æºå¸¦ä»»åŠ¡ï¼Ÿ" );
 			return FALSE;
 		}
 
@@ -1328,7 +1328,7 @@ namespace mission
 
 		if( nIndex == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "GetNumMission:Î´ÖªµÄNPCĞÅÏ¢£¡" );
+			//m_pRoleChar->SystemNotice( "GetNumMission:æœªçŸ¥çš„NPCä¿¡æ¯ï¼" );
 			return FALSE;
 		}
 		
@@ -1357,14 +1357,14 @@ namespace mission
 
 		if( nIndex == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "GetMissionInfo:Î´ÖªµÄNPCĞÅÏ¢£¡" );
+			//m_pRoleChar->SystemNotice( "GetMissionInfo:æœªçŸ¥çš„NPCä¿¡æ¯ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00014) );
 			return FALSE;
 		}
 
 		if( byIndex >= m_MissionState[nIndex].byMisNum )
 		{
-			//m_pRoleChar->SystemNotice( "GetMissionInfo:´íÎóµÄ²éÑ¯NPCĞ¯´øÈÎÎñ¼ÇÂ¼Ë÷ÒıÀàĞÍĞÅÏ¢£¡" );
+			//m_pRoleChar->SystemNotice( "GetMissionInfo:é”™è¯¯çš„æŸ¥è¯¢NPCæºå¸¦ä»»åŠ¡è®°å½•ç´¢å¼•ç±»å‹ä¿¡æ¯ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00015) );
 			return FALSE;
 		}
@@ -1395,7 +1395,7 @@ namespace mission
 
 		if( nIndex == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "GetMissionInfo:Î´ÖªµÄNPCĞÅÏ¢£¡dwNpcID = %d", dwNpcID );
+			//m_pRoleChar->SystemNotice( "GetMissionInfo:æœªçŸ¥çš„NPCä¿¡æ¯ï¼dwNpcID = %d", dwNpcID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00016), dwNpcID );
 			return FALSE;
 		}
@@ -1481,7 +1481,7 @@ namespace mission
 
 		if( m_MissionState[m_byStateIndex].dwNpcID != dwNpcID )
 		{
-			//m_pRoleChar->SystemNotice( "ClearMissionState:Î´ÖªµÄNPCË÷ÒıĞÅÏ¢£¡" );
+			//m_pRoleChar->SystemNotice( "ClearMissionState:æœªçŸ¥çš„NPCç´¢å¼•ä¿¡æ¯ï¼" );
 			return FALSE;
 		}
 
@@ -1607,7 +1607,7 @@ namespace mission
 		if( dwIndex >= m_byNumTrigger )
 			return;
 
-		// Çå³ı¸ÃÌõ´¥·¢Æ÷ĞÅÏ¢¼ÇÂ¼
+		// æ¸…é™¤è¯¥æ¡è§¦å‘å™¨ä¿¡æ¯è®°å½•
 		if( m_Trigger[dwIndex].byType == TE_GOTO_MAP ) 
 			m_byNumGotoMap--;
 
@@ -1647,11 +1647,11 @@ namespace mission
 
 		if( nIndex == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisGetMisLogInfo:´íÎóµÄ²éÑ¯ÈÎÎñÈÕÖ¾Ë÷Òı¡£ID = %d", wMisID );
+			//m_pRoleChar->SystemNotice( "MisGetMisLogInfo:é”™è¯¯çš„æŸ¥è¯¢ä»»åŠ¡æ—¥å¿—ç´¢å¼•ã€‚ID = %d", wMisID );
 			return;
 		}
 
-		// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+		// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "MissionLog" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -1666,7 +1666,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 2, 0, 0 );
 		if( nStatus )
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::MisGetMisLogInfo:ÈÎÎñÈÕÖ¾´¦Àíº¯Êı[MissionLog]µ÷ÓÃÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::MisGetMisLogInfo:ä»»åŠ¡æ—¥å¿—å¤„ç†å‡½æ•°[MissionLog]è°ƒç”¨å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00017) );
 			lua_callalert( g_pLuaState, nStatus );
 		}
@@ -1713,7 +1713,7 @@ namespace mission
 		m_Mission[m_byNumMission].byMisType = MIS_TYPE_NOMAL;
 		m_Mission[m_byNumMission].wParam1 = wScriptID;
 		
-		// Í¬²½ÈÎÎñÈÕÖ¾ĞÅÏ¢µ½¿Í»§¶Ë
+		// åŒæ­¥ä»»åŠ¡æ—¥å¿—ä¿¡æ¯åˆ°å®¢æˆ·ç«¯
 		MisLogAdd( wRoleID, ROLE_MIS_PENDING_FLAG );
 
 		m_byNumMission++;
@@ -1824,7 +1824,7 @@ namespace mission
 
 	BOOL CCharMission::CancelRole( WORD wRoleID, WORD wScriptID )
 	{
-		// lua½Å±¾´¦Àí´¥·¢Æ÷ĞÅÏ¢
+		// luaè„šæœ¬å¤„ç†è§¦å‘å™¨ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "CancelMission" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -1840,7 +1840,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 3, 1, 0 );
 		if( nStatus )
 		{
-			//m_pRoleChar->SystemNotice( "CCharMission::CancelRole:È¡ÏûÈÎÎñ´¦Àíº¯Êı[CancelMission]µ÷ÓÃÊ§°Ü£¡" );
+			//m_pRoleChar->SystemNotice( "CCharMission::CancelRole:å–æ¶ˆä»»åŠ¡å¤„ç†å‡½æ•°[CancelMission]è°ƒç”¨å¤±è´¥ï¼" );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00018) );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -1858,7 +1858,7 @@ namespace mission
 		{
 			if( m_Mission[i].wRoleID == wRoleID )
 			{
-				// Çå³ı»¤ËÍµÄnpc·ÖÅäÄÚ´æ
+				// æ¸…é™¤æŠ¤é€çš„npcåˆ†é…å†…å­˜
 				if( m_Mission[i].byType == MIS_RAND_CONVOY )
 				{
 					for( int j = 0; j < ROLE_MAXNUM_RAND_DATA; j++ )
@@ -1871,10 +1871,10 @@ namespace mission
 					}
 				}
 
-				// Ö´ĞĞÈ¡ÏûÈÎÎñ½Å±¾ĞÅÏ¢
+				// æ‰§è¡Œå–æ¶ˆä»»åŠ¡è„šæœ¬ä¿¡æ¯
 				if( CancelRole( wRoleID, m_Mission[i].wParam1 ) == FALSE )
 				{
-					//m_pRoleChar->SystemNotice( "È¡ÏûÈÎÎñÊ§°Ü£¡ID[%d], SID[%d]", wRoleID, m_Mission[i].wParam1 );
+					//m_pRoleChar->SystemNotice( "å–æ¶ˆä»»åŠ¡å¤±è´¥ï¼ID[%d], SID[%d]", wRoleID, m_Mission[i].wParam1 );
 					m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00019), wRoleID, m_Mission[i].wParam1 );
 					return FALSE;
 				}
@@ -1883,7 +1883,7 @@ namespace mission
 			}
 		}
 
-		//m_pRoleChar->SystemNotice( "MisCancelRole:Î´·¢ÏÖÖ¸¶¨µÄÈÎÎñID[%d]", wRoleID );
+		//m_pRoleChar->SystemNotice( "MisCancelRole:æœªå‘ç°æŒ‡å®šçš„ä»»åŠ¡ID[%d]", wRoleID );
 		m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00020), wRoleID );
 		return FALSE;
 	}
@@ -1894,7 +1894,7 @@ namespace mission
 		{
 			if( m_Mission[i].wRoleID == wRoleID )
 			{
-				// Çå³ı»¤ËÍµÄnpc·ÖÅäÄÚ´æ
+				// æ¸…é™¤æŠ¤é€çš„npcåˆ†é…å†…å­˜
 				if( m_Mission[i].byType == MIS_RAND_CONVOY )
 				{
 					for( int j = 0; j < ROLE_MAXNUM_RAND_DATA; j++ )
@@ -1907,7 +1907,7 @@ namespace mission
 					}
 				}
 
-				// Çå³ı¸ÃÌõ¼ÇÂ¼ĞÅÏ¢
+				// æ¸…é™¤è¯¥æ¡è®°å½•ä¿¡æ¯
 				MISSION_INFO Info[ROLE_MAXNUM_MISSION];
 				memset( Info, 0, sizeof(MISSION_INFO)*ROLE_MAXNUM_MISSION);
 				memcpy( Info, m_Mission, sizeof(MISSION_INFO)*m_byNumMission ); 
@@ -1915,16 +1915,16 @@ namespace mission
 				memcpy( m_Mission + i, Info + i + 1, sizeof(MISSION_INFO)*( m_byNumMission - i - 1 ) );
 				m_byNumMission--;
 
-				// Çå³ı¸ÃÈÎÎñ´¥·¢Æ÷
+				// æ¸…é™¤è¯¥ä»»åŠ¡è§¦å‘å™¨
 				ClearRoleTrigger( wRoleID );
 
-				// Í¬²½ÈÎÎñÈÕÖ¾ĞÅÏ¢µ½¿Í»§¶Ë
+				// åŒæ­¥ä»»åŠ¡æ—¥å¿—ä¿¡æ¯åˆ°å®¢æˆ·ç«¯
 				MisLogClear( wRoleID );
 				return TRUE;
 			}
 		}
 
-		//m_pRoleChar->SystemNotice( "MisClearRole:Î´·¢ÏÖÖ¸¶¨µÄÈÎÎñID[%d]", wRoleID );
+		//m_pRoleChar->SystemNotice( "MisClearRole:æœªå‘ç°æŒ‡å®šçš„ä»»åŠ¡ID[%d]", wRoleID );
 		m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00021), wRoleID );
 		return FALSE;
 	}
@@ -2004,7 +2004,7 @@ namespace mission
 	{
 		if( byIndex >= ROLE_MAXNUM_RAND_DATA )
 		{
-			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:ÕÙ»½NPCÊı¾İË÷Òı´íÎó£¡byInex = %d", byIndex );
+			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:å¬å”¤NPCæ•°æ®ç´¢å¼•é”™è¯¯ï¼byInex = %d", byIndex );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00022), byIndex );
 			return FALSE;
 		}
@@ -2021,7 +2021,7 @@ namespace mission
 
 		if( index == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisAddFollowNpc:Î´·¢ÏÖÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "MisAddFollowNpc:æœªå‘ç°ä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00023), wRoleID );
 			return FALSE;
 		}
@@ -2046,7 +2046,7 @@ namespace mission
 
 		if( index == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:Î´·¢ÏÖÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:æœªå‘ç°ä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00024), wRoleID );
 			return FALSE;
 		}
@@ -2070,7 +2070,7 @@ namespace mission
 	{
 		if( byIndex >= ROLE_MAXNUM_RAND_DATA )
 		{
-			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:ÕÙ»½NPCÊı¾İË÷Òı´íÎó£¡byInex = %d", byIndex );
+			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:å¬å”¤NPCæ•°æ®ç´¢å¼•é”™è¯¯ï¼byInex = %d", byIndex );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00025), byIndex );
 			return FALSE;
 		}
@@ -2087,7 +2087,7 @@ namespace mission
 
 		if( index == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:Î´·¢ÏÖÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "MisClearFollowNpc:æœªå‘ç°ä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00024), wRoleID );
 			return FALSE;
 		}
@@ -2106,7 +2106,7 @@ namespace mission
 	{
 		if( byIndex >= ROLE_MAXNUM_RAND_DATA )
 		{
-			//m_pRoleChar->SystemNotice( "MisHasFollowNpc:ÕÙ»½NPCÊı¾İË÷Òı´íÎó£¡byInex = %d", byIndex );
+			//m_pRoleChar->SystemNotice( "MisHasFollowNpc:å¬å”¤NPCæ•°æ®ç´¢å¼•é”™è¯¯ï¼byInex = %d", byIndex );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00026), byIndex );
 			return FALSE;
 		}
@@ -2123,7 +2123,7 @@ namespace mission
 
 		if( index == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisHasFollowNpc:Î´·¢ÏÖÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "MisHasFollowNpc:æœªå‘ç°ä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00027), wRoleID );
 			return FALSE;
 		}
@@ -2138,7 +2138,7 @@ namespace mission
 	{
 		if( byIndex >= ROLE_MAXNUM_RAND_DATA )
 		{
-			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:ÕÙ»½NPCÊı¾İË÷Òı´íÎó£¡byInex = %d", byIndex );
+			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:å¬å”¤NPCæ•°æ®ç´¢å¼•é”™è¯¯ï¼byInex = %d", byIndex );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00022), byIndex );
 			return FALSE;
 		}
@@ -2155,7 +2155,7 @@ namespace mission
 
 		if( index == -1 )
 		{
-			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:Î´·¢ÏÖÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "MisIsFollowNpc:æœªå‘ç°ä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00028), wRoleID );
 			return FALSE;
 		}
@@ -2186,7 +2186,7 @@ namespace mission
 		m_Mission[m_byNumMission].byNumData = byNumData;
 		m_byNumMission++;
 
-		// Í¬²½ÈÕÖ¾µ½¿Í»§¶Ë
+		// åŒæ­¥æ—¥å¿—åˆ°å®¢æˆ·ç«¯
 		MisLogAdd( wRoleID, ROLE_MIS_PENDING_FLAG );
 
 		return TRUE;
@@ -2219,7 +2219,7 @@ namespace mission
 
 		if( index == -1 ) 
 		{
-			//m_pRoleChar->SystemNotice( "SetRandMissionData:Î´·¢ÏÖËæ»úÈÎÎñID=%d", wRoleID );
+			//m_pRoleChar->SystemNotice( "SetRandMissionData:æœªå‘ç°éšæœºä»»åŠ¡ID=%d", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00029), wRoleID );
 			return FALSE;
 		}
@@ -2242,13 +2242,13 @@ namespace mission
 
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "GetRandMission:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "GetRandMission:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00030), wRoleID );
 			return FALSE;
 		}
 
 		wRoleID = m_Mission[index].wRoleID;
-		byType = m_Mission[index].byType; // »ñÈ¡µÍ7Î»µÄÈÎÎñÀàĞÍĞÅÏ¢
+		byType = m_Mission[index].byType; // è·å–ä½7ä½çš„ä»»åŠ¡ç±»å‹ä¿¡æ¯
 		byLevel = m_Mission[index].byLevel;
 		dwExp = m_Mission[index].dwExp;
 		dwMoney = m_Mission[index].dwMoney;
@@ -2274,7 +2274,7 @@ namespace mission
 
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "GetRandMissionData:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "GetRandMissionData:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00031), wRoleID );
 			return FALSE;
 		}
@@ -2297,7 +2297,7 @@ namespace mission
 			
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "SetRandMissionNpcItemFlag:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "SetRandMissionNpcItemFlag:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00032), wRoleID );
 			return FALSE;
 		}
@@ -2326,7 +2326,7 @@ namespace mission
 			
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "SetRandMissionNpcItemFlag:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "SetRandMissionNpcItemFlag:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00032), wRoleID );
 			return FALSE;
 		}
@@ -2355,7 +2355,7 @@ namespace mission
 		
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "GetRandMissionNpcItem:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "GetRandMissionNpcItem:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00033), wRoleID );
 			return FALSE;
 		}
@@ -2364,8 +2364,8 @@ namespace mission
 		{
 			if( m_Mission[index].RandData[i].wParam4 != 1 )
 			{
-				m_pRoleChar->GetPlyMainCha()->TakeItem( m_Mission[index].RandData[i].wParam2, 1, "ÏµÍ³" );
-				m_Mission[index].RandData[i].wParam4 = 1; // ±íÃ÷ÎïÆ·ÒÑ±»È¡×ß				
+				m_pRoleChar->GetPlyMainCha()->TakeItem( m_Mission[index].RandData[i].wParam2, 1, "ç³»ç»Ÿ" );
+				m_Mission[index].RandData[i].wParam4 = 1; // è¡¨æ˜ç‰©å“å·²è¢«å–èµ°				
 			}
 		}
 		return TRUE;
@@ -2385,7 +2385,7 @@ namespace mission
 			
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "GetRandMissionNpcItem:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "GetRandMissionNpcItem:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00033), wRoleID );
 			return FALSE;
 		}
@@ -2395,7 +2395,7 @@ namespace mission
 			if( m_Mission[index].RandData[i].wParam1 == wNpcID )
 			{
 				sItemID = m_Mission[index].RandData[i].wParam2;
-				m_Mission[index].RandData[i].wParam4 = 1; // ±íÃ÷ÎïÆ·ÒÑ±»È¡×ß
+				m_Mission[index].RandData[i].wParam4 = 1; // è¡¨æ˜ç‰©å“å·²è¢«å–èµ°
 				return TRUE;
 			}
 		}
@@ -2416,7 +2416,7 @@ namespace mission
 
 		if( index == -1 || m_Mission[index].byMisType != MIS_TYPE_RAND ) 
 		{
-			//m_pRoleChar->SystemNotice( "HasRandMissionNpc:Î´·¢ÏÖËæ»úÈÎÎñID=%d£¬»òÕßÈÎÎñ²»ÊÇËæ»úÊı¾İÀàĞÍ£¡", wRoleID );
+			//m_pRoleChar->SystemNotice( "HasRandMissionNpc:æœªå‘ç°éšæœºä»»åŠ¡ID=%dï¼Œæˆ–è€…ä»»åŠ¡ä¸æ˜¯éšæœºæ•°æ®ç±»å‹ï¼", wRoleID );
 			m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00034), wRoleID );
 			return FALSE;
 		}
@@ -2448,8 +2448,8 @@ namespace mission
 		{
 			if( m_byNumMisCount >= ROLE_MAXNUM_MISSIONCOUNT )
 			{
-				//LG( "randmission", "CCharMission::CompleteRandMission:Ëæ»úÈÎÎñ¼ÆÊı¼ÇÂ¼ÒÑÂú£¬²»ÄÜÔÙÌí¼ÓĞÂµÄËæ»úÈÎÎñÍê³É´ÎÊı¼ÇÂ¼£¡" );
-				LG( "randmission", "CCharMission::CompleteRandMission:random task take count of note has full£¬cannot add new random task note of compelete number£¡" );
+				//LG( "randmission", "CCharMission::CompleteRandMission:éšæœºä»»åŠ¡è®¡æ•°è®°å½•å·²æ»¡ï¼Œä¸èƒ½å†æ·»åŠ æ–°çš„éšæœºä»»åŠ¡å®Œæˆæ¬¡æ•°è®°å½•ï¼" );
+				LG( "randmission", "CCharMission::CompleteRandMission:random task take count of note has fullï¼Œcannot add new random task note of compelete numberï¼" );
 				return FALSE;
 			}
 			m_MissionCount[m_byNumMisCount].wRoleID = wRoleID;
@@ -2479,8 +2479,8 @@ namespace mission
 		{
 			if( m_byNumMisCount >= ROLE_MAXNUM_MISSIONCOUNT )
 			{
-				//LG( "randmission", "CCharMission::CompleteRandMission:Ëæ»úÈÎÎñ¼ÆÊı¼ÇÂ¼ÒÑÂú£¬²»ÄÜÔÙÌí¼ÓĞÂµÄËæ»úÈÎÎñÍê³É´ÎÊı¼ÇÂ¼£¡" );
-				LG( "randmission", "CCharMission::CompleteRandMission:random task take count of note has full£¬cannot add new random task compelete note £¡" );
+				//LG( "randmission", "CCharMission::CompleteRandMission:éšæœºä»»åŠ¡è®¡æ•°è®°å½•å·²æ»¡ï¼Œä¸èƒ½å†æ·»åŠ æ–°çš„éšæœºä»»åŠ¡å®Œæˆæ¬¡æ•°è®°å½•ï¼" );
+				LG( "randmission", "CCharMission::CompleteRandMission:random task take count of note has fullï¼Œcannot add new random task compelete note ï¼" );
 				return FALSE;
 			}
 			m_MissionCount[m_byNumMisCount].wRoleID = wRoleID;
@@ -2602,14 +2602,14 @@ namespace mission
 	void CCharMission::MisLogout()
 	{
 		m_byOnline = 0;
-		//TL(CHA_OUT, m_pRoleChar->GetName(), "", "½ÇÉ«ÀëÏß");
+		//TL(CHA_OUT, m_pRoleChar->GetName(), "", "è§’è‰²ç¦»çº¿");
 		TL(CHA_OUT, m_pRoleChar->GetName(), "", RES_STRING(GM_MISSION_CPP_00035));
 	}
 
 	void CCharMission::MisLogin()
 	{
 		m_byOnline = 1;
-		//TL(CHA_ENTER, m_pRoleChar->GetName(), "", "½ÇÉ«ÉÏÏß");
+		//TL(CHA_ENTER, m_pRoleChar->GetName(), "", "è§’è‰²ä¸Šçº¿");
 		TL(CHA_ENTER, m_pRoleChar->GetName(), "", RES_STRING(GM_MISSION_CPP_00036));
 	}
 
@@ -2621,14 +2621,14 @@ namespace mission
 
 			if(pMain)
 			{
-				//const char* pszMap = (pMain->GetSubMap()) ? pMain->GetSubMap()->GetName() : "Î´Öª";
+				//const char* pszMap = (pMain->GetSubMap()) ? pMain->GetSubMap()->GetName() : "æœªçŸ¥";
 				const char* pszMap = (pMain->GetSubMap()) ? pMain->GetSubMap()->GetName() : RES_STRING(GM_MISSION_CPP_00037);
 				char szData[128];
-				//sprintf( szData, "½øµØÍ¼¡¶%s¡·×ø±ê£ºx = %d, y = %d.", pszMap, pMain->GetPos().x, pMain->GetPos().y );
+				//sprintf( szData, "è¿›åœ°å›¾ã€Š%sã€‹åæ ‡ï¼šx = %d, y = %d.", pszMap, pMain->GetPos().x, pMain->GetPos().y );
 				sprintf( szData, RES_STRING(GM_MISSION_CPP_00038), pszMap, pMain->GetPos().x, pMain->GetPos().y );
 				TL(CHA_ENTER, m_pRoleChar->GetName(), "", szData );
 
-				// ½øÈëµØÍ¼Ê±ÕÙ»½³ö¸úËænpc
+				// è¿›å…¥åœ°å›¾æ—¶å¬å”¤å‡ºè·Ÿéšnpc
 				for( int i = 0; i < m_byNumMission; i++ )
 				{
 					if( m_Mission[i].byType == MIS_RAND_CONVOY )
@@ -2640,7 +2640,7 @@ namespace mission
 								if( !m_pRoleChar->ConvoyNpc( m_Mission[i].wRoleID, j, m_Mission[i].RandData[0].wParam1, 
 									(BYTE)m_Mission[i].RandData[0].wParam2 ) )
 								{
-									//m_pRoleChar->SystemNotice( "ÕÙ»½ÄãµÄÈÎÎñ»¤ËÍNPCÊ§°Ü£¬ÇëÍ¨Öª¿ª·¢ÈËÔ±£¬Ğ»Ğ»£¡	MID(%d),NID(%d)", 
+									//m_pRoleChar->SystemNotice( "å¬å”¤ä½ çš„ä»»åŠ¡æŠ¤é€NPCå¤±è´¥ï¼Œè¯·é€šçŸ¥å¼€å‘äººå‘˜ï¼Œè°¢è°¢ï¼	MID(%d),NID(%d)", 
 									m_pRoleChar->SystemNotice( RES_STRING(GM_MISSION_CPP_00039), 
 										m_Mission[i].wRoleID, m_Mission[i].RandData[0].wParam1 );					
 								}
@@ -2660,13 +2660,13 @@ namespace mission
 	void CCharMission::MisGooutMap() 
 	{
 		CCharacter* pMain = m_pRoleChar->GetPlyCtrlCha();
-		const char* pszMap = (pMain->GetSubMap()) ? pMain->GetSubMap()->GetName() : "Î´Öª";
+		const char* pszMap = (pMain->GetSubMap()) ? pMain->GetSubMap()->GetName() : "æœªçŸ¥";
 		char szData[128];
-		//sprintf( szData, "³öµØÍ¼¡¶%s¡·×ø±ê£ºx = %d, y = %d.", pszMap, pMain->GetPos().x, pMain->GetPos().y );
+		//sprintf( szData, "å‡ºåœ°å›¾ã€Š%sã€‹åæ ‡ï¼šx = %d, y = %d.", pszMap, pMain->GetPos().x, pMain->GetPos().y );
 		sprintf( szData, RES_STRING(GM_MISSION_CPP_00040), pszMap, pMain->GetPos().x, pMain->GetPos().y );
 		TL(CHA_OUT, m_pRoleChar->GetName(), "", szData );
 
-		// ³öµØÍ¼Ê±Çå¿Õ¸úËænpc
+		// å‡ºåœ°å›¾æ—¶æ¸…ç©ºè·Ÿéšnpc
 		for( int i = 0; i < m_byNumMission; i++ )
 		{
 			if( m_Mission[i].byType == MIS_RAND_CONVOY )

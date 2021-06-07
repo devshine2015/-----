@@ -9,18 +9,18 @@ namespace GUI
 // 
 enum  eTeamStyle
 {
-	enumTeamFrnd,       // ºÃÓÑ
-    enumTeamGroup,      // ¶ÓÎé
-    enumTeamGuild,      // ĞĞ»á
-    enumTeamRoad,       // Â·ÈË
-	enumTeamMaster,		// Ê¦¸µ
-	enumTeamPrentice,	// Í½µÜ
+	enumTeamFrnd,       // å¥½å‹
+    enumTeamGroup,      // é˜Ÿä¼
+    enumTeamGuild,      // è¡Œä¼š
+    enumTeamRoad,       // è·¯äºº
+	enumTeamMaster,		// å¸ˆå‚…
+	enumTeamPrentice,	// å¾’å¼Ÿ
 };
 
 enum  eShowStyle
 {
-	enumShowQQName,       // ÏÔÊ¾Ãû×Ö
-	enumShowQQMotto,      // ÏÔÊ¾×ùÓÒÃú
+	enumShowQQName,       // æ˜¾ç¤ºåå­—
+	enumShowQQMotto,      // æ˜¾ç¤ºåº§å³é“­
 };
 
 
@@ -58,8 +58,8 @@ private:
 	bool	 _bOnline;
 	BYTE	 _byWork;
     long     _nMaxHp;   
-    long     _nHp;      // Ñª
-    long     _nSp;      // Ä§·¨
+    long     _nHp;      // è¡€
+    long     _nSp;      // é­”æ³•
     long     _nLv;
     long     _nMaxSp;
 
@@ -121,14 +121,14 @@ public:
 	static eShowStyle _nShowStyle;
 
 private:
-    string          _strName;       // Ãû×Ö
+    string          _strName;       // åå­—
 	string			_strMotto;
 	string			_strJob;
 	string			_strShowName;
 	string			_strGuildName;
 
 	// Add by lark.li 20080802 begin
-	string			_strGroupName;	// ·Ö×éÃû×Ö
+	string			_strGroupName;	// åˆ†ç»„åå­—
 	// End
 
 	DWORD			_dwLv;
@@ -215,16 +215,16 @@ public:
 	static  void	SetTeamLeaderID( DWORD v )	{ _dwTeamLeaderID=v;	}
 
 private:
-	CTeam*  _pFrndTeam;				// ºÃÓÑ
-    CTeam*  _pGroupTeam;			// ¶ÓÎé
-    CTeam*  _pRoadTeam;				// Â·ÈË
-	CTeam*	_pMasterTeam;			// Ê¦¸µ
-	CTeam*	_pPrenticeTeam;			// Í½µÜ
+	CTeam*  _pFrndTeam;				// å¥½å‹
+    CTeam*  _pGroupTeam;			// é˜Ÿä¼
+    CTeam*  _pRoadTeam;				// è·¯äºº
+	CTeam*	_pMasterTeam;			// å¸ˆå‚…
+	CTeam*	_pPrenticeTeam;			// å¾’å¼Ÿ
 
 	static DWORD	_dwTeamLeaderID;
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 
 }

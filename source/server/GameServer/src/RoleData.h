@@ -14,12 +14,12 @@
 namespace mission
 {
 
-	// »ŒŒÒπ¶ƒ‹œÓ√¸¡ÓΩ·ππ
+	// ‰ªªÂä°ÂäüËÉΩÈ°πÂëΩ‰ª§ÁªìÊûÑ
 	typedef struct _ROLE_ITEM_COMMAND
 	{
-		USHORT usCmd;								// π¶ƒ‹œÓƒø√¸¡Ó
-		char   szDesc[ROLE_MAXNUM_FUNCITEMSIZE];	// √Ë ˆ–≈œ¢	
-		BYTE   byParam;								// ≤Œ ˝–≈œ¢
+		USHORT usCmd;								// ÂäüËÉΩÈ°πÁõÆÂëΩ‰ª§
+		char   szDesc[ROLE_MAXNUM_FUNCITEMSIZE];	// ÊèèËø∞‰ø°ÊÅØ	
+		BYTE   byParam;								// ÂèÇÊï∞‰ø°ÊÅØ
 		WORD   wParam;
 		DWORD  dwParam;
 
@@ -35,24 +35,24 @@ namespace mission
 
 	} ROLE_ITEM_COMMAND, *PROLE_ITEM_COMMAND;
 
-	// œ‘ æ»ŒŒÒ∂‘ª∞√Ë ˆ–≈œ¢
+	// ÊòæÁ§∫‰ªªÂä°ÂØπËØùÊèèËø∞‰ø°ÊÅØ
 	typedef struct _ROLE_DESCRIPTION
 	{
-		BYTE byCmd;							// √Ë ˆ∂‘ª∞¿∏∞¥≈•√¸¡ÓID
-		char szDesc[ROLE_MAXNUM_DESPSIZE];	// √Ë ˆ–≈œ¢
+		BYTE byCmd;							// ÊèèËø∞ÂØπËØùÊ†èÊåâÈíÆÂëΩ‰ª§ID
+		char szDesc[ROLE_MAXNUM_DESPSIZE];	// ÊèèËø∞‰ø°ÊÅØ
 
 	} ROLE_DESCRIPTION, *PROLE_DESCRIPTION;
 
-	//°°œ‘ æ»ŒŒÒπ¶ƒ‹√Ë ˆ–≈œ¢
+	//„ÄÄÊòæÁ§∫‰ªªÂä°ÂäüËÉΩÊèèËø∞‰ø°ÊÅØ
 	typedef struct _ROLE_FUNCTION
 	{		
-		BYTE byCount;		// π¶ƒ‹œÓº∆ ˝
-		ROLE_ITEM_COMMAND FuncItem[ROLE_MAXNUM_FUNCITEM]; // ∂‘”¶µƒπ¶ƒ‹œÓƒø
+		BYTE byCount;		// ÂäüËÉΩÈ°πËÆ°Êï∞
+		ROLE_ITEM_COMMAND FuncItem[ROLE_MAXNUM_FUNCITEM]; // ÂØπÂ∫îÁöÑÂäüËÉΩÈ°πÁõÆ
 
 	} ROLE_FUNCTION, *PROLE_FUNCTION;
 
-	// npc–≈œ¢¥Ê¥¢Ω·ππ
-	// ¿˙ ∑»ŒŒÒµ•∏ˆ±Íº«Ω·ππ
+	// npc‰ø°ÊÅØÂ≠òÂÇ®ÁªìÊûÑ
+	// ÂéÜÂè≤‰ªªÂä°Âçï‰∏™Ê†áËÆ∞ÁªìÊûÑ
 	typedef struct _ROLE_FLAGINFO
 	{
 		WORD  wRoleID;
@@ -91,7 +91,7 @@ namespace mission
 			return szFlag[dwIndex] & szTag;
 		}
 
-		// …Ë÷√ªÚ’ﬂ«Â≥˝…Ë∂®±Íº«
+		// ËÆæÁΩÆÊàñËÄÖÊ∏ÖÈô§ËÆæÂÆöÊ†áËÆ∞
 		BOOL SetFlag( WORD wFlag, BOOL bValid )
 		{
 			if( wFlag >= ROLE_MAXNUM_FLAGSIZE<<3 ) return FALSE;
@@ -147,7 +147,7 @@ namespace mission
 			return szFlag[dwIndex] & szTag;
 		}
 
-		// …Ë÷√ªÚ’ﬂ«Â≥˝…Ë∂®±Íº«
+		// ËÆæÁΩÆÊàñËÄÖÊ∏ÖÈô§ËÆæÂÆöÊ†áËÆ∞
 		void SetFlag( DWORD dwFlag, BOOL bValid )
 		{
 			DWORD dwIndex = dwFlag>>3; // dwFlag/ROLE_MAXNUM_INDEXSIZE;
@@ -165,17 +165,17 @@ namespace mission
 			DWORD dwTag = dwFlag&1;
 			if( dwTag == 0 )
 			{
-				// ∏ﬂÀƒŒª
+				// È´òÂõõ‰Ωç
 				szParam[dwIndex] &= 0xF;
 			}
 			else
 			{
-				// µÕÀƒŒª
+				// ‰ΩéÂõõ‰Ωç
 				szParam[dwIndex] &= 0xF0;
 			}
 		}
 
-		// …Ë÷√±Íº«œ‡”¶≤Œ ˝–≈œ¢
+		// ËÆæÁΩÆÊ†áËÆ∞Áõ∏Â∫îÂèÇÊï∞‰ø°ÊÅØ
 		BOOL SetParam( DWORD dwFlag, BYTE byParam )
 		{
 			if( byParam >= ROLE_MAXVALUE_PARAM )
@@ -185,13 +185,13 @@ namespace mission
 			DWORD dwTag = dwFlag&1;
 			if( dwTag == 0 )
 			{
-				// ∏ﬂÀƒŒª
+				// È´òÂõõ‰Ωç
 				szParam[dwIndex] &= 0xF;
 				szParam[dwIndex] |= byParam<<4;
 			}
 			else
 			{
-				// µÕÀƒŒª
+				// ‰ΩéÂõõ‰Ωç
 				szParam[dwIndex] &= 0xF0;
 				szParam[dwIndex] |= byParam;
 			}
@@ -204,12 +204,12 @@ namespace mission
 			DWORD dwTag = dwFlag&1;
 			if( dwTag == 0 )
 			{
-				// ∏ﬂÀƒŒª
+				// È´òÂõõ‰Ωç
 				return (szParam[dwIndex]&0xF0)>>4;
 			}
 			else
 			{
-				// µÕÀƒŒª
+				// ‰ΩéÂõõ‰Ωç
 				return szParam[dwIndex]&0xF;
 			}
 
@@ -218,7 +218,7 @@ namespace mission
 		
 	} ROLE_EXFLAGINFO, *PROLE_EXFLAGINFO;
 
-	// À˘”–Ω«…´◊Ó¥Ûø…÷¥––¿˙ ∑»ŒŒÒ±Íº«Ω·ππ
+	// ÊâÄÊúâËßíËâ≤ÊúÄÂ§ßÂèØÊâßË°åÂéÜÂè≤‰ªªÂä°Ê†áËÆ∞ÁªìÊûÑ
 	typedef struct _ROLE_RECORDINFO
 	{
 		char  szID[ROLE_MAXNUM_RECORDSIZE];
@@ -253,7 +253,7 @@ namespace mission
 			return szID[dwIndex] & szTag;
 		T_E}
 
-		// …Ë÷√ªÚ’ﬂ«Â≥˝…Ë∂®±Íº«
+		// ËÆæÁΩÆÊàñËÄÖÊ∏ÖÈô§ËÆæÂÆöÊ†áËÆ∞
 		BOOL SetID( DWORD dwID, BOOL bValid )
 		{T_B
 			if( dwID >= ROLE_MAXNUM_RECORDSIZE<<3 ) return FALSE;
@@ -274,84 +274,84 @@ namespace mission
 	} ROLE_RECORDINFO, *PROLE_RECORDINFO;
 
 
-	// ¥•∑¢∆˜–≈œ¢º«¬º
+	// Ëß¶ÂèëÂô®‰ø°ÊÅØËÆ∞ÂΩï
 	typedef struct _TRIGGER_DATA
 	{
-		WORD wTriggerID;	// ¥•∑¢∆˜ID
-		WORD wMissionID;	// »ŒŒÒID(»ŒŒÒ»°œ˚ ±–Ë“™ºÏ≤‚£¨«Â≥˝œ‡”¶»ŒŒÒµƒ¥•∑¢∆˜)
-		BYTE byType;		//  ¬º˛¿‡–Õ
-		WORD wParam1;		// ¥•∑¢∆˜≤Œ ˝3
-		WORD wParam2;		// ¥•∑¢∆˜≤Œ ˝4,∂Ø◊˜º∆ ˝
-		WORD wParam3;		// (»Áπ˚ «ÀÊª˙»ŒŒÒ£¨‘Ú”√◊˜ø™ ºº«¬º±Í«©µƒ∆ ºŒª÷√£¨¥´µ›µΩ¥•∑¢∆˜Ω≈±æ÷– π”√)
+		WORD wTriggerID;	// Ëß¶ÂèëÂô®ID
+		WORD wMissionID;	// ‰ªªÂä°ID(‰ªªÂä°ÂèñÊ∂àÊó∂ÈúÄË¶ÅÊ£ÄÊµãÔºåÊ∏ÖÈô§Áõ∏Â∫î‰ªªÂä°ÁöÑËß¶ÂèëÂô®)
+		BYTE byType;		// ‰∫ã‰ª∂Á±ªÂûã
+		WORD wParam1;		// Ëß¶ÂèëÂô®ÂèÇÊï∞3
+		WORD wParam2;		// Ëß¶ÂèëÂô®ÂèÇÊï∞4,Âä®‰ΩúËÆ°Êï∞
+		WORD wParam3;		// (Â¶ÇÊûúÊòØÈöèÊú∫‰ªªÂä°ÔºåÂàôÁî®‰ΩúÂºÄÂßãËÆ∞ÂΩïÊ†áÁ≠æÁöÑËµ∑Âßã‰ΩçÁΩÆÔºå‰º†ÈÄíÂà∞Ëß¶ÂèëÂô®ËÑöÊú¨‰∏≠‰ΩøÁî®)
 		WORD wParam4;		// 
 		WORD wParam5;
 		WORD wParam6;
 
-		BYTE byIsDel : 1;	// ±Í÷æ¥•∑¢∆˜ «∑Ò”¶∏√…æ≥˝
+		BYTE byIsDel : 1;	// Ê†áÂøóËß¶ÂèëÂô®ÊòØÂê¶Â∫îËØ•Âà†Èô§
 		BYTE byParam : 7;
 
 	} TRIGGER_DATA, *PTRIGGER_DATA;
 
 	enum { TRIGGER_VALID, TRIGGER_DELED };
 
-	// ¥•∑¢∆˜–≈œ¢º«¬º
+	// Ëß¶ÂèëÂô®‰ø°ÊÅØËÆ∞ÂΩï
 	typedef struct _NPC_TRIGGER_DATA
 	{
-		WORD wTID;			// ¥•∑¢∆˜ID
+		WORD wTID;			// Ëß¶ÂèëÂô®ID
 		WORD wParam;
-		BYTE byType;		//  ¬º˛¿‡–Õ
-		WORD wParam1;		// ¥•∑¢∆˜≤Œ ˝
+		BYTE byType;		// ‰∫ã‰ª∂Á±ªÂûã
+		WORD wParam1;		// Ëß¶ÂèëÂô®ÂèÇÊï∞
 		WORD wParam2;
 		WORD wParam3;
 		WORD wParam4;
 
 	} NPC_TRIGGER_DATA, *PNPC_TRIGGER_DATA;
 
-	// ÀÊª˙»ŒŒÒ ˝æ›–≈œ¢
+	// ÈöèÊú∫‰ªªÂä°Êï∞ÊçÆ‰ø°ÊÅØ
 	typedef struct _MISSION_DATA
 	{
-		WORD	wParam1;				// ÀÊª˙»ŒŒÒµƒ÷¥––ƒ⁄»›–≈œ¢≤Œ ˝
+		WORD	wParam1;				// ÈöèÊú∫‰ªªÂä°ÁöÑÊâßË°åÂÜÖÂÆπ‰ø°ÊÅØÂèÇÊï∞
 		WORD	wParam2;
 		WORD	wParam3;
 		WORD	wParam4;
 		WORD	wParam5;
 		WORD	wParam6;
 
-		void*	pData;					// ‘À–– ±¡Ÿ ± ˝æ›
+		void*	pData;					// ËøêË°åÊó∂‰∏¥Êó∂Êï∞ÊçÆ
 	} MISSION_DATA, *PMISSION_DATA;
 
 	typedef struct _MISSION_INFO
 	{
-		WORD	wRoleID;				// »ŒŒÒID
-		BYTE	byState : 3;			// »ŒŒÒΩ¯––◊¥Ã¨
-		BYTE	byMisType : 5;			// »ŒŒÒ¿‡–Œ
-		BYTE	byType;					// ÀÊª˙»ŒŒÒ–≈œ¢¿‡–Õ
-		BYTE	byLevel;				// µ»º∂–≈œ¢
-		BYTE	byNumData;				// ÷¥––ƒ⁄»›º∆ ˝
-		DWORD	dwExp;					// ÷¥––∏√»ŒŒÒø…µ√µƒæ≠—È
-		DWORD	dwMoney;				// ÷¥––∏√»ŒŒÒµƒΩ«ÆΩ±¿¯
-		WORD	wItem;					// ÀÊª˙»ŒŒÒµƒ∏ﬂº∂ŒÔ∆∑Ω±¿¯£®÷µŒ™0±Ì æŒﬁ£¨ ˝¡ø∂ºŒ™1£©
-		WORD	wParam1;				// ≤Œ ˝
+		WORD	wRoleID;				// ‰ªªÂä°ID
+		BYTE	byState : 3;			// ‰ªªÂä°ËøõË°åÁä∂ÊÄÅ
+		BYTE	byMisType : 5;			// ‰ªªÂä°Á±ªÂΩ¢
+		BYTE	byType;					// ÈöèÊú∫‰ªªÂä°‰ø°ÊÅØÁ±ªÂûã
+		BYTE	byLevel;				// Á≠âÁ∫ß‰ø°ÊÅØ
+		BYTE	byNumData;				// ÊâßË°åÂÜÖÂÆπËÆ°Êï∞
+		DWORD	dwExp;					// ÊâßË°åËØ•‰ªªÂä°ÂèØÂæóÁöÑÁªèÈ™å
+		DWORD	dwMoney;				// ÊâßË°åËØ•‰ªªÂä°ÁöÑÈáëÈí±Â•ñÂä±
+		WORD	wItem;					// ÈöèÊú∫‰ªªÂä°ÁöÑÈ´òÁ∫ßÁâ©ÂìÅÂ•ñÂä±ÔºàÂÄº‰∏∫0Ë°®Á§∫Êó†ÔºåÊï∞ÈáèÈÉΩ‰∏∫1Ôºâ
+		WORD	wParam1;				// ÂèÇÊï∞
 		WORD	wParam2;
-		ROLE_FLAGINFO RoleInfo;			// ±Í÷æ∫Õ»ŒŒÒID–≈œ¢
-		MISSION_DATA RandData[ROLE_MAXNUM_RAND_DATA];	// ÀÊª˙»ŒŒÒ ˝æ›–≈œ¢
+		ROLE_FLAGINFO RoleInfo;			// Ê†áÂøóÂíå‰ªªÂä°ID‰ø°ÊÅØ
+		MISSION_DATA RandData[ROLE_MAXNUM_RAND_DATA];	// ÈöèÊú∫‰ªªÂä°Êï∞ÊçÆ‰ø°ÊÅØ
 		
 	} MISSION_INFO, *PMISSION_INFO;
 
-	// ÕÍ≥…ÀÊª˙»ŒŒÒº∆ ˝Ω·ππ
+	// ÂÆåÊàêÈöèÊú∫‰ªªÂä°ËÆ°Êï∞ÁªìÊûÑ
 	typedef struct _RAND_MISSION_COUNT
 	{
-		WORD	wRoleID;				// »ŒŒÒID
-		WORD	wCount;					// »ŒŒÒÕÍ≥…º∆ ˝
-		WORD	wNum;					// ÕÍ≥…»ŒŒÒµƒ»¶ ˝
+		WORD	wRoleID;				// ‰ªªÂä°ID
+		WORD	wCount;					// ‰ªªÂä°ÂÆåÊàêËÆ°Êï∞
+		WORD	wNum;					// ÂÆåÊàê‰ªªÂä°ÁöÑÂúàÊï∞
 
 	} RAND_MISSION_COUNT, *PRAND_MISSION_COUNT;
 
-	// NPC»ŒŒÒ–≈œ¢◊¥Ã¨º«¬º
+	// NPC‰ªªÂä°‰ø°ÊÅØÁä∂ÊÄÅËÆ∞ÂΩï
 	typedef struct _STATE_DATA
 	{
-		BYTE byID : 5;		// √ø∏ˆnpc◊‘¥¯µƒ»ŒŒÒ–≈œ¢¡–±ÌµƒÀ˜“˝
-		BYTE byState : 3;	// µ•∏ˆ»ŒŒÒ◊¥Ã¨
+		BYTE byID : 5;		// ÊØè‰∏™npcËá™Â∏¶ÁöÑ‰ªªÂä°‰ø°ÊÅØÂàóË°®ÁöÑÁ¥¢Âºï
+		BYTE byState : 3;	// Âçï‰∏™‰ªªÂä°Áä∂ÊÄÅ
 	
 	} STATE_DATA, *PSTATE_DATA;
 
@@ -359,8 +359,8 @@ namespace mission
 	{
 		DWORD dwNpcID;
 		BYTE  byNpcState;
-		BYTE  byMisNum;			// “—ÕÍ≥…»ŒŒÒº∆ ˝
-		STATE_DATA StateInfo[ROLE_MAXNUM_MISSIONSTATE];	// »ŒŒÒ ˝æ›–≈œ¢
+		BYTE  byMisNum;			// Â∑≤ÂÆåÊàê‰ªªÂä°ËÆ°Êï∞
+		STATE_DATA StateInfo[ROLE_MAXNUM_MISSIONSTATE];	// ‰ªªÂä°Êï∞ÊçÆ‰ø°ÊÅØ
 	
 	} MISSION_STATE, *PMISSION_STATE;
 }

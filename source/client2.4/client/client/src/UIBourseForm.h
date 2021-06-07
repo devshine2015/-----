@@ -21,7 +21,7 @@ struct stTradeBox;
 class CMemo;
 class COneCommand;
 
-// »õ²Õ½»Ò×Ëù
+// è´§èˆ±äº¤æ˜“æ‰€
 class CBourseMgr : public CUIInterface
 {
 public:
@@ -62,7 +62,7 @@ protected:
     virtual void End();
 	virtual void CloseForm();
 
-	//~ »Øµôº¯Êı
+	//~ å›æ‰å‡½æ•°
 	static void _MainMouseSeaTradeEvent(CCompent *pSender, int nMsgType, 
 										int x, int y, DWORD dwKey);
 	static void __gui_event_left_rotate(CGuiData *sender,
@@ -96,9 +96,9 @@ private:
 
 	struct ItemInfo_T
 	{
-		USHORT		sId;		//ÎïÆ·IDºÅ
-		DWORD		dwPrice;	//ÎïÆ·¼Û¸ñ
-		WORD		wNum;		//ÎïÆ·ÊıÁ¿
+		USHORT		sId;		//ç‰©å“IDå·
+		DWORD		dwPrice;	//ç‰©å“ä»·æ ¼
+		WORD		wNum;		//ç‰©å“æ•°é‡
 		BYTE		byLevel;
 
 
@@ -108,7 +108,7 @@ private:
 	typedef ItemList::iterator ItemListIter;
 
 
-	// Âß¼­º¯Êı
+	// é€»è¾‘å‡½æ•°
 	void            ChangeItem(eDirectType enumDirect = LEFT);
 
 	void			SetItems();
@@ -125,28 +125,28 @@ private:
 
 private:
 
-	//~ ½çÃæ =================================================================
+	//~ ç•Œé¢ =================================================================
 	CForm*			frmSeaTrade;
 	CForm*			frmBoatRoom;
 
 	CTextButton*	btnItemLeft;
 	CTextButton*	btnItemRight;
 
-	//ÂòÂô»õÎïµÄ±í¸ñ
+	//ä¹°å–è´§ç‰©çš„è¡¨æ ¼
 	CGoodsGrid*		grdItemSale;
 	CGoodsGrid*		grdItemBuy; 
 
 	CGoodsGrid*		grdShipRoom;
 
-	//NPC½çÃæÏÔÊ¾Ñ¡Ôñ´¬µÄ½çÃæ
+	//NPCç•Œé¢æ˜¾ç¤ºé€‰æ‹©èˆ¹çš„ç•Œé¢
 	CForm*			frmNPCchat;
 	CMemo*			memCtrl;
 
-	//~ Âß¼­ ==================================================================
-	static const BYTE ITEM_TYPE;			//ÎïÆ·ÀàĞÍ,ÕâÀïÔ¼¶¨Îª0
-	static const float SALE_RATE;			//ÎïÆ·Âô³öµÄÕÛ¼õÊıÄ¿Ç°Ô¼¶¨Îª50%
-	static const int BUY_PAGE_INDEX;		//ÂòÈëÎïÆ·µÄÒ³Ë÷ÒıºÅ
-	static const int SALE_PAGE_INDEX;		//Âô³öÎïÆ·µÄÒ³Ë÷ÒıºÅ
+	//~ é€»è¾‘ ==================================================================
+	static const BYTE ITEM_TYPE;			//ç‰©å“ç±»å‹,è¿™é‡Œçº¦å®šä¸º0
+	static const float SALE_RATE;			//ç‰©å“å–å‡ºçš„æŠ˜å‡æ•°ç›®å‰çº¦å®šä¸º50%
+	static const int BUY_PAGE_INDEX;		//ä¹°å…¥ç‰©å“çš„é¡µç´¢å¼•å·
+	static const int SALE_PAGE_INDEX;		//å–å‡ºç‰©å“çš„é¡µç´¢å¼•å·
 
 	DWORD			 m_dwNpcID;
 	DWORD			 m_dwBoatID;
@@ -155,7 +155,7 @@ private:
 	stTradeBox*		 m_pkTradeBox;
 
 
-	//ÎïÆ·µÄ¸öÊı
+	//ç‰©å“çš„ä¸ªæ•°
 	int				 m_iItemSelIndex;
 
 	ItemList		 m_BuyList;
@@ -166,7 +166,7 @@ private:
 
 ////////////////////////////////////////////////////////////////////////////////
 //
-//  ºÚÊĞÉÌÈË
+//  é»‘å¸‚å•†äºº
 //
 class CBlackTradeMgr : public CUIInterface
 {
@@ -204,13 +204,13 @@ private:
 
 	BlackTradeVec	m_vecBlackTrade;
 
-	// Ë¢ĞÂ¹ºÂòÌõ¼ş
+	// åˆ·æ–°è´­ä¹°æ¡ä»¶
 	void RefreshSaleGrid();
 
-	// ¶Ò»»È·ÈÏ
+	// å…‘æ¢ç¡®è®¤
 	static void		_TradeExchangeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	// ¹Ø±Õ´°ÌåÊÂ¼ş
+	// å…³é—­çª—ä½“äº‹ä»¶
 	static void		_evtCloseForm(CForm* pForm, bool& IsClose);
 };
 

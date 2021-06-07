@@ -51,11 +51,11 @@ public:
 
 	void RenderTextureRect(int nX, int nY, LETexRect *pRect, DWORD dwColor);
 
-	void LineFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// »­Ò»¸ö±ß¿ò
-	void SelectChaLineFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// »­Ò»¸ö±ß¿ò
+	void LineFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// ç”»ä¸€ä¸ªè¾¹æ¡†
+	void SelectChaLineFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// ç”»ä¸€ä¸ªè¾¹æ¡†
 	
-	void LineThinFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// »­Ò»¸öÏ¸¿ò
-	void FillFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// Ìî³ä±ß¿ò
+	void LineThinFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// ç”»ä¸€ä¸ªç»†æ¡†
+	void FillFrame(int left, int top, int right, int bottom, DWORD color=0x90000000 );	// å¡«å……è¾¹æ¡†
 	void SetIsConvert( bool v );
 	void SetIsChangeResolution(bool v )  {      _bChangeResolution = v ;    }
 	bool GetIsChangeResolution()         {      return _bChangeResolution;  }  
@@ -63,10 +63,10 @@ public:
 	void SetClipRect( int x, int y, int w, int h );
 	void Reset();
 
-public:	// Èý²ã×ø±ê£ºÆÁÄ»×ø±ê£¬»­Í¼×ø±ê£¬GUI×ø±ê
-	void SetScreen( int w, int h, bool isFull );			// ÉèÖÃÓÎÏ·×ÀÃæÏÔÊ¾µÄ¿í¸ß£¬µ±³õÊ¼»¯»ò¸Ä±äÆÁÄ»·Ö±æÂÊÊ±µ÷ÓÃ
+public:	// ä¸‰å±‚åæ ‡ï¼šå±å¹•åæ ‡ï¼Œç”»å›¾åæ ‡ï¼ŒGUIåæ ‡
+	void SetScreen( int w, int h, bool isFull );			// è®¾ç½®æ¸¸æˆæ¡Œé¢æ˜¾ç¤ºçš„å®½é«˜ï¼Œå½“åˆå§‹åŒ–æˆ–æ”¹å˜å±å¹•åˆ†è¾¨çŽ‡æ—¶è°ƒç”¨
 
-	// ½«ÆÁÄ»×ø±ê×ª»»ÎªGUI×ø±ê
+	// å°†å±å¹•åæ ‡è½¬æ¢ä¸ºGUIåæ ‡
 	void ScreenConvert( int &x, int &y ) {
 		x = (int)((float)(x) / _fScreenScaleX);
 		y = (int)((float)(y) / _fScreenScaleY);
@@ -78,7 +78,7 @@ public:	// Èý²ã×ø±ê£ºÆÁÄ»×ø±ê£¬»­Í¼×ø±ê£¬GUI×ø±ê
         return (float)y / _fScreenScaleY; 
     }
 
-	// ½«»­Í¼×ø±ê×ª»»ÎªGUI×ø±ê
+	// å°†ç”»å›¾åæ ‡è½¬æ¢ä¸ºGUIåæ ‡
 	void DrawConvert( int &x, int &y ) {
 		x = (int)((float)(x) * _fDrawScaleX);
 		y = (int)((float)(y) * _fDrawScaleY);
@@ -123,14 +123,14 @@ private:
 	float			_fOldScreenScaleX, _fOldScreenScaleY;
 	float			_fOldDrawScaleX, _fOldDrawScaleY;
 
-	int				_nGuiWidth, _nGuiHeight;		// GUIÏµÍ³¿í¸ß,¼´ÆÁÄ»´óÐ¡
+	int				_nGuiWidth, _nGuiHeight;		// GUIç³»ç»Ÿå®½é«˜,å³å±å¹•å¤§å°
 	bool			_IsFullScreen;
 
 private:
-	//LPTEXTURE		_pTex;				// ÎÆÀí
-    int             _nTex;				// ÎÆÀí
-	int             _nOutLine ;         // Ë½ÈË¿ò
-	RECT			_rtFrame;			// ÎÆÀí´óÐ¡
+	//LPTEXTURE		_pTex;				// çº¹ç†
+    int             _nTex;				// çº¹ç†
+	int             _nOutLine ;         // ç§äººæ¡†
+	RECT			_rtFrame;			// çº¹ç†å¤§å°
 	VECTOR2			_vesLevel;
 	VECTOR2			_vesVertical;
 
@@ -145,8 +145,8 @@ private:
 
 inline UIRender& GetRender() { return UIRender::s_Render;   }
 
-extern bool UIGetChooseColor( DWORD &c, DWORD* custcolor );					// ÑÕÉ«¶Ô»°¿ò,cÎªÄ¬ÈÏÑÕÉ«,Í¬Ê±Ò²×÷ÎªÖ´ÐÐ³É¹¦Ê±µÄ·µ»ØÖµ
-extern char* UIGetOpenFileName( char* strInitDir=NULL );	// ´ò¿ªÎÄ¼þ¶Ô»°¿ò,³É¹¦·µ»ØÎÄ¼þÃû³Æ,·ñÔò·µ»ØNULL
+extern bool UIGetChooseColor( DWORD &c, DWORD* custcolor );					// é¢œè‰²å¯¹è¯æ¡†,cä¸ºé»˜è®¤é¢œè‰²,åŒæ—¶ä¹Ÿä½œä¸ºæ‰§è¡ŒæˆåŠŸæ—¶çš„è¿”å›žå€¼
+extern char* UIGetOpenFileName( char* strInitDir=NULL );	// æ‰“å¼€æ–‡ä»¶å¯¹è¯æ¡†,æˆåŠŸè¿”å›žæ–‡ä»¶åç§°,å¦åˆ™è¿”å›žNULL
 
 inline void UIRender::RenderSprite(LPTEXTURE tex, RECT* rc,VECTOR2* vscale,VECTOR2* vdest, DWORD dwColor)
 {
@@ -159,13 +159,13 @@ inline void UIRender::RenderSprite(LPTEXTURE tex, RECT* rc,VECTOR2* vscale,VECTO
 
 		RECT* prc = &pCliper->GetClipRect();
 		
-		// Í¼ÐÎÔÚ²Ã¼ôÇøÍâ£¬²»ÏÔÊ¾
+		// å›¾å½¢åœ¨è£å‰ªåŒºå¤–ï¼Œä¸æ˜¾ç¤º
 		if( vdest->x > prc->right || vdest->x < prc->left - w )
 		{
 			return;
 		}
 
-		// ½øÐÐ²Ã¼ô
+		// è¿›è¡Œè£å‰ª
 		if( vdest->x < prc->left )
 		{
 			x1 = (int)vdest->x - prc->left;

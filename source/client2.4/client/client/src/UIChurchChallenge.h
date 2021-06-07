@@ -22,7 +22,7 @@
 namespace GUI
 {
 
-// ½ÌÌÃ¾¹ÅÄ
+// æ•™å ‚ç«Ÿæ‹
 class CChurchChallengeMgr : public CUIInterface
 {
 public:

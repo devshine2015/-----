@@ -83,7 +83,7 @@ public:
 	void	Clear();
 	CNpcRecord* GetNpcInfo( USHORT sNpcID );
 	
-	// 召唤NPC出现
+	// 鍙敜NPC鍑虹幇
 	BOOL	SummonNpc( const char szNpc[], USHORT sAreaID, USHORT sTime );
 	mission::CNpc* FindNpc( const char szName[] );
 
@@ -92,7 +92,7 @@ protected:
 	long	m_lRecordNum;
 	CNpcRecordSet*	m_pNpcRecordSet;
 
-	// 招唤的NPC列表
+	// 鎷涘敜鐨凬PC鍒楄〃
 	mission::CNpc*	m_NpcList[ROLE_MAXNUM_MAPNPC];
 	USHORT			m_sNumNpc;
 

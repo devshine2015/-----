@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¼ì²é¿ò
-// ×÷Õß:lh 2004-07-27
-// ÓÃÍ¾:ÏìÓ¦ÊÇÓë·ñµÄ×´Ì¬ 
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:æ£€æŸ¥æ¡†
+// ä½œè€…:lh 2004-07-27
+// ç”¨é€”:å“åº”æ˜¯ä¸å¦çš„çŠ¶æ€ 
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 
 #pragma once
@@ -11,7 +11,7 @@
 namespace GUI
 {
 
-// µ¥¸ö¼ì²é¿ò,Ò²¿ÉÓÃÓÚÑ¡Ôñ¿ò
+// å•ä¸ªæ£€æŸ¥æ¡†,ä¹Ÿå¯ç”¨äºé€‰æ‹©æ¡†
 class CCheckBox : public CCompent
 {
 public:
@@ -26,7 +26,7 @@ public:
 	CCheckBox(CForm& frmOwn);
 	CCheckBox( const CCheckBox& rhs );
 	CCheckBox& operator=(const CCheckBox& rhs);
-	~CCheckBox() { SAFE_DELETE(_pImage); } // UIµ±»ú´¦Àí //delete _pImage; }
+	~CCheckBox() { SAFE_DELETE(_pImage); } // UIå½“æœºå¤„ç† //delete _pImage; }
 	GUI_CLONE(CCheckBox)
 
 	virtual void	Render();
@@ -48,14 +48,14 @@ public:
 public:
 	GuiEvent		evtCheckChange;
 
-	static int		s_nMarginLeft;		// ÎÄ×Ö¾àÀë×óÃæÍ¼Æ¬µÄÎ»ÖÃ
+	static int		s_nMarginLeft;		// æ–‡å­—è·ç¦»å·¦é¢å›¾ç‰‡çš„ä½ç½®
 
 protected:
 	void			_SetSelf();
 
 protected:
 	DWORD			_TextColor;
-	CGuiPic*		_pImage;			// ±³¾°Í¼,¹²¶şÖ¡£¬·Ö±ğ¶ÔÓ¦£ºbsChecked,bsUnChecked
+	CGuiPic*		_pImage;			// èƒŒæ™¯å›¾,å…±äºŒå¸§ï¼Œåˆ†åˆ«å¯¹åº”ï¼šbsChecked,bsUnChecked
 	string			_strCaption;
 
 	bool			_isChecked;
@@ -67,7 +67,7 @@ private:
 
 };
 
-// ½«µ¥¸ö¼ì²é¿ò·Ö³É×é
+// å°†å•ä¸ªæ£€æŸ¥æ¡†åˆ†æˆç»„
 class CCheckGroup : public CContainer
 {
 public:
@@ -107,7 +107,7 @@ private:
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CCheckBox::SetIsChecked( bool v ) 
 {
 	_isChecked = v;

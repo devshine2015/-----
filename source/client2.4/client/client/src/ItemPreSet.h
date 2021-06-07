@@ -20,7 +20,7 @@ public:
 
 protected:
 
-	static CItemPreSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CItemPreSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

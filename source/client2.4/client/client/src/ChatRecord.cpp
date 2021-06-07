@@ -1,58 +1,52 @@
-#include "stdafx.h"
 #include ".\chatrecord.h"
+#include "stdafx.h"
 
+string CChatRecord::m_strPath = "";
 
-string CChatRecord::m_strPath="";
+CChatRecord::CChatRecord(void) {}
 
-
-CChatRecord::CChatRecord(void)
-{
-}
-
-CChatRecord::~CChatRecord(void)
-{
-}
+CChatRecord::~CChatRecord(void) {}
 
 extern void MakeFileNameValid(char *name);
-bool CChatRecord::Save(const string name, DWORD number, const string chatData)
-{
-	if (name.length()==0 || chatData.length()==0) return false;
-	__time64_t t;
-	_time64(&t);
-	//tm *ltime=_gmtime64(&t);
-	tm ltime;
-	_gmtime64_s( &ltime, &t );
-	char buf[_MAX_PATH+1];
-	char folder[_MAX_PATH+1];
-	_snprintf_s(folder,  _countof( folder ), _TRUNCATE, "chats\\%d-%d-%d",ltime.tm_year+1900,ltime.tm_mon+1,ltime.tm_mday);
-	CreateDirectory("chats",NULL);
-	CreateDirectory(folder,NULL);
-	ofstream chatLog;
-	// ¸Ä±ä±£´æÁÄÌì¼ÇÂ¼·½Ê½  modify by ning.yan  20080725 Begin
-	//int i=1;
-	//for (;i<1000;i++)
-	//{
-	//	_snprintf_s( buf, _countof( buf ), _TRUNCATE, "\\[%d]%s%03d.txt",number,name.c_str(),i);
-	//	m_strPath=folder+string(buf);
-	//	if (access(m_strPath.c_str(),0)!=-1) continue;
-	//	chatLog.open(m_strPath.c_str(),ios::out);
-	//	if (chatLog.is_open()) break;
-	//}
-	//if (i>=1000)
-	//{
-	//	return false;
-	//}
-	sprintf_s( buf, _countof( buf ), "\\%s.txt",name.c_str());
-	MakeFileNameValid(buf);
-	m_strPath=folder+string(buf);
-	chatLog.open(m_strPath.c_str(),ios_base::app); // ÒÔ¸½¼ÓÄ£Ê½´ò¿ªÎÄ¼ş£¬ĞÂ½¨ÎÄ¼ş»ò½«Êı¾İĞ´µ½ÎÄ¼şÎ²²¿
-	// End
-	chatLog<<chatData.c_str();
-	chatLog.close();
-	return true;
+bool CChatRecord::Save(const string name, DWORD number, const string chatData) {
+  if (name.length() == 0 || chatData.length() == 0)
+    return false;
+  __time64_t t;
+  _time64(&t);
+  // tm *ltime=_gmtime64(&t);
+  tm ltime;
+  _gmtime64_s(&ltime, &t);
+  char buf[_MAX_PATH + 1];
+  char folder[_MAX_PATH + 1];
+  _snprintf_s(folder, _countof(folder), _TRUNCATE, "chats\\%d-%d-%d",
+              ltime.tm_year + 1900, ltime.tm_mon + 1, ltime.tm_mday);
+  CreateDirectory("chats", NULL);
+  CreateDirectory(folder, NULL);
+  ofstream chatLog;
+  // æ”¹å˜ä¿å­˜èŠå¤©è®°å½•æ–¹å¼  modify by ning.yan  20080725 Begin
+  // int i=1;
+  // for (;i<1000;i++)
+  //{
+  //	_snprintf_s( buf, _countof( buf ), _TRUNCATE,
+  //"\\[%d]%s%03d.txt",number,name.c_str(),i); 	m_strPath=folder+string(buf); 	if
+  //(access(m_strPath.c_str(),0)!=-1) continue;
+  //	chatLog.open(m_strPath.c_str(),ios::out);
+  //	if (chatLog.is_open()) break;
+  //}
+  // if (i>=1000)
+  //{
+  //	return false;
+  //}
+  sprintf_s(buf, _countof(buf), "\\%s.txt", name.c_str());
+  MakeFileNameValid(buf);
+  m_strPath = folder + string(buf);
+  chatLog.open(
+      m_strPath.c_str(),
+      ios_base::app); // ä»¥é™„åŠ æ¨¡å¼æ‰“å¼€æ–‡ä»¶ï¼Œæ–°å»ºæ–‡ä»¶æˆ–å°†æ•°æ®å†™åˆ°æ–‡ä»¶å°¾éƒ¨
+  // End
+  chatLog << chatData.c_str();
+  chatLog.close();
+  return true;
 }
 
-string CChatRecord::GetLastSavePath()
-{
-	return m_strPath;
-}
+string CChatRecord::GetLastSavePath() { return m_strPath; }

@@ -25,7 +25,7 @@ void	GroupServerApp::CP_GM1SAY(Player *ply,DataSocket *datasock,RPacket &pk)
 	{
 		if(!ply->m_gm)
 		{
-			//ply->SendSysInfo("ÄãÃ»ÓĞ¸ÃÈ¨ÏŞ.");
+			//ply->SendSysInfo("ä½ æ²¡æœ‰è¯¥æƒé™.");
 			ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00001));
 			return;
 		}
@@ -33,12 +33,12 @@ void	GroupServerApp::CP_GM1SAY(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_GM1SAY);
 	if( ply != NULL)
-		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//Ëµ»°ÈËµÄÃû×Ö
+		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//è¯´è¯äººçš„åå­—
 	else
 		{
 			l_wpk.WriteString( Nsrc );
 		}
-	l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+	l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 
 	Player *l_plylst[10240];
 	short	l_plynum	=0;
@@ -70,7 +70,7 @@ void	GroupServerApp::CP_GM1SAY1(Player *ply,DataSocket *datasock,RPacket &pk)
 	{
 		if(!ply->m_gm)
 		{
-			ply->SendSysInfo("ÄãÃ»ÓĞ¸ÃÈ¨ÏŞ.");
+			ply->SendSysInfo("ä½ æ²¡æœ‰è¯¥æƒé™.");
 			return;
 		}
 	}
@@ -79,8 +79,8 @@ void	GroupServerApp::CP_GM1SAY1(Player *ply,DataSocket *datasock,RPacket &pk)
 
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_GM1SAY1);
-	//l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//Ëµ»°ÈËµÄÃû×Ö
-	l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+	//l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//è¯´è¯äººçš„åå­—
+	l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 	l_wpk.WriteLong(SetNum);
 
 	Player *l_plylst[10240];
@@ -104,7 +104,7 @@ void	GroupServerApp::CP_SAY2TRADE(Player *ply,DataSocket *datasock,RPacket &pk)
 {
 	if( ply->IsEstop() )
 	{
-		//ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		//ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		ply->SendSysInfo( RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00002) );
 		return;
 	}
@@ -112,7 +112,7 @@ void	GroupServerApp::CP_SAY2TRADE(Player *ply,DataSocket *datasock,RPacket &pk)
 	uLong	l_curtick	=this->GetCurrentTick();
 	if(!ply->m_gm && l_curtick - ply->m_tradetick <const_interval.Trade)
 	{
-		//ply->SendSysInfo("ÇëÎğÆµ·±·¢ÑÔ");
+		//ply->SendSysInfo("è¯·å‹¿é¢‘ç¹å‘è¨€");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00003));
 		return;
 	}
@@ -138,8 +138,8 @@ void	GroupServerApp::CP_SAY2TRADE(Player *ply,DataSocket *datasock,RPacket &pk)
 	{
 		WPacket	l_wpk	=GetWPacket();
 		l_wpk.WriteCmd(CMD_PC_SAY2TRADE);
-		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//Ëµ»°ÈËµÄÃû×Ö
-		l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//è¯´è¯äººçš„åå­—
+		l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 		l_wpk.WriteLong(ply->m_chatColour[ply->m_currcha]);
 		Player *l_plylst[10240];
 		short	l_plynum	=0;
@@ -170,7 +170,7 @@ void GroupServerApp::CP_SAY2ALL(Player *ply,DataSocket *datasock,RPacket &pk)
 {
 	if( ply->IsEstop() )
 	{
-		//ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		//ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		ply->SendSysInfo( RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00002) );
 		return;
 	}
@@ -178,7 +178,7 @@ void GroupServerApp::CP_SAY2ALL(Player *ply,DataSocket *datasock,RPacket &pk)
 	uLong	l_curtick	=this->GetCurrentTick();
 	if(!ply->m_gm && l_curtick - ply->m_worldtick <const_interval.World)
 	{
-		//ply->SendSysInfo("ÇëÎğÆµ·±·¢ÑÔ");
+		//ply->SendSysInfo("è¯·å‹¿é¢‘ç¹å‘è¨€");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00003));
 		return;
 	}
@@ -204,8 +204,8 @@ void GroupServerApp::CP_SAY2ALL(Player *ply,DataSocket *datasock,RPacket &pk)
 	{
 		WPacket	l_wpk	=GetWPacket();
 		l_wpk.WriteCmd(CMD_PC_SAY2ALL);
-		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//Ëµ»°ÈËµÄÃû×Ö
-		l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+		l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());	//è¯´è¯äººçš„åå­—
+		l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 		l_wpk.WriteLong(ply->m_chatColour[ply->m_currcha]);
 		Player *l_plylst[10240];
 		short	l_plynum	=0;
@@ -276,7 +276,7 @@ void GroupServerApp::CP_SAY2VIP(Player *ply, DataSocket *datasock, RPacket &pk){
 
 	if (!ply->m_gm)
 	{
-		ply->SendSysInfo("Ö»ÓĞVIP²ÅÄÜÔÚÕâ¸öÆµµÀ·¢ÑÔ.");
+		ply->SendSysInfo("åªæœ‰VIPæ‰èƒ½åœ¨è¿™ä¸ªé¢‘é“å‘è¨€.");
 		return;
 	}
 
@@ -325,8 +325,8 @@ void GroupServerApp::MP_SAY2TRADE(Player *ply,DataSocket *datasock,RPacket &pk)
 
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_SAY2TRADE);
-	l_wpk.WriteString(szName);	//Ëµ»°ÈËµÄÃû×Ö
-	l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+	l_wpk.WriteString(szName);	//è¯´è¯äººçš„åå­—
+	l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 	l_wpk.WriteLong(ply->m_chatColour[ply->m_currcha]);
 	Player *l_plylst[10240];
 	short	l_plynum	=0;
@@ -363,8 +363,8 @@ void GroupServerApp::MP_SAY2ALL(Player *ply,DataSocket *datasock,RPacket &pk)
 
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_SAY2ALL);
-	l_wpk.WriteString(szName);	//Ëµ»°ÈËµÄÃû×Ö
-	l_wpk.WriteString(l_content);								//Ëµ»°µÄÄÚÈİ
+	l_wpk.WriteString(szName);	//è¯´è¯äººçš„åå­—
+	l_wpk.WriteString(l_content);								//è¯´è¯çš„å†…å®¹
 	l_wpk.WriteLong(ply->m_chatColour[ply->m_currcha]);
 	Player *l_plylst[10240];
 	short	l_plynum	=0;
@@ -517,7 +517,7 @@ void	GroupServerApp::CP_SAY2TEM(Player *ply,DataSocket *datasock,RPacket &pk)
 {
 	if( ply->IsEstop() )
 	{
-		//ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		//ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		ply->SendSysInfo( RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00002) );
 		return;
 	}
@@ -552,7 +552,7 @@ void	GroupServerApp::CP_SAY2GUD(Player *ply,DataSocket *datasock,RPacket &pk)
 {
 	if (ply->IsEstop())
 	{
-		//ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		//ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		ply->SendSysInfo( RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00002) );
 		return;
 	}
@@ -560,7 +560,7 @@ void	GroupServerApp::CP_SAY2GUD(Player *ply,DataSocket *datasock,RPacket &pk)
 	int canSpeak = (ply->m_guildPermission[ply->m_currcha] & emGldPermSpeak);
 
 	if (canSpeak != emGldPermSpeak){
-		ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		//ply->SendSysInfo("You do not have permission to speak in guild.");
 		return;
 	}
@@ -586,7 +586,7 @@ void	GroupServerApp::CP_SAY2GUD(Player *ply,DataSocket *datasock,RPacket &pk)
 
 	WPacket l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_SAY2GUD);
-	l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());		//Ëµ»°ÈË
+	l_wpk.WriteString(ply->m_chaname[ply->m_currcha].c_str());		//è¯´è¯äºº
 	l_wpk.WriteString(l_word);
 	l_wpk.WriteLong(ply->m_chatColour[ply->m_currcha]);
 	SendToClient(l_plylst,l_plynum,l_wpk);
@@ -619,7 +619,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 	{
 		--(ply->m_chatnum);
 		if(l_chanum ==1){sendfailue(ply,this,pk.ReadString());}
-		//ply->SendSysInfo("Äãµ±Ç°µÄÁÄÌì´°¿ÚÊıÒÑ¾­´ïµ½ÏµÍ³µÄ×î´óÉÏÏŞÁË.");
+		//ply->SendSysInfo("ä½ å½“å‰çš„èŠå¤©çª—å£æ•°å·²ç»è¾¾åˆ°ç³»ç»Ÿçš„æœ€å¤§ä¸Šé™äº†.");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00007));
 		return;
 	}
@@ -627,7 +627,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 	{
 		--(ply->m_chatnum);
 		if(l_chanum ==1){sendfailue(ply,this,pk.ReadString());}
-		//ply->SendSysInfo("ÄúÒª´´½¨»á»°µÄÍæ¼ÒÊı¹ı¶à.");
+		//ply->SendSysInfo("æ‚¨è¦åˆ›å»ºä¼šè¯çš„ç©å®¶æ•°è¿‡å¤š.");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00008));
 		return;
 	}
@@ -647,7 +647,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 		}
 		if(!(l_sessply =FindPlayerByChaName(l_chaname)))
 		{
-			//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿Ä¿Ç°²»ÔÚÏßÉÏ.");
+			//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘ç›®å‰ä¸åœ¨çº¿ä¸Š.");
 			char l_content[500];
 			sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00009),l_chaname);
 			ply->SendSysInfo(l_content);
@@ -666,7 +666,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 
 		if(l_sessply->m_refuse_sess)
 		{
-			//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿µ±Ç°´¦ÓÚ¾Ü¾ø»á»°×´Ì¬.");
+			//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘å½“å‰å¤„äºæ‹’ç»ä¼šè¯çŠ¶æ€.");
 			char l_content[500];
 			sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00010),l_chaname);
 			ply->SendSysInfo(l_content);
@@ -675,7 +675,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 		if(++(l_sessply->m_chatnum) >const_chat.MaxSession)
 		{
 			--(l_sessply->m_chatnum);
-			//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿µÄÁÄÌì´°¿ÚÊıÒÑ¾­´ïµ½ÏµÍ³µÄ×î´óÉÏÏŞÁË.");
+			//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘çš„èŠå¤©çª—å£æ•°å·²ç»è¾¾åˆ°ç³»ç»Ÿçš„æœ€å¤§ä¸Šé™äº†.");
 			char l_content[500];
 			sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00011),l_chaname);
 			ply->SendSysInfo(l_content);
@@ -749,7 +749,7 @@ void	GroupServerApp::CP_SESS_CREATE(Player *ply,DataSocket *datasock,RPacket &pk
 				--(l_ply3->m_chatnum);
 			}
 			if(l_chanum ==1){sendfailue(ply,this,l_chaname);}
-			//ply->SendSysInfo("ÒÑ¾­ÓĞÒ»¸öÏàÍ¬³ÉÔ±µÄ»á»°ÁË.");
+			//ply->SendSysInfo("å·²ç»æœ‰ä¸€ä¸ªç›¸åŒæˆå‘˜çš„ä¼šè¯äº†.");
 			ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00012));
 
 			l_sess->DelPlayer(ply);
@@ -776,7 +776,7 @@ void	GroupServerApp::CP_SESS_ADD(Player *ply,DataSocket *datasock,RPacket &pk)
 	Player	*l_sessply		=FindPlayerByChaName(l_chaname);
 	if(!l_sessply || l_sessply->m_currcha <0)
 	{
-		//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿Ä¿Ç°²»ÔÚÏßÉÏ¡£");************************
+		//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘ç›®å‰ä¸åœ¨çº¿ä¸Šã€‚");************************
 		char l_content[500];
 		sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00009),l_chaname);
 		ply->SendSysInfo(l_content);
@@ -790,7 +790,7 @@ void	GroupServerApp::CP_SESS_ADD(Player *ply,DataSocket *datasock,RPacket &pk)
 	l.unlock();
 	if(l_ply0)
 	{
-		//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿ÒÑ¾­ÔÚÄãµÄÁÄÌì´°¿ÚÀïÃæ.");
+		//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘å·²ç»åœ¨ä½ çš„èŠå¤©çª—å£é‡Œé¢.");
 		char l_content[500];
 		sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00013),l_chaname);
 		ply->SendSysInfo(l_content);
@@ -798,7 +798,7 @@ void	GroupServerApp::CP_SESS_ADD(Player *ply,DataSocket *datasock,RPacket &pk)
 	}
 	if(l_sessply->m_refuse_sess)
 	{
-		//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿µ±Ç°´¦ÓÚ¾Ü¾ø»á»°×´Ì¬.");
+		//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘å½“å‰å¤„äºæ‹’ç»ä¼šè¯çŠ¶æ€.");
 		char l_content[500];
 		sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00010),l_chaname);
 		ply->SendSysInfo(l_content);
@@ -808,7 +808,7 @@ void	GroupServerApp::CP_SESS_ADD(Player *ply,DataSocket *datasock,RPacket &pk)
 	if(++(l_sessply->m_chatnum) >const_chat.MaxSession)
 	{
 		--(l_sessply->m_chatnum);
-		//ply->SendSysInfo(dstring("Íæ¼Ò¡¾")<<l_chaname<<"¡¿µÄÁÄÌì´°¿ÚÊıÒÑ¾­´ïµ½ÏµÍ³µÄ×î´óÉÏÏŞÁË¡£");
+		//ply->SendSysInfo(dstring("ç©å®¶ã€")<<l_chaname<<"ã€‘çš„èŠå¤©çª—å£æ•°å·²ç»è¾¾åˆ°ç³»ç»Ÿçš„æœ€å¤§ä¸Šé™äº†ã€‚");
 		char l_content[500];
 		sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00011),l_chaname);
 		ply->SendSysInfo(l_content);
@@ -818,7 +818,7 @@ void	GroupServerApp::CP_SESS_ADD(Player *ply,DataSocket *datasock,RPacket &pk)
 	{
 		l_sess->DelPlayer(l_sessply);
 		--(l_sessply->m_chatnum);
-		//ply->SendSysInfo("»á»°µÄÍæ¼ÒÊıÒÑ¾­´ïµ½ÏµÍ³ÉÏÏŞÁË£¬²»ÄÜÔÙÌí¼ÓÁË¡£");
+		//ply->SendSysInfo("ä¼šè¯çš„ç©å®¶æ•°å·²ç»è¾¾åˆ°ç³»ç»Ÿä¸Šé™äº†ï¼Œä¸èƒ½å†æ·»åŠ äº†ã€‚");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00014));
 		return;
 	}
@@ -909,7 +909,7 @@ void	GroupServerApp::CP_SESS_SAY(Player *ply,DataSocket *datasock,RPacket &pk)
 {
 	if( ply->IsEstop() )
 	{
-		//ply->SendSysInfo( "ÄãÒÑ¾­±»½ûÑÔ£¬ÇëÉÔºóÔÙÊÔ£¡" );
+		//ply->SendSysInfo( "ä½ å·²ç»è¢«ç¦è¨€ï¼Œè¯·ç¨åå†è¯•ï¼" );
 		ply->SendSysInfo( RES_STRING(GP_GROUPSERVERAPPCHAT_CPP_00002) );
 		return;
 	}
@@ -929,7 +929,7 @@ void	GroupServerApp::CP_SESS_SAY(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PC_SESS_SAY);
 	l_wpk.WriteLong(l_sess->GetID());
-	l_wpk.WriteLong(ply->m_chaid[ply->m_currcha]);	//Ëµ»°ÈË
+	l_wpk.WriteLong(ply->m_chaid[ply->m_currcha]);	//è¯´è¯äºº
 	l_wpk.WriteString(l_word);
 	RunChainGetArmor<Chat_Player> l(*l_sess);
 	while(l_sessply =l_sess->GetNextPlayer())

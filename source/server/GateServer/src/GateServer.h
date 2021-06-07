@@ -26,10 +26,10 @@
 using namespace std;
 using namespace dbc;
 
-// ¼ÆÊ±ÍË³ö»úÖÆºêÇĞ»»
+// è®¡æ—¶é€€å‡ºæœºåˆ¶å®åˆ‡æ¢
 //#define CHAEXIT_ONTIME
 
-// ¹ØÓÚ Client Á¬½Ó²¿·Ö£½£½£½£½£½£½£½£½£½£½
+// å…³äº Client è¿æ¥éƒ¨åˆ†ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 struct Player;
 class ToClient : public TcpServerApp, public RPCMGR
 {
@@ -67,7 +67,7 @@ public:
 
 private:
 	bool		 DoCommand(DataSocket* datasock, cChar *cmdline);
-    virtual bool OnConnect(DataSocket* datasock); // ·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+    virtual bool OnConnect(DataSocket* datasock); // è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
     virtual void OnConnected(DataSocket* datasock);
     virtual void OnDisconnect(DataSocket* datasock, int reason);
     virtual void OnProcessData(DataSocket* datasock, RPacket &recvbuf);
@@ -81,7 +81,7 @@ private:
 	InterLockedLong	m_atexit,m_calltotal;
 	volatile uShort m_maxcon;
 	uShort m_version;
-    int _comm_enc; // ¼ÓÃÜËã·¨Ë÷Òı
+    int _comm_enc; // åŠ å¯†ç®—æ³•ç´¢å¼•
 
 	volatile uShort	m_checkSpan;
 	volatile uShort	m_checkWaring;
@@ -90,7 +90,7 @@ private:
 	IMPLEMENT_CDELETE(ToClient)
 };
 
-// ¹ØÓÚ GameServer Á¬½Ó²¿·Ö£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½
+// å…³äº GameServer è¿æ¥éƒ¨åˆ†ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 class ToGameServer;
 
 #define MAX_MAP 100
@@ -109,7 +109,7 @@ private:
     void Initially();
     void Finally();
 public:
-	void EnterMap(Player *ply,uLong actid, uLong dbid,uLong worldid,cChar *map, Long lMapCpyNO,uLong x,uLong y,char entertype,short swiner);	//½ÇÉ«chaid½øÈë±¾·şÎñÆ÷µÄµØÍ¼mapÖĞµÄÎ»ÖÃ(x,y) winerÖ¸¶¨½ÇÉ«ÊÇ·ñÊÇÂÒ¶·Ö®Íõ¡£
+	void EnterMap(Player *ply,uLong actid, uLong dbid,uLong worldid,cChar *map, Long lMapCpyNO,uLong x,uLong y,char entertype,short swiner);	//è§’è‰²chaidè¿›å…¥æœ¬æœåŠ¡å™¨çš„åœ°å›¾mapä¸­çš„ä½ç½®(x,y) wineræŒ‡å®šè§’è‰²æ˜¯å¦æ˜¯ä¹±æ–—ä¹‹ç‹ã€‚
 public:
 	InterLockedLong m_plynum;
     string gamename;
@@ -132,26 +132,26 @@ public:
 	GameServer* GetGameList() { return _game_list; }
 
 private:
-    virtual bool OnConnect(DataSocket* datasock); //·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+    virtual bool OnConnect(DataSocket* datasock); //è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
     virtual void OnDisconnect(DataSocket* datasock, int reason);
     virtual	WPacket OnServeCall(DataSocket* datasock, RPacket &in_para);
     virtual void OnProcessData(DataSocket* datasock, RPacket &recvbuf);
 
-    PreAllocHeap<GameServer> _game_heap; // GameServer ÃèÊö¶ÔÏó¶Ñ
-    void MT_LOGIN(DataSocket* datasock, RPacket& recvbuf); // GameServer µÇÂ¼ GateServer
+    PreAllocHeap<GameServer> _game_heap; // GameServer æè¿°å¯¹è±¡å †
+    void MT_LOGIN(DataSocket* datasock, RPacket& recvbuf); // GameServer ç™»å½• GateServer
 
-    GameServer* _game_list; // ´æ´¢ GameServer ÃèÊö¶ÔÏóµÄÁ´±í
+    GameServer* _game_list; // å­˜å‚¨ GameServer æè¿°å¯¹è±¡çš„é“¾è¡¨
     short _game_num;
     void _add_game(GameServer* game);
     bool _exist_game(char const* game);
     void _del_game(GameServer* game);
-    map<string, GameServer*> _map_game; // ´ÓµØÍ¼Ãû¶ÔÓ¦ GameServer ÃèÊö¶ÔÏó
+    map<string, GameServer*> _map_game; // ä»åœ°å›¾åå¯¹åº” GameServer æè¿°å¯¹è±¡
     Mutex _mut_game;
 
 	IMPLEMENT_CDELETE(ToGameServer)
 };
 
-// ¹ØÓÚ GroupServer Á¬½Ó²¿·Ö£½£½£½£½£½£½£½£½£½£½
+// å…³äº GroupServer è¿æ¥éƒ¨åˆ†ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 class ToGroupServer;
 class ConnectGroupServer : public Task
 {
@@ -191,18 +191,18 @@ public:
 	void	SetSync(bool sync=true) { m_bSync = sync; }
 	// End
 
-	// ×¼±¸ºÃ
+	// å‡†å¤‡å¥½
 	bool	IsReady() {  return (!m_bSync && _connected); }
 
 private:
-    virtual bool OnConnect(DataSocket* datasock); // ·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+    virtual bool OnConnect(DataSocket* datasock); // è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
     virtual void OnDisconnect(DataSocket* datasock, int reason);
     virtual void OnProcessData(DataSocket* datasock, RPacket &recvbuf);
     virtual WPacket OnServeCall(DataSocket* datasock, RPacket &in_para);
     
 	InterLockedLong	m_atexit,m_calltotal;
 
-	string _myself; // GateServer×Ô¼ºµÄÃû×Ö
+	string _myself; // GateServerè‡ªå·±çš„åå­—
     GroupServer _gs;
     bool volatile _connected;
 
@@ -212,7 +212,7 @@ private:
 
 	IMPLEMENT_CDELETE(ToGroupServer)
 };
-// GateServer ×ÔÉí²¿·Ö£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½£½
+// GateServer è‡ªèº«éƒ¨åˆ†ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼ï¼
 struct Player : public PreAllocStru , public RunBiDirectItem<Player>
 {
     friend class PreAllocHeap<Player>;
@@ -257,27 +257,27 @@ public:
 
 	uLong	volatile	m_actid;
     uLong   volatile    m_loginID;
-    uLong	volatile	m_dbid;		// µ±Ç°½ÇÉ«µÄÊı¾İ¿âID
-	uLong	volatile	m_worldid;	// µ±Ç°½ÇÉ«µÄÄÚ´æÎ¨Ò»ID
+    uLong	volatile	m_dbid;		// å½“å‰è§’è‰²çš„æ•°æ®åº“ID
+	uLong	volatile	m_worldid;	// å½“å‰è§’è‰²çš„å†…å­˜å”¯ä¸€ID
 	uLong	volatile	m_pingtime;
-    uInt	volatile	comm_key_len; // Í¨Ñ¶ÃÜÔ¿³¤¶È
-    char	comm_textkey[12]; // GateServer Óë Client Ö®¼ä¼ÓÃÜÍ¨Ñ¶µÄÃÜÔ¿
-    InterLockedLong gm_addr; // GameServer ÉÏ Player ¶ÔÏóµÄÖ¸Õë
-    InterLockedLong gp_addr; // GroupServer ÉÏ Player ¶ÔÏóµÄÖ¸Õë
-    DataSocket* volatile m_datasock; // ´Ë Player µÄ GateServer <-> Client Á¬½Ó
-    GameServer* volatile game; // ´Ë Player µ±Ç°ËùÔÚµÄ GameServer ÃèÊö¶ÔÏó
-    volatile bool enc; // ÊÇ·ñ¼ÓÃÜÍ¨ĞÅÊı¾İ
+    uInt	volatile	comm_key_len; // é€šè®¯å¯†é’¥é•¿åº¦
+    char	comm_textkey[12]; // GateServer ä¸ Client ä¹‹é—´åŠ å¯†é€šè®¯çš„å¯†é’¥
+    InterLockedLong gm_addr; // GameServer ä¸Š Player å¯¹è±¡çš„æŒ‡é’ˆ
+    InterLockedLong gp_addr; // GroupServer ä¸Š Player å¯¹è±¡çš„æŒ‡é’ˆ
+    DataSocket* volatile m_datasock; // æ­¤ Player çš„ GateServer <-> Client è¿æ¥
+    GameServer* volatile game; // æ­¤ Player å½“å‰æ‰€åœ¨çš„ GameServer æè¿°å¯¹è±¡
+    volatile bool enc; // æ˜¯å¦åŠ å¯†é€šä¿¡æ•°æ®
 
-	// ÊÇ·ñ½ûÑÔ
+	// æ˜¯å¦ç¦è¨€
 	uLong	volatile m_lestoptick;
 	bool	volatile m_estop;
 	short	volatile m_sGarnerWiner;
 
 	struct
 	{
-		Mutex				m_mtxstat;					//0:Ëø¶¨m_status;
-		volatile char		m_status;					//0:ÎŞĞ§;1.Ñ¡½ÇÉ«ÆÚ¼ä;2.ÍæÓÎÏ·ÖĞ.
-		volatile char		m_exit;						//0:ÎŞĞ§£»1.½ÇÉ«ÕıÔÚÇëÇó¼ÆÊ±ÍË³öÖĞ£¬×¼±¸½øÈëÑ¡ÈË½çÃæ£»2.½ÇÉ«ÕıÔÚÇëÇó¼ÆÊ±ÍË³öÖĞ£¬Òª¶ÏÏßÍË³öÓÎÏ·¡£
+		Mutex				m_mtxstat;					//0:é”å®šm_status;
+		volatile char		m_status;					//0:æ— æ•ˆ;1.é€‰è§’è‰²æœŸé—´;2.ç©æ¸¸æˆä¸­.
+		volatile char		m_exit;						//0:æ— æ•ˆï¼›1.è§’è‰²æ­£åœ¨è¯·æ±‚è®¡æ—¶é€€å‡ºä¸­ï¼Œå‡†å¤‡è¿›å…¥é€‰äººç•Œé¢ï¼›2.è§’è‰²æ­£åœ¨è¯·æ±‚è®¡æ—¶é€€å‡ºä¸­ï¼Œè¦æ–­çº¿é€€å‡ºæ¸¸æˆã€‚
 	};
 
 	dbc::dstring m_chamap;
@@ -309,17 +309,17 @@ class GateServer
 public:
     GateServer(char const* fname);
     ~GateServer();
-	void RunLoop(); // Ö÷Ñ­»·
+	void RunLoop(); // ä¸»å¾ªç¯
 	ThreadPool	*m_clproc,*m_clcomm,*m_gpcomm,*m_gpproc,*m_gmcomm;
-    ToGroupServer* gp_conn; // Í¬GroupServerµÄÁ¬½Ó¶ÔÏó£¨Ö÷¶¯ÖØÁ¬»úÖÆ£©
-    ToGameServer* gm_conn; // Í¬GameServerµÄÁ¬½Ó¶ÔÏó£¨±»¶¯£©
-    ToClient* cli_conn; // Í¬ClientµÄÁ¬½Ó¶ÔÏó£¨±»¶¯£©
+    ToGroupServer* gp_conn; // åŒGroupServerçš„è¿æ¥å¯¹è±¡ï¼ˆä¸»åŠ¨é‡è¿æœºåˆ¶ï¼‰
+    ToGameServer* gm_conn; // åŒGameServerçš„è¿æ¥å¯¹è±¡ï¼ˆè¢«åŠ¨ï¼‰
+    ToClient* cli_conn; // Connection object with Client (passive)
 	Mutex	_mtxother;
 
-    PreAllocHeap<Player>		player_heap; // Íæ¼Ò¶ÔÏó¶Ñ
+    PreAllocHeap<Player>		player_heap; // ç©å®¶å¯¹è±¡å †
 
 	// Add by lark.li 20081119 begin
-	RunBiDirectChain<Player> 	m_plylst;	// Íæ¼ÒÁ¬±í
+	RunBiDirectChain<Player> 	m_plylst;	// ç©å®¶è¿è¡¨
 	// End
 
 	PreAllocHeap<TransmitCall>	m_tch;
@@ -339,15 +339,15 @@ public:
 	void ServiceStart();
 	void ServiceStop();
 	virtual cChar *SetSvcName()const	{return "GateServer";	}
-	virtual cChar *SetDispName()const	{return "[Kop Online]Gate Server";	}//ÏÔÊ¾ÃûÈ±Ê¡µÈÓÚ·şÎñÃû
-	virtual bool CanPaused()const		{return true;};	//È±Ê¡Ö§³ÖÔİÍ£ºÍ¼ÌĞø²Ù×÷
+	virtual cChar *SetDispName()const	{return "[Kop Online]Gate Server";	}//æ˜¾ç¤ºåç¼ºçœç­‰äºæœåŠ¡å
+	virtual bool CanPaused()const		{return true;};	//ç¼ºçœæ”¯æŒæš‚åœå’Œç»§ç»­æ“ä½œ
 
 	int		GetShowMin()				{ return _nShowMin;		}
 	int		GetShowMax()				{ return _nShowMax;		}
 	void	SetShowRange( int min, int max )	{ _nShowMin=min; _nShowMax=max;		}
 
 	
-private:	// ÓÃÓÚÔÚÎ´Á¬½ÓÇ°£¬¿Í»§¶ËÍ¨¹ıudp»ñµÃÓÎÏ·Í³¼ÆĞÅÏ¢Jerry 2006-1-10
+private:	// ç”¨äºåœ¨æœªè¿æ¥å‰ï¼Œå®¢æˆ·ç«¯é€šè¿‡udpè·å¾—æ¸¸æˆç»Ÿè®¡ä¿¡æ¯Jerry 2006-1-10
 	CUdpManage*	_pUdpManage;
 	static void _NotifySocketNumEvent( CUdpManage* pManage, CUdpServer* pUdpServer, const char* szClientIP, unsigned int nClientPort, const char* pData, int len );
 	static int	_nShowMin;	

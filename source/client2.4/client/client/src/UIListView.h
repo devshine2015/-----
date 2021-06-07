@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¶àĞĞÁĞ±í¿Ø¼ş
-// ×÷Õß:lh 2004-08-02
-// Éè¼ÆË¼Ïë:CList+±êÌâÀ¸
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:å¤šè¡Œåˆ—è¡¨æ§ä»¶
+// ä½œè€…:lh 2004-08-02
+// è®¾è®¡æ€æƒ³:CList+æ ‡é¢˜æ 
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 
 #pragma once
@@ -16,12 +16,12 @@ class CListView : public CCompent
 public:
 	enum eStyle
 	{
-		eSimpleTitle=0,		// ¼òµ¥±êÍ·,¼´½öÒ»·ùÍ¼Æ¬
-		eWindowTitle,		// ÏówindowsÒ»ÑùµÄ±êÍ·,ĞèÒª¼ÓÔØÃ¿Ò»¸ö±êÍ·µÄÍ¼Æ¬
-		eNoTitle,			// Ã»ÓĞ±êÌâÀ¸
+		eSimpleTitle=0,		// ç®€å•æ ‡å¤´,å³ä»…ä¸€å¹…å›¾ç‰‡
+		eWindowTitle,		// è±¡windowsä¸€æ ·çš„æ ‡å¤´,éœ€è¦åŠ è½½æ¯ä¸€ä¸ªæ ‡å¤´çš„å›¾ç‰‡
+		eNoTitle,			// æ²¡æœ‰æ ‡é¢˜æ 
 	};
 
-	class CListTitle	// ÁĞ±íÍ··ç¸ñ
+	class CListTitle	// åˆ—è¡¨å¤´é£æ ¼
 	{
 	public:
 		CListTitle( CListView* pList ) : _pList(pList) {}
@@ -43,7 +43,7 @@ public:
 
 	};
 
-	class CImageTitle : public CListTitle		// ¼òµ¥·ç¸ñ,½öÒ»·ù±³¾°
+	class CImageTitle : public CListTitle		// ç®€å•é£æ ¼,ä»…ä¸€å¹…èƒŒæ™¯
 	{
 	public:
 		CImageTitle( CListView* pList ) : CListTitle(pList), _pImage(new CImage(*pList->GetForm())) {}
@@ -60,11 +60,11 @@ public:
 		virtual void		SetAlpha( BYTE alpha )					{ _pImage->SetAlpha(alpha);				}
 
 	private:
-		CImage*				_pImage;			// ¼òµ¥·ç¸ñÊ±µÄÏÔÊ¾µÄTitle±³¾°
+		CImage*				_pImage;			// ç®€å•é£æ ¼æ—¶çš„æ˜¾ç¤ºçš„TitleèƒŒæ™¯
 
 	};
 
-	class CWindowsTitle : public CListTitle		// WindowsÀàÁĞ±í±êÌâ
+	class CWindowsTitle : public CListTitle		// Windowsç±»åˆ—è¡¨æ ‡é¢˜
 	{
 	public:
 		CWindowsTitle( CListView* pList );
@@ -105,7 +105,7 @@ public:
 	virtual void		OnActive()	{ CCompent::OnActive(); _pList->OnActive();	}
 	virtual void		OnLost()	{ CCompent::OnLost(); _pList->OnLost();		}
 	virtual bool		OnKeyDown( int key );
-	virtual bool		SetShowRow( int n );			// ÉèÖÃÏÔÊ¾Ê±µÄĞĞ¸ß,»á¸Ä±äList×Ü¸ß¶È
+	virtual bool		SetShowRow( int n );			// è®¾ç½®æ˜¾ç¤ºæ—¶çš„è¡Œé«˜,ä¼šæ”¹å˜Listæ€»é«˜åº¦
 	virtual void		SetMargin( int left, int top, int right, int bottom );
 
 public:
@@ -124,7 +124,7 @@ public:
 	CItemObj*			GetItemObj( int nRow, int nCol );
 
 public:
-	GuiEvent			evtColumnClick;				// µã»÷ÁËÁĞ±íÍ·
+	GuiEvent			evtColumnClick;				// ç‚¹å‡»äº†åˆ—è¡¨å¤´
 
 private:
 	void				_ColumnClick( CGuiData* pSender ){	if( evtColumnClick ) evtColumnClick(pSender); }
@@ -133,10 +133,10 @@ private:
 
 protected:
 	CListTitle*			_pTitle;
-	eStyle				_eTitle;			// ±íÍ··ç¸ñ:ÎªeSimpleTitleÔòÊ¹ÓÃ_pImage,·ñÔòÊ¹ÓÃ_pColumn
+	eStyle				_eTitle;			// è¡¨å¤´é£æ ¼:ä¸ºeSimpleTitleåˆ™ä½¿ç”¨_pImage,å¦åˆ™ä½¿ç”¨_pColumn
 
 	CList*				_pList;
-	unsigned int		_nColumnHeight;		// ÁĞ±íÍ·¸ß¶È
+	unsigned int		_nColumnHeight;		// åˆ—è¡¨å¤´é«˜åº¦
 
 };
 

@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÊäÈë¿ò
-// ×÷Õß:lh 2004-07-08
-// Éè¼ÆË¼Ïë:¿ÉÖ§³ÖÎÄ×Ö,Í¼Ïó,Í¼Ïó²¿·ÖÎ´Íê³É
-// ×îºóÐÞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:è¾“å…¥æ¡†
+// ä½œè€…:lh 2004-07-08
+// è®¾è®¡æ€æƒ³:å¯æ”¯æŒæ–‡å­—,å›¾è±¡,å›¾è±¡éƒ¨åˆ†æœªå®Œæˆ
+// æœ€åŽä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uiCompent.h"
@@ -27,7 +27,7 @@ public:
 	virtual void	OnActive();
 	virtual void	OnLost();
 
-	// ·ÅÖÃÓÚÏûÏ¢Ñ­»·ÖÐ£¬½ÓÊÕ¼üÅÌÏûÏ¢
+	// æ”¾ç½®äºŽæ¶ˆæ¯å¾ªçŽ¯ä¸­ï¼ŒæŽ¥æ”¶é”®ç›˜æ¶ˆæ¯
 	bool OnKeyDown( int key );		
 	bool OnChar( char c );
 
@@ -71,10 +71,10 @@ public:	// Get,Set
 	void			SetEnterButton( CTextButton* pButton )	{ _pEnterButton=pButton;	}
 
 public:
-	GuiEvent			evtEnter;		// ¼òµ¥ÎÄ±¾°´»Ø³µÊ±Ö´ÐÐµÄÊÂ¼þ
+	GuiEvent			evtEnter;		// ç®€å•æ–‡æœ¬æŒ‰å›žè½¦æ—¶æ‰§è¡Œçš„äº‹ä»¶
 	GuiKeyDownEvent		evtKeyDown;
 	GuiKeyCharEvent		evtKeyChar;
-    GuiEvent            evtChange;      // caption·¢Éú±ä»¯
+    GuiEvent            evtChange;      // captionå‘ç”Ÿå˜åŒ–
 
 public:
 	void			Render();
@@ -88,31 +88,31 @@ public:
 	void			ClearText();
 
 protected:
-	bool			_IsCursorInHZ( long l, char * s );		// ÅÐ¶Ï¹â±êÊÇ·ñÔÚÒ»¸öºº×ÖÖÐ¼ä
-	void			ShowFocus();		// ÏÔÊ¾¹â±ê
+	bool			_IsCursorInHZ( long l, char * s );		// åˆ¤æ–­å…‰æ ‡æ˜¯å¦åœ¨ä¸€ä¸ªæ±‰å­—ä¸­é—´
+	void			ShowFocus();		// æ˜¾ç¤ºå…‰æ ‡
 	void			CorrectCursor();
 
-	// Óë¼ôÌù°åÓÐ¹ØµÄ²Ù×÷
+	// ä¸Žå‰ªè´´æ¿æœ‰å…³çš„æ“ä½œ
 	void			_Copy();	
 	void			_Paste();
 
 	void			_Cut();
-	void			_Delete();			// É¾³ýÒÑÑ¡ÔñµÄ×Ö·û´®
+	void			_Delete();			// åˆ é™¤å·²é€‰æ‹©çš„å­—ç¬¦ä¸²
 
-	void			_UpdataLines();		// ÖØÐÂµ÷ÕûÏÔÊ¾ÎÄ×Ö£¬°üÀ¨Ó²»Ø³µºÍÈí»Ø³µ
+	void			_UpdataLines();		// é‡æ–°è°ƒæ•´æ˜¾ç¤ºæ–‡å­—ï¼ŒåŒ…æ‹¬ç¡¬å›žè½¦å’Œè½¯å›žè½¦
 
 	bool			_isdigit( char c )	{ return (c>='0' && c<='9') || c==VK_BACK || c==VK_RETURN || c==VK_DELETE;	}
 
 private:
-	// void		_RefreshCursorPos();	// ¸ù¾Ý¹â±êËùÔÚÐÐÁÐ£¬¼ÆËã¹â±êÏÔÊ¾µÄÎ»ÖÃ
+	// void		_RefreshCursorPos();	// æ ¹æ®å…‰æ ‡æ‰€åœ¨è¡Œåˆ—ï¼Œè®¡ç®—å…‰æ ‡æ˜¾ç¤ºçš„ä½ç½®
 	void        _GetCursorPos(int nCurPos);       
 	void		_Copy( const CEdit& rhs );
 
 private:
-	static LETexRect	_CursorImage;	// ¹â±êÌùÍ¼ÐÅÏ¢
+	static LETexRect	_CursorImage;	// å…‰æ ‡è´´å›¾ä¿¡æ¯
 	static DWORD		_dwLastUpdateTick;
 	static bool			_bCursorIsShow;
-	static int	_nCursorX, _nCursorY;	// ¹â±êÓ¦¸ÃÏÔÊ¾µÄÎ»ÖÃ
+	static int	_nCursorX, _nCursorY;	// å…‰æ ‡åº”è¯¥æ˜¾ç¤ºçš„ä½ç½®
 
 	CGuiPic*			_pImage;
 
@@ -121,30 +121,30 @@ private:
 	int					_nLeftMargin;
 	int					_nTopMargin;
 
-	bool		        _bParseText;	// ÊÇ·ñÐèÒª½âÎöÍ¼Ôª
+	bool		        _bParseText;	// æ˜¯å¦éœ€è¦è§£æžå›¾å…ƒ
 
-	CTextButton*		_pEnterButton;	// ÏìÓ¦»Ø³µµÄ°´Å¥
+	CTextButton*		_pEnterButton;	// å“åº”å›žè½¦çš„æŒ‰é’®
 
 protected:
 	string		_str;
 	string      _strVisible ; 
 
-	int			_nMaxNum;			// ×î´ó×ÖÊý
-	int         _nMaxNumVisible ;      //¿Ø¼þÒ»´Î¿ÉÒÔÈÝÄÉµÄ×Ö·ûÊýÄ¿
+	int			_nMaxNum;			// æœ€å¤§å­—æ•°
+	int         _nMaxNumVisible ;      //æŽ§ä»¶ä¸€æ¬¡å¯ä»¥å®¹çº³çš„å­—ç¬¦æ•°ç›®
 
-	bool		_bIsPassWord;		// ÊÇ·ñÃÜÂëÏÔÊ¾
-	bool		_bIsMulti;			// ÊÇ·ñ¶àÐÐÊäÈë
-	bool		_bIsDigit;			// ÊÇ·ñ½öÄÜÊäÈëÊý×Ö
+	bool		_bIsPassWord;		// æ˜¯å¦å¯†ç æ˜¾ç¤º
+	bool		_bIsMulti;			// æ˜¯å¦å¤šè¡Œè¾“å…¥
+	bool		_bIsDigit;			// æ˜¯å¦ä»…èƒ½è¾“å…¥æ•°å­—
 	bool		_bIsWrap;
 	int			_nOffset;
 
-protected:		// ¶àÐÐÄÚ²¿±äÁ¿	
-	int			_nFontHeight;		// ÐÐ¸ß£¬¼´»»µ½ÏÂÐÐµÄ¸ß¶È
-	int			_nMaxLineNum;		// ×î¶àÐÐÊý£¬°üÀ¨Ó²»Ø³µºÍÈí»Ø³µ
+protected:		// å¤šè¡Œå†…éƒ¨å˜é‡	
+	int			_nFontHeight;		// è¡Œé«˜ï¼Œå³æ¢åˆ°ä¸‹è¡Œçš„é«˜åº¦
+	int			_nMaxLineNum;		// æœ€å¤šè¡Œæ•°ï¼ŒåŒ…æ‹¬ç¡¬å›žè½¦å’Œè½¯å›žè½¦
 
-protected:		// ¹â±ê¶¨Î»
-	int			_nCursorRow;		// ËùÔÚÐÐÊý
-	int			_nCursorCol;		// ËùÔÚÁÐÊý,´ÓµÚ0ÁÐµ½length³¤¶ÈÁÐ
+protected:		// å…‰æ ‡å®šä½
+	int			_nCursorRow;		// æ‰€åœ¨è¡Œæ•°
+	int			_nCursorCol;		// æ‰€åœ¨åˆ—æ•°,ä»Žç¬¬0åˆ—åˆ°lengthé•¿åº¦åˆ—
 	int			_nCursorFirstCol;
 	int			_nCursorSecondCol;
 
@@ -153,7 +153,7 @@ protected:		// ¹â±ê¶¨Î»
 
 };
 
-// ÄÚÁªº¯Êý
+// å†…è”å‡½æ•°
 inline void	CEdit::SetMaxLineNum( int v ) 
 { 
 	if( v > 1 ) {

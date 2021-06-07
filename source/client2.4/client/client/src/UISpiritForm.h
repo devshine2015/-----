@@ -22,27 +22,27 @@ namespace GUI
 		~CSpiritMgr(void);
 
 		static const int NO_USE = -1;
-		static const int SPIRIT_MARRY_TYPE = 6;			// ¾«ÁéÈÚºÏÀàĞÍ£¨Óë·şÎñÆ÷½»»¥ÓÃ£©
+		static const int SPIRIT_MARRY_TYPE = 6;			// ç²¾çµèåˆç±»å‹ï¼ˆä¸æœåŠ¡å™¨äº¤äº’ç”¨ï¼‰
 
-		static const int SPIRIT_MARRY_CELL_COUNT = 3;	// ¸ñ×Ó¸öÊı
-		static const int SPIRIT_MARRY_ITEM = 0;			// ¶ñÄ§¹ûÊµ
-		static const int SPIRIT_MARRY_ONE  = 1;			// ¾«Áé1
-		static const int SPIRIT_MARRY_TWO  = 2;			// ¾«Áé2
+		static const int SPIRIT_MARRY_CELL_COUNT = 3;	// æ ¼å­ä¸ªæ•°
+		static const int SPIRIT_MARRY_ITEM = 0;			// æ¶é­”æœå®
+		static const int SPIRIT_MARRY_ONE  = 1;			// ç²¾çµ1
+		static const int SPIRIT_MARRY_TWO  = 2;			// ç²¾çµ2
 
-		static const int ERNIE_IMAGE_COUNT = 5;			// ÀÏ»¢»úÍ¼Æ¬Êı
-		static const int ERNIE_SPEED       = 50;		// ·­×ªËÙ¶È£¨ºÁÃë£©
-		static const int ERNIE_COIN_COUNT  = 5;			// 5 ¸ö¾«ÁéÓ²±Ò
-		static const int ERNIE_EMPTY_COUNT = 5;			// 5 ¸ö±³°ü¿Õ¸ñ
+		static const int ERNIE_IMAGE_COUNT = 5;			// è€è™æœºå›¾ç‰‡æ•°
+		static const int ERNIE_SPEED       = 50;		// ç¿»è½¬é€Ÿåº¦ï¼ˆæ¯«ç§’ï¼‰
+		static const int ERNIE_COIN_COUNT  = 5;			// 5 ä¸ªç²¾çµç¡¬å¸
+		static const int ERNIE_EMPTY_COUNT = 5;			// 5 ä¸ªèƒŒåŒ…ç©ºæ ¼
 
 		void ClearAllCommand();
 		void ShowMarryForm(bool bShow = true);
 		void ShowErnieForm(bool bShow = true);
 
-		void UpdateErnieNumber(short nNum, short nID1, short nID2, short nID3);	// ¸üĞÂÀÏ»¢»ú
-		void UpdateErnieString(const char* szText);		// ¸üĞÂÏÔÊ¾ÄÚÈİ
+		void UpdateErnieNumber(short nNum, short nID1, short nID2, short nID3);	// æ›´æ–°è€è™æœº
+		void UpdateErnieString(const char* szText);		// æ›´æ–°æ˜¾ç¤ºå†…å®¹
 		void ShowErnieHighLight();
 
-		int GetType() {  return SPIRIT_MARRY_TYPE;	}	// ÀàĞÍ
+		int GetType() {  return SPIRIT_MARRY_TYPE;	}	// ç±»å‹
 
 	protected:
 		virtual bool Init();
@@ -53,7 +53,7 @@ namespace GUI
 	private:
 
 		//
-		//  ¾«ÁéÈÚºÏ
+		//  ç²¾çµèåˆ
 		//
 		CForm*		    frmSpiritMarry;
 		CLabel*			labMoneyShow;
@@ -66,22 +66,22 @@ namespace GUI
 		void		PopItem(int iIndex);
 		void		SetSpiritUI();
 
-		bool		IsValidSpiritItem(CItemCommand& rItem);	// ÊÇ·ñÊÇºÏ·¨µÄ¶ñÄ§¹ûÊµ
-		bool		IsValidSpirit(CItemCommand& rItem);		// ÊÇ·ñÊÇºÏ·¨µÄ¾«Áé£¨LV > 20£©
+		bool		IsValidSpiritItem(CItemCommand& rItem);	// æ˜¯å¦æ˜¯åˆæ³•çš„æ¶é­”æœå®
+		bool		IsValidSpirit(CItemCommand& rItem);		// æ˜¯å¦æ˜¯åˆæ³•çš„ç²¾çµï¼ˆLV > 20ï¼‰
 
 		void		SendSpiritMarryProtocol();
 
-		static void _evtDragMarryItem(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// ÍÏÈë¶ñÄ§¹ûÊµ
-		static void _evtDragMarryOne(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// ÍÏÈë¾«Áé1
-		static void _evtDragMarryTwo(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// ÍÏÈë¾«Áé2
+		static void _evtDragMarryItem(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// æ‹–å…¥æ¶é­”æœå®
+		static void _evtDragMarryOne(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// æ‹–å…¥ç²¾çµ1
+		static void _evtDragMarryTwo(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// æ‹–å…¥ç²¾çµ2
 
-		static void _evtMainMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// Êó±êµã»÷°´Å¥ÊÂ¼ş
-		static void _evtCloseMarryForm(CForm* pForm, bool& IsClose);	// ¹Ø±Õ´°ÌåÊÂ¼ş
+		static void _evtMainMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// é¼ æ ‡ç‚¹å‡»æŒ‰é’®äº‹ä»¶
+		static void _evtCloseMarryForm(CForm* pForm, bool& IsClose);	// å…³é—­çª—ä½“äº‹ä»¶
 
 	private:
 
 		//
-		//  ¾«ÁéÀÏ»¢»ú
+		//  ç²¾çµè€è™æœº
 		//
 		CForm*			frmSpiritErnie;
 		CImage*			imgLine[9][ERNIE_IMAGE_COUNT];
@@ -103,8 +103,8 @@ namespace GUI
 		void			ClearTigerItem(void);
 		void			ErnieHightLight(int nNum, bool b = true);
 
-		static void _evtErnieMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// Êó±êµã»÷°´Å¥ÊÂ¼ş
-		static void _evtCloseErnieForm(CForm* pForm, bool& IsClose);	// ¹Ø±Õ´°ÌåÊÂ¼ş
+		static void _evtErnieMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// é¼ æ ‡ç‚¹å‡»æŒ‰é’®äº‹ä»¶
+		static void _evtCloseErnieForm(CForm* pForm, bool& IsClose);	// å…³é—­çª—ä½“äº‹ä»¶
 		static void	evtShowHelpInfo( CGuiData* pSender, int x, int y, DWORD key );
 
 	};

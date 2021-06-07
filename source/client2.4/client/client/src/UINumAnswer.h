@@ -20,7 +20,7 @@
 
 
 
-// 读取内存BMP图片，暂时只支持黑白图片
+// 璇诲彇鍐呭瓨BMP鍥剧墖锛屾殏鏃跺彧鏀寔榛戠櫧鍥剧墖
 class CImageBMP
 {
 public:
@@ -72,7 +72,7 @@ namespace GUI
 	private:
 
 		CForm*			frmNumAnswer;
-		CForm*			frmFast;	// 仅作为坐标参照，不作任何处理
+		CForm*			frmFast;	// 浠呬綔涓哄潗鏍囧弬鐓э紝涓嶄綔浠讳綍澶勭悊
 		CEdit*			edtUserInput;
 		CLabelEx*		labTimeLeft;
 		C3DCompent*		ui3dCheckCode;

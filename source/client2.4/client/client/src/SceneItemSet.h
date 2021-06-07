@@ -19,12 +19,12 @@ public:
 	int		nAttachEffectID;
     int     nCharacterID;
     BYTE    btWeaponType;  
-    //  ÎäÆ÷ÀàĞÍ
-    //  0   µ¥ÊÖ½üÕ½ÎäÆ÷(Í¬Í½ÊÖ¹²ÓÃ)	
-    //  1   Ë«ÊÖ½üÕ½ÎäÆ÷	
-    //  2   ÊÖ³ÖÁ½°Ñ½üÕ½ÎäÆ÷	
-    //  3   µ¥ÊÖ³ÖÇ¹ĞµÎäÆ÷	
-    //  4   Ë«ÊÖ³Ö¹­¼ıÀàÎäÆ÷
+    //  æ­¦å™¨ç±»å‹
+    //  0   å•æ‰‹è¿‘æˆ˜æ­¦å™¨(åŒå¾’æ‰‹å…±ç”¨)	
+    //  1   åŒæ‰‹è¿‘æˆ˜æ­¦å™¨	
+    //  2   æ‰‹æŒä¸¤æŠŠè¿‘æˆ˜æ­¦å™¨	
+    //  3   å•æ‰‹æŒæªæ¢°æ­¦å™¨	
+    //  4   åŒæ‰‹æŒå¼“ç®­ç±»æ­¦å™¨
 
     //int     nShipLinkID;
     //int     nItemLinkID;
@@ -47,7 +47,7 @@ public:
 
 protected:
 
-	static CSceneItemSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CSceneItemSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

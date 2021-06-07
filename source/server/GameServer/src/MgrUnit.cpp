@@ -12,12 +12,12 @@
 
 char	szEntiList[2048];
 
-// ÊµÌåÖ¸Õë£¬ÊµÌåÀàĞÍ£¨½ÇÉ«£¬ÎïÆ·£©£¬ÊÇ·ñÔÚ·¶Î§ÄÚ
+// å®ä½“æŒ‡é’ˆï¼Œå®ä½“ç±»å‹ï¼ˆè§’è‰²ï¼Œç‰©å“ï¼‰ï¼Œæ˜¯å¦åœ¨èŒƒå›´å†…
 CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 {
 #ifdef defMGRUNIT_LOG
 	if (chType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "[%d, %d]¿ªÊ¼Ôö¼ÓÊµÌå %s£¬µ±Ç°ÊµÌåÊı %d¡£\n", m_sPosX, m_sPosY, pCEnt->m_CLog.GetLogName(), m_lEntityNum);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "[%d, %d]å¼€å§‹å¢åŠ å®ä½“ %sï¼Œå½“å‰å®ä½“æ•° %dã€‚\n", m_sPosX, m_sPosY, pCEnt->m_CLog.GetLogName(), m_lEntityNum);
 #endif
 	bool	bAddState = false;
 	CEntityListNode	*pNode = g_pGameApp->m_EntityListHeap.Get();
@@ -30,7 +30,7 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 			m_pCChaIn->m_pCLast = pNode;
 		m_pCChaIn = pNode;
 
-		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode, true); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode, true); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	else if (chType == def_MGRUNIT_ENTITY_TYPE_CHACROSS)
 	{
@@ -39,7 +39,7 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 			m_pCChaCross->m_pCLast = pNode;
 		m_pCChaCross = pNode;
 
-		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	else if (chType == def_MGRUNIT_ENTITY_TYPE_ITEMIN)
 	{
@@ -47,7 +47,7 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 			m_pCItemIn->m_pCLast = pNode;
 		m_pCItemIn = pNode;
 
-		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode, true); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode, true); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	else if (chType == def_MGRUNIT_ENTITY_TYPE_ITEMCROSS)
 	{
@@ -55,7 +55,7 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 			m_pCItemCross->m_pCLast = pNode;
 		m_pCItemCross = pNode;
 
-		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntMgrNode = pCEnt->EnterMgrUnit(this, pNode); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	else
 	{
@@ -67,7 +67,7 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 	if (chType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
 	{
 #ifdef defMGRUNIT_LOG
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "ÊµÌåÔö¼ÓÍê³É£¬µ±Ç°ÊµÌåÊı %d\n", m_lEntityNum);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "å®ä½“å¢åŠ å®Œæˆï¼Œå½“å‰å®ä½“æ•° %d\n", m_lEntityNum);
 #endif
 		long	lCount = 0;
 		szEntiList[0] = '\0';
@@ -82,17 +82,17 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 			if (lCount > m_lEntityNum)
 			{
 #ifdef defMGRUNIT_LOG
-				//LG("¹ÜÀíµ¥ÔªÊµÌå", "msgÊµÌåÁ´´íÎó¡£\n");
+				//LG("ç®¡ç†å•å…ƒå®ä½“", "msgå®ä½“é“¾é”™è¯¯ã€‚\n");
 #endif
 				break;
 			}
 		}
 #ifdef defMGRUNIT_LOG
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "ÊµÌåÁ´£º%s¡£\n", szEntiList);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "å®ä½“é“¾ï¼š%sã€‚\n", szEntiList);
 #endif
 	}
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	if (bAddState)
 	{
 		CCharacter	*pCCha = pCEnt->IsCharacter();
@@ -110,17 +110,17 @@ CEntityListNode* CMgrUnit::AddEntity(Entity *pCEnt, char chType)
 	return pNode;
 }
 
-// ÊµÌåÖ¸Õë£¬ÊµÌåÀàĞÍ£¨½ÇÉ«£¬ÎïÆ·£©£¬ÊÇ·ñÔÚ·¶Î§ÄÚ
+// å®ä½“æŒ‡é’ˆï¼Œå®ä½“ç±»å‹ï¼ˆè§’è‰²ï¼Œç‰©å“ï¼‰ï¼Œæ˜¯å¦åœ¨èŒƒå›´å†…
 void CMgrUnit::DelEntity(CEntityListNode *pCEntNode)
 {
 #ifdef defMGRUNIT_LOG
 	if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
 	{
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "[%d, %d]¿ªÊ¼É¾³ıÊµÌå %s£¬µ±Ç°ÊµÌåÊı %d¡£\n", m_sPosX, m_sPosY, pCEntNode->m_pCEntity->m_CLog.GetLogName(), m_lEntityNum);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "[%d, %d]å¼€å§‹åˆ é™¤å®ä½“ %sï¼Œå½“å‰å®ä½“æ•° %dã€‚\n", m_sPosX, m_sPosY, pCEntNode->m_pCEntity->m_CLog.GetLogName(), m_lEntityNum);
 		if (pCEntNode->m_pCLast)
-			LG("¹ÜÀíµ¥ÔªÊµÌå", "±»É¾ÊµÌåµÄÉÏÒ»ÊµÌå %s¡£\n", pCEntNode->m_pCLast->m_pCEntity->m_CLog.GetLogName());
+			LG("ç®¡ç†å•å…ƒå®ä½“", "è¢«åˆ å®ä½“çš„ä¸Šä¸€å®ä½“ %sã€‚\n", pCEntNode->m_pCLast->m_pCEntity->m_CLog.GetLogName());
 		if (pCEntNode->m_pCNext)
-			LG("¹ÜÀíµ¥ÔªÊµÌå", "±»É¾ÊµÌåµÄÏÂÒ»ÊµÌå %s¡£\n", pCEntNode->m_pCNext->m_pCEntity->m_CLog.GetLogName());
+			LG("ç®¡ç†å•å…ƒå®ä½“", "è¢«åˆ å®ä½“çš„ä¸‹ä¸€å®ä½“ %sã€‚\n", pCEntNode->m_pCNext->m_pCEntity->m_CLog.GetLogName());
 	}
 #endif
 	bool	bAddState = false;
@@ -153,12 +153,12 @@ void CMgrUnit::DelEntity(CEntityListNode *pCEntNode)
 	else
 		return;
 	m_lEntityNum--;
-	pCEntNode->m_pCEntity->OutMgrUnit(pCEntNode->m_pCEntMgrNode); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+	pCEntNode->m_pCEntity->OutMgrUnit(pCEntNode->m_pCEntMgrNode); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 
 	if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
 	{
 #ifdef defMGRUNIT_LOG
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "ÊµÌåÉ¾³ıÍê³É£¬µ±Ç°ÊµÌåÊı %d\n", m_lEntityNum);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "å®ä½“åˆ é™¤å®Œæˆï¼Œå½“å‰å®ä½“æ•° %d\n", m_lEntityNum);
 #endif
 		long	lCount = 0;
 		szEntiList[0] = '\0';
@@ -173,17 +173,17 @@ void CMgrUnit::DelEntity(CEntityListNode *pCEntNode)
 			if (lCount > m_lEntityNum)
 			{
 #ifdef defMGRUNIT_LOG
-				//LG("¹ÜÀíµ¥ÔªÊµÌå", "msgÊµÌåÁ´´íÎó¡£\n");
+				//LG("ç®¡ç†å•å…ƒå®ä½“", "msgå®ä½“é“¾é”™è¯¯ã€‚\n");
 #endif
 				break;
 			}
 		}
 #ifdef defMGRUNIT_LOG
-		LG("¹ÜÀíµ¥ÔªÊµÌå", "ÊµÌåÁ´£º%s¡£\n", szEntiList);
+		LG("ç®¡ç†å•å…ƒå®ä½“", "å®ä½“é“¾ï¼š%sã€‚\n", szEntiList);
 #endif
 	}
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	if (bAddState)
 	{
 		CCharacter		*pCCha = pCEntNode->m_pCEntity->IsCharacter();
@@ -213,14 +213,14 @@ void CMgrUnit::SetEntityIn(CEntityListNode *pCEntNode, bool bIn)
 	{
 		if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHACROSS)
 		{
-			// É¾³ı
+			// åˆ é™¤
 			if (pCEntNode->m_pCLast)
 				pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 			if (pCEntNode->m_pCNext)
 				pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 			if (m_pCChaCross == pCEntNode)
 				m_pCChaCross = pCEntNode->m_pCNext;
-			// Ôö¼Ó
+			// å¢åŠ 
 			if (pCEntNode->m_pCNext = m_pCChaIn)
 				m_pCChaIn->m_pCLast = pCEntNode;
 			m_pCChaIn = pCEntNode;
@@ -229,21 +229,21 @@ void CMgrUnit::SetEntityIn(CEntityListNode *pCEntNode, bool bIn)
 		}
 		else if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_ITEMCROSS)
 		{
-			// É¾³ı
+			// åˆ é™¤
 			if (pCEntNode->m_pCLast)
 				pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 			if (pCEntNode->m_pCNext)
 				pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 			if (m_pCItemCross == pCEntNode)
 				m_pCItemCross = pCEntNode->m_pCNext;
-			// Ôö¼Ó
+			// å¢åŠ 
 			if (pCEntNode->m_pCNext = m_pCItemIn)
 				m_pCItemIn->m_pCLast = pCEntNode;
 			m_pCItemIn = pCEntNode;
 
 			pCEntNode->m_chEntiType = def_MGRUNIT_ENTITY_TYPE_ITEMIN;
 		}
-		else // ²»¿ÉÄÜµÄÇå¿ö
+		else // ä¸å¯èƒ½çš„æ¸…å†µ
 		{}
 		pCEntNode->m_pCEntity->SetCenterMgrNode(pCEntNode->m_pCEntMgrNode);
 	}
@@ -251,14 +251,14 @@ void CMgrUnit::SetEntityIn(CEntityListNode *pCEntNode, bool bIn)
 	{
 		if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
 		{
-			// É¾³ı
+			// åˆ é™¤
 			if (pCEntNode->m_pCLast)
 				pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 			if (pCEntNode->m_pCNext)
 				pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 			if (m_pCChaIn == pCEntNode)
 				m_pCChaIn = pCEntNode->m_pCNext;
-			// Ôö¼Ó
+			// å¢åŠ 
 			if (pCEntNode->m_pCNext = m_pCChaCross)
 				m_pCChaCross->m_pCLast = pCEntNode;
 			m_pCChaCross = pCEntNode;
@@ -267,21 +267,21 @@ void CMgrUnit::SetEntityIn(CEntityListNode *pCEntNode, bool bIn)
 		}
 		else if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_ITEMIN)
 		{
-			// É¾³ı
+			// åˆ é™¤
 			if (pCEntNode->m_pCLast)
 				pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 			if (pCEntNode->m_pCNext)
 				pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 			if (m_pCItemIn == pCEntNode)
 				m_pCItemIn = pCEntNode->m_pCNext;
-			// Ôö¼Ó
+			// å¢åŠ 
 			if (pCEntNode->m_pCNext = m_pCItemCross)
 				m_pCItemCross->m_pCLast = pCEntNode;
 			m_pCItemCross = pCEntNode;
 
 			pCEntNode->m_chEntiType = def_MGRUNIT_ENTITY_TYPE_ITEMCROSS;
 		}
-		else // ²»¿ÉÄÜµÄÇå¿ö
+		else // ä¸å¯èƒ½çš„æ¸…å†µ
 		{}
 	}
 }
@@ -289,11 +289,11 @@ void CMgrUnit::SetEntityIn(CEntityListNode *pCEntNode, bool bIn)
 bool CMgrUnit::AddState(unsigned char uchFightID, unsigned long ulSrcWorldID, long lSrcHandle, char chEffType,
 						char chStateID, char chStateLv, unsigned long ulStartTick, long lOnTick, char chType)
 {
-	// ÏòµØ±íÔö¼Ó×´Ì¬
+	// å‘åœ°è¡¨å¢åŠ çŠ¶æ€
 	if (!m_CSkillState.Add(uchFightID, ulSrcWorldID, lSrcHandle, chEffType, chStateID, chStateLv, ulStartTick, lOnTick, chType))
 		return false;
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	char	chStateNo = m_CSkillState.GetReverseID(chStateID);
 	CEntityListNode	*pNode;
 	pNode = m_pCChaIn;
@@ -368,7 +368,7 @@ void CMgrUnit::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 		pSStateUnit = m_CSkillState.GetSStateByNum(chCount);
 		if (pSStateUnit->lOnTick > 0)
 		{
-			if (ulCurTick - pSStateUnit->ulStartTick >= (unsigned long)pSStateUnit->lOnTick * 1000) // ×´Ì¬¼ÆÊ±Íê³É
+			if (ulCurTick - pSStateUnit->ulStartTick >= (unsigned long)pSStateUnit->lOnTick * 1000) // çŠ¶æ€è®¡æ—¶å®Œæˆ
 			{
 				lOnTime = g_pGameApp->GetSStateTraOnTime(pSStateUnit->chStateID, pSStateUnit->chStateLv);
 				pNode = m_pCChaIn;
@@ -387,7 +387,7 @@ void CMgrUnit::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 			}
 			else
 			{
-				// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+				// å‘è§’è‰²å¢åŠ çŠ¶æ€
 				CEntityListNode	*pNode;
 				pNode = m_pCChaIn;
 				while (pNode)
@@ -413,10 +413,10 @@ void CMgrUnit::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 	{
 		pCMap->NotiMgrUnitStateToEyeshot(m_sPosX, m_sPosY);
 
-		if (m_CSkillState.m_chStateNum <= 0) // ¹ÜÀíµ¥Ôª×´Ì¬ÏûÊ§
+		if (m_CSkillState.m_chStateNum <= 0) // ç®¡ç†å•å…ƒçŠ¶æ€æ¶ˆå¤±
 		{
 			pCMap->InactiveMgrUnit(m_sPosX, m_sPosY);
-			LG("µØ±í±í×´Ì¬", "¹ÜÀíµ¥Ôª[%d, %d]£¬µÄ×´Ì¬ÏûÊ§£¬µ±Ç°¼¤»îÊı %d¡£\n", m_sPosX, m_sPosY, m_lActiveNum);
+			LG("åœ°è¡¨è¡¨çŠ¶æ€", "ç®¡ç†å•å…ƒ[%d, %d]ï¼Œçš„çŠ¶æ€æ¶ˆå¤±ï¼Œå½“å‰æ¿€æ´»æ•° %dã€‚\n", m_sPosX, m_sPosY, m_lActiveNum);
 		}
 	}
 }

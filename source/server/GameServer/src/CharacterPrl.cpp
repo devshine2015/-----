@@ -24,7 +24,7 @@ _DBC_USING
 const short g_sLiveSkillNeedItemNum[4] = {6,4,6,6};
 extern std::string g_strLogName;
 //----------------------------------------------------------
-//                    ËùÓĞÍøÂçÏûÏ¢µÄ´¦Àí
+//                    æ‰€æœ‰ç½‘ç»œæ¶ˆæ¯çš„å¤„ç†
 //----------------------------------------------------------
 void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 {T_B
@@ -139,10 +139,10 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		Char bankType = READ_CHAR(pk);
 
 		if (!IsLiveing()){
-			SystemNotice("ÎşÉüµÄº£µÁÎŞ·¨½»Ò×.");
+			SystemNotice("ç‰ºç‰²çš„æµ·ç›—æ— æ³•äº¤æ˜“.");
 		}
 		else if (!IsInArea(2)){
-			SystemNotice("±ØĞëÔÚ°²È«ÇøÓò²ÅÄÜÊ¹ÓÃÒøĞĞ.");
+			SystemNotice("å¿…é¡»åœ¨å®‰å…¨åŒºåŸŸæ‰èƒ½ä½¿ç”¨é“¶è¡Œ.");
 		}else{
 			switch (bankType){
 
@@ -271,7 +271,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			Long	lGatePlayerID = READ_LONG(pk);
 			Long	lGatePlayerAddr = READ_LONG(pk);
 
-			// Ğ£Ñé´Ó¿Í»§¶Ë¹ıÀ´µÄÖ¸Õë
+			// æ ¡éªŒä»å®¢æˆ·ç«¯è¿‡æ¥çš„æŒ‡é’ˆ
 			BEGINGETGATE();
 			GateServer	*pNoGate;
 			GateServer	*pGate = 0;
@@ -352,7 +352,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 	case CMD_CM_DIE_RETURN:
 		{
 			m_chSelRelive = READ_CHAR(pk);
-			GetPlyMainCha()->ResetChaRelive();	// ¸´»î×´Ì¬»Ö¸´
+			GetPlyMainCha()->ResetChaRelive();	// å¤æ´»çŠ¶æ€æ¢å¤
 			if (m_chSelRelive == enumEPLAYER_RELIVE_NORIGIN)
 				SetRelive(enumEPLAYER_RELIVE_ORIGIN, 0);
 			break;
@@ -442,7 +442,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			DWORD	dwNowTick = GetTickCount();
 			if (dwNowTick - _dwLastSayTick < (DWORD)g_Config.m_lSayInterval)
 			{
-				//SystemNotice("ÇëÎğÆµ·±·¢ÑÔ£¡");
+				//SystemNotice("è¯·å‹¿é¢‘ç¹å‘è¨€ï¼");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00001));
 				break;
 			}
@@ -450,29 +450,29 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if (!GetSubMap())
 			{
-				LG("¶Ô»°´íÎó", "½ÇÉ«%s ÔÚ¶Ô»°Ê±£¬ÆäµØÍ¼Îª¿Õ£¡\n", m_CLog.GetLogName());
-				//LG("dialog error", "when character%s is dialog£¬the map is null£¡\n", m_CLog.GetLogName());
+				LG("å¯¹è¯é”™è¯¯", "è§’è‰²%s åœ¨å¯¹è¯æ—¶ï¼Œå…¶åœ°å›¾ä¸ºç©ºï¼\n", m_CLog.GetLogName());
+				//LG("dialog error", "when character%s is dialogï¼Œthe map is nullï¼\n", m_CLog.GetLogName());
 				break;
 			}
 			uShort	l_retlen;
 			cChar	*l_content = READ_SEQ(pk, l_retlen);
 			if (!l_content)
 				break;
-			else if (*l_content == '&') // ÌØÊâÃüÁî
+			else if (*l_content == '&') // ç‰¹æ®Šå‘½ä»¤
 			{
 				Char chGMLv = GetPlayer()->GetGMLev();
 				if (chGMLv == 0 || chGMLv > 150)
-					//SystemNotice("ÄúÃ»ÓĞ¸ÃÈ¨ÏŞ\n");
+					//SystemNotice("æ‚¨æ²¡æœ‰è¯¥æƒé™\n");
 					SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00002));
 				else
 					DoCommand(l_content + 1, l_retlen - 1);
 			}
-			else if (*l_content == '$' && *(l_content + 1) == '$') // ÌØÊâÃüÁî
+			else if (*l_content == '$' && *(l_content + 1) == '$') // ç‰¹æ®Šå‘½ä»¤
 			{
 				DoCommand_CheckStatus(l_content + 3, l_retlen - 2);
 			}
 
-			/*else if (*l_content == '/' && *(l_content+1)=='?') // Íæ¼ÒÇëÇó°ïÃ¦²éÑ¯
+			/*else if (*l_content == '/' && *(l_content+1)=='?') // ç©å®¶è¯·æ±‚å¸®å¿™æŸ¥è¯¢
 			{
 				HandleHelp(l_content + 2, l_retlen - 2);
 			}*/
@@ -485,7 +485,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 					break;
 				if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
 				{
-					SystemNotice("ÎŞ·¨ÔÚ´ËµØÍ¼ÉÏÁÄÌì!");
+					SystemNotice("æ— æ³•åœ¨æ­¤åœ°å›¾ä¸ŠèŠå¤©!");
 					break;
 				}
 
@@ -641,7 +641,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			}
 			else
 			{
-				//SystemNotice( "ÄãµÄ´¬Ö»Ã»ÓĞ³öº££¡" );
+				//SystemNotice( "ä½ çš„èˆ¹åªæ²¡æœ‰å‡ºæµ·ï¼" );
 				SystemNotice( RES_STRING(GM_CHARACTERPRL_CPP_00003) );
 			}
 		}
@@ -743,7 +743,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 				pMainCha->m_CKitbag.Lock();
 			}
 			else
-				//pMainCha->SystemNotice("´¬ÉÏ²»ÄÜ¶ÁÊé£¡");
+				//pMainCha->SystemNotice("èˆ¹ä¸Šä¸èƒ½è¯»ä¹¦ï¼");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00004));
 			
 		}
@@ -758,11 +758,11 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 				pMainCha->m_CKitbag.UnLock();
 			}
 			else
-				//pMainCha->SystemNotice("´¬ÉÏ²»ÄÜ½áÊø¶ÁÊé£¡");
+				//pMainCha->SystemNotice("èˆ¹ä¸Šä¸èƒ½ç»“æŸè¯»ä¹¦ï¼");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00005));
 		}
 		break;
-	case CMD_CM_SYNATTR: // Í¬²½Áù¸ö»ù´¡ÊôĞÔ£¨°ÑÖÕ¶ËÇëÇóµÄÁù¸ö»ù´¡ÊôĞÔÏà¶ÔÖµ£¬×ª»»Îª»ù±¾»ù´¡ÊôĞÔ£¬ÔÙËã³ö¸÷ÏîÊôĞÔ£¬·µ»¹¸øÖÕ¶Ë£©
+	case CMD_CM_SYNATTR: // åŒæ­¥å…­ä¸ªåŸºç¡€å±æ€§ï¼ˆæŠŠç»ˆç«¯è¯·æ±‚çš„å…­ä¸ªåŸºç¡€å±æ€§ç›¸å¯¹å€¼ï¼Œè½¬æ¢ä¸ºåŸºæœ¬åŸºç¡€å±æ€§ï¼Œå†ç®—å‡ºå„é¡¹å±æ€§ï¼Œè¿”è¿˜ç»™ç»ˆç«¯ï¼‰
 			GetPlayer()->GetMainCha()->Cmd_ReassignAttr(pk);
 		break;
 	case CMD_CM_SKILLUPGRADE:
@@ -780,7 +780,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 				chSkillLv = pSkill->chLv;
 
 			if (chSkillLv <= 0) {
-				SystemNotice("Ã»ÓĞÑ§Ï°¾ÍÎŞ·¨Ìá¸ß¼¼ÄÜ!");
+				SystemNotice("æ²¡æœ‰å­¦ä¹ å°±æ— æ³•æé«˜æŠ€èƒ½!");
 				break;
 			}
 
@@ -795,7 +795,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			if (pCEnt)
 			{
 				CCharacter	*pCCha = pCEnt->IsCharacter();
-				if (pCCha && pCCha->GetPlayer() == GetPlayer()) // Íæ¼Ò×Ô¼ºµÄ½ÇÉ«
+				if (pCCha && pCCha->GetPlayer() == GetPlayer()) // ç©å®¶è‡ªå·±çš„è§’è‰²
 				{
 					pCCha->SynAttr(enumATTRSYN_ITEM_EQUIP);
 				}
@@ -813,13 +813,13 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		unsigned long	permission = READ_LONG(pk);
 		int guild_id = GetPlyMainCha()->GetGuildID();
 		if (guild_id == 0 || !emGldPermMgr&GetPlyMainCha()->guildPermission || game_db.GetGuildLeaderID(guild_id)==targetID){
-			GetPlyMainCha()->SystemNotice("ÄãÃ»ÓĞÕâÑù×öµÄÈ¨ÏŞ.");
+			GetPlyMainCha()->SystemNotice("ä½ æ²¡æœ‰è¿™æ ·åšçš„æƒé™.");
 			return;
 		}
 
 		//update in DB
 		if (!game_db.SetGuildPermission(targetID, permission, guild_id)){
-			GetPlyMainCha()->SystemNotice("Íæ¼ÒÃ»ÓĞÕÒµ½");
+			GetPlyMainCha()->SystemNotice("ç©å®¶æ²¡æœ‰æ‰¾åˆ°");
 			return;
 		}
 
@@ -849,7 +849,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			}
 			else
 			{
-				//GetPlyMainCha()->SystemNotice("¹¤»áÃû°üº¬·Ç·¨×Ö·û£¡");
+				//GetPlyMainCha()->SystemNotice("å·¥ä¼šååŒ…å«éæ³•å­—ç¬¦ï¼");
 				GetPlyMainCha()->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00006));
 			}
 		}
@@ -888,7 +888,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		{
 			if(!(GetPlyCtrlCha()->GetSubMap()->GetMapRes()->CanGuild()))
 			{
-				//GetPlyMainCha()->SystemNotice("´ËµØÍ¼²»ÄÜÍË»á!");
+				//GetPlyMainCha()->SystemNotice("æ­¤åœ°å›¾ä¸èƒ½é€€ä¼š!");
 				GetPlyMainCha()->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00007));
 				break;
 			}
@@ -961,13 +961,13 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		}
 		break;
 
-	case CMD_CM_UPDATEHAIR: // ¸ü»»·¢ĞÍ
+	case CMD_CM_UPDATEHAIR: // æ›´æ¢å‘å‹
 		{
 			if (!GetSubMap()) break;
 			Cmd_ChangeHair(pk);
 		}
 		break;
-	case CMD_CM_TEAM_FIGHT_ASK: // ¶ÓÎéÌôÕ½ÇëÇó
+	case CMD_CM_TEAM_FIGHT_ASK: // é˜Ÿä¼æŒ‘æˆ˜è¯·æ±‚
 		{
 			Char	chType = READ_CHAR(pk);
 			Long	lID = READ_LONG(pk);
@@ -975,7 +975,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			Cmd_FightAsk(chType, lID, lHandle);
 		}
 		break;
-	case CMD_CM_TEAM_FIGHT_ASR: // ¶ÓÎéÌôÕ½Ó¦´ğ
+	case CMD_CM_TEAM_FIGHT_ASR: // é˜Ÿä¼æŒ‘æˆ˜åº”ç­”
 		{
 			Char	chAnswer = READ_CHAR(pk);
 			Cmd_FightAnswer(chAnswer != 0 ? true : false);
@@ -1418,33 +1418,33 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter *pTarCha = FindVolunteer(szName);
 			if(!pTarCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(pTarCha == pMainCha)
 			{
-				//pMainCha->SystemNotice("Äã²»ÄÜÍ¬×Ô¼º×é¶Ó!");
+				//pMainCha->SystemNotice("ä½ ä¸èƒ½åŒè‡ªå·±ç»„é˜Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00013));
 				break;
 			}
 
 			if(strcmp(pTarCha->GetSubMap()->GetName(), GetSubMap()->GetName()))
 			{
-				//pMainCha->SystemNotice("ºÜÒÅº¶µÄ, ÄãÃÇ²»ÔÚÍ¬Ò»¸öµØÍ¼!");
+				//pMainCha->SystemNotice("å¾ˆé—æ†¾çš„, ä½ ä»¬ä¸åœ¨åŒä¸€ä¸ªåœ°å›¾!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00014));
 				break;
 			}
 
 			if(!(GetPlyCtrlCha()->GetSubMap()->GetMapRes()->CanTeam()))
 			{
-				//pMainCha->SystemNotice("´ËµØÍ¼²»ÄÜ×é¶Ó!");
+				//pMainCha->SystemNotice("æ­¤åœ°å›¾ä¸èƒ½ç»„é˜Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00015));
 				break;
 			}
 
-			//pMainCha->SystemNotice("ÄúµÄÑûÇëÒÑ·¢³ö,ÇëÄÍĞÄµÈ´ı»ØÓ¦!");
+			//pMainCha->SystemNotice("æ‚¨çš„é‚€è¯·å·²å‘å‡º,è¯·è€å¿ƒç­‰å¾…å›åº”!");
 			pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00016));
 
 			WPACKET packet = GETWPACKET();
@@ -1461,14 +1461,14 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter *pSrcCha = g_pGameApp->FindChaByName(szName);
 			if(!pSrcCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(sRet == 0)
 			{
-				//pSrcCha->SystemNotice("%s ²»Í¬ÒâºÍÄú×é¶Ó!", pMainCha->GetName());
+				//pSrcCha->SystemNotice("%s ä¸åŒæ„å’Œæ‚¨ç»„é˜Ÿ!", pMainCha->GetName());
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00018), pMainCha->GetName());
 				break;
 			}
@@ -1513,7 +1513,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			if(	pMainCha	){
 
 				if (pMainCha->m_CKitbag.IsLock() || pMainCha->m_CKitbag.IsPwdLocked() || pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData()){
-					SystemNotice("±³°üÒÑ¾­Ëø¶¨.");
+					SystemNotice("èƒŒåŒ…å·²ç»é”å®š.");
 					return;
 				}
 
@@ -1582,7 +1582,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		if(	pMainCha ){
 
 			if (pMainCha->m_CKitbag.IsLock() || pMainCha->m_CKitbag.IsPwdLocked() || pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData()){
-				SystemNotice("±³°üÒÑ¾­Ëø¶¨.");
+				SystemNotice("èƒŒåŒ…å·²ç»é”å®š.");
 				return;
 			}
 
@@ -1630,7 +1630,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if(IsBoat())
 			{
-				//SystemNotice("´¬ÉÏ²»ÄÜ°İÊ¦!");
+				//SystemNotice("èˆ¹ä¸Šä¸èƒ½æ‹œå¸ˆ!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00019));
 				break;
 			}
@@ -1638,35 +1638,35 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter* pTarCha = pMainCha->GetSubMap()->FindCharacter( dwCharID, pMainCha->GetShape().centre );
 			if(!pTarCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(pTarCha->GetLevel() < 41)
 			{
-				//pMainCha->SystemNotice("¶Ô·½µÈ¼¶²»¹»!");
+				//pMainCha->SystemNotice("å¯¹æ–¹ç­‰çº§ä¸å¤Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00017));
 				break;
 			}
 
 			if(pMainCha->GetLevel() > 40)
 			{
-				//pMainCha->SystemNotice("ÄúµÄµÈ¼¶Ì«¸ßÁË!");
+				//pMainCha->SystemNotice("æ‚¨çš„ç­‰çº§å¤ªé«˜äº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00020));
 				break;
 			}
 
 			if(pMainCha->GetMasterDBID() != 0)
 			{
-				//pMainCha->SystemNotice("ÄúÒÑ¾­ÓĞÊ¦¸¸ÁË!");
+				//pMainCha->SystemNotice("æ‚¨å·²ç»æœ‰å¸ˆçˆ¶äº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00021));
 				break;
 			}
 
 			if(pTarCha->IsInvited())
 			{
-				//pMainCha->SystemNotice("¶Ô·½ÔÚ½ÓÊÜÆäËûÈËµÄÑûÇë!");
+				//pMainCha->SystemNotice("å¯¹æ–¹åœ¨æ¥å—å…¶ä»–äººçš„é‚€è¯·!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00022));
 				break;
 			}
@@ -1691,7 +1691,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if(IsBoat())
 			{
-				//SystemNotice("´¬ÉÏ²»ÄÜÊÕÍ½!");
+				//SystemNotice("èˆ¹ä¸Šä¸èƒ½æ”¶å¾’!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00023));
 				break;
 			}
@@ -1699,32 +1699,32 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter* pSrcCha = pMainCha->GetSubMap()->FindCharacter( dwCharID, pMainCha->GetShape().centre );
 			if(!pSrcCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(pMainCha->GetLevel() < 41)
 			{
-				//pSrcCha->SystemNotice("¶Ô·½µÄµÈ¼¶²»¹»!");
+				//pSrcCha->SystemNotice("å¯¹æ–¹çš„ç­‰çº§ä¸å¤Ÿ!");
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00017));
-				//pMainCha->SystemNotice("ÄúµÄµÈ¼¶²»¹»!");
+				//pMainCha->SystemNotice("æ‚¨çš„ç­‰çº§ä¸å¤Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00024));
 				break;
 			}
 
 			if(pSrcCha->GetLevel() > 40)
 			{
-				//pSrcCha->SystemNotice("ÄúµÄµÈ¼¶Ì«¸ßÁË!");
+				//pSrcCha->SystemNotice("æ‚¨çš„ç­‰çº§å¤ªé«˜äº†!");
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00020));
-				//pMainCha->SystemNotice("¶Ô·½µÄµÈ¼¶Ì«¸ßÁË!");
+				//pMainCha->SystemNotice("å¯¹æ–¹çš„ç­‰çº§å¤ªé«˜äº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00025));
 				break;
 			}
 
 			if(sRet == 0)
 			{
-				//pSrcCha->SystemNotice("%s ²»Í¬ÒâÊÕÄãÎªÍ½!", pMainCha->GetName());
+				//pSrcCha->SystemNotice("%s ä¸åŒæ„æ”¶ä½ ä¸ºå¾’!", pMainCha->GetName());
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00026), pMainCha->GetName());
 				break;
 			}
@@ -1746,7 +1746,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if(pMainCha->GetLevel() > 40)
 			{
-				//pMainCha->SystemNotice("ÄúÒÑ¾­³öÊ¦ÁË!");
+				//pMainCha->SystemNotice("æ‚¨å·²ç»å‡ºå¸ˆäº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00027));
 				break;
 			}
@@ -1754,13 +1754,13 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			long lDelMoney = 0;//* pMainCha->GetLevel();
 			if(!pMainCha->HasMoney(lDelMoney))
 			{
-				//pMainCha->SystemNotice("ÄúµÄ½ğÇ®²»¹»!");
+				//pMainCha->SystemNotice("æ‚¨çš„é‡‘é’±ä¸å¤Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00028));
 				break;
 			}
-			//pMainCha->TakeMoney("ÏµÍ³", lDelMoney);
+			//pMainCha->TakeMoney("ç³»ç»Ÿ", lDelMoney);
 			//pMainCha->TakeMoney(RES_STRING(GM_CHARSCRIPT_CPP_00001), lDelMoney);
-			pMainCha->SystemNotice("ÄúµÄÊ¦¸µÉ¾³ı³É¹¦");
+			pMainCha->SystemNotice("æ‚¨çš„å¸ˆå‚…åˆ é™¤æˆåŠŸ");
 
 			WPacket l_wpk = GETWPACKET();
 			WRITE_CMD(l_wpk,CMD_MP_MASTER_DEL);
@@ -1780,10 +1780,10 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			//long lDelMoney = 10000 * pMainCha->GetLevel();
 			//if(!pMainCha->HasMoney(lDelMoney))
 			//{
-			//	pMainCha->SystemNotice("ÄúµÄ½ğÇ®²»¹»!");
+			//	pMainCha->SystemNotice("æ‚¨çš„é‡‘é’±ä¸å¤Ÿ!");
 			//	break;
 			//}
-			//pMainCha->TakeMoney("ÏµÍ³", lDelMoney);
+			//pMainCha->TakeMoney("ç³»ç»Ÿ", lDelMoney);
 			long lCredit = (long)pMainCha->GetCredit();//- 5 * pMainCha->GetLevel();
 			//printf(lCredit);
 			if(lCredit < 0)
@@ -1792,8 +1792,8 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			}
 			pMainCha->SetCredit(lCredit);
 			pMainCha->SynAttr(enumATTRSYN_TASK);
-			//pMainCha->SystemNotice("ÄúµÄÉùÍûÏÂ½µÁË!");
-			pMainCha->SystemNotice("ÄúµÄÉùÍûÏÂ½µÁË£¡");
+			//pMainCha->SystemNotice("æ‚¨çš„å£°æœ›ä¸‹é™äº†!");
+			pMainCha->SystemNotice("æ‚¨çš„å£°æœ›ä¸‹é™äº†ï¼");
 
 			WPacket l_wpk = GETWPACKET();
 			WRITE_CMD(l_wpk,CMD_MP_MASTER_DEL);
@@ -1812,7 +1812,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if(IsBoat())
 			{
-				//SystemNotice("´¬ÉÏ²»ÄÜÊÕÍ½!");
+				//SystemNotice("èˆ¹ä¸Šä¸èƒ½æ”¶å¾’!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00023));
 				break;
 			}
@@ -1820,28 +1820,28 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter* pTarCha = pMainCha->GetSubMap()->FindCharacter( dwCharID, pMainCha->GetShape().centre );
 			if(!pTarCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(pMainCha->GetLevel() < 41)
 			{
-				//pMainCha->SystemNotice("ÄúµÄµÈ¼¶²»¹»!");
+				//pMainCha->SystemNotice("æ‚¨çš„ç­‰çº§ä¸å¤Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00024));
 				break;
 			}
 
 			if(pTarCha->GetLevel() > 40)
 			{
-				//pMainCha->SystemNotice("¶Ô·½µÄµÈ¼¶Ì«¸ßÁË!");
+				//pMainCha->SystemNotice("å¯¹æ–¹çš„ç­‰çº§å¤ªé«˜äº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00025));
 				break;
 			}
 
 			if(pTarCha->IsInvited())
 			{
-				//pMainCha->SystemNotice("¶Ô·½ÔÚ½ÓÊÜÆäËûÈËµÄÑûÇë!");
+				//pMainCha->SystemNotice("å¯¹æ–¹åœ¨æ¥å—å…¶ä»–äººçš„é‚€è¯·!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00022));
 				break;
 			}
@@ -1866,7 +1866,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 
 			if(IsBoat())
 			{
-				//SystemNotice("´¬ÉÏ²»ÄÜ°İÊ¦!");
+				//SystemNotice("èˆ¹ä¸Šä¸èƒ½æ‹œå¸ˆ!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00019));
 				break;
 			}
@@ -1874,32 +1874,32 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			CCharacter* pSrcCha = pMainCha->GetSubMap()->FindCharacter( dwCharID, pMainCha->GetShape().centre );
 			if(!pSrcCha)
 			{
-				//pMainCha->SystemNotice("%s ÒÑ¾­Àë¿ªÁË!", szName);
+				//pMainCha->SystemNotice("%s å·²ç»ç¦»å¼€äº†!", szName);
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00012), szName);
 				break;
 			}
 
 			if(pSrcCha->GetLevel() < 41)
 			{
-				//pSrcCha->SystemNotice("ÄúµÄµÈ¼¶²»¹»!");
+				//pSrcCha->SystemNotice("æ‚¨çš„ç­‰çº§ä¸å¤Ÿ!");
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00024));
-				//pMainCha->SystemNotice("¶Ô·½µÄµÈ¼¶²»¹»!");
+				//pMainCha->SystemNotice("å¯¹æ–¹çš„ç­‰çº§ä¸å¤Ÿ!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00017));
 				break;
 			}
 
 			if(pMainCha->GetLevel() > 40)
 			{
-				//pSrcCha->SystemNotice("¶Ô·½µÄµÈ¼¶Ì«¸ßÁË!");
+				//pSrcCha->SystemNotice("å¯¹æ–¹çš„ç­‰çº§å¤ªé«˜äº†!");
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00025));
-				//pMainCha->SystemNotice("ÄúµÄµÈ¼¶Ì«¸ßÁË!");
+				//pMainCha->SystemNotice("æ‚¨çš„ç­‰çº§å¤ªé«˜äº†!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00020));
 				break;
 			}
 
 			if(sRet == 0)
 			{
-				//pSrcCha->SystemNotice("%s ²»Í¬Òâ°İÄãÎªÊ¦!", pMainCha->GetName());
+				//pSrcCha->SystemNotice("%s ä¸åŒæ„æ‹œä½ ä¸ºå¸ˆ!", pMainCha->GetName());
 				pSrcCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00030), pMainCha->GetName());
 				break;
 			}
@@ -1923,7 +1923,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			BOOL bHasGuild = pMainCha->HasGuild();
 			if(!bHasGuild)
 			{
-				//SystemNotice("Äã»¹Ã»ÓĞ¼ÓÈë¹«»á!");
+				//SystemNotice("ä½ è¿˜æ²¡æœ‰åŠ å…¥å…¬ä¼š!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00031));
 				break;
 			}
@@ -1948,7 +1948,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			}
 			else
 			{
-				//SystemNotice("±¾ÆµµÀÖ»ÄÜÔÚÊ¥Õ½µØÍ¼ÄÚÊ¹ÓÃ!");
+				//SystemNotice("æœ¬é¢‘é“åªèƒ½åœ¨åœ£æˆ˜åœ°å›¾å†…ä½¿ç”¨!");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00032));
 			}
 			//if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
@@ -1981,7 +1981,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 			cChar *szContent = READ_STRING(pk);
 			if(strlen(szTitle) > 32 || strlen(szContent) > 512)
 			{
-				//pMainCha->SystemNotice("ÓÊ¼ş³¤¶È·Ç·¨!");
+				//pMainCha->SystemNotice("é‚®ä»¶é•¿åº¦éæ³•!");
 				pMainCha->SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00033));
 				break;
 			}
@@ -2014,7 +2014,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 		break;
 	case CMD_CM_CHEAT_CHECK:
 		{
-			//·ÀÍâ¹ÒÔİÊ±²»ÉÏ
+			//é˜²å¤–æŒ‚æš‚æ—¶ä¸ä¸Š
 			/*CCharacter *pMainCha = GetPlyMainCha();
 
 			cChar *answer = READ_STRING(pk);
@@ -2024,7 +2024,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 	case CMD_CM_BIDUP:
 		//add by ALLEN 2007-10-19
 		{
-			//»éÒöÏµÍ³ÔİÊ±²»ÉÏ
+			//å©šå§»ç³»ç»Ÿæš‚æ—¶ä¸ä¸Š
 			CCharacter *pMainCha = GetPlyMainCha();
 			if (g_CParser.DoString("YORN", enumSCRIPT_RETURN_NUMBER, 1, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pMainCha, DOSTRING_PARAM_END))
 			{
@@ -2034,7 +2034,7 @@ void CCharacter::ProcessPacket(unsigned short usCmd, RPACKET pk)
 					CCharacter* pNpc = m_submap->FindCharacter( dwNpcID, GetShape().centre );
 					if( pNpc == NULL )
 					{
-						//SystemNotice( "¾º¼ÛNPCID%dÎŞĞ§£¡", dwNpcID );
+						//SystemNotice( "ç«ä»·NPCID%dæ— æ•ˆï¼", dwNpcID );
 						SystemNotice( RES_STRING(GM_CHARACTERPRL_CPP_00034), dwNpcID );
 						break;
 					}
@@ -2063,15 +2063,15 @@ void CCharacter::BeginAction(RPACKET pk)
 	if (!IsLiveing())
 	{
 		m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-		m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨×ÔÉí²»´æÔÚ£©\n\n");
-		//m_CLog.Log("refuse action request£¨self inexistent£©\n\n");
+		m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆè‡ªèº«ä¸å­˜åœ¨ï¼‰\n\n");
+		//m_CLog.Log("refuse action requestï¼ˆself inexistentï¼‰\n\n");
 		return;
 	}
 	if (GetPlayer()->GetCtrlCha() == this && !GetSubMap())
 	{
 		m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-		m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-		//m_CLog.Log("refuse action request£¨map is null£©\n\n");
+		m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+		//m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 		return;
 	}
 
@@ -2091,28 +2091,28 @@ void CCharacter::BeginAction(RPACKET pk)
 			if (!GetSubMap())
 			{
 				m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-				m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-				//m_CLog.Log("refuse action request£¨map is null£©\n\n");
+				m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+				//m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 				return;
 			}
 
-			if (m_CAction.GetCurActionNo() >= 0) // Ö®Ç°µÄĞĞ¶¯Ã»ÓĞ½áÊø
+			if (m_CAction.GetCurActionNo() >= 0) // ä¹‹å‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸ
 			{
 				FailedActionNoti(enumACTION_MOVE, enumFACTION_EXISTACT);
-				//SystemNotice("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©\n");
+				//SystemNotice("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00035));
-				m_CLog.Log("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©[PacketID: %u]\n", ulPacketId);
-				//m_CLog.Log("irregular action request£¨foregone action hasn't finish£©[PacketID: %u]\n", ulPacketId);
+				m_CLog.Log("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰[PacketID: %u]\n", ulPacketId);
+				//m_CLog.Log("irregular action requestï¼ˆforegone action hasn't finishï¼‰[PacketID: %u]\n", ulPacketId);
 				break;
 			}
 
 			if (m_sPoseState == enumPoseSeat)
 			{
 				FailedActionNoti(enumACTION_MOVE, enumFACTION_EXISTACT);
-				//SystemNotice("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©\n");
+				//SystemNotice("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00035));
-				m_CLog.Log("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©[PacketID: %u]\n", ulPacketId);
-				//m_CLog.Log("irregular action request£¨foregone action hasn't finish£©[PacketID: %u]\n", ulPacketId);
+				m_CLog.Log("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰[PacketID: %u]\n", ulPacketId);
+				//m_CLog.Log("irregular action requestï¼ˆforegone action hasn't finishï¼‰[PacketID: %u]\n", ulPacketId);
 				break;
 			}
 			ResetPosState();
@@ -2124,19 +2124,19 @@ void CCharacter::BeginAction(RPACKET pk)
 			if (!pData)
 			{
 				FailedActionNoti(enumACTION_MOVE, enumFACTION_MOVEPATH);
-				//SystemNotice("ÒÆ¶¯Â·¾¶´íÎó£¬Ã»ÓĞÒÆ¶¯ĞòÁĞµã\n");
+				//SystemNotice("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œæ²¡æœ‰ç§»åŠ¨åºåˆ—ç‚¹\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00036));
-				m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¬Ã»ÓĞÒÆ¶¯ĞòÁĞµã\n");
-				//m_CLog.Log("move path error£¬don't have move sequence point\n");
+				m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œæ²¡æœ‰ç§»åŠ¨åºåˆ—ç‚¹\n");
+				//m_CLog.Log("move path errorï¼Œdon't have move sequence point\n");
 				break;
 			}
 			if ((chPointNum = Char(ulTurnNum / sizeof(Point))) > defMOVE_INFLEXION_NUM)
 			{
 				FailedActionNoti(enumACTION_MOVE, enumFACTION_MOVEPATH);
-				//SystemNotice("ÒÆ¶¯Â·¾¶´íÎó£¨¹ÕµãÊı£º%d£¬×î´ó¹ÕµãÊı£º%d£©\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
+				//SystemNotice("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼ˆæ‹ç‚¹æ•°ï¼š%dï¼Œæœ€å¤§æ‹ç‚¹æ•°ï¼š%dï¼‰\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00037), ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
-				m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¨¹ÕµãÊı£º%d£¬×î´ó¹ÕµãÊı£º%d£©[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
-				//m_CLog.Log("move path error£¨inflexion number£º%d£¬max inflexion number£º%d£©[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
+				m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼ˆæ‹ç‚¹æ•°ï¼š%dï¼Œæœ€å¤§æ‹ç‚¹æ•°ï¼š%dï¼‰[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
+				//m_CLog.Log("move path errorï¼ˆinflexion numberï¼š%dï¼Œmax inflexion numberï¼š%dï¼‰[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
 				break;
 			}
 			memcpy(Path, pData, chPointNum*sizeof(Point));
@@ -2148,7 +2148,7 @@ void CCharacter::BeginAction(RPACKET pk)
 		{
 			if(GetPlyMainCha()->m_CKitbag.IsLock())
 			{
-				//SystemNotice("±³°ü´¦ÓÚËø¶¨×´Ì¬£¬Ê©·Å¼¼ÄÜÊ§°Ü£¡\n");
+				//SystemNotice("èƒŒåŒ…å¤„äºé”å®šçŠ¶æ€ï¼Œæ–½æ”¾æŠ€èƒ½å¤±è´¥ï¼\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00038));
 				FailedActionNoti(enumACTION_SKILL, enumFACTION_ACTFORBID);
 				break;
@@ -2157,45 +2157,45 @@ void CCharacter::BeginAction(RPACKET pk)
 			if (!GetSubMap())
 			{
 				m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-				m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-				//m_CLog.Log("refuse action request£¨map is null£©\n\n");
+				m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+				//m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 				return;
 			}
 
             if(GetPlayer()->GetBankNpc())
             {
-                //SystemNotice("ÇëÏÈ¹Ø±ÕÒøĞĞ£¡\n");
+                //SystemNotice("è¯·å…ˆå…³é—­é“¶è¡Œï¼\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00039));
                 FailedActionNoti(enumACTION_SKILL, enumFACTION_ACTFORBID);
                 break;
             }
 
-			if (m_CAction.GetCurActionNo() >= 0) // Ö®Ç°µÄĞĞ¶¯Ã»ÓĞ½áÊø
+			if (m_CAction.GetCurActionNo() >= 0) // ä¹‹å‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸ
 			{
 				FailedActionNoti(enumACTION_SKILL, enumFACTION_EXISTACT);
-				//SystemNotice("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©\n");
+				//SystemNotice("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00035));
-				m_CLog.Log("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©[PacketID: %u]\n", ulPacketId);
-				//m_CLog.Log("irregular action request£¨foregone action hasn't finish£©[PacketID: %u]\n", ulPacketId);
+				m_CLog.Log("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰[PacketID: %u]\n", ulPacketId);
+				//m_CLog.Log("irregular action requestï¼ˆforegone action hasn't finishï¼‰[PacketID: %u]\n", ulPacketId);
 				break;
 			}
 
 			if (m_sPoseState == enumPoseSeat)
 			{
 				FailedActionNoti(enumACTION_SKILL, enumFACTION_EXISTACT);
-				//SystemNotice("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©\n");
+				//SystemNotice("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00035));
-				m_CLog.Log("²»ºÏ·¨µÄĞĞ¶¯ÇëÇó£¨ÏÈÇ°µÄĞĞ¶¯Ã»ÓĞ½áÊø£©[PacketID: %u]\n", ulPacketId);
-				//m_CLog.Log("irregular action request£¨foregone action hasn't finish£©[PacketID: %u]\n", ulPacketId);
+				m_CLog.Log("ä¸åˆæ³•çš„è¡ŒåŠ¨è¯·æ±‚ï¼ˆå…ˆå‰çš„è¡ŒåŠ¨æ²¡æœ‰ç»“æŸï¼‰[PacketID: %u]\n", ulPacketId);
+				//m_CLog.Log("irregular action requestï¼ˆforegone action hasn't finishï¼‰[PacketID: %u]\n", ulPacketId);
 				break;
 			}
 			ResetPosState();
 
 			char chMove = READ_CHAR(pk);
-			if (chMove == 2) // ÒÆ¶¯µ½Ä¿±êµãºóÔÙÊ¹ÓÃ¼¼ÄÜ
+			if (chMove == 2) // ç§»åŠ¨åˆ°ç›®æ ‡ç‚¹åå†ä½¿ç”¨æŠ€èƒ½
 			{
 				Char chFightID = READ_CHAR(pk);
-				// ÒÆ¶¯°ü
+				// ç§»åŠ¨åŒ…
 				Point Path[defMOVE_INFLEXION_NUM];
 				Char chPointNum;
 				uShort ulTurnNum;
@@ -2203,26 +2203,26 @@ void CCharacter::BeginAction(RPACKET pk)
 				if (!pData)
 				{
 					FailedActionNoti(enumACTION_SKILL, enumFACTION_MOVEPATH);
-					//SystemNotice("ÒÆ¶¯Â·¾¶´íÎó£¬Ã»ÓĞÒÆ¶¯ĞòÁĞµã\n");
+					//SystemNotice("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œæ²¡æœ‰ç§»åŠ¨åºåˆ—ç‚¹\n");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00036));
-				m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¬Ã»ÓĞÒÆ¶¯ĞòÁĞµã\n");
-				//m_CLog.Log("move path error£¬don't have move sequence point\n");
+				m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œæ²¡æœ‰ç§»åŠ¨åºåˆ—ç‚¹\n");
+				//m_CLog.Log("move path errorï¼Œdon't have move sequence point\n");
 					break;
 				}
 
 				if ((chPointNum = Char(ulTurnNum / sizeof(Point))) > defMOVE_INFLEXION_NUM)
 				{
 					FailedActionNoti(enumACTION_SKILL, enumFACTION_MOVEPATH);
-					//SystemNotice("ÒÆ¶¯Â·¾¶´íÎó£¨¹ÕµãÊı£º%d£¬×î´ó¹ÕµãÊı£º%d£©\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
+					//SystemNotice("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼ˆæ‹ç‚¹æ•°ï¼š%dï¼Œæœ€å¤§æ‹ç‚¹æ•°ï¼š%dï¼‰\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
 				    SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00037), ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM);
-				    m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¨¹ÕµãÊı£º%d£¬×î´ó¹ÕµãÊı£º%d£©[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
-				    //m_CLog.Log("move path error£¨inflexion number£º%d£¬max inflexion number£º%d£©[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
+				    m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼ˆæ‹ç‚¹æ•°ï¼š%dï¼Œæœ€å¤§æ‹ç‚¹æ•°ï¼š%dï¼‰[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
+				    //m_CLog.Log("move path errorï¼ˆinflexion numberï¼š%dï¼Œmax inflexion numberï¼š%dï¼‰[PacketID: %u]\n", ulTurnNum / sizeof(Point), defMOVE_INFLEXION_NUM, ulPacketId);
 					break;
 				}
-				m_CLog.Log("ÒÆ¶¯Â·¾¶£¨ulTurnNum: %d£©[PacketID: %u]\n", ulTurnNum, ulPacketId);
-				//m_CLog.Log("move path£¨ulTurnNum: %d£©[PacketID: %u]\n", ulTurnNum, ulPacketId);
+				m_CLog.Log("ç§»åŠ¨è·¯å¾„ï¼ˆulTurnNum: %dï¼‰[PacketID: %u]\n", ulTurnNum, ulPacketId);
+				//m_CLog.Log("move pathï¼ˆulTurnNum: %dï¼‰[PacketID: %u]\n", ulTurnNum, ulPacketId);
 				memcpy(Path, pData, chPointNum*sizeof(Point));
-				// ¼¼ÄÜ°ü
+				// æŠ€èƒ½åŒ…
 				dbc::uLong ulSkillID = READ_LONG(pk);
 				Long lTarInfo1 = READ_LONG(pk);
 				Long lTarInfo2 = READ_LONG(pk);
@@ -2230,25 +2230,25 @@ void CCharacter::BeginAction(RPACKET pk)
 				CSkillRecord *pRec = GetSkillRecordInfo(ulSkillID);
 				if (!pRec)
 				{
-					LG( "¼¼ÄÜ²»´æÔÚ", "½ÇÉ«¡¶%s¡·1¼¼ÄÜ²»´æÔÚ£¨¼¼ÄÜ±àºÅ: %d£©[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
-					//LG( "skill inexistence", "character¡¶%s¡·1skill inexistence£¨skill number: %d£©[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
+					LG( "æŠ€èƒ½ä¸å­˜åœ¨", "è§’è‰²ã€Š%sã€‹1æŠ€èƒ½ä¸å­˜åœ¨ï¼ˆæŠ€èƒ½ç¼–å·: %dï¼‰[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
+					//LG( "skill inexistence", "characterã€Š%sã€‹1skill inexistenceï¼ˆskill number: %dï¼‰[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
 					FailedActionNoti(enumACTION_SKILL, enumFACTION_NOSKILL);
-					LG( "¼¼ÄÜ²»´æÔÚ", "½ÇÉ«¡¶%s¡·2¼¼ÄÜ²»´æÔÚ£¨¼¼ÄÜ±àºÅ: %d£©[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
-					//LG( "skill inexistence", "character¡¶%s¡·2skill inexistence£¨skill number: %d£©[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
-					//SystemNotice("¼¼ÄÜ²»´æÔÚ£¨¼¼ÄÜ±àºÅ: %d£©\n", ulSkillID);					
+					LG( "æŠ€èƒ½ä¸å­˜åœ¨", "è§’è‰²ã€Š%sã€‹2æŠ€èƒ½ä¸å­˜åœ¨ï¼ˆæŠ€èƒ½ç¼–å·: %dï¼‰[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
+					//LG( "skill inexistence", "characterã€Š%sã€‹2skill inexistenceï¼ˆskill number: %dï¼‰[PacketID: %u]\n", GetName(), ulSkillID, ulPacketId);
+					//SystemNotice("æŠ€èƒ½ä¸å­˜åœ¨ï¼ˆæŠ€èƒ½ç¼–å·: %dï¼‰\n", ulSkillID);					
 					SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00040), ulSkillID);					
-					m_CLog.Log("¼¼ÄÜ²»´æÔÚ£¨¼¼ÄÜ±àºÅ: %d£©[PacketID: %u]\n", ulSkillID, ulPacketId);
-					//m_CLog.Log("skill inexistence£¨skill number: %d£©[PacketID: %u]\n", ulSkillID, ulPacketId);
+					m_CLog.Log("æŠ€èƒ½ä¸å­˜åœ¨ï¼ˆæŠ€èƒ½ç¼–å·: %dï¼‰[PacketID: %u]\n", ulSkillID, ulPacketId);
+					//m_CLog.Log("skill inexistenceï¼ˆskill number: %dï¼‰[PacketID: %u]\n", ulSkillID, ulPacketId);
 					break;
 				}
 				Cmd_BeginSkill((Short)m_dwPing, Path, chPointNum, pRec, 1, lTarInfo1, lTarInfo2);
 			}
 			else
 			{
-				//SystemNotice("¸ÃĞĞ¶¯ÀàĞÍ£¨Ö±½ÓÊ¹ÓÃ¼¼ÄÜ£©ÒÑ¾­×÷·Ï");
+				//SystemNotice("è¯¥è¡ŒåŠ¨ç±»å‹ï¼ˆç›´æ¥ä½¿ç”¨æŠ€èƒ½ï¼‰å·²ç»ä½œåºŸ");
 				SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00041));
-				m_CLog.Log("¸ÃĞĞ¶¯ÀàĞÍ£¨Ö±½ÓÊ¹ÓÃ¼¼ÄÜ£©ÒÑ¾­×÷·Ï[PacketID: %u]\n", ulPacketId);
-				//m_CLog.Log("the action type£¨directness use skills£©has been cancellation[PacketID: %u]\n", ulPacketId);
+				m_CLog.Log("è¯¥è¡ŒåŠ¨ç±»å‹ï¼ˆç›´æ¥ä½¿ç”¨æŠ€èƒ½ï¼‰å·²ç»ä½œåºŸ[PacketID: %u]\n", ulPacketId);
+				//m_CLog.Log("the action typeï¼ˆdirectness use skillsï¼‰has been cancellation[PacketID: %u]\n", ulPacketId);
 				break;
 			}
 		}
@@ -2258,8 +2258,8 @@ void CCharacter::BeginAction(RPACKET pk)
 			if (!GetSubMap())
 			{
 				m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-				m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-				//m_CLog.Log("refuse action request£¨map is null£©\n\n");
+				m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+				//m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 				return;
 			}
 
@@ -2273,13 +2273,13 @@ void CCharacter::BeginAction(RPACKET pk)
 			DelSkillState((uChar)sStateID);
 		}
 		break;
-	case	enumACTION_LEAN: // ÒĞ¿¿
+	case	enumACTION_LEAN: // å€šé 
 		{
 			if (!GetSubMap())
 			{
 				m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-				m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-				//m_CLog.Log("refuse action request£¨map is null£©\n\n");
+				m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+				//m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 				return;
 			}
 
@@ -2294,9 +2294,9 @@ void CCharacter::BeginAction(RPACKET pk)
 			m_SLean.lHeight = READ_LONG(pk);
 			m_SLean.chState = 0;
 
-			// ×ª·¢
+			// è½¬å‘
 			WPACKET WtPk = GETWPACKET();
-			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//Í¨¸æĞĞ¶¯
+			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//é€šå‘Šè¡ŒåŠ¨
 			WRITE_LONG(WtPk, m_ID);
 			WRITE_LONG(WtPk, m_SLean.ulPacketID);
 			WRITE_CHAR(WtPk, enumACTION_LEAN);
@@ -2306,7 +2306,7 @@ void CCharacter::BeginAction(RPACKET pk)
 			WRITE_LONG(WtPk, m_SLean.lPosX);
 			WRITE_LONG(WtPk, m_SLean.lPosY);
 			WRITE_LONG(WtPk, m_SLean.lHeight);
-			NotiChgToEyeshot(WtPk);//Í¨¸æ
+			NotiChgToEyeshot(WtPk);//é€šå‘Š
 			//
 
 			// log
@@ -2319,7 +2319,7 @@ void CCharacter::BeginAction(RPACKET pk)
 			//
 		}
 		break;
-	case	enumACTION_ITEM_PICK: // ¼ñµÀ¾ß
+	case	enumACTION_ITEM_PICK: // æ¡é“å…·
 		{
 			Long	lWorldID = READ_LONG(pk);
 			Long	lHandle = READ_LONG(pk);
@@ -2329,7 +2329,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_THROW: // ¶ªµÀ¾ß£¨´ÓµÀ¾ßÀ¸¶ªµ½µØÃæ£©
+	case	enumACTION_ITEM_THROW: // ä¸¢é“å…·ï¼ˆä»é“å…·æ ä¸¢åˆ°åœ°é¢ï¼‰
 		{
 			Short	sGridID = READ_SHORT(pk);
 			Short	sNum = READ_SHORT(pk);
@@ -2341,7 +2341,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_USE: // Ê¹ÓÃµÀ¾ß
+	case	enumACTION_ITEM_USE: // ä½¿ç”¨é“å…·
 		{
 			Short	sFromGridID = READ_SHORT(pk);
 			Short	sToGridID = READ_SHORT(pk);
@@ -2351,7 +2351,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_UNFIX: // Ğ¶×°µÀ¾ß
+	case	enumACTION_ITEM_UNFIX: // å¸è£…é“å…·
 		{
 			m_CChaAttr.ResetChangeFlag();
 
@@ -2360,19 +2360,19 @@ void CCharacter::BeginAction(RPACKET pk)
 
 			Char	chLinkID = READ_CHAR(pk);
 			Short	sGridID = READ_SHORT(pk);
-			if (sGridID == -2) // ¶ªµ½µØÃæ
+			if (sGridID == -2) // ä¸¢åˆ°åœ°é¢
 			{
 				chDir = 0;
 				lParam1 = READ_LONG(pk);
 				lParam2 = READ_LONG(pk);
 			}
-			else if (sGridID == -1) // Ğ¶µ½µÀ¾ßÀ¸£¬ËÑË÷Î»ÖÃ
+			else if (sGridID == -1) // å¸åˆ°é“å…·æ ï¼Œæœç´¢ä½ç½®
 			{
 				chDir = 1;
 				lParam1 = 0;
 				lParam2 = -1;
 			}
-			else if (sGridID >= 0) // Ğ¶µ½µÀ¾ßÀ¸£¬Ö¸¶¨Î»ÖÃ
+			else if (sGridID >= 0) // å¸åˆ°é“å…·æ ï¼ŒæŒ‡å®šä½ç½®
 			{
 				chDir = 1;
 				lParam1 = 0;
@@ -2388,7 +2388,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_POS: // ¸Ä±äµÀ¾ßÎ»ÖÃ
+	case	enumACTION_ITEM_POS: // æ”¹å˜é“å…·ä½ç½®
 		{
 			Short	sSrcGrid = READ_SHORT(pk);
 			Short	sSrcNum = READ_SHORT(pk);
@@ -2399,7 +2399,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case    enumACTION_KITBAGTMP_DRAG: //ÁÙÊ±±³°üÍÏ·Å
+	case    enumACTION_KITBAGTMP_DRAG: //ä¸´æ—¶èƒŒåŒ…æ‹–æ”¾
 		{
 			Short	sSrcGrid = READ_SHORT(pk);
 			Short	sSrcNum = READ_SHORT(pk);
@@ -2410,7 +2410,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_DELETE: // É¾³ıµÀ¾ß
+	case	enumACTION_ITEM_DELETE: // åˆ é™¤é“å…·
 		{
 			Short	sFromGridID = READ_SHORT(pk);
 
@@ -2420,7 +2420,7 @@ void CCharacter::BeginAction(RPACKET pk)
 				ItemOprateFailed(sRet);
 		}
 		break;
-	case	enumACTION_ITEM_INFO: // µÀ¾ßĞÅÏ¢
+	case	enumACTION_ITEM_INFO: // é“å…·ä¿¡æ¯
 		{			
 			ViewItemInfo( pk );
 		}
@@ -2472,7 +2472,7 @@ void CCharacter::BeginAction(RPACKET pk)
 		CCharacter	*pCMainCha = GetPlyMainCha();
 		CPlayer	*pCPly = GetPlayer();
 		if (pCMainCha->m_CKitbag.IsLock() || pCMainCha->m_CKitbag.IsPwdLocked() || pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData()){
-			SystemNotice("±³°üÒÑ¾­Ëø¶¨.");
+			SystemNotice("èƒŒåŒ…å·²ç»é”å®š.");
 			return;
 		}
 		
@@ -2526,16 +2526,16 @@ void CCharacter::BeginAction(RPACKET pk)
 			//for (int i = 0; i < enumEQUIP_NUM; i++)
 			//	m_SChaPart.SLink[i].sID = READ_SHORT(pk);
 
-			//// ×ª·¢
+			//// è½¬å‘
 			//WPACKET WtPk	=GETWPACKET();
-			//WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//Í¨¸æĞĞ¶¯
+			//WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//é€šå‘Šè¡ŒåŠ¨
 			//WRITE_LONG(WtPk, m_ID);
 			//WRITE_LONG(WtPk, ulPacketId);
 			//WRITE_CHAR(WtPk, enumACTION_LOOK);
 			//WRITE_SHORT(WtPk, m_SChaPart.sTypeID);
 			//for (int i = 0; i < enumEQUIP_NUM; i++)
 			//	WRITE_SHORT(WtPk, m_SChaPart.sLink[i]);
-			//NotiChgToEyeshot(WtPk);//Í¨¸æ
+			//NotiChgToEyeshot(WtPk);//é€šå‘Š
 		}
 		break;
 	case	enumACTION_TEMP:
@@ -2543,16 +2543,16 @@ void CCharacter::BeginAction(RPACKET pk)
 			m_STempChaPart.sItemID = (short)(READ_LONG(pk));
 			m_STempChaPart.sPartID = (short)(READ_LONG(pk));
 
-			// ×ª·¢
+			// è½¬å‘
 			WPACKET WtPk	=GETWPACKET();
-			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//Í¨¸æĞĞ¶¯
+			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//é€šå‘Šè¡ŒåŠ¨
 			WRITE_LONG(WtPk, m_ID);
 			WRITE_LONG(WtPk, ulPacketId);
 			WRITE_CHAR(WtPk, enumACTION_TEMP);
 			WRITE_LONG(WtPk, m_STempChaPart.sItemID);
 			WRITE_LONG(WtPk, m_STempChaPart.sPartID);
 
-			NotiChgToEyeshot(WtPk);//Í¨¸æ
+			NotiChgToEyeshot(WtPk);//é€šå‘Š
 		}
 		break;
 	case	enumACTION_EVENT:
@@ -2562,7 +2562,7 @@ void CCharacter::BeginAction(RPACKET pk)
 			Entity *pCObj = g_pGameApp->IsLiveingEntity(lID, lHandle);
 			if (!pCObj)
 			{
-				//m_CLog.Log("µØÍ¼ÉÏ²»´æÔÚ¸ÃÊµÌå\n");
+				//m_CLog.Log("åœ°å›¾ä¸Šä¸å­˜åœ¨è¯¥å®ä½“\n");
 				m_CLog.Log("it inexistent this entity in this map");
 				break;
 			}
@@ -2575,15 +2575,15 @@ void CCharacter::BeginAction(RPACKET pk)
 			Short	sAngle = READ_SHORT(pk);
 			Short	sPose = READ_SHORT(pk);
 
-			// ×ª·¢
+			// è½¬å‘
 			WPACKET WtPk	=GETWPACKET();
-			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//Í¨¸æĞĞ¶¯
+			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//é€šå‘Šè¡ŒåŠ¨
 			WRITE_LONG(WtPk, m_ID);
 			WRITE_LONG(WtPk, ulPacketId);
 			WRITE_CHAR(WtPk, enumACTION_FACE);
 			WRITE_SHORT(WtPk, sAngle);
 			WRITE_SHORT(WtPk, sPose);
-			NotiChgToEyeshot(WtPk);//Í¨¸æ
+			NotiChgToEyeshot(WtPk);//é€šå‘Š
 		}
 		break;
 	case	enumACTION_SKILL_POSE:
@@ -2591,8 +2591,8 @@ void CCharacter::BeginAction(RPACKET pk)
 			if (!GetSubMap())
 			{
 				m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-				//m_CLog.Log("¾Ü¾øĞĞ¶¯ÇëÇó£¨µØÍ¼Îª¿Õ£©\n\n");
-				m_CLog.Log("refuse action request£¨map is null£©\n\n");
+				//m_CLog.Log("æ‹’ç»è¡ŒåŠ¨è¯·æ±‚ï¼ˆåœ°å›¾ä¸ºç©ºï¼‰\n\n");
+				m_CLog.Log("refuse action requestï¼ˆmap is nullï¼‰\n\n");
 				return;
 			}
 
@@ -2604,38 +2604,38 @@ void CCharacter::BeginAction(RPACKET pk)
 			Short	sAngle = READ_SHORT(pk);
 			Short	sPose = READ_SHORT(pk);
 
-			// ×ª·¢
+			// è½¬å‘
 			WPACKET WtPk	=GETWPACKET();
-			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//Í¨¸æĞĞ¶¯
+			WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	//é€šå‘Šè¡ŒåŠ¨
 			WRITE_LONG(WtPk, m_ID);
 			WRITE_LONG(WtPk, ulPacketId);
 			WRITE_CHAR(WtPk, enumACTION_SKILL_POSE);
 			WRITE_SHORT(WtPk, sAngle);
 			WRITE_SHORT(WtPk, sPose);
-			NotiChgToEyeshot(WtPk);//Í¨¸æ
+			NotiChgToEyeshot(WtPk);//é€šå‘Š
 
 			bool	bToSeat = g_IsSeatPose(sPose);
 			if ((bToSeat && m_SSeat.chIsSeat) || (!bToSeat && !m_SSeat.chIsSeat))
 				break;
 
-			// ×øÏÂ¼¼ÄÜ£¨»Ö¸´ËÙ¶È¼Ó¿ì£©
+			// åä¸‹æŠ€èƒ½ï¼ˆæ¢å¤é€Ÿåº¦åŠ å¿«ï¼‰
 			dbc::uLong	ulSkillID = 202;
 			CSkillRecord *pCSkill = GetSkillRecordInfo(ulSkillID);
 			if (!pCSkill)
 			{
-				m_CLog.Log("¼¼ÄÜ²»´æÔÚ£¨¼¼ÄÜ±àºÅ: %d£©\n", ulSkillID);
-				//m_CLog.Log("skills inexistence£¨skills number: %d£©\n", ulSkillID);
+				m_CLog.Log("æŠ€èƒ½ä¸å­˜åœ¨ï¼ˆæŠ€èƒ½ç¼–å·: %dï¼‰\n", ulSkillID);
+				//m_CLog.Log("skills inexistenceï¼ˆskills number: %dï¼‰\n", ulSkillID);
 				break;
 			}
 
-			if (bToSeat) // ×øÏÂ
+			if (bToSeat) // åä¸‹
 			{
 				m_SSeat.chIsSeat = 1;
 				m_SSeat.sAngle = sAngle;
 				m_SSeat.sPose = sPose;
 				g_CParser.DoString(pCSkill->szActive, enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, enumSCRIPT_PARAM_NUMBER, 1, 1, DOSTRING_PARAM_END);
 			}
-			else // Õ¾Æğ
+			else // ç«™èµ·
 			{
 				m_SSeat.chIsSeat = 0;
 				g_CParser.DoString(pCSkill->szInactive, enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, enumSCRIPT_PARAM_NUMBER, 1, 1, DOSTRING_PARAM_END);
@@ -2661,24 +2661,24 @@ void CCharacter::BeginAction(RPACKET pk)
 T_E}
 
 
-// Ğ­Òé : ´¦Àí¸ü»»·¢ĞÍµÄÇëÇó
+// åè®® : å¤„ç†æ›´æ¢å‘å‹çš„è¯·æ±‚
 void CCharacter::Cmd_ChangeHair(RPACKET &pk)
 {T_B
 	char szRes[128];
 
 	short sScriptID  = READ_SHORT(pk);
 
-	TradeAction(false); // ÊÕµ½ÕâÌõÏûÏ¢, ½»Ò××´Ì¬±»½áÊøÁË
-	HairAction(false);	// ½â³ıÀí·¢×´Ì¬
+	TradeAction(false); // æ”¶åˆ°è¿™æ¡æ¶ˆæ¯, äº¤æ˜“çŠ¶æ€è¢«ç»“æŸäº†
+	HairAction(false);	// è§£é™¤ç†å‘çŠ¶æ€
 
-	if(sScriptID==0) // ¹Ø±ÕÀí·¢½çÃæ
+	if(sScriptID==0) // å…³é—­ç†å‘ç•Œé¢
 	{
 		return;
 	}
 
 	if(m_CKitbag.IsPwdLocked())
 	{
-		//sprintf(szRes, "ÇëÇó¸ü»»·¢ĞÍÊ§°Ü, µÀ¾ßÀ¸ÒÑËø");
+		//sprintf(szRes, "è¯·æ±‚æ›´æ¢å‘å‹å¤±è´¥, é“å…·æ å·²é”");
 		sprintf(szRes, RES_STRING(GM_CHARACTERPRL_CPP_00042));
 		Prl_ChangeHairResult(0, szRes);
 		return;
@@ -2687,7 +2687,7 @@ void CCharacter::Cmd_ChangeHair(RPACKET &pk)
 	CHairRecord *pHair = GetHairRecordInfo(sScriptID);
 	if(!pHair)
 	{
-		//sprintf(szRes, "ÇëÇó¸ü»»·¢ĞÍÊ§°Ü, ÎŞĞ§·¢ĞÍID = %d", sScriptID);
+		//sprintf(szRes, "è¯·æ±‚æ›´æ¢å‘å‹å¤±è´¥, æ— æ•ˆå‘å‹ID = %d", sScriptID);
 		sprintf(szRes, RES_STRING(GM_CHARACTERPRL_CPP_00043), sScriptID);
 		Prl_ChangeHairResult(0, szRes);
 		return;
@@ -2707,7 +2707,7 @@ void CCharacter::Cmd_ChangeHair(RPACKET &pk)
 
 			if(bOK)
 			{
-				// ¼ìÑé¸Ã±³°ü¸ñÉÏÊÇ·ñÓĞÖ¸¶¨µÀ¾ß	
+				// æ£€éªŒè¯¥èƒŒåŒ…æ ¼ä¸Šæ˜¯å¦æœ‰æŒ‡å®šé“å…·	
 				short sNowItemID = m_CKitbag.GetID(sGridLoc);
 				if(sNowItemID!=sNeedItemID)
 				{
@@ -2717,24 +2717,24 @@ void CCharacter::Cmd_ChangeHair(RPACKET &pk)
 
 			if(!bOK)
 			{
-				//sprintf(szRes, "¸ü»»·¢ĞÍÊ§°Ü, È±ÉÙĞèÒªµÄµÀ¾ß");
+				//sprintf(szRes, "æ›´æ¢å‘å‹å¤±è´¥, ç¼ºå°‘éœ€è¦çš„é“å…·");
 				sprintf(szRes, RES_STRING(GM_CHARACTERPRL_CPP_00044));
 				Prl_ChangeHairResult(0, szRes);
 				return;
 			}
 			sValidGrid[sValidCnt][0] = sGridLoc;
 			sValidGrid[sValidCnt][1] = sNeedItemID;
-			sValidGrid[sValidCnt][2] = (short)(pHair->dwNeedItem[i][1]); // ÊıÁ¿¼ÇÂ¼
+			sValidGrid[sValidCnt][2] = (short)(pHair->dwNeedItem[i][1]); // æ•°é‡è®°å½•
 			sValidCnt++;
 		}
 	}
 
 
-	// ¿Û³ı½ğÇ®ºÍµÀ¾ß, Ë¢ĞÂ±³°ü
+	// æ‰£é™¤é‡‘é’±å’Œé“å…·, åˆ·æ–°èƒŒåŒ…
 	m_CKitbag.SetChangeFlag( false );
-	/*if(!TakeMoney("Àí·¢Ê¦", pHair->dwMoney))
+	/*if(!TakeMoney("ç†å‘å¸ˆ", pHair->dwMoney))
 	{
-		SystemNotice("¸ü»»·¢ĞÍÊ§°Ü, ½ğÇ®²»×ã!");
+		SystemNotice("æ›´æ¢å‘å‹å¤±è´¥, é‡‘é’±ä¸è¶³!");
 		return;
 	}*/
 	if(!TakeMoney(RES_STRING(GM_CHARACTERPRL_CPP_00045), pHair->dwMoney))
@@ -2752,46 +2752,46 @@ void CCharacter::Cmd_ChangeHair(RPACKET &pk)
 		short sRet = KbPopItem(true, false, &item, sValidGrid[i][0]);
 		if(sRet != enumKBACT_SUCCESS)
 		{
-			//SystemNotice("¸ü»»·¢ĞÍÊ§°Ü, ĞèÒªµÄµÀ¾ß²»´æÔÚ»òÕßµÀ¾ßÊıÁ¿²»×ã!");
+			//SystemNotice("æ›´æ¢å‘å‹å¤±è´¥, éœ€è¦çš„é“å…·ä¸å­˜åœ¨æˆ–è€…é“å…·æ•°é‡ä¸è¶³!");
 			
 			SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00047));
 			return;
 		}
 	}
 
-	// Í¬²½½ÇÉ«±³°üÊı¾İ
+	// åŒæ­¥è§’è‰²èƒŒåŒ…æ•°æ®
 	SynKitbagNew( enumSYN_KITBAG_FROM_NPC );
 
-	// ¸ü»»·¢ĞÍ³É¹¦, ĞŞ¸Ä½ÇÉ«Íâ¹ÛÊı¾İ
+	// æ›´æ¢å‘å‹æˆåŠŸ, ä¿®æ”¹è§’è‰²å¤–è§‚æ•°æ®
 
 	SetLookChangeFlag(true);
-	// 10%µÄ¼¸ÂÊ»ñµÃºÜ³óµÄ·¢ĞÍ
+	// 10%çš„å‡ ç‡è·å¾—å¾ˆä¸‘çš„å‘å‹
 	if(rand()%100 < 10 && pHair->GetFailItemNum() > 0)
 	{
 		int nRandFail = rand()%pHair->GetFailItemNum();
 		short sFailHair = (short)(pHair->dwFailItemID[nRandFail]);
 		m_SChaPart.sHairID = sFailHair;
-		//SystemNotice("ÄãµÄÔËÆøÕæÔã¸â, ·¢ĞÍ¸ãÔÒÁË!");
+		//SystemNotice("ä½ çš„è¿æ°”çœŸç³Ÿç³•, å‘å‹æç ¸äº†!");
 		SystemNotice(RES_STRING(GM_CHARACTERPRL_CPP_00048));
 		Prl_ChangeHairResult(sScriptID, "fail", true); 
 	}
 	else
 	{
-		// ·´À¡¸ø¿Í»§¶Ë, ·¢ĞÍ¸ü»»³É¹¦
-		m_SChaPart.sHairID = (short)(pHair->dwItemID); // Õı³£·¢ĞÍ
+		// åé¦ˆç»™å®¢æˆ·ç«¯, å‘å‹æ›´æ¢æˆåŠŸ
+		m_SChaPart.sHairID = (short)(pHair->dwItemID); // æ­£å¸¸å‘å‹
 		Prl_ChangeHairResult(sScriptID, "ok", true);
 	}
 
-	// ÊÓÒ°ÄÚÍâ¹Û¸üĞÂÍ¨Öª
+	// è§†é‡å†…å¤–è§‚æ›´æ–°é€šçŸ¥
 	if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
 		SynLook(LOOK_SELF, true); // sync to self (changing hair)
 	else
 		SynLook();
 T_E}
 
-// ¸ü»»·¢ĞÍµÄ·´À¡
-// ²ÎÊı1 : ·¢ĞÍID, Ê§°ÜÔòÎª0
-// ²ÎÊı2 : ×Ö·û´®µÄÔ­ÒòËµÃ÷
+// æ›´æ¢å‘å‹çš„åé¦ˆ
+// å‚æ•°1 : å‘å‹ID, å¤±è´¥åˆ™ä¸º0
+// å‚æ•°2 : å­—ç¬¦ä¸²çš„åŸå› è¯´æ˜
 void CCharacter::Prl_ChangeHairResult(int nScriptID, const char* szReason, BOOL bNoticeAll)
 {T_B
 	WPACKET wpk	= GETWPACKET();
@@ -2801,7 +2801,7 @@ void CCharacter::Prl_ChangeHairResult(int nScriptID, const char* szReason, BOOL 
 	WRITE_STRING(wpk, szReason);
 	if(bNoticeAll)
 	{
-		NotiChgToEyeshot(wpk);//Í¨¸æ
+		NotiChgToEyeshot(wpk);//é€šå‘Š
 	}
 	else
 	{
@@ -2809,7 +2809,7 @@ void CCharacter::Prl_ChangeHairResult(int nScriptID, const char* szReason, BOOL 
 	}
 T_E}
 
-// Í¨Öª¿Í»§¶Ë´ò¿ªÀí·¢½çÃæ
+// é€šçŸ¥å®¢æˆ·ç«¯æ‰“å¼€ç†å‘ç•Œé¢
 void CCharacter::Prl_OpenHair()
 {T_B
 	HairAction(true);

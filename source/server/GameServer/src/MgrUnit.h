@@ -4,7 +4,7 @@
 #define MGRUNIT_H
 
 /**
- * @alias ÆÁÄ»1/4µ¥Ôª 
+ * @alias å±å¹•1/4å•å…ƒ 
  */
 
 #include "TryUtil.h"
@@ -34,14 +34,14 @@
 //     * @directed
 //     * @supplierCardinality 0..* 
 //     */
-//	long 	    m_lCount;	// ¼¤»î¼ÆÊı
+//	long 	    m_lCount;	// æ¿€æ´»è®¡æ•°
 //    Entity		*m_objlst;
 //
-//	MgrUnit		*m_pANext; // Ö¸Ïò¡°¼¤»îµÄ¹ÜÀíµ¥ÔªÁ´±í¡°µÄÖ¸Õë
+//	MgrUnit		*m_pANext; // æŒ‡å‘â€œæ¿€æ´»çš„ç®¡ç†å•å…ƒé“¾è¡¨â€œçš„æŒ‡é’ˆ
 //	MgrUnit		*m_pALast;
 //};
 //
-//class CActiveMgrUnitL // ¼¤»îµÄ¹ÜÀíµ¥ÔªÁ´±í
+//class CActiveMgrUnitL // æ¿€æ´»çš„ç®¡ç†å•å…ƒé“¾è¡¨
 //{
 //public:
 //	CActiveMgrUnitL()

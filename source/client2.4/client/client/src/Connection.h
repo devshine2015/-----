@@ -13,7 +13,7 @@ public:
 	enum{CNST_INVALID =0,CNST_CONNECTING=1,CNST_FAILURE=2,CNST_CONNECTED=3,CNST_TIMEOUT=4};
 	Connection(NetIF *netif):m_netif(netif),m_status(CNST_INVALID),m_datasock(0){}
     void Clear() { m_status = CNST_INVALID; m_datasock = 0;}
-	bool Connect(dbc::cChar *hostname,dbc::uShort port,dbc::uLong timeout =0);//ºÁÃë
+	bool Connect(dbc::cChar *hostname,dbc::uShort port,dbc::uLong timeout =0);//æ¯«ç§’
 	void Disconnect(int reason);
 	void OnDisconnect();
 	bool IsConnected()	{return m_status ==CNST_CONNECTED;}

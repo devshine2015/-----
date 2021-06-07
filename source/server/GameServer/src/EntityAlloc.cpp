@@ -13,7 +13,7 @@ char g_szEntiAlloc[256] = "EntityAlloc";
 
 CEntityAlloc::CEntityAlloc(long lChaNum, long lItemNum, long lTNpcNum)
 {T_B
-	// ·ÖÅäÊµÌåÄÚ´æ
+	// åˆ†é…å®ä½“å†…å­˜
 	m_ChaAlloc.create( lChaNum, defENTI_ALLOC_TYPE_CHA );
 	m_ItemAlloc.create( lItemNum, defENTI_ALLOC_TYPE_ITEM );
 	m_TalkNpcAlloc.create( lTNpcNum, defENTI_ALLOC_TYPE_TNPC );
@@ -31,14 +31,14 @@ CEntityAlloc::~CEntityAlloc()
 T_E}
 
 //=============================================================================
-// È¡Ò»¸öÏĞÖÃµÄ½ÇÉ«¡£
+// å–ä¸€ä¸ªé—²ç½®çš„è§’è‰²ã€‚
 //=============================================================================
 CCharacter* CEntityAlloc::GetNewCha()
 {T_B
 	CCharacter* pChar = m_ChaAlloc.alloc();
 	if( !pChar )
 	{		
-		//LG(g_szEntiAlloc, "msgÇëÇó½ÇÉ«ÄÚ´æÊ±³ö´í,ÇëÔö¼Ó½ÇÉ«ÄÚ´æ£¡£¡£¡");
+		//LG(g_szEntiAlloc, "msgè¯·æ±‚è§’è‰²å†…å­˜æ—¶å‡ºé”™,è¯·å¢åŠ è§’è‰²å†…å­˜ï¼ï¼ï¼");
 		LG(g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00010));
 		return NULL;
 	}
@@ -46,14 +46,14 @@ CCharacter* CEntityAlloc::GetNewCha()
 T_E}
 
 //=============================================================================
-// È¡Ò»¸öÏĞÖÃµÄµÀ¾ß¡£
+// å–ä¸€ä¸ªé—²ç½®çš„é“å…·ã€‚
 //=============================================================================
 CItem* CEntityAlloc::GetNewItem()
 {T_B
 	CItem* pItem = m_ItemAlloc.alloc();
 	if( !pItem )
 	{
-		//LG( g_szEntiAlloc, "msgÇëÇóµÀ¾ßÄÚ´æÊ±³ö´í,ÇëÔö¼ÓµÀ¾ßÄÚ´æ£¡£¡£¡");
+		//LG( g_szEntiAlloc, "msgè¯·æ±‚é“å…·å†…å­˜æ—¶å‡ºé”™,è¯·å¢åŠ é“å…·å†…å­˜ï¼ï¼ï¼");
 		LG( g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00011));
 		return NULL;
 	}
@@ -61,14 +61,14 @@ CItem* CEntityAlloc::GetNewItem()
 T_E}
 
 //=============================================================================
-// È¡Ò»¸öÏĞÖÃµÄ¶Ô»°NPC¡£
+// å–ä¸€ä¸ªé—²ç½®çš„å¯¹è¯NPCã€‚
 //=============================================================================
 mission::CTalkNpc* CEntityAlloc::GetNewTNpc()
 {T_B
 	mission::CTalkNpc* pNpc = m_TalkNpcAlloc.alloc();
 	if( !pNpc )
 	{
-		//LG(g_szEntiAlloc, "msgÇëÇó¶Ô»°NPCÄÚ´æÊ±³ö´í,ÇëÔö¼Ó¶Ô»°NPCÄÚ´æ£¡£¡£¡");
+		//LG(g_szEntiAlloc, "msgè¯·æ±‚å¯¹è¯NPCå†…å­˜æ—¶å‡ºé”™,è¯·å¢åŠ å¯¹è¯NPCå†…å­˜ï¼ï¼ï¼");
 		LG(g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00012));
 		return NULL;
 	}
@@ -76,48 +76,48 @@ mission::CTalkNpc* CEntityAlloc::GetNewTNpc()
 T_E}
 
 //=============================================================================
-// È¡Ò»¸öÏĞÖÃµÄ¶Ô»°ÊÂ¼şÊµÌå¡£
+// å–ä¸€ä¸ªé—²ç½®çš„å¯¹è¯äº‹ä»¶å®ä½“ã€‚
 //=============================================================================
 mission::CEventEntity* CEntityAlloc::GetEventEntity( BYTE byType )
 {
 	switch( byType )
 	{
-	case mission::BASE_ENTITY:			// »ù±¾ÊµÌå
+	case mission::BASE_ENTITY:			// åŸºæœ¬å®ä½“
 		{
 		}
 		break;
 
-	case mission::RESOURCE_ENTITY:		// ×ÊÔ´ÊµÌå
+	case mission::RESOURCE_ENTITY:		// èµ„æºå®ä½“
 		{
 			return m_ResourceAlloc.alloc();
 		}
 		break;
 
-	case mission::TRANSIT_ENTITY:		// ´«ËÍÊµÌå
+	case mission::TRANSIT_ENTITY:		// ä¼ é€å®ä½“
 		{
 		}
 		break;
 
-	case mission::BERTH_ENTITY:			// Í£²´ÊµÌå
+	case mission::BERTH_ENTITY:			// åœæ³Šå®ä½“
 		{
 			return m_BerthAlloc.alloc();
 		}
 		break;
 	default:
 		{
-			//LG(g_szEntiAlloc, "msgÎ´ÖªµÄÇëÇóÊÂ¼şÊµÌå´´½¨ÀàĞÍ£¡Type[%d]", byType);
+			//LG(g_szEntiAlloc, "msgæœªçŸ¥çš„è¯·æ±‚äº‹ä»¶å®ä½“åˆ›å»ºç±»å‹ï¼Type[%d]", byType);
 			LG(g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00013), byType);
 			return NULL;
 		}
 		break;
 	}
-	//LG(g_szEntiAlloc, "msgÇëÇóÊÂ¼şÊµÌåÄÚ´æÊ±³ö´í£¡£¡£¡Type[%d]", byType);
+	//LG(g_szEntiAlloc, "msgè¯·æ±‚äº‹ä»¶å®ä½“å†…å­˜æ—¶å‡ºé”™ï¼ï¼ï¼Type[%d]", byType);
 	LG(g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00014), byType);
 	return NULL;
 }
 
 //=============================================================================
-// È¡Ò»¸öÓĞĞ§ÊµÌå
+// å–ä¸€ä¸ªæœ‰æ•ˆå®ä½“
 //=============================================================================
 Entity* CEntityAlloc::GetEntity(long lID)
 {T_B
@@ -149,7 +149,7 @@ Entity* CEntityAlloc::GetEntity(long lID)
 T_E}
 
 //=============================================================================
-// ÊÍ·ÅÒ»¸öÓĞĞ§ÊµÌå
+// é‡Šæ”¾ä¸€ä¸ªæœ‰æ•ˆå®ä½“
 //=============================================================================
 void CEntityAlloc::ReturnEntity(long lID)
 {T_B
@@ -182,14 +182,14 @@ T_E}
 //=============================================================================
 
 //=============================================================================
-// È¡Ò»¸öÏĞÖÃµÄÍæ¼Ò¡£
+// å–ä¸€ä¸ªé—²ç½®çš„ç©å®¶ã€‚
 //=============================================================================
 CPlayer* CPlayerAlloc::GetNewPly()
 {T_B
 	CPlayer* pCPly = m_PlyAlloc.alloc();
 	if( !pCPly )
 	{		
-		//LG(g_szEntiAlloc, "msgÇëÇóÍæ¼ÒÄÚ´æÊ±³ö´í,ÇëÔö¼ÓÍæ¼ÒÄÚ´æ£¡£¡£¡");
+		//LG(g_szEntiAlloc, "msgè¯·æ±‚ç©å®¶å†…å­˜æ—¶å‡ºé”™,è¯·å¢åŠ ç©å®¶å†…å­˜ï¼ï¼ï¼");
 		LG(g_szEntiAlloc, RES_STRING(GM_GAMEAPP_CPP_00015));
 		return NULL;
 	}

@@ -8,34 +8,34 @@
 #include "Team.h"
 #include "GuildBankMsg.h"
 
-// ¼ÆÊ±ÍË³ö»úÖÆºêÇĞ»»
+// è®¡æ—¶é€€å‡ºæœºåˆ¶å®åˆ‡æ¢
 //#define CHAEXIT_ONTIME
 
 
-bool GroupServerApp::OnConnect(DataSocket *datasock)					//·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+bool GroupServerApp::OnConnect(DataSocket *datasock)					//è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
 {
 	datasock->SetRecvBuf(64*1024);
 	datasock->SetSendBuf(64*1024);
 	if(!datasock->IsServer())
 	{
 		LogLine	l_line(g_LogConnect);
-		//l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"
+		//l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"
 		//	<<GetSockTotal()+1<<endln;
-		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"
+		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"
 			<<GetSockTotal()+1<<endln;
-		//std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"<<GetSockTotal()+1<<std::endl;
-		std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"<<GetSockTotal()+1<<std::endl;
+		//std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"<<GetSockTotal()+1<<std::endl;
+		std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"<<GetSockTotal()+1<<std::endl;
 	}else
 	{
 		LogLine	l_line(g_LogConnect);
 		/*
-		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"
+		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"
 			<<GetSockTotal()+1<<endln;
 		*/
-		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"
+		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"
 			<<GetSockTotal()+1<<endln;
-		//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"<<GetSockTotal()+1<<std::endl;
-		std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"À´ÁË£¡SocketÊı:"<<GetSockTotal()+1<<std::endl;
+		//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"<<GetSockTotal()+1<<std::endl;
+		std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"æ¥äº†ï¼Socketæ•°:"<<GetSockTotal()+1<<std::endl;
 	}
 	return true;
 }
@@ -55,20 +55,20 @@ void GroupServerApp::OnDisconnect(DataSocket *datasock,int reason)
 		m_mtxlogin.unlock();
 		LogLine	l_line(g_LogConnect);
 		/*
-		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"
+		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"
 			<<GetSockTotal()<<"reason=("<<reason<<")"<<GetDisconnectErrText(reason)
 			<<endln;
 		*/
-		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"
+		l_line<<newln<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"
 			<<GetSockTotal()<<"reason=("<<reason<<")"<<GetDisconnectErrText(reason)
 			<<endln;
-		//std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
-		std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
+		//std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
+		std::cout<<"AccountServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
 
 		if(reason ==DS_SHUTDOWN || reason ==DS_DISCONN){return;}
 
-		//std::cout<<"5ÃëÖÓºóÔÙ´ÎÖØÁ¬......"<<std::endl;
-		std::cout<<"5ÃëÖÓºóÔÙ´ÎÖØÁ¬......"<<std::endl;
+		//std::cout<<"5ç§’é’Ÿåå†æ¬¡é‡è¿......"<<std::endl;
+		std::cout<<"5ç§’é’Ÿåå†æ¬¡é‡è¿......"<<std::endl;
 		Sleep(5000);
 		InitACTSvrConnect(*g_gpsvr);
 	}else
@@ -80,15 +80,15 @@ void GroupServerApp::OnDisconnect(DataSocket *datasock,int reason)
 		m_mtxlogin.unlock();
 		LogLine	l_line(g_LogConnect);
 		/*
-		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"
+		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"
 			<<GetSockTotal()<<"reason=("<<reason<<")"<<GetDisconnectErrText(reason)
 			<<endln;
 		*/
-		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"
+		l_line<<newln<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"
 			<<GetSockTotal()<<"reason=("<<reason<<")"<<GetDisconnectErrText(reason)
 			<<endln;
-		//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
-		std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"×ßÁË£¡SocketÊı:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
+		//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
+		std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"èµ°äº†ï¼Socketæ•°:"<<GetSockTotal()<<"reason="<<GetDisconnectErrText(reason).c_str()<<std::endl;
 
 		Player	*l_ply	=0;
 		RunChainGetArmor<Player> l(m_plylst);
@@ -161,9 +161,9 @@ WPacket	GroupServerApp::TP_CHANGEPASS(Player * l_ply, DataSocket *datasock, RPac
 	l_wpk.WriteCmd(CMD_PC_ERRMSG);
 
 	if (strcmp(l_ply->m_password.c_str(), PIN) != 0){
-		l_wpk.WriteString("´íÎóµÄPIN.");
+		l_wpk.WriteString("é”™è¯¯çš„PIN.");
 	}else if (strlen(newPass) != 32 || !isAlphaNumeric(newPass, strlen(newPass))){
-		l_wpk.WriteString("ÎŞĞ§ÃÜÂë.");
+		l_wpk.WriteString("æ— æ•ˆå¯†ç .");
 	}else{
 		WPacket l_wpk_acc = GetWPacket();
 		l_wpk_acc.WriteCmd(CMD_PA_CHANGEPASS);
@@ -171,7 +171,7 @@ WPacket	GroupServerApp::TP_CHANGEPASS(Player * l_ply, DataSocket *datasock, RPac
 		l_wpk_acc.WriteString(newPass);
 		g_gpsvr->SendData(g_gpsvr->m_acctsock, l_wpk_acc);
 
-		l_wpk.WriteString("ÃÜÂëÒÑ¾­¸ü¸Ä.");
+		l_wpk.WriteString("å¯†ç å·²ç»æ›´æ”¹.");
 	}
 	return l_wpk;
 }
@@ -190,15 +190,15 @@ WPacket	GroupServerApp::TP_REGISTER( DataSocket *datasock, RPacket &pk){
 
 	if (len < 5 || len > 16 || !isAlphaNumeric(userName, len)){
 		ret_pk.WriteChar(0);
-		ret_pk.WriteString("ÎŞĞ§µÄÓÃ»§Ãû.");
+		ret_pk.WriteString("æ— æ•ˆçš„ç”¨æˆ·å.");
 	}
 	else if (passlen != 32 || !isAlphaNumeric(password, passlen)){
 		ret_pk.WriteChar(0);
-		ret_pk.WriteString("ÎŞĞ§µÄÃÜÂë.");
+		ret_pk.WriteString("æ— æ•ˆçš„å¯†ç .");
 	}
 	else if (emaillen < 3 || emaillen > 254 || !isEmail(email)){
 		ret_pk.WriteChar(0);
-		ret_pk.WriteString("ÎŞĞ§µÄEmail.");
+		ret_pk.WriteString("æ— æ•ˆçš„Email.");
 	}
 	else if (m_tblaccounts->FetchRowByActName(userName)){
 		ret_pk.WriteChar(0);
@@ -249,7 +249,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 				WPacket discord_wpk = GetWPacket();
 				discord_wpk.WriteCmd(CMD_PM_PMNOTONLINE);
 				discord_wpk.WriteString(sender);
-				discord_wpk.WriteString("Íæ¼ÒÃ»ÓĞÔÚÏß.");
+				discord_wpk.WriteString("ç©å®¶æ²¡æœ‰åœ¨çº¿.");
 				datasock->SendData(discord_wpk);
 			}
 		}
@@ -258,7 +258,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			recvbuf.ReadShort();
 			AP_KICKUSER(datasock,recvbuf);
 			return;
-        case CMD_AP_EXPSCALE:   //  ·À³ÁÃÔ
+        case CMD_AP_EXPSCALE:   //  é˜²æ²‰è¿·
             AP_EXPSCALE(datasock, recvbuf);
             return;
 		case CMD_TP_DISC:
@@ -314,7 +314,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			//for now using attr perm, later will use new perm.
 			unsigned long perm = (l_ply->m_guildPermission[l_ply->m_currcha] & emGldPermAttr);
 			if (perm != emGldPermAttr){
-				l_ply->SendSysInfo("ÄãÃ»ÓĞÕâÑù×öµÄÈ¨ÏŞ.");
+				l_ply->SendSysInfo("ä½ æ²¡æœ‰è¿™æ ·åšçš„æƒé™.");
 				return;
 			}
 
@@ -325,7 +325,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 
 			//shadeinfo ID
 			if (icon !=0 && icon < 8 ){
-				l_ply->SendSysInfo("ÎŞĞ§µÄIcon");
+				l_ply->SendSysInfo("æ— æ•ˆçš„Icon");
 				return;
 			}
 
@@ -338,7 +338,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 				l_wpk.WriteChar(icon);
 				SendToClient(l_ply, l_wpk);
 
-				l_ply->SendSysInfo("¹«»áÑÕÉ«¸üĞÂ!");
+				l_ply->SendSysInfo("å…¬ä¼šé¢œè‰²æ›´æ–°!");
 
 				l_wpk.WriteCmd(CMD_PC_GUILDCIRCLECOLOUR);
 				Player *l_plylst[10240];
@@ -358,7 +358,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 				SendToClient(l_plylst, l_plynum, l_wpk);
 			}
 			else{
-				l_ply->SendSysInfo("ÕâÑÕÉ«ºÍ±ğµÄ¹«»áÌ«ÏàËÆÁË.");
+				l_ply->SendSysInfo("è¿™é¢œè‰²å’Œåˆ«çš„å…¬ä¼šå¤ªç›¸ä¼¼äº†.");
 			}
 			break;
 		}
@@ -372,7 +372,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 
 			unsigned long perm = (l_ply->m_guildPermission[l_ply->m_currcha] & emGldPermAttr);
 			if (perm != emGldPermAttr){
-				l_ply->SendSysInfo("ÄãÃ»ÓĞÕâÑù×öµÄÈ¨ÏŞ.");
+				l_ply->SendSysInfo("ä½ æ²¡æœ‰è¿™æ ·åšçš„æƒé™.");
 				return;
 			}
 
@@ -417,7 +417,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			if (guild->m_point == 0){
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("¹«»áÃ»ÓĞ½ğ±Ò,Ìí¼ÓÊôĞÔÊ§°Ü.");
+				l_wpk.WriteString("å…¬ä¼šæ²¡æœ‰é‡‘å¸,æ·»åŠ å±æ€§å¤±è´¥.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
@@ -428,14 +428,14 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			if (guild->m_point < upgCost){
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("¹«»áÃ»ÓĞ×ã¹»µÄ½ğ±Ò,Ìí¼ÓÊôĞÔÊ§°Ü.");
+				l_wpk.WriteString("å…¬ä¼šæ²¡æœ‰è¶³å¤Ÿçš„é‡‘å¸,æ·»åŠ å±æ€§å¤±è´¥.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
 			else if (currentLv >= maxLv){
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("ÊôĞÔÒÑ´ïµ½×î´óÖµ.");
+				l_wpk.WriteString("å±æ€§å·²è¾¾åˆ°æœ€å¤§å€¼.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
@@ -444,7 +444,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 				guild->m_point += upgCost;
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("´íÎó,ÇëÉÔºóÔÙÊÔ.");
+				l_wpk.WriteString("é”™è¯¯,è¯·ç¨åå†è¯•.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
@@ -553,7 +553,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			if (queueSize >= 10){
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("À©Õ¹´ü×Ó·±Ã¦,ÉÔºóÔÙÊÔ.");
+				l_wpk.WriteString("æ‰©å±•è¢‹å­ç¹å¿™,ç¨åå†è¯•.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
@@ -599,7 +599,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 			if (queueSize >= 10){
 				WPacket	l_wpk = GetWPacket();
 				l_wpk.WriteCmd(CMD_PC_ERRMSG);
-				l_wpk.WriteString("¹«»áÒøĞĞ·±Ã¦,ÉÔºóÔÙÊÔ.");
+				l_wpk.WriteString("å…¬ä¼šé“¶è¡Œç¹å¿™,ç¨åå†è¯•.");
 				SendToClient(l_ply, l_wpk);
 				return;
 			}
@@ -805,7 +805,7 @@ void GroupServerApp::OnProcessData(DataSocket *datasock,RPacket &recvbuf)
 		case CMD_MP_GARNER2_CGETORDER:
 			CP_GARNER2_GETORDER(l_ply,datasock,recvbuf);
 			return;
-		case CMD_MP_GARNER2_UPDATE://·´¶·°×Òø£¬¸üĞÂ×îĞÂµÄÅÅÃû
+		case CMD_MP_GARNER2_UPDATE://åæ–—ç™½é“¶ï¼Œæ›´æ–°æœ€æ–°çš„æ’å
 			MP_GARNER2_UPDATE(l_ply,datasock,recvbuf);
 			return;
 		}
@@ -918,7 +918,7 @@ void GroupServerApp::CP_PING(Player *ply,DataSocket *datasock,RPacket	&pk)
 	Player	*l_ply	=ply->m_pingply;
 	if(!l_ply)	return;
 	ply->m_pingply	=0;
-	//l_ply->SendSysInfo(dstring("·şÎñÆ÷µ½Íæ¼Ò¡¾")<<ply->m_chaname[ply->m_currcha].c_str()<<"¡¿µÄpingÖµÎª:"<<pk.ReadLong()<<"ºÁÃë");
+	//l_ply->SendSysInfo(dstring("æœåŠ¡å™¨åˆ°ç©å®¶ã€")<<ply->m_chaname[ply->m_currcha].c_str()<<"ã€‘çš„pingå€¼ä¸º:"<<pk.ReadLong()<<"æ¯«ç§’");
 	char l_buf[256];
 	sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPMASTER_CPP_00001),ply->m_chaname[ply->m_currcha].c_str(), pk.ReadLong());
 	l_ply->SendSysInfo(l_buf);
@@ -926,13 +926,13 @@ void GroupServerApp::CP_PING(Player *ply,DataSocket *datasock,RPacket	&pk)
 
 void GroupServerApp::CP_REPORT_WG(Player *ply,DataSocket *datasock,RPacket &pk)
 {
-	// Í³¼ÆÍæ¼ÒÊ¹ÓÃÍâ¹ÒÊıÁ¿
+	// ç»Ÿè®¡ç©å®¶ä½¿ç”¨å¤–æŒ‚æ•°é‡
 	if( !ply->m_bWG )
 	{
 		ply->m_bWG = TRUE;
 		m_curWGChaNum++;
 	}
-	//ply->SendSysInfo( "±¨¸æÁË½ÇÉ«Ê¹ÓÃÍâ¹Ò£¡" );
+	//ply->SendSysInfo( "æŠ¥å‘Šäº†è§’è‰²ä½¿ç”¨å¤–æŒ‚ï¼" );
 }
 
 void GroupServerApp::KickUser(DataSocket *datasock,uLong gpaddr,uLong gtaddr)
@@ -963,12 +963,12 @@ WPacket	GroupServerApp::TP_LOGIN(DataSocket *datasock,RPacket &pk)
 			if(l_gate->SetDataSock(datasock))
 			{
 				l_retpk.WriteShort(ERR_SUCCESS);
-				std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"ÖØµÇÂ¼³É¹¦£¡"<<std::endl;
+				std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"é‡ç™»å½•æˆåŠŸï¼"<<std::endl;
 				//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"re login success!"<<std::endl;
 			}else
 			{
 				l_retpk.WriteShort(ERR_PT_SAMEGATENAME);
-				std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"µÇÂ¼Ê§°Ü:ÓëÒÑµÇÂ¼GateServerÖØÃû¡£"<<std::endl;
+				std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"ç™»å½•å¤±è´¥:ä¸å·²ç™»å½•GateServeré‡åã€‚"<<std::endl;
 				//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"login failed: exsit the same name's GateServer "<<std::endl;
 				Disconnect(datasock);
 			}
@@ -978,12 +978,12 @@ WPacket	GroupServerApp::TP_LOGIN(DataSocket *datasock,RPacket &pk)
 			m_gate[m_gatenum].m_name	=l_gatename;
 			m_gate[m_gatenum].SetDataSock(datasock);
 			m_gatenum ++;
-			std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"µÇÂ¼³É¹¦£¡"<<std::endl;
+			std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"ç™»å½•æˆåŠŸï¼"<<std::endl;
 			//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"login success"<<std::endl;
 		}else
 		{
 			l_retpk.WriteShort(ERR_PT_LOGFAIL);
-			std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"µÇÂ¼Ê§°Ü£¡"<<std::endl;
+			std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"ç™»å½•å¤±è´¥ï¼"<<std::endl;
 			//std::cout<<"GateServer:"<<datasock->GetPeerIP()<<","<<datasock->GetPeerPort()<<"login failed!"<<std::endl;
 			Disconnect(datasock);
 		}
@@ -1018,7 +1018,7 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player *player,WPacket &wpk)
 {
 	MutexArmor l_lockDB(m_mtxDB);
 	int l_row =0;
-	if((l_row  =m_tblaccounts->FetchRowByActName(player->m_acctname.c_str()))==0)		//ĞÂ¼¤»îÕÊºÅ
+	if((l_row  =m_tblaccounts->FetchRowByActName(player->m_acctname.c_str()))==0)		//æ–°æ¿€æ´»å¸å·
 	{
 		player->m_bNew = true;
 		player->m_password.clear();
@@ -1027,7 +1027,7 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player *player,WPacket &wpk)
 		if( !m_tblaccounts->FetchRowByActName(player->m_acctname.c_str()) )
 			return false;
 		player->m_acctid = m_tblaccounts->GetActID();
-		wpk.WriteChar(0);							//½ÇÉ«¸öÊı
+		wpk.WriteChar(0);							//è§’è‰²ä¸ªæ•°
 	}else if(l_row ==1)
 	{
 		player->m_bNew = false;
@@ -1036,7 +1036,7 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player *player,WPacket &wpk)
 		player->m_gm	 =m_tblaccounts->GetGM();
 		std::string l_chaid[Player::emMaxCharacters];
 		player->m_chanum =char(Util_ResolveTextLine(m_tblaccounts->GetChaIDs(),l_chaid,Player::emMaxCharacters,';'));		
-		wpk.WriteChar(player->m_chanum);			//½ÇÉ«¸öÊı
+		wpk.WriteChar(player->m_chanum);			//è§’è‰²ä¸ªæ•°
 		for(char i=0,j=0;j<player->m_chanum;i++,j++)
 		{
 			player->m_chaid[i]		=atoi(l_chaid[j].c_str());
@@ -1048,44 +1048,44 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player *player,WPacket &wpk)
 			{
 				if((l_row =m_tblcharaters->FetchRowByChaID(player->m_chaid[i])) ==1)
 				{
-					char	*l_look	=const_cast<char*>(m_tblcharaters->GetLook());			//»ñÈ¡Íâ¹ÛÊı¾İ
+					char	*l_look	=const_cast<char*>(m_tblcharaters->GetLook());			//è·å–å¤–è§‚æ•°æ®
 					LOOK	look;MemSet((char*)&look,0,sizeof(LOOK));
 					try{
 						Strin2LookData(&look,std::string(l_look));
 					}catch(...)
 					{
 						LogLine l_line(g_LogGrpServer);
-						//l_line<<newln<<"Ã¶¾ÙÕÊºÅ["<<player->m_acctname<<"]µÄ½ÇÉ«[ID:"<<player->m_chaid[i]<<"]Ê±ºò·¢ÉúÍâ¹ÛÊı¾İ½âÎöÒì³£¡£"<<endln;
+						//l_line<<newln<<"æšä¸¾å¸å·["<<player->m_acctname<<"]çš„è§’è‰²[ID:"<<player->m_chaid[i]<<"]æ—¶å€™å‘ç”Ÿå¤–è§‚æ•°æ®è§£æå¼‚å¸¸ã€‚"<<endln;
 						l_line<<newln<<"enum account ["<<player->m_acctname<<"]'s char[ID:"<<player->m_chaid[i]<<"] find appearance data exception."<<endln;
 						wpk.WriteChar(0);
 						i--;
 						continue;
 					}
-					wpk.WriteChar(1);					//±êÖ¾Õâ¸ö½ÇÉ«Êı¾İÊÇÓĞĞ§µÄ
+					wpk.WriteChar(1);					//æ ‡å¿—è¿™ä¸ªè§’è‰²æ•°æ®æ˜¯æœ‰æ•ˆçš„
 					player->m_chaname[i]	=m_tblcharaters->GetChaName();
 					player->m_motto[i]		=m_tblcharaters->GetMotto();
 					player->m_icon[i]		=m_tblcharaters->GetIcon();
 					player->m_guild[i]		=m_tblcharaters->GetGuildID();
 					player->m_guildPermission[i] = m_tblcharaters->GetGuildPermission();
 					player->m_chatColour[i] =  m_tblcharaters->GetChatColour();//todo
-					wpk.WriteString(m_tblcharaters->GetChaName());		//½ÇÉ«Ãû
-					wpk.WriteString(m_tblcharaters->GetJob());			//Ö°Òµ
-					wpk.WriteShort(m_tblcharaters->GetDegree());		//µÈ¼¶
+					wpk.WriteString(m_tblcharaters->GetChaName());		//è§’è‰²å
+					wpk.WriteString(m_tblcharaters->GetJob());			//èŒä¸š
+					wpk.WriteShort(m_tblcharaters->GetDegree());		//ç­‰çº§
 					wpk.WriteSequence((char*)&look,sizeof(LOOK));
 				}else
 				{
 					if(l_row ==0)
 					{
 						LogLine l_line(g_LogGrpServer);
-						//l_line<<newln<<"Ã¶¾ÙÕÊºÅ["<<player->m_acctname<<"]µÄ½ÇÉ«[ID:"<<player->m_chaid[i]<<"]Ê±ºòÔÚcharacter±íÀïÃæÃ»ÓĞ·¢ÏÖÄÇ¸ö½ÇÉ«µÄÊı¾İ";
+						//l_line<<newln<<"æšä¸¾å¸å·["<<player->m_acctname<<"]çš„è§’è‰²[ID:"<<player->m_chaid[i]<<"]æ—¶å€™åœ¨characterè¡¨é‡Œé¢æ²¡æœ‰å‘ç°é‚£ä¸ªè§’è‰²çš„æ•°æ®";
 						l_line<<newln<<"enum account["<<player->m_acctname<<"]'s char[ID:"<<player->m_chaid[i]<<"] can't find data in table character.";
  					}else
 					{
 						LogLine l_line(g_LogGrpServer);
-						//l_line<<newln<<"Ã¶¾ÙÕÊºÅ["<<player->m_acctname<<"]µÄ½ÇÉ«[ID:"<<player->m_chaid[i]<<"]Ê±ºò·¢ÉúÊı¾İ¿â²Ù×÷´íÎó¡£";
+						//l_line<<newln<<"æšä¸¾å¸å·["<<player->m_acctname<<"]çš„è§’è‰²[ID:"<<player->m_chaid[i]<<"]æ—¶å€™å‘ç”Ÿæ•°æ®åº“æ“ä½œé”™è¯¯ã€‚";
 						l_line<<newln<<"enum account["<<player->m_acctname<<"]'s char[ID:"<<player->m_chaid[i]<<"] databse exception.";
 					}
-					wpk.WriteChar(0);					//±êÖ¾Õâ¸ö½ÇÉ«Êı¾İÊÇÎŞĞ§µÄ
+					wpk.WriteChar(0);					//æ ‡å¿—è¿™ä¸ªè§’è‰²æ•°æ®æ˜¯æ— æ•ˆçš„
 					i--;
 				}
 			}
@@ -1094,7 +1094,7 @@ bool GroupServerApp::GetCHAsFromDBByPlayer(Player *player,WPacket &wpk)
 	}else
 	{
 		LogLine l_line(g_LogGrpServer);
-		//l_line<<newln<<"Ã¶¾ÙÕÊºÅ["<<player->m_acctname<<"]µÄ½ÇÉ«Ê±ºò·¢Éúaccount±íµÄÊı¾İ¿â²Ù×÷´íÎó¡£";
+		//l_line<<newln<<"æšä¸¾å¸å·["<<player->m_acctname<<"]çš„è§’è‰²æ—¶å€™å‘ç”Ÿaccountè¡¨çš„æ•°æ®åº“æ“ä½œé”™è¯¯ã€‚";
 		l_line<<newln<<"enum account["<<player->m_acctname<<"] operate table account failed";
 	}
 	return true;
@@ -1104,6 +1104,7 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 {
 	uLong	l_ulMilliseconds	=25*1000;
 	uLong	l_tick	=GetTickCount()	-pk.GetTickCount();
+	printf("===================Group Server Login===========================\n");
 
 	if(l_ulMilliseconds>l_tick)
 	{
@@ -1146,10 +1147,12 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 			l_retpk.WriteShort(ERR_PT_INERR);
 			return l_retpk;
 		}
+		printf("AccountName checking\n");
+
 		//if(strchr(l_acctname,'\'') || !IsValidName(l_acctname,l_len))
 		//{
 		//	LogLine l_line(g_LogGrpServer);
-		//	l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]µÄÃû×ÖÖĞÒò°üÀ¨·Ç·¨µÄµ¥ÒıºÅ'×Ö·û¶ø±»¾Ü¾øµÇÂ¼";
+		//	l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]çš„åå­—ä¸­å› åŒ…æ‹¬éæ³•çš„å•å¼•å·'å­—ç¬¦è€Œè¢«æ‹’ç»ç™»å½•";
 		//	l_line<<endln;
 		//	l_ply->Free();
 		//	l_retpk =GetWPacket();
@@ -1167,14 +1170,14 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 
 		WPacket l_wpk	=pk;
 		l_wpk.WriteCmd(CMD_PA_USER_LOGIN);
-		RPacket	l_rpk	=SyncCall(m_acctsock,l_wpk,l_ulMilliseconds);	//µ½AccountServerÈÏÖ¤
+		RPacket	l_rpk	=SyncCall(m_acctsock,l_wpk,l_ulMilliseconds);	//To AccountServer authentication
 		uShort	l_errno;
 		if(!l_rpk.HasData())
 		{
 			l_retpk	=GetWPacket();
-			l_retpk.WriteShort(ERR_PT_NETEXCP);					//´íÎóÂë
+			l_retpk.WriteShort(ERR_PT_NETEXCP);					//error code
 			LogLine l_line(g_LogGrpServer);
-			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]µÇÂ¼ÍøÂç´íÎó"<<endln;
+			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]ç™»å½•ç½‘ç»œé”™è¯¯"<<endln;
 			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"] login net failed"<<endln;
 			l_ply->Free();
 		}else if((l_errno	=l_rpk.ReadShort()) && (l_rpk.ReadCmd() ==CMD_AP_KICKUSER))
@@ -1186,12 +1189,12 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 		{
 			// Add by lark.li 20080825 begin
 			l_retpk	=GetWPacket();
-			l_retpk.WriteShort(l_errno);					//´íÎóÂë
+			l_retpk.WriteShort(l_errno);					//é”™è¯¯ç 
 			l_retpk	=l_rpk;
 			// End
 
 			LogLine l_line(g_LogGrpServer);
-			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]µÇÂ¼³ö´í£¬³ö´íÂë:"<<l_errno<<endln;
+			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]ç™»å½•å‡ºé”™ï¼Œå‡ºé”™ç :"<<l_errno<<endln;
 			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]login failed, error:"<<l_errno<<endln;
 			l_ply->Free();
 		}
@@ -1206,25 +1209,25 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 			l_ply->m_sessid		=l_rpk.ReadLong();
 
 			l_retpk	=GetWPacket();
-			l_retpk.WriteShort(ERR_SUCCESS);			//³É¹¦·µ»ØÖµ
-			l_retpk.WriteSequence(l_key,l_keylen);		//·µ»Ø¼ÓÃÜkey
+			l_retpk.WriteShort(ERR_SUCCESS);			//æˆåŠŸè¿”å›å€¼
+			l_retpk.WriteSequence(l_key,l_keylen);		//è¿”å›åŠ å¯†key
 
-			GetCHAsFromDBByPlayer(l_ply,l_retpk);		//½øÈëÊı¾İ¿âÈ¡½ÇÉ«ÁĞ±í
+			GetCHAsFromDBByPlayer(l_ply,l_retpk);		//è¿›å…¥æ•°æ®åº“å–è§’è‰²åˆ—è¡¨
 
 			//if( l_ply->m_password.length() < 32 )
 			//{
 			//	LogLine l_line(g_LogErrServer);
-			//	l_line<<newln<<"ÕÊ»§:"<<l_ply->m_acctname<<"ID:"<<l_ply->m_acctid<<"Key:("<<l_key<<")"<<"len"<<l_keylen<<"PW2:"<<l_ply->m_password<<endln;		
+			//	l_line<<newln<<"å¸æˆ·:"<<l_ply->m_acctname<<"ID:"<<l_ply->m_acctid<<"Key:("<<l_key<<")"<<"len"<<l_keylen<<"PW2:"<<l_ply->m_password<<endln;		
 			//}
 
-			l_retpk.WriteSequence(l_text,l_textlen);	//·µ»ØÃ÷ÎÄkey
+			l_retpk.WriteSequence(l_text,l_textlen);	//è¿”å›æ˜æ–‡key
 			l_retpk.WriteShort(l_textlen);
 			l_retpk.WriteLong(l_ply->m_acctid);
-			l_retpk.WriteLong(MakeULong(l_ply));		//¸½´øÉÏ×Ô¼ºµÄµØÖ·
+			l_retpk.WriteLong(MakeULong(l_ply));		//é™„å¸¦ä¸Šè‡ªå·±çš„åœ°å€
 			l_ply->BeginRun();
 			//AddPlayerToList(l_ply->m_chaid[l_ply->m_currcha], l_ply);
 			LogLine l_line(g_LogGrpServer);
-			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]µÇÂ¼³É¹¦£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;			
+			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]ç™»å½•æˆåŠŸï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;			
 			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]login success,\t online/total: "<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;			
 		}
 #endif
@@ -1237,19 +1240,19 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 			l_ply->m_sessid		=l_rpk.ReadLong();
 
 			l_retpk	=GetWPacket();
-			l_retpk.WriteShort(ERR_SUCCESS);			//³É¹¦·µ»ØÖµ
-			l_retpk.WriteSequence(l_key,l_keylen);		//·µ»Ø¼ÓÃÜkey
+			l_retpk.WriteShort(ERR_SUCCESS);			//æˆåŠŸè¿”å›å€¼
+			l_retpk.WriteSequence(l_key,l_keylen);		//è¿”å›åŠ å¯†key
 			
-			GetCHAsFromDBByPlayer(l_ply,l_retpk);		//½øÈëÊı¾İ¿âÈ¡½ÇÉ«ÁĞ±í
+			GetCHAsFromDBByPlayer(l_ply,l_retpk);		//è¿›å…¥æ•°æ®åº“å–è§’è‰²åˆ—è¡¨
 
 			if( l_ply->m_password.length() < 32 )
 			{
 				LogLine l_line(g_LogErrServer);
-				l_line<<newln<<"ÕÊ»§:"<<l_ply->m_acctname<<"ID:"<<l_ply->m_acctid<<"Key:("<<l_key<<")"<<"len"<<l_keylen<<"PW2:"<<l_ply->m_password<<endln;		
+				l_line<<newln<<"å¸æˆ·:"<<l_ply->m_acctname<<"ID:"<<l_ply->m_acctid<<"Key:("<<l_key<<")"<<"len"<<l_keylen<<"PW2:"<<l_ply->m_password<<endln;		
 				//l_line<<newln<<"account:"<<l_ply->m_acctname<<"ID:"<<l_ply->m_acctid<<"Key:("<<l_key<<")"<<"len"<<l_keylen<<"PW2:"<<l_ply->m_password<<endln;		
 			}
 
-			l_retpk.WriteSequence(l_text,l_textlen);	//·µ»ØÃ÷ÎÄkey
+			l_retpk.WriteSequence(l_text,l_textlen);	//è¿”å›æ˜æ–‡key
 			l_retpk.WriteShort(l_textlen);
 			
 			if( l_ply->m_password.length() > 0 && !l_ply->m_bNew)
@@ -1263,20 +1266,20 @@ WPacket	GroupServerApp::TP_USER_LOGIN(DataSocket *datasock,RPacket &pk)
 			
 			l_retpk.WriteLong(l_ply->m_acctid);
             l_retpk.WriteLong(l_ply->m_acctLoginID);
-			l_retpk.WriteLong(MakeULong(l_ply));		//¸½´øÉÏ×Ô¼ºµÄµØÖ·
+			l_retpk.WriteLong(MakeULong(l_ply));		//é™„å¸¦ä¸Šè‡ªå·±çš„åœ°å€
 			l_ply->BeginRun();
 			//AddPlayerToList(l_ply->m_chaid[l_ply->m_currcha], l_ply);
 			LogLine l_line(g_LogGrpServer);
-			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]µÇÂ¼³É¹¦£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;
+			l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]login successfulï¼Œ\t Number of currently logged in/game players:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;
 			//l_line<<newln<<"("<<l_ply->m_clientip<<"):["<<l_ply->m_acctname<<"]login success, \t nline/total:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;
 		}
 		return l_retpk;
 	}else
 	{
 		WPacket	l_retpk	=GetWPacket();
-		l_retpk.WriteShort(ERR_PT_NETEXCP);					//´íÎóÂë
+		l_retpk.WriteShort(ERR_PT_NETEXCP);					//é”™è¯¯ç 
 		LogLine l_line(g_LogGrpServer);
-		//l_line<<newln<<"ÈÏÖ¤°üÔÚ¶ÓÁĞÖĞÒÑ³¬Ê±,Ö±½Ó·ÏÆú,·µ»ØÍøÂç³¬Ê±´íÎó."<<endln;
+		//l_line<<newln<<"è®¤è¯åŒ…åœ¨é˜Ÿåˆ—ä¸­å·²è¶…æ—¶,ç›´æ¥åºŸå¼ƒ,è¿”å›ç½‘ç»œè¶…æ—¶é”™è¯¯."<<endln;
 		l_line<<newln<<"authentication packet time out."<<endln;
 		return l_retpk;
 	}
@@ -1301,25 +1304,25 @@ void GroupServerApp::AP_KICKUSER2( DataSocket* datasock, uLong acctid )
 		{
 			if( l_ply->m_currcha != -1 )
 			{
-				//ÏòAccountServer·¢ËÍ½áÊø¼Æ·ÑÃüÁî
+				//å‘AccountServerå‘é€ç»“æŸè®¡è´¹å‘½ä»¤
 				WPacket l_wpk	=GetWPacket();
 				l_wpk.WriteCmd(CMD_PA_USER_BILLEND);
 				l_wpk.WriteString(l_ply->m_acctname.c_str());
 				SendData(m_acctsock,l_wpk);
 			}
-			////ÏòAccountServer·¢ËÍLogOutÃüÁî
+			////å‘AccountServerå‘é€LogOutå‘½ä»¤
 			WPacket l_wpk	=GetWPacket();
 			//l_wpk.WriteCmd(CMD_PA_USER_LOGOUT);
 			//l_wpk.WriteLong(l_ply->m_acctid);
 			//l_wpk.WriteLong(l_ply->m_sessid);
 			//SendData(m_acctsock,l_wpk);
-			//ÏòGateServer·¢ËÍÌßÈËÃüÁî
+			//å‘GateServerå‘é€è¸¢äººå‘½ä»¤
 			//l_wpk	=GetWPacket();
 			l_wpk.WriteCmd(CMD_AP_KICKUSER);
 			SendToClient(l_ply,l_wpk);
-			//ÌßÈË³É¹¦
+			//è¸¢äººæˆåŠŸ
 			LogLine l_line(g_LogGrpServer);
-			//l_line<<newln<<"ÊÕµ½Ò»¸öTµôacctid/acctname:["<<l_acctid<<"]/["<<l_ply->m_acctname<<"]µÄÃüÁî!"<<endln;
+			//l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªTæ‰acctid/acctname:["<<l_acctid<<"]/["<<l_ply->m_acctname<<"]çš„å‘½ä»¤!"<<endln;
 			l_line<<newln<<"recieved killed acctid/acctname:["<<l_acctid<<"]/["<<l_ply->m_acctname<<"] command!"<<endln;
 		}
 		l_ply->Free();
@@ -1327,7 +1330,7 @@ void GroupServerApp::AP_KICKUSER2( DataSocket* datasock, uLong acctid )
 	{
 		l.unlock();
 		LogLine l_line(g_LogGrpServer);
-		//l_line<<newln<<"ÊÕµ½Ò»¸öTµôÔÚÍæ¼ÒÁĞ±íÖĞÃ»ÕÒµ½acctid:["<<l_acctid<<"]µÄÃüÁî!";
+		//l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªTæ‰åœ¨ç©å®¶åˆ—è¡¨ä¸­æ²¡æ‰¾åˆ°acctid:["<<l_acctid<<"]çš„å‘½ä»¤!";
 		l_line<<newln<<"recieved kill acctid:["<<l_acctid<<"] command(not in play list)!";
 	}
 }
@@ -1351,25 +1354,25 @@ void GroupServerApp::AP_KICKUSER(DataSocket *datasock,RPacket &pk)
 		{
 			if( l_ply->m_currcha != -1 )
 			{
-				//ÏòAccountServer·¢ËÍ½áÊø¼Æ·ÑÃüÁî
+				//å‘AccountServerå‘é€ç»“æŸè®¡è´¹å‘½ä»¤
 				WPacket l_wpk	=GetWPacket();
 				l_wpk.WriteCmd(CMD_PA_USER_BILLEND);
 				l_wpk.WriteString(l_ply->m_acctname.c_str());
 				SendData(m_acctsock,l_wpk);
 			}
-			//ÏòAccountServer·¢ËÍLogOutÃüÁî
+			//å‘AccountServerå‘é€LogOutå‘½ä»¤
 			//WPacket l_wpk	=GetWPacket();
 			//l_wpk.WriteCmd(CMD_PA_USER_LOGOUT);
 			//l_wpk.WriteLong(l_ply->m_acctid);
 			//l_wpk.WriteLong(l_ply->m_sessid);
 			//SendData(m_acctsock,l_wpk);
-			//ÏòGateServer·¢ËÍÌßÈËÃüÁî
+			//å‘GateServerå‘é€è¸¢äººå‘½ä»¤
 			WPacket l_wpk	=GetWPacket();
 			l_wpk.WriteCmd(CMD_AP_KICKUSER);
 			SendToClient(l_ply,l_wpk);
-			//ÌßÈË³É¹¦
+			//è¸¢äººæˆåŠŸ
 			LogLine l_line(g_LogGrpServer);
-			//l_line<<newln<<"ÊÕµ½Ò»¸öTµôacctid/acctname:["<<l_ply->m_acctid<<"]/["<<l_ply->m_acctname<<"]µÄÃüÁî!"<<endln;
+			//l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªTæ‰acctid/acctname:["<<l_ply->m_acctid<<"]/["<<l_ply->m_acctname<<"]çš„å‘½ä»¤!"<<endln;
 			l_line<<newln<<"recieved killed acctid/acctname:["<<l_ply->m_acctid<<"]/["<<l_ply->m_acctname<<"] command!"<<endln;
 		}
 		l_ply->Free();
@@ -1377,14 +1380,14 @@ void GroupServerApp::AP_KICKUSER(DataSocket *datasock,RPacket &pk)
 	{
 		l.unlock();
 		LogLine l_line(g_LogGrpServer);
-		//l_line<<newln<<"ÊÕµ½Ò»¸öTµôÔÚÍæ¼ÒÁĞ±íÖĞÃ»ÕÒµ½acctid:["<<l_acctid<<"]µÄÃüÁî!";
+		//l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªTæ‰åœ¨ç©å®¶åˆ—è¡¨ä¸­æ²¡æ‰¾åˆ°acctid:["<<l_acctid<<"]çš„å‘½ä»¤!";
 		l_line<<newln<<"recieved kill acctid:["<<l_acctid<<"] command(not in play list)!";
 	}
 }
 
 void GroupServerApp::AP_EXPSCALE(DataSocket* datasock, RPacket &pk)
 {
-    //  ·À³ÁÃÔ
+    //  é˜²æ²‰è¿·
     Player	*l_ply = 0;
     uLong ulChaID = pk.ReadLong();
     uLong ulTime = pk.ReadLong();
@@ -1468,22 +1471,22 @@ WPacket GroupServerApp::TP_USER_LOGOUT(Player *ply,DataSocket *datasock,RPacket 
 	{
 		if( ply->m_currcha != -1 )
 		{
-			//·¢ËÍ½áÊø¼Æ·ÑÃüÁî
+			//å‘é€ç»“æŸè®¡è´¹å‘½ä»¤
 			WPacket	l_wpk	=GetWPacket();
 			l_wpk.WriteCmd(CMD_PA_USER_BILLEND); 
 			l_wpk.WriteString(ply->m_acctname.c_str());
 			SendData(m_acctsock,l_wpk);
 		}
 
-		//ÏòAccountServer·¢ËÍLogOutÃüÁî
+		//å‘AccountServerå‘é€LogOutå‘½ä»¤
 		WPacket	l_wpk	=GetWPacket();
 		l_wpk.WriteCmd(CMD_PA_USER_LOGOUT);
 		l_wpk.WriteLong(ply->m_acctLoginID);
 		l_wpk.WriteLong(ply->m_sessid);
 		SendData(m_acctsock,l_wpk);
-		//µÇ³ö³É¹¦
+		//ç™»å‡ºæˆåŠŸ
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]µÇ³öÁË£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
+		l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]ç™»å‡ºäº†ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 		//l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]logout,\t online/total:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 	}else
 	{
@@ -1498,7 +1501,7 @@ WPacket GroupServerApp::TP_USER_LOGOUT(Player *ply,DataSocket *datasock,RPacket 
 
 	ply->Free();
 	l.unlock();
-	//·µ»Ø³É¹¦´íÎóÂë
+	//è¿”å›æˆåŠŸé”™è¯¯ç 
 	l_retpk.WriteShort(ERR_SUCCESS);
 	return l_retpk;
 }
@@ -1508,14 +1511,14 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket		l_retpk	=GetWPacket();
 	if(ply->m_currcha >=0)
 	{
-		l_retpk.WriteShort(ERR_PT_INERR);				//Ó¦¸ÃÈÕÖµµÄÄÚ²¿´íÎó
+		l_retpk.WriteShort(ERR_PT_INERR);				//åº”è¯¥æ—¥å€¼çš„å†…éƒ¨é”™è¯¯
 	}else
 	{
 		uShort	l_len;
 		cChar	*	l_cha = pk.ReadString(&l_len);
 		if(!l_cha ||l_len >16 )
 		{
-			l_retpk.WriteShort(ERR_PT_INERR);				//Ó¦¸ÃÈÕÖµµÄÄÚ²¿´íÎó
+			l_retpk.WriteShort(ERR_PT_INERR);				//åº”è¯¥æ—¥å€¼çš„å†…éƒ¨é”™è¯¯
 		}else
 		{
 			MutexArmor l_lockCha(ply->m_mtxCha);
@@ -1531,7 +1534,7 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 			}
 
 
-			if(ply->m_bp_currcha <0)		//±¾ÕÊºÅÃ»ÓĞÕâ¸ö½ÇÉ«
+			if(ply->m_bp_currcha <0)		//æœ¬å¸å·æ²¡æœ‰è¿™ä¸ªè§’è‰²
 			{
 				l_retpk.WriteShort(ERR_PT_INVALIDCHA);
 			}
@@ -1542,7 +1545,7 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 			{
 				l_retpk.WriteShort(ERR_PT_INVALID_PW2);
 			}
-			else						//ºÏ·¨½ÇÉ«
+			else						//åˆæ³•è§’è‰²
 			{
 				MutexArmor l_lockDB(m_mtxDB);
 				if(m_tblcharaters->FetchRowByChaID(ply->m_chaid[ply->m_bp_currcha])<1)
@@ -1585,7 +1588,7 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 						l_retpk.WriteShort(ERR_PT_BADBOY);
 						WPacket l_wpk	=GetWPacket();
 						l_wpk.WriteCmd(CMD_MC_SYSINFO);
-						//l_wpk.WriteString(dstring("¡¾Í¨±¨ÅúÆÀ¡¿ÒÑ¾­·¢ÏÖÒ»Î»BTº¢×Ó[ÕÊºÅ:")<<ply->m_acctname.c_str()<<",½ÇÉ«:"<< ply->m_chaname[ply->m_bp_currcha].c_str()<<"]¡£");
+						//l_wpk.WriteString(dstring("ã€é€šæŠ¥æ‰¹è¯„ã€‘å·²ç»å‘ç°ä¸€ä½BTå­©å­[å¸å·:")<<ply->m_acctname.c_str()<<",è§’è‰²:"<< ply->m_chaname[ply->m_bp_currcha].c_str()<<"]ã€‚");
 						char l_buf[256];
 						sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPSERV_CPP_00002),ply->m_acctname.c_str(),ply->m_chaname[ply->m_bp_currcha].c_str());
 						l_wpk.WriteString(l_buf);
@@ -1606,12 +1609,12 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 					}else
 					{
 						short swiner = 0;
-						//·µ»Ø³É¹¦Ïà¹ØĞÅÏ¢
-						l_retpk.WriteShort(ERR_SUCCESS);	//Ñ¡½ÇÉ«³É¹¦·µ»Ø
+						//è¿”å›æˆåŠŸç›¸å…³ä¿¡æ¯
+						l_retpk.WriteShort(ERR_SUCCESS);	//é€‰è§’è‰²æˆåŠŸè¿”å›
 						l_retpk.WriteString(ply->m_password.c_str());
-						l_retpk.WriteLong(ply->m_chaid[ply->m_bp_currcha]);//½ÇÉ«ID
+						l_retpk.WriteLong(ply->m_chaid[ply->m_bp_currcha]);//è§’è‰²ID
 						l_retpk.WriteLong(ply->m_chaid[ply->m_bp_currcha]);//WorldID
-						l_retpk.WriteString(m_tblcharaters->GetMap());		//ÉÏ´ÎÏÂÏßµÄµØÍ¼Ãû
+						l_retpk.WriteString(m_tblcharaters->GetMap());		//ä¸Šæ¬¡ä¸‹çº¿çš„åœ°å›¾å
 						for(int i = 0;i<MAXORDERNUM;i++)
 						{
 							if(ply->m_chaid[ply->m_bp_currcha] == m_tbLparam->GetOrderData(i)->nid)
@@ -1623,12 +1626,12 @@ WPacket	GroupServerApp::TP_BGNPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 						l_retpk.WriteShort(swiner);
 						LogLine l_line(g_LogGrpServer);
 						
-						l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]Ñ¡Ôñ½ÇÉ«["<<l_cha
-							<<"]×¼±¸¿ªÊ¼ÓÎÏ·ÁË...£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"
+						l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]é€‰æ‹©è§’è‰²["<<l_cha
+							<<"]å‡†å¤‡å¼€å§‹æ¸¸æˆäº†...ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"<<m_plylst.GetTotal()<<"/"
 							<<long(m_curChaNum);
 						/*
 						l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]select char["<<l_cha
-							<<"]begin paly...£¬\t online/total:"<<m_plylst.GetTotal()<<"/"
+							<<"]begin paly...ï¼Œ\t online/total:"<<m_plylst.GetTotal()<<"/"
 							<<long(m_curChaNum);
                         */
 					}
@@ -1646,7 +1649,7 @@ WPacket GroupServerApp::TP_ENDPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket		l_retpk	=GetWPacket();
 	if(ply->m_currcha <0)
 	{
-		l_retpk.WriteShort(ERR_PT_INERR);				//Ó¦¸ÃÈÕÖµµÄÏµÍ³²»Ò»ÖÂ´íÎó
+		l_retpk.WriteShort(ERR_PT_INERR);				//åº”è¯¥æ—¥å€¼çš„ç³»ç»Ÿä¸ä¸€è‡´é”™è¯¯
 	}else
 	{
 		std::vector<int>::iterator position = std::find(gmLogged.begin(), gmLogged.end(), ply->m_chaid[ply->m_currcha]);
@@ -1654,30 +1657,30 @@ WPacket GroupServerApp::TP_ENDPLAY(Player *ply,DataSocket *datasock,RPacket &pk)
 			gmLogged.erase(position);
 		}
 
-		l_retpk.WriteShort(ERR_SUCCESS);				//ÖØÑ¡½ÇÉ«³É¹¦·µ»Ø
+		l_retpk.WriteShort(ERR_SUCCESS);				//é‡é€‰è§’è‰²æˆåŠŸè¿”å›
 		ply->EndPlay(datasock);
 
 		LogLine l_line(g_LogGrpServer);
 
-		l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]ÍË³ö½ÇÉ«["
-			<<ply->m_chaname[ply->m_currcha]<<"]½øÈëÁËÑ¡½ÇÉ«½çÃæ...£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"
+		l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]é€€å‡ºè§’è‰²["
+			<<ply->m_chaname[ply->m_currcha]<<"]è¿›å…¥äº†é€‰è§’è‰²ç•Œé¢...ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"
 			<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 
 		/*
 		l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]exit char["
-			<<ply->m_chaname[ply->m_currcha]<<"]begin entry select char UI...£¬\t online/total:"
+			<<ply->m_chaname[ply->m_currcha]<<"]begin entry select char UI...ï¼Œ\t online/total:"
 			<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 		l_line<<endln;
         */
-		ply->m_currcha	=-1;						//ÖÃÎªÎŞĞ§µÄµ±Ç°½ÇÉ«
+		ply->m_currcha	=-1;						//ç½®ä¸ºæ— æ•ˆçš„å½“å‰è§’è‰²
 		ply->EndPlayReset();
-		//·¢ËÍ½áÊø¼Æ·ÑÃüÁî
+		//å‘é€ç»“æŸè®¡è´¹å‘½ä»¤
 		WPacket	l_wpk	=GetWPacket();
 		l_wpk.WriteCmd(CMD_PA_USER_BILLEND);
 		l_wpk.WriteString(ply->m_acctname.c_str());
 		SendData(m_acctsock,l_wpk);
 
-		//´ÓÊı¾İ¿âÀïÃæÈ¡³ö½ÇÉ«±í
+		//ä»æ•°æ®åº“é‡Œé¢å–å‡ºè§’è‰²è¡¨
 		GetCHAsFromDBByPlayer(ply,l_retpk);
 		
 		
@@ -1707,16 +1710,16 @@ void GroupServerApp::MP_ONLINE(Player *ply)
 	++m_curChaNum;
 	LogLine l_line(g_LogGrpServer);
 
-	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]µÄ½ÇÉ«["
-		<<ply->m_chaname[ply->m_currcha]<<"]³É¹¦½øÈëµØÍ¼·şÎñÆ÷¿ªÊ¼ÓÎÏ·ÁË...£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"
+	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]çš„è§’è‰²["
+		<<ply->m_chaname[ply->m_currcha]<<"]æˆåŠŸè¿›å…¥åœ°å›¾æœåŠ¡å™¨å¼€å§‹æ¸¸æˆäº†...ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"
 		<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 	/*
 	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"] char ["
-		<<ply->m_chaname[ply->m_currcha]<<"]entry map server begin play...£¬\t online/total:"
+		<<ply->m_chaname[ply->m_currcha]<<"]entry map server begin play...ï¼Œ\t online/total:"
 		<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum);
 	*/	
 	l_line<<endln;
-	//·¢ËÍ¿ªÊ¼¼Æ·ÑÃüÁî
+	//å‘é€å¼€å§‹è®¡è´¹å‘½ä»¤
 	WPacket	l_wpk	=GetWPacket();
 	l_wpk.WriteCmd(CMD_PA_USER_BILLBGN);
 	l_wpk.WriteString(ply->m_acctname.c_str());
@@ -1736,11 +1739,11 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket		l_retpk	=GetWPacket();
 	if(ply->m_currcha >=0)
 	{
-		l_retpk.WriteShort(ERR_PT_INERR);					//Ó¦¸ÃÈÕÖµµÄÏµÍ³²»Ò»ÖÂ´íÎó
+		l_retpk.WriteShort(ERR_PT_INERR);					//åº”è¯¥æ—¥å€¼çš„ç³»ç»Ÿä¸ä¸€è‡´é”™è¯¯
 		return l_retpk;
 	}
 	MutexArmor l_lockCha(ply->m_mtxCha);
-	if(ply->m_chanum >=const_cha.MaxChaNum)		//ÒÑ´ïµ½ÏµÍ³ÏŞÖÆ×î´ó½ÇÉ«Êı
+	if(ply->m_chanum >=const_cha.MaxChaNum)		//å·²è¾¾åˆ°ç³»ç»Ÿé™åˆ¶æœ€å¤§è§’è‰²æ•°
 	{
 		l_retpk.WriteShort(ERR_PT_TOMAXCHA);
 		return l_retpk;
@@ -1756,9 +1759,9 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 		l_retpk.WriteShort(ERR_PT_TOOBIGCHANM);
 		return l_retpk;
 	}
-	else if (l_len == 0 || !isAlphaNumeric(l_chaname,l_len) || !IsValidName(l_chaname, l_len) || !CTextFilter::IsLegalText(CTextFilter::NAME_TABLE, l_chaname))								//(strchr(l_chaname,'\''))//½ÇÉ«ÃûÖĞ²»ÄÜÓĞµ¥ÒıºÅ'
+	else if (l_len == 0 || !isAlphaNumeric(l_chaname,l_len) || !IsValidName(l_chaname, l_len) || !CTextFilter::IsLegalText(CTextFilter::NAME_TABLE, l_chaname))								//(strchr(l_chaname,'\''))//è§’è‰²åä¸­ä¸èƒ½æœ‰å•å¼•å·'
 	{
-		l_retpk.WriteShort(ERR_PT_ERRCHANAME);//½ÇÉ«Ãû²»ºÏ·¨
+		l_retpk.WriteShort(ERR_PT_ERRCHANAME);//è§’è‰²åä¸åˆæ³•
 		return l_retpk;
 	}
 	//cChar	*	l_birth			=pk.ReadString(&l_len);
@@ -1769,7 +1772,7 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	//	l_birth1	=dstring("/")<<l_birth<<"/";
 
 	//	try{
-	//		l_birth2		=this->m_cfg["½ÇÉ«"]["³öÉúµØ"];
+	//		l_birth2		=this->m_cfg["è§’è‰²"]["å‡ºç”Ÿåœ°"];
 	//	}catch(...)
 	//	{
 	//		l_birth2		=0;
@@ -1780,7 +1783,7 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	//}
 	//if(!l_birth2 ||!strstr(l_birth2,l_birth1))
 	//{
-	//	l_retpk.WriteShort(ERR_PT_INVALIDBIRTH);		//³öÉúµØ·Ç·¨
+	//	l_retpk.WriteShort(ERR_PT_INVALIDBIRTH);		//å‡ºç”Ÿåœ°éæ³•
 	//}else
 	//{
 	cChar	*	l_birth			=pk.ReadString(&l_len);
@@ -1806,7 +1809,7 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	}
 	if(!l_map)
 	{
-		l_retpk.WriteShort(ERR_PT_INVALIDBIRTH);		//³öÉúµØ·Ç·¨
+		l_retpk.WriteShort(ERR_PT_INVALIDBIRTH);		//å‡ºç”Ÿåœ°éæ³•
 		return l_retpk;
 	}
 	//const LOOK	*look	=reinterpret_cast<const LOOK*>(pk.ReadSequence(l_len));
@@ -1868,27 +1871,27 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	}}catch(...)
 	{
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"ÕÊºÅ["<<ply->m_acctname<<"]ĞÂ½¨½ÇÉ«["<<l_chaname<<"]Ê±ºò·¢ÉúÍâ¹ÛÊı¾İ×ª»»Òì³£¡£"<<endln;
+		l_line<<newln<<"å¸å·["<<ply->m_acctname<<"]æ–°å»ºè§’è‰²["<<l_chaname<<"]æ—¶å€™å‘ç”Ÿå¤–è§‚æ•°æ®è½¬æ¢å¼‚å¸¸ã€‚"<<endln;
 		//l_line<<newln<<"account["<<ply->m_acctname<<"]new char["<<l_chaname<<"]find appreance data convert exception"<<endln;
 		l_retpk.WriteShort(ERR_PT_INVALIDDAT);
 		return l_retpk;
 	}
 	MutexArmor l_lockDB(m_mtxDB);
-	if(!m_tblcharaters->InsertRow(l_chaname,ply->m_acctid,l_birth,l_map,l_look))				//½ÇÉ«ÃûÖØ¸´
+	if(!m_tblcharaters->InsertRow(l_chaname,ply->m_acctid,l_birth,l_map,l_look))				//è§’è‰²åé‡å¤
 	{
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"ÕÊºÅ["<<ply->m_acctname<<"]ĞÂ½¨½ÇÉ«["<<l_chaname<<"]Ê±ºò·¢ÉúÃû×ÖÖØ¸´¡£"<<endln;
+		l_line<<newln<<"å¸å·["<<ply->m_acctname<<"]æ–°å»ºè§’è‰²["<<l_chaname<<"]æ—¶å€™å‘ç”Ÿåå­—é‡å¤ã€‚"<<endln;
 		//l_line<<newln<<"account["<<ply->m_acctname<<"]new char["<<l_chaname<<"]the same name exception"<<endln;
 		l_retpk.WriteShort(ERR_PT_SAMECHANAME);
 		return l_retpk;
 	}
 	l_retpk.WriteShort(ERR_SUCCESS);
-	//¸üĞÂÊı¾İ¿âÖĞÕÊºÅµÄ½ÇÉ«IDÁĞ±íCharIDs
+	//æ›´æ–°æ•°æ®åº“ä¸­å¸å·çš„è§’è‰²IDåˆ—è¡¨CharIDs
 	if(m_tblcharaters->FetchRowByChaName(l_chaname) <1)
 	{
 		l_retpk.WriteShort(ERR_PT_INERR);
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"ÕÊºÅ["<<ply->m_acctname<<"]ĞÂ½¨½ÇÉ«Ê±·¢ÉúÁËÎŞ·¨»Ö¸´µÄÊı¾İ¿â²Ù×÷´íÎó¡£";
+		l_line<<newln<<"å¸å·["<<ply->m_acctname<<"]æ–°å»ºè§’è‰²æ—¶å‘ç”Ÿäº†æ— æ³•æ¢å¤çš„æ•°æ®åº“æ“ä½œé”™è¯¯ã€‚";
 		//l_line<<newln<<"account["<<ply->m_acctname<<"] when create char , can't restore database failed.";
 		return l_retpk;
 	}
@@ -1910,13 +1913,13 @@ WPacket	GroupServerApp::TP_NEWCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	l_lockDB.unlock();
 	LogLine l_line(g_LogGrpServer);
 
-	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]ĞÂ½¨ÁË½ÇÉ«["
-		<<l_chaname<<"]£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"
+	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]æ–°å»ºäº†è§’è‰²["
+		<<l_chaname<<"]ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"
 		<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;
 
 	/*
 	l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]create char ["
-		<<l_chaname<<"]£¬\t online/total:"
+		<<l_chaname<<"]ï¼Œ\t online/total:"
 		<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)<<endln;
 	*/	
 	l_lockCha.unlock();
@@ -1928,7 +1931,7 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 	WPacket		l_retpk	=GetWPacket();
 	if(ply->m_currcha >=0)
 	{
-		l_retpk.WriteShort(ERR_PT_INERR);					//Ó¦¸ÃÈÕÖµµÄÏµÍ³²»Ò»ÖÂ´íÎó
+		l_retpk.WriteShort(ERR_PT_INERR);					//åº”è¯¥æ—¥å€¼çš„ç³»ç»Ÿä¸ä¸€è‡´é”™è¯¯
 	}else
 	{
 		uShort	l_len, l_len2;
@@ -1946,10 +1949,10 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 		{
 			MutexArmor l_lockCha(ply->m_mtxCha);
 			char	l_chaidx	=ply->FindIndexByChaName(l_cha);
-			if(l_chaidx <0)				//±¾ÕÊºÅÃ»ÓĞÕâ¸ö½ÇÉ«
+			if(l_chaidx <0)				//æœ¬å¸å·æ²¡æœ‰è¿™ä¸ªè§’è‰²
 			{
 				l_retpk.WriteShort(ERR_PT_INVALIDCHA);
-			}else if(FindGuildByLeadID(ply->m_chaid[l_chaidx]))						//ºÏ·¨µÄ½ÇÉ«
+			}else if(FindGuildByLeadID(ply->m_chaid[l_chaidx]))						//åˆæ³•çš„è§’è‰²
 			{
 				l_retpk.WriteShort(ERR_PT_ISGLDLEADER);
 			}else
@@ -1966,7 +1969,7 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 				}
 				
 				MutexArmor l_lockDB(m_mtxDB);
-				// ÅĞ¶Ï½ÇÉ«ÊÇ·ñ¹«»á³ÉÔ±£¬·ñÔòÉ¾³ı¹«»áÁĞ±íĞÅÏ¢
+				// åˆ¤æ–­è§’è‰²æ˜¯å¦å…¬ä¼šæˆå‘˜ï¼Œå¦åˆ™åˆ é™¤å…¬ä¼šåˆ—è¡¨ä¿¡æ¯
 				if( m_tblaccounts->begin_tran() )
 				{
 					if( !m_tblaccounts->UpdateRow(ply->m_acctid,l_CharIDs) || !m_tblcharaters->BackupRow(l_chaid) || !m_tblaccounts->commit_tran() )
@@ -1982,7 +1985,7 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 
 				if( bFlag )
 				{
-					l_retpk.WriteShort(ERR_SUCCESS);	//É¾³ı½ÇÉ«³É¹¦·µ»Ø
+					l_retpk.WriteShort(ERR_SUCCESS);	//åˆ é™¤è§’è‰²æˆåŠŸè¿”å›
 					ply->m_chanum	--;
 					for(;l_chaidx<ply->m_chanum;l_chaidx++)
 					{
@@ -1995,8 +1998,8 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 
 					LogLine l_line(g_LogGrpServer);
 					/*
-					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]É¾³ıÁË½ÇÉ«["
-						<<l_cha<<"]£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
+					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]åˆ é™¤äº†è§’è‰²["
+						<<l_cha<<"]ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
 						<<endln;
                    */
 					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<RES_STRING(GP_GROUPSERVERAPPSERV_CPP_00043)
@@ -2005,16 +2008,16 @@ WPacket	GroupServerApp::TP_DELCHA(Player *ply,DataSocket *datasock,RPacket &pk)
 				}
 				else
 				{
-					l_retpk.WriteShort(ERR_PT_SERVERBUSY);	//·şÎñÆ÷Ã¦Âµ£¬ÇëÉÔºó
+					l_retpk.WriteShort(ERR_PT_SERVERBUSY);	//æœåŠ¡å™¨å¿™ç¢Œï¼Œè¯·ç¨å
 					LogLine l_line(g_LogGrpServer);
 
-					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]É¾³ı½ÇÉ«Ê§°Ü["
-						<<l_cha<<"]£¬\tµ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
+					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]åˆ é™¤è§’è‰²å¤±è´¥["
+						<<l_cha<<"]ï¼Œ\tå½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
 						<<endln;
 
 					/*
 					l_line<<newln<<"("<<ply->m_clientip<<"):["<<ply->m_acctname<<"]delete char failed["
-						<<l_cha<<"]£¬\t GetTotal/m_curChaNum:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
+						<<l_cha<<"]ï¼Œ\t GetTotal/m_curChaNum:"<<m_plylst.GetTotal()<<"/"<<long(m_curChaNum)
 						<<endln;
 					*/	
 				}
@@ -2036,14 +2039,14 @@ WPacket	GroupServerApp::TP_CREATE_PASSWORD2(Player *ply,DataSocket *datasock,RPa
 			ply->m_password = strPassword;
 			l_retpk.WriteShort( ERR_SUCCESS );
 			LogLine l_line(g_LogErrServer);
-			l_line<<newln<<"ÕÊ»§:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"Êı¾İ¿â²Ù×÷³É¹¦:("<<strPassword.c_str()<<")"<<endln;		
+			l_line<<newln<<"å¸æˆ·:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"æ•°æ®åº“æ“ä½œæˆåŠŸ:("<<strPassword.c_str()<<")"<<endln;		
 			//l_line<<newln<<"account:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"database operate success:("<<strPassword.c_str()<<")"<<endln;		
 		}
 		else
 		{
 			l_retpk.WriteShort( ERR_PT_SERVERBUSY );
 			LogLine l_line(g_LogErrServer);
-			l_line<<newln<<"ÕÊ»§:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"Êı¾İ¿â²Ù×÷´íÎó:("<<strPassword.c_str()<<")"<<endln;
+			l_line<<newln<<"å¸æˆ·:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"æ•°æ®åº“æ“ä½œé”™è¯¯:("<<strPassword.c_str()<<")"<<endln;
 			//l_line<<newln<<"account:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"database operate failed:("<<strPassword.c_str()<<")"<<endln;
 		}
 	}
@@ -2051,7 +2054,7 @@ WPacket	GroupServerApp::TP_CREATE_PASSWORD2(Player *ply,DataSocket *datasock,RPa
 	{
 		l_retpk.WriteShort( ERR_PT_INVALID_PW2 );
 		LogLine l_line(g_LogErrServer);
-		l_line<<newln<<"ÕÊ»§:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"´íÎóµÄ¶ş´ÎÃÜÂë:("<<strPassword.c_str()<<")"<<endln;		
+		l_line<<newln<<"å¸æˆ·:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"é”™è¯¯çš„äºŒæ¬¡å¯†ç :("<<strPassword.c_str()<<")"<<endln;		
 		//l_line<<newln<<"account:"<<ply->m_acctname<<"ID:"<<ply->m_acctid<<"wrong second password:("<<strPassword.c_str()<<")"<<endln;		
 	}
 	return l_retpk;
@@ -2144,7 +2147,7 @@ void GroupServerApp::MP_GARNER2_UPDATE(Player *ply,DataSocket *datasock,RPacket 
 	if(strChaName.length() > 20)
 	{
 		LogLine	l_line(g_LogGarner2);
-		//l_line<<newln<<"·´¶·°×ÒøÅÅÃûÊı¾İ³ö´í";
+		//l_line<<newln<<"åæ–—ç™½é“¶æ’åæ•°æ®å‡ºé”™";
 		l_line<<newln<<"order data exception";
 		return;
 	}
@@ -2153,7 +2156,7 @@ void GroupServerApp::MP_GARNER2_UPDATE(Player *ply,DataSocket *datasock,RPacket 
 	if(strjob.length() > 100)
 	{
 		LogLine	l_line(g_LogGarner2);
-		//l_line<<newln<<"·´¶·°×ÒøÅÅÃûÊı¾İ³ö´í";
+		//l_line<<newln<<"åæ–—ç™½é“¶æ’åæ•°æ®å‡ºé”™";
 		l_line<<newln<<"order data exception";
 		return;
 	}

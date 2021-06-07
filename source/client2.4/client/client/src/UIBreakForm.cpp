@@ -1,458 +1,392 @@
 
-#include "stdafx.h"
 #include "UIBreakForm.h"
-#include "uiformmgr.h"
+#include "GameApp.h"
+#include "NetProtocol.h"
 #include "UIGoodsGrid.h"
+#include "packetCmd.h"
+#include "stdafx.h"
 #include "uiEquipForm.h"
 #include "uiItemCommand.h"
+#include "uiformmgr.h"
 #include "uinpctalkform.h"
 #include "uiprogressbar.h"
-#include "NetProtocol.h"
-#include "packetCmd.h"
-#include "GameApp.h"
 
-namespace GUI
-{
-    CBreakMgr::CBreakMgr()
-    {
+namespace GUI {
+CBreakMgr::CBreakMgr() {}
+
+CBreakMgr::~CBreakMgr() {}
+
+void CBreakMgr::ShowBreakForm(bool bShow /* = true*/) {
+  if (frmBreak->GetIsShow()) {
+    return;
+  }
+  if (bShow) {
+    bLock = false;
+    bRnd = false;
+    ClearCommand();
+    btnForgeYes->SetIsEnabled(false);
+    btnForgeNo->SetIsEnabled(false);
+    frmBreak->Show();
+  } else {
+    if (!bLock) {
+      frmBreak->Hide();
     }
+  }
+}
 
-    CBreakMgr::~CBreakMgr()
-    {
+void CBreakMgr::CheckResult(short sRet, const char *num) {
+  bRnd = false;
+  bLock = false;
+  proBreak->Start(0);
+  labUsrInput->SetCaption(num);
+  if (sRet < 0) {
+    btnForgeYes->SetIsEnabled(true);
+    btnForgeNo->SetIsEnabled(true);
+    return;
+  }
+
+  ClearCommand(true);
+  CItemCommand *pItemCommand = NULL;
+  for (int i = 0; i < BREAK_COUNT; i++) {
+    pItemCommand = NULL;
+    if (NO_USE != iBreakPos[i]) {
+      pItemCommand = dynamic_cast<CItemCommand *>(
+          g_stUIEquip.GetGoodsGrid()->GetItem(iBreakPos[i]));
+      if (pItemCommand) {
+        if (3 == i) {
+          if ((pItemCommand->GetItemInfo()->lID >= 2625) &&
+              (pItemCommand->GetItemInfo()->lID <= 2639)) {
+            PushItem(i, *pItemCommand, true);
+          }
+        } else if (2 == i) {
+          switch (pItemCommand->GetItemInfo()->sType) {
+          case 1:  //  å‰‘
+          case 2:  //  å·¨å‰‘
+          case 3:  //  å¼“
+          case 4:  //  ç«æª
+          case 7:  //  åŒ•é¦–
+          case 9:  //  æ³•æ–
+          case 11: //  ç›¾ç‰Œ
+          case 20: //  å¸½å­
+          case 22: //  è¡£æœ
+          case 23: //  æ‰‹å¥—
+          case 24: //  é‹å­
+          case 27: //  çº¹èº«
+          {
+            PushItem(i, *pItemCommand, true);
+          } break;
+          default: {
+          } break;
+          }
+        } else {
+          PushItem(i, *pItemCommand, true);
+        }
+      } else {
+        iBreakPos[i] = NO_USE;
+      }
     }
+  }
+  btnForgeYes->SetIsEnabled(true);
+  btnForgeNo->SetIsEnabled(true);
+}
 
-    void CBreakMgr::ShowBreakForm(bool bShow/* = true*/)
-    {
-        if(frmBreak->GetIsShow())
-        {
-            return;
-        }
-        if(bShow)
-        {
-            bLock = false;
-            bRnd = false;
-            ClearCommand();
-            btnForgeYes->SetIsEnabled(false);
-            btnForgeNo->SetIsEnabled(false);
-            frmBreak->Show();
-        }
-        else
-        {
-            if(!bLock)
-            {
-                frmBreak->Hide();
-            }
-        }
+void CBreakMgr::StartTime(short time, const char *num) {
+  if (!time) {
+    bLock = false;
+    btnForgeYes->SetIsEnabled(true);
+    btnForgeNo->SetIsEnabled(true);
+    return;
+  }
+  sTime = time * 1000;
+  proBreak->SetRange(0.0f, (float)sTime);
+  labNumInput->SetCaption(num);
+  proBreak->Start(sTime);
+  bRnd = true;
+}
+
+int CBreakMgr::GetComIndex(COneCommand *oneCommand) {
+  for (int i = 0; i < BREAK_COUNT; i++) {
+    if (cmdBreak[i] == oneCommand)
+      return i;
+  }
+  return -1;
+}
+
+void CBreakMgr::DragToEquipGrid(int index) { PopItem(index); }
+
+bool CBreakMgr::Init() {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+
+  frmBreak = mgr.Find("frmBreak");
+  if (!frmBreak) {
+    LG("gui", "frmBreak not found.\n");
+    return false;
+  }
+
+  labNumInput = dynamic_cast<CLabelEx *>(frmBreak->Find("labNumOutputLeft"));
+  if (!labNumInput) {
+    LG("gui", "frmCompose::labNumOutputLeft not found.\n");
+    return false;
+  }
+
+  labUsrInput = dynamic_cast<CLabelEx *>(frmBreak->Find("labNumOutputRight"));
+  if (!labUsrInput) {
+    LG("gui", "frmCompose::labNumOutputRight not found.\n");
+    return false;
+  }
+
+  proBreak = dynamic_cast<CProgressBar *>(frmBreak->Find("proBreak"));
+  if (!proBreak) {
+    LG("gui", "frmBreak::proBreak not found.\n");
+    return false;
+  }
+  proBreak->evtTimeArrive = _ProTimeArriveEvt;
+
+  btnForgeYes = dynamic_cast<CTextButton *>(frmBreak->Find("btnForgeYes"));
+  if (!btnForgeYes) {
+    LG("gui", "frmBreak::btnForgeYes not found.\n");
+    return false;
+  }
+  btnForgeYes->SetIsEnabled(false);
+
+  btnForgeNo = dynamic_cast<CTextButton *>(frmBreak->Find("btnForgeNo"));
+  if (!btnForgeNo) {
+    LG("gui", "frmBreak::btnForgeNo not found.\n");
+    return false;
+  }
+  btnForgeNo->SetIsEnabled(false);
+
+  char buff[32] = {0};
+  for (int i = 0; i < BREAK_COUNT; i++) {
+    _snprintf_s(buff, _countof(buff), _TRUNCATE, "cmdItemBase%i", (i + 1));
+    cmdBreak[i] = dynamic_cast<COneCommand *>(frmBreak->Find(buff));
+    if (!cmdBreak[i]) {
+      LG("gui", "frmBreak::%s not found.\n", buff);
+      return false;
     }
+    iBreakPos[i] = NO_USE;
+  }
 
-    void CBreakMgr::CheckResult(short sRet, const char* num)
-    {
-        bRnd = false;
-        bLock = false;
-        proBreak->Start(0);
-        labUsrInput->SetCaption(num);
-        if(sRet < 0)
-        {
-            btnForgeYes->SetIsEnabled(true);
-            btnForgeNo->SetIsEnabled(true);
-            return;
-        }
+  cmdBreak[0]->evtBeforeAccept = _evtDragItemBase1;
+  cmdBreak[1]->evtBeforeAccept = _evtDragItemBase2;
+  cmdBreak[2]->evtBeforeAccept = _evtDragItemBase3;
+  cmdBreak[3]->evtBeforeAccept = _evtDragItemBase4;
 
-        ClearCommand(true);
-        CItemCommand* pItemCommand = NULL;
-        for(int i = 0; i < BREAK_COUNT; i++)
-        {
-            pItemCommand = NULL;
-            if(NO_USE != iBreakPos[i])
-            {
-                pItemCommand = dynamic_cast<CItemCommand*>(g_stUIEquip.GetGoodsGrid()->GetItem(iBreakPos[i]));
-                if(pItemCommand)
-                {
-                    if(3 == i)
-                    {
-                        if((pItemCommand->GetItemInfo()->lID >= 2625) && (pItemCommand->GetItemInfo()->lID <= 2639))
-                        {
-                            PushItem(i, *pItemCommand, true);
-                        }
-                    }
-                    else if(2 == i)
-                    {
-                        switch(pItemCommand->GetItemInfo()->sType)
-                        {
-                        case 1:     //  ½£
-                        case 2:     //  ¾Ş½£
-                        case 3:     //  ¹­
-                        case 4:     //  »ğÇ¹
-                        case 7:     //  Ø°Ê×
-                        case 9:     //  ·¨ÕÈ
-                        case 11:     //  ¶ÜÅÆ
-                        case 20:     //  Ã±×Ó
-                        case 22:     //  ÒÂ·ş
-                        case 23:     //  ÊÖÌ×
-                        case 24:     //  Ğ¬×Ó
-                        case 27:     //  ÎÆÉí
-                            {
-                                PushItem(i, *pItemCommand, true);
-                            }  break;
-                        default:
-                            {
-                            }   break;
-                        }
-                    }
-                    else
-                    {
-                        PushItem(i, *pItemCommand, true);
-                    }
-                }
-                else
-                {
-                    iBreakPos[i] = NO_USE;
-                }
-            }
-        }
-        btnForgeYes->SetIsEnabled(true);
-        btnForgeNo->SetIsEnabled(true);
+  frmBreak->evtClose = _evtCloseBreak;
+  frmBreak->evtEntrustMouseEvent = _evtbtnForgeYes;
+
+  srand(g_pGameApp->GetCurTick());
+  bRnd = false;
+  bLock = false;
+  return true;
+}
+
+void CBreakMgr::CloseForm() {}
+
+void CBreakMgr::ClearCommand(bool bRetry /* = false*/) {
+  if (bLock) {
+    return;
+  }
+  for (int i = 0; i < BREAK_COUNT; i++) {
+    PopItem(i, bRetry);
+  }
+  if (proBreak->IsRuning()) {
+    proBreak->Start(0);
+  }
+  proBreak->SetPosition(0.0f);
+}
+
+void CBreakMgr::PopItem(int iIndex, bool bRetry /* = false*/) {
+  //  æ˜¯å¦é”å®š
+  if (bLock) {
+    return;
+  }
+  // åˆ é™¤Cmdä¸­çš„Itemï¼Œè¯¥Itemä¼šåœ¨PushItem()ä¸­ç”±newç”Ÿæˆ
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdBreak[iIndex]->GetCommand());
+  if (!pItemCommand)
+    return;
+
+  cmdBreak[iIndex]->DelCommand(); // è¯¥å‡½æ•°å°†åˆ é™¤delete Item
+
+  // å°†Itemç›¸åº”çš„ç‰©å“æ æ¢å¤æˆå¯ç”¨
+  CCommandObj *pItem = g_stUIEquip.GetGoodsGrid()->GetItem(iBreakPos[iIndex]);
+  if (pItem) {
+    pItem->SetIsValid(true);
+  }
+
+  // è®°å½•Itemåœ¨ç‰©å“æ ä¸­çš„ä½ç½®
+  if (!bRetry) {
+    iBreakPos[iIndex] = NO_USE;
+  }
+}
+
+void CBreakMgr::PushItem(int iIndex, CItemCommand &rItem,
+                         bool bRetry /* = false*/) {
+  //  æ˜¯å¦é”å®š
+  if (bLock) {
+    return;
+  }
+  // åˆ¤æ–­é“å…·æ˜¯å¦å¯ä»¥æ‹–
+  if (!rItem.GetIsValid()) {
+    return;
+  }
+
+  // æŸ¥çœ‹åŸæ¥çš„Cmdä¸­æ˜¯å¦å·²ç»æœ‰Itemäº†ï¼Œå¦‚æœæœ‰åˆ™ç§»å‡º
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(cmdBreak[iIndex]->GetCommand());
+  if (pItemCommand) {
+    PopItem(iIndex);
+  }
+
+  // è®°å½•Itemåœ¨ç‰©å“æ ä¸­çš„ä½ç½®
+  if (!bRetry) {
+    iBreakPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
+  }
+
+  // å°†Itemç›¸åº”çš„ç‰©å“æ ç°è°ƒ
+  rItem.SetIsValid(false);
+
+  // å°†åˆ›å»ºçš„Itemæ”¾å…¥Cmdä¸­ï¼Œè¿™é‡Œç”¨newå°†ä¼šåœ¨PopItem()ä¸­åˆ é™¤
+  CItemCommand *pItemCmd = new CItemCommand(rItem);
+  pItemCmd->SetIsValid(true);
+  cmdBreak[iIndex]->AddCommand(pItemCmd);
+
+  SetBreakUI();
+}
+
+void CBreakMgr::SetBreakUI() {
+  btnForgeYes->SetIsEnabled(true);
+  btnForgeNo->SetIsEnabled(true);
+}
+
+void CBreakMgr::FrameMove(DWORD dwTime) {
+  if (bRnd) {
+    static char buff[16] = {0};
+    if (frmBreak && frmBreak->GetIsShow()) {
+      DWORD dwCurrTickCount = g_pGameApp->GetCurTick();
+
+      if (dwCurrTickCount - m_dwLastTickCount > ERNIE_SPEED) {
+        m_dwLastTickCount = dwCurrTickCount;
+
+        int rnd = (rand() % (99999 - 10000 + 1)) + 10000;
+        _snprintf_s(buff, _countof(buff), _TRUNCATE, "%i", rnd);
+        labUsrInput->SetCaption(buff);
+      }
     }
+  }
+}
 
-    void CBreakMgr::StartTime(short time, const char* num)
-    {
-        if(!time)
-        {
-            bLock = false;
-            btnForgeYes->SetIsEnabled(true);
-            btnForgeNo->SetIsEnabled(true);
-            return;
-        }
-        sTime = time * 1000;
-        proBreak->SetRange(0.0f, (float)sTime);
-        labNumInput->SetCaption(num);
-        proBreak->Start(sTime);
-        bRnd = true;
+void CBreakMgr::_evtbtnForgeYes(CCompent *pSender, int nMsgType, int x, int y,
+                                DWORD dwKey) {
+  string szName = pSender->GetName();
+  if (szName == "btnForgeYes") {
+    g_stUIBreak.btnForgeYes->SetIsEnabled(false);
+    // CS_LifeSkill(1, g_stUINpcTalk.GetNpcId());
+    CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT,
+             true);
+    g_stUIBreak.bLock = true;
+  } else if (szName == "btnForgeNo") {
+    if (g_stUIBreak.proBreak->IsRuning()) {
+      float pos = g_stUIBreak.proBreak->GetPosition();
+      g_stUIBreak.proBreak->Start(0);
+      g_stUIBreak.proBreak->SetPosition(pos);
+      CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT);
     }
+  }
+}
 
-    int CBreakMgr::GetComIndex(COneCommand* oneCommand)
-    {
-        for (int i =0; i < BREAK_COUNT; i++)
-        {
-		    if (cmdBreak[i] == oneCommand)
-			    return i;
-        }
-	    return -1;
-    }
+void CBreakMgr::_evtCloseBreak(CForm *pForm, bool &IsClose) {
+  if (g_stUIBreak.bLock) {
+    IsClose = true;
+    return;
+  }
+  g_stUIBreak.ClearCommand();
+  CS_UnlockCharacter();
+}
 
-    void CBreakMgr::DragToEquipGrid(int index)
-    {
-        PopItem(index);
-    }
+void CBreakMgr::_ProTimeArriveEvt(CGuiData *pSender) {
+  CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT);
+}
 
-    bool CBreakMgr::Init()
-    {
-        CFormMgr &mgr = CFormMgr::s_Mgr;
+void CBreakMgr::_evtDragItemBase1(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  //	Modify by alfred.shi
+  // if(pItemCommand->GetItemInfo()->sType != 59)
+  if ((pItemCommand->GetItemInfo()->lID != 6529 &&
+       pItemCommand->GetItemInfo()->lID != 6530 &&
+       pItemCommand->GetItemInfo()->lID != 6531)) {
+    return;
+  }
 
-        frmBreak = mgr.Find("frmBreak");
-        if(!frmBreak)
-        {
-            LG("gui", "frmBreak not found.\n");
-            return false;
-        }
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUIBreak.PushItem(0, *pItemCommand);
+}
 
-        labNumInput = dynamic_cast<CLabelEx*>(frmBreak->Find("labNumOutputLeft"));
-        if(!labNumInput)
-        {
-            LG("gui", "frmCompose::labNumOutputLeft not found.\n");
-            return false;
-        }
+void CBreakMgr::_evtDragItemBase2(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  if (pItemCommand->GetItemInfo()->lID != 1070) {
+    return;
+  }
 
-        labUsrInput = dynamic_cast<CLabelEx*>(frmBreak->Find("labNumOutputRight"));
-        if(!labUsrInput)
-        {
-            LG("gui", "frmCompose::labNumOutputRight not found.\n");
-            return false;
-        }
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUIBreak.PushItem(1, *pItemCommand);
+}
 
-        proBreak = dynamic_cast<CProgressBar*>(frmBreak->Find("proBreak"));
-        if(!proBreak)
-        {
-            LG("gui", "frmBreak::proBreak not found.\n");
-            return false;
-        }
-        proBreak->evtTimeArrive = _ProTimeArriveEvt;
+void CBreakMgr::_evtDragItemBase3(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  switch (pItemCommand->GetItemInfo()->sType) {
+  case 1:  //  å‰‘
+  case 2:  //  å·¨å‰‘
+  case 3:  //  å¼“
+  case 4:  //  ç«æª
+  case 7:  //  åŒ•é¦–
+  case 9:  //  æ³•æ–
+  case 11: //  ç›¾ç‰Œ
+  case 20: //  å¸½å­
+  case 22: //  è¡£æœ
+  case 23: //  æ‰‹å¥—
+  case 24: //  é‹å­
+  case 27: //  çº¹èº«
+  {
+  } break;
+  default: {
+    return;
+  } break;
+  }
 
-        btnForgeYes = dynamic_cast<CTextButton*>(frmBreak->Find("btnForgeYes"));
-        if(!btnForgeYes)
-        {
-            LG("gui", "frmBreak::btnForgeYes not found.\n");
-            return false;
-        }
-        btnForgeYes->SetIsEnabled(false);
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUIBreak.PushItem(2, *pItemCommand);
+}
 
-        btnForgeNo = dynamic_cast<CTextButton*>(frmBreak->Find("btnForgeNo"));
-        if(!btnForgeNo)
-        {
-            LG("gui", "frmBreak::btnForgeNo not found.\n");
-            return false;
-        }
-        btnForgeNo->SetIsEnabled(false);
+void CBreakMgr::_evtDragItemBase4(CGuiData *pSender, CCommandObj *pItem,
+                                  bool &isAccept) {
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || !pItemCommand->GetIsValid())
+    return;
+  if ((pItemCommand->GetItemInfo()->lID < 2625) ||
+      (pItemCommand->GetItemInfo()->lID > 2639)) {
+    return;
+  }
 
-        char buff[32] = {0};
-        for(int i = 0; i < BREAK_COUNT; i++)
-        {
-            _snprintf_s( buff, _countof( buff ), _TRUNCATE,  "cmdItemBase%i", (i+1));
-            cmdBreak[i] = dynamic_cast<COneCommand*>(frmBreak->Find(buff));
-            if(!cmdBreak[i])
-            {
-                LG("gui", "frmBreak::%s not found.\n", buff);
-                return false;
-            }
-            iBreakPos[i] = NO_USE;
-        }
-
-        cmdBreak[0]->evtBeforeAccept = _evtDragItemBase1;
-        cmdBreak[1]->evtBeforeAccept = _evtDragItemBase2;
-        cmdBreak[2]->evtBeforeAccept = _evtDragItemBase3;
-        cmdBreak[3]->evtBeforeAccept = _evtDragItemBase4;
-
-        frmBreak->evtClose = _evtCloseBreak;
-        frmBreak->evtEntrustMouseEvent = _evtbtnForgeYes;
-
-        srand(g_pGameApp->GetCurTick());
-        bRnd = false;
-        bLock = false;
-        return true;
-    }
-
-    void CBreakMgr::CloseForm()
-    {
-    }
-
-    void CBreakMgr::ClearCommand(bool bRetry/* = false*/)
-    {
-        if(bLock)
-        {
-            return;
-        }
-        for(int i = 0; i < BREAK_COUNT; i++)
-        {
-            PopItem(i, bRetry);
-        }
-        if(proBreak->IsRuning())
-        {
-            proBreak->Start(0);
-        }
-        proBreak->SetPosition(0.0f);
-    }
-
-    void CBreakMgr::PopItem(int iIndex, bool bRetry/* = false*/)
-    {
-        //  ÊÇ·ñËø¶¨
-        if(bLock)
-        {
-            return;
-        }
-        // É¾³ıCmdÖĞµÄItem£¬¸ÃItem»áÔÚPushItem()ÖĞÓÉnewÉú³É
-		CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(cmdBreak[iIndex]->GetCommand());
-		if (! pItemCommand)
-            return;
-
-		cmdBreak[iIndex]->DelCommand();	// ¸Ãº¯Êı½«É¾³ıdelete Item
-
-		// ½«ItemÏàÓ¦µÄÎïÆ·À¸»Ö¸´³É¿ÉÓÃ
-		CCommandObj* pItem = g_stUIEquip.GetGoodsGrid()->GetItem(iBreakPos[iIndex]);
-		if (pItem)
-		{
-			pItem->SetIsValid(true);
-		}
-
-		// ¼ÇÂ¼ItemÔÚÎïÆ·À¸ÖĞµÄÎ»ÖÃ
-        if(!bRetry)
-        {
-            iBreakPos[iIndex] = NO_USE;
-        }
-    }
-
-    void CBreakMgr::PushItem(int iIndex, CItemCommand& rItem, bool bRetry/* = false*/)
-    {
-        //  ÊÇ·ñËø¶¨
-        if(bLock)
-        {
-            return;
-        }
-        // ÅĞ¶ÏµÀ¾ßÊÇ·ñ¿ÉÒÔÍÏ
-		if(! rItem.GetIsValid())
-		{
-			return;
-		}
-
-		// ²é¿´Ô­À´µÄCmdÖĞÊÇ·ñÒÑ¾­ÓĞItemÁË£¬Èç¹ûÓĞÔòÒÆ³ö
-		CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(cmdBreak[iIndex]->GetCommand());
-		if (pItemCommand)
-		{
-			PopItem(iIndex);
-		}
-
-		// ¼ÇÂ¼ItemÔÚÎïÆ·À¸ÖĞµÄÎ»ÖÃ
-        if(!bRetry)
-        {
-            iBreakPos[iIndex] = g_stUIEquip.GetGoodsGrid()->GetDragIndex();
-        }
-
-		// ½«ItemÏàÓ¦µÄÎïÆ·À¸»Òµ÷
-		rItem.SetIsValid(false);
-
-		// ½«´´½¨µÄItem·ÅÈëCmdÖĞ£¬ÕâÀïÓÃnew½«»áÔÚPopItem()ÖĞÉ¾³ı
-		CItemCommand* pItemCmd = new CItemCommand(rItem);
-		pItemCmd->SetIsValid(true);
-		cmdBreak[iIndex]->AddCommand(pItemCmd);
-
-		SetBreakUI();
-    }
-
-    void CBreakMgr::SetBreakUI()
-    {
-        btnForgeYes->SetIsEnabled(true);
-        btnForgeNo->SetIsEnabled(true);
-    }
-
-    void CBreakMgr::FrameMove(DWORD dwTime)
-    {
-        if(bRnd)
-        {
-            static char buff[16] = {0};
-            if(frmBreak && frmBreak->GetIsShow())
-		    {
-			    DWORD dwCurrTickCount = g_pGameApp->GetCurTick();
-
-			    if(dwCurrTickCount - m_dwLastTickCount > ERNIE_SPEED)
-			    {
-				    m_dwLastTickCount = dwCurrTickCount;
-
-                    int rnd = (rand() % (99999 - 10000 + 1)) + 10000;
-                    _snprintf_s( buff, _countof( buff ), _TRUNCATE,  "%i", rnd);
-                    labUsrInput->SetCaption(buff);
-			    }
-		    }
-        }
-    }
-
-    void CBreakMgr::_evtbtnForgeYes(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-    {
-        string szName = pSender->GetName();
-        if(szName == "btnForgeYes")
-        {
-            g_stUIBreak.btnForgeYes->SetIsEnabled(false);
-            //CS_LifeSkill(1, g_stUINpcTalk.GetNpcId());
-            CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT, true);
-            g_stUIBreak.bLock = true;
-        }
-        else if(szName == "btnForgeNo")
-        {
-            if(g_stUIBreak.proBreak->IsRuning())
-            {
-                float pos = g_stUIBreak.proBreak->GetPosition();
-                g_stUIBreak.proBreak->Start(0);
-                g_stUIBreak.proBreak->SetPosition(pos);
-                CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT);
-            }
-        }
-    }
-
-    void CBreakMgr::_evtCloseBreak(CForm* pForm, bool& IsClose)
-    {
-        if(g_stUIBreak.bLock)
-        {
-            IsClose = true;
-            return;
-        }
-        g_stUIBreak.ClearCommand();
-        CS_UnlockCharacter();
-    }
-
-    void CBreakMgr::_ProTimeArriveEvt(CGuiData *pSender)
-    {
-        CS_Break(g_stUINpcTalk.GetNpcId(), g_stUIBreak.iBreakPos, BREAK_COUNT);
-    }
-
-    void CBreakMgr::_evtDragItemBase1(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-		//	Modify by alfred.shi 
-       // if(pItemCommand->GetItemInfo()->sType != 59)
-		if((pItemCommand->GetItemInfo()->lID != 6529&&pItemCommand->GetItemInfo()->lID != 6530
-			&&pItemCommand->GetItemInfo()->lID != 6531))
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUIBreak.PushItem(0, *pItemCommand);
-    }
-
-    void CBreakMgr::_evtDragItemBase2(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        if(pItemCommand->GetItemInfo()->lID != 1070)
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUIBreak.PushItem(1, *pItemCommand);
-    }
-
-    void CBreakMgr::_evtDragItemBase3(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        switch(pItemCommand->GetItemInfo()->sType)
-        {
-        case 1:     //  ½£
-        case 2:     //  ¾Ş½£
-        case 3:     //  ¹­
-        case 4:     //  »ğÇ¹
-        case 7:     //  Ø°Ê×
-        case 9:     //  ·¨ÕÈ
-        case 11:     //  ¶ÜÅÆ
-        case 20:     //  Ã±×Ó
-        case 22:     //  ÒÂ·ş
-        case 23:     //  ÊÖÌ×
-        case 24:     //  Ğ¬×Ó
-        case 27:     //  ÎÆÉí
-            {}  break;
-        default:
-            {
-                return;
-            }   break;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUIBreak.PushItem(2, *pItemCommand);
-    }
-
-    void CBreakMgr::_evtDragItemBase4(CGuiData *pSender,CCommandObj* pItem,bool& isAccept)
-    {
-        CItemCommand* pItemCommand =  dynamic_cast<CItemCommand*>(pItem);
-		if( !pItemCommand || !pItemCommand->GetIsValid())
-            return;
-        if((pItemCommand->GetItemInfo()->lID < 2625) || (pItemCommand->GetItemInfo()->lID > 2639))
-        {
-            return;
-        }
-
-        CGoodsGrid* pGood = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-        if( pGood != g_stUIEquip.GetGoodsGrid() )
-            return;
-        g_stUIBreak.PushItem(3, *pItemCommand);
-    }
-};
-
+  CGoodsGrid *pGood = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (pGood != g_stUIEquip.GetGoodsGrid())
+    return;
+  g_stUIBreak.PushItem(3, *pItemCommand);
+}
+}; // namespace GUI

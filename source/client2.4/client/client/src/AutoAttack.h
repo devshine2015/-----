@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:×Ô¶¯¹¥»÷
-// ×÷Õß:lh 2004-06-15
-// ÓÃÍ¾:ÓÃÓÚ´¬µ½´ï¹¥»÷Ê±¼ä×Ô¶¯¹¥»÷£¬²¢ÇÒ¾¡¿ÉÄÜ²»Ó°ÏìÍæ¼ÒµÄÒÆ¶¯
+// åç§°:è‡ªåŠ¨æ”»å‡»
+// ä½œè€…:lh 2004-06-15
+// ç”¨é€”:ç”¨äºèˆ¹åˆ°è¾¾æ”»å‡»æ—¶é—´è‡ªåŠ¨æ”»å‡»ï¼Œå¹¶ä¸”å°½å¯èƒ½ä¸å½±å“ç©å®¶çš„ç§»åŠ¨
 //----------------------------------------------------------------------
 
 #pragma once
@@ -23,12 +23,12 @@ public:
 	void			SetIsStart( bool v )	{ _IsStart=v;		}
 	bool			GetIsStart()			{ return _IsStart;	}
 
-	// ×Ô¶¯¹¥»÷
+	// è‡ªåŠ¨æ”»å‡»
 	bool			AttackStart( CCharacter* pMain, CSkillRecord* pSkill, CCharacter* pCha );
 	bool			AttackStart( CCharacter* pMain, CSkillRecord* pSkill, int nScrX, int nScrY );
 	bool			AttackMoveTo( int nScrX, int nScrY );
 
-	// ×Ô¶¯¸úËæ
+	// è‡ªåŠ¨è·Ÿéš
 	bool			Follow( CCharacter* pMain, CCharacter* pTarget );
 
 private:

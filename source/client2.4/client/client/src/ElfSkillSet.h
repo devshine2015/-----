@@ -12,8 +12,8 @@ public:
 		nIndex = 0;
     }
 
-	int		nIndex;		// ÄÜÁ¦±àºÅ
-	int		nTypeID;	// ÄÜÁ¦ÀàĞÍ
+	int		nIndex;		// èƒ½åŠ›ç¼–å·
+	int		nTypeID;	// èƒ½åŠ›ç±»å‹
 };
 
 
@@ -30,7 +30,7 @@ public:
 	}
 
 protected:
-	static CElfSkillSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CElfSkillSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

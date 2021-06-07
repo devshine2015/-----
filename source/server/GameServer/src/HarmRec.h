@@ -1,6 +1,6 @@
 #pragma once
 
-// ³ğºŞ¶ÈÏµÍ³ - ÉËº¦Öµ¹ÜÀí
+// ä»‡æ¨åº¦ç³»ç»Ÿ - ä¼¤å®³å€¼ç®¡ç†
 class CCharacter;
 
 #define MAX_HARM_REC    5
@@ -9,21 +9,21 @@ class CCharacter;
 
 extern BOOL g_bLogHarmRec;
 
-struct SHarmRec // ÉËº¦¼ÇÂ¼
+struct SHarmRec // ä¼¤å®³è®°å½•
 {
-	CCharacter *pAtk;		// ¹¥»÷ÕßÖ¸Õë
-	DWORD		sHarm;		// ÀÛ¼ÓÉËº¦Öµ
-	DWORD       sHate;      // ³ğºŞ¶È
-	BYTE		btValid;	// ÊÇ·ñÓĞĞ§
+	CCharacter *pAtk;		// æ”»å‡»è€…æŒ‡é’ˆ
+	DWORD		sHarm;		// ç´¯åŠ ä¼¤å®³å€¼
+	DWORD       sHate;      // ä»‡æ¨åº¦
+	BYTE		btValid;	// æ˜¯å¦æœ‰æ•ˆ
 	DWORD		dwID;
-	DWORD		dwTime;		// µÚÒ»´Î¹¥»÷µÄÊ±¼ä
+	DWORD		dwTime;		// ç¬¬ä¸€æ¬¡æ”»å‡»çš„æ—¶é—´
 
 	SHarmRec(): pAtk(0), sHarm(0), sHate(0), btValid(0), dwID(0), dwTime(0)
 	{
 	
 	}
 	
-	BOOL IsChaValid() // ·µ»ØÒ»¸ö½ÇÉ«ÊÇ·ñ»¹ÓĞĞ§
+	BOOL IsChaValid() // è¿”å›ä¸€ä¸ªè§’è‰²æ˜¯å¦è¿˜æœ‰æ•ˆ
 	{
 		if(pAtk==NULL) return FALSE;
 		if(g_pGameApp->IsLiveingEntity(dwID, pAtk->GetHandle())==false)
@@ -76,7 +76,7 @@ inline CCharacter* CHateMgr::GetCurTarget()
 
 inline void CHateMgr::ClearHarmRec()
 {
-	// ÒÑÓĞ½ÇÉ«ÀÛ¼ÓÉËº¦
+	// å·²æœ‰è§’è‰²ç´¯åŠ ä¼¤å®³
 	for(int i = 0; i < MAX_HARM_REC; i++)
 	{
 		SHarmRec *pHarm = &_HarmRec[i];
@@ -111,31 +111,31 @@ inline void CHateMgr::AddHarm(CCharacter *pAtk, short sHarm, DWORD dwID)
 {
 	if(g_bLogHarmRec)
 	{
-		//LG("harm", "¿ªÊ¼Ìí¼ÓÉËº¦, ¹¥»÷Õß[%s], ÉËº¦%d\n", pAtk->GetName(), sHarm);
+		//LG("harm", "å¼€å§‹æ·»åŠ ä¼¤å®³, æ”»å‡»è€…[%s], ä¼¤å®³%d\n", pAtk->GetName(), sHarm);
 		LG("harm", "begin to add harm, attacker[%s], harm%d\n", pAtk->GetName(), sHarm);
 	}
-	// ÒÑÓĞ½ÇÉ«ÀÛ¼ÓÉËº¦
+	// å·²æœ‰è§’è‰²ç´¯åŠ ä¼¤å®³
 	for(int i = 0; i < MAX_HARM_REC; i++)
 	{
 		SHarmRec *pHarm = &_HarmRec[i];
 		if(pHarm->pAtk==pAtk && pHarm->pAtk->GetID()==dwID)
 		{
 			pHarm->sHarm+=sHarm;
-			pHarm->sHate+=sHarm; // ÆÕÍ¨ÉËº¦Ê±, ÉËº¦ºÍ³ğºŞÍ¬²½Ôö¼Ó
+			pHarm->sHate+=sHarm; // æ™®é€šä¼¤å®³æ—¶, ä¼¤å®³å’Œä»‡æ¨åŒæ­¥å¢åŠ 
 			if(pHarm->btValid < MAX_VALID_CNT)
 			{
 				pHarm->btValid++;
 				if(g_bLogHarmRec)
 				{
-					//LG("harm", "¹¥»÷Õß[%s], ÀÛ¼ÆÉËº¦=%d£¬valid=%d\n", pAtk->GetName(), pHarm->sHarm, pHarm->btValid);
-					LG("harm", "attacker[%s], accunulative harm=%d£¬valid=%d\n", pAtk->GetName(), pHarm->sHarm, pHarm->btValid);
+					//LG("harm", "æ”»å‡»è€…[%s], ç´¯è®¡ä¼¤å®³=%dï¼Œvalid=%d\n", pAtk->GetName(), pHarm->sHarm, pHarm->btValid);
+					LG("harm", "attacker[%s], accunulative harm=%dï¼Œvalid=%d\n", pAtk->GetName(), pHarm->sHarm, pHarm->btValid);
 				}
 			}
 			return;
 		}
 	}
 
-	// Ìí¼ÓĞÂµÄÉËº¦
+	// æ·»åŠ æ–°çš„ä¼¤å®³
 	for(int i = 0; i < MAX_HARM_REC; i++)
 	{
 		SHarmRec *pHarm = &_HarmRec[i];
@@ -149,7 +149,7 @@ inline void CHateMgr::AddHarm(CCharacter *pAtk, short sHarm, DWORD dwID)
 			pHarm->dwTime  = g_pGameApp->m_dwRunCnt;
 			if(g_bLogHarmRec)
 			{
-				//LG("harm", "Ìí¼ÓĞÂµÄ¹¥»÷Õß[%s], ÉËº¦ = %d\n", pAtk->GetName(), pHarm->sHarm);
+				//LG("harm", "æ·»åŠ æ–°çš„æ”»å‡»è€…[%s], ä¼¤å®³ = %d\n", pAtk->GetName(), pHarm->sHarm);
 				LG("harm", "add new attacker[%s], harm = %d\n", pAtk->GetName(), pHarm->sHarm);
 			}
 			break;
@@ -157,7 +157,7 @@ inline void CHateMgr::AddHarm(CCharacter *pAtk, short sHarm, DWORD dwID)
 	}
 }
 
-// ½öÌí¼ÓÉËº¦¶ø²»Ìí¼Ó³ğºŞ
+// ä»…æ·»åŠ ä¼¤å®³è€Œä¸æ·»åŠ ä»‡æ¨
 inline void CHateMgr::AddHate(CCharacter *pAtk, short sHate, DWORD dwID)
 {
 	for(int i = 0; i < MAX_HARM_REC; i++)
@@ -192,7 +192,7 @@ inline void CHateMgr::AddHate(CCharacter *pAtk, short sHate, DWORD dwID)
 
 	if(sHate > 0)
 	{
-		// Ìí¼ÓĞÂµÄhate
+		// æ·»åŠ æ–°çš„hate
 		for(int i = 0; i < MAX_HARM_REC; i++)
 		{
 			SHarmRec *pHarm = &_HarmRec[i];
@@ -225,7 +225,7 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 {
 	DWORD dwCurTick = GetTickCount();
 	
-	// ÖØĞÂ¼ÇÂ¼ÓĞĞ§µÄHarmRec
+	// é‡æ–°è®°å½•æœ‰æ•ˆçš„HarmRec
 	int nValid = 0;
 	for(int i = 0; i < MAX_HARM_REC; i++)
 	{
@@ -237,7 +237,7 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 		}
 	}
 
-	// Ê£ÏÂµÄ¶¼Çå³ı, ±£Ö¤HarmRecÊÇ½ô´ÕµÄ, Ã»ÓĞ¿ÕÎ»
+	// å‰©ä¸‹çš„éƒ½æ¸…é™¤, ä¿è¯HarmRecæ˜¯ç´§å‡‘çš„, æ²¡æœ‰ç©ºä½
 	for(int j = nValid; j < MAX_HARM_REC; j++)
 	{
 		SHarmRec *pHarm = &_HarmRec[j];
@@ -249,7 +249,7 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 		pHarm->dwTime  = 0;
 	}
 	
-	// Ã¿ 2 ÃëÖÓ,ÅÅĞòÒ»´Î
+	// æ¯ 2 ç§’é’Ÿ,æ’åºä¸€æ¬¡
 	if((dwCurTick - _dwLastSortTick) > 2000)
 	{
 		_dwLastSortTick = dwCurTick;
@@ -261,7 +261,7 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 		}
 	}
 
-	// Ã¿ 5 ÃëÖÓ btValid - 1
+	// æ¯ 5 ç§’é’Ÿ btValid - 1
 	if((dwCurTick - _dwLastDecValid) > 5000)
 	{
 		_dwLastDecValid = dwCurTick;	
@@ -271,18 +271,18 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 			if(pHarm->btValid > 0)
 			{
 				pHarm->btValid--;
-				if(pHarm->btValid==0) // ÍüµôÁË
+				if(pHarm->btValid==0) // å¿˜æ‰äº†
 				{
-					pHarm->sHarm  = 0;		// ÉËº¦²»ÀÛ¼Æ
-					pHarm->sHate  = 0;		// ³ğºŞ²»ÀÛ¼Æ
-					pHarm->dwTime = 0;		// Ê±¼äÇå0
+					pHarm->sHarm  = 0;		// ä¼¤å®³ä¸ç´¯è®¡
+					pHarm->sHate  = 0;		// ä»‡æ¨ä¸ç´¯è®¡
+					pHarm->dwTime = 0;		// æ—¶é—´æ¸…0
 					pHarm->pAtk   = NULL;
 					pHarm->dwID   = 0;
 				}
 				if(g_bLogHarmRec)
 				{
-					//LG("harm", "¹¥»÷Õß[%s]µÄvalid--, valid = %d\n", pHarm->pAtk->GetName(), pHarm->btValid);
-					LG("harm", "attacker[%s]µÄvalid--, valid = %d\n", pHarm->pAtk->GetName(), pHarm->btValid);
+					//LG("harm", "æ”»å‡»è€…[%s]çš„valid--, valid = %d\n", pHarm->pAtk->GetName(), pHarm->btValid);
+					LG("harm", "attacker[%s]çš„valid--, valid = %d\n", pHarm->pAtk->GetName(), pHarm->btValid);
 				}
 			}
 		}
@@ -292,7 +292,7 @@ inline void CHateMgr::UpdateHarmRec(CCharacter *pSelf)
 inline void CHateMgr::DebugNotice(CCharacter *pSelf)
 {
 	string strNotice = pSelf->GetName();
-	//strNotice+="Ä¿±êÁĞ±í:";
+	//strNotice+="ç›®æ ‡åˆ—è¡¨:";
 	strNotice+=RES_STRING(GM_HARMREC_H_00001);
 	BOOL bSend = FALSE;
 	char szHate[64];

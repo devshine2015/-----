@@ -63,7 +63,7 @@ public:
 
 	bool		IsPlayer(void) {return bIsValid && (GetGate() ? true : false);}
 
-    virtual void OnLogoff() {} // Ìí¼ÓÕâ¸öplayerµÄÊı¾İ¿â´æÅÌ´úÂë
+    virtual void OnLogoff() {} // æ·»åŠ è¿™ä¸ªplayerçš„æ•°æ®åº“å­˜ç›˜ä»£ç 
 
 	bool		IsValid(void) {return bIsValid;}
     void        SetActLoginID(DWORD id){m_dwLoginID = id;}
@@ -94,7 +94,7 @@ public:
 	void		ClearTeamMember();
 	int			GetTeamMemberCnt()			{	return _nTeamMemberCnt;			} 
 	DWORD		GetTeamMemberDBID(int nNo)	{	return _Team[nNo].m_dwDBChaId;  }
-	DWORD		getTeamLeaderID()			{	return _dwTeamLeaderID;			}// Ã»ÓĞ¶ÓÎéµÄ·µ»Ø0
+	DWORD		getTeamLeaderID()			{	return _dwTeamLeaderID;			}// æ²¡æœ‰é˜Ÿä¼çš„è¿”å›0
 	CCharacter* GetTeamMemberCha(int nNo); 
 	void		NoticeTeamMemberData();
 	void		NoticeTeamLeaderID(void);
@@ -160,7 +160,7 @@ public:
 	CCharacter* GetMakingBoat() { return m_pMakingBoat; }
 	void		SetMakingBoat( CCharacter* pBoat ) { m_pMakingBoat = pBoat; }
 
-	// ´¬Ö»½¨ÔìºÍ¸ÄÔìµÈº¯Êı½Ó¿Ú
+	// èˆ¹åªå»ºé€ å’Œæ”¹é€ ç­‰å‡½æ•°æ¥å£
 	BYTE		GetNumBoat() { return m_byNumBoat; }
 	void		GetBerthBoat( USHORT sBerthID, BYTE& byNumBoat, BOAT_BERTH_DATA& Data );
 	void		GetAllBerthBoat( USHORT sBerthID, BYTE& byNumBoat, BOAT_BERTH_DATA& Data );
@@ -182,11 +182,11 @@ public:
 	BOOL		ClearBoat( DWORD dwBoatDBID );
 	void		RefreshBoatAttr(void);
 
-	// °ÚÌ¯ĞÅÏ¢½Ó¿Ú
+	// æ‘†æ‘Šä¿¡æ¯æ¥å£
 	mission::CStallData* GetStallData() { return m_pStallData; }
 	void		SetStallData( mission::CStallData* pData ) { m_pStallData = pData; }
 
-	// ´óµØÍ¼
+	// å¤§åœ°å›¾
 	//void		SetMapMask(const char *pMask) {m_CMapMask.InitMaskData(pMask);}
 	//const char*	GetMapMask() {return m_CMapMask.GetResultMask();}
 	//BYTE*		GetOneMapMask(const char *szMapName, long &lLen) {return m_CMapMask.GetMapMask(szMapName, lLen);}
@@ -203,7 +203,7 @@ public:
 	void		ResetMapMaskChange(void) {m_chMapMaskChange = 0;}
 	float		GetMapMaskOpenScale(const char *szMapName) {return m_CMapMask.GetMapMaskOpenScale(szMapName);}
 
-	// ÒøĞĞ
+	// é“¶è¡Œ
 	char		GetCurBankNum(void) {return m_chBankNum;}
 	bool		AddBankDBID(long lDBID) {if (m_chBankNum >= MAX_BANK_NUM) return false; m_lBankDBID[m_chBankNum] = lDBID; m_chBankNum++; return true;}
 	CKitbag*	GetBank(char chBankNO = 0) {if (chBankNO < 0 || chBankNO >= m_chBankNum) return 0; return m_CBank + chBankNO;}
@@ -231,7 +231,7 @@ public:
 	void		CheckChaItemFinalData(void);
 	bool		String2BankData(char chBankNO, std::string &strData);
 
-	//Ä¦¶¹ºÍ´ú±ÒÏà¹Ø²Ù×÷
+	//æ‘©è±†å’Œä»£å¸ç›¸å…³æ“ä½œ
 	long	GetMoBean() { return m_lMoBean; }
 	void	SetMoBean(long lMoBean) { m_lMoBean = lMoBean; }
 	long	GetRplMoney() { return m_lRplMoney; }
@@ -243,28 +243,28 @@ public:
 	void	SetGarnerWiner(short siswiner){m_sGarnerWiner = siswiner;}
 	uplayer     _Team[MAX_TEAM_MEMBER];
 
-	//Éú»î¼¼ÄÜ
+	//ç”Ÿæ´»æŠ€èƒ½
 	string & GetLifeSkillinfo(){return m_strLifeSkillinfo;}
-	dbc::Char	m_szGuildName[defGUILD_NAME_LEN];	//ËùÊô¹«»áÃû×Ö£¬¹«»áIDÊôĞÔÎª0Ê±±¾ÖµÎŞĞ§.
+	dbc::Char	m_szGuildName[defGUILD_NAME_LEN];	//æ‰€å±å…¬ä¼šåå­—ï¼Œå…¬ä¼šIDå±æ€§ä¸º0æ—¶æœ¬å€¼æ— æ•ˆ.
 	dbc::Char	m_szGuildMotto[defGUILD_MOTTO_LEN];
 	dbc::Char	m_szStallName[ROLE_MAXNUM_STALL_NUM];
-	bool		m_bIsGuildLeader;	//0-·Ç»á³¤;1-»á³¤
+	bool		m_bIsGuildLeader;	//0-éä¼šé•¿;1-ä¼šé•¿
 	struct
 	{
-		BitMaskStatus m_GuildState;	//¿Í»§½»»¥ÆÚ¼ä¹«»áÏà¹Ø×´Ì¬Î»ÆÁ±ÎÂë×Ö¶Î,Öµ²ÎÕÕ¶¨Òå:enum EGuildState
+		BitMaskStatus m_GuildState;	//å®¢æˆ·äº¤äº’æœŸé—´å…¬ä¼šç›¸å…³çŠ¶æ€ä½å±è”½ç å­—æ®µ,å€¼å‚ç…§å®šä¹‰:enum EGuildState
 
-		uLong m_GuildStatus;	//¹«»á×´Ì¬
-		char  m_cGuildType;		//¹«»á´´½¨ÆÚ¼äÒªÇóÍæ¼ÒÊäÈëÃû×ÖÊ±±£´æµÄÍæ¼ÒÏÈÇ°Ñ¡ÔñµÄÒª´´½¨µÄ¹«»áÀàĞÍ.
-		uLong m_lGuildID;		//Íæ¼ÒÉêÇë¹«»á³ÉÔ±ÆÚ¼äÒªÇóÍæ¼ÒÈ·ÈÏÊÇ·ñ¸²¸ÇÏÈÇ°µÄÉêÇëÊ±ÏÈÇ°Ñ¡ÔñµÄ¹«»áID.
-		uLong m_lTempGuildID;	//Íæ¼ÒÉêÇë¹«»áÁÙÊ±¼ÇÂ¼ĞÅÏ¢
-		dbc::Char m_szTempGuildName[defGUILD_NAME_LEN];	//Íæ¼ÒÉêÇë¹«»á³ÉÔ±ÆÚ¼äÒªÇóÍæ¼ÒÈ·ÈÏÊÇ·ñ¸²¸ÇÏÈÇ°µÄÉêÇëÊ±ÏÈÇ°Ñ¡ÔñµÄ¹«»áÃû×Ö.
+		uLong m_GuildStatus;	//å…¬ä¼šçŠ¶æ€
+		char  m_cGuildType;		//å…¬ä¼šåˆ›å»ºæœŸé—´è¦æ±‚ç©å®¶è¾“å…¥åå­—æ—¶ä¿å­˜çš„ç©å®¶å…ˆå‰é€‰æ‹©çš„è¦åˆ›å»ºçš„å…¬ä¼šç±»å‹.
+		uLong m_lGuildID;		//ç©å®¶ç”³è¯·å…¬ä¼šæˆå‘˜æœŸé—´è¦æ±‚ç©å®¶ç¡®è®¤æ˜¯å¦è¦†ç›–å…ˆå‰çš„ç”³è¯·æ—¶å…ˆå‰é€‰æ‹©çš„å…¬ä¼šID.
+		uLong m_lTempGuildID;	//ç©å®¶ç”³è¯·å…¬ä¼šä¸´æ—¶è®°å½•ä¿¡æ¯
+		dbc::Char m_szTempGuildName[defGUILD_NAME_LEN];	//ç©å®¶ç”³è¯·å…¬ä¼šæˆå‘˜æœŸé—´è¦æ±‚ç©å®¶ç¡®è®¤æ˜¯å¦è¦†ç›–å…ˆå‰çš„ç”³è¯·æ—¶å…ˆå‰é€‰æ‹©çš„å…¬ä¼šåå­—.
 	};
 protected:
 	int         _nTeamMemberCnt;
 	DWORD		_dwTeamLeaderID;
 
 private:
-	struct // ¶ÔÓ¦ÊµÌåÊı×éµÄË÷Òı£¨ÓÉCEntityAllocÀàÀ´ÅäÖÃ£©
+	struct // å¯¹åº”å®ä½“æ•°ç»„çš„ç´¢å¼•ï¼ˆç”±CEntityAllocç±»æ¥é…ç½®ï¼‰
 	{
 
 		dbc::Long	m_lID;
@@ -275,34 +275,34 @@ private:
 	bool	bIsValid;
 	char	m_szPassword[ROLE_MAXSIZE_PASSWORD2+1];
 
-	long	m_lMoBean;		//Ä¦¶¹ÊıÁ¿
-	long	m_lRplMoney;	//´ú±ÒÊıÁ¿
-	long	m_lVipID;		//VIPÀàĞÍ
+	long	m_lMoBean;		//æ‘©è±†æ•°é‡
+	long	m_lRplMoney;	//ä»£å¸æ•°é‡
+	long	m_lVipID;		//VIPç±»å‹
 
     DWORD       m_dwLoginID;    //  Account DB ID
-	DWORD		m_dwDBActId;	// Êı¾İ¿âÕË»§ID
-	dbc::Char	m_chGMLev;		// GMµÈ¼¶
+	DWORD		m_dwDBActId;	// æ•°æ®åº“è´¦æˆ·ID
+	dbc::Char	m_chGMLev;		// GMç­‰çº§
 	long		m_lMapMaskDBID;
-	dbc::Char	m_chActName[ACT_NAME_LEN];	// ÕËºÅÃû
-	CCharacter*	m_pCtrlCha;		// µ±Ç°¿ØÖÆ½ÇÉ«
+	dbc::Char	m_chActName[ACT_NAME_LEN];	// è´¦å·å
+	CCharacter*	m_pCtrlCha;		// å½“å‰æ§åˆ¶è§’è‰²
 
-	CCharacter* m_pMainCha;		// Ö÷Ìå½ÇÉ«
-	DWORD		m_dwLaunchID;	// ½ÇÉ«³öº£´¬Ö»ID
-	BYTE		m_byNumBoat;	// ´¬Ö»µÄÊıÁ¿
+	CCharacter* m_pMainCha;		// ä¸»ä½“è§’è‰²
+	DWORD		m_dwLaunchID;	// è§’è‰²å‡ºæµ·èˆ¹åªID
+	BYTE		m_byNumBoat;	// èˆ¹åªçš„æ•°é‡
 	CCharacter* m_Boat[MAX_CHAR_BOAT];
 
-	dbc::uLong	m_ulLoginCha[2];	// µÇÂ½½ÇÉ«£¨ÀàĞÍ£¬Êı¾İ¿âID.0 Ô­Ê¼½ÇÉ«£¬1 ´¬£©
+	dbc::uLong	m_ulLoginCha[2];	// ç™»é™†è§’è‰²ï¼ˆç±»å‹ï¼Œæ•°æ®åº“ID.0 åŸå§‹è§’è‰²ï¼Œ1 èˆ¹ï¼‰
 
-	// ÁÙÊ±Êı¾İ
+	// ä¸´æ—¶æ•°æ®
 	struct
 	{
-		USHORT		m_sBerthID;	// ³öº£´¬Ö»³öº£Êı¾İ´æ´¢
+		USHORT		m_sBerthID;	// å‡ºæµ·èˆ¹åªå‡ºæµ·æ•°æ®å­˜å‚¨
 		USHORT		m_sxPos;
 		USHORT		m_syPos;
 		USHORT		m_sDir;			
 	};
 
-	// ´óµØÍ¼
+	// å¤§åœ°å›¾
 	struct
 	{
 		long		m_lLightSize;
@@ -311,7 +311,7 @@ private:
 		char		m_chMapMaskChange;
 	};
 
-	// ÒøĞĞ
+	// é“¶è¡Œ
 	struct
 	{
 		CCharacter	*m_pCBankNpc;
@@ -321,21 +321,21 @@ private:
 		bool		m_bBankChange[MAX_BANK_NUM];
 	};
 
-	// ½¨ÔìµÄ´¬Ö»
+	// å»ºé€ çš„èˆ¹åª
 	CCharacter*		m_pMakingBoat;
 
-	// °ÚÌ¯ĞÅÏ¢
+	// æ‘†æ‘Šä¿¡æ¯
 	mission::CStallData* m_pStallData;
 
-	// ¶ÓÎéÌôÕ½
+	// é˜Ÿä¼æŒ‘æˆ˜
 	struct
 	{
-		dbc::Char	m_chChallengeType;		// ÌôÕ½ÀàĞÍ
-		dbc::Long	m_lChallengeParam[2 + MAX_TEAM_MEMBER * 2 * 2];	// ÌôÕ½µÄ¶ÔÏóĞÅÏ¢
-		CTimer		m_timerChallenge;		// ÌôÕ½ÑûÇë¼ÆÊ±Æ÷
+		dbc::Char	m_chChallengeType;		// æŒ‘æˆ˜ç±»å‹
+		dbc::Long	m_lChallengeParam[2 + MAX_TEAM_MEMBER * 2 * 2];	// æŒ‘æˆ˜çš„å¯¹è±¡ä¿¡æ¯
+		CTimer		m_timerChallenge;		// æŒ‘æˆ˜é‚€è¯·è®¡æ—¶å™¨
 	};
 
-	// µÀ¾ßĞŞÀí
+	// é“å…·ä¿®ç†
 	struct
 	{
 		bool		m_bInRepair;
@@ -346,7 +346,7 @@ private:
 		CCharacter*	m_pCRepairman;
 	};
 
-	// µÀ¾ß¾«Á¶/ºÏ³É
+	// é“å…·ç²¾ç‚¼/åˆæˆ
 	struct
 	{
 		bool		m_bInForge;
@@ -355,12 +355,12 @@ private:
 		CCharacter*	m_pCForgeman;
 	};
 
-	//²ÊÆ±ÉèÖÃ
+	//å½©ç¥¨è®¾ç½®
 	struct
 	{
 		CCharacter*	m_pCLotteryman;
 	};
-	//¾º¼¼³¡ÉèÖÃAdd by sunny.sun20080716
+	//ç«æŠ€åœºè®¾ç½®Add by sunny.sun20080716
 	struct
 	{
 		CCharacter * m_pCAmphitheaterman;

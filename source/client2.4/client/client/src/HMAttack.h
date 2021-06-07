@@ -3,16 +3,16 @@
 #include "Tools.h"
 #include "NetProtocol.h"
 
-enum eAttackEffectType   // ÌØĞ§ÏÔÊ¾·½Ê½
+enum eAttackEffectType   // ç‰¹æ•ˆæ˜¾ç¤ºæ–¹å¼
 {    
-	enumAddLife=0,		// "¼ÓÑª.tga";
-	enumSubLife,		// "¼õÑª.tga";
-	enumAddSp,			// "¼Ósp.tga";
-	enumSubSp,			// "¼õsp.tga";
-	enumAddLifeMonster,	// "¼ÓÑª¹ÖÊŞ.tga";
-	enumSubLifeMonster, // "¼õÑª¹ÖÊŞ.tga";
-	enumDoubleAttack,	// "±©.tga";
-	enumMiss,			// "¼õÑªMiss.tga";
+	enumAddLife=0,		// "åŠ è¡€.tga";
+	enumSubLife,		// "å‡è¡€.tga";
+	enumAddSp,			// "åŠ sp.tga";
+	enumSubSp,			// "å‡sp.tga";
+	enumAddLifeMonster,	// "åŠ è¡€æ€ªå…½.tga";
+	enumSubLifeMonster, // "å‡è¡€æ€ªå…½.tga";
+	enumDoubleAttack,	// "æš´.tga";
+	enumMiss,			// "å‡è¡€Miss.tga";
 };
 
 struct stEffect;
@@ -73,17 +73,17 @@ protected:
 protected:
 
 protected:
-	CAttackRepSynchro*	_pRepSynchro;	// ÓÃÓÚÖ´ĞĞÊ±Í¨Öª±íÏÖ°ü
-	CCharacter*     _pTarget;	// ±»¹¥»÷·½
-	CCharacter*     _pAttack;	// ¹¥»÷·½
+	CAttackRepSynchro*	_pRepSynchro;	// ç”¨äºæ‰§è¡Œæ—¶é€šçŸ¥è¡¨ç°åŒ…
+	CCharacter*     _pTarget;	// è¢«æ”»å‡»æ–¹
+	CCharacter*     _pAttack;	// æ”»å‡»æ–¹
     CSkillRecord*   _pSkill;
     
-    // ÉËº¦°ü
+    // ä¼¤å®³åŒ…
 	bool	_isDoubleAttack;
     bool    _IsMiss;
     bool	_isTargetDied;
-    bool    _isBeatBack;        // ÊÇ·ñ±»»÷ÍË
-    int     _nBeatX, _nBeatY;   // ±»»÷ÍËµ½µÄÎ»ÖÃ
+    bool    _isBeatBack;        // æ˜¯å¦è¢«å‡»é€€
+    int     _nBeatX, _nBeatY;   // è¢«å‡»é€€åˆ°çš„ä½ç½®
     CSizeArray<stEffect>		_HarmValue;
     CSizeArray<stSkillState>	_HarmState;
 
@@ -110,12 +110,12 @@ protected:
 	virtual void _Exec();
 
 private:
-	CAttackEffect*	_pAttackEffect;		// ÓÃÓÚÉ¾³ıÊ±Í¨ÖªÊÜ»÷°ü
-	CCharacter*     _pTarget;			// ±»¹¥»÷·½
-	CCharacter*     _pAttack;			// ¹¥»÷·½
+	CAttackEffect*	_pAttackEffect;		// ç”¨äºåˆ é™¤æ—¶é€šçŸ¥å—å‡»åŒ…
+	CCharacter*     _pTarget;			// è¢«æ”»å‡»æ–¹
+	CCharacter*     _pAttack;			// æ”»å‡»æ–¹
     CSkillRecord*   _pSkill;
 
-    // ±íÏÖ°ü
+    // è¡¨ç°åŒ…
     bool    _IsAttackDied;
     CSizeArray<stSkillState>	_RepState;
     CSizeArray<stEffect>		_RepValue;
@@ -172,7 +172,7 @@ private:
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CAttackRepSynchro::SetAttackEffect( CAttackEffect* p )					
 { 
 	_pAttackEffect = p;

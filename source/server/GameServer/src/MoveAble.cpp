@@ -66,7 +66,7 @@ T_E}
 void CMoveAble::WritePK(WPACKET& wpk)
 {T_B
 	CFightAble::WritePK(wpk);
-	//ToDo:Ğ´Èë×Ô¼ºµÄÊı¾İ
+	//ToDo:å†™å…¥è‡ªå·±çš„æ•°æ®
 
 T_E}
 
@@ -135,7 +135,7 @@ T_E}
 //	}
 //
 //	bool	bIs45Dir = false;
-//	// ÒòÎªÇøÓòÊôĞÔ
+//	// å› ä¸ºåŒºåŸŸå±æ€§
 //	if (xdist == ydist)
 //	{
 //		Short	sModelX = Short(SPos.x % sUnitWidth);
@@ -277,7 +277,7 @@ bool CMoveAble::AreaOverlap(long &xdist, long &ydist)
 	}
 
 	bool	bIs45Dir = false;
-	// ÒòÎªÇøÓòÊôĞÔ
+	// å› ä¸ºåŒºåŸŸå±æ€§
 	if (xdist == ydist)
 	{
 		Short	sModelX = Short(SPos.x % sUnitWidth);
@@ -388,8 +388,8 @@ bool CMoveAble::DesireMoveBegin(SMoveInit *pSMoveInit)
 
 	if (ulNowTick >= m_SMoveRedu.ulStartTick)
 	{
-		//m_CLog.Log("ÇëÇóÒÆ¶¯\tµ±Ç°Ê±¿Ì %u£¬Ê£ÓàÊ±¼ä %u£¬ÏûÊÅÊ±¿Ì %u£¬ÏûÊÅÊ±¼ä %u¡£\n", ulNowTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulNowTick - m_SMoveRedu.ulStartTick);
-		m_CLog.Log("request move\t currently time %u£¬remain time %u£¬passes time %u£¬passes time %u¡£\n", ulNowTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulNowTick - m_SMoveRedu.ulStartTick);
+		//m_CLog.Log("è¯·æ±‚ç§»åŠ¨\tå½“å‰æ—¶åˆ» %uï¼Œå‰©ä½™æ—¶é—´ %uï¼Œæ¶ˆé€æ—¶åˆ» %uï¼Œæ¶ˆé€æ—¶é—´ %uã€‚\n", ulNowTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulNowTick - m_SMoveRedu.ulStartTick);
+		m_CLog.Log("request move\t currently time %uï¼Œremain time %uï¼Œpasses time %uï¼Œpasses time %uã€‚\n", ulNowTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulNowTick - m_SMoveRedu.ulStartTick);
 		SetExistState(enumEXISTS_MOVING);
 		if (ulNowTick - m_SMoveRedu.ulStartTick >= m_SMoveRedu.ulLeftTime)
 		{
@@ -408,7 +408,7 @@ bool CMoveAble::DesireMoveBegin(SMoveInit *pSMoveInit)
 			memcpy(&m_SMoveInitCache, pSMoveInit, sizeof(SMoveInit));
 			OnMoveBegin();
 			m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
-			//m_CLog.Log("DesireMoveBegin »º´æÒÆ¶¯ÇëÇó\tLeftTime: %u\tPing: %u\n\n",
+			//m_CLog.Log("DesireMoveBegin ç¼“å­˜ç§»åŠ¨è¯·æ±‚\tLeftTime: %u\tPing: %u\n\n",
 				//m_SMoveRedu.ulLeftTime - (ulNowTick - m_SMoveRedu.ulStartTick), m_SMoveInit.usPing);
 			m_CLog.Log("DesireMoveBegin memory move request\tLeftTime: %u\tPing: %u\n\n",
 				m_SMoveRedu.ulLeftTime - (ulNowTick - m_SMoveRedu.ulStartTick), m_SMoveInit.usPing);
@@ -416,7 +416,7 @@ bool CMoveAble::DesireMoveBegin(SMoveInit *pSMoveInit)
 	}
 	else
 	{
-		//m_CLog.Log("Move Redundance Start Tick:%u, ÕâÖÖÇé¿ö²»Ó¦¸Ã³öÏÖ\n", m_SMoveRedu.ulStartTick);
+		//m_CLog.Log("Move Redundance Start Tick:%u, è¿™ç§æƒ…å†µä¸åº”è¯¥å‡ºç°\n", m_SMoveRedu.ulStartTick);
 		m_CLog.Log("Move Redundance Start Tick:%u, this state should not appearance\n", m_SMoveRedu.ulStartTick);
 		return false;
 	}
@@ -427,7 +427,7 @@ T_E}
 void CMoveAble::BeginMove(uLong ulElapse)
 {T_B
 	if (GetPos() != m_SMoveInit.SInflexionInfo.SList[0]
-	&& IsCharacter()->IsRangePoint2(m_SMoveInit.SInflexionInfo.SList[0], 25 * 25 * 2)) // ¿Í»§¶Ë»á°Ñµ±Ç°Î»ÖÃµ÷Õûµ½µ¥ÔªÖĞµã
+	&& IsCharacter()->IsRangePoint2(m_SMoveInit.SInflexionInfo.SList[0], 25 * 25 * 2)) // å®¢æˆ·ç«¯ä¼šæŠŠå½“å‰ä½ç½®è°ƒæ•´åˆ°å•å…ƒä¸­ç‚¹
 	{
 		if (m_SMoveInit.SInflexionInfo.sNum < defMOVE_INFLEXION_NUM)
 		{
@@ -458,9 +458,9 @@ void CMoveAble::BeginMove(uLong ulElapse)
 
 	Square	STarShape = {{0, 0}, 0};
 	uLong	ulDistXY2 = 0;
-	if (m_SMoveInit.STargetInfo.chType > 0) // ĞèÒªÄ¿±êÅĞ¶Ï
+	if (m_SMoveInit.STargetInfo.chType > 0) // éœ€è¦ç›®æ ‡åˆ¤æ–­
 	{
-		if (!GetMoveTargetShape(&STarShape)) // Ä¿±ê²»´æÔÚ
+		if (!GetMoveTargetShape(&STarShape)) // ç›®æ ‡ä¸å­˜åœ¨
 		{
 			m_SMoveInit.STargetInfo.chType = 0;
 			m_SMoveProc.chRequestState = 0;
@@ -494,7 +494,7 @@ void CMoveAble::BeginMove(uLong ulElapse)
 		return;
 	}
 
-	if (m_CChaAttr.GetAttr(ATTR_MSPD) == 0) // ²»ÄÜÒÆ¶¯
+	if (m_CChaAttr.GetAttr(ATTR_MSPD) == 0) // ä¸èƒ½ç§»åŠ¨
 	{
 		m_SMoveProc.sState |= enumMSTATE_CANTMOVE;
 
@@ -554,13 +554,13 @@ void CMoveAble::OnMove(uLong dwCurTime)
 
 	if (!IsCharacter()->GetActControl(enumACTCONTROL_MOVE) && m_SMoveProc.sState == enumMSTATE_ON)
 	{
-		//m_CLog.Log("²»ºÏ·¨µÄÒÆ¶¯¶¯ÇëÇó£¨´æÔÚ²»ÄÜÒÆ¶¯µÄ×´Ì¬£©[PacketID: %u]\n", m_ulPacketID);
-		m_CLog.Log("irregular move request£¨exist didn't move state£©[PacketID: %u]\n", m_ulPacketID);
+		//m_CLog.Log("ä¸åˆæ³•çš„ç§»åŠ¨åŠ¨è¯·æ±‚ï¼ˆå­˜åœ¨ä¸èƒ½ç§»åŠ¨çš„çŠ¶æ€ï¼‰[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("irregular move requestï¼ˆexist didn't move stateï¼‰[PacketID: %u]\n", m_ulPacketID);
 		EndMove();
 	}
 
-	if (m_SMoveProc.chRequestState == 1 // ÖÕ¶ËÒªÇóÍ£Ö¹£¬ÔòÔ¼¶¨½áÊøµã
-			&& m_SMoveProc.chLagMove == 0 // ´æÔÚ»º´æÒÆ¶¯Ê±£¬Ó¦ÖÁÉÙÖ´ĞĞÒ»´Î£¨ÒòÎªÖÕ¶ËÒÑ¾­Ö´ĞĞÁËÒ»´ÎÔ¤ÒÆ¶¯£©
+	if (m_SMoveProc.chRequestState == 1 // ç»ˆç«¯è¦æ±‚åœæ­¢ï¼Œåˆ™çº¦å®šç»“æŸç‚¹
+			&& m_SMoveProc.chLagMove == 0 // å­˜åœ¨ç¼“å­˜ç§»åŠ¨æ—¶ï¼Œåº”è‡³å°‘æ‰§è¡Œä¸€æ¬¡ï¼ˆå› ä¸ºç»ˆç«¯å·²ç»æ‰§è¡Œäº†ä¸€æ¬¡é¢„ç§»åŠ¨ï¼‰
 			)
 	{
 		ulAttemptDist = ulWillElapse * (long)m_CChaAttr.GetAttr(ATTR_MSPD) / 1000;
@@ -581,16 +581,16 @@ void CMoveAble::OnMove(uLong dwCurTime)
 		m_SMoveProc.chRequestState = 0;
 		m_SMoveProc.sState |= enumMSTATE_CANCEL;
 
-		m_SMoveProc.chLagMove = 0; //Çå³ı»º´æµÄÒÆ¶¯¡£
+		m_SMoveProc.chLagMove = 0; //æ¸…é™¤ç¼“å­˜çš„ç§»åŠ¨ã€‚
 
 		NotiMovToEyeshot();
 		SubsequenceMove();
 	}
 
 	Square	STarShape = {{0, 0}, 0};
-	if (m_SMoveInit.STargetInfo.chType > 0) // ĞèÒªÄ¿±êÅĞ¶Ï
+	if (m_SMoveInit.STargetInfo.chType > 0) // éœ€è¦ç›®æ ‡åˆ¤æ–­
 	{
-		if (!GetMoveTargetShape(&STarShape)) // Ä¿±ê²»´æÔÚ
+		if (!GetMoveTargetShape(&STarShape)) // ç›®æ ‡ä¸å­˜åœ¨
 		{
 			m_SMoveProc.chRequestState = 0;
 			m_SMoveProc.sState |= enumMSTATE_NOTARGET;
@@ -611,13 +611,13 @@ void CMoveAble::OnMove(uLong dwCurTime)
 
 	if (m_SMoveProc.chLagMove == 1 && m_SMoveProc.sState != enumMSTATE_ON)
 	{
-		//LG("ÒÆ¶¯²âÊÔ", "ÇëÇóÒÆ¶¯\t¿ªÊ¼Ê±¿Ì %u£¬Ê£ÓàÊ±¼ä %u£¬ÏûÊÅÊ±¼ä %u¡£\n", ulNowTick, m_SMoveRedu.ulLeftTime, ulNowTick - m_SMoveRedu.ulStartTick);
-		//m_CLog.Log("Ö´ĞĞ»º´æÒÆ¶¯\tµ±Ç°Ê±¿Ì %u£¬Ê£ÓàÊ±¼ä %u£¬ÏûÊÅÊ±¿Ì %u£¬ÏûÊÅÊ±¼ä %u¡£\n", ulCurTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulCurTick - m_SMoveRedu.ulStartTick);
-		m_CLog.Log("execute memory move\t currently time %u£¬remain time %u£¬passes time %u£¬passes time %u¡£\n", ulCurTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulCurTick - m_SMoveRedu.ulStartTick);
+		//LG("ç§»åŠ¨æµ‹è¯•", "è¯·æ±‚ç§»åŠ¨\tå¼€å§‹æ—¶åˆ» %uï¼Œå‰©ä½™æ—¶é—´ %uï¼Œæ¶ˆé€æ—¶é—´ %uã€‚\n", ulNowTick, m_SMoveRedu.ulLeftTime, ulNowTick - m_SMoveRedu.ulStartTick);
+		//m_CLog.Log("æ‰§è¡Œç¼“å­˜ç§»åŠ¨\tå½“å‰æ—¶åˆ» %uï¼Œå‰©ä½™æ—¶é—´ %uï¼Œæ¶ˆé€æ—¶åˆ» %uï¼Œæ¶ˆé€æ—¶é—´ %uã€‚\n", ulCurTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulCurTick - m_SMoveRedu.ulStartTick);
+		m_CLog.Log("execute memory move\t currently time %uï¼Œremain time %uï¼Œpasses time %uï¼Œpasses time %uã€‚\n", ulCurTick, m_SMoveRedu.ulLeftTime, m_SMoveRedu.ulStartTick, ulCurTick - m_SMoveRedu.ulStartTick);
 		Long	lBal = Long(ulCurTick - m_SMoveRedu.ulStartTick) - (Long)m_SMoveRedu.ulLeftTime;
 		if (ulCurTick > m_SMoveRedu.ulStartTick && lBal >= 0)
 		{
-			//m_CLog.Log("Ö´ĞĞ»º´æµÄÒÆ¶¯ÇëÇó[Packet: %u]\n", m_ulPacketID);
+			//m_CLog.Log("æ‰§è¡Œç¼“å­˜çš„ç§»åŠ¨è¯·æ±‚[Packet: %u]\n", m_ulPacketID);
 			m_CLog.Log("execute memory move request[Packet: %u]\n", m_ulPacketID);
 
 			m_SMoveProc.chLagMove = 0;
@@ -646,7 +646,7 @@ void CMoveAble::OnMove(uLong dwCurTime)
 		}
 	}
 
-	if (bAttemptMove) // ²úÉúÁËÒÆ¶¯
+	if (bAttemptMove) // äº§ç”Ÿäº†ç§»åŠ¨
 	{
 		NotiMovToEyeshot();
 		if (m_SMoveProc.sState != enumMSTATE_ON)
@@ -665,18 +665,18 @@ void CMoveAble::OnMove(uLong dwCurTime)
 	if (m_SMoveProc.sState != enumMSTATE_ON && m_SMoveProc.chLagMove == 0)
 	{
 		OnMoveEnd();
-		//m_CLog.Log("Í£Ö¹Ö´ĞĞOnMove[State:%d]\n", m_SMoveProc.sState);
+		//m_CLog.Log("åœæ­¢æ‰§è¡ŒOnMove[State:%d]\n", m_SMoveProc.sState);
 		m_CLog.Log("cease execute OnMove[State:%d]\n", m_SMoveProc.sState);
 	}
 
 	if (bAttemptMove)
-		AfterStepMove(); // ´¦ÀíÒÀ¿¿µ¥²½Î»ÖÃµÄÊÂ¼ş£¬ÈçµØÍ¼ÇĞ»»
+		AfterStepMove(); // å¤„ç†ä¾é å•æ­¥ä½ç½®çš„äº‹ä»¶ï¼Œå¦‚åœ°å›¾åˆ‡æ¢
 
 T_E}
 
 //=============================================================================
-// ¹¦ÄÜ£ºÒÆ¶¯distanceµÄÂ·³Ì¡£
-// ·µ»ØÖµÍ¬SMoveProc.sState
+// åŠŸèƒ½ï¼šç§»åŠ¨distanceçš„è·¯ç¨‹ã€‚
+// è¿”å›å€¼åŒSMoveProc.sState
 //=============================================================================
 Char CMoveAble::AttemptMove(double dPreMoveDist, bool bNotiInflexion)
 {T_B
@@ -700,7 +700,7 @@ Char CMoveAble::AttemptMove(double dPreMoveDist, bool bNotiInflexion)
 	dCurStep = dLeftDist;
 	Square	SReqShape = {{0, 0}, 0};
 	Long	lReqDist = 0;
-	if (m_SMoveInit.STargetInfo.chType > 0) // ĞèÒª¾àÀëÅĞ¶Ï
+	if (m_SMoveInit.STargetInfo.chType > 0) // éœ€è¦è·ç¦»åˆ¤æ–­
 	{
 		dCurStep = csStep;
 
@@ -726,25 +726,25 @@ Char CMoveAble::AttemptMove(double dPreMoveDist, bool bNotiInflexion)
 		lDistY2 = (SSrc.y - GetPos().y) * (SSrc.y - GetPos().y);
 		lMoveDist += (Long)sqrt((double)lDistX2 + lDistY2);
 		SPos = GetShape().centre;
-		if (m_SMoveInit.STargetInfo.chType > 0) // ĞèÒª¾àÀëÅĞ¶Ï
+		if (m_SMoveInit.STargetInfo.chType > 0) // éœ€è¦è·ç¦»åˆ¤æ–­
 		{
 			long	lDistX2 = (SPos.x - SReqShape.centre.x)
 				* (SPos.x - SReqShape.centre.x);
 			long	lDistY2 = (SPos.y - SReqShape.centre.y)
 				* (SPos.y - SReqShape.centre.y);
-			if (lDistX2 + lDistY2 < lReqDist * lReqDist) // ´ïµ½ĞèÇóµÄÎ»ÖÃ
+			if (lDistX2 + lDistY2 < lReqDist * lReqDist) // è¾¾åˆ°éœ€æ±‚çš„ä½ç½®
 			{
 				chRet |= enumMSTATE_INRANGE;
 				break;
 			}
 		}
 
-		if (chAttemptMove == -2) // Óöµ½ÕÏ°­
+		if (chAttemptMove == -2) // é‡åˆ°éšœç¢
 		{
 			chRet |= enumMSTATE_BLOCK;
 			break;
 		}
-		else if (chAttemptMove == -1) // Òòµ½´ïÄ¿±êµã¶øÎ´³É¹¦ÒÆ¶¯
+		else if (chAttemptMove == -1) // å› åˆ°è¾¾ç›®æ ‡ç‚¹è€ŒæœªæˆåŠŸç§»åŠ¨
 		{
 			m_SMoveProc.sCurInflexion ++;
 
@@ -782,7 +782,7 @@ Char CMoveAble::AttemptMove(double dPreMoveDist, bool bNotiInflexion)
 		m_sAngle = arctan(SSrc, SPos);
 		m_SMoveProc.SNoticePoint.SList[m_SMoveProc.SNoticePoint.sNum++] = SPos;
 	}
-	if (m_SMoveProc.SNoticePoint.sNum == 1) // Ö»ÓĞÒ»¸öµã
+	if (m_SMoveProc.SNoticePoint.sNum == 1) // åªæœ‰ä¸€ä¸ªç‚¹
 		m_SMoveProc.SNoticePoint.SList[m_SMoveProc.SNoticePoint.sNum++] = SPos;
 	DWORD dwMoveTime = t.End();
 
@@ -792,23 +792,23 @@ Char CMoveAble::AttemptMove(double dPreMoveDist, bool bNotiInflexion)
 	DWORD dwEyeMoveTime = t.End();
 
 	if (dwMoveTime + dwEyeMoveTime >= 60 )
-		//LG("map_time", "\t\t½ÇÉ«[%s]ÒÆ¶¯»¨·ÑµÄÊ±¼ä¹ı³¤ time = %u£¨ÆäÖĞÎ»ÖÃ»¨·Ñ%u£¬ÊÓÒ°»¨·Ñ%u£©\n", GetLogName(), dwMoveTime + dwEyeMoveTime, dwMoveTime, dwEyeMoveTime);
-		LG("map_time", "\t\troll[%s]move cost time too long, time = %u£¨thereinto position cost%u£¬eye shot cost%u£©\n", GetLogName(), dwMoveTime + dwEyeMoveTime, dwMoveTime, dwEyeMoveTime);
+		//LG("map_time", "\t\tè§’è‰²[%s]ç§»åŠ¨èŠ±è´¹çš„æ—¶é—´è¿‡é•¿ time = %uï¼ˆå…¶ä¸­ä½ç½®èŠ±è´¹%uï¼Œè§†é‡èŠ±è´¹%uï¼‰\n", GetLogName(), dwMoveTime + dwEyeMoveTime, dwMoveTime, dwEyeMoveTime);
+		LG("map_time", "\t\troll[%s]move cost time too long, time = %uï¼ˆthereinto position cost%uï¼Œeye shot cost%uï¼‰\n", GetLogName(), dwMoveTime + dwEyeMoveTime, dwMoveTime, dwEyeMoveTime);
 
 	g_ulElapse += m_SMoveProc.ulElapse;
 	g_ulDist += lMoveDist;
-	/*m_CLog.Log("ÒÆ¶¯Í³¼Æ\tµ±Ç°Ê±¿Ì %u£¬ÒÆ¶¯¾àÀë %u£¬ºÄÊ± %u£¬\tÀÛ¼Æ¾àÀë %u£¬ ÀÛ¼ÆºÄÊ± %u¡£\n",
+	/*m_CLog.Log("ç§»åŠ¨ç»Ÿè®¡\tå½“å‰æ—¶åˆ» %uï¼Œç§»åŠ¨è·ç¦» %uï¼Œè€—æ—¶ %uï¼Œ\tç´¯è®¡è·ç¦» %uï¼Œ ç´¯è®¡è€—æ—¶ %uã€‚\n",
 		GetTickCount(), lMoveDist, m_SMoveProc.ulElapse, g_ulDist, g_ulElapse);*/
-	m_CLog.Log("move stat\tcurrently time %u£¬move distance %u£¬cost time %u£¬\taccumulative distance %u£¬taccumulative cost time %u¡£\n",
+	m_CLog.Log("move stat\tcurrently time %uï¼Œmove distance %uï¼Œcost time %uï¼Œ\taccumulative distance %uï¼Œtaccumulative cost time %uã€‚\n",
 		GetTickCount(), lMoveDist, m_SMoveProc.ulElapse, g_ulDist, g_ulElapse);
 
 	return chRet;
 T_E}
 
 //=============================================================================
-// ¹¦ÄÜ£ºÏòÄ¿±êµãSTarÒÆ¶¯distanceµÄÂ·³Ì¡£*ulElapse·µ»ØÊµ¼ÊÒÆ¶¯Ëù»¨µÄÊ±¼ä
-// ·µ»ØÖµ£º1£¬³É¹¦ÒÆ¶¯distance¾àÀë¡£
-//        -1£¬Òòµ½´ïÄ¿±êµã¶øÎ´ÒÆ¶¯³É¹¦¡£-2£¬ÒòÓöµ½ÕÏ°­¶øÎ´ÒÆ¶¯³É¹¦
+// åŠŸèƒ½ï¼šå‘ç›®æ ‡ç‚¹STarç§»åŠ¨distanceçš„è·¯ç¨‹ã€‚*ulElapseè¿”å›å®é™…ç§»åŠ¨æ‰€èŠ±çš„æ—¶é—´
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸç§»åŠ¨distanceè·ç¦»ã€‚
+//        -1ï¼Œå› åˆ°è¾¾ç›®æ ‡ç‚¹è€Œæœªç§»åŠ¨æˆåŠŸã€‚-2ï¼Œå› é‡åˆ°éšœç¢è€Œæœªç§»åŠ¨æˆåŠŸ
 //=============================================================================
 Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 {T_B
@@ -820,14 +820,14 @@ Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 	}
 
 	Char	l_retval = 1;
-	long	l_elapse = long((distance * 1000) / m_CChaAttr.GetAttr(ATTR_MSPD));	//ÕÛËã³ÉÒÆ¶¯distanceÀåÃ×¾àÀëËùĞèµÄºÁÃëÊ±¼ä¡£
+	long	l_elapse = long((distance * 1000) / m_CChaAttr.GetAttr(ATTR_MSPD));	//æŠ˜ç®—æˆç§»åŠ¨distanceå˜ç±³è·ç¦»æ‰€éœ€çš„æ¯«ç§’æ—¶é—´ã€‚
 	double	l_dist2 = distance * distance;
 
 	const Point l_src = GetShape().centre;
 	cLong	lc_xdist = STar.x - l_src.x;
 	cLong	lc_ydist = STar.y - l_src.y;
-	long	l_xdist	=lc_xdist;							//±£´æx·½ÏòÄÜÒÆ¶¯µÄ¾àÀë£¬Ëæ×Å¼ÆËã»á±»ĞŞ¸Ä
-	long	l_ydist	=lc_ydist;							//±£´æy·½ÏòÄÜÒÆ¶¯µÄ¾àÀë£¬Ëæ×Å¼ÆËã»á±»ĞŞ¸Ä
+	long	l_xdist	=lc_xdist;							//ä¿å­˜xæ–¹å‘èƒ½ç§»åŠ¨çš„è·ç¦»ï¼Œéšç€è®¡ç®—ä¼šè¢«ä¿®æ”¹
+	long	l_ydist	=lc_ydist;							//ä¿å­˜yæ–¹å‘èƒ½ç§»åŠ¨çš„è·ç¦»ï¼Œéšç€è®¡ç®—ä¼šè¢«ä¿®æ”¹
 	double	l_xdist2 = double(l_xdist) * l_xdist;
 	double	l_ydist2 = double(l_ydist) * l_ydist;
 	double	l_xydist2 = l_xdist2 + l_ydist2;
@@ -835,13 +835,13 @@ Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 
 	if ((l_dist2 > l_xydist2) || (abs(l_xydist2 - l_dist2) < 0.0001))
 	{
-		l_arraim = true; //ÒÑµ½´ïÄ¿±êµã
+		l_arraim = true; //å·²åˆ°è¾¾ç›®æ ‡ç‚¹
 	}
 	else
 	{
-		l_arraim = false; //Î´µ½´ïÄ¿±êµã
+		l_arraim = false; //æœªåˆ°è¾¾ç›®æ ‡ç‚¹
 	}
-	if(l_arraim) //µ½´ïÄ¿±êµãÇÒÄ¿±êµã¾ÍÊÇÖ¸Ê¾ÒÆ¶¯µÄÄ¿±ê
+	if(l_arraim) //åˆ°è¾¾ç›®æ ‡ç‚¹ä¸”ç›®æ ‡ç‚¹å°±æ˜¯æŒ‡ç¤ºç§»åŠ¨çš„ç›®æ ‡
 	{
 		if (l_xdist || l_ydist)
 		{
@@ -849,7 +849,7 @@ Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 			l_tmp /= ulMoveSpd;
 			l_tmp /= ulMoveSpd;
 			l_elapse = long(sqrt(l_tmp));
-			if (l_elapse ==0) //ÔÙ¶ÌµÄ¾àÀë¶¼ÒªÏûºÄÖÁÉÙÒ»¸öÊ±¼ä¾«¶ÈÖÜÆÚ
+			if (l_elapse ==0) //å†çŸ­çš„è·ç¦»éƒ½è¦æ¶ˆè€—è‡³å°‘ä¸€ä¸ªæ—¶é—´ç²¾åº¦å‘¨æœŸ
 			{
 				l_elapse	=1;
 			}
@@ -865,7 +865,7 @@ Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 	bool	bIs45Dir = abs(lc_xdist) == abs(lc_ydist) ? true : false;
 	char	chDirX = l_xdist < 0 ? -1 : 1;
 	char	chDirY = l_ydist < 0 ? -1 : 1;
-	if (!l_arraim) //(l_dist2 <l_xydist2)Ã»ÓĞµ½´ïÄ¿±êµã£¬¶Ôx¡¢y·½ÏòµÃÒÆ¶¯¾àÀë½øĞĞ¾ÀÕı¡£
+	if (!l_arraim) //(l_dist2 <l_xydist2)æ²¡æœ‰åˆ°è¾¾ç›®æ ‡ç‚¹ï¼Œå¯¹xã€yæ–¹å‘å¾—ç§»åŠ¨è·ç¦»è¿›è¡Œçº æ­£ã€‚
 	{
 		l_xdist = long(sqrt((l_dist2 * l_xdist2) / l_xydist2)) * chDirX;
 		l_ydist = long(sqrt((l_dist2 * l_ydist2) / l_xydist2)) * chDirY;
@@ -877,19 +877,19 @@ Char CMoveAble::LinearAttemptMove(Point STar, double distance, uLong *ulElapse)
 		l_ydist = abs(l_xdist) * chDirY;
 	}
 
-	if (l_elapse > 0) //¼ì²éÅö×²Çé¿ö
+	if (l_elapse > 0) //æ£€æŸ¥ç¢°æ’æƒ…å†µ
 	{
 		bool l_lap = overlap(l_xdist, l_ydist);
 		m_shape.centre.x = l_src.x + l_xdist;
 		m_shape.centre.y = l_src.y + l_ydist;
-		if (l_lap) //ÖØµş
+		if (l_lap) //é‡å 
 		{
 			long l_x2y2 = l_xdist * l_xdist + l_ydist * l_ydist;
 			double l_tmp = double(l_x2y2) * 1000 * 1000;
 			l_tmp /= ulMoveSpd;
 			l_tmp /= ulMoveSpd;
 			l_elapse = long(sqrt(l_tmp));
-			if ((l_elapse ==0) && (l_x2y2 >0)) //ÔÙ¶ÌµÄ¾àÀë¶¼ÒªÏûºÄÖÁÉÙÒ»¸öÊ±¼ä¾«¶ÈÖÜÆÚ
+			if ((l_elapse ==0) && (l_x2y2 >0)) //å†çŸ­çš„è·ç¦»éƒ½è¦æ¶ˆè€—è‡³å°‘ä¸€ä¸ªæ—¶é—´ç²¾åº¦å‘¨æœŸ
 			{
 				l_elapse = 1;
 			}
@@ -906,16 +906,16 @@ T_E}
 void CMoveAble::NotiMovToEyeshot()
 {T_B
 	WPACKET pk	=GETWPACKET();
-	WRITE_CMD(pk, CMD_MC_NOTIACTION);		//ÃüÁî2×Ö½Ú
+	WRITE_CMD(pk, CMD_MC_NOTIACTION);		//å‘½ä»¤2å­—èŠ‚
 	WRITE_LONG(pk, m_ID);	  				//ID
 	WRITE_LONG(pk, m_ulPacketID);
 	WRITE_CHAR(pk, enumACTION_MOVE);
-	WRITE_SHORT(pk, m_SMoveProc.sState);	//ÒÆ¶¯×´Ì¬
+	WRITE_SHORT(pk, m_SMoveProc.sState);	//ç§»åŠ¨çŠ¶æ€
 	if (m_SMoveProc.sState != enumMSTATE_ON)
 		WRITE_SHORT(pk, m_SMoveInit.sStopState);
 	WRITE_SEQ(pk, (cChar *)m_SMoveProc.SNoticePoint.SList, sizeof(Point) * m_SMoveProc.SNoticePoint.sNum);
 
-	NotiChgToEyeshot(pk);//Í¨¸æ
+	NotiChgToEyeshot(pk);//é€šå‘Š
 
 	// log
 	m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
@@ -941,16 +941,16 @@ T_E}
 void CMoveAble::NotiSelfMov()
 {T_B
 	WPACKET pk	=GETWPACKET();
-	WRITE_CMD(pk, CMD_MC_NOTIACTION);		//ÃüÁî2×Ö½Ú
+	WRITE_CMD(pk, CMD_MC_NOTIACTION);		//å‘½ä»¤2å­—èŠ‚
 	WRITE_LONG(pk, m_ID);	  				//ID
 	WRITE_LONG(pk, m_ulPacketID);
 	WRITE_CHAR(pk, enumACTION_MOVE);
-	WRITE_SHORT(pk, m_SMoveProc.sState);	//ÒÆ¶¯×´Ì¬
+	WRITE_SHORT(pk, m_SMoveProc.sState);	//ç§»åŠ¨çŠ¶æ€
 	if (m_SMoveProc.sState != enumMSTATE_ON)
 		WRITE_SHORT(pk, m_SMoveInit.sStopState);
 	WRITE_SEQ(pk, (cChar *)m_SMoveProc.SNoticePoint.SList, sizeof(Point) * m_SMoveProc.SNoticePoint.sNum);
 
-	ReflectINFof(this,pk);//Í¨¸æ
+	ReflectINFof(this,pk);//é€šå‘Š
 
 	// log
 	m_CLog.Log("$$$PacketID:\t%u\n", m_ulPacketID);
@@ -975,7 +975,7 @@ T_E}
 
 bool CMoveAble::GetMoveTargetShape(Square *pSTarShape)
 {T_B
-	if (m_SMoveInit.STargetInfo.chType == 1) // Ä¿±êÊÇÎïÌå
+	if (m_SMoveInit.STargetInfo.chType == 1) // ç›®æ ‡æ˜¯ç‰©ä½“
 	{
 		Entity	*pTarObj = g_pGameApp->IsMapEntity(m_SMoveInit.STargetInfo.lInfo1, m_SMoveInit.STargetInfo.lInfo2);
 		if (!pTarObj)
@@ -985,7 +985,7 @@ bool CMoveAble::GetMoveTargetShape(Square *pSTarShape)
 			*pSTarShape = pTarObj->GetShape();
 		}
 	}
-	else if (m_SMoveInit.STargetInfo.chType == 2) // Ä¿±êÊÇ×ø±ê
+	else if (m_SMoveInit.STargetInfo.chType == 2) // ç›®æ ‡æ˜¯åæ ‡
 	{
 		if (pSTarShape)
 		{
@@ -1017,7 +1017,7 @@ bool CMoveAble::SetMoveOnInfo(SMoveInit* pSMoveI)
 }
 
 //=============================================================================
-// ÇóÏß¶Î£¨pSPort1£¬pSPort2£©ÉÏ¾àÀëµãpSReference×î½üµÄµã
+// æ±‚çº¿æ®µï¼ˆpSPort1ï¼ŒpSPort2ï¼‰ä¸Šè·ç¦»ç‚¹pSReferenceæœ€è¿‘çš„ç‚¹
 //=============================================================================
 Point CMoveAble::NearlyPointFromPointToLine(const Point *pSPort1, const Point *pSPort2, const Point *pSReference)
 {T_B
@@ -1033,7 +1033,7 @@ Point CMoveAble::NearlyPointFromPointToLine(const Point *pSPort1, const Point *p
 	else
 		lMaxY = pSPort2->y, lMinY = pSPort1->y;
 
-	if (pSPort1->x == pSPort2->x) // Ïß¶ÎºÍYÖáÆ½ĞĞ
+	if (pSPort1->x == pSPort2->x) // çº¿æ®µå’ŒYè½´å¹³è¡Œ
 	{
 		SNearlyPoint.x = pSPort1->x;
 		if (pSReference->y < lMinY)
@@ -1043,7 +1043,7 @@ Point CMoveAble::NearlyPointFromPointToLine(const Point *pSPort1, const Point *p
 		else
 			SNearlyPoint.y = pSReference->y;
 	}
-	else if (pSPort1->y == pSPort2->y) // Ïß¶ÎºÍXÖáÆ½ĞĞ
+	else if (pSPort1->y == pSPort2->y) // çº¿æ®µå’ŒXè½´å¹³è¡Œ
 	{
 		SNearlyPoint.y = pSPort1->y;
 		if (pSReference->x < lMinX)
@@ -1053,17 +1053,17 @@ Point CMoveAble::NearlyPointFromPointToLine(const Point *pSPort1, const Point *p
 		else
 			SNearlyPoint.x = pSReference->x;
 	}
-	else // Ïß¶Î´æÔÚĞ±ÂÊ£¬ÇÒ²»Îª0
+	else // çº¿æ®µå­˜åœ¨æ–œç‡ï¼Œä¸”ä¸ä¸º0
 	{
 		double dSlope;
-		// Ïß¶ÎµÄĞ±ÂÊ
+		// çº¿æ®µçš„æ–œç‡
 		dSlope = double(pSPort2->y - pSPort1->y) / double(pSPort2->x - pSPort1->x);
-		// ´¹×ã
+		// å‚è¶³
 		SNearlyPoint.x = Long((dSlope * dSlope * pSPort1->x + dSlope * (pSReference->y - pSPort1->y) + pSReference->x) / (dSlope * dSlope + 1));
 		SNearlyPoint.y = Long(dSlope * (SNearlyPoint.x - pSPort1->x) + pSPort1->y);
-		// ÕÒ×î½üµã
+		// æ‰¾æœ€è¿‘ç‚¹
 		if (SNearlyPoint.x < lMinX || SNearlyPoint.x > lMaxX
-			|| SNearlyPoint.y < lMinY && SNearlyPoint.y > lMaxY) // ´¹×ã²»ÔÚÏß¶ÎÉÏ£¬ÔòÈ¡¾àÀë´¹×ã×î½üµÄ¶Ëµã
+			|| SNearlyPoint.y < lMinY && SNearlyPoint.y > lMaxY) // å‚è¶³ä¸åœ¨çº¿æ®µä¸Šï¼Œåˆ™å–è·ç¦»å‚è¶³æœ€è¿‘çš„ç«¯ç‚¹
 		{
 			if (double(SNearlyPoint.x - pSPort1->x) * double(SNearlyPoint.x - pSPort1->x)
 				+ double(SNearlyPoint.y - pSPort1->y) * double(SNearlyPoint.y - pSPort1->y)
@@ -1079,13 +1079,13 @@ Point CMoveAble::NearlyPointFromPointToLine(const Point *pSPort1, const Point *p
 T_E}
 
 //=============================================================================
-// Çó´ÓµãpSPort1µ½µãpSPort2µÄ¹ı³ÌÖĞ£¬Ê×´Î½øÈëÔ²pSCircleµÄµã
-// ·µ»ØÖµ£ºfalse£¬²»´æÔÚ¡£true£¬´æÔÚ£¨µãÍ¨¹ıpResult·µ»Ø£©
+// æ±‚ä»ç‚¹pSPort1åˆ°ç‚¹pSPort2çš„è¿‡ç¨‹ä¸­ï¼Œé¦–æ¬¡è¿›å…¥åœ†pSCircleçš„ç‚¹
+// è¿”å›å€¼ï¼šfalseï¼Œä¸å­˜åœ¨ã€‚trueï¼Œå­˜åœ¨ï¼ˆç‚¹é€šè¿‡pResultè¿”å›ï¼‰
 //=============================================================================
 //bool CMoveAble::SegmentEnterCircle(Point *pSPort1, Point *pSPort2, Circle *pSCircle, Point *pResult)
 //{
 //	bool	bRet;
-//	double	dDistP1C2, dDistP2C2; // Á½¶Ëµãµ½Ô²ĞÄµÄ¾àÀëÆ½·½
+//	double	dDistP1C2, dDistP2C2; // ä¸¤ç«¯ç‚¹åˆ°åœ†å¿ƒçš„è·ç¦»å¹³æ–¹
 //	double	dRadius2;
 //	Long	lDist;
 //
@@ -1095,14 +1095,14 @@ T_E}
 //		+ double(pSPort2->y - pSCircle->centre.y) * double(pSPort2->y - pSCircle->centre.y);
 //	dRadius2 = pSCircle->radius * pSCircle->radius;
 //
-//	if (dDistP1C2 <= dRadius2) // ÆğµãÔÚÔ²ÄÚ
+//	if (dDistP1C2 <= dRadius2) // èµ·ç‚¹åœ¨åœ†å†…
 //	{
 //		bRet = true;
 //		pResult = pSPort1;
 //	}
-//	else // ÕÒ½»µã
+//	else // æ‰¾äº¤ç‚¹
 //	{
-//		if (pSPort1->x == pSPort2->x) // Ïß¶ÎºÍyÖáÆ½ĞĞ
+//		if (pSPort1->x == pSPort2->x) // çº¿æ®µå’Œyè½´å¹³è¡Œ
 //		{
 //			lDist = abs(pSPort1->x - pSCircle->centre.x);
 //			if (lDist < pSCircle->radius)

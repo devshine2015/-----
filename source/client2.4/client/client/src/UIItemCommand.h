@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:µÀ¾ß
-// ×÷Õß:lh 2004-07-19
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:é“å…·
+// ä½œè€…:lh 2004-07-19
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "UICommand.h"
@@ -20,21 +20,21 @@ namespace GUI
 
 struct SItemForge
 {
-	bool	IsForge;			// ÊÇ·ñ¾«Á¶
-	int		nHoleNum;			// ÓĞ¼¸¸ö¶´
-	int		nLevel;				// ¾«Á¶µÈ¼¶
+	bool	IsForge;			// æ˜¯å¦ç²¾ç‚¼
+	int		nHoleNum;			// æœ‰å‡ ä¸ªæ´
+	int		nLevel;				// ç²¾ç‚¼ç­‰çº§
 
-	CStoneInfo*	pStoneInfo[3];	// Èı¿Å±¦Ê¯,Îª¿ÕÎŞ±¦Ê¯
-	int		nStoneLevel[3];		// ¶ÔÓ¦µÄ±¦Ê¯µÈ¼¶
-	char	szStoneHint[3][256];// ±¦Ê¯ËµÃ÷
-	int		nStoneNum;			// ±¦Ê¯¸öÊı
+	CStoneInfo*	pStoneInfo[3];	// ä¸‰é¢—å®çŸ³,ä¸ºç©ºæ— å®çŸ³
+	int		nStoneLevel[3];		// å¯¹åº”çš„å®çŸ³ç­‰çº§
+	char	szStoneHint[3][256];// å®çŸ³è¯´æ˜
+	int		nStoneNum;			// å®çŸ³ä¸ªæ•°
 
 	static SItemForge& Convert( DWORD v, int nItemID=-1 );
 
-	static float GetAlpha( int nTotalLevel );	// ´«Èë×ÜµÈ¼¶,µÃµ½ÌØĞ§alpha
+	static float GetAlpha( int nTotalLevel );	// ä¼ å…¥æ€»ç­‰çº§,å¾—åˆ°ç‰¹æ•ˆalpha
 
-public:		// ÎªµÀ¾ßÓÃ
-	int						nStoneType[3];		// ±¦Ê¯ÀàĞÍ,Ã»ÓĞÎª-1
+public:		// ä¸ºé“å…·ç”¨
+	int						nStoneType[3];		// å®çŸ³ç±»å‹,æ²¡æœ‰ä¸º-1
 	CItemRefineInfo*		pRefineInfo;
 	CItemRefineEffectInfo*	pEffectInfo;
 	int						nEffectLevel;
@@ -44,7 +44,7 @@ private:
 
 };
 
-// À´Ô´ÓÚSItemGrid,½öÊµÀı»¯ÊôĞÔ²»Ò»Ñù£¬ÊµÀı»¯ÊôĞÔ = SItemGridµÄÊµÀı»¯ÊôĞÔ + ¶ÁÈ¡±í¸ñ
+// æ¥æºäºSItemGrid,ä»…å®ä¾‹åŒ–å±æ€§ä¸ä¸€æ ·ï¼Œå®ä¾‹åŒ–å±æ€§ = SItemGridçš„å®ä¾‹åŒ–å±æ€§ + è¯»å–è¡¨æ ¼
 struct SItemHint
 {
 	short	sID;
@@ -102,14 +102,14 @@ public:
 
     CItemRecord*  GetItemInfo()         { return _pItem;                }
 
-    int     GetThrowLink();         // ³É¹¦>=0,Ê§°Ü·µ»Ø-1
+    int     GetThrowLink();         // æˆåŠŸ>=0,å¤±è´¥è¿”å›-1
 
 	void	SetPrice( int n )			{ _nPrice=n;					}
 
 	SItemForge&		GetForgeInfo();
-	string			GetStoneHint(int nLevel=-1);	// µÃµ½±¦Ê¯µÄhint£¬¼¶±ğÎª£­1ÊÇµÀ¾ß±¾ÉíµÄhint£¬·ñÔòÎª´«ÈëµÈ¼¶µÄhint
+	string			GetStoneHint(int nLevel=-1);	// å¾—åˆ°å®çŸ³çš„hintï¼Œçº§åˆ«ä¸ºï¼1æ˜¯é“å…·æœ¬èº«çš„hintï¼Œå¦åˆ™ä¸ºä¼ å…¥ç­‰çº§çš„hint
 
-	static void ClearCoolDown()			{ _mapCoolDown.clear();			}	// µÀ¾ß¼¼ÄÜ COOLDOWN ĞÅÏ¢Çå³ı
+	static void ClearCoolDown()			{ _mapCoolDown.clear();			}	// é“å…·æŠ€èƒ½ COOLDOWN ä¿¡æ¯æ¸…é™¤
 
 protected:
     virtual void    AddHint( int x, int y, int index = -1 );
@@ -119,12 +119,12 @@ protected:
     void    _Copy( const CItemCommand& rhs );
     //int     _GetValue( int nItemAttrType, SItemGrid& item );
     int     _GetValue( int nItemAttrType, SItemHint& item );
-	void	_ShowWork( CItemRecord* pItem, SGameAttr* pAttr, int index = -1 );	// ÓÃÓÚÏÔÊ¾µÀ¾ßµÄÖ°ÒµÏŞÖÆ
-	void	_ShowFusionWork(CItemRecord* pAppearItem, CItemRecord* pEquipItem, SGameAttr* pAttr, int index = -1 );// ÓÃÓÚÏÔÊ¾ÈÛºÏºóµÀ¾ßµÄÖ°ÒµÏŞÖÆ
+	void	_ShowWork( CItemRecord* pItem, SGameAttr* pAttr, int index = -1 );	// ç”¨äºæ˜¾ç¤ºé“å…·çš„èŒä¸šé™åˆ¶
+	void	_ShowFusionWork(CItemRecord* pAppearItem, CItemRecord* pEquipItem, SGameAttr* pAttr, int index = -1 );// ç”¨äºæ˜¾ç¤ºç†”åˆåé“å…·çš„èŒä¸šé™åˆ¶
 	void	_AddDescriptor( int index = -1);
-	void	_ShowWork( xShipInfo* pInfo, SGameAttr* pAttr, int index = -1 );	// ÓÃÓÚÏÔÊ¾´¬µÄÖ°ÒµÏŞÖÆ
-	void	_ShowBody( int index = -1 );										// ÓÃÓÚÏÔÊ¾½ÇÉ«ÏŞÖÆ
-	void    _ShowFusionBody(CItemRecord* pEquipItem, int index = -1 );			// ÓÃÓÚÏÔÊ¾ÈÛºÏºó½ÇÉ«ÏŞÖÆ
+	void	_ShowWork( xShipInfo* pInfo, SGameAttr* pAttr, int index = -1 );	// ç”¨äºæ˜¾ç¤ºèˆ¹çš„èŒä¸šé™åˆ¶
+	void	_ShowBody( int index = -1 );										// ç”¨äºæ˜¾ç¤ºè§’è‰²é™åˆ¶
+	void    _ShowFusionBody(CItemRecord* pEquipItem, int index = -1 );			// ç”¨äºæ˜¾ç¤ºç†”åˆåè§’è‰²é™åˆ¶
 	void	AddRelatedHint( int x, int y );
 
 protected:
@@ -139,13 +139,13 @@ private:
 	int				_nPrice;
 
 private:
-    DWORD           _dwColor;           // ÎŞĞ§ºìÉ«ÏÔÊ¾, ·ÇÊµÌå°ëÍ¸Ã÷
+    DWORD           _dwColor;           // æ— æ•ˆçº¢è‰²æ˜¾ç¤º, éå®ä½“åŠé€æ˜
 	NET_CHARTRADE_BOATDATA*		_pBoatHint;
 
-	static map<int, DWORD>		_mapCoolDown;	// ±£´æÉÏÒ»´Î·ÅµÄµÀ¾ß¼¼ÄÜµÄÊ±¼ä
+	static map<int, DWORD>		_mapCoolDown;	// ä¿å­˜ä¸Šä¸€æ¬¡æ”¾çš„é“å…·æŠ€èƒ½çš„æ—¶é—´
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CItemCommand::SetIsValid( bool v )        
 {
     _dwColor = ( _dwColor & 0xff000000 ) | ( v ? 0x00ffffff : INVALID_COLOR  );
@@ -172,5 +172,5 @@ extern	char	_lock_pos_;
 extern	long	_lock_item_id_;
 extern	long	_lock_grid_id_;
 extern	long	_lock_fusion_item_id_;
-extern	bool	g_yyy_add_lock_item_wait_return_state;		//	ÒÑ¾­·¢ËÍËø¶¨ÏûÏ¢£¬µÈ´ı·şÎñÆ÷·µ»ØËø¶¨½á¹û×´Ì¬¡£
+extern	bool	g_yyy_add_lock_item_wait_return_state;		//	å·²ç»å‘é€é”å®šæ¶ˆæ¯ï¼Œç­‰å¾…æœåŠ¡å™¨è¿”å›é”å®šç»“æœçŠ¶æ€ã€‚
 // end

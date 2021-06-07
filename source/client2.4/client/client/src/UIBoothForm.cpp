@@ -2,943 +2,862 @@
 
 #include "UIBoothForm.h"
 
-#include <vector>
-#include "uiform.h"
-#include "uiedit.h"
-#include "uilabel.h"
-#include "tools.h"
-#include "uiformmgr.h"
-#include "character.h"
-#include "uigoodsgrid.h"
-#include "UIBoxForm.h"
-#include "UITradeForm.h"
-#include "UIFastCommand.h"
-#include "itemrecord.h"
 #include "NetProtocol.h"
-#include "UIItemCommand.h"
-#include "UITemplete.h"
+#include "PacketCmd.h"
+#include "ShipFactory.h"
+#include "StringLib.h"
 #include "UIBoatForm.h"
+#include "UIBoxForm.h"
+#include "UIEdit.h"
+#include "UIEquipForm.h"
+#include "UIFastCommand.h"
+#include "UIGlobalVar.h"
+#include "UIGoodsGrid.h"
+#include "UIItemCommand.h"
+#include "UIMemo.h"
+#include "UITemplete.h"
+#include "UITradeForm.h"
+#include "character.h"
 #include "characterrecord.h"
 #include "gameapp.h"
-#include "PacketCmd.h"
-#include "shipset.h"
-#include "UIMemo.h"
-#include "worldscene.h"
-#include "ShipFactory.h"
-#include "UIGoodsGrid.h"
-#include "UIEquipForm.h"
-#include "UIGlobalVar.h"
-#include "rolecommon.h"
 #include "itemrecord.h"
-#include "UIEdit.h"
-#include "UIBoxForm.h"
-#include "StringLib.h"
+#include "rolecommon.h"
+#include "shipset.h"
+#include "tools.h"
+#include "uiedit.h"
+#include "uiform.h"
+#include "uiformmgr.h"
+#include "uigoodsgrid.h"
+#include "uilabel.h"
+#include "worldscene.h"
+#include <vector>
 
 //#define SAFE_DELETE(x) if ( (x) ) delete (x), (x) = 0;
 
-namespace GUI
+namespace GUI {
+
+struct CBoothMgr::SBoothItem {
+  long lId;                // é“å…·ID
+  int iPrice;              // é“å…·æ˜¾ç¤ºä»·æ ¼
+  int iNum;                // é“å…·ä¸ªæ•°
+  int iTotal;              // æ€»æ•°ç›®
+  int iEquipIndex;         // è£…å¤‡ç´¢å¼•
+  int iBoothIndex;         // è´§æ‘Šç´¢å¼•
+  CGoodsGrid *pkEquipGrid; //ä¸éœ€è¦æ·±æ‹·è´
+  CGoodsGrid *pkBoothGrid; //ä¸éœ€è¦æ·±æ‹·è´
+
+  SBoothItem()
+      : lId(0), iPrice(0), iNum(0), iEquipIndex(0), iBoothIndex(0),
+        pkEquipGrid(0), pkBoothGrid(0) {}
+};
+
+//~ ------------------------------------------------------------------
+CBoothMgr::CBoothMgr()
+    : m_pkCurrSetupBooth(0), m_iBoothItemMaxNum(0), m_bSetupedBooth(false),
+      m_NumBox(0), m_TradeBox(0), m_SelectBox(0) {}
+
+//~ ------------------------------------------------------------------
+CBoothMgr::~CBoothMgr() { ClearBoothItems(); }
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::Init() // æ‘†æ‘Šä¿¡æ¯åˆå§‹åŒ–
 {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+
+  frmBooth = mgr.Find("frmBooth", enumMainForm); // æŸ¥æ‰¾æ‘†æ‘Šè¡¨å•
+  if (!frmBooth) {
+    LG("gui", RES_STRING(CL_LANGUAGE_MATCH_445));
+    return false;
+  }
+  frmBooth->evtEntrustMouseEvent = _MainMouseBoothEvent; // å¯¹æ¶ˆæ¯äº‹ä»¶çš„å¤„ç†
+  frmBooth->evtClose = _MainBoothOnCloseEvent;
+
+  lblOwnerName = dynamic_cast<CLabel *>(frmBooth->Find("lblOwnerName"));
+  if (!lblOwnerName)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_446), frmBooth->GetName(),
+                 "lblOwnerName");
+
+  edtBoothName = dynamic_cast<CEdit *>(frmBooth->Find("edtBoothName"));
+  if (!lblOwnerName)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_446), frmBooth->GetName(),
+                 "edtBoothName");
+
+  btnSetupBooth = dynamic_cast<CTextButton *>(frmBooth->Find("btnSetupBooth"));
+  if (!btnSetupBooth)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_446), frmBooth->GetName(),
+                 "btnSetupBooth");
+
+  btnPullStakes = dynamic_cast<CTextButton *>(frmBooth->Find("btnPullStakes"));
+  if (!btnSetupBooth)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_446), frmBooth->GetName(),
+                 "btnPullStakes");
+
+  grdBoothItem = dynamic_cast<CGoodsGrid *>(frmBooth->Find("grdBoothItem"));
+  if (!grdBoothItem)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_446), frmBooth->GetName(),
+                 "grdBoothItem");
+  grdBoothItem->evtBeforeAccept = CUIInterface::_evtDragToGoodsEvent;
+  grdBoothItem;
+  grdBoothItem->SetShowStyle(CGoodsGrid::enumSale);
+  grdBoothItem->SetIsHint(true);
+
+  return true;
+}
+
+void CBoothMgr::End() {}
+
+void CBoothMgr::CloseForm() // å…³é—­æ‘†æ‘Šè¡¨å•
+{
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return;
+  if (pkCha->getAttachID() == m_dwOwnerId && pkCha->IsShop())
+    return;
+
+  if (frmBooth->GetIsShow()) {
+    CloseBoothUI();
+  }
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::ShowSetupBoothForm(int iLevel) // æ˜¾ç¤ºè®¾ç½®æ‘†æ‘Šç•Œé¢
+{
+  frmBooth->SetIsShow(!frmBooth->GetIsShow());
+
+  //æ¸…é™¤ä»¥å‰çš„ç‰©å“
+  ClearBoothItems();
+
+  //æ ¹æ®ç­‰çº§å–å¾—æ‘†æ‘Šæ ä½æ•°
+  m_iBoothItemMaxNum = GetItemNumByLevel(iLevel);
+  m_kBoothItems.resize(m_iBoothItemMaxNum);
+  for (int i(0); i < (int)m_kBoothItems.size(); i++) {
+    m_kBoothItems[i] = 0;
+  }
+  //è®¾ç½®æ‘†æ‘Šç•Œé¢çš„UIæ§ä»¶
+  int col = grdBoothItem->GetCol();
+  int row = m_iBoothItemMaxNum / col;
+  if (m_iBoothItemMaxNum % col)
+    row++;
+
+  grdBoothItem->Clear();
+  grdBoothItem->SetContent(row, col);
+  grdBoothItem->Init();
+  grdBoothItem->Refresh();
+
+  //è®¾ç½®æ‘Šä¸»ID
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  m_dwOwnerId = pkCha->getAttachID();
+
+  btnSetupBooth->SetIsShow(true);
+  btnPullStakes->SetIsShow(false);
+  lblOwnerName->SetCaption("");
+  edtBoothName->SetCaption("");
+  edtBoothName->SetIsEnabled(true);
+
+  //æ‰“å¼€è®¾ç½®æ‘†æ‘Šç•Œé¢å’Œç©å®¶çš„ç‰©å“æ 
+  OpenBoothUI();
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::ShowTradeBoothForm(DWORD dwOwnerId, const char *szBoothName,
+                                   int nItemNum) {
+  m_dwOwnerId = dwOwnerId;
+  m_iBoothItemMaxNum = nItemNum;
+
+  ClearBoothItems();
+
+  //ç›´æ¥åˆ°æœ€å¤§çº§ï¼Œä¸éœ€è¦çŸ¥é“ç­‰çº§
+  m_iBoothItemMaxNum = GetItemNumByLevel(3);
+  m_kBoothItems.resize(m_iBoothItemMaxNum);
+  for (int i(0); i < (int)m_kBoothItems.size(); i++) {
+    m_kBoothItems[i] = 0;
+  }
+  //è®¾ç½®æ‘†æ‘Šç•Œé¢çš„UIæ§ä»¶
+  int col = grdBoothItem->GetCol();
+  int row = m_iBoothItemMaxNum / col;
+  if (m_iBoothItemMaxNum % col)
+    row++;
+
+  grdBoothItem->Clear();
+  grdBoothItem->SetContent(row, col);
+  grdBoothItem->Init();
+  grdBoothItem->Refresh();
+
+  // è®¾ç½®äº¤æ˜“ç•Œé¢çš„UIæ§ä»¶
+  btnSetupBooth->SetIsShow(false);
+  btnPullStakes->SetIsShow(false);
+  CGameScene *pScene = CGameApp::GetCurScene();
+  if (!pScene)
+    return;
+  CCharacter *pCha = pScene->SearchByID(dwOwnerId);
+  if (!pCha)
+    return;
+  lblOwnerName->SetCaption(pCha->getHumanName());
+  edtBoothName->SetCaption(szBoothName);
+  edtBoothName->SetIsEnabled(false);
+
+  //æ‰“å¼€äº¤æ˜“æ‘†æ‘Šç•Œé¢å’Œç©å®¶çš„ç‰©å“æ 
+  OpenBoothUI();
+}
+
+void CBoothMgr::AddTradeBoothItem(int iGrid, DWORD dwItemID, int iCount,
+                                  DWORD dwMoney) {
+  if (iCount > 0) {
+    // assert(!m_pkCurrSetupBooth);
+    m_pkCurrSetupBooth = new SBoothItem;
+    m_pkCurrSetupBooth->pkBoothGrid = grdBoothItem;
+    m_pkCurrSetupBooth->iBoothIndex = iGrid;
+    m_pkCurrSetupBooth->lId = dwItemID;
+    m_pkCurrSetupBooth->iNum = iCount;
+    m_pkCurrSetupBooth->iPrice = dwMoney;
+
+    AddBoothItem(m_pkCurrSetupBooth);
+
+    m_pkCurrSetupBooth = 0;
+  }
+}
+
+void CBoothMgr::AddTradeBoothBoat(int iGrid, DWORD dwItemID, int iCount,
+                                  DWORD dwMoney, NET_CHARTRADE_BOATDATA &Data) {
+  AddTradeBoothItem(iGrid, dwItemID, iCount, dwMoney);
+
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(grdBoothItem->GetItem(iGrid));
+  if (!pItemCommand)
+    return;
+
+  pItemCommand->SetBoatHint(&Data);
+}
+
+void CBoothMgr::AddTradeBoothGood(int iGrid, DWORD dwItemID, int iCount,
+                                  DWORD dwMoney, SItemGrid &rSItemGrid) {
+  AddTradeBoothItem(iGrid, dwItemID, iCount, dwMoney);
+
+  CItemCommand *pItemCommand =
+      dynamic_cast<CItemCommand *>(grdBoothItem->GetItem(iGrid));
+  if (!pItemCommand)
+    return;
+
+  pItemCommand->SetData(rSItemGrid);
+}
+
+void CBoothMgr::RemoveTradeBoothItem(DWORD dwCharID, int iGrid, int iCount) {
+  if (dwCharID == m_dwOwnerId) {
+    // assert(!m_pkCurrSetupBooth);
+    m_pkCurrSetupBooth = m_kBoothItems[iGrid];
+    RemoveBoothItemByNum(m_pkCurrSetupBooth, iCount);
+    m_pkCurrSetupBooth = 0;
+  }
+}
+
+//~ ------------------------------------------------------------------
+int CBoothMgr::GetItemNumByLevel(int iLevel) {
+  //æ ¹æ®æ‘†æ‘ŠæŠ€èƒ½ç­‰çº§å¾—åˆ°å¯ä»¥æ‘†æ‘Šçš„æ ä½æ•°,è¯¦è§æ–‡æ¡£
+  return iLevel * 6;
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::ClearBoothItems() {
+  for (size_t i(0); i < m_kBoothItems.size(); ++i) {
+    // delete m_kBoothItems[i];
+    SAFE_DELETE(m_kBoothItems[i]); // UIå½“æœºå¤„ç†
+    m_kBoothItems[i] = 0;
+  }
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::AddBoothItem(SBoothItem *pBoothItem) {
+  if (!pBoothItem)
+    return;
+
+  //å¦‚æœå½“å‰æ—¶æ‘Šä¸»,åˆ™éœ€è¦æ›´æ–°å®ƒçš„è£…å¤‡æ 
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return;
+
+  if (pkCha->getAttachID() == GetOwnerId()) {
+    //å¦‚æœå®ƒå¢åŠ åˆ°çš„æ ä½å·²ç»æœ‰å…¶ä»–ä½ç½®,é‚£ä¹ˆè¿™ä¸ªç‰©å“ä¼šæ›¿æ¢å…ˆå‰çš„ç‰©å“
+    SBoothItem *pSourceBoothItem = m_kBoothItems[pBoothItem->iBoothIndex];
+    if (pSourceBoothItem) {
+      RemoveBoothItemByNum(pSourceBoothItem, pSourceBoothItem->iNum);
+    }
+
+    // è£…å¤‡æ è¯¥ä½ç½®è®¾ç½®ä¸ºä¸å¯ç”¨çŠ¶æ€
+    pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex)
+        ->SetIsValid(false);
+  }
+
+  m_kBoothItems[pBoothItem->iBoothIndex] = pBoothItem;
+
+  // grdBoothItemåœ¨ä¸­æ˜¾ç¤º
+  CItemRecord *pInfo = GetItemRecordInfo(pBoothItem->lId);
+  if (pBoothItem->pkEquipGrid) {
+    CItemCommand *pOldItem = dynamic_cast<CItemCommand *>(
+        pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex));
+    if (pOldItem) {
+      CItemCommand *pNewItem = new CItemCommand(*pOldItem);
+      pNewItem->SetTotalNum(pBoothItem->iNum);
+      pNewItem->SetPrice(pBoothItem->iPrice);
+      pNewItem->SetIsValid(true);
+      grdBoothItem->SetItem(pBoothItem->iBoothIndex, pNewItem);
+    }
+  } else {
+    // CItemCommand* pItem = new CItemCommand( pInfo );
+    CItemCommand *pItem =
+        new CItemCommand(pInfo, false); // modified guojiangang 20090109
+    pItem->SetTotalNum(pBoothItem->iNum);
+    pItem->SetPrice(pBoothItem->iPrice);
+    grdBoothItem->SetItem(pBoothItem->iBoothIndex, pItem);
+  }
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::RemoveBoothItemByNum(SBoothItem *pBoothItem, int iNum) {
+  if (!pBoothItem)
+    return;
+
+  int iBoothIndex = pBoothItem->iBoothIndex;
+  if (iNum == pBoothItem->iNum) { //ç§»å»æ‰€æœ‰çš„è¯¥ç‰©å“
+    //å¦‚æœå½“å‰æ—¶æ‘Šä¸»,åˆ™éœ€è¦æ›´æ–°å®ƒçš„è£…å¤‡æ 
+    CCharacter *pkCha = g_stUIBoat.GetHuman();
+    if (!pkCha)
+      return;
+
+    if (pkCha->getAttachID() == GetOwnerId()) {
+      CCommandObj *pItem =
+          pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex);
+      if (pItem) {
+        pItem->SetIsValid(true);
+        // int num = pItem->GetTotalNum();
+        // num = num - pBoothItem->iTotal + iNum;
+        // pItem->SetTotalNum(pItem->GetTotalNum() - pBoothItem->iTotal +
+        // pBoothItem->iNum);
+      }
+    }
+
+    pBoothItem->pkBoothGrid->DelItem(iBoothIndex);
+
+    if (m_kBoothItems[iBoothIndex]) {
+      // delete m_kBoothItems[iBoothIndex];
+      SAFE_DELETE(m_kBoothItems[iBoothIndex]); // UIå½“æœºå¤„ç†
+      m_kBoothItems[iBoothIndex] = 0;
+    }
+  } else { //å°†éƒ¨åˆ†çš„è¯¥ç‰©å“æ‹–åŠ¨åˆ°è£…å¤‡æ 
+    pBoothItem->iNum -= iNum;
+
+    //æ›´æ–°UIä¸­çš„æ•°é‡
+    pBoothItem->pkBoothGrid->GetItem(iBoothIndex)
+        ->SetTotalNum(pBoothItem->iNum);
+  }
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::SetupBoothSuccess() {
+  //ä¿®æ”¹UI
+  btnSetupBooth->SetIsShow(false);
+  btnPullStakes->SetIsShow(true);
+  edtBoothName->SetIsEnabled(false);
+
+  SetSetupedBooth(true);
+
+  g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
+
+  //æ’­æ”¾æ‘†æ‘ŠåŠ¨ç”»
+}
+
+void CBoothMgr::PullBoothSuccess() {
+  //ç»ˆæ­¢æ‘†æ‘ŠåŠ¨ç”»
+
+  for (int i(0); i < (int)g_stUIBooth.m_kBoothItems.size(); i++) {
+    if (g_stUIBooth.m_kBoothItems[i]) {
+      g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_kBoothItems[i],
+                                       g_stUIBooth.m_kBoothItems[i]->iNum);
+    }
+  }
+  g_stUIBooth.ClearBoothItems();
+
+  //å…³é—­è¡¨å•
+  CloseBoothUI();
+}
+
+void CBoothMgr::OpenBoothUI() {
+  frmBooth->SetPos(150, 150);
+  frmBooth->Reset();
+  frmBooth->Refresh();
+  frmBooth->Show();
+
+  //åŒæ—¶æ‰“å¼€ç©å®¶çš„è£…å¤‡æ 
+  int x = frmBooth->GetX() + frmBooth->GetWidth();
+  int y = frmBooth->GetY();
+  g_stUIEquip.GetItemForm()->SetPos(x, y);
+  g_stUIEquip.GetItemForm()->Refresh();
+
+  if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow())) {
+    g_stUIEquip.GetItemForm()->Show();
+  }
+}
+
+void CBoothMgr::CloseBoothUI() {
+  frmBooth->Close();
+  g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
+
+  if (m_NumBox)
+    m_NumBox->frmDialog->Close();
+
+  if (m_TradeBox)
+    m_TradeBox->frmDialog->Close();
+
+  if (m_SelectBox)
+    m_SelectBox->frmDialog->Close();
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_MainMouseBoothEvent(CCompent *pSender, int nMsgType, int x,
+                                     int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  if (name == "btnNo" || name == "btnClose") { ///å…³é—­è¡¨å•
+    return;
+  } else if (name == "btnSetupBooth") { /// æŒ‰ä¸‹â€œè®¾ç½®æ‘†æ‘Šâ€é”®
+
+    if (strlen(g_stUIBooth.edtBoothName->GetCaption()) == 0) {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_447));
+      return;
+    }
+
+    //æ£€æŸ¥æ‘†æ‘Šåæ˜¯å¦å«æœ‰éæ³•å­—ç¬¦
+    string sName(g_stUIBooth.edtBoothName->GetCaption());
+    if (!CTextFilter::IsLegalText(CTextFilter::NAME_TABLE, sName)) {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_448));
+      return;
+    }
+
+    //å¡«å…¥ä¿¡æ¯å†…å®¹
+    mission::NET_STALL_ALLDATA netCreateBoothData;
+    int iNum(0); //æ‘Šä½å†…çš„æ•°é‡
+    for (int i(0); i < (int)g_stUIBooth.m_kBoothItems.size(); i++) {
+      if (g_stUIBooth.m_kBoothItems[i]) {
+        netCreateBoothData.Info[iNum].dwMoney =
+            DWORD(g_stUIBooth.m_kBoothItems[i]->iPrice);
+        netCreateBoothData.Info[iNum].byCount =
+            BYTE(g_stUIBooth.m_kBoothItems[i]->iNum);
+        netCreateBoothData.Info[iNum].byIndex =
+            BYTE(g_stUIBooth.m_kBoothItems[i]->iEquipIndex);
+        netCreateBoothData.Info[iNum].byGrid =
+            BYTE(g_stUIBooth.m_kBoothItems[i]->iBoothIndex);
+        iNum++;
+      }
+    }
+    netCreateBoothData.byNum = BYTE(iNum);
+    if (netCreateBoothData.byNum > 0) {
+      //å‘é€åˆ›å»ºæ‘Šä½åè®®
+      if (CCharacter *pCha = CGameScene::GetMainCha()) {
+        pCha->GetActor()->Stop();
+      }
+
+      CS_StallInfo(g_stUIBooth.edtBoothName->GetCaption(), netCreateBoothData);
+    }
+
+    return;
+  } else if (name == "btnPullStakes") { /// æŒ‰ä¸‹â€œæ”¶æ‘Šâ€é”®
+    g_stUIBooth.CloseBoothUI();
+  }
+}
+
+void CBoothMgr::_MainBoothOnCloseEvent(CForm *pForm, bool &IsClose) {
+
+  if (g_stUIBoat.GetHuman()->IsShop() && g_stUIBooth.IsSetupedBooth()) {
+    CCharacter *pMainCha = g_stUIBoat.GetHuman();
+    if (pMainCha && pMainCha->getAttachID() == g_stUIBooth.m_dwOwnerId) {
+      CS_StallClose();
+    }
+  }
+
+  for (int i(0); i < (int)g_stUIBooth.m_kBoothItems.size(); i++) {
+    if (g_stUIBooth.m_kBoothItems[i]) {
+      g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_kBoothItems[i],
+                                       g_stUIBooth.m_kBoothItems[i]->iNum);
+    }
+  }
+
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return;
+
+  if (pkCha->getAttachID() == g_stUIBooth.GetOwnerId()) {
+    CGoodsGrid *pEquipGrid = g_stUIEquip.GetGoodsGrid();
+    if (pEquipGrid) {
+      pEquipGrid->SetItemValid(true);
+
+      // CCommandObj* pItem;
+      // for (int i(0); i<pEquipGrid->GetMaxNum(); i++)
+      //{
+      //	pItem = pEquipGrid->GetItem(i);
+      //	if (pItem)
+      //                    pItem->SetIsValid(true);
+      //}
+    }
+  }
+
+  g_stUIBooth.ClearBoothItems();
+
+  g_stUIEquip.GetItemForm()->SetIsShow(g_stUIBooth.m_isOldEquipFormShow);
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_InquireSetupPushItemNumEvent(CCompent *pSender, int nMsgType,
+                                              int x, int y, DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    SAFE_DELETE(g_stUIBooth.m_pkCurrSetupBooth);
+    return;
+  }
+
+  if (!g_stUIBooth.m_pkCurrSetupBooth)
+    return;
+
+  stNumBox *kItemNumBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!kItemNumBox)
+    return;
+
+  if (kItemNumBox->GetNumber() <= 0) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_449));
+    return;
+  }
+
+  g_stUIBooth.m_pkCurrSetupBooth->iNum =
+      kItemNumBox->GetNumber(); // ç©å®¶è¾“å…¥çš„æ•°é‡
+  g_stUIBooth.m_pkCurrSetupBooth->iTotal = kItemNumBox->GetNumber();
+
+  //è¯¢é—®ä»·æ ¼
+  g_stUIBooth.m_NumBox =
+      g_stUIBox.ShowNumberBox(_InquireSetupPushItemPriceEvent, -1,
+                              RES_STRING(CL_LANGUAGE_MATCH_450), false);
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_InquireSetupPushItemPriceEvent(CCompent *pSender, int nMsgType,
+                                                int x, int y, DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    SAFE_DELETE(g_stUIBooth.m_pkCurrSetupBooth);
+    return;
+  }
+
+  if (!g_stUIBooth.m_pkCurrSetupBooth)
+    return;
+
+  stNumBox *kItemPriceBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!kItemPriceBox)
+    return;
+
+  if (kItemPriceBox->GetNumber() <= 0) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_451));
+    return;
+  }
+
+  LONG64 iTotal = (LONG64)g_stUIBooth.m_pkCurrSetupBooth->iNum *
+                  (LONG64)kItemPriceBox->GetNumber();
+  if (iTotal >= 1000000000) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_452));
+    return;
+  }
+
+  g_stUIBooth.m_pkCurrSetupBooth->iPrice =
+      kItemPriceBox->GetNumber(); // ç©å®¶è¾“å…¥çš„å•ä»·
+
+  g_stUIBooth.AddBoothItem(g_stUIBooth.m_pkCurrSetupBooth);
+
+  g_stUIBooth.m_pkCurrSetupBooth = 0;
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_InquireSetupPopItemNumEvent(CCompent *pSender, int nMsgType,
+                                             int x, int y, DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    g_stUIBooth.m_pkCurrSetupBooth = 0;
+    return;
+  }
+
+  if (!g_stUIBooth.m_pkCurrSetupBooth)
+    return;
+
+  stNumBox *kItemNumBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!kItemNumBox)
+    return;
+
+  g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_pkCurrSetupBooth,
+                                   kItemNumBox->GetNumber());
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_InquireTradeItemNumEvent(CCompent *pSender, int nMsgType,
+                                          int x, int y, DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    return;
+  }
+  stNumBox *kItemNumBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!kItemNumBox)
+    return;
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_BuyGoodsEvent(CCompent *pSender, int nMsgType, int x, int y,
+                               DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    g_stUIBooth.m_pkCurrSetupBooth = 0;
+    return;
+  }
+
+  if (!g_stUIBooth.m_pkCurrSetupBooth) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_453));
+    return;
+  }
+
+  stTradeBox *pItemNumBox = (stTradeBox *)pSender->GetForm()->GetPointer();
+  if (!pItemNumBox)
+    return;
+
+  CS_StallBuy(g_stUIBooth.m_dwOwnerId,
+              g_stUIBooth.m_pkCurrSetupBooth->iBoothIndex,
+              pItemNumBox->GetTradeNum());
+}
+
+//~ ------------------------------------------------------------------
+void CBoothMgr::_BuyAGoodEvent(CCompent *pSender, int nMsgType, int x, int y,
+                               DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    g_stUIBooth.m_pkCurrSetupBooth = 0;
+    return;
+  }
+
+  if (!g_stUIBooth.m_pkCurrSetupBooth) {
+    g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_453));
+    return;
+  }
+
+  CS_StallBuy(g_stUIBooth.m_dwOwnerId,
+              g_stUIBooth.m_pkCurrSetupBooth->iBoothIndex, 1);
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PushToBooth(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf, int nGridID,
+                            CCommandObj &rkItem) {
+  if (!rkItem.GetIsValid())
+    return false;
+
+  CItemCommand *pkItemCmd = dynamic_cast<CItemCommand *>(&rkItem);
+  if (!pkItemCmd)
+    return false;
+
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return false;
+
+  if (pkCha->getAttachID() == GetOwnerId()) { ///å½“å‰æ‰“å¼€ç•Œé¢çš„å°±æ˜¯æ‘Šä¸»
+
+    //åˆ¤æ–­ç‰©å“æ˜¯å¦å¯äº¤æ˜“
+    CItemRecord *pItemRecord = pkItemCmd->GetItemInfo();
+    if (!pItemRecord)
+      return false;
+    // add by ning.yan 2008-11-05 ä¸å¯é”å®šé“å…·ä¹Ÿä¸å¯æ‘†æ‘Š begin
+    else if (pItemRecord->lID == 1121 || pItemRecord->lID == 1122 ||
+             pItemRecord->lID == 6347)
+      return false;
+    // end
+
+    if (pItemRecord->chIsTrade)
+      return PushToBoothSetup(rkDrag, rkSelf, nGridID, *pkItemCmd);
+  } else { ///å½“å‰æ‰“å¼€ç•Œé¢çš„ä¸æ˜¯æ‘Šä¸»ï¼Œåˆ™å¯è®¤ä¸ºæ˜¯äº¤æ˜“
+    return PushToBoothTrade(rkDrag, rkSelf, nGridID, *pkItemCmd);
+  }
+  return true;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PopFromBooth(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                             int nGridID, CCommandObj &rkItem) {
+  if (!rkItem.GetIsValid())
+    return false;
+
+  CItemCommand *pkItemCmd = dynamic_cast<CItemCommand *>(&rkItem);
+  if (!pkItemCmd)
+    return false;
+
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return false;
+
+  if (pkCha->getAttachID() ==
+      GetOwnerId()) { ///å½“å‰æ‰“å¼€ç•Œé¢çš„å°±æ˜¯æ‘Šä¸»ï¼Œåˆ™å¯è®¤ä¸ºæ˜¯è®¾ç½®æ‘Šä½
+    return PopFromBoothSetup(rkDrag, rkSelf, nGridID, *pkItemCmd);
+  } else { ///å½“å‰æ‰“å¼€ç•Œé¢çš„ä¸æ˜¯æ‘Šä¸»ï¼Œåˆ™å¯è®¤ä¸ºæ˜¯äº¤æ˜“
+    return PopFromBoothTrade(rkDrag, rkSelf, nGridID, *pkItemCmd);
+  }
+
+  return true;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::BoothToBooth(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                             int nGridID, CCommandObj &rkItem) {
+  CCharacter *pkCha = g_stUIBoat.GetHuman();
+  if (!pkCha)
+    return false;
+
+  if (pkCha->getAttachID() ==
+      GetOwnerId()) { ///å½“å‰æ‰“å¼€ç•Œé¢çš„å°±æ˜¯æ‘Šä¸»ï¼Œåˆ™å¯è®¤ä¸ºæ˜¯è®¾ç½®æ‘Šä½
+  } else { ///å½“å‰æ‰“å¼€ç•Œé¢çš„ä¸æ˜¯æ‘Šä¸»ï¼Œåˆ™å¯è®¤ä¸ºæ˜¯äº¤æ˜“
+  }
+
+  return true;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PushToBoothSetup(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                                 int nGridID, CItemCommand &rkItemCmd) {
+  // å¦‚æœå·²ç»åœ¨æ‘†æ‘ŠçŠ¶æ€,åˆ™ä¸èƒ½ç»§ç»­è¿›è¡Œæ‹–åŠ¨
+  CCharacter *pMainCha = g_stUIBoat.GetHuman();
+  if (pMainCha && pMainCha->IsShop()) {
+    return false;
+  }
+
+  m_pkCurrSetupBooth = new SBoothItem;
+  m_pkCurrSetupBooth->lId = rkItemCmd.GetItemInfo()->lID;
+  m_pkCurrSetupBooth->iBoothIndex = nGridID;
+  m_pkCurrSetupBooth->iEquipIndex = rkDrag.GetDragIndex();
+  m_pkCurrSetupBooth->pkEquipGrid = &rkDrag;
+  m_pkCurrSetupBooth->pkBoothGrid = &rkSelf;
+
+  //åˆ¤æ–­æ‹–åŠ¨çš„Itemæ˜¯å¦å¯é‡å ä¸”æ•°é‡å¤§äºä¸€ä¸ª
+  if (rkItemCmd.GetIsPile() &&
+      rkItemCmd.GetTotalNum() > 1) { /// å…ˆè¯¢é—®æ•°é‡,å›è°ƒå‡½æ•°è¯¢é—®å•ä»·
+    m_NumBox = g_stUIBox.ShowNumberBox(
+        _InquireSetupPushItemNumEvent, rkItemCmd.GetTotalNum(),
+        RES_STRING(CL_LANGUAGE_MATCH_454), false);
+  } else {                        /// ç›´æ¥è¯¢é—®å•ä»·
+    m_pkCurrSetupBooth->iNum = 1; //æ•°é‡ä¸º1
+    m_pkCurrSetupBooth->iTotal = 1;
+    m_NumBox =
+        g_stUIBox.ShowNumberBox(_InquireSetupPushItemPriceEvent, -1,
+                                RES_STRING(CL_LANGUAGE_MATCH_450), false);
+  }
+
+  return true;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PopFromBoothSetup(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                                  int nGridID, CItemCommand &rkItemCmd) {
+  CCharacter *pMainCha = g_stUIBoat.GetHuman();
+  if (pMainCha && pMainCha->IsShop()) {
+    return false;
+  }
+
+  m_pkCurrSetupBooth = m_kBoothItems[rkDrag.GetDragIndex()];
+  if (!m_pkCurrSetupBooth)
+    return false;
+
+  RemoveBoothItemByNum(m_pkCurrSetupBooth, rkItemCmd.GetTotalNum());
+
+  m_pkCurrSetupBooth = 0;
+
+  return true;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PushToBoothTrade(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                                 int nGridID, CItemCommand &rkItemCmd) {
+  // äº¤æ˜“æ—¶ï¼Œä¸èƒ½å°†Itemæ‹–åŠ¨åˆ°Boothä¸­
+  return false;
+}
+
+//~ ------------------------------------------------------------------
+bool CBoothMgr::PopFromBoothTrade(CGoodsGrid &rkDrag, CGoodsGrid &rkSelf,
+                                  int nGridID, CItemCommand &rkItemCmd) {
+  m_pkCurrSetupBooth = m_kBoothItems[rkDrag.GetDragIndex()];
+  if (!m_pkCurrSetupBooth)
+    return false;
+
+  //åˆ¤æ–­æ‹–åŠ¨çš„Itemæ˜¯å¦å¯é‡å ä¸”æ•°é‡å¤§äºä¸€ä¸ª
+  if (rkItemCmd.GetIsPile() &&
+      rkItemCmd.GetTotalNum() > 1) { /// è¯¢é—®æ•°é‡ï¼Œç„¶ååœ¨æ‰§è¡Œäº¤æ˜“çš„æ“ä½œ
+    m_TradeBox = g_stUIBox.ShowTradeBox(
+        _BuyGoodsEvent, (float)m_pkCurrSetupBooth->iPrice,
+        m_pkCurrSetupBooth->iNum, rkItemCmd.GetItemInfo()->szName);
+
+  } else { /// ç›´æ¥æ‰§è¡Œäº¤æ˜“æ“ä½œ
+    char buf[256] = {0};
+
+    _snprintf_s(
+        buf, _countof(buf), _TRUNCATE, RES_STRING(CL_LANGUAGE_MATCH_455),
+        StringSplitNum(rkItemCmd.GetPrice()),
+        ConvertNumToChinese(rkItemCmd.GetPrice()).c_str(), rkItemCmd.GetName());
+    m_SelectBox = g_stUIBox.ShowSelectBox(_BuyAGoodEvent, buf, true);
+  }
+
+  return true;
+}
+
+// add by ALLEN 2007-10-16
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	struct CBoothMgr::SBoothItem
-	{
-		long lId;   // µÀ¾ßID
-		int  iPrice; // µÀ¾ßÏÔÊ¾¼Û¸ñ
-		int  iNum;   // µÀ¾ß¸öÊı
-		int	 iTotal; // ×ÜÊıÄ¿
-		int  iEquipIndex; // ×°±¸Ë÷Òı
-		int	 iBoothIndex; // »õÌ¯Ë÷Òı
-		CGoodsGrid* pkEquipGrid;	//²»ĞèÒªÉî¿½±´
-		CGoodsGrid* pkBoothGrid;	//²»ĞèÒªÉî¿½±´
-
-		SBoothItem() 
-			: lId(0), iPrice(0), iNum(0), iEquipIndex(0), 
-			  iBoothIndex(0), pkEquipGrid(0), pkBoothGrid(0)
-		{}
-	};
-
-	//~ ------------------------------------------------------------------
-	CBoothMgr::CBoothMgr() : m_pkCurrSetupBooth(0),  m_iBoothItemMaxNum(0), 
-		m_bSetupedBooth(false), m_NumBox(0), m_TradeBox(0), m_SelectBox(0)
-	{
-	}
-
-	//~ ------------------------------------------------------------------
-	CBoothMgr::~CBoothMgr()
-	{
-		ClearBoothItems();
-	}
-
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::Init() // °ÚÌ¯ĞÅÏ¢³õÊ¼»¯
-	{
-		CFormMgr &mgr = CFormMgr::s_Mgr;
-
-		frmBooth = mgr.Find("frmBooth", enumMainForm); // ²éÕÒ°ÚÌ¯±íµ¥
-		if ( !frmBooth)
-		{
-			LG("gui", RES_STRING(CL_LANGUAGE_MATCH_445));
-			return false;
-		}
-		frmBooth->evtEntrustMouseEvent = _MainMouseBoothEvent ; // ¶ÔÏûÏ¢ÊÂ¼şµÄ´¦Àí
-		frmBooth->evtClose = _MainBoothOnCloseEvent;
-
-		lblOwnerName = dynamic_cast<CLabel*>(frmBooth->Find("lblOwnerName"));
-		if (!lblOwnerName)
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_446),
-			frmBooth->GetName(), "lblOwnerName");
-
-		edtBoothName = dynamic_cast<CEdit*>(frmBooth->Find("edtBoothName"));
-		if (!lblOwnerName)
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_446),
-			frmBooth->GetName(), "edtBoothName");
-
-		btnSetupBooth = dynamic_cast<CTextButton*>(frmBooth->Find("btnSetupBooth"));
-		if (!btnSetupBooth)
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_446),
-			frmBooth->GetName(), "btnSetupBooth");
-
-		btnPullStakes = dynamic_cast<CTextButton*>(frmBooth->Find("btnPullStakes"));
-		if (!btnSetupBooth)
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_446),
-			frmBooth->GetName(), "btnPullStakes");
-
-
-		grdBoothItem = dynamic_cast<CGoodsGrid*>(frmBooth->Find("grdBoothItem"));
-		if (!grdBoothItem) 
-			return Error(RES_STRING(CL_LANGUAGE_MATCH_446),
-			frmBooth->GetName(), "grdBoothItem");
-		grdBoothItem->evtBeforeAccept = CUIInterface::_evtDragToGoodsEvent;
-		grdBoothItem;
-		grdBoothItem->SetShowStyle(CGoodsGrid::enumSale);
-		grdBoothItem->SetIsHint(true);
-
-
-		return true;
-
-	}
-
-	void CBoothMgr::End()
-	{
-	}
-
-	void CBoothMgr::CloseForm() // ¹Ø±Õ°ÚÌ¯±íµ¥
-	{
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return;
-		if (pkCha->getAttachID() == m_dwOwnerId && pkCha->IsShop())
-			return;
-
-		if (frmBooth->GetIsShow())
-		{
-			CloseBoothUI();
-		}
-	}
-
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::ShowSetupBoothForm(int iLevel)  // ÏÔÊ¾ÉèÖÃ°ÚÌ¯½çÃæ
-	{
-		frmBooth->SetIsShow(!frmBooth->GetIsShow());
-
-		//Çå³ıÒÔÇ°µÄÎïÆ·
-		ClearBoothItems();
-
-		//¸ù¾İµÈ¼¶È¡µÃ°ÚÌ¯À¸Î»Êı
-		m_iBoothItemMaxNum = GetItemNumByLevel(iLevel);
-		m_kBoothItems.resize(m_iBoothItemMaxNum);
-		for (int i(0); i<(int)m_kBoothItems.size(); i++)
-		{
-			m_kBoothItems[i] = 0;
-		}
-		//ÉèÖÃ°ÚÌ¯½çÃæµÄUI¿Ø¼ş
-		int col = grdBoothItem->GetCol();
-		int row = m_iBoothItemMaxNum / col;
-		if( m_iBoothItemMaxNum % col ) row++;
-
-		grdBoothItem->Clear();
-		grdBoothItem->SetContent( row, col );
-		grdBoothItem->Init();
-		grdBoothItem->Refresh();
-
-		//ÉèÖÃÌ¯Ö÷ID
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		m_dwOwnerId = pkCha->getAttachID();
-
-		btnSetupBooth->SetIsShow(true);
-		btnPullStakes->SetIsShow(false);
-		lblOwnerName->SetCaption("");
-		edtBoothName->SetCaption("");
-		edtBoothName->SetIsEnabled(true);
-
-		//´ò¿ªÉèÖÃ°ÚÌ¯½çÃæºÍÍæ¼ÒµÄÎïÆ·À¸
-		OpenBoothUI();
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::ShowTradeBoothForm(DWORD dwOwnerId, const char *szBoothName, int nItemNum)
-	{
-		m_dwOwnerId = dwOwnerId;
-		m_iBoothItemMaxNum = nItemNum;
-
-		ClearBoothItems();
-
-		//Ö±½Óµ½×î´ó¼¶£¬²»ĞèÒªÖªµÀµÈ¼¶
-		m_iBoothItemMaxNum = GetItemNumByLevel(3);
-		m_kBoothItems.resize(m_iBoothItemMaxNum);
-		for (int i(0); i<(int)m_kBoothItems.size(); i++)
-		{
-			m_kBoothItems[i] = 0;
-		}
-		//ÉèÖÃ°ÚÌ¯½çÃæµÄUI¿Ø¼ş
-		int col = grdBoothItem->GetCol();
-		int row = m_iBoothItemMaxNum / col;
-		if( m_iBoothItemMaxNum % col ) row++;
-
-		grdBoothItem->Clear();
-		grdBoothItem->SetContent( row, col );
-		grdBoothItem->Init();
-		grdBoothItem->Refresh();
-
-		// ÉèÖÃ½»Ò×½çÃæµÄUI¿Ø¼ş
-		btnSetupBooth->SetIsShow(false);
-		btnPullStakes->SetIsShow(false);
-		CGameScene* pScene = CGameApp::GetCurScene();
-		if (!pScene) return;
-		CCharacter* pCha = pScene->SearchByID(dwOwnerId);
-		if (!pCha) return;
-		lblOwnerName->SetCaption(pCha->getHumanName());
-		edtBoothName->SetCaption(szBoothName);
-		edtBoothName->SetIsEnabled(false);
-
-		//´ò¿ª½»Ò×°ÚÌ¯½çÃæºÍÍæ¼ÒµÄÎïÆ·À¸
-		OpenBoothUI();
-	}
-
-	void CBoothMgr::AddTradeBoothItem(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney)
-	{
-		if (iCount > 0)
-		{
-			//assert(!m_pkCurrSetupBooth);
-			m_pkCurrSetupBooth = new SBoothItem;
-			m_pkCurrSetupBooth->pkBoothGrid = grdBoothItem;
-			m_pkCurrSetupBooth->iBoothIndex = iGrid;
-			m_pkCurrSetupBooth->lId = dwItemID;
-			m_pkCurrSetupBooth->iNum = iCount;
-			m_pkCurrSetupBooth->iPrice = dwMoney;
-
-			AddBoothItem(m_pkCurrSetupBooth);
-
-			m_pkCurrSetupBooth = 0;
-		}
-	}
-
-	void CBoothMgr::AddTradeBoothBoat(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney, NET_CHARTRADE_BOATDATA& Data)
-	{
-		AddTradeBoothItem(iGrid, dwItemID, iCount, dwMoney);
-
-		CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(grdBoothItem->GetItem(iGrid));
-		if (!pItemCommand)
-			return;
-
-		pItemCommand->SetBoatHint(&Data);
-	}
-
-	void CBoothMgr::AddTradeBoothGood(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney, SItemGrid& rSItemGrid)
-	{
-		AddTradeBoothItem(iGrid, dwItemID, iCount, dwMoney);
-
-		CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(grdBoothItem->GetItem(iGrid));
-		if (!pItemCommand)
-			return;
-
-		pItemCommand->SetData(rSItemGrid);
-	}
-
-
-	void CBoothMgr::RemoveTradeBoothItem( DWORD dwCharID, int iGrid, int iCount)
-	{
-		if (dwCharID == m_dwOwnerId)
-		{
-			//assert(!m_pkCurrSetupBooth);
-			m_pkCurrSetupBooth = m_kBoothItems[iGrid];
-			RemoveBoothItemByNum(m_pkCurrSetupBooth, iCount);
-			m_pkCurrSetupBooth = 0;
-		}
-	}
-
-
-	//~ ------------------------------------------------------------------
-	int CBoothMgr::GetItemNumByLevel(int iLevel)
-	{
-		//¸ù¾İ°ÚÌ¯¼¼ÄÜµÈ¼¶µÃµ½¿ÉÒÔ°ÚÌ¯µÄÀ¸Î»Êı,Ïê¼ûÎÄµµ
-		return iLevel * 6;
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::ClearBoothItems()
-	{
-		for (size_t i(0); i<m_kBoothItems.size(); ++i)
-		{
-			//delete m_kBoothItems[i];
-			SAFE_DELETE(m_kBoothItems[i]); // UIµ±»ú´¦Àí
-			m_kBoothItems[i] = 0;
-		}
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::AddBoothItem(SBoothItem* pBoothItem)
-	{
-		if (!pBoothItem)
-			return ;
-
-		//Èç¹ûµ±Ç°Ê±Ì¯Ö÷,ÔòĞèÒª¸üĞÂËüµÄ×°±¸À¸
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return ;
-
-		if (pkCha->getAttachID() == GetOwnerId())
-		{
-			//Èç¹ûËüÔö¼Óµ½µÄÀ¸Î»ÒÑ¾­ÓĞÆäËûÎ»ÖÃ,ÄÇÃ´Õâ¸öÎïÆ·»áÌæ»»ÏÈÇ°µÄÎïÆ·
-			SBoothItem* pSourceBoothItem = m_kBoothItems[pBoothItem->iBoothIndex];
-			if (pSourceBoothItem)
-			{
-				RemoveBoothItemByNum(pSourceBoothItem, pSourceBoothItem->iNum);
-			}
-
-			// ×°±¸À¸¸ÃÎ»ÖÃÉèÖÃÎª²»¿ÉÓÃ×´Ì¬
-			pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex)->SetIsValid(false);
-		}
-
-		m_kBoothItems[pBoothItem->iBoothIndex] = pBoothItem;
-
-		// grdBoothItemÔÚÖĞÏÔÊ¾
-		CItemRecord* pInfo = GetItemRecordInfo( pBoothItem->lId);
-		if (pBoothItem->pkEquipGrid)
-		{
-			CItemCommand* pOldItem = dynamic_cast<CItemCommand*>(pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex));
-			if (pOldItem)
-			{
-				CItemCommand* pNewItem = new CItemCommand(*pOldItem);
-				pNewItem->SetTotalNum(pBoothItem->iNum);
-				pNewItem->SetPrice(pBoothItem->iPrice);
-				pNewItem->SetIsValid(true);
-				grdBoothItem->SetItem(pBoothItem->iBoothIndex, pNewItem);
-			}
-		}
-		else
-		{
-			//CItemCommand* pItem = new CItemCommand( pInfo );
-			CItemCommand* pItem = new CItemCommand( pInfo, false );//modified guojiangang 20090109
-			pItem->SetTotalNum(pBoothItem->iNum);
-			pItem->SetPrice(pBoothItem->iPrice);
-			grdBoothItem->SetItem(pBoothItem->iBoothIndex, pItem);
-		}
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::RemoveBoothItemByNum(SBoothItem* pBoothItem, int iNum)
-	{
-		if (!pBoothItem)
-			return;
-
-		int iBoothIndex = pBoothItem->iBoothIndex;
-		if (iNum == pBoothItem->iNum)
-		{	//ÒÆÈ¥ËùÓĞµÄ¸ÃÎïÆ·
-			//Èç¹ûµ±Ç°Ê±Ì¯Ö÷,ÔòĞèÒª¸üĞÂËüµÄ×°±¸À¸
-			CCharacter* pkCha = g_stUIBoat.GetHuman();
-			if (!pkCha)
-				return ;
-
-			if (pkCha->getAttachID() == GetOwnerId())
-			{
-				CCommandObj* pItem = pBoothItem->pkEquipGrid->GetItem(pBoothItem->iEquipIndex);
-				if (pItem)
-				{
-					pItem->SetIsValid(true);
-					//int num = pItem->GetTotalNum();
-					//num = num - pBoothItem->iTotal + iNum;
-					//pItem->SetTotalNum(pItem->GetTotalNum() - pBoothItem->iTotal + pBoothItem->iNum);
-				}
-			}
-			
-			pBoothItem->pkBoothGrid->DelItem(iBoothIndex);
-
-			if (m_kBoothItems[iBoothIndex])
-			{
-				//delete m_kBoothItems[iBoothIndex];
-				SAFE_DELETE(m_kBoothItems[iBoothIndex]); // UIµ±»ú´¦Àí
-				m_kBoothItems[iBoothIndex] = 0;
-			}
-		}
-		else
-		{	//½«²¿·ÖµÄ¸ÃÎïÆ·ÍÏ¶¯µ½×°±¸À¸
-			pBoothItem->iNum -= iNum;
-
-			//¸üĞÂUIÖĞµÄÊıÁ¿
-			pBoothItem->pkBoothGrid->GetItem(iBoothIndex)->SetTotalNum(pBoothItem->iNum);
-
-		}
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::SetupBoothSuccess()
-	{
-		//ĞŞ¸ÄUI
-		btnSetupBooth->SetIsShow(false);
-		btnPullStakes->SetIsShow(true);
-		edtBoothName->SetIsEnabled(false);
-
-		SetSetupedBooth(true);
-
-		g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
-
-		//²¥·Å°ÚÌ¯¶¯»­
-	}
-
-	void CBoothMgr::PullBoothSuccess()
-	{
-		//ÖÕÖ¹°ÚÌ¯¶¯»­
-
-		for (int i(0); i<(int)g_stUIBooth.m_kBoothItems.size(); i++)
-		{
-			if (g_stUIBooth.m_kBoothItems[i])
-			{
-				g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_kBoothItems[i], 
-					g_stUIBooth.m_kBoothItems[i]->iNum);
-			}
-		}
-		g_stUIBooth.ClearBoothItems();
-
-		//¹Ø±Õ±íµ¥
-		CloseBoothUI();
-	}
-
-	void CBoothMgr::OpenBoothUI()
-	{
-		frmBooth->SetPos(150, 150);
-		frmBooth->Reset();
-		frmBooth->Refresh();
-		frmBooth->Show();
-
-		//Í¬Ê±´ò¿ªÍæ¼ÒµÄ×°±¸À¸
-		int x = frmBooth->GetX() + frmBooth->GetWidth();
-		int y = frmBooth->GetY();
-		g_stUIEquip.GetItemForm()->SetPos(x, y);
-		g_stUIEquip.GetItemForm()->Refresh();
-
-		if (!(m_isOldEquipFormShow = g_stUIEquip.GetItemForm()->GetIsShow()))
-		{
-			g_stUIEquip.GetItemForm()->Show();
-		}
-
-	}
-
-	void CBoothMgr::CloseBoothUI()
-	{
-		frmBooth->Close();
-		g_stUIEquip.GetItemForm()->SetIsShow(m_isOldEquipFormShow);
-
-		if (m_NumBox)
-			m_NumBox->frmDialog->Close();
-
-		if (m_TradeBox)
-			m_TradeBox->frmDialog->Close();
-
-		if (m_SelectBox)
-			m_SelectBox->frmDialog->Close();
-
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_MainMouseBoothEvent(CCompent *pSender, int nMsgType, 
-										 int x, int y, DWORD dwKey)
-	{
-		string name = pSender->GetName();
-		if( name=="btnNo"  || name == "btnClose" )  
-		{ ///¹Ø±Õ±íµ¥
-			return;
-		}
-		else if ( name == "btnSetupBooth")
-		{	/// °´ÏÂ¡°ÉèÖÃ°ÚÌ¯¡±¼ü
-
-			if (strlen(g_stUIBooth.edtBoothName->GetCaption()) == 0)
-			{
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_447));
-				return;
-			}
-			
-			//¼ì²é°ÚÌ¯ÃûÊÇ·ñº¬ÓĞ·Ç·¨×Ö·û
-			string sName(g_stUIBooth.edtBoothName->GetCaption());
-			if (!CTextFilter::IsLegalText(CTextFilter::NAME_TABLE, sName))
-			{
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_448));
-				return ;
-			}
-
-			//ÌîÈëĞÅÏ¢ÄÚÈİ
-			mission::NET_STALL_ALLDATA netCreateBoothData;
-			int iNum(0);	//Ì¯Î»ÄÚµÄÊıÁ¿
-			for (int i(0); i<(int)g_stUIBooth.m_kBoothItems.size(); i++)
-			{
-				if (g_stUIBooth.m_kBoothItems[i])
-				{
-					netCreateBoothData.Info[iNum].dwMoney = DWORD(g_stUIBooth.m_kBoothItems[i]->iPrice);
-					netCreateBoothData.Info[iNum].byCount = BYTE(g_stUIBooth.m_kBoothItems[i]->iNum);
-					netCreateBoothData.Info[iNum].byIndex = BYTE(g_stUIBooth.m_kBoothItems[i]->iEquipIndex);
-					netCreateBoothData.Info[iNum].byGrid  = BYTE(g_stUIBooth.m_kBoothItems[i]->iBoothIndex);
-					iNum++;
-				}
-			}
-			netCreateBoothData.byNum = BYTE(iNum);
-			if (netCreateBoothData.byNum > 0)
-			{
-				//·¢ËÍ´´½¨Ì¯Î»Ğ­Òé
-				if( CCharacter* pCha = CGameScene::GetMainCha() )
-				{
-					pCha->GetActor()->Stop();
-				}
-
-				CS_StallInfo( g_stUIBooth.edtBoothName->GetCaption(), netCreateBoothData );
-			}
-
-			return ;			
-		}
-		else if (name == "btnPullStakes")
-		{	/// °´ÏÂ¡°ÊÕÌ¯¡±¼ü
-			g_stUIBooth.CloseBoothUI();
-		}
-
-	}
-
-	void CBoothMgr::_MainBoothOnCloseEvent(CForm* pForm, bool& IsClose)
-	{
-
-		if (g_stUIBoat.GetHuman()->IsShop() && g_stUIBooth.IsSetupedBooth())
-		{
-			CCharacter* pMainCha = g_stUIBoat.GetHuman();
-			if (pMainCha && pMainCha->getAttachID() == g_stUIBooth.m_dwOwnerId)
-			{
-				CS_StallClose();
-			}
-		}
-
-		for (int i(0); i<(int)g_stUIBooth.m_kBoothItems.size(); i++)
-		{
-			if (g_stUIBooth.m_kBoothItems[i])
-			{
-				g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_kBoothItems[i], 
-					g_stUIBooth.m_kBoothItems[i]->iNum);
-			}
-		}
-
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return ;
-
-		if (pkCha->getAttachID() == g_stUIBooth.GetOwnerId())
-		{
-			CGoodsGrid* pEquipGrid = g_stUIEquip.GetGoodsGrid();
-			if (pEquipGrid)
-			{
-				pEquipGrid->SetItemValid(true);
-
-				//CCommandObj* pItem;
-				//for (int i(0); i<pEquipGrid->GetMaxNum(); i++)
-				//{
-				//	pItem = pEquipGrid->GetItem(i);
-				//	if (pItem)
-    //                    pItem->SetIsValid(true);
-				//}
-
-			}
-
-		}
-
-		g_stUIBooth.ClearBoothItems();
-
-		g_stUIEquip.GetItemForm()->SetIsShow(g_stUIBooth.m_isOldEquipFormShow);
-	}
-
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_InquireSetupPushItemNumEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType!=CForm::mrYes ) 
-		{
-			SAFE_DELETE( g_stUIBooth.m_pkCurrSetupBooth );
-			return;
-		}
-
-		if (!g_stUIBooth.m_pkCurrSetupBooth)
-			return;
-
-		stNumBox* kItemNumBox = (stNumBox*)pSender->GetForm()->GetPointer();
-		if (!kItemNumBox) return;
-
-		if( kItemNumBox->GetNumber()<=0 ) 
-		{
-			g_pGameApp->MsgBox( RES_STRING(CL_LANGUAGE_MATCH_449) );
-			return;
-		}
-
-		g_stUIBooth.m_pkCurrSetupBooth->iNum = kItemNumBox->GetNumber();	// Íæ¼ÒÊäÈëµÄÊıÁ¿
-		g_stUIBooth.m_pkCurrSetupBooth->iTotal = kItemNumBox->GetNumber();
-		
-
-		//Ñ¯ÎÊ¼Û¸ñ
-		g_stUIBooth.m_NumBox = g_stUIBox.ShowNumberBox(_InquireSetupPushItemPriceEvent, -1, RES_STRING(CL_LANGUAGE_MATCH_450), false);
-
-	}
-	
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_InquireSetupPushItemPriceEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType!=CForm::mrYes ) 
-		{
-			SAFE_DELETE( g_stUIBooth.m_pkCurrSetupBooth );
-			return;
-		}
-
-		if (!g_stUIBooth.m_pkCurrSetupBooth)
-			return;
-
-		stNumBox* kItemPriceBox = (stNumBox*)pSender->GetForm()->GetPointer();
-		if (!kItemPriceBox) return;
-
-		if( kItemPriceBox->GetNumber()<=0 ) 
-		{
-			g_pGameApp->MsgBox( RES_STRING(CL_LANGUAGE_MATCH_451) );
-			return;
-		}
-
-		LONG64 iTotal = (LONG64)g_stUIBooth.m_pkCurrSetupBooth->iNum * (LONG64)kItemPriceBox->GetNumber();
-		if (iTotal >= 1000000000)
-		{
-			g_pGameApp->MsgBox( RES_STRING(CL_LANGUAGE_MATCH_452) );
-			return;
-		}
-
-		g_stUIBooth.m_pkCurrSetupBooth->iPrice = kItemPriceBox->GetNumber();	// Íæ¼ÒÊäÈëµÄµ¥¼Û
-
-		g_stUIBooth.AddBoothItem(g_stUIBooth.m_pkCurrSetupBooth);
-
-		g_stUIBooth.m_pkCurrSetupBooth = 0;
-
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_InquireSetupPopItemNumEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType!=CForm::mrYes ) 
-		{
-			g_stUIBooth.m_pkCurrSetupBooth = 0;
-			return;
-		}
-
-		if (!g_stUIBooth.m_pkCurrSetupBooth)
-			return;
-
-		stNumBox* kItemNumBox = (stNumBox*)pSender->GetForm()->GetPointer();
-		if (!kItemNumBox) return;
-
-		g_stUIBooth.RemoveBoothItemByNum(g_stUIBooth.m_pkCurrSetupBooth, kItemNumBox->GetNumber());
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_InquireTradeItemNumEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType!=CForm::mrYes ) 
-		{
-			return;
-		}
-		stNumBox* kItemNumBox = (stNumBox*)pSender->GetForm()->GetPointer();
-		if (!kItemNumBox) return;
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_BuyGoodsEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if(nMsgType != CForm::mrYes) 
-		{
-			g_stUIBooth.m_pkCurrSetupBooth = 0;
-			return;
-		}
-
-		if (!g_stUIBooth.m_pkCurrSetupBooth)
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_453));
-			return;
-		}
-
-		stTradeBox* pItemNumBox = (stTradeBox*)pSender->GetForm()->GetPointer();
-		if (!pItemNumBox) return;
-
-		CS_StallBuy( g_stUIBooth.m_dwOwnerId, 
-					 g_stUIBooth.m_pkCurrSetupBooth->iBoothIndex, 
-					 pItemNumBox->GetTradeNum() );
-
-	}
-
-	//~ ------------------------------------------------------------------
-	void CBoothMgr::_BuyAGoodEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType!=CForm::mrYes ) 
-		{
-			g_stUIBooth.m_pkCurrSetupBooth = 0;
-			return;
-		}
-
-		if (!g_stUIBooth.m_pkCurrSetupBooth)
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_453));
-			return;
-		}
-
-		CS_StallBuy( g_stUIBooth.m_dwOwnerId, g_stUIBooth.m_pkCurrSetupBooth->iBoothIndex, 1 );
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PushToBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem)
-	{
-		if (!rkItem.GetIsValid())
-			return false;
-
-		CItemCommand* pkItemCmd = dynamic_cast<CItemCommand*>(&rkItem);
-		if (!pkItemCmd)	
-			return false;
-
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return false;
-
-		if (pkCha->getAttachID() == GetOwnerId())
-		{	///µ±Ç°´ò¿ª½çÃæµÄ¾ÍÊÇÌ¯Ö÷
-
-			//ÅĞ¶ÏÎïÆ·ÊÇ·ñ¿É½»Ò×
-			CItemRecord* pItemRecord = pkItemCmd->GetItemInfo();
-			if (!pItemRecord)
-				return false;
-			// add by ning.yan 2008-11-05 ²»¿ÉËø¶¨µÀ¾ßÒ²²»¿É°ÚÌ¯ begin 
-			else if(pItemRecord->lID ==1121 || pItemRecord->lID ==1122 || pItemRecord->lID ==6347 )
-				return false;
-			// end
-
-			if (pItemRecord->chIsTrade)
-				return PushToBoothSetup(rkDrag, rkSelf, nGridID, *pkItemCmd);
-		}
-		else
-		{	///µ±Ç°´ò¿ª½çÃæµÄ²»ÊÇÌ¯Ö÷£¬Ôò¿ÉÈÏÎªÊÇ½»Ò×
-			return PushToBoothTrade(rkDrag, rkSelf, nGridID, *pkItemCmd);
-		}
-		return true;
-
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PopFromBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem)
-	{
-		if (!rkItem.GetIsValid())
-			return false;
-
-		CItemCommand* pkItemCmd = dynamic_cast<CItemCommand*>(&rkItem);
-		if (!pkItemCmd)	
-			return false;
-
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return false;
-
-		if (pkCha->getAttachID() == GetOwnerId())
-		{	///µ±Ç°´ò¿ª½çÃæµÄ¾ÍÊÇÌ¯Ö÷£¬Ôò¿ÉÈÏÎªÊÇÉèÖÃÌ¯Î»
-			return PopFromBoothSetup(rkDrag, rkSelf, nGridID, *pkItemCmd);
-		}
-		else
-		{	///µ±Ç°´ò¿ª½çÃæµÄ²»ÊÇÌ¯Ö÷£¬Ôò¿ÉÈÏÎªÊÇ½»Ò×
-			return PopFromBoothTrade(rkDrag, rkSelf, nGridID, *pkItemCmd);
-		}
-
-		return true;
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::BoothToBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem)
-	{
-		CCharacter* pkCha = g_stUIBoat.GetHuman();
-		if (!pkCha)
-			return false;
-
-		if (pkCha->getAttachID() == GetOwnerId())
-		{	///µ±Ç°´ò¿ª½çÃæµÄ¾ÍÊÇÌ¯Ö÷£¬Ôò¿ÉÈÏÎªÊÇÉèÖÃÌ¯Î»
-		}
-		else
-		{	///µ±Ç°´ò¿ª½çÃæµÄ²»ÊÇÌ¯Ö÷£¬Ôò¿ÉÈÏÎªÊÇ½»Ò×
-
-		}
-
-		return true;
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PushToBoothSetup(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd)
-	{
-		// Èç¹ûÒÑ¾­ÔÚ°ÚÌ¯×´Ì¬,Ôò²»ÄÜ¼ÌĞø½øĞĞÍÏ¶¯
-		CCharacter *pMainCha = g_stUIBoat.GetHuman();
-		if (pMainCha && pMainCha->IsShop())
-		{
-			return false;
-		}
-
-		m_pkCurrSetupBooth = new SBoothItem;
-		m_pkCurrSetupBooth->lId = rkItemCmd.GetItemInfo()->lID;
-		m_pkCurrSetupBooth->iBoothIndex = nGridID;
-		m_pkCurrSetupBooth->iEquipIndex = rkDrag.GetDragIndex();
-		m_pkCurrSetupBooth->pkEquipGrid = &rkDrag;
-		m_pkCurrSetupBooth->pkBoothGrid = &rkSelf;
-
-		//ÅĞ¶ÏÍÏ¶¯µÄItemÊÇ·ñ¿ÉÖØµşÇÒÊıÁ¿´óÓÚÒ»¸ö
-		if (rkItemCmd.GetIsPile() && rkItemCmd.GetTotalNum() > 1)
-		{/// ÏÈÑ¯ÎÊÊıÁ¿,»Øµ÷º¯ÊıÑ¯ÎÊµ¥¼Û
-			m_NumBox = g_stUIBox.ShowNumberBox(_InquireSetupPushItemNumEvent, rkItemCmd.GetTotalNum(), RES_STRING(CL_LANGUAGE_MATCH_454), false);
-		}
-		else
-		{/// Ö±½ÓÑ¯ÎÊµ¥¼Û
-			m_pkCurrSetupBooth->iNum = 1;	//ÊıÁ¿Îª1
-			m_pkCurrSetupBooth->iTotal = 1;
-			m_NumBox = g_stUIBox.ShowNumberBox(_InquireSetupPushItemPriceEvent, -1, RES_STRING(CL_LANGUAGE_MATCH_450), false);
-		}
-
-		return true;
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PopFromBoothSetup(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd)
-	{
-		CCharacter* pMainCha = g_stUIBoat.GetHuman();
-		if (pMainCha && pMainCha->IsShop())
-		{
-			return false;
-		}
-
-		m_pkCurrSetupBooth = m_kBoothItems[rkDrag.GetDragIndex()];
-		if (!m_pkCurrSetupBooth)
-			return false;
-
-		RemoveBoothItemByNum(m_pkCurrSetupBooth, rkItemCmd.GetTotalNum());
-
-		m_pkCurrSetupBooth = 0;
-
-		return true;
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PushToBoothTrade(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd)
-	{
-		// ½»Ò×Ê±£¬²»ÄÜ½«ItemÍÏ¶¯µ½BoothÖĞ
-		return false;
-	}
-
-	//~ ------------------------------------------------------------------
-	bool CBoothMgr::PopFromBoothTrade(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd)
-	{
-		m_pkCurrSetupBooth = m_kBoothItems[rkDrag.GetDragIndex()];
-		if (!m_pkCurrSetupBooth)
-			return false;
-
-		//ÅĞ¶ÏÍÏ¶¯µÄItemÊÇ·ñ¿ÉÖØµşÇÒÊıÁ¿´óÓÚÒ»¸ö
-		if (rkItemCmd.GetIsPile() && rkItemCmd.GetTotalNum() > 1)
-		{/// Ñ¯ÎÊÊıÁ¿£¬È»ºóÔÚÖ´ĞĞ½»Ò×µÄ²Ù×÷
-			m_TradeBox = g_stUIBox.ShowTradeBox(_BuyGoodsEvent, 
-								   (float)m_pkCurrSetupBooth->iPrice, 
-								   m_pkCurrSetupBooth->iNum, 
-								   rkItemCmd.GetItemInfo()->szName );
-
-		}
-		else
-		{/// Ö±½ÓÖ´ĞĞ½»Ò×²Ù×÷
-			char buf[256] = { 0 };
-
-			_snprintf_s( buf, _countof( buf ), _TRUNCATE,  RES_STRING(CL_LANGUAGE_MATCH_455),
-				StringSplitNum( rkItemCmd.GetPrice() ),
-				ConvertNumToChinese(rkItemCmd.GetPrice()).c_str(),
-				rkItemCmd.GetName());
-			m_SelectBox = g_stUIBox.ShowSelectBox(_BuyAGoodEvent, buf, true);
-		}
-
-		return true;
-	}
-
-	//add by ALLEN 2007-10-16
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-#include "state_reading.h"
 #include "Actor.h"
+#include "state_reading.h"
 
+CCharacter *CReadBookMgr::_pCha = 0;
 
-	CCharacter* CReadBookMgr::_pCha = 0;
+bool CReadBookMgr::IsCanReadBook(CCharacter *pCha) {
+  _pCha = pCha;
 
-	bool CReadBookMgr::IsCanReadBook(CCharacter* pCha)
-	{
-		_pCha = pCha;
+  // åˆ¤æ–­è¯»ä¹¦çš„æ¡ä»¶
+  CItemCommand *pRHand = g_stUIEquip.GetEquipItem(enumEQUIP_RHAND);
+  CItemCommand *pNeck = g_stUIEquip.GetEquipItem(enumEQUIP_NECK);
+  if (!pRHand || !pNeck) {
+    g_pGameApp->MsgBox(
+        RES_STRING(CL_LANGUAGE_MATCH_941)); // "è¯·å…ˆè£…å¤‡å­¦ç”Ÿè¯å’Œä¹¦"
+    return false;
+  }
 
-		// ÅĞ¶Ï¶ÁÊéµÄÌõ¼ş
-		CItemCommand* pRHand = g_stUIEquip.GetEquipItem(enumEQUIP_RHAND);
-		CItemCommand* pNeck  = g_stUIEquip.GetEquipItem(enumEQUIP_NECK);
-		if(!pRHand || !pNeck)
-		{
-			g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_941));	// "ÇëÏÈ×°±¸Ñ§ÉúÖ¤ºÍÊé"
-			return false;
-		}
+  long nRHandID = pRHand->GetItemInfo()->lID;
+  long nNeckID = pNeck->GetItemInfo()->lID;
+  if ((3243 <= nRHandID && nRHandID <= 3278) && nNeckID == 3289) {
+    return true;
+  }
 
-		long nRHandID = pRHand->GetItemInfo()->lID;
-		long nNeckID  = pNeck->GetItemInfo()->lID;
-		if( (3243 <= nRHandID && nRHandID <= 3278) && nNeckID == 3289)
-		{
-			return true;
-		}
-		
-		return false;
-		
-	}
+  return false;
+}
 
+bool CReadBookMgr::ShowReadBookForm() {
+  CBoxMgr::ShowSelectBox(_evtSelectBox, RES_STRING(CL_LANGUAGE_MATCH_942),
+                         true); // "ç¡®å®šæ˜¯å¦è¦è¯»ä¹¦ï¼Ÿ"
+  return true;
+}
 
-	bool CReadBookMgr::ShowReadBookForm()
-	{
-		CBoxMgr::ShowSelectBox(_evtSelectBox, RES_STRING(CL_LANGUAGE_MATCH_942), true);	// "È·¶¨ÊÇ·ñÒª¶ÁÊé£¿"
-		return true;
-	}
+void CReadBookMgr::_evtSelectBox(CCompent *pSender, int nMsgType, int x, int y,
+                                 DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    if (_pCha) {
+      _pCha->GetActor()->GetCurState()->PopState();
+      _pCha = 0;
+    }
 
+    return;
+  }
 
-	void CReadBookMgr::_evtSelectBox(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if( nMsgType != CForm::mrYes ) 
-		{
-			if(_pCha)
-			{
-				_pCha->GetActor()->GetCurState()->PopState();
-				_pCha = 0;
-			}
+  stMsgBox *pMsgBox =
+      CBoxMgr::ShowMsgBox(_evtMsgBox, RES_STRING(CL_LANGUAGE_MATCH_943),
+                          false); // "æŒ‰ \"ç¡®å®š\" åœæ­¢è¯»ä¹¦ã€‚"
+  pMsgBox->frmDialog->SetIsEscClose(false);
 
-			return;
-		}
+  CS_ReadBookStart();
+}
 
-		stMsgBox* pMsgBox = CBoxMgr::ShowMsgBox(_evtMsgBox, RES_STRING(CL_LANGUAGE_MATCH_943), false);	// "°´ \"È·¶¨\" Í£Ö¹¶ÁÊé¡£"
-		pMsgBox->frmDialog->SetIsEscClose(false);
+void CReadBookMgr::_evtMsgBox(CCompent *pSender, int nMsgType, int x, int y,
+                              DWORD dwKey) {
+  if (_pCha && _pCha->GetActor()->GetCurState()) {
+    _pCha->GetActor()->GetCurState()->PopState();
+    _pCha = 0;
+  }
 
-		CS_ReadBookStart();
-	}
+  CS_ReadBookClose();
+}
 
-
-	void CReadBookMgr::_evtMsgBox(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if(_pCha && _pCha->GetActor()->GetCurState())
-		{
-			_pCha->GetActor()->GetCurState()->PopState();
-			_pCha = 0;
-		}
-
-		CS_ReadBookClose();
-	}
-
-}	// end of namespace GUI
+} // end of namespace GUI

@@ -7,26 +7,26 @@ class CCharacter;
 
 namespace GUI
 {
-#define defMaxBoat 3 // ¿É»ñµÃ×î´ó´¬Ö»Êı
+#define defMaxBoat 3 // å¯è·å¾—æœ€å¤§èˆ¹åªæ•°
 
-class CBoat // ´¬ĞÅÏ¢Àà
+class CBoat // èˆ¹ä¿¡æ¯ç±»
 {
 public:
 	CBoat();
 	bool Init( int n, CForm* ship, GuiDragInGridEvent evt );
 
-	void		Reset(); // ÖØĞÂÉèÖÃ´¬
-	void		Link( CCharacter* pBoat )	{ _chtBoat = pBoat;			}  // ´¬ÈËÎïºÍ½ÇÉ«ÈËÎï¶ÔÓ¦
-	bool		GetIsValid()				{ return _chtBoat!=NULL;	}  // »ñµÃ½ÇÉ«ĞÅÏ¢
+	void		Reset(); // é‡æ–°è®¾ç½®èˆ¹
+	void		Link( CCharacter* pBoat )	{ _chtBoat = pBoat;			}  // èˆ¹äººç‰©å’Œè§’è‰²äººç‰©å¯¹åº”
+	bool		GetIsValid()				{ return _chtBoat!=NULL;	}  // è·å¾—è§’è‰²ä¿¡æ¯
 	void		UnLink()					{ _chtBoat=NULL;			}  
 
-	CCharacter* GetCha()			{ return _chtBoat;		}  // ÕÒÈËÎï
-	CGoodsGrid*	GetGoodsGrid()		{ return _grdHold;		}  // »ñµÃ½ÇÉ«µÀ¾ß
-	CForm*		GetForm()			{ return _frmShipRoom;	}  // ÕÒ´¬µÀ¾ßÀ¸ĞÅÏ¢
+	CCharacter* GetCha()			{ return _chtBoat;		}  // æ‰¾äººç‰©
+	CGoodsGrid*	GetGoodsGrid()		{ return _grdHold;		}  // è·å¾—è§’è‰²é“å…·
+	CForm*		GetForm()			{ return _frmShipRoom;	}  // æ‰¾èˆ¹é“å…·æ ä¿¡æ¯
 
 private:
 	static void _evtHoldGridRMouse(CGuiData *pSender,CCommandObj* pItem,int nGridID);
-	static void _evtEscClose( CForm* pForm );	// °´ ESC ¹Ø±Õ´°ÌåÊÂ¼ş  add by Philip.Wu  2006-06-22
+	static void _evtEscClose( CForm* pForm );	// æŒ‰ ESC å…³é—­çª—ä½“äº‹ä»¶  add by Philip.Wu  2006-06-22
 
 private:
 	int				_nIndex;
@@ -42,33 +42,33 @@ class CBoatMgr : public CUIInterface
 public:
 	void	Clear();
 
-	bool	AddBoat( CCharacter* pBoat );  // ÓÃ»§Ìí¼Ó´¬Ö»
-	CBoat*	GetBoat( unsigned int n )		{ return &_cBoats[n];	} // »ñÈ¡´¬Ö»
-	CBoat*	FindBoat( unsigned int ulWorldID );  // ÕÒµ½ÓÃ»§È«²¿´¬Ö»
+	bool	AddBoat( CCharacter* pBoat );  // ç”¨æˆ·æ·»åŠ èˆ¹åª
+	CBoat*	GetBoat( unsigned int n )		{ return &_cBoats[n];	} // è·å–èˆ¹åª
+	CBoat*	FindBoat( unsigned int ulWorldID );  // æ‰¾åˆ°ç”¨æˆ·å…¨éƒ¨èˆ¹åª
 
 	void	SetHuman( CCharacter* p )		{ _pHuman = p;			} 
-	CCharacter*		GetHuman()				{ return _pHuman;		} // ²éÕÒµ±Ç°½ÇÉ«
+	CCharacter*		GetHuman()				{ return _pHuman;		} // æŸ¥æ‰¾å½“å‰è§’è‰²
 
-	CGoodsGrid*		FindGoodsGrid( unsigned int ulWorldID );	// ¸ù¾İID²éÕÒ¶ÔÓ¦µÄµÀ¾ßÀ¸
-	CCharacter*		FindCha( unsigned int ulWorldID );         // ²éÕÒ´¬Ö÷ÈË
-	CCharacter*		FindCha( CGoodsGrid* pGoods );   // ÓÉ×°±¸Æ¥Åä²éÕÒ´¬Ö»µÄÖ÷ÈË
+	CGoodsGrid*		FindGoodsGrid( unsigned int ulWorldID );	// æ ¹æ®IDæŸ¥æ‰¾å¯¹åº”çš„é“å…·æ 
+	CCharacter*		FindCha( unsigned int ulWorldID );         // æŸ¥æ‰¾èˆ¹ä¸»äºº
+	CCharacter*		FindCha( CGoodsGrid* pGoods );   // ç”±è£…å¤‡åŒ¹é…æŸ¥æ‰¾èˆ¹åªçš„ä¸»äºº
 
-	CCharacter*		ChangeMainCha( unsigned int ulWorldID );	// ÇĞ»»Ö÷½Ç
+	CCharacter*		ChangeMainCha( unsigned int ulWorldID );	// åˆ‡æ¢ä¸»è§’
 
-	CBoat*	GetOtherBoat()					{ return &_cOther;		}  // ²é¿´±ğÈË´¬
+	CBoat*	GetOtherBoat()					{ return &_cOther;		}  // æŸ¥çœ‹åˆ«äººèˆ¹
 
 protected:
-	virtual bool Init(); //ÓÃ»§´¬ĞÅÏ¢³õÊ¼»¯
+	virtual bool Init(); //ç”¨æˆ·èˆ¹ä¿¡æ¯åˆå§‹åŒ–
     virtual void End(); 
-	virtual void SwitchMap()				{	Clear();			} // Ìø×ªµØÍ¼Ê±Çå³ı´¬ĞÅÏ¢
+	virtual void SwitchMap()				{	Clear();			} // è·³è½¬åœ°å›¾æ—¶æ¸…é™¤èˆ¹ä¿¡æ¯
 
 private:
-	CBoat*		GetFreeBoat(); // »ñµÃÃâ·Ñ´¬Ö»
+	CBoat*		GetFreeBoat(); // è·å¾—å…è´¹èˆ¹åª
 
 private:
 	CCharacter*	_pHuman;
-	CBoat		_cBoats[defMaxBoat];        // µ±Ç°½ÇÉ«¿ÉÓµÓĞµÄ´¬ÊıÁ¿
-	CBoat		_cOther;					// Ò»¸öÓÃÓÚ²é¿´±ğÈËµÄ´¬²Õ£¬»õÎïÊ±µÄÁÙÊ±±äÁ¿¡¡
+	CBoat		_cBoats[defMaxBoat];        // å½“å‰è§’è‰²å¯æ‹¥æœ‰çš„èˆ¹æ•°é‡
+	CBoat		_cOther;					// ä¸€ä¸ªç”¨äºæŸ¥çœ‹åˆ«äººçš„èˆ¹èˆ±ï¼Œè´§ç‰©æ—¶çš„ä¸´æ—¶å˜é‡ã€€
 
 };
 

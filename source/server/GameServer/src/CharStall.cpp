@@ -12,7 +12,7 @@ mission::CStallSystem g_StallSystem;
 
 namespace mission
 {
-	#define MAX_STALL_MONEY 1000000000 // °ÚÌ¯µ¥¸öÎïÆ·×Ü¼Û²»¿ÉÒÔ³¬¹ı1ÒÚ
+	#define MAX_STALL_MONEY 1000000000 // æ‘†æ‘Šå•ä¸ªç‰©å“æ€»ä»·ä¸å¯ä»¥è¶…è¿‡1äº¿
 
 	CStallData::CStallData(dbc::uLong lSize)
 		: PreAllocStru(1)
@@ -47,14 +47,14 @@ namespace mission
 		}
 		if( staller.GetPlayer()->IsLuanchOut() )
 		{
-			//staller.SystemNotice( "ÄúÒÑ¾­³öº£²»¿ÉÒÔ°ÚÌ¯£¡" );
+			//staller.SystemNotice( "æ‚¨å·²ç»å‡ºæµ·ä¸å¯ä»¥æ‘†æ‘Šï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00001) );
 			return;
 		}
 
 		if( staller.GetTradeData() )
 		{
-			//staller.SystemNotice( "ÄúÕıÔÚ½»Ò×£¬²»¿ÉÒÔ°ÚÌ¯£¡" );
+			//staller.SystemNotice( "æ‚¨æ­£åœ¨äº¤æ˜“ï¼Œä¸å¯ä»¥æ‘†æ‘Šï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00001) );
 			return;
 		}
@@ -67,21 +67,21 @@ namespace mission
 
 		if( staller.GetBoat() )
 		{
-			//staller.SystemNotice( "ÄúÕıÔÚÔì´¬£¬²»¿ÉÒÔ°ÚÌ¯£¡" );
+			//staller.SystemNotice( "æ‚¨æ­£åœ¨é€ èˆ¹ï¼Œä¸å¯ä»¥æ‘†æ‘Šï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00003));
 			return;
 		}
 
 		if( staller.m_CKitbag.IsLock() || !staller.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//staller.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ°ÚÌ¯" );
+			//staller.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥æ‘†æ‘Š" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00004));
 			return;
 		}
 
         if( staller.m_CKitbag.IsPwdLocked() )
         {
-            //staller.SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ°ÚÌ¯£¡" );
+            //staller.SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥æ‘†æ‘Šï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00005));
 			return;
         }
@@ -89,7 +89,7 @@ namespace mission
 		//add by ALLEN 2007-10-16
 		if( staller.IsReadBook() )
         {
-           // staller.SystemNotice( "ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ°ÚÌ¯£¡" );
+           // staller.SystemNotice( "æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥æ‘†æ‘Šï¼" );
 			 staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00006) );
 			return;
         }
@@ -97,7 +97,7 @@ namespace mission
 		BYTE byStallNum = staller.GetStallNum();
 		if( byStallNum == 0 || byStallNum > ROLE_MAXNUM_STALL_GOODS )
 		{
-			//staller.SystemNotice( "²»¾ß±¸°ÚÌ¯×ÊÀú£¡" );
+			//staller.SystemNotice( "ä¸å…·å¤‡æ‘†æ‘Šèµ„å†ï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00007) );
 			return;
 		}
@@ -107,7 +107,7 @@ namespace mission
 		const char* pszName = packet.ReadString();
 		if( pszName == NULL )
 		{
-			//staller.SystemNotice( "Ì¯Î»Ãû³ÆÎŞĞ§´íÎó£¡" );
+			//staller.SystemNotice( "æ‘Šä½åç§°æ— æ•ˆé”™è¯¯ï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00008) );
 			return;
 		}
@@ -115,19 +115,19 @@ namespace mission
 		CStallData* pData = g_pGameApp->m_StallDataHeap.Get();
 		if( pData == NULL )
 		{
-			//staller.SystemNotice( "Ì¯Î»ĞÅÏ¢·ÖÅä¿Õ¼ä²»×ã£¡" );
+			//staller.SystemNotice( "æ‘Šä½ä¿¡æ¯åˆ†é…ç©ºé—´ä¸è¶³ï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00009) );
 			return;
 		}
 
 
 
-		// NPC¸½½üÎŞ·¨°ÚÌ¯ add by ryan wang 2006 03 23----------------
+		// NPCé™„è¿‘æ— æ³•æ‘†æ‘Š add by ryan wang 2006 03 23----------------
 		SubMap *pMap = staller.GetSubMap(); 
 
 		if(!pMap)
 		{
-			//staller.SystemNotice( "Ì¯Î»µØÍ¼ĞÅÏ¢´íÎó£¡" );
+			//staller.SystemNotice( "æ‘Šä½åœ°å›¾ä¿¡æ¯é”™è¯¯ï¼" );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00010) );
 			return;
 		}
@@ -135,7 +135,7 @@ namespace mission
 		{
 			if(!(pMap->GetMapRes()->CanStall()))
 			{
-				//staller.SystemNotice( "´ËµØÍ¼²»ÄÜ°ÚÌ¯£¡" );
+				//staller.SystemNotice( "æ­¤åœ°å›¾ä¸èƒ½æ‘†æ‘Šï¼" );
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00011) );
 				return;
 
@@ -147,7 +147,7 @@ namespace mission
 			}
 		}
 	
-		int r = 300; // 3Ã×°ë¾¶
+		int r = 300; // 3ç±³åŠå¾„
 		int x = staller.GetPos().x;
 		int y = staller.GetPos().y;
 		unsigned long	ulMinDist2 = r * r;
@@ -159,7 +159,7 @@ namespace mission
 		{
 			if(pCTempCha->IsNpc())
 			{
-				//staller.SystemNotice( "°ÚÌ¯²»Òª·Á°­¾ÓÃñÉú»î£¡" );
+				//staller.SystemNotice( "æ‘†æ‘Šä¸è¦å¦¨ç¢å±…æ°‘ç”Ÿæ´»ï¼" );
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00012) );
 				return;
 			}
@@ -167,7 +167,7 @@ namespace mission
 			{
 				if (pCTempCha->GetStallData())
 				{
-					staller.SystemNotice("ÄãÀëÆäËûÍæ¼ÒµÄÌ¯Î»Ì«½üÁË!");
+					staller.SystemNotice("ä½ ç¦»å…¶ä»–ç©å®¶çš„æ‘Šä½å¤ªè¿‘äº†!");
 					return;
 				}
 			}
@@ -175,20 +175,20 @@ namespace mission
 		//-------------------------------------------------------------
 		
 		strncpy( pData->m_szName, pszName, ROLE_MAXNUM_STALL_NUM );
-		//sprintf( szLog, "¿ªÊ¼°ÚÌ¯ĞÅÏ¢£ºÃû³Æ¡°%s¡±", staller.GetName() );
+		//sprintf( szLog, "å¼€å§‹æ‘†æ‘Šä¿¡æ¯ï¼šåç§°â€œ%sâ€", staller.GetName() );
 		sprintf( szLog, RES_STRING(GM_CHARSTALL_CPP_00013), staller.GetName() );
 		pData->m_byNum = packet.ReadChar();
 		if( pData->m_byNum == 0 || pData->m_byNum > byStallNum )
 		{
 			pData->Free();
-			//staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İÊıÁ¿³¬³ö·¶Î§£¡[%d]", staller.GetName(), pData->m_byNum );
+			//staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®æ•°é‡è¶…å‡ºèŒƒå›´ï¼[%d]", staller.GetName(), pData->m_byNum );
 			staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00014), staller.GetName(), pData->m_byNum );
-			//LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İÊıÁ¿³¬³ö·¶Î§£¡[%d]", staller.GetName(), pData->m_byNum );
-			LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İÊıÁ¿³¬³ö·¶Î§£¡[%d]", staller.GetName(), pData->m_byNum );
+			//LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®æ•°é‡è¶…å‡ºèŒƒå›´ï¼[%d]", staller.GetName(), pData->m_byNum );
+			LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®æ•°é‡è¶…å‡ºèŒƒå›´ï¼[%d]", staller.GetName(), pData->m_byNum );
 			return;
 		}
 
-		//sprintf( szTemp, "£¬»õÆ·ÊıÁ¿£¨%d£©£¬ÎïÆ·ĞÅÏ¢£º", pData->m_byNum );
+		//sprintf( szTemp, "ï¼Œè´§å“æ•°é‡ï¼ˆ%dï¼‰ï¼Œç‰©å“ä¿¡æ¯ï¼š", pData->m_byNum );
 		sprintf( szTemp, RES_STRING(GM_CHARSTALL_CPP_00015), pData->m_byNum );
 		strcat( szLog, szTemp );
 
@@ -225,10 +225,10 @@ namespace mission
 			if( pData->m_Goods[i].byGrid >= byStallNum )
 			{
 				pData->Free();
-				//staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İË÷Òı³¬³ö·¶Î§£¡GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
+				//staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®ç´¢å¼•è¶…å‡ºèŒƒå›´ï¼GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00016), staller.GetName(), pData->m_Goods[i].byGrid );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İË÷Òı³¬³ö·¶Î§£¡GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
-				//LG( "stall_error", "start to stall£ºcharacter¡¶%s¡·submit goods data index over range£¡GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®ç´¢å¼•è¶…å‡ºèŒƒå›´ï¼GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
+				//LG( "stall_error", "start to stallï¼šcharacterã€Š%sã€‹submit goods data index over rangeï¼GRID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
 				return;
 			}
 
@@ -236,23 +236,23 @@ namespace mission
 			if (n64Temp > MAX_STALL_MONEY && pData->m_Goods[i].dwMoney <= 2000000000)
 			{
 				pData->Free();
-				//staller.SystemNotice( "°ÚÌ¯Ê§°Ü£¬ÎïÆ·¼Û¸ñ½Ğ¼Û¹ı¸ß£¡" );
+				//staller.SystemNotice( "æ‘†æ‘Šå¤±è´¥ï¼Œç‰©å“ä»·æ ¼å«ä»·è¿‡é«˜ï¼" );
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00017) );
 				return;
 			}
 
-			// Ğ£ÑéÎïÆ·ĞÅÏ¢
+			// æ ¡éªŒç‰©å“ä¿¡æ¯
 			if( staller.m_CKitbag.HasItem( pData->m_Goods[i].byIndex ) )
 			{
 				pData->m_Goods[i].sItemID = staller.m_CKitbag.GetID( pData->m_Goods[i].byIndex );
 			}
 			else
 			{
-				/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯Êı¾İ²»´æÔÚ£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯Êı¾İ²»´æÔÚ£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šæ•°æ®ä¸å­˜åœ¨ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šæ•°æ®ä¸å­˜åœ¨ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
 				pData->Free();*/
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00018), staller.GetName(), pData->m_Goods[i].byIndex );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯Êı¾İ²»´æÔÚ£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šæ•°æ®ä¸å­˜åœ¨ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
 				pData->Free();
 				return;
 			}
@@ -262,10 +262,10 @@ namespace mission
 			if( pItem == NULL )
 			{
 				pData->Free();
-				/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£ºÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pData->m_Goods[i].sItemID );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£ºÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pData->m_Goods[i].sItemID );*/
+				/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pData->m_Goods[i].sItemID );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pData->m_Goods[i].sItemID );*/
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00019), pData->m_Goods[i].sItemID );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£ºÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pData->m_Goods[i].sItemID );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pData->m_Goods[i].sItemID );
 				return;
 			}
 			::SItemGrid*	grid2	=	staller.m_CKitbag.GetGridContByID(	pData->m_Goods[i].byIndex	);
@@ -279,10 +279,10 @@ namespace mission
 			if( !pItem->chIsTrade )
 			{
 				pData->Free();
-				/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£ºÎïÆ·¡¶%s¡·²»¿É½»Ò×£¡", pItem->szName );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£ºÎïÆ·¡¶%s¡·²»¿É½»Ò×£¡", pItem->szName );*/
+				/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“ã€Š%sã€‹ä¸å¯äº¤æ˜“ï¼", pItem->szName );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“ã€Š%sã€‹ä¸å¯äº¤æ˜“ï¼", pItem->szName );*/
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00020), pItem->szName );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£ºÎïÆ·¡¶%s¡·²»¿É½»Ò×£¡", pItem->szName );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šç‰©å“ã€Š%sã€‹ä¸å¯äº¤æ˜“ï¼", pItem->szName );
 				return;
 			}
 
@@ -293,16 +293,16 @@ namespace mission
 
 			if( staller.m_CKitbag.GetNum( pData->m_Goods[i].byIndex ) < pData->m_Goods[i].byCount )
 			{
-				/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯ÎïÆ·ÊıÁ¿²»ÕıÈ·£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯ÎïÆ·ÊıÁ¿²»ÕıÈ·£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šç‰©å“æ•°é‡ä¸æ­£ç¡®ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šç‰©å“æ•°é‡ä¸æ­£ç¡®ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
 				pData->Free();*/
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00021), staller.GetName(), pData->m_Goods[i].byIndex );
-				LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»µÄ°ÚÌ¯ÎïÆ·ÊıÁ¿²»ÕıÈ·£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
+				LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤çš„æ‘†æ‘Šç‰©å“æ•°é‡ä¸æ­£ç¡®ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byIndex );
 				pData->Free();
 				return;
 			}
 
-			// ¼ì²éÊı¾İĞÅÏ¢
+			// æ£€æŸ¥æ•°æ®ä¿¡æ¯
 			for( BYTE j = 0; j < i + 1; j++ )
 			{
 				if( i == j ) continue;
@@ -310,10 +310,10 @@ namespace mission
 					pData->m_Goods[j].byIndex == pData->m_Goods[i].byIndex )
 				{
 					pData->Free();
-					/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İË÷ÒıÖØ¸´£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
-					LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½ÇÉ«¡¶%s¡·Ìá½»°ÚÌ¯»õÎïÊı¾İË÷ÒıÖØ¸´£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );*/
+					/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®ç´¢å¼•é‡å¤ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
+					LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šè§’è‰²ã€Š%sã€‹æäº¤æ‘†æ‘Šè´§ç‰©æ•°æ®ç´¢å¼•é‡å¤ï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );*/
 					staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00022), staller.GetName(), pData->m_Goods[i].byGrid );
-					LG( "stall_error", "start to stall£ºcharacter¡¶%s¡·repeat submit res of staller data index£¡ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
+					LG( "stall_error", "start to stallï¼šcharacterã€Š%sã€‹repeat submit res of staller data indexï¼ID[%d]", staller.GetName(), pData->m_Goods[i].byGrid );
 					return;
 				}
 			}
@@ -324,16 +324,16 @@ namespace mission
 				CCharacter* pBoat = staller.GetPlayer()->GetBoat( dwBoatID );
 				if( !pBoat )
 				{
-					/*staller.SystemNotice( "¿ªÊ¼°ÚÌ¯£º½»Ò×Î´·¢ÏÖ´¬³¤Ö¤Ã÷µÄ´¬Ö»ĞÅÏ¢¡£ID[0x%X]", dwBoatID );
-					LG( "stall_error", "¿ªÊ¼°ÚÌ¯£º½»Ò×Î´·¢ÏÖ´¬³¤Ö¤Ã÷µÄ´¬Ö»ĞÅÏ¢¡£ID[0x%X]", dwBoatID );*/
+					/*staller.SystemNotice( "å¼€å§‹æ‘†æ‘Šï¼šäº¤æ˜“æœªå‘ç°èˆ¹é•¿è¯æ˜çš„èˆ¹åªä¿¡æ¯ã€‚ID[0x%X]", dwBoatID );
+					LG( "stall_error", "å¼€å§‹æ‘†æ‘Šï¼šäº¤æ˜“æœªå‘ç°èˆ¹é•¿è¯æ˜çš„èˆ¹åªä¿¡æ¯ã€‚ID[0x%X]", dwBoatID );*/
 staller.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00023), dwBoatID);
-LG("stall_error", "start to stall£ºit cannot find the information of the boat that captain to confirm in this trade¡£ID[0x%X]", dwBoatID);
+LG("stall_error", "start to stallï¼šit cannot find the information of the boat that captain to confirm in this tradeã€‚ID[0x%X]", dwBoatID);
 pData->Free();
 return;
 				}
 				else
 				{
-					//sprintf( szTemp, "£¬%dËÒ´¬Ö»¡¶%s¡·£¬ID[0x%X]", pData->m_Goods[i].byCount, pBoat->GetName(), pData->m_Goods[i].byCount, dwBoatID ); 
+					//sprintf( szTemp, "ï¼Œ%dè‰˜èˆ¹åªã€Š%sã€‹ï¼ŒID[0x%X]", pData->m_Goods[i].byCount, pBoat->GetName(), pData->m_Goods[i].byCount, dwBoatID ); 
 					sprintf(szTemp, RES_STRING(GM_CHARSTALL_CPP_00024), pData->m_Goods[i].byCount, pBoat->GetName(), pData->m_Goods[i].byCount, dwBoatID);
 				}
 			}
@@ -350,7 +350,7 @@ return;
 		staller.SetStallName(pData->m_szName);
 		staller.SynStallName();
 		staller.m_CKitbag.Lock();
-		//staller.SystemNotice( "°ÚÌ¯³É¹¦£¡" );
+		//staller.SystemNotice( "æ‘†æ‘ŠæˆåŠŸï¼" );
 		staller.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00026));
 
 		WPACKET wpk = GETWPACKET();
@@ -368,7 +368,7 @@ return;
 		staller.m_CKitbag.UnLock();
 		staller.GetStallData()->Free();
 		staller.SetStallData(NULL);
-		//staller.SystemNotice( "ÊÕÌ¯³É¹¦£¡" );
+		//staller.SystemNotice( "æ”¶æ‘ŠæˆåŠŸï¼" );
 		staller.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00027));
 
 		//WPACKET packet = GETWPACKET();
@@ -381,21 +381,21 @@ return;
 	{
 		if (character.GetBoat())
 		{
-			//character.SystemNotice( "ÄãÕıÔÚÔì´¬²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ æ­£åœ¨é€ èˆ¹ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00028));
 			return;
 		}
 
 		if (character.GetTradeData())
 		{
-			//character.SystemNotice( "ÄãÕıÔÚ½»Ò×²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ æ­£åœ¨äº¤æ˜“ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00029));
 			return;
 		}
 
 		if (character.GetPlayer()->IsLuanchOut())
 		{
-			//character.SystemNotice( "ÄãÒÑ¾­³öº£²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ å·²ç»å‡ºæµ·ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00030));
 			return;
 		}
@@ -413,7 +413,7 @@ return;
 		}
 		else
 		{
-			//character.SystemNotice( "½ÇÉ«¡¶%s¡·Î´ÔÚ°ÚÌ¯×´Ì¬£¡", pStaller->GetName() );
+			//character.SystemNotice( "è§’è‰²ã€Š%sã€‹æœªåœ¨æ‘†æ‘ŠçŠ¶æ€ï¼", pStaller->GetName() );
 			character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00031), pStaller->GetName());
 		}
 	}
@@ -423,7 +423,7 @@ return;
 		SubMap* map = ply.GetSubMap();
 		//map->BeginGetPlyCha();
 
-		int r = 300; // 3Ã×°ë¾¶
+		int r = 300; // 3ç±³åŠå¾„
 		int x = ply.GetPos().x;
 		int y = ply.GetPos().y;
 		unsigned long	ulMinDist2 = r * r;
@@ -493,7 +493,7 @@ return;
 	{
 		if( character.m_CKitbag.IsPwdLocked())
 		{
-			//character.SystemNotice( "µÀ¾ßÀ¸ÒÑËø¶¨,²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "é“å…·æ å·²é”å®š,ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00032) );
 			return;
 		}
@@ -501,35 +501,35 @@ return;
 		//add by ALLEN 2007-10-16
 		if( character.IsReadBook())
 		{
-			//character.SystemNotice( "ÕıÔÚ¶ÁÊé,²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "æ­£åœ¨è¯»ä¹¦,ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00033) );
 			return;
 		}
 
 		if( character.GetBoat() )
 		{
-			//character.SystemNotice( "ÄãÕıÔÚÔì´¬²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ æ­£åœ¨é€ èˆ¹ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00028) );
 			return;
 		}
 
 		if( character.GetTradeData() )
 		{
-			//character.SystemNotice( "ÄãÕıÔÚ½»Ò×²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ æ­£åœ¨äº¤æ˜“ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00029) );
 			return;
 		}
 
 		if( character.GetPlayer()->IsLuanchOut() )
 		{
-			//character.SystemNotice( "ÄãÒÑ¾­³öº£²»¿ÉÒÔ¹ºÂò°ÚÌ¯»õÎï£¡" );
+			//character.SystemNotice( "ä½ å·²ç»å‡ºæµ·ä¸å¯ä»¥è´­ä¹°æ‘†æ‘Šè´§ç‰©ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00030) );
 			return;
 		}
 
 		if( character.m_CKitbag.IsFull() )
 		{
-			//character.SystemNotice( "ÄãµÄ±³°üÒÑÂú²»¿ÉÒÔ¹ºÂòÎïÆ·£¡" );
+			//character.SystemNotice( "ä½ çš„èƒŒåŒ…å·²æ»¡ä¸å¯ä»¥è´­ä¹°ç‰©å“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00034) );
 			return;
 		}
@@ -561,7 +561,7 @@ return;
 
 		if( byIndex == BYTE(-1) )
 		{
-			//character.SystemNotice( "ÄãÒª¹ºÂòµÄÎïÆ·ÒÑ±»±ğÈËÂò×ß£¡" );
+			//character.SystemNotice( "ä½ è¦è´­ä¹°çš„ç‰©å“å·²è¢«åˆ«äººä¹°èµ°ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00035));
 			return;
 		}
@@ -594,12 +594,12 @@ return;
 						//check if seller has inv space
 						//check if char has inv space
 						if (character.m_CKitbag.GetCapacity() - character.m_CKitbag.GetUseGridNum() < 1){
-							character.SystemNotice("ÄãµÄ±³°üÒÑÂú.");
+							character.SystemNotice("ä½ çš„èƒŒåŒ…å·²æ»¡.");
 							Bag.Lock();
 							return;
 						}
 						else if (Bag.GetCapacity() - Bag.GetUseGridNum() < 1){
-							character.SystemNotice("Âô·½±³°üÒÑÂú.");
+							character.SystemNotice("å–æ–¹èƒŒåŒ…å·²æ»¡.");
 							Bag.Lock();
 							return;
 						}
@@ -645,7 +645,7 @@ return;
 					}
 					else{
 						if (!traded){
-							character.SystemNotice("ÇëÍÏ×§ÄúÒª½»Ò×µÄÎïÆ·.");
+							character.SystemNotice("è¯·æ‹–æ‹½æ‚¨è¦äº¤æ˜“çš„ç‰©å“.");
 						}
 						Bag.Lock();
 						return;
@@ -661,14 +661,14 @@ return;
 			__int64 n64Temp = (__int64)(pData->m_Goods[byIndex].dwMoney) * byCount;
 			if (n64Temp > MAX_STALL_MONEY)
 			{
-				//character.SystemNotice( "¹ºÂòÎïÆ·Ê§°Ü£¬ÎïÆ·¼Û¸ñ½Ğ¼Û¹ı¸ß£¡" );
+				//character.SystemNotice( "è´­ä¹°ç‰©å“å¤±è´¥ï¼Œç‰©å“ä»·æ ¼å«ä»·è¿‡é«˜ï¼" );
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00036));
 				return;
 			}
 
 			if (pData->m_Goods[byIndex].dwMoney * byCount > (DWORD)character.getAttr(ATTR_GD))
 			{
-				//character.SystemNotice( "ÄãµÄ½ğÇ®²»×ãÒÔ¹ºÂò¸ÃÎïÆ·£¡" );
+				//character.SystemNotice( "ä½ çš„é‡‘é’±ä¸è¶³ä»¥è´­ä¹°è¯¥ç‰©å“ï¼" );
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00037));
 				return;
 			}
@@ -676,31 +676,31 @@ return;
 			CKitbag& Bag = pStaller->m_CKitbag;
 			if (!Bag.HasItem(pData->m_Goods[byIndex].byIndex))
 			{
-				/*character.SystemNotice( "´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·²»´æÔÚ£¡ID[%d]", pData->m_Goods[byIndex].byIndex );
-				LG( "stall_error", "´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·²»´æÔÚ£¡ID[%d]", pData->m_Goods[byIndex].byIndex );*/
+				/*character.SystemNotice( "é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“ä¸å­˜åœ¨ï¼ID[%d]", pData->m_Goods[byIndex].byIndex );
+				LG( "stall_error", "é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“ä¸å­˜åœ¨ï¼ID[%d]", pData->m_Goods[byIndex].byIndex );*/
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00038), pData->m_Goods[byIndex].byIndex);
-				LG("stall_error", "´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·²»´æÔÚ£¡ID[%d]", pData->m_Goods[byIndex].byIndex);
+				LG("stall_error", "é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“ä¸å­˜åœ¨ï¼ID[%d]", pData->m_Goods[byIndex].byIndex);
 				return;
 			}
 
 			if (Bag.GetNum(pData->m_Goods[byIndex].byIndex) < byCount)
 			{
-				/*character.SystemNotice( "ÄÚ²¿´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·²»ÕıÈ·£¡ID[%d]", pData->m_Goods[byIndex].byIndex );
-				LG( "stall_error", "ÄÚ²¿´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·ÊıÁ¿²»ÕıÈ·£¡ID[%d]", pData->m_Goods[byIndex].byIndex );*/
+				/*character.SystemNotice( "å†…éƒ¨é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“ä¸æ­£ç¡®ï¼ID[%d]", pData->m_Goods[byIndex].byIndex );
+				LG( "stall_error", "å†…éƒ¨é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“æ•°é‡ä¸æ­£ç¡®ï¼ID[%d]", pData->m_Goods[byIndex].byIndex );*/
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00039), pData->m_Goods[byIndex].byIndex);
-				LG("stall_error", "ÄÚ²¿´íÎó£ºÄãÒª¹ºÂòµÄÎïÆ·ÊıÁ¿²»ÕıÈ·£¡ID[%d]", pData->m_Goods[byIndex].byIndex);
+				LG("stall_error", "å†…éƒ¨é”™è¯¯ï¼šä½ è¦è´­ä¹°çš„ç‰©å“æ•°é‡ä¸æ­£ç¡®ï¼ID[%d]", pData->m_Goods[byIndex].byIndex);
 				return;
 			}
 
 			if (Bag.GetID(pData->m_Goods[byIndex].byIndex) != pData->m_Goods[byIndex].sItemID)
 			{
-				/*character.SystemNotice( "ÄÚ²¿´íÎó£º±³°üÎïÆ·IDºÍ°ÚÌ¯ĞÅÏ¢ID²»·û£¡ID0[%d], ID1[%d]",
+				/*character.SystemNotice( "å†…éƒ¨é”™è¯¯ï¼šèƒŒåŒ…ç‰©å“IDå’Œæ‘†æ‘Šä¿¡æ¯IDä¸ç¬¦ï¼ID0[%d], ID1[%d]",
 					Bag.GetID( pData->m_Goods[byIndex].byIndex ), pData->m_Goods[byIndex].sItemID );
-					LG( "stall_error", "ÄÚ²¿´íÎó£º±³°üÎïÆ·IDºÍ°ÚÌ¯ĞÅÏ¢ID²»·û£¡ID0[%d], ID1[%d]",
+					LG( "stall_error", "å†…éƒ¨é”™è¯¯ï¼šèƒŒåŒ…ç‰©å“IDå’Œæ‘†æ‘Šä¿¡æ¯IDä¸ç¬¦ï¼ID0[%d], ID1[%d]",
 					Bag.GetID( pData->m_Goods[byIndex].byIndex ), pData->m_Goods[byIndex].sItemID );*/
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00040),
 					Bag.GetID(pData->m_Goods[byIndex].byIndex), pData->m_Goods[byIndex].sItemID);
-				LG("stall_error", "inside error£ºthe res ID in backpack differ with stall information ID£¡ID0[%d], ID1[%d]",
+				LG("stall_error", "inside errorï¼šthe res ID in backpack differ with stall information IDï¼ID0[%d], ID1[%d]",
 					Bag.GetID(pData->m_Goods[byIndex].byIndex), pData->m_Goods[byIndex].sItemID);
 				return;
 			}
@@ -708,14 +708,14 @@ return;
 			CItemRecord* pItem = (CItemRecord*)GetItemRecordInfo(pData->m_Goods[byIndex].sItemID);
 			if (pItem == NULL)
 			{
-				//character.SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pData->m_Goods[byIndex].sItemID );
+				//character.SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pData->m_Goods[byIndex].sItemID );
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00041), pData->m_Goods[byIndex].sItemID);
 				return;
 			}
 
 			if (pItem->sType == enumItemTypeBoat && character.GetPlayer()->GetNumBoat() >= MAX_CHAR_BOAT)
 			{
-				//character.SystemNotice( "ÄãÒÑ¾­ÓµÓĞ×ã¹»ÊıÁ¿µÄ´¬Ö»£¬²»¿ÉÒÔÔÙ¹ºÂò£¡" );
+				//character.SystemNotice( "ä½ å·²ç»æ‹¥æœ‰è¶³å¤Ÿæ•°é‡çš„èˆ¹åªï¼Œä¸å¯ä»¥å†è´­ä¹°ï¼" );
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00042));
 				return;
 			}
@@ -726,7 +726,7 @@ return;
 			Short sPushPos = defKITBAG_DEFPUSH_POS;
 			if (character.m_CKitbag.CanPush(&Grid, sPushPos) != enumKBACT_SUCCESS)
 			{
-				//character.SystemNotice( "±³°üÒÑÂú¹ºÂòÎïÆ·Ê§°Ü!" );
+				//character.SystemNotice( "èƒŒåŒ…å·²æ»¡è´­ä¹°ç‰©å“å¤±è´¥!" );
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00043));
 				return;
 			}
@@ -744,10 +744,10 @@ return;
 			if (pStaller->KbPopItem(true, false, &Grid, pData->m_Goods[byIndex].byIndex) != enumKBACT_SUCCESS)
 			{
 				Bag.Lock();
-				/*character.SystemNotice( "´Ó½ÇÉ«¡¶%s¡·±³°üÈ¡³ö°ÚÌ¯½»Ò×»õÎïÊ§°Ü£¡ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex );
-				LG( "stall_error", "´Ó½ÇÉ«¡¶%s¡·±³°üÈ¡³ö°ÚÌ¯½»Ò×»õÎïÊ§°Ü£¡ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex );*/
+				/*character.SystemNotice( "ä»è§’è‰²ã€Š%sã€‹èƒŒåŒ…å–å‡ºæ‘†æ‘Šäº¤æ˜“è´§ç‰©å¤±è´¥ï¼ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex );
+				LG( "stall_error", "ä»è§’è‰²ã€Š%sã€‹èƒŒåŒ…å–å‡ºæ‘†æ‘Šäº¤æ˜“è´§ç‰©å¤±è´¥ï¼ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex );*/
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00044), pStaller->GetName(), pData->m_Goods[byIndex].byIndex);
-				LG("stall_error", "goods of stall trade fail that get from charcter¡¶s%¡·bag£¡ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex);
+				LG("stall_error", "goods of stall trade fail that get from charcterã€Šs%ã€‹bagï¼ID[%d]", pStaller->GetName(), pData->m_Goods[byIndex].byIndex);
 				return;
 			}
 
@@ -755,14 +755,14 @@ return;
 			if (sPushRet != enumKBACT_SUCCESS)
 			{
 				Bag.Lock();
-				/*character.SystemNotice( "ÄÚ²¿´íÎó£º·ÅÈëÎïÆ·Ê§°Ü£¡" );
-				LG( "stall_error", "ÄÚ²¿´íÎó£º¹ºÂòµÄÎïÆ··ÅÈë±³°üÊ§°Ü£¡ID[%d]", pData->m_Goods[byIndex].sItemID );*/
+				/*character.SystemNotice( "å†…éƒ¨é”™è¯¯ï¼šæ”¾å…¥ç‰©å“å¤±è´¥ï¼" );
+				LG( "stall_error", "å†…éƒ¨é”™è¯¯ï¼šè´­ä¹°çš„ç‰©å“æ”¾å…¥èƒŒåŒ…å¤±è´¥ï¼ID[%d]", pData->m_Goods[byIndex].sItemID );*/
 				character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00045));
-				LG("stall_error", "inside error:the res that you bought failed to put in bag£¡ID[%d]", pData->m_Goods[byIndex].sItemID);
+				LG("stall_error", "inside error:the res that you bought failed to put in bagï¼ID[%d]", pData->m_Goods[byIndex].sItemID);
 				return;
 			}
 
-			// ¸üĞÂÎïÆ·ÊıÁ¿
+			// æ›´æ–°ç‰©å“æ•°é‡
 			pData->m_Goods[byIndex].byCount -= byCount;
 
 			char szLog[128] = "";
@@ -773,18 +773,18 @@ return;
 				CCharacter* pBoat = pStaller->GetPlayer()->GetBoat((DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 				if (!pBoat)
 				{
-					/*pStaller->SystemNotice( "°ÚÌ¯£º½»Ò×Î´·¢ÏÖ´¬³¤Ö¤Ã÷µÄ´¬Ö»ĞÅÏ¢¡£ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					character.SystemNotice( "°ÚÌ¯£º½»Ò×Î´·¢ÏÖ´¬³¤Ö¤Ã÷µÄ´¬Ö»ĞÅÏ¢¡£ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					LG( "stall_error", "°ÚÌ¯£º½»Ò×Î´·¢ÏÖ´¬³¤Ö¤Ã÷µÄ´¬Ö»ĞÅÏ¢¡£ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					sprintf( szLog, "°ÚÌ¯ÎïÆ·ĞÅÏ¢£ºÎ´Öª´¬Ö»½ÇÉ«¡°%s¡±£¬ID[0x%X]£¬", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) ); */
+					/*pStaller->SystemNotice( "æ‘†æ‘Šï¼šäº¤æ˜“æœªå‘ç°èˆ¹é•¿è¯æ˜çš„èˆ¹åªä¿¡æ¯ã€‚ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					character.SystemNotice( "æ‘†æ‘Šï¼šäº¤æ˜“æœªå‘ç°èˆ¹é•¿è¯æ˜çš„èˆ¹åªä¿¡æ¯ã€‚ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					LG( "stall_error", "æ‘†æ‘Šï¼šäº¤æ˜“æœªå‘ç°èˆ¹é•¿è¯æ˜çš„èˆ¹åªä¿¡æ¯ã€‚ID[0x%X]", (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					sprintf( szLog, "æ‘†æ‘Šç‰©å“ä¿¡æ¯ï¼šæœªçŸ¥èˆ¹åªè§’è‰²â€œ%sâ€ï¼ŒID[0x%X]ï¼Œ", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) ); */
 					pStaller->SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00046), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 					character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00046), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
-					LG("stall_error", "Stall:it cannot find boat information that captain confirm in trade¡£ID[0x%X]", (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
+					LG("stall_error", "Stall:it cannot find boat information that captain confirm in tradeã€‚ID[0x%X]", (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 					sprintf(szLog, RES_STRING(GM_CHARSTALL_CPP_00047), character.GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 				}
 				else
 				{
-					//sprintf( szLog, "°ÚÌ¯ÎïÆ·ĞÅÏ¢£º´¬Ö»¡¶%s¡·£¬ID[0x%X]£¬", pBoat->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) ); 
+					//sprintf( szLog, "æ‘†æ‘Šç‰©å“ä¿¡æ¯ï¼šèˆ¹åªã€Š%sã€‹ï¼ŒID[0x%X]ï¼Œ", pBoat->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) ); 
 					sprintf(szLog, RES_STRING(GM_CHARSTALL_CPP_00048), pBoat->GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 				}
 
@@ -792,30 +792,30 @@ return;
 				{
 					Bag.Lock();
 
-					/*pStaller->SystemNotice( "BuyGoods:±£´æ´¬Ö»Êı¾İÊ§°Ü£¡´¬Ö»¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(),
+					/*pStaller->SystemNotice( "BuyGoods:ä¿å­˜èˆ¹åªæ•°æ®å¤±è´¥ï¼èˆ¹åªã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(),
 						(DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-						LG( "stall_error", "BuyGoods:±£´æ´¬Ö»Êı¾İÊ§°Ü£¡´¬Ö»¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(),
+						LG( "stall_error", "BuyGoods:ä¿å­˜èˆ¹åªæ•°æ®å¤±è´¥ï¼èˆ¹åªã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(),
 						(DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );*/
 					pStaller->SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00049), pBoat->GetName(),
 						(DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
-					LG("stall_error", "BuyGoods:boat data save failed£¡boat¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(),
+					LG("stall_error", "BuyGoods:boat data save failedï¼boatã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(),
 						(DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 					return;
 				}
 
 				if (!pStaller->BoatClear((DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID)))
 				{
-					/*pStaller->SystemNotice( "°ÚÌ¯£ºÉ¾³ı½ÇÉ«¡°%s¡±ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					character.SystemNotice( "°ÚÌ¯£ºÉ¾³ı½ÇÉ«¡°%s¡±ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					LG( "stall_error", "°ÚÌ¯£ºÉ¾³ı½ÇÉ«¡°%s¡±ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );*/
+					/*pStaller->SystemNotice( "æ‘†æ‘Šï¼šåˆ é™¤è§’è‰²â€œ%sâ€æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					character.SystemNotice( "æ‘†æ‘Šï¼šåˆ é™¤è§’è‰²â€œ%sâ€æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					LG( "stall_error", "æ‘†æ‘Šï¼šåˆ é™¤è§’è‰²â€œ%sâ€æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );*/
 					pStaller->SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00050), pStaller->GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 					character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00050), pStaller->GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
-					LG("stall_error", "stall£ºdelete boat failed that charcter¡°%s¡±have£¡ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
+					LG("stall_error", "stallï¼šdelete boat failed that charcterâ€œ%sâ€haveï¼ID[0x%X]", pStaller->GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 				}
 			}
 			else
 			{
-				//sprintf( szLog, "°ÚÌ¯ÎïÆ·ĞÅÏ¢:¡¶%s¡·", pItem->szName );
+				//sprintf( szLog, "æ‘†æ‘Šç‰©å“ä¿¡æ¯:ã€Š%sã€‹", pItem->szName );
 				sprintf(szLog, RES_STRING(GM_CHARSTALL_CPP_00051), pItem->szName);
 			}
 			Bag.Lock();
@@ -824,7 +824,7 @@ return;
 			character.SynAttr(enumATTRSYN_TRADE);
 			character.SyncBoatAttr(enumATTRSYN_TRADE);
 			pStaller->setAttr(ATTR_GD, pStaller->getAttr(ATTR_GD) + pData->m_Goods[byIndex].dwMoney * byCount);
-			/*pStaller->SystemNotice( "¡°%s¡±Âò×ßÁËÄãµÄ%d¸öÎïÆ·¡¶%s¡·£¬µÃµ½ÁË%d½ğÇ®£¡µ¥¼Û£¨%d£©£¬×Ü¶î£¨%d£©¡£", character.GetName(), byCount, pItem->szName,
+			/*pStaller->SystemNotice( "â€œ%sâ€ä¹°èµ°äº†ä½ çš„%dä¸ªç‰©å“ã€Š%sã€‹ï¼Œå¾—åˆ°äº†%dé‡‘é’±ï¼å•ä»·ï¼ˆ%dï¼‰ï¼Œæ€»é¢ï¼ˆ%dï¼‰ã€‚", character.GetName(), byCount, pItem->szName,
 				byCount * pData->m_Goods[byIndex].dwMoney, pData->m_Goods[byIndex].dwMoney, pStaller->getAttr( ATTR_GD ) );*/
 
 			CFormatParameter param(6);
@@ -844,7 +844,7 @@ return;
 			pStaller->SynKitbagNew(enumSYN_KITBAG_TRADE);
 			DelGoods(*pStaller, pData->m_Goods[byIndex].byGrid, byCount);
 
-			// Ë¢ĞÂÈÎÎñµÀ¾ß¼ÆÊı
+			// åˆ·æ–°ä»»åŠ¡é“å…·è®¡æ•°
 			pStaller->RefreshNeedItem(Grid.sID);
 			character.RefreshNeedItem(Grid.sID);
 
@@ -852,12 +852,12 @@ return;
 			{
 				if (!character.BoatAdd((DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID)))
 				{
-					/*pStaller->SystemNotice( "°ÚÌ¯£ºÌí¼Ó¸ø½ÇÉ«¡°%s¡±¹ºÂòµÄ´¬Ö»Ê§°Ü£¡ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					character.SystemNotice( "°ÚÌ¯£ºÌí¼Ó¸ø½ÇÉ«¡°%s¡±¹ºÂòµÄ´¬Ö»Ê§°Ü£¡ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
-					LG( "stall_error", "°ÚÌ¯£ºÌí¼Ó¸ø½ÇÉ«¡°%s¡±¹ºÂòµÄ´¬Ö»Ê§°Ü£¡ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );*/
+					/*pStaller->SystemNotice( "æ‘†æ‘Šï¼šæ·»åŠ ç»™è§’è‰²â€œ%sâ€è´­ä¹°çš„èˆ¹åªå¤±è´¥ï¼ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					character.SystemNotice( "æ‘†æ‘Šï¼šæ·»åŠ ç»™è§’è‰²â€œ%sâ€è´­ä¹°çš„èˆ¹åªå¤±è´¥ï¼ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );
+					LG( "stall_error", "æ‘†æ‘Šï¼šæ·»åŠ ç»™è§’è‰²â€œ%sâ€è´­ä¹°çš„èˆ¹åªå¤±è´¥ï¼ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam( enumITEMDBP_INST_ID ) );*/
 					pStaller->SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00053), character.GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 					character.SystemNotice(RES_STRING(GM_CHARSTALL_CPP_00053), character.GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
-					LG("stall_error", "stall£ºadd boat failed that charcter¡°%s¡±bought£¡ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
+					LG("stall_error", "stallï¼šadd boat failed that charcterâ€œ%sâ€boughtï¼ID[0xX]", character.GetName(), (DWORD)Grid.GetDBParam(enumITEMDBP_INST_ID));
 				}
 			}
 
@@ -955,9 +955,9 @@ return;
 			CItemRecord* pItem = (CItemRecord*)GetItemRecordInfo( Bag.GetID( pData->m_Goods[i].byIndex ) );
 			if( pItem == NULL )
 			{
-				/*staller.SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d, Index = %d", 
+				/*staller.SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d, Index = %d", 
 					Bag.GetID( pData->m_Goods[i].byIndex ), pData->m_Goods[i].byIndex );
-				character.SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d, Index = %d", 
+				character.SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d, Index = %d", 
 					Bag.GetID( pData->m_Goods[i].byIndex ), pData->m_Goods[i].byIndex );*/
 				staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00056), 
 					Bag.GetID( pData->m_Goods[i].byIndex ), pData->m_Goods[i].byIndex );
@@ -998,11 +998,11 @@ return;
 			}
 			else
 			{
-				// ¸ÃµÀ¾ßµÄÊµÀıÊôĞÔ
+				// è¯¥é“å…·çš„å®ä¾‹å±æ€§
 				SItemGrid* pGridCont = Bag.GetGridContByID( pData->m_Goods[i].byIndex );
 				if( !pGridCont )
 				{
-					//staller.SystemNotice( "Ö¸¶¨µÄÎïÆ·À¸Î»ÎïÆ·ÊµÀıĞÅÏ¢Îª¿Õ£¡ID[%d]", pData->m_Goods[i].byIndex );
+					//staller.SystemNotice( "æŒ‡å®šçš„ç‰©å“æ ä½ç‰©å“å®ä¾‹ä¿¡æ¯ä¸ºç©ºï¼ID[%d]", pData->m_Goods[i].byIndex );
 					staller.SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00057), pData->m_Goods[i].byIndex );
 					return;
 				}
@@ -1015,7 +1015,7 @@ return;
 				WRITE_CHAR( packet, pGridCont->IsValid() ? 1 : 0 );
 				WRITE_LONG(packet, pGridCont->GetDBParam(enumITEMDBP_FORGE));
 				WRITE_LONG(packet, pGridCont->GetDBParam(enumITEMDBP_INST_ID));
-				if( pGridCont->IsInstAttrValid() ) // ´æÔÚÊµÀıÊôĞÔ
+				if( pGridCont->IsInstAttrValid() ) // å­˜åœ¨å®ä¾‹å±æ€§
 				{
 					WRITE_CHAR( packet, 1 );
 					for (int j = 0; j < defITEM_INSTANCE_ATTR_NUM; j++)
@@ -1026,7 +1026,7 @@ return;
 				}
 				else
 				{
-					WRITE_CHAR( packet, 0 ); // ²»´æÔÚÊµÀıÊôĞÔ
+					WRITE_CHAR( packet, 0 ); // ä¸å­˜åœ¨å®ä¾‹å±æ€§
 				}
 			}
 		}

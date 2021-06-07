@@ -1,15 +1,15 @@
 //----------------------------------------------------------------------
-// ����:���ܿ�
-// ����:lh 2004-12-13
-// ��;:˫������ʹ�ü���,����ʱ��ʾһ��������ť,�е�ǰ����,ħ��ֵ
-//      ���϶��������,��˫��ִ��,��Щ��Commandϵ��
-//      �ж�̬����ʾ��ť��������,���Ҫ��Ӧ���
-//      �о�̬����,��ʾ��������
-//      �ж�̬����,��ʾ��ǰ����,����ħ��ֵ
-//      �����»���,��ҳ,��ͷβ��,Ҫ��Ӧ����
-//   ע:������������ֱ��ʹ��CList,ֻҪ����CListItems����,�����ǵ����ܽ�CList���������,
-//      ���ڿ����иĶ�,�����¿�һ����,����CListϵ�п���̫������
-// ����޸�����:
+// 名称:技能框
+// 作者:lh 2004-12-13
+// 用途:双击可以使用技能,升级时显示一个升级按钮,有当前级别,魔法值
+//      可拖动到快捷栏,可双击执行,因些有Command系列
+//      有动态可显示按钮用于升级,因此要响应鼠标
+//      有静态文字,表示技能名称
+//      有动态文字,表示当前级别,消耗魔法值
+//      有上下换行,换页,到头尾等,要响应键盘
+//   注:本来这个类可以直接使用CList,只要派生CListItems即可,但考虑到功能较CList更多更复杂,
+//      后期可能有改动,所以新开一个类,避免CList系列可能太过复杂
+// 最后修改日期:
 //----------------------------------------------------------------------
 #pragma once
 #include <vector>
@@ -90,42 +90,42 @@ private:
     void			_DragEnd( int x, int y, DWORD key );
 
 protected:
-    CGuiPic*		_pImage;		// ����ͼ
-    CGuiPic*		_pSelect;	    // ѡ����
-    CGuiPic*        _pButton;       // ������ť
+    CGuiPic*		_pImage;		// 背景图
+    CGuiPic*		_pSelect;	    // 选择条
+    CGuiPic*        _pButton;       // 升级按钮
     CScroll*		_pScroll;	    
 
     typedef vector<CSkillCommand*> skills;
     skills          _skills;
 
-    // ����Χ�߿�ľ���
+    // 与周围边框的距离
     int				_nLeftMargin;	
     int				_nTopMargin;	
     int				_nRightMargin;	
     int				_nBottomMargin;	
 
-    int				_nRowHeight;    // �и�
-    int             _nFontStart;    // ���忪ʼλ��
+    int				_nRowHeight;    // 行高
+    int             _nFontStart;    // 字体开始位置
     DWORD           _dwFontColor;
 
-    int             _nUnitHeight, _nUnitWidth;   // ��ԪͼƬ����
+    int             _nUnitHeight, _nUnitWidth;   // 单元图片宽高
 
-    int             _nSelectIndex;  // ѡ�������
+    int             _nSelectIndex;  // 选择的行数
     bool            _IsShowUpgrade;
 
 private:
-    int             _nShowFirst;    // ��ʾ�ĵ�һ��
-    int             _nShowLast;     // ��ʾ�����һ��
-    int				_nShowCount;    // �ܹ�������ʾ������    
+    int             _nShowFirst;    // 显示的第一行
+    int             _nShowLast;     // 显示的最后一行
+    int				_nShowCount;    // 总共可以显示多少行    
 
-    // ������ʾ���ܵķ�Χ
+    // 用于显示技能的范围
     int             _nSX1, _nSY1, _nSX2, _nSY2;   
 
-    int             _nButtonX1;     // ��ť��ʾ��Xλ��
-    int             _nButtonOffY;   // ��ť��ʾ��Y��ƫ��
+    int             _nButtonX1;     // 按钮显示的X位置
+    int             _nButtonOffY;   // 按钮显示的Y轴偏移
 
-    int             _nRowSpace;     // �о�
-    int             _nFontYOff;     // ����ʾ��һ�е��в��߶�
+    int             _nRowSpace;     // 行距
+    int             _nFontYOff;     // 字显示在一行的中部高度
 
 private:
     int             _nDragIndex;
@@ -135,7 +135,7 @@ private:
 };
 
 
-// �������� 
+// 内联函数 
 inline 	void CSkillList::_ResetPageNum() 
 { 
     _pScroll->SetPageNum( ( GetHeight() - _nTopMargin - _nBottomMargin ) / _nRowHeight - 1 );
@@ -154,7 +154,7 @@ inline int CSkillList::_GetHitSkill( int x, int y )
         int h = ( _nShowCount * _nRowHeight + _nSY1 );
         if( y >= h ) return false;
 
-        // �õ�����
+        // 得到行数
         int row = ( y - _nSY1 ) / _nRowHeight + _nShowFirst;
         if( row>=0 && row<(int)_skills.size() ) 
 			return row;

@@ -25,7 +25,7 @@ public:
     int   nInitY;
     float fLightDir[3];
     BYTE  btLightColor[3];
-	bool  IsShowSwitch;		// ÊÇ·ñÒªÏÔÊ¾ÇĞ»»µØÍ¼
+	bool  IsShowSwitch;		// æ˜¯å¦è¦æ˜¾ç¤ºåˆ‡æ¢åœ°å›¾
 
 };
 
@@ -46,7 +46,7 @@ public:
 
 protected:
 
-	static CMapSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CMapSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

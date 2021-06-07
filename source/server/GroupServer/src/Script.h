@@ -26,16 +26,16 @@ extern void ReloadLuaInit();
 extern void ReloadEntity( const char szFileName[] );
 
 //
-//#define E_LUAPARAM		LG( "luamis_error", "luaº¯Êı[%s]²ÎÊı¸öÊı»òÕßÀàĞÍ´íÎó!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]²ÎÊı¸öÊı»òÕßÀàĞÍ´íÎó!", __FUNCTION__ );
-//#define E_LUANULL		LG( "luamis_error", "luaº¯Êı[%s]´«µİ²ÎÊıÖ¸ÕëÎª¿Õ´íÎó!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]´«µİ²ÎÊıÖ¸ÕëÎª¿Õ´íÎó!", __FUNCTION__ );
-//#define E_LUACOMPARE	LG( "luamis_error", "luaº¯Êı[%s]²ÎÊı´íÎóÎªÎ´ÖªµÄ±È½Ï×Ö·û!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]²ÎÊı´íÎóÎªÎ´ÖªµÄ±È½Ï×Ö·û!", __FUNCTION__ );
-#define E_LUAPARAM		LG( "luamis_error", "lua function [%s] takes wrong num parameter or wrong type patameter!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]²ÎÊı¸öÊı»òÕßÀàĞÍ´íÎó!", __FUNCTION__ );
-#define E_LUANULL		LG( "luamis_error", "lua function [%s] patameter is null!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]´«µİ²ÎÊıÖ¸ÕëÎª¿Õ´íÎó!", __FUNCTION__ );
-#define E_LUACOMPARE	LG( "luamis_error", "lua function [%s] unknow compare character!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êı[%s]²ÎÊı´íÎóÎªÎ´ÖªµÄ±È½Ï×Ö·û!", __FUNCTION__ );
+//#define E_LUAPARAM		LG( "luamis_error", "luaå‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»å‹é”™è¯¯!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»å‹é”™è¯¯!", __FUNCTION__ );
+//#define E_LUANULL		LG( "luamis_error", "luaå‡½æ•°[%s]ä¼ é€’å‚æ•°æŒ‡é’ˆä¸ºç©ºé”™è¯¯!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]ä¼ é€’å‚æ•°æŒ‡é’ˆä¸ºç©ºé”™è¯¯!", __FUNCTION__ );
+//#define E_LUACOMPARE	LG( "luamis_error", "luaå‡½æ•°[%s]å‚æ•°é”™è¯¯ä¸ºæœªçŸ¥çš„æ¯”è¾ƒå­—ç¬¦!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°é”™è¯¯ä¸ºæœªçŸ¥çš„æ¯”è¾ƒå­—ç¬¦!", __FUNCTION__ );
+#define E_LUAPARAM		LG( "luamis_error", "lua function [%s] takes wrong num parameter or wrong type patameter!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»å‹é”™è¯¯!", __FUNCTION__ );
+#define E_LUANULL		LG( "luamis_error", "lua function [%s] patameter is null!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]ä¼ é€’å‚æ•°æŒ‡é’ˆä¸ºç©ºé”™è¯¯!", __FUNCTION__ );
+#define E_LUACOMPARE	LG( "luamis_error", "lua function [%s] unknow compare character!", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°é”™è¯¯ä¸ºæœªçŸ¥çš„æ¯”è¾ƒå­—ç¬¦!", __FUNCTION__ );
 
-#define LUA_TRUE		1	// ÕıÈ·
+#define LUA_TRUE		1	// æ­£ç¡®
 #define LUA_FALSE		0	// 
-#define LUA_ERROR		-1	// ´íÎó
+#define LUA_ERROR		-1	// é”™è¯¯
 
 #endif // _SCRIPT_H_
 

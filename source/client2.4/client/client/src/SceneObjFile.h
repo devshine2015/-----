@@ -14,12 +14,12 @@ struct ReallyBigObjectInfo;
 
 struct SSceneObjInfo
 {
-    short	sTypeID;	// ¸ß2Î»ÊÇtype(0: ³¡¾°Îï¼ş, 1: ÌØĞ§Îï¼ş), ÆäÓàÊÇID
-	int     nX;			// Ïà¶Ô×ø±ê
+    short	sTypeID;	// é«˜2ä½æ˜¯type(0: åœºæ™¯ç‰©ä»¶, 1: ç‰¹æ•ˆç‰©ä»¶), å…¶ä½™æ˜¯ID
+	int     nX;			// ç›¸å¯¹åæ ‡
 	int  	nY;
 	short	sHeightOff;
 	short	sYawAngle;
-    short	sScale;		// ±£ÁôÎ´Ê¹ÓÃ
+    short	sScale;		// ä¿ç•™æœªä½¿ç”¨
 
 	short GetType()
 	{
@@ -40,11 +40,11 @@ class	CSceneObjFile
 		int		lVersion;
 		long	lFileSize;
 
-		int		iSectionCntX;	// µØÍ¼µÄºáÏòÇøÓòÊı
-		int		iSectionCntY;	// µØÍ¼µÄ×İÏòÇøÓòÊı
-		int		iSectionWidth;	// ÇøÓòµÄ¿í¶È£¨µ¥Î»£ºTile£©
-		int		iSectionHeight; // ÇøÓòµÄ¸ß¶È£¨µ¥Î»£ºTile£©
-		int		iSectionObjNum;	// ÇøÓòÔÊĞíµÄ×î´óÎï¼şÊı
+		int		iSectionCntX;	// åœ°å›¾çš„æ¨ªå‘åŒºåŸŸæ•°
+		int		iSectionCntY;	// åœ°å›¾çš„çºµå‘åŒºåŸŸæ•°
+		int		iSectionWidth;	// åŒºåŸŸçš„å®½åº¦ï¼ˆå•ä½ï¼šTileï¼‰
+		int		iSectionHeight; // åŒºåŸŸçš„é«˜åº¦ï¼ˆå•ä½ï¼šTileï¼‰
+		int		iSectionObjNum;	// åŒºåŸŸå…è®¸çš„æœ€å¤§ç‰©ä»¶æ•°
 	};
 
 	struct SSectionIndex
@@ -62,7 +62,7 @@ public:
 	void	Free(void);
 	long	CreateFile(_TCHAR *ptcsFileName, int iSectionCntX = 512, int iSectionCntY = 512,
 			int iSectionWidth = 8, int iSectionHeight = 8, int iSectionObjNum = MAX_MAP_SECTION_OBJ);
-	long	ConvertObjFileVer(_TCHAR *ptcsFile, bool bBackUp = true); // ´Ó°æ±¾300×ª»»µ½400
+	long	ConvertObjFileVer(_TCHAR *ptcsFile, bool bBackUp = true); // ä»ç‰ˆæœ¬300è½¬æ¢åˆ°400
 	long	ReadSectionObjInfo(int nSectionNO, SSceneObjInfo *SSceneObj, long *lSectionObjNum);
 	long	WriteSectionObjInfo(int nSectionNO, SSceneObjInfo *SSceneObj, long lSectionObjNum);
 	long	TrimFile(_TCHAR *ptcsFileName, bool bBackUp);

@@ -24,7 +24,7 @@ public:
 	static bool		Clear();
 
 private:
-	DWORD		_dwScriptID;			// 注册的ID-即索引，用于脚本引用
+	DWORD		_dwScriptID;			// 娉ㄥ唽鐨処D-鍗崇储寮曪紝鐢ㄤ簬鑴氭湰寮曠敤
 
 private:
 	static CScript**		_AllObj;

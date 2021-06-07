@@ -5,11 +5,11 @@
 namespace GUI
 {
 
-// ÓëNPC½»Ì¸
+// ä¸ŽNPCäº¤è°ˆ
 class CNpcTalkMgr : public CUIInterface
 {
 public:
-	void			ShowFuncPage( BYTE byFuncPage , BYTE byCount,BYTE byMisNum ,const NET_FUNCPAGE& FuncArray, DWORD dwNpcID ) ;      //ÏÔÊ¾ NPC¹¦ÄÜÒ³
+	void			ShowFuncPage( BYTE byFuncPage , BYTE byCount,BYTE byMisNum ,const NET_FUNCPAGE& FuncArray, DWORD dwNpcID ) ;      //æ˜¾ç¤º NPCåŠŸèƒ½é¡µ
 
 	void			AddHelpInfo( const NET_HELPINFO &Info );
 	void			ShowTalkPage( const char *content, BYTE command, DWORD npcID );
@@ -37,7 +37,7 @@ private:
 	CMemo*		memCtrl;
 
 private:
-	static BYTE		_byTalkStyle;		// ½»Ò×µÄÀàÐÍ
+	static BYTE		_byTalkStyle;		// äº¤æ˜“çš„ç±»åž‹
 
 	bool		m_bIsNpcTalk;
 

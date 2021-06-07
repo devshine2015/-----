@@ -10,11 +10,11 @@ struct stQueryResoultPersonInfo;
 // End
 
 /****************************************************************
-		·¢ËÍPacket´ò°üº¯ÊıÉùÃ÷¶Î
-		Ìí¼Ó:·şÎñÆ÷¿ª·¢ÈËÔ±
-		ĞŞ¸Ä:·şÎñÆ÷¿ª·¢ÈËÔ±
-		µ÷ÓÃ:¿Í»§¶Ë¿ª·¢ÈËÔ±
-		´úÂëÌåÇëÌîÈëÎÄ¼ş"NetPkXXX.cpp"(×¢Òâ:ÓĞPk,ÒâÎªÍøÂç°ü´¦ÀíµÄcppÎÄ¼ş)
+		å‘é€Packetæ‰“åŒ…å‡½æ•°å£°æ˜æ®µ
+		æ·»åŠ :æœåŠ¡å™¨å¼€å‘äººå‘˜
+		ä¿®æ”¹:æœåŠ¡å™¨å¼€å‘äººå‘˜
+		è°ƒç”¨:å®¢æˆ·ç«¯å¼€å‘äººå‘˜
+		ä»£ç ä½“è¯·å¡«å…¥æ–‡ä»¶"NetPkXXX.cpp"(æ³¨æ„:æœ‰Pk,æ„ä¸ºç½‘ç»œåŒ…å¤„ç†çš„cppæ–‡ä»¶)
 *****************************************************************/
 extern void CS_GMSay(const char *pszContent);
 
@@ -52,72 +52,72 @@ extern void	CP_Frnd_Move_Group(unsigned long chaid, const char * oldgroup,const 
 extern void	CP_Frnd_Change_Group(const char * oldgroup,const char * newgroup);
 extern void	CP_Frnd_Refresh_Info(unsigned long chaid);
 
-//extern void	CP_Change_PersonInfo(const char *motto,unsigned short icon,bool refuse_sess);//refuse_sess =true,·şÎñÆ÷×Ô¶¯¾Ü¾ø»á»° =false,½ÓÊÕ»á»°.
+//extern void	CP_Change_PersonInfo(const char *motto,unsigned short icon,bool refuse_sess);//refuse_sess =true,æœåŠ¡å™¨è‡ªåŠ¨æ‹’ç»ä¼šè¯ =false,æ¥æ”¶ä¼šè¯.
 // Add by lark.li 20080807 begin
 extern void	CP_Change_PersonInfo(stPersonInfo *pInfo ,const char* pOldMotto);
 extern void	CP_Query_PersonInfo(stQueryPersonInfo *pInfo);
 // End
 
 /****************************************************************
-		½ÓÊÕPacketºóµ÷ÓÃµÄ±¾µØ½Ó¿ÚÉùÃ÷¶Î
-		Ìí¼Ó:·şÎñÆ÷¿ª·¢ÈËÔ±
-		ĞŞ¸Ä:¿Í»§¶Ë¿ª·¢ÈËÔ±
-		µ÷ÓÃ:¡°½ÓÊÕµÄPacket½âÎöº¯ÊıÉùÃ÷¶Î¡±¶ÔÓ¦º¯Êı
-		´úÂëÌåÇëÌîÈëÎÄ¼ş"NetXXX.cpp"(×¢Òâ:Ã»ÓĞPk,Ïà¶ÔÓÚNetPkXXX,Ã»ÓĞ°ü´¦Àí)
+		æ¥æ”¶Packetåè°ƒç”¨çš„æœ¬åœ°æ¥å£å£°æ˜æ®µ
+		æ·»åŠ :æœåŠ¡å™¨å¼€å‘äººå‘˜
+		ä¿®æ”¹:å®¢æˆ·ç«¯å¼€å‘äººå‘˜
+		è°ƒç”¨:â€œæ¥æ”¶çš„Packetè§£æå‡½æ•°å£°æ˜æ®µâ€å¯¹åº”å‡½æ•°
+		ä»£ç ä½“è¯·å¡«å…¥æ–‡ä»¶"NetXXX.cpp"(æ³¨æ„:æ²¡æœ‰Pk,ç›¸å¯¹äºNetPkXXX,æ²¡æœ‰åŒ…å¤„ç†)
 *****************************************************************/
 
-struct stNetSay2You			// ÏòÄãËµ»°
+struct stNetSay2You			// å‘ä½ è¯´è¯
 {
-	const char *m_src;		// Ëµ»°ÈË
-	const char *m_dst;		// ½ÓÊÕÈË
-	const char *m_content ;	// ÄÚÈİ
+	const char *m_src;		// è¯´è¯äºº
+	const char *m_dst;		// æ¥æ”¶äºº
+	const char *m_content ;	// å†…å®¹
 };
 
-struct stNetSay2All		// ÏòËùÓĞÈËËµ»°
+struct stNetSay2All		// å‘æ‰€æœ‰äººè¯´è¯
 {
-	const char *m_src;	//Ëµ»°ÈË
-	const char *m_content;//ÄÚÈİ
+	const char *m_src;	//è¯´è¯äºº
+	const char *m_content;//å†…å®¹
 };
 
-struct stNetScrollSay//ÏòËµÓĞÈËËµ»° ¹ö¶¯ÏÔÊ¾
+struct stNetScrollSay//å‘è¯´æœ‰äººè¯´è¯ æ»šåŠ¨æ˜¾ç¤º
 {
-	const char *m_content;//ÏÔÊ¾ÄÚÈİ
-	int		setnum;//ÏÔÊ¾´ÎÊı
+	const char *m_content;//æ˜¾ç¤ºå†…å®¹
+	int		setnum;//æ˜¾ç¤ºæ¬¡æ•°
 };
 
-struct stNetTeamChaPart // ×é¶Ó³ÉÔ±µÄÍâ¹Û
+struct stNetTeamChaPart // ç»„é˜Ÿæˆå‘˜çš„å¤–è§‚
 {
     struct SItem
     {
-	    short	sID;		// µÀ¾ß±íÖĞµÄID£¨0±íÊ¾Ã»ÓĞµÀ¾ß£©
-	    short	sNum;		// µÀ¾ß¸öÊı
-	    char	chForgeLv;	// ¾«Á¶µÈ¼¶
+	    short	sID;		// é“å…·è¡¨ä¸­çš„IDï¼ˆ0è¡¨ç¤ºæ²¡æœ‰é“å…·ï¼‰
+	    short	sNum;		// é“å…·ä¸ªæ•°
+	    char	chForgeLv;	// ç²¾ç‚¼ç­‰çº§
     };
 
 	short		sTypeID;
 	SItem	    SLink[enumEQUIP_NUM];
-    short       sHairID;        // Ä¬ÈÏµÄÍ··¢ºÍÁ³ĞÍ
+    short       sHairID;        // é»˜è®¤çš„å¤´å‘å’Œè„¸å‹
 
 	void		Convert( const stNetChangeChaPart& stPart );
 };
 
 struct stNetTeamState
 {
-	unsigned long	ulID;			// ½ÇÉ«Î¨Ò»ID
-	BYTE			byWork;			// Ö°Òµ
+	unsigned long	ulID;			// è§’è‰²å”¯ä¸€ID
+	BYTE			byWork;			// èŒä¸š
 	long			lHP;
 	long			lSP;
 	long			lLV;
     long            lMaxHP;
     long            lMaxSP;
 
-    stNetTeamChaPart    SFace;       // Íâ¹Û
+    stNetTeamChaPart    SFace;       // å¤–è§‚
 };
 
 struct stNetPCTeam      // from group
 {
-	unsigned char kind;	// ²Î¿¼Common:netcommand.h - TEAM_MSG ¿ªÊ¼ºê
-	unsigned char count;//Êı×éÔªËØµÄ¸öÊı;
+	unsigned char kind;	// å‚è€ƒCommon:netcommand.h - TEAM_MSG å¼€å§‹å®
+	unsigned char count;//æ•°ç»„å…ƒç´ çš„ä¸ªæ•°;
 	unsigned long cha_dbid[10];
 	char		  cha_name[10][33];
 	char		  motto[10][33];
@@ -150,12 +150,12 @@ extern void NetSynTeam(stNetTeamState *pSTeamState);
 
 struct stNetFrndStart
 {
-	const char *	szGroup;	//ºÃÓÑËùÊô·Ö×é
+	const char *	szGroup;	//å¥½å‹æ‰€å±åˆ†ç»„
 	unsigned long	lChaid;
 	const char *	szChaname;
 	const char *	szMotto;
 	unsigned short	sIconID;
-	unsigned char	cStatus;	//0-ÀëÏß£»·Ç0-ÔÚÏß
+	unsigned char	cStatus;	//0-ç¦»çº¿ï¼›é0-åœ¨çº¿
 };
 
 extern void NetFrndInvite(const char *inviter_name, unsigned long inviter_chaid,unsigned short icon);
@@ -180,7 +180,7 @@ extern void NetFrndRefreshInfo(unsigned long cha_id, stPersonInfo* pInfo, const 
 
 //extern void NetFrndRefreshInfo(unsigned long cha_id,const char * motto,unsigned short icon,unsigned short degree,const char * job,const char *guildname);
 
-// Ê¦¸µ
+// å¸ˆå‚…
 extern void NetMasterOnline(unsigned long cha_id);
 extern void NetMasterOffline(unsigned long cha_id);
 extern void NetMasterDel(unsigned long cha_id);
@@ -189,7 +189,7 @@ extern void NetMasterStart(stNetFrndStart &self,stNetFrndStart arrCha[],unsigned
 extern void NetMasterCancel(unsigned long  inviter_chaid,char reason);
 extern void NetMasterRefreshInfo(unsigned long cha_id,const char * motto,unsigned short icon,unsigned short degree,const char * job,const char *guildname);
 
-// Í½µÜ
+// å¾’å¼Ÿ
 extern void NetPrenticeOnline(unsigned long cha_id);
 extern void NetPrenticeOffline(unsigned long cha_id);
 extern void NetPrenticeDel(unsigned long cha_id);
@@ -217,14 +217,14 @@ extern void NetSessAdd(unsigned long sessid,stNetSessCreate *cha);
 extern void NetSessLeave(unsigned long sessid,unsigned long chaid);
 extern void NetSessSay(unsigned long sessid,unsigned long chaid,const char *word);
 /****************************************************************
-		½ÓÊÕµÄPacket½âÎöº¯ÊıÉùÃ÷¶Î
-		Ìí¼Ó:·şÎñÆ÷¿ª·¢ÈËÔ±
-		ĞŞ¸Ä:·şÎñÆ÷¿ª·¢ÈËÔ±
-		µ÷ÓÃ:NetIF::HandlePacketMessage
-		´úÂëÌåÇëÌîÈëÎÄ¼ş"NetPkXXX.cpp"(×¢Òâ:ÓĞPk,ÒâÎªÍøÂç°ü´¦ÀíµÄcppÎÄ¼ş)
+		æ¥æ”¶çš„Packetè§£æå‡½æ•°å£°æ˜æ®µ
+		æ·»åŠ :æœåŠ¡å™¨å¼€å‘äººå‘˜
+		ä¿®æ”¹:æœåŠ¡å™¨å¼€å‘äººå‘˜
+		è°ƒç”¨:NetIF::HandlePacketMessage
+		ä»£ç ä½“è¯·å¡«å…¥æ–‡ä»¶"NetPkXXX.cpp"(æ³¨æ„:æœ‰Pk,æ„ä¸ºç½‘ç»œåŒ…å¤„ç†çš„cppæ–‡ä»¶)
 *****************************************************************/
 
-//Ë½ÁÄ
+//ç§èŠ
 extern BOOL	PC_Say2You(LPRPACKET pk);
 extern BOOL	PC_GM1SAY(LPRPACKET pk);
 extern BOOL	PC_GM1SAY1(LPRPACKET pk);//Add by sunny.sun20080804
@@ -233,7 +233,7 @@ extern BOOL	PC_Say2All(LPRPACKET pk);
 extern BOOL	PC_Say2Team(LPRPACKET pk);
 extern BOOL	PC_Say2Gud(LPRPACKET pk);
 
-//×é¶Ó³ÉÔ±±ä»¯ĞÅÏ¢Ë¢ĞÂ
+//ç»„é˜Ÿæˆå‘˜å˜åŒ–ä¿¡æ¯åˆ·æ–°
 extern BOOL	PC_SESS_CREATE(LPRPACKET pk);
 extern BOOL	PC_SESS_ADD(LPRPACKET pk);
 extern BOOL	PC_SESS_LEAVE(LPRPACKET pk);

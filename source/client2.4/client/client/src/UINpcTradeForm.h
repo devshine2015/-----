@@ -5,7 +5,7 @@
 
 namespace GUI
 {
-// 与NPC交易
+// 涓嶯PC浜ゆ槗
 class CNpcTradeMgr : public CUIInterface
 {
 public:
@@ -13,13 +13,13 @@ public:
     void        SaleToNpc(BYTE byIndex ,BYTE byCount, USHORT sItemID ,DWORD dwMoney ) ;
     void        BuyFromNpc(BYTE byIndex ,BYTE byCount, USHORT sItemID ,DWORD dwMoney);
 
-	// 道具栏是否为NPC的道具栏
+	// 閬撳叿鏍忔槸鍚︿负NPC鐨勯亾鍏锋爮
 	bool		IsNpcGoods( CGoodsGrid* pGrid );
 
-	// 从NPC处买道具
+	// 浠嶯PC澶勪拱閬撳叿
 	void		LocalBuyFromNpc( CGoodsGrid* pNpcGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );
 
-	// 卖道具给NPC
+	// 鍗栭亾鍏风粰NPC
 	void		LocalSaleToNpc( CGoodsGrid* pNpcGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem );
 
 	bool		GetIsShow()	{ return frmNPCtrade->GetIsShow(); }
@@ -36,7 +36,7 @@ protected:
 	static void		_BuyTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 	static void		_SaleTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	// 卖买单个装备时要确认
+	// 鍗栦拱鍗曚釜瑁呭鏃惰纭
 	static void		_BuyEquipYesNoTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 	static void		_SaleEquipYesNoTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
@@ -50,7 +50,7 @@ private:
 private:
 	CForm*		frmNPCtrade; 
 
-	CGoodsGrid*	grdNPCtradeWeapon; //NPC交易道具控件
+	CGoodsGrid*	grdNPCtradeWeapon; //NPC浜ゆ槗閬撳叿鎺т欢
 	CGoodsGrid*	grdNPCtradeEquip;
 	CGoodsGrid*	grdNPCtradeOther;
 

@@ -98,7 +98,7 @@ BOOL CALLBACK DlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 			}
 			break;
 		}
-		case WM_USER_LOG: // Í¨¹ýSendMessage°ÑlogËÍÍù´°¿ÚÏß³ÌµÄÁÐ±í
+		case WM_USER_LOG: // é€šè¿‡SendMessageæŠŠlogé€å¾€çª—å£çº¿ç¨‹çš„åˆ—è¡¨
 		{
 			// g_pGameApp->AddLog((const char*)lParam);
 			break;	
@@ -237,11 +237,11 @@ void DrawMapUnit(SubMap *pMap, HDC dc, int sx, int sy, int w, int h)
 	//lf.lfWeight    = 9;
 	lf.lfWidth     = 14;
 	lf.lfHeight    = 14;
-	lf.lfUnderline = FALSE;           //ÎÞÏÂ»®Ïß
-	lf.lfStrikeOut = FALSE;           //ÎÞÉ¾³ýÏß
+	lf.lfUnderline = FALSE;           //æ— ä¸‹åˆ’çº¿
+	lf.lfStrikeOut = FALSE;           //æ— åˆ é™¤çº¿
 	lf.lfItalic    = FALSE; 
-	lf.lfCharSet   = DEFAULT_CHARSET; //Ê¹ÓÃÈ±Ê¡×Ö·û¼¯
-    strcpy(lf.lfFaceName,"ÐÂËÎÌå");   //×ÖÌåÃû=@system
+	lf.lfCharSet   = DEFAULT_CHARSET; //ä½¿ç”¨ç¼ºçœå­—ç¬¦é›†
+    strcpy(lf.lfFaceName,"æ–°å®‹ä½“");   //å­—ä½“å=@system
 
 	font = CreateFontIndirect(&lf);
 	SelectObject(dc, font);
@@ -426,7 +426,7 @@ void SystemReport(DWORD dwTimeParam)
 
 	if(g_bShowView) InvalidateRect(g_MapView, NULL, FALSE);
 	
-	if(dwLastReportTime==0) // Ö»Ö´ÐÐÒ»´Î
+	if(dwLastReportTime==0) // åªæ‰§è¡Œä¸€æ¬¡
 	{
 		HWND hDB = GetDlgItem(g_ReportView, IDC_GAMEDB);
 		if(game_db.m_bInitOK)	SetWindowText(hDB, "ok");
@@ -485,14 +485,14 @@ void SystemReport(DWORD dwTimeParam)
 		CMapRes *pCMap = g_pGameApp->FindMapByName("teampk");
 		if(pCMap)
 		{
-			// Çå¿ÕÁÐ±í¿ò
+			// æ¸…ç©ºåˆ—è¡¨æ¡†
 			HWND hPKList = GetDlgItem(g_ReportView, IDC_PK_LIST);
 			SendMessage(hPKList, LB_RESETCONTENT, 0, 0);
-			//sprintf(szText, "±àºÅ    Íæ¼ÒÈËÊý");
+			//sprintf(szText, "ç¼–å·    çŽ©å®¶äººæ•°");
 			sprintf(szText, RES_STRING(GM_SYSTEMDIALOG_CPP_00001));
 			SendMessage(hPKList, LB_ADDSTRING, 0, (LPARAM)szText);  
 			
-			// ¿ªÊ¼±éÀú
+			// å¼€å§‹éåŽ†
 			pCMap->BeginGetUsedCopy();
 			SubMap *pCMapCopy;
 			int nPKCnt = 0;
@@ -505,8 +505,8 @@ void SystemReport(DWORD dwTimeParam)
 				nPKCnt++;
 				nPlayerCnt+=nNum;
 			}
-			sprintf(szFPS, "%d ÈËÊý:%d", nPKCnt, nPlayerCnt);
-			if(hPKCnt) SetWindowText(hPKCnt, szFPS); // ÏÔÊ¾×ÜÊý
+			sprintf(szFPS, "%d äººæ•°:%d", nPKCnt, nPlayerCnt);
+			if(hPKCnt) SetWindowText(hPKCnt, szFPS); // æ˜¾ç¤ºæ€»æ•°
 		}
 	}
 

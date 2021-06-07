@@ -8,14 +8,14 @@
 
 
 //-------------------------------------
-// ÊÂ¼ş : ½ÇÉ«ËÀÍö
-// ´¦Àí½ÇÉ«ËÀÍö, ¹¥»÷Õß¾­Ñé·ÖÅä, Éı¼¶µÈ
+// äº‹ä»¶ : è§’è‰²æ­»äº¡
+// å¤„ç†è§’è‰²æ­»äº¡, æ”»å‡»è€…ç»éªŒåˆ†é…, å‡çº§ç­‰
 //-------------------------------------
 void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 {
 	BOOL bTeam  = FALSE;
 	
-	// ¼ÇÂ¼Ïà¹ØµÄËùÓĞ½ÇÉ«, °üÀ¨Ôø¾­¹¥»÷¹ı¹ÖÎïµÄÈËºÍËûÃÇµÄ¶ÓÓÑ
+	// è®°å½•ç›¸å…³çš„æ‰€æœ‰è§’è‰², åŒ…æ‹¬æ›¾ç»æ”»å‡»è¿‡æ€ªç‰©çš„äººå’Œä»–ä»¬çš„é˜Ÿå‹
 	CCharacter *pValidCha[25] = { NULL,NULL,NULL,NULL,NULL,
 								  NULL,NULL,NULL,NULL,NULL,
 								  NULL,NULL,NULL,NULL,NULL,
@@ -25,11 +25,11 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	int nValidCha = 0;
 	
 	CPlayer *pPlayer = pAtk->GetPlayer();
-	if(pPlayer==NULL) // ·ÇÍæ¼Ò½ÇÉ«
+	if(pPlayer==NULL) // éç©å®¶è§’è‰²
 	{
 		MPTimer t;
 		t.Begin();
-		// ËÀÍöºó¼ÆËã¾­Ñé¿Û³ı
+		// æ­»äº¡åè®¡ç®—ç»éªŒæ‰£é™¤
 		extern lua_State *g_pLuaState;
 		lua_getglobal(g_pLuaState, "GetExp_New");
 		if( !lua_isfunction( g_pLuaState, -1 ) )
@@ -42,22 +42,22 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 		lua_pushlightuserdata(g_pLuaState, (void *)pDead);
 		lua_pushlightuserdata(g_pLuaState, (void *)pAtk);
 		int r = lua_pcall(g_pLuaState, 2, 0, 0); 
-		if(r!=0) // Ö´ĞĞ³ö´í
+		if(r!=0) // æ‰§è¡Œå‡ºé”™
 		{
-			LG("lua_err", "GetExp_NewÖ´ĞĞ³ö´í, ¹¥»÷Õß(¹Ö)[%s], ±»´òËÀµÄÈË[%s]!\n", pAtk->GetName(), pDead->GetName());
+			LG("lua_err", "GetExp_Newæ‰§è¡Œå‡ºé”™, æ”»å‡»è€…(æ€ª)[%s], è¢«æ‰“æ­»çš„äºº[%s]!\n", pAtk->GetName(), pDead->GetName());
 			//LG("lua_err", "GetExp_New transact error, attacker(bugbear)[%s], people was bring down[%s]!\n", pAtk->GetName(), pDead->GetName());
 			lua_callalert(g_pLuaState, r); 	
 		}
 		lua_settop(g_pLuaState, 0);
-		pDead->ItemCount(pAtk); // µôÁÏ
+		pDead->ItemCount(pAtk); // æ‰æ–™
 
 		DWORD dwEndTime = t.End();
 		if(dwEndTime > 10)
 		{
-			LG("script_time", "Íæ¼ÒËÀÍöµ÷ÓÃ¾­Ñé·ÖÅä½Å±¾, ¼ÆËãÊ±¼ä¹ı³¤! time = %d\n", dwEndTime);
+			LG("script_time", "ç©å®¶æ­»äº¡è°ƒç”¨ç»éªŒåˆ†é…è„šæœ¬, è®¡ç®—æ—¶é—´è¿‡é•¿! time = %d\n", dwEndTime);
 			//LG("script_time", "when player dead transfer experience assign script,account time too long! time = %d\n", dwEndTime);
 		}
-		return; // ¹ÖÎï¹¥»÷Íæ¼Ò, ²»ÍùÏÂÖ´ĞĞ
+		return; // æ€ªç‰©æ”»å‡»ç©å®¶, ä¸å¾€ä¸‹æ‰§è¡Œ
 	}
 	
 	for(int i = 0; i < MAX_HARM_REC; i++)
@@ -80,16 +80,16 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 				nValidCha++;
 			}
 			
-			// °Ñµ±Ç°½ÇÉ«µÄËùÓĞ¶ÓÓÑÒ²Ìí¼Ó½øÀ´
+			// æŠŠå½“å‰è§’è‰²çš„æ‰€æœ‰é˜Ÿå‹ä¹Ÿæ·»åŠ è¿›æ¥
 			pPlayer = pHarm->pAtk->GetPlayer();
 			if(pPlayer==NULL)
 			{
-				LG("team_error", "¼ì²é¶ÓÓÑ·Ö¾­ÑéÊ±³öÏÖÌØ±ğ´íÎó, playerÖ¸ÕëÎª¿Õ!, ½ÇÉ«Ãû[%s]\n", pHarm->pAtk->GetName());
+				LG("team_error", "æ£€æŸ¥é˜Ÿå‹åˆ†ç»éªŒæ—¶å‡ºç°ç‰¹åˆ«é”™è¯¯, playeræŒ‡é’ˆä¸ºç©º!, è§’è‰²å[%s]\n", pHarm->pAtk->GetName());
 				//LG("team_error", "it appear especially error when check teammate experience assign, player finger is null!, character name[%s]\n", pHarm->pAtk->GetName());
 				break;
 			}
 			
-			for(int i = 0; i < pPlayer->GetTeamMemberCnt(); i++) // ¶ÓÎéÀïÃ¿Ò»¸öÈË¶¼ĞèÒª¼ÆËãÉı¼¶
+			for(int i = 0; i < pPlayer->GetTeamMemberCnt(); i++) // é˜Ÿä¼é‡Œæ¯ä¸€ä¸ªäººéƒ½éœ€è¦è®¡ç®—å‡çº§
 			{
 				CCharacter *pOther = pPlayer->GetTeamMemberCha(i);
 				if (!pOther)			 continue;
@@ -113,7 +113,7 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 		}
 	}
 	
-	// ÎªÕâĞ©½ÇÉ«Ôö¼ÓÊôĞÔ¸üĞÂ±ê¼Ç
+	// ä¸ºè¿™äº›è§’è‰²å¢åŠ å±æ€§æ›´æ–°æ ‡è®°
 	for(int i =0; i < nValidCha; i++)
 	{
 		CCharacter *pCur = pValidCha[i];
@@ -123,7 +123,7 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	MPTimer t;
 	t.Begin();
 	
-	// ËÀÍöºó¼ÆËã¾­Ñé
+	// æ­»äº¡åè®¡ç®—ç»éªŒ
 	extern lua_State *g_pLuaState;
 	lua_getglobal(g_pLuaState, "GetExp_New");
 	if( !lua_isfunction( g_pLuaState, -1 ) )
@@ -137,16 +137,16 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	lua_pushlightuserdata(g_pLuaState, (void *)pDead);
 	lua_pushlightuserdata(g_pLuaState, (void *)pAtk);
 	int r = lua_pcall(g_pLuaState, 2, 0, 0); 
-	if(r!=0) // Ö´ĞĞ³ö´í
+	if(r!=0) // æ‰§è¡Œå‡ºé”™
 	{
-		LG("lua_err", "GetExp_NewÖ´ĞĞ³ö´í, ¹¥»÷Õß[%s], ±»´òËÀµÄ¹Ö[%s]!\n", pAtk->GetName(), pDead->GetName());
+		LG("lua_err", "GetExp_Newæ‰§è¡Œå‡ºé”™, æ”»å‡»è€…[%s], è¢«æ‰“æ­»çš„æ€ª[%s]!\n", pAtk->GetName(), pDead->GetName());
 		//LG("lua_err", "GetExp_New transact error, attacker[%s], bugbear wsa bring down [%s]!\n", pAtk->GetName(), pDead->GetName());
 		lua_callalert(g_pLuaState, r); 	
 	}
 	lua_settop(g_pLuaState, 0);
 	tLua.End();
 	
-	// ÎªÕâĞ©½ÇÉ«Ôö¼ÓÊôĞÔ±ä¸üÍ¨Öª
+	// ä¸ºè¿™äº›è§’è‰²å¢åŠ å±æ€§å˜æ›´é€šçŸ¥
 	for(int i =0; i < nValidCha; i++)
 	{
 		CCharacter *pCur = pValidCha[i];
@@ -154,10 +154,10 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	}
 
 	MPTimer tMission; tMission.Begin();
-	// ¹¥»÷ÕßºÍËûµÄ¶ÓÓÑµÃµ½ÈÎÎñÍ¨Öª
+	// æ”»å‡»è€…å’Œä»–çš„é˜Ÿå‹å¾—åˆ°ä»»åŠ¡é€šçŸ¥
 	pPlayer = pAtk->GetPlayer();
 	pAtk->AfterObjDie(pAtk, pDead);
-	for(int i = 0; i < pPlayer->GetTeamMemberCnt(); i++) // ¶ÓÎéÀïÃ¿Ò»¸öÈË¶¼ĞèÒª¼ÆËãÉı¼¶
+	for(int i = 0; i < pPlayer->GetTeamMemberCnt(); i++) // é˜Ÿä¼é‡Œæ¯ä¸€ä¸ªäººéƒ½éœ€è¦è®¡ç®—å‡çº§
 	{
 		CCharacter *pOther = pPlayer->GetTeamMemberCha(i);
 		if (!pOther)			 continue;
@@ -167,7 +167,7 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	tMission.End();
 		
 	MPTimer tItem; tItem.Begin();
-	// µôÁÏ
+	// æ‰æ–™
 	pDead->ItemCount(pAtk);
 
 	tItem.End();
@@ -175,7 +175,7 @@ void CEventHandler::Event_ChaDie(CCharacter *pDead, CCharacter *pAtk)
 	DWORD dwEndTime = t.End();
 	if(dwEndTime > 10)
 	{
-		LG("script_time", "¹ÖÎïËÀÍö¾­Ñé·ÖÅäÁ÷³Ì, ¼ÆËãÊ±¼ä¹ı³¤, time = %d, exp = %d, upgrade = %d, item = %d!\n", dwEndTime, tLua.GetTimeCount(), tMission.GetTimeCount(), tItem.GetTimeCount());
+		LG("script_time", "æ€ªç‰©æ­»äº¡ç»éªŒåˆ†é…æµç¨‹, è®¡ç®—æ—¶é—´è¿‡é•¿, time = %d, exp = %d, upgrade = %d, item = %d!\n", dwEndTime, tLua.GetTimeCount(), tMission.GetTimeCount(), tItem.GetTimeCount());
 		//LG("script_time", "the flow of assign experience when bugbear dead, calculate time too long, time = %d, exp = %d, upgrade = %d, item = %d!\n", dwEndTime, tLua.GetTimeCount(), tMission.GetTimeCount(), tItem.GetTimeCount());
 	}
 }

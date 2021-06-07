@@ -31,7 +31,7 @@ namespace mission
 		CChaRecord* pRec = GetChaRecordInfo( sID );
 		if( pRec == NULL ) 
 		{
-			LG( "entity_error", "CEventEntity::Create´´½¨Ê§°Ü!Î´·¢ÏÖ½ÇÉ«Êı¾İĞÅÏ¢!ID[%d]", sID );
+			LG( "entity_error", "CEventEntity::Createåˆ›å»ºå¤±è´¥!æœªå‘ç°è§’è‰²æ•°æ®ä¿¡æ¯!ID[%d]", sID );
 			//LG( "entity_error", "CEventEntity::Create !establish failed!can't find character data info!ID[%d]", sID );
 			return FALSE;
 		}
@@ -62,7 +62,7 @@ namespace mission
 		Square SShape = { { dwxPos, dwyPos }, m_pCChaRecord->sRadii };
 		if( !Submap.Enter( &SShape, this ) )
 		{
-			LG( "entity_error", "CEventEntity::CreateÊµÌå½øÈëµØÍ¼Ê§°Ü!" );
+			LG( "entity_error", "CEventEntity::Createå®ä½“è¿›å…¥åœ°å›¾å¤±è´¥!" );
 			//LG( "entity_error", "CEventEntity::Create entity enter map failed!" );
 			return FALSE; 
 		}
@@ -92,9 +92,9 @@ namespace mission
 	void CResourceEntity::Clear()
 	{
 		CEventEntity::Clear();
-		m_sID = 0;		// ×ÊÔ´ĞÅÏ¢ID
-		m_sNum = 0;		// ×ÊÔ´ÊıÁ¿ĞÅÏ¢
-		m_sTime = 0;	// ×ÊÔ´²É¼¯Ê±¼ä
+		m_sID = 0;		// èµ„æºä¿¡æ¯ID
+		m_sNum = 0;		// èµ„æºæ•°é‡ä¿¡æ¯
+		m_sTime = 0;	// èµ„æºé‡‡é›†æ—¶é—´
 	}
 
 	BOOL CResourceEntity::SetData( USHORT sItemID, USHORT sNum, USHORT sTime )
@@ -116,37 +116,37 @@ namespace mission
 
 		if( character.IsMisNeedItem( m_sID ) )
 		{
-			//char szItem[32] = "Î´ÖªÎïÆ·";
+			//char szItem[32] = "æœªçŸ¥ç‰©å“";
 			char szItem[32];
 			strncpy( szItem, RES_STRING(GM_EVENTENTITY_CPP_00001), 32 - 1 );
 
 			CItemRecord* pItem = GetItemRecordInfo( m_sID );
 			if( pItem == NULL )
 			{
-				//character.SystemNotice( "²É¼¯×ÊÔ´:´íÎóµÄÎïÆ·Êı¾İÀàĞÍ!ID = %d", m_sID );
+				//character.SystemNotice( "é‡‡é›†èµ„æº:é”™è¯¯çš„ç‰©å“æ•°æ®ç±»å‹!ID = %d", m_sID );
 				character.SystemNotice( RES_STRING(GM_EVENTENTITY_CPP_00002), m_sID );
 				return FALSE;
 			}
 			strcpy( szItem, pItem->szName );
 			if( character.GiveItem( m_sID, m_sNum, enumITEM_INST_TASK, enumSYN_KITBAG_FROM_NPC ) )
 			{
-				//character.SystemNotice( "Äã²É¼¯µ½%d¸ö¡¶%s¡·ÎïÆ·!", m_sNum, szItem );
+				//character.SystemNotice( "ä½ é‡‡é›†åˆ°%dä¸ªã€Š%sã€‹ç‰©å“!", m_sNum, szItem );
 				character.SystemNotice( RES_STRING(GM_EVENTENTITY_CPP_00003), m_sNum, szItem );
 			}
 			else
 			{
-				//character.SystemNotice( "Äã²É¼¯%d¸ö¡¶%s¡·ÎïÆ·£¬²Ù×÷Ê§°Ü!", m_sNum, szItem );
+				//character.SystemNotice( "ä½ é‡‡é›†%dä¸ªã€Š%sã€‹ç‰©å“ï¼Œæ“ä½œå¤±è´¥!", m_sNum, szItem );
 				character.SystemNotice( RES_STRING(GM_EVENTENTITY_CPP_00004), m_sNum, szItem );
 				return 0;
 			}
 
-			// ÉèÖÃ×ÊÔ´ÏûÊ§£¬µÈ´ıÖØÉú
+			// è®¾ç½®èµ„æºæ¶ˆå¤±ï¼Œç­‰å¾…é‡ç”Ÿ
 			this->SetExistState( enumEXISTS_WITHERING );
 			this->Die();
 		}
 		else
 		{
-			//character.SystemNotice( "´íÎó£ºÄã²»·ûºÏÌõ¼ş´¥·¢¸ÃÊÂ¼şÊµÌå!" );
+			//character.SystemNotice( "é”™è¯¯ï¼šä½ ä¸ç¬¦åˆæ¡ä»¶è§¦å‘è¯¥äº‹ä»¶å®ä½“!" );
 			character.SystemNotice( RES_STRING(GM_EVENTENTITY_CPP_00005) );
 		}
 

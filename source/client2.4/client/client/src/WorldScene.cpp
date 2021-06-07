@@ -58,7 +58,7 @@
 #include "UIDoublePwdForm.h"
 
 //---------------------------------------------------------------------------
-// ¸ø³¡¾°¹â±ê±ä»»Ê¹ÓÃµÄÄÚÁªº¯Êı
+// ç»™åœºæ™¯å…‰æ ‡å˜æ¢ä½¿ç”¨çš„å†…è”å‡½æ•°
 //---------------------------------------------------------------------------
 inline bool	_HaveEventCursor( CEvent* pEvent, int nMainType )
 {
@@ -72,7 +72,7 @@ inline bool	_HaveEventCursor( CEvent* pEvent, int nMainType )
 	return false;
 }
 
-bool g_bIsMouseWalk = false; //Êó±êÑ¹×¡ÒÆ¶¯Ä£Ê½
+bool g_bIsMouseWalk = false; //é¼ æ ‡å‹ä½ç§»åŠ¨æ¨¡å¼
 //---------------------------------------------------------------------------
 // class CWorldScene
 //---------------------------------------------------------------------------
@@ -176,16 +176,16 @@ bool CWorldScene::_Init()
 	 // end
 
 
-    // Îª¸ø½çÃæÏÔÊ¾´´½¨Ò»¸öCharacterÒÔ¼°Ïà¹ØµÄ¿Ø¼ş
+    // ä¸ºç»™ç•Œé¢æ˜¾ç¤ºåˆ›å»ºä¸€ä¸ªCharacterä»¥åŠç›¸å…³çš„æ§ä»¶
 	if(!g_pGameApp->GetMainCam()->m_bSelectMode)
 		_InitUI() ;
 	else
 		_InitSelectUI();
 	 
-    // ±à¼­Æ÷Ä£Ê½
+    // ç¼–è¾‘å™¨æ¨¡å¼
 	if(g_Config.m_bEditor)
 	{		
-		// ´´½¨Ïà¹Ø¿Ø¼ş²¢ÉèÖÃ²ÎÊı    
+		// åˆ›å»ºç›¸å…³æ§ä»¶å¹¶è®¾ç½®å‚æ•°    
         CCharacter *pCha = NULL;
 		for(int i = 0; i < g_Config.m_nChaCnt; i++)
 		{
@@ -353,7 +353,7 @@ void CWorldScene::_FrameMove( DWORD dwTimeParam )
 				CSkillRecord* pSkill = CGameScene::GetMainCha()->GetReadySkillInfo();
 				if( pSkill && pSkill->IsAttackArea() )
 				{
-					// ¸Ä±äÊó±êÎª¹¥»÷µØÃæ
+					// æ”¹å˜é¼ æ ‡ä¸ºæ”»å‡»åœ°é¢
 					CGameScene::Set3DMouseState( enumFollow );
 					g_pGameApp->GetCursor()->SetCursor( csCircleCursor );
 					CCursor::I()->SetFrame( CCursor::stSkillAttack );
@@ -363,7 +363,7 @@ void CWorldScene::_FrameMove( DWORD dwTimeParam )
 					g_pGameApp->GetCursor()->SetCursor( csNormalCursor );
 					CGameScene::Set3DMouseState( enumClick );
 
-					// µ¥Ìå¼¼ÄÜ,¼ì²â¹¥»÷¶ÔÏóÊÇ·ñÕıÈ·
+					// å•ä½“æŠ€èƒ½,æ£€æµ‹æ”»å‡»å¯¹è±¡æ˜¯å¦æ­£ç¡®
 					if( pSkill )
 					{
 						CCursor::I()->SetFrame( CCursor::stSkillAttack );
@@ -417,7 +417,7 @@ void CWorldScene::_FrameMove( DWORD dwTimeParam )
 				}
 				else if( CGameApp::IsMouseContinue(0) )
 				{
-					//Êó±êÑ¹×¡ÒÆ¶¯Ä£Ê½ È¡ÏûÂ·¾¶ËÑÑ°£¬±ÜÃâ»¥Ïà¸ÉÈÅ by Waiting 2009-08-04
+					//é¼ æ ‡å‹ä½ç§»åŠ¨æ¨¡å¼ å–æ¶ˆè·¯å¾„æœå¯»ï¼Œé¿å…äº’ç›¸å¹²æ‰° by Waiting 2009-08-04
 					g_stUIMap.ClearRadar();
 					g_cFindPathEx.Reset();
 					g_cFindPath.SetShortPathFinding(128,38);
@@ -454,7 +454,7 @@ void CWorldScene::_FrameMove( DWORD dwTimeParam )
 				}
 				else if( key & M_RDown )
 				{
-					// ¸Ä±äÊó±êÎª¹¥»÷µ¥ÈË
+					// æ”¹å˜é¼ æ ‡ä¸ºæ”»å‡»å•äºº
 					g_pGameApp->GetCursor()->SetCursor( csNormalCursor );
 					CGameScene::Set3DMouseState( enumClick );
 					CCursor::I()->Restore();
@@ -608,7 +608,7 @@ BOOL CWorldScene::_InitUI()
 	{
 		form->Show();
 
-		CEdit* edit = dynamic_cast<CEdit*>(form->Find( "edtSay" ));  //ÊÇ·ñÄÜÊäÈëÍ¼Ôª
+		CEdit* edit = dynamic_cast<CEdit*>(form->Find( "edtSay" ));  //æ˜¯å¦èƒ½è¾“å…¥å›¾å…ƒ
 		if( edit ) edit->SetIsParseText(true ); 
 	} 
 
@@ -642,7 +642,7 @@ CWorldScene& CWorldScene::GetCurrScene()
 }
 BOOL CWorldScene::_InitSelectUI()
 {
-	//Ñ¡ÈË½çÃæµÄ±íµ¥
+	//é€‰äººç•Œé¢çš„è¡¨å•
 	frmSelectCha = CFormMgr::s_Mgr.Find( "frmSelect", 6 );
 	if(!frmSelectCha)		return false;
 
@@ -661,7 +661,7 @@ BOOL CWorldScene::_InitSelectUI()
 	btnright = dynamic_cast<CTextButton *>(frmSelectCha->Find("btnRight3d"));
 	if (!btnright)           return false;
 
-	// ÉèÖÃ´´½¨°´Å¥ÉÁË¸
+	// è®¾ç½®åˆ›å»ºæŒ‰é’®é—ªçƒ
 	btnCreate->SetFlashCycle();
 
 	frmSelectCha->SetPos(
@@ -672,13 +672,13 @@ BOOL CWorldScene::_InitSelectUI()
 
 	frmSelectCha->evtEntrustMouseEvent = _SelChaFrmMouseEvent;
 
-	// ½ÇÉ«list
+	// è§’è‰²list
 	frmCharList= dynamic_cast<CList *> (frmSelectCha->Find( "lstChar" ));
 	if(!frmCharList)
 		return false;
 	frmCharList->evtListMouseDown = _evtCharListLDBDown;
 
-	// Ñ¡ÔñÖÖ×å
+	// é€‰æ‹©ç§æ—
 	frmRace = CFormMgr::s_Mgr.Find( "frmRace", 6 );
 	if(!frmRace)
 		return false;
@@ -693,7 +693,7 @@ BOOL CWorldScene::_InitSelectUI()
 	
 	frmRace->evtEntrustMouseEvent = _SelChaFrmMouseEvent;
 
-	// Ä£ĞÍÑ¡Ôñ
+	// æ¨¡å‹é€‰æ‹©
 	frmmod = CFormMgr::s_Mgr.Find( "frmmod", 6 );
 	if(!frmmod)
 		return false;
@@ -713,17 +713,17 @@ BOOL CWorldScene::_InitSelectUI()
 	if (!btnModleft)           return false;
 	frmmod->evtEntrustMouseEvent = _SelChaFrmMouseEvent;
 
-	// ´´½¨»¶Ó­½çÃæ   ¸Ã½çÃæ½öÔÚµ±Ç°ÕÊºÅÄÚÎŞ½ÇÉ«Ê±³öÏÖ
+	// åˆ›å»ºæ¬¢è¿ç•Œé¢   è¯¥ç•Œé¢ä»…åœ¨å½“å‰å¸å·å†…æ— è§’è‰²æ—¶å‡ºç°
 	frmWelcomeNotice = CFormMgr::s_Mgr.Find("frmWelcomeNotice");
 	if(!frmWelcomeNotice)		return false;
 	frmWelcomeNotice->evtEntrustMouseEvent = _evtWelcomeNoticeEvent;
 
-	// ¶¨ÒåÊ×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ   ¸Ã½çÃæ½öÔÚ¸ÃÕÊºÅ×ßÍêµÚÒ»¸ö½ÇÉ«µÄ´´½¨Á÷³ÌºóÏÔÊ¾
+	// å®šä¹‰é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢   è¯¥ç•Œé¢ä»…åœ¨è¯¥å¸å·èµ°å®Œç¬¬ä¸€ä¸ªè§’è‰²çš„åˆ›å»ºæµç¨‹åæ˜¾ç¤º
 	frmCreateOKNotice = CFormMgr::s_Mgr.Find("frmCreateOKNotice");
 	if(!frmCreateOKNotice)		return false;
 	frmCreateOKNotice->evtEntrustMouseEvent = _evtCreateOKNoticeEvent;
 
-	// ´¦Àí°´Å¥ÊÇ·ñ¿ÉÒÔÓÃ
+	// å¤„ç†æŒ‰é’®æ˜¯å¦å¯ä»¥ç”¨
 	UpdateButton();
 
 	frmChaNameAlter = CFormMgr::s_Mgr.Find("frmChaNameAlter");
@@ -813,13 +813,13 @@ void CWorldScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType,
 	{
 		if(g_Config.m_IsDoublePwd)
 		{
-			// É¾³ı½ÇÉ«ĞèÒª¶ş´ÎÃÜÂë  modify by Philip.Wu  2006-07-19
+			// åˆ é™¤è§’è‰²éœ€è¦äºŒæ¬¡å¯†ç   modify by Philip.Wu  2006-07-19
 			g_stUIDoublePwd.SetType(CDoublePwdMgr::DELETE_CHARACTOR);
 			g_stUIDoublePwd.ShowDoublePwdForm();
 		}
 		else
 		{
-			// É¾³ıÕÊºÅ
+			// åˆ é™¤å¸å·
 			//CBoxMgr::ShowSelectBox(_CheckFrmMouseEvent, RES_STRING(CL_LANGUAGE_MATCH_384), true);
 		}
 	}
@@ -827,8 +827,8 @@ void CWorldScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType,
 	{
 		if ( _stricmp ("frmSelect", pSender->GetForm()->GetName()) == 0 )
 		{
-			//½øÈëÓÎÏ·
-			//Ïò·şÎñÆ÷·¢ËÍ¿ªÊ¼ÓÎÏ·µÄÏûÏ¢
+			//è¿›å…¥æ¸¸æˆ
+			//å‘æœåŠ¡å™¨å‘é€å¼€å§‹æ¸¸æˆçš„æ¶ˆæ¯
 			GetCurrScene().SendBeginPlayToServer();
 			CGameApp::Waiting();
 		}
@@ -857,14 +857,14 @@ void CWorldScene::_SelChaFrmMouseEvent(CCompent *pSender, int nMsgType,
 			return;
 		}
 
-		// ÍË³öÑ¡ÈË³¡¾°
+		// é€€å‡ºé€‰äººåœºæ™¯
 		CS_Logout();
 		CS_Disconnect(DS_DISCONN);
 		g_pGameApp->LoadScriptScene( enumLoginScene );
 	}
 	else if( strName == "btnAlter" )
 	{
-		// ¸üĞÂ¶ş´ÎÃÜÂë
+		// æ›´æ–°äºŒæ¬¡å¯†ç 
 
 		g_stUIDoublePwd.ShowAlterForm();
 	}
@@ -887,37 +887,37 @@ void CWorldScene::ClearSelectUI()
 	g_pGameApp->GetMainCam()->m_bSelectMode = false;
 }
 
-// Ñ¯ÎÊÊÇ·ñÒª´´½¨¶ş´ÎÃÜÂë  add by Philip.Wu  2006-07-20
+// è¯¢é—®æ˜¯å¦è¦åˆ›å»ºäºŒæ¬¡å¯†ç   add by Philip.Wu  2006-07-20
 void CWorldScene::_evtCreateDoublePwdEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
 {
 	if( nMsgType == CForm::mrYes ) 
 	{
-		// ÏÔÊ¾´´½¨¶ş´ÎÃÜÂë´°Ìå
+		// æ˜¾ç¤ºåˆ›å»ºäºŒæ¬¡å¯†ç çª—ä½“
 		g_stUIDoublePwd.ShowCreateForm();
 	}
 	else
 	{
-		// Íæ¼ÒÈ¡Ïû´´½¨¶ş´ÎÃÜÂë£¬ÍË³ö
+		// ç©å®¶å–æ¶ˆåˆ›å»ºäºŒæ¬¡å¯†ç ï¼Œé€€å‡º
 		if( g_TomServer.bEnable )
 		{
 			g_pGameApp->SetIsRun( false );
 			return;
 		}
 
-		// ÍË³öÑ¡ÈË³¡¾°
+		// é€€å‡ºé€‰äººåœºæ™¯
 		CS_Logout();
 		CS_Disconnect(DS_DISCONN);
 		g_pGameApp->LoadScriptScene( enumLoginScene );
 	}
 }
-// »¶Ó­½çÃæ ÊÂ¼ş´¦Àí
+// æ¬¢è¿ç•Œé¢ äº‹ä»¶å¤„ç†
 void CWorldScene::_evtWelcomeNoticeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
 {
 
 }
 
 
-// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 void CWorldScene::_evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
 {
 	string strName = pSender->GetName();
@@ -926,7 +926,7 @@ void CWorldScene::_evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType, int x
 
 }
 
-// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 void CWorldScene::_evtChaNameAlterMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
 {
 	string strName = pSender->GetName();
@@ -934,7 +934,7 @@ void CWorldScene::_evtChaNameAlterMouseEvent(CCompent *pSender, int nMsgType, in
 
 
 }
-// ½ÇÉ«Ñ¡Ôñ
+// è§’è‰²é€‰æ‹©
 void CWorldScene::_evtCharListLDBDown(CGuiData *pSender, int x, int y, DWORD key)
 {
 	CList* pkcharList = dynamic_cast<CList*>(pSender);
@@ -946,7 +946,7 @@ void CWorldScene::_evtCharListLDBDown(CGuiData *pSender, int x, int y, DWORD key
 		DWORD dwcount = pkcharList->GetItems()->GetCount();
 		const char* ReginText = pkcharList->GetItems()->GetSelect()->GetItem()->GetBegin()->GetString();
 		string strname(ReginText);
-		//if(strname.compare("ÈËÎïÎ´´´½¨") == 0 )
+		//if(strname.compare("äººç‰©æœªåˆ›å»º") == 0 )
 		//	bCreate = true;
 		for(int jj= 0; jj<4; jj++)
 		{
@@ -983,7 +983,7 @@ void CWorldScene::_evtCharListLDBDown(CGuiData *pSender, int x, int y, DWORD key
 //-----------------------------------------------------------------------
 void CWorldScene::DelCurrentSelCha()
 {
-	//ÔÚ³¡¾°ÖĞÉ¾³ı¸Ã½ÇÉ«
+	//åœ¨åœºæ™¯ä¸­åˆ é™¤è¯¥è§’è‰²
 
 	if(m_strChar[m_nCurChaIndex])
 	{
@@ -992,7 +992,7 @@ void CWorldScene::DelCurrentSelCha()
 		m_nCurChaIndex = 0;
 	}
 
-	//´¦ÀíÏà¹ØUI½çÃæ
+	//å¤„ç†ç›¸å…³UIç•Œé¢
 	UpdateButton();
 	return;
 
@@ -1046,7 +1046,7 @@ void CWorldScene::SetCharNameToUI(CCharacter* pChar, int nChaIndex)
 void CWorldScene::SendDelChaToServer(const char szPassword2[])
 {
 	if (m_nCurChaIndex >= 0 && m_nCurChaIndex <= 2)
-		//Í¨Öª·şÎñÆ÷É¾³ı½ÇÉ«
+		//é€šçŸ¥æœåŠ¡å™¨åˆ é™¤è§’è‰²
 		CS_DelCha( m_strChar[m_nCurChaIndex]->getName(), szPassword2 ); 
 
 }
@@ -1078,7 +1078,7 @@ void CWorldScene::UpdateButton()
 		btnAlter->SetIsEnabled(true);
 	}
 }
-// »ñµÃ½ÇÉ«¸öÊı
+// è·å¾—è§’è‰²ä¸ªæ•°
 int CWorldScene::GetChaCount()
 {
 	int nCount = 0;
@@ -1143,14 +1143,14 @@ void CWorldScene::_SceneCursor()
 		return;
 	}
 
-	// ¸ù¾İ¼¼ÄÜÀàĞÍÏÔÊ¾hint
-	// 1.·¶Î§¼¼ÄÜ,ËùÓĞ¹ÖÎïÏÔÊ¾ÎªºìÉ«
-	// 2.µ¥Ìå¼¼ÄÜ,¼ì²â¹¥»÷¶ÔÏóÊÇ·ñÕıÈ·
-	// 3.Ã»ÓĞ¼¼ÄÜÊ±¿ÉÓënpc¶Ô»°,¼ñÎïÆ·µÈ               
+	// æ ¹æ®æŠ€èƒ½ç±»å‹æ˜¾ç¤ºhint
+	// 1.èŒƒå›´æŠ€èƒ½,æ‰€æœ‰æ€ªç‰©æ˜¾ç¤ºä¸ºçº¢è‰²
+	// 2.å•ä½“æŠ€èƒ½,æ£€æµ‹æ”»å‡»å¯¹è±¡æ˜¯å¦æ­£ç¡®
+	// 3.æ²¡æœ‰æŠ€èƒ½æ—¶å¯ä¸npcå¯¹è¯,æ¡ç‰©å“ç­‰               
     pCha = _pChaArray;
     if( g_pGameApp->IsShiftPress() )
     {
-		// °´×¡shiftÏÔÊ¾ËùÓĞ¹ÖÎïÃû×Ö
+		// æŒ‰ä½shiftæ˜¾ç¤ºæ‰€æœ‰æ€ªç‰©åå­—
         for(int i = 0; i < _nChaCnt; i++)
         {
             if( pCha->IsValid() ) 
@@ -1171,7 +1171,7 @@ void CWorldScene::_SceneCursor()
     }
 	else if( g_pGameApp->IsAltPress() )
 	{
-		// ÏÔÊ¾ËùÓĞ¶Ó³¤µÄÃû×Ö
+		// æ˜¾ç¤ºæ‰€æœ‰é˜Ÿé•¿çš„åå­—
         for(int i = 0; i < _nChaCnt; i++)
         {
             if( pCha->IsValid() ) 
@@ -1250,7 +1250,7 @@ void CWorldScene::_SceneCursor()
 
 	if( pSkill && pSkill->IsAttackArea() )
 	{
-		// ¸Ä±äÊó±êÎª¹¥»÷µØÃæ
+		// æ”¹å˜é¼ æ ‡ä¸ºæ”»å‡»åœ°é¢
 		CGameScene::Set3DMouseState( enumFollow );
 		g_pGameApp->GetCursor()->SetCursor( csCircleCursor );
 		CCursor::I()->SetFrame( CCursor::stSkillAttack );
@@ -1259,7 +1259,7 @@ void CWorldScene::_SceneCursor()
         {
     		g_pGameApp->GetCursor()->GetCursor()->SetRadius( pSkill->GetRange() * 2 );
 
-			// ·¶Î§¼¼ÄÜ,ËùÓĞ¹ÖÎïÏÔÊ¾ÎªºìÉ«
+			// èŒƒå›´æŠ€èƒ½,æ‰€æœ‰æ€ªç‰©æ˜¾ç¤ºä¸ºçº¢è‰²
 			int dis = pSkill->GetRange();
             /*CCharacter**/ pCha = _pChaArray;
             for(int i = 0; i < _nChaCnt; i++)
@@ -1285,14 +1285,14 @@ void CWorldScene::_SceneCursor()
 	}
 	else
 	{
-		// ¸Ä±äÊó±êÎª¹¥»÷µ¥ÈË
+		// æ”¹å˜é¼ æ ‡ä¸ºæ”»å‡»å•äºº
 		g_pGameApp->GetCursor()->SetCursor( csNormalCursor );
 		CGameScene::Set3DMouseState( enumClick );
 
 		static bool IsDefault = false;
 		IsDefault = false;
 
-		// µ¥Ìå¼¼ÄÜ,¼ì²â¹¥»÷¶ÔÏóÊÇ·ñÕıÈ·
+		// å•ä½“æŠ€èƒ½,æ£€æµ‹æ”»å‡»å¯¹è±¡æ˜¯å¦æ­£ç¡®
 		if( pSkill )
 		{
 			CCursor::I()->SetFrame( CCursor::stSkillAttack );
@@ -1575,10 +1575,10 @@ void CWorldScene::_KeyDownEvent( int key )
 			}
 
 
-            // ±à¼­Æ÷ÓÃ£¬Ì××°±àºÅ³¬¹ı 99 ´¦Àí       modify by Philip.Wu   2007-09-11
+            // ç¼–è¾‘å™¨ç”¨ï¼Œå¥—è£…ç¼–å·è¶…è¿‡ 99 å¤„ç†       modify by Philip.Wu   2007-09-11
             //
-            // £Ø£Ø£Ø£Ø £Ø£Ø£Ø£Ø £Ø£Ø¡££Ì£Ç£Ï
-            // ¹Ç¼ÜºÅ   Ê®¸ö°ÙÇ§
+            // ï¼¸ï¼¸ï¼¸ï¼¸ ï¼¸ï¼¸ï¼¸ï¼¸ ï¼¸ï¼¸ã€‚ï¼¬ï¼§ï¼¯
+            // éª¨æ¶å·   åä¸ªç™¾åƒ
             //
 			DWORD part = 0;
             if(group_id <= 99)
@@ -1587,8 +1587,8 @@ void CWorldScene::_KeyDownEvent( int key )
             }
             else
             {
-                int thousand = (group_id / 1000) % 10; // Ç§Î»
-                int hundred  = (group_id /  100) % 10; // °ÙÎ»
+                int thousand = (group_id / 1000) % 10; // åƒä½
+                int hundred  = (group_id /  100) % 10; // ç™¾ä½
 
                 group_id = group_id % 100;
                 part = info->sModel* 1000000 + group_id * 10000 + part_id;
@@ -1606,7 +1606,7 @@ void CWorldScene::_KeyDownEvent( int key )
 				fclose( fp );
 				c->LoadPart( part_id, part );
 
-				//// ·¢ËÍÍâ¹Û¸üĞÂ
+				//// å‘é€å¤–è§‚æ›´æ–°
 				stTempChangeChaPart stPart;
 				memset( &stPart, 0, sizeof(stPart) );
 				if( part_id>=0 && part_id<5 )
@@ -1673,7 +1673,7 @@ void CWorldScene::_KeyDownEvent( int key )
 			}
 		}
 
-		if( g_pGameApp->IsAltPress() && (key=='c' || key=='C') )	// ´òÓ¡ÉãÏñ»ú
+		if( g_pGameApp->IsAltPress() && (key=='c' || key=='C') )	// æ‰“å°æ‘„åƒæœº
 			_IsShowCameraInfo = !_IsShowCameraInfo;			
 
 		if( g_pGameApp->IsAltPress() && (key=='k' || key=='K') )
@@ -1684,7 +1684,7 @@ void CWorldScene::_KeyDownEvent( int key )
 			g_Config.SetMoveClient( !g_Config.m_IsMoveClient );
 		}
 
-#ifdef _DEBUG	// ²âÊÔÓÃ
+#ifdef _DEBUG	// æµ‹è¯•ç”¨
 		if( g_pGameApp->IsAltPress() && (key=='f' || key=='F'))
 		{
 			static bool ken = true;
@@ -1788,7 +1788,7 @@ bool CWorldScene::_MouseButtonDown(int nButton)
 {	
 	if(g_pGameApp->GetMainCam()->m_bSelectMode)
 	{
-		// ´´½¨¶ş´ÎÃÜÂë´°ÌåÏÔÊ¾Ê±£¬²»ÔÊĞíµã»÷ÈËÎï  add by Philip.Wu  2006-07-20
+		// åˆ›å»ºäºŒæ¬¡å¯†ç çª—ä½“æ˜¾ç¤ºæ—¶ï¼Œä¸å…è®¸ç‚¹å‡»äººç‰©  add by Philip.Wu  2006-07-20
 		if(g_stUIDoublePwd.GetIsShowCreateForm() || g_stUIDoublePwd.GetIsShowAlterForm() || g_stUIDoublePwd.GetIsShowDoublePwdForm())
 		{
 			return false;
@@ -1797,7 +1797,7 @@ bool CWorldScene::_MouseButtonDown(int nButton)
 		m_nCurChaIndex = 0;
 
 
-		//´¦Àí±íµ¥ÉÏµÄ°´Å¥ÊÇ·ñ¿ÉÓÃ
+		//å¤„ç†è¡¨å•ä¸Šçš„æŒ‰é’®æ˜¯å¦å¯ç”¨
 		UpdateButton();
 
 		return true;
@@ -1810,10 +1810,10 @@ bool CWorldScene::_MouseButtonDown(int nButton)
 	{
 		if( _e3DMouseState==enumClick ) g_pGameApp->GetCursor()->MoveTo( _vMousePos );
 
-		// ½«È«²¿µÄ½çÃæÖÃÎª²»ÏÔÊ¾
+		// å°†å…¨éƒ¨çš„ç•Œé¢ç½®ä¸ºä¸æ˜¾ç¤º
 		CUIInterface::MainChaMove();
 
-		// ½ÇÉ«ÒÆ¶¯ºó¹Ø±Õ´¬Ö»Ñ¡Ôñ½çÃæ  add by Philip.Wu  2006-06-02
+		// è§’è‰²ç§»åŠ¨åå…³é—­èˆ¹åªé€‰æ‹©ç•Œé¢  add by Philip.Wu  2006-06-02
 		_pShipMgr->CloseForm();
 
 		return true;
@@ -1850,7 +1850,7 @@ void CWorldScene::SetMainCha(int nChaID)
 	_cMouseDown.Reset();
     _UserLeve.AllTrue();
 
-    // ÖØÉè¾µÍ·
+    // é‡è®¾é•œå¤´
     CCameraCtrl *pCam = g_pGameApp->GetMainCam();
     LETerrain *pTerr = GetTerrain();
 
@@ -2058,7 +2058,7 @@ CCharacter* CWorldScene::HitSelectCharacter( int nScrX, int nScrY, int nSelect )
 			}
 			break;
 		}
-		case enumSC_ENEMY:	// ÅĞ¶ÏÊÇ·ñ¿ÉPK,¿ÉPKÔò¹ÖÎï+·ÇÍ¬¶ÓÍæ¼Ò,·ñÔò½öÎª¹ÖÎï
+		case enumSC_ENEMY:	// åˆ¤æ–­æ˜¯å¦å¯PK,å¯PKåˆ™æ€ªç‰©+éåŒé˜Ÿç©å®¶,å¦åˆ™ä»…ä¸ºæ€ªç‰©
 		{			
 			CCharacter* pMain = CGameScene::GetMainCha();
 			if( pMain && pMain->GetIsPK() )
@@ -2398,21 +2398,21 @@ void CWorldScene::SetScreen( int w, int h, bool IsFull )
 }
 
 
-// ÔÚ×°ÔØloadingºó,Ë¢ĞÂ
+// åœ¨è£…è½½loadingå,åˆ·æ–°
 void CWorldScene::LoadingCall()
 {
 	CGameScene::LoadingCall();
 
-	// ·¢ËÍÊÇ·ñ±³°üËø¶¨²éÑ¯ÏûÏ¢
+	// å‘é€æ˜¯å¦èƒŒåŒ…é”å®šæŸ¥è¯¢æ¶ˆæ¯
 	//::CS_KitbagCheck();
 
-	if(g_Config.m_bEditor)	// ±à¼­Æ÷Ä£Ê½ ÌØÊâ´¦Àí
+	if(g_Config.m_bEditor)	// ç¼–è¾‘å™¨æ¨¡å¼ ç‰¹æ®Šå¤„ç†
 	{
 		static bool firstTime = true;
 		if( firstTime )
 		{
 			char szMap[32] = {0};
-			char szAppName[] = {(char)0xB1, (char)0xE0, (char)0xBC, (char)0xAD, (char)0xC6, (char)0xF7, (char)0};	// ·ÀÖ¹±»ÈÏÎªÊÇÖĞÎÄ¶øÌáÈ¡³É¶àÓïÑÔ
+			char szAppName[] = {(char)0xB1, (char)0xE0, (char)0xBC, (char)0xAD, (char)0xC6, (char)0xF7, (char)0};	// é˜²æ­¢è¢«è®¤ä¸ºæ˜¯ä¸­æ–‡è€Œæå–æˆå¤šè¯­è¨€
 			GetPrivateProfileString(szAppName, "MapName", "", szMap, 32, "./scripts/kop.cfg");
 
 			CMapInfo* pMap = GetMapInfo(szMap);
@@ -2445,7 +2445,7 @@ void CWorldScene::LoadingCall()
 
 	if(nLevel <= 1)
 	{
-		// Ò»¼¶Ç¿ÖÆ´ò¿ªĞÂÊÖ°ïÖú
+		// ä¸€çº§å¼ºåˆ¶æ‰“å¼€æ–°æ‰‹å¸®åŠ©
 		g_stUISystem.m_sysProp.m_gameOption.bHelpMode = true;
 		::WritePrivateProfileString("gameOption", "helpMode", "1", "./user/system.ini");
 
@@ -2463,7 +2463,7 @@ void CWorldScene::LoadingCall()
 		g_stUIStart.ShowLevelUpHelpButton(nLevel == 1 ? true : false);
 	}
 
-	// Í¬²½ÁÙÊ±±³°ü²éÑ¯ÏûÏ¢
+	// åŒæ­¥ä¸´æ—¶èƒŒåŒ…æŸ¥è¯¢æ¶ˆæ¯
 	CS_SyncKitbagTemp();
 
 	//CSceneItem* pItem = _pSceneItemArray;
@@ -2474,10 +2474,10 @@ void CWorldScene::LoadingCall()
 	//}
 	if(! g_Config.m_IsDoublePwd)
 	{
-		// ÏÔÊ¾´´½¨¶ş´ÎÃÜÂë´°Ìå
+		// æ˜¾ç¤ºåˆ›å»ºäºŒæ¬¡å¯†ç çª—ä½“
 		g_stUIDoublePwd.ShowCreateForm();
 
-		//CBoxMgr::ShowSelectBox(_evtCreateDoublePwdEvent, RES_STRING(CL_LANGUAGE_MATCH_800), true);//"µ±Ç°ÕÊºÅÎ´´´½¨¶ş´ÎÃÜÂë\n\nÊÇ·ñÏÖÔÚ´´½¨?"
+		//CBoxMgr::ShowSelectBox(_evtCreateDoublePwdEvent, RES_STRING(CL_LANGUAGE_MATCH_800), true);//"å½“å‰å¸å·æœªåˆ›å»ºäºŒæ¬¡å¯†ç \n\næ˜¯å¦ç°åœ¨åˆ›å»º?"
 	}
 }
 

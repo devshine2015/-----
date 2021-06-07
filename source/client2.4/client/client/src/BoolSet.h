@@ -1,7 +1,7 @@
 //--------------------------------------------------------------
-// Ãû³Æ:²¼¶û¼¯ºÏÀà
-// ×÷Õß:lh 2004-11-01
-// ÓÃÍ¾:¿ÉÒÔ¿ìËÙÅĞ¶ÏÊÇ·ñËùÓĞ²¼¶û¶¼Îªfalse
+// åç§°:å¸ƒå°”é›†åˆç±»
+// ä½œè€…:lh 2004-11-01
+// ç”¨é€”:å¯ä»¥å¿«é€Ÿåˆ¤æ–­æ˜¯å¦æ‰€æœ‰å¸ƒå°”éƒ½ä¸ºfalse
 //--------------------------------------------------------------
 
 #pragma once
@@ -11,20 +11,20 @@ class CBoolSet
 public:
 	CBoolSet() : _value(0) {}
 
-	// bit·¶Î§0~31
+	// bitèŒƒå›´0~31
 	bool IsTrue( unsigned int bit )		{ return (_value & 0x00000001 << bit)!=0;	}
 	bool IsFalse( unsigned int bit )    { return (_value & 0x00000001 << bit)==0;	}
-	void SetTrue( unsigned int bit )	{ _value |= 0x00000001 << bit;				}	// Î»Îªtrue
-	void SetFalse( unsigned int bit )	{ _value &= ~(0x00000001 << bit);			}	// Î»Îªfalse
+	void SetTrue( unsigned int bit )	{ _value |= 0x00000001 << bit;				}	// ä½ä¸ºtrue
+	void SetFalse( unsigned int bit )	{ _value &= ~(0x00000001 << bit);			}	// ä½ä¸ºfalse
 
 	void Set( unsigned int bit, bool v ){ if(v) SetTrue(bit); else SetFalse(bit);	}
 	bool Get( unsigned int bit )		{ return (_value & 0x00000001 << bit)!=0;	}
 
-	void AllFalse()						{ _value = 0;			}	// È«false
-	void AllTrue()						{ _value = 0xffffffff;	}	// È«true
+	void AllFalse()						{ _value = 0;			}	// å…¨false
+	void AllTrue()						{ _value = 0xffffffff;	}	// å…¨true
 
-	bool IsNone()						{ return _value==0;		}	// ÊÇ·ñÈ«Îªfalse
-	bool IsAny()						{ return _value!=0;		}	// ÊÇ·ñÓĞÄ³Ò»Î»Îªtrue
+	bool IsNone()						{ return _value==0;		}	// æ˜¯å¦å…¨ä¸ºfalse
+	bool IsAny()						{ return _value!=0;		}	// æ˜¯å¦æœ‰æŸä¸€ä½ä¸ºtrue
 
 private:
 	unsigned int _value;

@@ -6,7 +6,7 @@ void GroupServerApp::CP_FRND_INVITE(Player *ply,DataSocket *datasock,RPacket &pk
 {
 	if(ply->m_CurrFriendNum >=const_frnd.FriendMax)
 	{
-		//ply->SendSysInfo("ÄúµÄºÃÓÑÊıÒÑ¾­´ïµ½ÔÊĞíµÄÉÏÏŞÁË£¬ºÃÓÑÑûÇë±»È¡Ïû¡£");
+		//ply->SendSysInfo("æ‚¨çš„å¥½å‹æ•°å·²ç»è¾¾åˆ°å…è®¸çš„ä¸Šé™äº†ï¼Œå¥½å‹é‚€è¯·è¢«å–æ¶ˆã€‚");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00001));
 	}else
 	{
@@ -22,30 +22,30 @@ void GroupServerApp::CP_FRND_INVITE(Player *ply,DataSocket *datasock,RPacket &pk
 		if(!l_invited_ply || l_invited_ply->m_currcha <0 || l_invited_ply ==ply)
 		{
 			char l_buf[256];
-			//sprintf(l_buf,"ÄúËùÑûÇëµÄÍæ¼Ò¡¾%s¡¿µ±Ç°²»ÔÚÏßÉÏ¡£",l_invited_name);
+			//sprintf(l_buf,"æ‚¨æ‰€é‚€è¯·çš„ç©å®¶ã€%sã€‘å½“å‰ä¸åœ¨çº¿ä¸Šã€‚",l_invited_name);
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00002),l_invited_name);
 			ply->SendSysInfo(l_buf);
 		}else if(l_invited =l_invited_ply->FrndFindInvitedByInviterChaID(ply->m_chaid[ply->m_currcha]))
 		{
-			//ply->SendSysInfo(dstring("Äúµ±Ç°¶Ô¡¾")<<l_invited_name<<"¡¿ÒÑ¾­ÓĞÒ»¸öÎ´¾öµÄºÃÓÑÑûÇë£¬ÇëÉÔ°²ÎãÔê¡£");
+			//ply->SendSysInfo(dstring("æ‚¨å½“å‰å¯¹ã€")<<l_invited_name<<"ã€‘å·²ç»æœ‰ä¸€ä¸ªæœªå†³çš„å¥½å‹é‚€è¯·ï¼Œè¯·ç¨å®‰æ¯‹èºã€‚");
 			char l_buf[256];
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00003),l_invited_name);
 			ply->SendSysInfo(l_buf);
 		}else if(l_invited =ply->FrndFindInvitedByInviterChaID(l_invited_ply->m_chaid[l_invited_ply->m_currcha]))
 		{
-			//ply->SendSysInfo(dstring("¡¾")<<l_invited_name<<"¡¿µ±Ç°ÒÑ¾­ÓĞÒ»¸ö¶ÔÄãµÄºÃÓÑÑûÇë£¬Çë½ÓÊÜ¼´¿É¡£");
+			//ply->SendSysInfo(dstring("ã€")<<l_invited_name<<"ã€‘å½“å‰å·²ç»æœ‰ä¸€ä¸ªå¯¹ä½ çš„å¥½å‹é‚€è¯·ï¼Œè¯·æ¥å—å³å¯ã€‚");
 			char l_buf[256];
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00005),l_invited_name);
 			ply->SendSysInfo(l_buf);
 		}else if(l_invited_ply->m_CurrFriendNum >=const_frnd.FriendMax)
 		{
 			char l_buf[256];
-			//sprintf(l_buf,"ÄúËùÑûÇëµÄÍæ¼Ò¡¾%s¡¿µÄºÃÓÑÊıÄ¿ÒÑ¾­´ïµ½ÔÊĞíµÄÉÏÏŞÁË¡£",l_invited_name);
+			//sprintf(l_buf,"æ‚¨æ‰€é‚€è¯·çš„ç©å®¶ã€%sã€‘çš„å¥½å‹æ•°ç›®å·²ç»è¾¾åˆ°å…è®¸çš„ä¸Šé™äº†ã€‚",l_invited_name);
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00006),l_invited_name);
 			ply->SendSysInfo(l_buf);
 		}else if(m_tblfriends->GetFriendsCount(ply->m_chaid[ply->m_currcha],l_invited_ply->m_chaid[l_invited_ply->m_currcha])>0)
 		{
-			//ply->SendSysInfo(dstring("ÄúºÍÍæ¼Ò¡¾")<<l_invited_name<<"¡¿ÒÑ¾­ÊÇºÃÓÑÁË¡£");
+			//ply->SendSysInfo(dstring("æ‚¨å’Œç©å®¶ã€")<<l_invited_name<<"ã€‘å·²ç»æ˜¯å¥½å‹äº†ã€‚");
 			char l_buf[256];
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00007),l_invited_name);
 			ply->SendSysInfo(l_buf);
@@ -55,7 +55,7 @@ void GroupServerApp::CP_FRND_INVITE(Player *ply,DataSocket *datasock,RPacket &pk
 			if(l_ptinviter )
 			{
 				char l_buf[256];
-				//sprintf(l_buf,"ÄúËùÑûÇëµÄºÃÓÑÍæ¼Ò¡¾%s¡¿ÓÉÓÚ±»ÑûÇë¹ı¶à¶ø´¦ÓÚ·±Ã¦×´Ì¬,Äã¶ÔÆäµÄÑûÇëÒÑ±»ÏµÍ³È¡Ïû¡£",l_invited_name);
+				//sprintf(l_buf,"æ‚¨æ‰€é‚€è¯·çš„å¥½å‹ç©å®¶ã€%sã€‘ç”±äºè¢«é‚€è¯·è¿‡å¤šè€Œå¤„äºç¹å¿™çŠ¶æ€,ä½ å¯¹å…¶çš„é‚€è¯·å·²è¢«ç³»ç»Ÿå–æ¶ˆã€‚",l_invited_name);
 				sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00009),l_invited_name);
 				l_ptinviter->SendSysInfo(l_buf);
 
@@ -81,7 +81,7 @@ void GroupServerApp::CP_FRND_REFUSE(Player *ply,DataSocket *datasock,RPacket &pk
 	if(l_inviter && l_inviter->m_currcha >=0 && l_inviter.m_chaid ==l_inviter->m_chaid[l_inviter->m_currcha])
 	{
 		char l_buf[256];
-		//sprintf(l_buf,"Íæ¼Ò¡¾%s¡¿¾Ü¾øÁËÄúµÄºÃÓÑÑûÇë¡£",ply->m_chaname[ply->m_currcha].c_str());
+		//sprintf(l_buf,"ç©å®¶ã€%sã€‘æ‹’ç»äº†æ‚¨çš„å¥½å‹é‚€è¯·ã€‚",ply->m_chaname[ply->m_currcha].c_str());
 		sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00010),ply->m_chaname[ply->m_currcha].c_str());
 		l_inviter->SendSysInfo(l_buf);
 	}
@@ -96,13 +96,13 @@ void GroupServerApp::CP_FRND_ACCEPT(Player *ply,DataSocket *datasock,RPacket &pk
 		if((++(ply->m_CurrFriendNum)) >const_frnd.FriendMax)
 		{
 			--(ply->m_CurrFriendNum);
-			//ply->SendSysInfo("ÄúµÄºÃÓÑÊıÒÑ´ïµ½ÔÊĞíµÄÉÏÏŞÁË¡£");
+			//ply->SendSysInfo("æ‚¨çš„å¥½å‹æ•°å·²è¾¾åˆ°å…è®¸çš„ä¸Šé™äº†ã€‚");
 			ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00011));
 		}else if((++(l_inviter->m_CurrFriendNum)) >const_frnd.FriendMax)
 		{
 			--(ply->m_CurrFriendNum);
 			--(l_inviter->m_CurrFriendNum);
-			//ply->SendSysInfo(dstring("ÑûÇëÕß¡¾")<<l_inviter->m_chaname[l_inviter->m_currcha].c_str()<<"¡¿µÄºÃÓÑÊıÒÑ´ïµ½ÔÊĞíµÄÉÏÏŞÁË¡£");
+			//ply->SendSysInfo(dstring("é‚€è¯·è€…ã€")<<l_inviter->m_chaname[l_inviter->m_currcha].c_str()<<"ã€‘çš„å¥½å‹æ•°å·²è¾¾åˆ°å…è®¸çš„ä¸Šé™äº†ã€‚");
 			char l_buf[256];
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00012),l_inviter->m_chaname[l_inviter->m_currcha].c_str());
 			ply->SendSysInfo(l_buf);
@@ -110,7 +110,7 @@ void GroupServerApp::CP_FRND_ACCEPT(Player *ply,DataSocket *datasock,RPacket &pk
 		{
 			--(ply->m_CurrFriendNum);
 			--(l_inviter->m_CurrFriendNum);
-			//ply->SendSysInfo(dstring("ÄúºÍ¡¾")<<l_inviter->m_chaname[l_inviter->m_currcha].c_str()<<"¡¿ÒÑ¾­ÊÇºÃÓÑÁË¡£");
+			//ply->SendSysInfo(dstring("æ‚¨å’Œã€")<<l_inviter->m_chaname[l_inviter->m_currcha].c_str()<<"ã€‘å·²ç»æ˜¯å¥½å‹äº†ã€‚");
 			char l_buf[256];
 			sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00007),l_inviter->m_chaname[l_inviter->m_currcha].c_str());
 			ply->SendSysInfo(l_buf);
@@ -118,12 +118,12 @@ void GroupServerApp::CP_FRND_ACCEPT(Player *ply,DataSocket *datasock,RPacket &pk
 		{
 			LogLine	l_line(g_LogFriend);
 			/*
-			l_line<<newln<<"Íæ¼Ò"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
-				<<")ºÍÍæ¼Ò"<<l_inviter->m_chaname[l_inviter->m_currcha]<<"("<<l_inviter_chaid<<")½áÎªÁËºÃÓÑ"
+			l_line<<newln<<"ç©å®¶"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
+				<<")å’Œç©å®¶"<<l_inviter->m_chaname[l_inviter->m_currcha]<<"("<<l_inviter_chaid<<")ç»“ä¸ºäº†å¥½å‹"
 				<<endln;
 			*/
-			l_line<<newln<<"Íæ¼Ò"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
-				<<")ºÍÍæ¼Ò"<<l_inviter->m_chaname[l_inviter->m_currcha]<<"("<<l_inviter_chaid<<")½áÎªÁËºÃÓÑ"
+			l_line<<newln<<"ç©å®¶"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
+				<<")å’Œç©å®¶"<<l_inviter->m_chaname[l_inviter->m_currcha]<<"("<<l_inviter_chaid<<")ç»“ä¸ºäº†å¥½å‹"
 				<<endln;
 
 			m_tblfriends->AddFriend(ply->m_chaid[ply->m_currcha],l_inviter.m_chaid);
@@ -151,7 +151,7 @@ void GroupServerApp::CP_FRND_DELETE(Player *ply,DataSocket *datasock,RPacket &pk
 	MutexArmor l_lockDB(m_mtxDB);
 	if(m_tblfriends->GetFriendsCount(ply->m_chaid[ply->m_currcha],l_deleted_chaid)<1)
 	{
-		//ply->SendSysInfo("ÄúÓëÄúÒªÉ¾³ıµÄÍæ¼Ò²»ÊÇºÃÓÑ¹ØÏµ£¬ÇëÁªÏµ¿Í·ş´¦Àí¡£");
+		//ply->SendSysInfo("æ‚¨ä¸æ‚¨è¦åˆ é™¤çš„ç©å®¶ä¸æ˜¯å¥½å‹å…³ç³»ï¼Œè¯·è”ç³»å®¢æœå¤„ç†ã€‚");
 		ply->SendSysInfo(RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00018));
 	}else
 	{
@@ -183,11 +183,11 @@ void GroupServerApp::CP_FRND_DELETE(Player *ply,DataSocket *datasock,RPacket &pk
 		m_tblfriends->DelFriend(ply->m_chaid[ply->m_currcha],l_deleted_chaid);
 		LogLine	l_line(g_LogFriend);
 		/*
-		l_line<<newln<<"Íæ¼Ò"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
-			<<")ºÍ("<<l_deleted_chaid<<")½â³ıÁËºÃÓÑ¹ØÏµ";
+		l_line<<newln<<"ç©å®¶"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
+			<<")å’Œ("<<l_deleted_chaid<<")è§£é™¤äº†å¥½å‹å…³ç³»";
 	   */
-		l_line<<newln<<"Íæ¼Ò"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
-			<<")ºÍ("<<l_deleted_chaid<<")½â³ıÁËºÃÓÑ¹ØÏµ";
+		l_line<<newln<<"ç©å®¶"<<ply->m_chaname[ply->m_currcha]<<"("<<ply->m_chaid[ply->m_currcha]
+			<<")å’Œ("<<l_deleted_chaid<<")è§£é™¤äº†å¥½å‹å…³ç³»";
 	}
 }
 
@@ -255,7 +255,7 @@ void Player::FrndInvitedCheck(Invited	*invited)
 	}else if(g_gpsvr->GetCurrentTick() -invited->m_tick	>=g_gpsvr->const_frnd.PendTimeOut)
 	{
 		char l_buf[256];
-		//sprintf(l_buf,"Äã¶Ô¡¾%s¡¿µÄºÃÓÑÑûÇëÒÑ³¬¹ı%dÃëÖÓÃ»ÓĞ»ØÓ¦£¬ÏµÍ³×Ô¶¯È¡ÏûÁËÄãµÄÑûÇë¡£",m_chaname[m_currcha].c_str(),g_gpsvr->const_frnd.PendTimeOut/1000);
+		//sprintf(l_buf,"ä½ å¯¹ã€%sã€‘çš„å¥½å‹é‚€è¯·å·²è¶…è¿‡%dç§’é’Ÿæ²¡æœ‰å›åº”ï¼Œç³»ç»Ÿè‡ªåŠ¨å–æ¶ˆäº†ä½ çš„é‚€è¯·ã€‚",m_chaname[m_currcha].c_str(),g_gpsvr->const_frnd.PendTimeOut/1000);
 		sprintf(l_buf,RES_STRING(GP_GROUPSERVERAPPFRND_CPP_00022),m_chaname[m_currcha].c_str(),g_gpsvr->const_frnd.PendTimeOut/1000);
 		l_inviter->SendSysInfo(l_buf);
 
@@ -267,8 +267,8 @@ void Player::FrndInvitedCheck(Invited	*invited)
 		FrndEndInvited(l_inviter);
 	}
 }
-/*	Íæ¼ÒÉÏÏßÊ±ÌáÈ¡ºÃÓÑÃûµ¥µÄSQLÓï¾ä
-cha_id-ÉÏÏß½ÇÉ«ID
+/*	ç©å®¶ä¸Šçº¿æ—¶æå–å¥½å‹åå•çš„SQLè¯­å¥
+cha_id-ä¸Šçº¿è§’è‰²ID
 select '' relation,count(*) addr,0 cha_id,'' cha_name,0 icon,'' motto from ( 
 select distinct friends.relation relation from character INNER JOIN 
 friends ON character.cha_id = friends.cha_id2 where friends.cha_id1 = 240 
@@ -409,7 +409,7 @@ void GroupServerApp::PC_FRND_INIT(Player *ply)
 	}
 	SendToClient(ply,l_toSelf);
 	LogLine	l_line(g_LogFriend);
-	l_line<<newln<<"ÉÏÏßÍ¨ÖªµÄºÃÓÑÊı£º"<<l_plynum<<endln;
+	l_line<<newln<<"ä¸Šçº¿é€šçŸ¥çš„å¥½å‹æ•°ï¼š"<<l_plynum<<endln;
 	//l_line<<newln<<"online friends num: "<<l_plynum<<endln;
 	SendToClient(l_plylst,l_plynum,l_toFrnd);
 }

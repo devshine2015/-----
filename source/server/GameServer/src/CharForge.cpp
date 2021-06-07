@@ -39,65 +39,65 @@ namespace mission
 
 	void CForgeSystem::ForgeItem( CCharacter& character, BYTE byIndex )
 	{
-		// ÅÐ¶ÏÊÇ·ñÔÚ½»Ò××´Ì¬
+		// åˆ¤æ–­æ˜¯å¦åœ¨äº¤æ˜“çŠ¶æ€
 		if( character.m_CKitbag.IsLock() )
 		{
-			character.SystemNotice( "ÄãµÄ±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ¾«Á·ÎïÆ·£¡" );
+			character.SystemNotice( "ä½ çš„èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥ç²¾ç»ƒç‰©å“ï¼" );
 			return;
 		}
 
-        //ÃÜÂëËø¶¨
+        //å¯†ç é”å®š
         if( character.m_CKitbag.IsPwdLocked() )
         {
-            character.SystemNotice( "ÄãµÄ±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ¾«Á·ÎïÆ·£¡" );
+            character.SystemNotice( "ä½ çš„èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥ç²¾ç»ƒç‰©å“ï¼" );
 			return;
         }
 		//add by ALLEN 2007-10-16
 				if( character.IsReadBook() )
         {
-            character.SystemNotice( "ÕýÔÚ¶ÁÊé£¬²»¿ÉÒÔ¾«Á·ÎïÆ·£¡" );
+            character.SystemNotice( "æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥ç²¾ç»ƒç‰©å“ï¼" );
 			return;
         }
 		SItemGrid *pItemData;
 		if( !(pItemData = character.m_CKitbag.GetGridContByID( byIndex )) )
 		{
-			character.SystemNotice( "ForgeItem:´íÎóµÄ±³°üÀ¸Î»Ë÷Òý£¡ ID = %d", byIndex );
+			character.SystemNotice( "ForgeItem:é”™è¯¯çš„èƒŒåŒ…æ ä½ç´¢å¼•ï¼ ID = %d", byIndex );
 			return;
 		}
 		
 		CItemRecord* pItem = GetItemRecordInfo( pItemData->sID );
 		if( pItem == NULL )
 		{
-			character.SystemNotice( "ForgeItem:´íÎóµÄ¾«Á·ÎïÆ·£¡ ID = %d", pItemData->sID );
+			character.SystemNotice( "ForgeItem:é”™è¯¯çš„ç²¾ç»ƒç‰©å“ï¼ ID = %d", pItemData->sID );
 			return;
 		}
 
 		if( pItem->chForgeLv == 0 )
 		{
-			character.SystemNotice( "ÎïÆ·¡¶%s¡·²»¿ÉÒÔ¾«Á·£¡", pItem->szName );
+			character.SystemNotice( "ç‰©å“ã€Š%sã€‹ä¸å¯ä»¥ç²¾ç»ƒï¼", pItem->szName );
 			return;
 		}
 
 		BYTE byLevel = pItemData->chForgeLv;
 		if( byLevel >= ROLE_MAXNUM_FORGE )
 		{
-			character.SystemNotice( "ÄãµÄ¡¶%s¡·ÒÑ¾­ÊÇ¾«Á·¶¥¼¶×°±¸£¡", pItem->szName );
+			character.SystemNotice( "ä½ çš„ã€Š%sã€‹å·²ç»æ˜¯ç²¾ç»ƒé¡¶çº§è£…å¤‡ï¼", pItem->szName );
 			return;
 		}
 		
-		// ¾«Á·µ½ÏÂÒ»¼¶
+		// ç²¾ç»ƒåˆ°ä¸‹ä¸€çº§
 		byLevel++;
 
 		CForgeRecord* pRecord = (CForgeRecord*)m_pRecordSet->GetRawDataInfo( byLevel );
 		if( !pRecord )
 		{
-			character.SystemNotice( "ForgeItem:ÎÞÐ§µÄ¾«Á·µÈ¼¶£¡Level = %d", byLevel );
+			character.SystemNotice( "ForgeItem:æ— æ•ˆçš„ç²¾ç»ƒç­‰çº§ï¼Level = %d", byLevel );
 			return;
 		}
 
 		if( !character.HasMoney( pRecord->dwMoney ) )
 		{
-			character.SystemNotice( "¾«Á·µÀ¾ßËùÐè½ðÇ®²»×ã£¬¾«Á·Ê§°Ü£¡" );
+			character.SystemNotice( "ç²¾ç»ƒé“å…·æ‰€éœ€é‡‘é’±ä¸è¶³ï¼Œç²¾ç»ƒå¤±è´¥ï¼" );
 			return;
 		}
 
@@ -107,33 +107,33 @@ namespace mission
 				break;
 			if( !character.HasItem( pRecord->ForgeItem[i].sItem, pRecord->ForgeItem[i].byNum ) )
 			{
-				char szForgeItem[64] = "Î´Öª";
+				char szForgeItem[64] = "æœªçŸ¥";
 				CItemRecord* pForgeItem = (CItemRecord*)GetItemRecordInfo( pRecord->ForgeItem[i].sItem );
 				if( pForgeItem )
 				{
 					strcpy( szForgeItem, pForgeItem->szName );
 				}
-				character.SystemNotice( "È±ÉÙ¾«Á·ÐèÇóÎïÆ·¡¶%s¡·£¬¹²¼Æ%d¸ö£¬¾«Á·Ê§°Ü£¡", szForgeItem, pRecord->ForgeItem[i].byNum );
+				character.SystemNotice( "ç¼ºå°‘ç²¾ç»ƒéœ€æ±‚ç‰©å“ã€Š%sã€‹ï¼Œå…±è®¡%dä¸ªï¼Œç²¾ç»ƒå¤±è´¥ï¼", szForgeItem, pRecord->ForgeItem[i].byNum );
 				return;
 			}
 		}
 
 		BOOL bSuccess = TRUE;
-		// ÅÐ¶ÏÊÇ·ñ³¬³ö
+		// åˆ¤æ–­æ˜¯å¦è¶…å‡º
 		if( byLevel > pItem->chForgeLv )
 		{
-			// ³¬¹ý¾«Á·ÎïÆ·ÔÊÐí¾«Á·µÈ¼¶Ê§°Ü£¬³Í·£
+			// è¶…è¿‡ç²¾ç»ƒç‰©å“å…è®¸ç²¾ç»ƒç­‰çº§å¤±è´¥ï¼Œæƒ©ç½š
 			bSuccess = FALSE;
 		}
 		else
 		{
-			// ÅÐ¶ÏÊÇ·ñ ³¬¹ý¾«Á·°²¶¨Öµ
+			// åˆ¤æ–­æ˜¯å¦ è¶…è¿‡ç²¾ç»ƒå®‰å®šå€¼
 			if( byLevel > pItem->chForgeSteady )
 			{
 				// 
 				if( rand()%100 >= pRecord->byRate )
 				{
-					// ¾«Á·ÎïÆ·ÔËÆø²îÊ§°Ü£¬³Í·£
+					// ç²¾ç»ƒç‰©å“è¿æ°”å·®å¤±è´¥ï¼Œæƒ©ç½š
 					bSuccess = FALSE;
 				}
 			}
@@ -143,31 +143,31 @@ namespace mission
 		{
 			if( pRecord->ForgeItem[i].sItem == 0 )
 				break;
-			if( !character.TakeItem( pRecord->ForgeItem[i].sItem, pRecord->ForgeItem[i].byNum, "ÏµÍ³" ) )
+			if( !character.TakeItem( pRecord->ForgeItem[i].sItem, pRecord->ForgeItem[i].byNum, "ç³»ç»Ÿ" ) )
 			{
-				char szForgeItem[64] = "Î´Öª";
+				char szForgeItem[64] = "æœªçŸ¥";
 				CItemRecord* pForgeItem = (CItemRecord*)GetItemRecordInfo( pRecord->ForgeItem[i].sItem );
 				if( pForgeItem )
 				{
 					strcpy( szForgeItem, pForgeItem->szName );
 				}
-				character.SystemNotice( "È¡×ß¾«Á·ÐèÇóÎïÆ·¡¶%s¡·£¬¹²¼Æ%d¸öÊ§°Ü£¡", szForgeItem, pRecord->ForgeItem[i].byNum );
+				character.SystemNotice( "å–èµ°ç²¾ç»ƒéœ€æ±‚ç‰©å“ã€Š%sã€‹ï¼Œå…±è®¡%dä¸ªå¤±è´¥ï¼", szForgeItem, pRecord->ForgeItem[i].byNum );
 				return;
 			}
 		}
 
 		if( bSuccess )
 		{
-			// ÉèÖÃ³É¹¦ºó¾«Á·µÈ¼¶
+			// è®¾ç½®æˆåŠŸåŽç²¾ç»ƒç­‰çº§
 			character.m_CKitbag.SetChangeFlag(false);
 			SItemGrid* pGrid = character.m_CKitbag.GetGridContByID( byIndex );
 			if( pGrid == NULL || !character.ItemForge( pGrid, byLevel ) )
 			{
-				character.SystemNotice( "´íÎó£º¾«Á·³É¹¦£¬ÉèÖÃÎïÆ·¡¶%s¡·¾«Á·µÈ¼¶(%d)Ê§°Ü£¡", pItem->szName, byLevel );
+				character.SystemNotice( "é”™è¯¯ï¼šç²¾ç»ƒæˆåŠŸï¼Œè®¾ç½®ç‰©å“ã€Š%sã€‹ç²¾ç»ƒç­‰çº§(%d)å¤±è´¥ï¼", pItem->szName, byLevel );
 				return;
 			}
 
-			character.SystemNotice( "¾«Á·ÎïÆ·¡¶%s¡·³É¹¦£¬µ±Ç°¾«Á·µÈ¼¶(%d)£¡", pItem->szName, byLevel );
+			character.SystemNotice( "ç²¾ç»ƒç‰©å“ã€Š%sã€‹æˆåŠŸï¼Œå½“å‰ç²¾ç»ƒç­‰çº§(%d)ï¼", pItem->szName, byLevel );
 			character.SynKitbagNew( enumSYN_KITBAG_FORGES );
 		}
 		else
@@ -176,22 +176,22 @@ namespace mission
 			{
 				character.m_CKitbag.SetChangeFlag(false);
 				character.KbClearItem( true, true, byIndex );
-				character.SystemNotice( "¾«Á·ÎïÆ·¡¶%s¡·²»ÐÒÊ§°Ü£¬µ¼ÖÂÎïÆ·Ëð»Ù£¡", pItem->szName );
+				character.SystemNotice( "ç²¾ç»ƒç‰©å“ã€Š%sã€‹ä¸å¹¸å¤±è´¥ï¼Œå¯¼è‡´ç‰©å“æŸæ¯ï¼", pItem->szName );
 				character.SynKitbagNew( enumSYN_KITBAG_FORGEF );
 			}
 			else
 			{
-				// ÉèÖÃ³É¹¦ºó¾«Á·µÈ¼¶
+				// è®¾ç½®æˆåŠŸåŽç²¾ç»ƒç­‰çº§
 				character.m_CKitbag.SetChangeFlag(false);
 				byLevel = pRecord->byFailure;
 				SItemGrid* pGrid = character.m_CKitbag.GetGridContByID( byIndex );
 				if( pGrid == NULL ||  !character.ItemForge( pGrid, byLevel ) )
 				{
-					character.SystemNotice( "¾«Á·Ê§°Ü£¬ÉèÖÃÎïÆ·¡¶%s¡·¾«Á·µÈ¼¶(%d)Ê§°Ü£¡", pItem->szName, byLevel );
+					character.SystemNotice( "ç²¾ç»ƒå¤±è´¥ï¼Œè®¾ç½®ç‰©å“ã€Š%sã€‹ç²¾ç»ƒç­‰çº§(%d)å¤±è´¥ï¼", pItem->szName, byLevel );
 					return;
 				}
 
-				character.SystemNotice( "¾«Á·ÎïÆ·¡¶%s¡·Ê§°Ü£¬ÍË»Øµ½µ±Ç°¾«Á·µÈ¼¶(%d)£¡", pItem->szName, byLevel );
+				character.SystemNotice( "ç²¾ç»ƒç‰©å“ã€Š%sã€‹å¤±è´¥ï¼Œé€€å›žåˆ°å½“å‰ç²¾ç»ƒç­‰çº§(%d)ï¼", pItem->szName, byLevel );
 				character.SynKitbagNew( enumSYN_KITBAG_FORGEF );
 			}
 		}

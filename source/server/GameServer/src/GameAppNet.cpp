@@ -7,26 +7,26 @@
 #include "GameDB.h"
 extern std::string g_strLogName;
 
-// ¼ÆÊ±ÍË³öÇĞ»»
+// è®¡æ—¶é€€å‡ºåˆ‡æ¢
 //#define CHAEXIT_ONTIME
 
-//  »ñÈ¡ÍøÂçÏûÏ¢µÄÎ¨Ò»Èë¿Ú
+//  è·å–ç½‘ç»œæ¶ˆæ¯çš„å”¯ä¸€å…¥å£
 void CGameApp::ProcessNetMsg(int nMsgType, GateServer* pGate, RPACKET pkt)
 {T_B
     switch (nMsgType)
     {
-    case NETMSG_GATE_CONNECTED: // Á¬½ÓÉÏGate
+    case NETMSG_GATE_CONNECTED: // è¿æ¥ä¸ŠGate
         {
 	    LG("Connect", "Exec OnGateConnected()\n");
         OnGateConnected(pGate, pkt);
         break;}
 
-    case NETMSG_GATE_DISCONNECT: // ÓëGate¶Ï¿ªÁ¬½Ó
+    case NETMSG_GATE_DISCONNECT: // ä¸Gateæ–­å¼€è¿æ¥
         {
         OnGateDisconnect(pGate, pkt);
         break;}
 
-    case NETMSG_PACKET: // ÊÕµ½ÏûÏ¢°ü
+    case NETMSG_PACKET: // æ”¶åˆ°æ¶ˆæ¯åŒ…
         {
         ProcessPacket(pGate, pkt);
         break;}
@@ -57,13 +57,13 @@ T_E}
 
 void CGameApp::OnInfoConnected(InfoServer *pInfo)
 {T_B
-	//µÇÂ¼InfoServer
+	//ç™»å½•InfoServer
 	pInfo->Login();
 T_E}
 
 void CGameApp::OnInfoDisconnected(InfoServer *pInfo)
 {T_B
-	// ÉÌ³ÇÏµÍ³¹Ø±Õ
+	// å•†åŸç³»ç»Ÿå…³é—­
 	g_StoreSystem.InValid();
 	pInfo->InValid();
 T_E}
@@ -74,7 +74,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 	{
 		switch(msg->msgHead.msgID)
 		{
-		case INFO_LOGIN:		// µÇÂ¼InfoServer
+		case INFO_LOGIN:		// ç™»å½•InfoServer
 			{
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
@@ -83,7 +83,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 					pInfo->SetValid();
 					//g_StoreSystem.SetValid();
 
-					//ÏòInfoServerË÷È¡ÉÌ³ÇÁĞ±íºÍ¹«¸æÁĞ±í
+					//å‘InfoServerç´¢å–å•†åŸåˆ—è¡¨å’Œå…¬å‘Šåˆ—è¡¨
 					g_StoreSystem.GetItemList();
 					g_StoreSystem.GetAfficheList();
 				}
@@ -94,18 +94,18 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				}
 				else
 				{
-					//LG("Store_data", "µÇÂ¼InfoServer±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "ç™»å½•InfoServeræŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "enter InfoServer message data error!\n");
 				}
 			}
 			break;
 
-		case INFO_REQUEST_ACCOUNT:	// »ñÈ¡ÕÊ»§ĞÅÏ¢
+		case INFO_REQUEST_ACCOUNT:	// è·å–å¸æˆ·ä¿¡æ¯
 			{
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]»ñÈ¡ÕÊ»§ĞÅÏ¢³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è·å–å¸æˆ·ä¿¡æ¯æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]succeed to obtain account information!\n", lOrderID);
 
 					RoleInfo *ChaInfo = (RoleInfo *)((char *)msg->msgBody + sizeof(long long));
@@ -114,103 +114,103 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]»ñÈ¡ÕÊ»§ĞÅÏ¢Ê§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è·å–å¸æˆ·ä¿¡æ¯å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]obtain account information failed!\n", lOrderID);
 
 					g_StoreSystem.CancelRoleInfo(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "ÕÊ»§ĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "å¸æˆ·ä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "account information message data error");
 				}
 			}
 			break;
 
-		case INFO_REQUEST_STORE:	// »ñÈ¡ÉÌ³ÇĞÅÏ¢
+		case INFO_REQUEST_STORE:	// è·å–å•†åŸä¿¡æ¯
 			{
-				//LG("Store_data", "È¡µÃÉÌ³ÇÁĞ±í!\n");
+				//LG("Store_data", "å–å¾—å•†åŸåˆ—è¡¨!\n");
 				LG("Store_data", "get store list!\n");
-				if(msg->msgHead.subID == INFO_SUCCESS)		// ÉÌ³ÇĞÅÏ¢·´À¡
+				if(msg->msgHead.subID == INFO_SUCCESS)		// å•†åŸä¿¡æ¯åé¦ˆ
 				{
-					//ÉÌÆ·¸öÊı
+					//å•†å“ä¸ªæ•°
 					short lComNum = LOWORD(msg->msgHead.msgExtend);
-					//·ÖÀà¸öÊı
+					//åˆ†ç±»ä¸ªæ•°
 					short lClassNum = HIWORD(msg->msgHead.msgExtend);
-					//ÉèÖÃ·ÖÀàÁĞ±í
+					//è®¾ç½®åˆ†ç±»åˆ—è¡¨
 					g_StoreSystem.SetItemClass((ClassInfo *)(msg->msgBody), lClassNum);
-					//ÉèÖÃÉÌÆ·ÁĞ±í
+					//è®¾ç½®å•†å“åˆ—è¡¨
 					g_StoreSystem.SetItemList((StoreStruct *)((char *)msg->msgBody + lClassNum * sizeof(ClassInfo)), lComNum);
 
 					g_StoreSystem.SetValid();
 				}
-				else if(msg->msgHead.subID == INFO_FAILED) // ÉÌ³ÇĞÅÏ¢¸üĞÂ
+				else if(msg->msgHead.subID == INFO_FAILED) // å•†åŸä¿¡æ¯æ›´æ–°
 				{
-					//ÉÌÆ·¸öÊı
+					//å•†å“ä¸ªæ•°
 					short lComNum = LOWORD(msg->msgHead.msgExtend);
-					//·ÖÀà¸öÊı
+					//åˆ†ç±»ä¸ªæ•°
 					short lClassNum = HIWORD(msg->msgHead.msgExtend);
-					//ÉèÖÃ·ÖÀàÁĞ±í
+					//è®¾ç½®åˆ†ç±»åˆ—è¡¨
 					g_StoreSystem.SetItemClass((ClassInfo *)(msg->msgBody), lClassNum);
-					//ÉèÖÃÉÌÆ·ÁĞ±í
+					//è®¾ç½®å•†å“åˆ—è¡¨
 					g_StoreSystem.SetItemList((StoreStruct *)((char *)msg->msgBody + lClassNum * sizeof(ClassInfo)), lComNum);
 				}
 				else
 				{
-					//LG("Store_data", "ÉÌ³ÇÁĞ±í±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "å•†åŸåˆ—è¡¨æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "store list message data error!\n");
 				}
 			}
 			break;
 
-		case INFO_REQUEST_AFFICHE:		// »ñÈ¡¹«¸æĞÅÏ¢
+		case INFO_REQUEST_AFFICHE:		// è·å–å…¬å‘Šä¿¡æ¯
 			{
-				//LG("Store_data", "È¡µÃ¹«¸æĞÅÏ¢!\n");
+				//LG("Store_data", "å–å¾—å…¬å‘Šä¿¡æ¯!\n");
 				LG("Store_data", "get offiche information!\n");
-				if(msg->msgHead.subID == INFO_SUCCESS) // ¹«¸æĞÅÏ¢·´À¡
+				if(msg->msgHead.subID == INFO_SUCCESS) // å…¬å‘Šä¿¡æ¯åé¦ˆ
 				{
-					//¹«¸æ¸öÊı
+					//å…¬å‘Šä¸ªæ•°
 					long lAfficheNum = msg->msgHead.msgExtend;
-					//ÉèÖÃ¹«¸æÁĞ±í
+					//è®¾ç½®å…¬å‘Šåˆ—è¡¨
 					g_StoreSystem.SetAfficheList((AfficheInfo *)msg->msgBody, lAfficheNum);
 				}
-				else if(msg->msgHead.subID == INFO_FAILED) // ¹«¸æĞÅÏ¢¸üĞÂ
+				else if(msg->msgHead.subID == INFO_FAILED) // å…¬å‘Šä¿¡æ¯æ›´æ–°
 				{
-					//¹«¸æ¸öÊı
+					//å…¬å‘Šä¸ªæ•°
 					long lAfficheNum = msg->msgHead.msgExtend;
-					//ÉèÖÃ¹«¸æÁĞ±í
+					//è®¾ç½®å…¬å‘Šåˆ—è¡¨
 					g_StoreSystem.SetAfficheList((AfficheInfo *)msg->msgBody, lAfficheNum);
 				}
 				else
 				{
-					//LG("Store_data", "¹«¸æĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "å…¬å‘Šä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "offiche information message data error!\n");
 				}
 			}
 			break;
 
-		case INFO_STORE_BUY:		// ¹ºÂòµÀ¾ß
+		case INFO_STORE_BUY:		// è´­ä¹°é“å…·
 			{
-				if(msg->msgHead.subID == INFO_SUCCESS) // ¹ºÂò³É¹¦
+				if(msg->msgHead.subID == INFO_SUCCESS) // è´­ä¹°æˆåŠŸ
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¹ºÂòµÀ¾ß³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è´­ä¹°é“å…·æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]succeed to buy item!\n", lOrderID);
 
 					RoleInfo *ChaInfo = (RoleInfo *)((char *)msg->msgBody + sizeof(long long));
 					g_StoreSystem.Accept(lOrderID, ChaInfo);
 				}
-				else if(msg->msgHead.subID == INFO_FAILED) // ¹ºÂòÊ§°Ü
+				else if(msg->msgHead.subID == INFO_FAILED) // è´­ä¹°å¤±è´¥
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¹ºÂòµÀ¾ßÊ§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è´­ä¹°é“å…·å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]buy item failed!\n", lOrderID);
 
 					g_StoreSystem.Cancel(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "µÀ¾ß¹ºÂòÈ·ÈÏĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "é“å…·è´­ä¹°ç¡®è®¤ä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "confirm information that buy item message data error!\n");
 				}
 			}
@@ -221,7 +221,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¹ºÂòVIP³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è´­ä¹°VIPæˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i] buy VIP succeed !\n", lOrderID);
 
 					RoleInfo *ChaInfo = (RoleInfo *)((char *)msg->msgBody + sizeof(long long));
@@ -231,25 +231,25 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¹ºÂòVIPÊ§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]è´­ä¹°VIPå¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i] buy VIP failed !\n", lOrderID);
 
 					g_StoreSystem.CancelVIP(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "¹ºÂòVIPÈ·ÈÏĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "è´­ä¹°VIPç¡®è®¤ä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "buy VIP confirm information message data error !\n");
 				}
 			}
 			break;
 
-		case INFO_EXCHANGE_MONEY:		// ¶Ò»»´ú±Ò
+		case INFO_EXCHANGE_MONEY:		// å…‘æ¢ä»£å¸
 			{
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¶Ò»»´ú±Ò³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]å…‘æ¢ä»£å¸æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]change token succeed !\n", lOrderID);
 
 					RoleInfo *ChaInfo = (RoleInfo *)((char *)msg->msgBody + sizeof(long long));
@@ -258,25 +258,25 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]¶Ò»»´ú±ÒÊ§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]å…‘æ¢ä»£å¸å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]change token failed!\n", lOrderID);
 
 					g_StoreSystem.CancelChange(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "¶Ò»»´ú±ÒÈ·ÈÏĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "å…‘æ¢ä»£å¸ç¡®è®¤ä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "change token confirm information message data error !\n");
 				}
 			}
 			break;
 
-		case INFO_REQUEST_HISTORY:		// ²éÑ¯½»Ò×¼ÇÂ¼
+		case INFO_REQUEST_HISTORY:		// æŸ¥è¯¢äº¤æ˜“è®°å½•
 			{
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]²éÑ¯½»Ò×¼ÇÂ¼³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]æŸ¥è¯¢äº¤æ˜“è®°å½•æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]succeed to query trade note!\n", lOrderID);
 
 					HistoryInfo *pRecord = (HistoryInfo *)((char *)msg->msgBody + sizeof(long long));
@@ -285,14 +285,14 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]²éÑ¯½»Ò×¼ÇÂ¼Ê§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]æŸ¥è¯¢äº¤æ˜“è®°å½•å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]query trade note failed!\n", lOrderID);
 
 					g_StoreSystem.CancelRecord(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "½»Ò×¼ÇÂ¼²éÑ¯Ó¦´ğĞÅÏ¢±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "äº¤æ˜“è®°å½•æŸ¥è¯¢åº”ç­”ä¿¡æ¯æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "trade note query resoibsuib nessage data error!\n");
 				}
 			}
@@ -303,7 +303,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]·¢ËÍGMÓÊ¼ş³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]å‘é€GMé‚®ä»¶æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]send GM mail success!\n", lOrderID);
 
 					long lMailID = msg->msgHead.msgExtend;
@@ -312,14 +312,14 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]·¢ËÍGMÓÊ¼şÊ§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]å‘é€GMé‚®ä»¶å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]send GM mail failed!\n", lOrderID);
 
 					g_StoreSystem.CancelGMSend(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "·¢ËÍGMÓÊ¼ş±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "å‘é€GMé‚®ä»¶æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "send GM mail message data error!\n");
 				}
 			}
@@ -330,7 +330,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				if(msg->msgHead.subID == INFO_SUCCESS)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]½ÓÊÕGMÓÊ¼ş³É¹¦!\n", lOrderID);
+					//LG("Store_data", "[%I64i]æ¥æ”¶GMé‚®ä»¶æˆåŠŸ!\n", lOrderID);
 					LG("Store_data", "[%I64i]receive GM mail success!\n", lOrderID);
 
 					MailInfo *pMi = (MailInfo *)((char *)msg->msgBody + sizeof(long long));
@@ -339,22 +339,22 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 				else if(msg->msgHead.subID == INFO_FAILED)
 				{
 					long long lOrderID = *(long long *)msg->msgBody;
-					//LG("Store_data", "[%I64i]½ÓÊÕGMÓÊ¼şÊ§°Ü!\n", lOrderID);
+					//LG("Store_data", "[%I64i]æ¥æ”¶GMé‚®ä»¶å¤±è´¥!\n", lOrderID);
 					LG("Store_data", "[%I64i]reciveGMmail failed!\n", lOrderID);
 
 					g_StoreSystem.CancelGMRecv(lOrderID);
 				}
 				else
 				{
-					//LG("Store_data", "½ÓÊÕGMÓÊ¼ş±¨ÎÄÊı¾İ´íÎó!\n");
+					//LG("Store_data", "æ¥æ”¶GMé‚®ä»¶æŠ¥æ–‡æ•°æ®é”™è¯¯!\n");
 					LG("Store_data", "receive GM mail message data error!\n");
 				}
 			}
 			break;
 
-		case INFO_EXCEPTION_SERVICE:	//¾Ü¾ø·şÎñ
+		case INFO_EXCEPTION_SERVICE:	//æ‹’ç»æœåŠ¡
 			{
-				//LG("Store_data", "InfoServer¾Ü¾ø·şÎñ!\n");
+				//LG("Store_data", "InfoServeræ‹’ç»æœåŠ¡!\n");
 				LG("Store_data", "InfoServer refuse serve!\n");
 				g_StoreSystem.InValid();
 				pInfo->InValid();
@@ -363,7 +363,7 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 
 		default:
 			{
-				//LG("Store_data", "È¡µÃµÄÏûÏ¢ÀàĞÍ²»Ã÷!\n");
+				//LG("Store_data", "å–å¾—çš„æ¶ˆæ¯ç±»å‹ä¸æ˜!\n");
 				LG("Store_data", "get unknown information type!\n");
 			}
 			break;
@@ -374,10 +374,10 @@ void CGameApp::ProcessMsg(pNetMessage msg, InfoServer *pInfo)
 	}
 T_E}
 
-// ÓëGateÁ¬½ÓÉÏµÄ´¦Àíº¯Êı
+// ä¸Gateè¿æ¥ä¸Šçš„å¤„ç†å‡½æ•°
 void CGameApp::OnGateConnected(GateServer* pGate, RPACKET pkt)
 {T_B
-	// ÔÚGateServer×¢²á±¾GameServer
+	// åœ¨GateServeræ³¨å†Œæœ¬GameServer
 	WPACKET	wpk = GETWPACKET();
     WRITE_CMD(wpk, CMD_MT_LOGIN);
 	WRITE_STRING(wpk, GETGMSVRNAME());
@@ -388,11 +388,11 @@ void CGameApp::OnGateConnected(GateServer* pGate, RPACKET pkt)
     pGate->SendData(wpk);
 T_E}
 
-// ÓëGate¶Ï¿ªÁ¬½ÓµÄ´¦Àíº¯Êı
+// ä¸Gateæ–­å¼€è¿æ¥çš„å¤„ç†å‡½æ•°
 void CGameApp::OnGateDisconnect(GateServer* pGate, RPACKET pkt)
 {T_B
     bool ret = VALIDRPACKET(pkt);
-    if (!ret) return; // ÎŞĞ§µÄpacket
+    if (!ret) return; // æ— æ•ˆçš„packet
 
     GatePlayer* tmp = (GatePlayer *)MakePointer(READ_LONG(pkt));    
 
@@ -410,7 +410,7 @@ void CGameApp::OnGateDisconnect(GateServer* pGate, RPACKET pkt)
 	pGate->Invalid();
 T_E}
 
-// ´¦ÀíÍøÂçÏûÏ¢°ü
+// å¤„ç†ç½‘ç»œæ¶ˆæ¯åŒ…
 void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 {T_B
 	CPlayer *l_player = 0;
@@ -454,7 +454,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 			short	sErrCode;
 			if (sErrCode = READ_SHORT(pkt))
 			{
-				/*LG("GameLogin", "µÇÂ¼ GateServer: %s:%dÊ§°Ü[%s], ×¢²áµØÍ¼[%s]\n",
+				/*LG("GameLogin", "ç™»å½• GateServer: %s:%då¤±è´¥[%s], æ³¨å†Œåœ°å›¾[%s]\n",
 					pGate->GetIP().c_str(), pGate->GetPort(), g_GameGateConnError(sErrCode),
                     g_pGameApp->m_strMapNameList.c_str());*/
 				LG("GameLogin", "enter GateServer: %s:%d failed [%s], register map[%s]\n",
@@ -467,10 +467,10 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				pGate->GetName() = READ_STRING(pkt);
 				if (!strcmp(pGate->GetName().c_str(), ""))
 				{
-					/*LG("GameLogin", "µÇÂ¼ GateServer: [%s:%d]³É¹¦ µ«Ã»ÓĞÄÃµ½ÆäÃû×Ö£¬ËùÒÔÇĞ¶ÏÖØĞÂÁ¬½Ó\n",
+					/*LG("GameLogin", "ç™»å½• GateServer: [%s:%d]æˆåŠŸ ä½†æ²¡æœ‰æ‹¿åˆ°å…¶åå­—ï¼Œæ‰€ä»¥åˆ‡æ–­é‡æ–°è¿æ¥\n",
 						pGate->GetName().c_str(), pGate->GetIP().c_str(), pGate->GetPort(),
 						g_pGameApp->m_strMapNameList.c_str());*/
-					LG("GameLogin", "entry GateServer: [%s:%d]success but do not get his name£¬so disconnection and entry again\n",
+					LG("GameLogin", "entry GateServer: [%s:%d]success but do not get his nameï¼Œso disconnection and entry again\n",
 						pGate->GetName().c_str(), pGate->GetIP().c_str(), pGate->GetPort(),
 						g_pGameApp->m_strMapNameList.c_str());
 
@@ -478,7 +478,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				}
 				else
 				{
-					/*LG("GameLogin", "µÇÂ¼ GateServer: %s [%s:%d]³É¹¦ [MapName:%s]\n",
+					/*LG("GameLogin", "ç™»å½• GateServer: %s [%s:%d]æˆåŠŸ [MapName:%s]\n",
 						pGate->GetName().c_str(), pGate->GetIP().c_str(), pGate->GetPort(),
 						g_pGameApp->m_strMapNameList.c_str());*/
 					LG("GameLogin", "entry GateServer: %s [%s:%d]success [MapName:%s]\n",
@@ -530,7 +530,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				WRITE_LONG(pkret, l_gtaddr);
 				WRITE_SHORT(pkret, 1);
 				pGate->SendData(pkret);
-				LG("enter_map", "when create new player£¨ID = %u£©£¬find inhere character is exiting£¬later again£¡ \n", l_dbid);
+				LG("enter_map", "when create new playerï¼ˆID = %uï¼‰ï¼Œfind inhere character is exitingï¼Œlater againï¼ \n", l_dbid);
 				return;
 			}
 #endif
@@ -545,7 +545,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				WRITE_LONG(pkret, l_gtaddr);
 				WRITE_SHORT(pkret, 1);
 				pGate->SendData(pkret);
-				LG("enter_map", "when create new palyer£¨ID = %u£©£¬assign memory failed \n", l_dbid);
+				LG("enter_map", "when create new palyerï¼ˆID = %uï¼‰ï¼Œassign memory failed \n", l_dbid);
 				return ;
 			}
 			l_player->SetActLoginID(l_actid);
@@ -583,27 +583,27 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 			{
 				if (l_player->GetGateAddr() != l_gateaddr)
 				{
-					//LG("error", "Êı¾İ¿âID: %u, µØÖ·²»Æ¥Åä£¬±¾µØ:%x, gate:%x,cmd=%d, ÓĞĞ§ĞÔ(%d).\n", l_player->GetDBChaId(), l_player->GetGateAddr(), l_gateaddr,cmd, l_player->IsValidFlag());
-					LG("error", "DB ID: %u, address not matching£¬local :%x, gate:%x,cmd=%d, validity(%d).\n", l_player->GetDBChaId(), l_player->GetGateAddr(), l_gateaddr,cmd, l_player->IsValidFlag());
+					//LG("error", "æ•°æ®åº“ID: %u, åœ°å€ä¸åŒ¹é…ï¼Œæœ¬åœ°:%x, gate:%x,cmd=%d, æœ‰æ•ˆæ€§(%d).\n", l_player->GetDBChaId(), l_player->GetGateAddr(), l_gateaddr,cmd, l_player->IsValidFlag());
+					LG("error", "DB ID: %u, address not matchingï¼Œlocal :%x, gate:%x,cmd=%d, validity(%d).\n", l_player->GetDBChaId(), l_player->GetGateAddr(), l_gateaddr,cmd, l_player->IsValidFlag());
 					break;
 				}
 			}
 			catch (...)
 			{
-				//LG("error", "===========================´ÓGateÀ´µÄÍæ¼ÒµØÖ·´íÎó%p,cmd =%d\n", l_player, cmd);
+				//LG("error", "===========================ä»Gateæ¥çš„ç©å®¶åœ°å€é”™è¯¯%p,cmd =%d\n", l_player, cmd);
 				LG("error", "===========================from Gate plyaer's address error %p,cmd =%d\n", l_player, cmd);
 				break;
 			}
 			if (!l_player->IsValid())
 			{
-				//LG("enter_map", "¸ÃÍæ¼ÒÒÑ¾­ÎŞĞ§\n");
+				//LG("enter_map", "è¯¥ç©å®¶å·²ç»æ— æ•ˆ\n");
 				LG("enter_map", "this palyer already impotence\n");
 				break;
 			}
 			if (l_player->GetMainCha()->GetPlayer() != l_player)
 			{
-				//LG("error", "Á½¸öplayer²»Æ¥Åä£¨½ÇÉ«Ãû£º%s£¬GateµØÖ·[±¾µØ%p, ¿ÍÈË%p]£©£¬cmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
-				LG("error", "two player not matching£¨character name£º%s£¬Gate address [local %p, guest %p]£©£¬cmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
+				//LG("error", "ä¸¤ä¸ªplayerä¸åŒ¹é…ï¼ˆè§’è‰²åï¼š%sï¼ŒGateåœ°å€[æœ¬åœ°%p, å®¢äºº%p]ï¼‰ï¼Œcmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
+				LG("error", "two player not matchingï¼ˆcharacter nameï¼š%sï¼ŒGate address [local %p, guest %p]ï¼‰ï¼Œcmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
 			}
 			if (l_player->GetStallData())
 			{
@@ -658,65 +658,65 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				}
 			}
 			LG("enter_map", "start leave map--------\n");
-			char chOffLine = READ_CHAR(pkt); // ½ÇÉ«ÏÂÏß(0)
+			char chOffLine = READ_CHAR(pkt); // è§’è‰²ä¸‹çº¿(0)
 			
 #ifdef CHAEXIT_ONTIME
-			// ĞÂ¸Ä°æ£¬¼ÓÈë½ÇÉ«¼ÆÊ±ÍË³ö»úÖÆ¡£
+			// æ–°æ”¹ç‰ˆï¼ŒåŠ å…¥è§’è‰²è®¡æ—¶é€€å‡ºæœºåˆ¶ã€‚
 			if( !chOffLine )
 			{
-				LG("enter_map", "Çå³ıPlayer [%s]\n", l_player->GetMainCha()->GetLogName());
+				LG("enter_map", "æ¸…é™¤Player [%s]\n", l_player->GetMainCha()->GetLogName());
 				//LG("enter_map", "Delete Player [%s]\n", l_player->GetMainCha()->GetLogName());
 
 				char	szLogName[512];
 				strncpy(szLogName, l_player->GetMainCha()->GetLogName(), 512 - 1);
-				//LG("OutMap", "%s¿ªÊ¼Àë¿ªµØÍ¼\n", szLogName);
+				//LG("OutMap", "%så¼€å§‹ç¦»å¼€åœ°å›¾\n", szLogName);
 
 				GoOutGame(l_player, !chOffLine);
 
-				LG("enter_map", "½áÊøÀë¿ªµØÍ¼========\n\n");
+				LG("enter_map", "ç»“æŸç¦»å¼€åœ°å›¾========\n\n");
 				//LG("enter_map", "end and leave the map========\n\n");
 
-				//LG("OutMap", "%sÀë¿ªµØÍ¼\n", szLogName);
+				//LG("OutMap", "%sç¦»å¼€åœ°å›¾\n", szLogName);
 			}
 			else if( l_player->GetCtrlCha()->IsInSafeArea() )
 			{
-				LG("enter_map", "Çå³ıPlayer [%s]\n", l_player->GetMainCha()->GetLogName());
+				LG("enter_map", "æ¸…é™¤Player [%s]\n", l_player->GetMainCha()->GetLogName());
 				//LG("enter_map", "Delete Player [%s]\n", l_player->GetMainCha()->GetLogName());
 
 				char	szLogName[512];
 				strncpy(szLogName, l_player->GetMainCha()->GetLogName(), 512 - 1);
-				//LG("OutMap", "%s¿ªÊ¼Àë¿ªµØÍ¼\n", szLogName);
+				//LG("OutMap", "%så¼€å§‹ç¦»å¼€åœ°å›¾\n", szLogName);
 
-				// Í¨ÖªGateServer°²È«ÍË³ö
+				// é€šçŸ¥GateServerå®‰å…¨é€€å‡º
 				WPACKET	l_wpk	=GETWPACKET();
 				WRITE_CMD( l_wpk, CMD_MT_PALYEREXIT );
 				l_player->GetMainCha()->ReflectINFof( l_player->GetMainCha(), l_wpk );
 				GoOutGame(l_player, !chOffLine);
 
-				LG("enter_map", "½áÊøÀë¿ªµØÍ¼========\n\n");
+				LG("enter_map", "ç»“æŸç¦»å¼€åœ°å›¾========\n\n");
 				//LG("enter_map", "end and leave the map========\n\n");
 
-				//LG("OutMap", "%sÀë¿ªµØÍ¼\n", szLogName);
+				//LG("OutMap", "%sç¦»å¼€åœ°å›¾\n", szLogName);
 			}
 			else
 			{
 				l_player->GetCtrlCha()->StartExit();
 			}
 #else
-			// ¸Ä°æÇ°
-			      LG("enter_map", "Çå³ıPlayer [%s]\n", l_player->GetMainCha()->GetLogName());
+			// æ”¹ç‰ˆå‰
+			      LG("enter_map", "æ¸…é™¤Player [%s]\n", l_player->GetMainCha()->GetLogName());
 				//LG("enter_map", "Delete Player [%s]\n", l_player->GetMainCha()->GetLogName());
 
 			char	szLogName[512];
 			strncpy(szLogName, l_player->GetMainCha()->GetLogName(), 512 - 1);
-			//LG("OutMap", "%s¿ªÊ¼Àë¿ªµØÍ¼\n", szLogName);
+			//LG("OutMap", "%så¼€å§‹ç¦»å¼€åœ°å›¾\n", szLogName);
 
 			GoOutGame(l_player, !chOffLine);
 
-			    LG("enter_map", "½áÊøÀë¿ªµØÍ¼========\n\n");
+			    LG("enter_map", "ç»“æŸç¦»å¼€åœ°å›¾========\n\n");
 				//LG("enter_map", "end and leave the map========\n\n");
 
-			//LG("OutMap", "%sÀë¿ªµØÍ¼\n", szLogName);
+			//LG("OutMap", "%sç¦»å¼€åœ°å›¾\n", szLogName);
 #endif
 
 			break;
@@ -733,7 +733,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				CCharacter *pCha = pPlayer->GetMainCha();
 				if(!pCha->HasMoney(lChatMoney))
 				{
-					//pCha->SystemNotice("ÄúµÄ½ğÇ®²»¹»,²»ÄÜÔÚÊÀ½çÆµµÀÁÄÌì!");
+					//pCha->SystemNotice("æ‚¨çš„é‡‘é’±ä¸å¤Ÿ,ä¸èƒ½åœ¨ä¸–ç•Œé¢‘é“èŠå¤©!");
 					pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00007));
 
 					WPacket l_wpk = GETWPACKET();
@@ -745,7 +745,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				}
 				pCha->setAttr(ATTR_GD, (pCha->getAttr(ATTR_GD) - lChatMoney));
 				pCha->SynAttr(enumATTRSYN_TASK);
-				//pCha->SystemNotice("ÄúÔÚÊÀ½çÆµµÀËµÁËÒ»¾ä»°,ÏûºÄÁË%ld¸ö½ğ±Ò!", lChatMoney);
+				//pCha->SystemNotice("æ‚¨åœ¨ä¸–ç•Œé¢‘é“è¯´äº†ä¸€å¥è¯,æ¶ˆè€—äº†%ldä¸ªé‡‘å¸!", lChatMoney);
 				pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00006), lChatMoney);
 
 				WPacket l_wpk = GETWPACKET();
@@ -769,7 +769,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				CCharacter *pCha = pPlayer->GetMainCha();
 				if(!pCha->HasMoney(lChatMoney))
 				{
-					//pCha->SystemNotice("ÄúµÄ½ğÇ®²»¹»,²»ÄÜÔÚ½»Ò×ÆµµÀÁÄÌì!");
+					//pCha->SystemNotice("æ‚¨çš„é‡‘é’±ä¸å¤Ÿ,ä¸èƒ½åœ¨äº¤æ˜“é¢‘é“èŠå¤©!");
 					pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00005));
 
 					WPacket l_wpk = GETWPACKET();
@@ -781,7 +781,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				}
 				pCha->setAttr(ATTR_GD, (pCha->getAttr(ATTR_GD) - lChatMoney));
 				pCha->SynAttr(enumATTRSYN_TASK);
-				//pCha->SystemNotice("ÄúÔÚ½»Ò×ÆµµÀËµÁËÒ»¾ä»°,ÏûºÄÁË%ld¸ö½ğ±Ò!", lChatMoney);
+				//pCha->SystemNotice("æ‚¨åœ¨äº¤æ˜“é¢‘é“è¯´äº†ä¸€å¥è¯,æ¶ˆè€—äº†%ldä¸ªé‡‘å¸!", lChatMoney);
 				pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00004), lChatMoney);
 
 				WPacket l_wpk = GETWPACKET();
@@ -793,12 +793,12 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 			}
 		}
 		break;
-	case CMD_PM_TEAM: // GroupServerÍ¨Öª×é¶ÓĞÅÏ¢±ä»¯
+	case CMD_PM_TEAM: // GroupServeré€šçŸ¥ç»„é˜Ÿä¿¡æ¯å˜åŒ–
 		{
 			ProcessTeamMsg(pGate, pkt);
 			break;
 		}
-	case CMD_PM_GUILDINFO:	// GroupServerÍ¨Öª¹«»áĞÅÏ¢±ä»¯
+	case CMD_PM_GUILDINFO:	// GroupServeré€šçŸ¥å…¬ä¼šä¿¡æ¯å˜åŒ–
 		{
 			ProcessGuildMsg(pGate, pkt);
 			break;
@@ -852,7 +852,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 		}
     case CMD_PM_EXPSCALE:
         {
-            //  ·À³ÁÃÔ
+            //  é˜²æ²‰è¿·
             uLong ulChaID = pkt.ReadLong();
             uLong ulTime = pkt.ReadLong();
 
@@ -874,7 +874,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						if(pCha->m_noticeState != 1)
 						{
 							pCha->m_noticeState = 1;
-							//pCha->BickerNotice("ÄúÀÛ¼ÆÔÚÏßÊ±¼äÒÑÂú %d Ğ¡Ê±¡£", ulTime);
+							//pCha->BickerNotice("æ‚¨ç´¯è®¡åœ¨çº¿æ—¶é—´å·²æ»¡ %d å°æ—¶ã€‚", ulTime);
 							pCha->BickerNotice(RES_STRING(GM_GAMEAPPNET_CPP_00001), ulTime);
                             pCha->SetExpScale(100);
 						}
@@ -885,7 +885,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						if(pCha->m_noticeState != 2)
 						{
 							pCha->m_noticeState = 2;
-							//pCha->BickerNotice("ÄúÀÛ¼ÆÔÚÏßÊ±¼äÒÑÂú %d Ğ¡Ê±¡£", ulTime);
+							//pCha->BickerNotice("æ‚¨ç´¯è®¡åœ¨çº¿æ—¶é—´å·²æ»¡ %d å°æ—¶ã€‚", ulTime);
 							pCha->BickerNotice(RES_STRING(GM_GAMEAPPNET_CPP_00001), ulTime);
                             pCha->SetExpScale(100);
 						}
@@ -895,20 +895,20 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						/*	yyy	2008-3-27 change	begin!
                         if(!(pCha->m_retry3 % 30))
 						{
-							pCha->BickerNotice("ÄúÀÛ¼ÆÔÚÏßÊ±¼äÒÑÂú 3 Ğ¡Ê±£¬ÇëÄúÏÂÏßĞİÏ¢£¬×öÊÊµ±µÄÉíÌå»î¶¯¡£ÄúÒÑ¾­½øÈëÆ£ÀÍÓÎÏ·Ê±¼ä£¬ÄúµÄÓÎÏ·ÊÕÒæ½«½µÎªÕı³£ÖµµÄÒ»°ë£¬ÎªÁËÄúµÄ½¡¿µ£¬Çë¾¡¿ìÏÂÏßĞİÏ¢£¬×öÊÊµ±ÉíÌå»î¶¯£¬ºÏÀí°²ÅÅÑ§Ï°Éú»î¡£");
+							pCha->BickerNotice("æ‚¨ç´¯è®¡åœ¨çº¿æ—¶é—´å·²æ»¡ 3 å°æ—¶ï¼Œè¯·æ‚¨ä¸‹çº¿ä¼‘æ¯ï¼Œåšé€‚å½“çš„èº«ä½“æ´»åŠ¨ã€‚æ‚¨å·²ç»è¿›å…¥ç–²åŠ³æ¸¸æˆæ—¶é—´ï¼Œæ‚¨çš„æ¸¸æˆæ”¶ç›Šå°†é™ä¸ºæ­£å¸¸å€¼çš„ä¸€åŠï¼Œä¸ºäº†æ‚¨çš„å¥åº·ï¼Œè¯·å°½å¿«ä¸‹çº¿ä¼‘æ¯ï¼Œåšé€‚å½“èº«ä½“æ´»åŠ¨ï¼Œåˆç†å®‰æ’å­¦ä¹ ç”Ÿæ´»ã€‚");
                             pCha->SetExpScale(50);
 						}
 						
                         pCha->m_retry3++;
 						*/
 						if( pCha->m_retry3 == 0 )
-							//pCha->PopupNotice("ÄúÒÑ¾­½øÈë²»½¡¿µÊ±¼ä£¬60ÃëºóÏµÍ³½«ÍË³ö...");
+							//pCha->PopupNotice("æ‚¨å·²ç»è¿›å…¥ä¸å¥åº·æ—¶é—´ï¼Œ60ç§’åç³»ç»Ÿå°†é€€å‡º...");
 							pCha->PopupNotice(RES_STRING(GM_GAMEAPPNET_CPP_00002));
 						if( pCha->m_retry3 == 1 )
 						{
 							KICKPLAYER( pCha->GetPlayer(), 5	);
 							g_pGameApp->GoOutGame( pCha->GetPlayer(), true);
-							//pCha->BickerNotice("ÄúÀÛ¼ÆÔÚÏßÊ±¼äÒÑÂú 3 Ğ¡Ê±£¬ÇëÄúÏÂÏßĞİÏ¢£¬×öÊÊµ±µÄÉíÌå»î¶¯¡£ÄúÒÑ¾­½øÈëÆ£ÀÍÓÎÏ·Ê±¼ä£¬ÄúµÄÓÎÏ·ÊÕÒæ½«½µÎªÕı³£ÖµµÄÒ»°ë£¬ÎªÁËÄúµÄ½¡¿µ£¬Çë¾¡¿ìÏÂÏßĞİÏ¢£¬×öÊÊµ±ÉíÌå»î¶¯£¬ºÏÀí°²ÅÅÑ§Ï°Éú»î¡£");
+							//pCha->BickerNotice("æ‚¨ç´¯è®¡åœ¨çº¿æ—¶é—´å·²æ»¡ 3 å°æ—¶ï¼Œè¯·æ‚¨ä¸‹çº¿ä¼‘æ¯ï¼Œåšé€‚å½“çš„èº«ä½“æ´»åŠ¨ã€‚æ‚¨å·²ç»è¿›å…¥ç–²åŠ³æ¸¸æˆæ—¶é—´ï¼Œæ‚¨çš„æ¸¸æˆæ”¶ç›Šå°†é™ä¸ºæ­£å¸¸å€¼çš„ä¸€åŠï¼Œä¸ºäº†æ‚¨çš„å¥åº·ï¼Œè¯·å°½å¿«ä¸‹çº¿ä¼‘æ¯ï¼Œåšé€‚å½“èº«ä½“æ´»åŠ¨ï¼Œåˆç†å®‰æ’å­¦ä¹ ç”Ÿæ´»ã€‚");
 							//pCha->BickerNotice(RES_STRING(GM_GAMEAPPNET_CPP_00002));
                             //pCha->SetExpScale(50);
 						}
@@ -920,14 +920,14 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						/*	yyy	2008-3-27 change	begin!
 						if(!(pCha->m_retry4 % 30))
 						{
-							//pCha->BickerNotice("ÄúÒÑ¾­½øÈëÆ£ÀÍÓÎÏ·Ê±¼ä£¬ÄúµÄÓÎÏ·ÊÕÒæ½«½µÎªÕı³£ÖµµÄÒ»°ë£¬ÎªÁËÄúµÄ½«¿µ£¬Çë¾¡¿ìÏÂÏßĞİÏ¢£¬×öÊÊµ±ÉíÌå»î¶¯£¬ºÏÀí°²ÅÅÑ§Ï°Éú»î¡£");       
+							//pCha->BickerNotice("æ‚¨å·²ç»è¿›å…¥ç–²åŠ³æ¸¸æˆæ—¶é—´ï¼Œæ‚¨çš„æ¸¸æˆæ”¶ç›Šå°†é™ä¸ºæ­£å¸¸å€¼çš„ä¸€åŠï¼Œä¸ºäº†æ‚¨çš„å°†åº·ï¼Œè¯·å°½å¿«ä¸‹çº¿ä¼‘æ¯ï¼Œåšé€‚å½“èº«ä½“æ´»åŠ¨ï¼Œåˆç†å®‰æ’å­¦ä¹ ç”Ÿæ´»ã€‚");       
 							pCha->BickerNotice(RES_STRING(GM_GAMEAPPNET_CPP_00003));       
                             pCha->SetExpScale(50);
 						}
                         pCha->m_retry4++;
 						*/
 						if( pCha->m_retry3 == 0 )
-							//pCha->PopupNotice("ÄúÒÑ¾­½øÈë²»½¡¿µÊ±¼ä£¬60ÃëºóÏµÍ³½«ÍË³ö...");
+							//pCha->PopupNotice("æ‚¨å·²ç»è¿›å…¥ä¸å¥åº·æ—¶é—´ï¼Œ60ç§’åç³»ç»Ÿå°†é€€å‡º...");
 							pCha->PopupNotice(RES_STRING(GM_GAMEAPPNET_CPP_00003));
 						if( pCha->m_retry3 == 1 )
 						{
@@ -944,7 +944,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						/*	yyy	2008-3-27 change	begin!
 						if(!(pCha->m_retry5 % 15))
 						{
-							pCha->BickerNotice("ÄúÒÑ½øÈë²»½¡¿µÓÎÏ·Ê±¼ä£¬ÎªÁËÄúµÄ½¡¿µ£¬ÇëÄúÁ¢¼´ÏÂÏßĞİÏ¢¡£Èç²»ÏÂÏß£¬ÄúµÄÉíÌå½«ÊÜµ½Ëğº¦£¬ÄúµÄÊÕÒæÒÑ½µÎªÁã£¬Ö±µ½ÄúµÄÀÛ¼ÆÏÂÏßÊ±¼äÂú 5 Ğ¡Ê±ºó£¬²ÅÄÜ»Ö¸´Õı³£¡£");
+							pCha->BickerNotice("æ‚¨å·²è¿›å…¥ä¸å¥åº·æ¸¸æˆæ—¶é—´ï¼Œä¸ºäº†æ‚¨çš„å¥åº·ï¼Œè¯·æ‚¨ç«‹å³ä¸‹çº¿ä¼‘æ¯ã€‚å¦‚ä¸ä¸‹çº¿ï¼Œæ‚¨çš„èº«ä½“å°†å—åˆ°æŸå®³ï¼Œæ‚¨çš„æ”¶ç›Šå·²é™ä¸ºé›¶ï¼Œç›´åˆ°æ‚¨çš„ç´¯è®¡ä¸‹çº¿æ—¶é—´æ»¡ 5 å°æ—¶åï¼Œæ‰èƒ½æ¢å¤æ­£å¸¸ã€‚");
                             pCha->SetExpScale(0);
 
 						}
@@ -952,13 +952,13 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
                         pCha->m_retry5++;
 						*/
 						if( pCha->m_retry3 == 0 )
-							//pCha->PopupNotice("ÄúÒÑ¾­½øÈë²»½¡¿µÊ±¼ä£¬60ÃëºóÏµÍ³½«ÍË³ö...");
+							//pCha->PopupNotice("æ‚¨å·²ç»è¿›å…¥ä¸å¥åº·æ—¶é—´ï¼Œ60ç§’åç³»ç»Ÿå°†é€€å‡º...");
 							pCha->PopupNotice(RES_STRING(GM_GAMEAPPNET_CPP_00008));
 						if( pCha->m_retry3 == 1 )
 						{
 							KICKPLAYER( pCha->GetPlayer(), 5	);
 							g_pGameApp->GoOutGame( pCha->GetPlayer(), true);
-							//pCha->BickerNotice("ÄúÒÑ½øÈë²»½¡¿µÓÎÏ·Ê±¼ä£¬ÎªÁËÄúµÄ½¡¿µ£¬ÇëÄúÁ¢¼´ÏÂÏßĞİÏ¢¡£Èç²»ÏÂÏß£¬ÄúµÄÉíÌå½«ÊÜµ½Ëğº¦£¬ÄúµÄÊÕÒæÒÑ½µÎªÁã£¬Ö±µ½ÄúµÄÀÛ¼ÆÏÂÏßÊ±¼äÂú 5 Ğ¡Ê±ºó£¬²ÅÄÜ»Ö¸´Õı³£¡£");
+							//pCha->BickerNotice("æ‚¨å·²è¿›å…¥ä¸å¥åº·æ¸¸æˆæ—¶é—´ï¼Œä¸ºäº†æ‚¨çš„å¥åº·ï¼Œè¯·æ‚¨ç«‹å³ä¸‹çº¿ä¼‘æ¯ã€‚å¦‚ä¸ä¸‹çº¿ï¼Œæ‚¨çš„èº«ä½“å°†å—åˆ°æŸå®³ï¼Œæ‚¨çš„æ”¶ç›Šå·²é™ä¸ºé›¶ï¼Œç›´åˆ°æ‚¨çš„ç´¯è®¡ä¸‹çº¿æ—¶é—´æ»¡ 5 å°æ—¶åï¼Œæ‰èƒ½æ¢å¤æ­£å¸¸ã€‚");
 							//pCha->BickerNotice(RES_STRING(GM_GAMEAPPNET_CPP_00008));
                             //pCha->SetExpScale(0);
 						}
@@ -970,14 +970,14 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 						/*	yyy	2008-3-27 change	begin!
                         if(!(pCha->m_retry6 % 15))
 						{
-							pCha->BickerNotice("ÄúÒÑ½øÈë²»½¡¿µÓÎÏ·Ê±¼ä£¬ÎªÁËÄúµÄ½¡¿µ£¬ÇëÄúÁ¢¼´ÏÂÏßĞİÏ¢¡£Èç²»ÏÂÏß£¬ÄúµÄÉíÌå½«ÊÜµ½Ëğº¦£¬ÄúµÄÊÕÒæÒÑ½µÎªÁã£¬Ö±µ½ÄúµÄÀÛ¼ÆÏÂÏßÊ±¼äÂú 5 Ğ¡Ê±ºó£¬²ÅÄÜ»Ö¸´Õı³£¡£");
+							pCha->BickerNotice("æ‚¨å·²è¿›å…¥ä¸å¥åº·æ¸¸æˆæ—¶é—´ï¼Œä¸ºäº†æ‚¨çš„å¥åº·ï¼Œè¯·æ‚¨ç«‹å³ä¸‹çº¿ä¼‘æ¯ã€‚å¦‚ä¸ä¸‹çº¿ï¼Œæ‚¨çš„èº«ä½“å°†å—åˆ°æŸå®³ï¼Œæ‚¨çš„æ”¶ç›Šå·²é™ä¸ºé›¶ï¼Œç›´åˆ°æ‚¨çš„ç´¯è®¡ä¸‹çº¿æ—¶é—´æ»¡ 5 å°æ—¶åï¼Œæ‰èƒ½æ¢å¤æ­£å¸¸ã€‚");
                             pCha->SetExpScale(0);
 						}
 
                         pCha->m_retry6++;
 						*/
 						if( pCha->m_retry3 == 0 )
-							//pCha->PopupNotice("ÄúÒÑ¾­½øÈë²»½¡¿µÊ±¼ä£¬60ÃëºóÏµÍ³½«ÍË³ö...");
+							//pCha->PopupNotice("æ‚¨å·²ç»è¿›å…¥ä¸å¥åº·æ—¶é—´ï¼Œ60ç§’åç³»ç»Ÿå°†é€€å‡º...");
 							pCha->PopupNotice(RES_STRING(GM_GAMEAPPNET_CPP_00008));
 						if( pCha->m_retry3 == 1 )
 						{
@@ -1009,16 +1009,16 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 					DWORD	l_gateaddr = READ_LONG_R(pkt);
 					if (l_player->GetGateAddr() != l_gateaddr)
 					{
-						/*LG("error", "Êı¾İ¿âID:%u, µØÖ·²»Æ¥Åä£¬±¾µØ:%u, gate:%u,cmd=%d, ÓĞĞ§ĞÔ(%d)\n", l_player->GetDBChaId(), l_player->GetGateAddr(),
+						/*LG("error", "æ•°æ®åº“ID:%u, åœ°å€ä¸åŒ¹é…ï¼Œæœ¬åœ°:%u, gate:%u,cmd=%d, æœ‰æ•ˆæ€§(%d)\n", l_player->GetDBChaId(), l_player->GetGateAddr(),
 							l_gateaddr,cmd, l_player->IsValidFlag() );*/
-						LG("error", "DB ID:%u, address not matching£¬local :%u, gate:%u,cmd=%d, validity (%d)\n", l_player->GetDBChaId(), l_player->GetGateAddr(),
+						LG("error", "DB ID:%u, address not matchingï¼Œlocal :%u, gate:%u,cmd=%d, validity (%d)\n", l_player->GetDBChaId(), l_player->GetGateAddr(),
 							l_gateaddr,cmd, l_player->IsValidFlag() );
 						break;
 					}
 				}
 				catch (...)
 				{
-					//LG("error", "===========================´ÓGateÀ´µÄÍæ¼ÒµØÖ·´íÎó%p,cmd =%d\n", l_player, cmd);
+					//LG("error", "===========================ä»Gateæ¥çš„ç©å®¶åœ°å€é”™è¯¯%p,cmd =%d\n", l_player, cmd);
 					LG("error", "===========================Player address error that come from Gate %p,cmd =%d\n", l_player, cmd);
 					break;
 				}
@@ -1026,8 +1026,8 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 					break;
 				if (l_player->GetMainCha()->GetPlayer() != l_player)
 				{
-					//LG("error", "Á½¸öplayer²»Æ¥Åä£¨½ÇÉ«Ãû£º%s£¬GateµØÖ·[±¾µØ%p, ¿ÍÈË%p]£©£¬cmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
-					LG("error", "two player not matching£¨character name£º%s£¬Gate address [local %p, guest %p]£©£¬cmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
+					//LG("error", "ä¸¤ä¸ªplayerä¸åŒ¹é…ï¼ˆè§’è‰²åï¼š%sï¼ŒGateåœ°å€[æœ¬åœ°%p, å®¢äºº%p]ï¼‰ï¼Œcmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
+					LG("error", "two player not matchingï¼ˆcharacter nameï¼š%sï¼ŒGate address [local %p, guest %p]ï¼‰ï¼Œcmd=%u\n", l_player->GetMainCha()->GetLogName(), l_player->GetMainCha()->GetPlayer(), l_player, cmd);
 				}
 
 				CCharacter	*pCCha = l_player->GetCtrlCha();
@@ -1049,7 +1049,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 				}
 				else
 				{
-					//LG("error", "ÊÕµ½CMD_CM_BASEµÄÏûÏ¢[%d]Ê±, ·¢ÏÖ½ÇÉ«pCChaÎª¿Õ\n", cmd);
+					//LG("error", "æ”¶åˆ°CMD_CM_BASEçš„æ¶ˆæ¯[%d]æ—¶, å‘ç°è§’è‰²pCChaä¸ºç©º\n", cmd);
 					LG("error", "when receive CMD_CM_BASE message[%d], find character pCCha is null\n", cmd);
 				}
 				break;
@@ -1058,7 +1058,7 @@ void CGameApp::ProcessPacket(GateServer* pGate, RPACKET pkt)
 	}
 T_E}
 
-// ´¦Àí¹«»áÍ¶±êÍËÇ®
+// å¤„ç†å…¬ä¼šæŠ•æ ‡é€€é’±
 void CGameApp::ProcessGuildChallMoney( GateServer *pGate, RPACKET pkt )
 {T_B
 	DWORD dwChaDBID = READ_LONG(pkt);
@@ -1066,22 +1066,22 @@ void CGameApp::ProcessGuildChallMoney( GateServer *pGate, RPACKET pkt )
 	const char* pszGuild1 = READ_STRING(pkt);
 	const char* pszGuild2 = READ_STRING(pkt);
 
-	//	2007-8-4	yangyinyu	change	begin!	//	ÈÎÒâÊ±¼äÊÕµ½Õâ¸öÏûÏ¢£¬½«µ¼ÖÂÍËÇ®£¬¶øÇÒ
+	//	2007-8-4	yangyinyu	change	begin!	//	ä»»æ„æ—¶é—´æ”¶åˆ°è¿™ä¸ªæ¶ˆæ¯ï¼Œå°†å¯¼è‡´é€€é’±ï¼Œè€Œä¸”
 	CPlayer* pPlayer = GetPlayerByDBID(dwChaDBID);
 	if( pPlayer )
 	{
 		CCharacter* pCha = pPlayer->GetMainCha();
-		//pCha->AddMoney( "ÏµÍ³", dwMoney );
+		//pCha->AddMoney( "ç³»ç»Ÿ", dwMoney );
 		pCha->AddMoney( RES_STRING(GM_GAMEAPPNET_CPP_00017), dwMoney );
-		/*pCha->SystemNotice( "ÄúÍ¶±êµÄÓë¹«»á¡¶%s¡·Õ½±»¹«»á¡¶%s¡·È¡´úÁË£¬ÄúµÄÍ¶±ê½ğ(%u)ÒÑ¾­ÍË»¹¸øÄú£¡\n", pszGuild1, pszGuild2, dwMoney );
-		LG( "ÌôÕ½¹«»á½á¹û", "¡¶%s¡·Í¶±êµÄÓë¹«»á¡¶%s¡·Õ½±»¹«»á¡¶%s¡·È¡´úÁË£¬ÄúµÄÍ¶±ê½ğ(%u)ÒÑ¾­ÍË»¹¸øÄú£¡\n", pCha->GetGuildName(), pszGuild1, pszGuild2, dwMoney );*/
+		/*pCha->SystemNotice( "æ‚¨æŠ•æ ‡çš„ä¸å…¬ä¼šã€Š%sã€‹æˆ˜è¢«å…¬ä¼šã€Š%sã€‹å–ä»£äº†ï¼Œæ‚¨çš„æŠ•æ ‡é‡‘(%u)å·²ç»é€€è¿˜ç»™æ‚¨ï¼\n", pszGuild1, pszGuild2, dwMoney );
+		LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "ã€Š%sã€‹æŠ•æ ‡çš„ä¸å…¬ä¼šã€Š%sã€‹æˆ˜è¢«å…¬ä¼šã€Š%sã€‹å–ä»£äº†ï¼Œæ‚¨çš„æŠ•æ ‡é‡‘(%u)å·²ç»é€€è¿˜ç»™æ‚¨ï¼\n", pCha->GetGuildName(), pszGuild1, pszGuild2, dwMoney );*/
 		pCha->SystemNotice( RES_STRING(GM_GAMEAPPNET_CPP_00009), pszGuild1, pszGuild2, dwMoney );
-		LG( "challenge consortia result", "¡¶%s¡·bidder and consortia¡¶%s¡·battle was consortia¡¶%s¡·replace£¬your consortia gold (%u)had back to you£¡\n", pCha->GetGuildName(), pszGuild1, pszGuild2, dwMoney );
+		LG( "challenge consortia result", "ã€Š%sã€‹bidder and consortiaã€Š%sã€‹battle was consortiaã€Š%sã€‹replaceï¼Œyour consortia gold (%u)had back to youï¼\n", pCha->GetGuildName(), pszGuild1, pszGuild2, dwMoney );
 	}
 	else
 	{
-		//LG( "ÌôÕ½¹«»á½á¹û", "Î´·¢ÏÖ¹«»á»á³¤ĞÅÏ¢Ö¸Õë£¬ÎŞ·¨ÍËÇ®DBID[%u],Ç®Êı[%u].\n", dwChaDBID, dwMoney );
-		LG( "challenge consortia result", "not find deacon information finger£¬cannot back gold DBID[%u],how much money[%u].\n", dwChaDBID, dwMoney );
+		//LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "æœªå‘ç°å…¬ä¼šä¼šé•¿ä¿¡æ¯æŒ‡é’ˆï¼Œæ— æ³•é€€é’±DBID[%u],é’±æ•°[%u].\n", dwChaDBID, dwMoney );
+		LG( "challenge consortia result", "not find deacon information fingerï¼Œcannot back gold DBID[%u],how much money[%u].\n", dwChaDBID, dwMoney );
 	}
 T_E}
 
@@ -1093,20 +1093,20 @@ void CGameApp::ProcessGuildChallPrizeMoney( GateServer *pGate, RPACKET pkt )
 	if( pPlayer )
 	{
 		CCharacter* pCha = pPlayer->GetMainCha();
-		pCha->AddMoney( "ÏµÍ³", dwMoney );
-		/*pCha->SystemNotice( "¹§Ï²ÄúÁìµ¼µÄ¹«»á¡¶%s¡·È¡µÃÁË¹«»áÕ½µÄÊ¤Àû£¡»ñµÃ½±Àø½ğ£¨%u£©£¡", pCha->GetGuildName(), dwMoney );
-		LG( "ÌôÕ½¹«»á½á¹û", "¹§Ï²ÄúÁìµ¼µÄ¹«»á¡¶%s¡·È¡µÃÁË¹«»áÕ½µÄÊ¤Àû£¡»ñµÃ½±Àø½ğ£¨%u£©£¡", pCha->GetGuildName(), dwMoney );*/
+		pCha->AddMoney( "ç³»ç»Ÿ", dwMoney );
+		/*pCha->SystemNotice( "æ­å–œæ‚¨é¢†å¯¼çš„å…¬ä¼šã€Š%sã€‹å–å¾—äº†å…¬ä¼šæˆ˜çš„èƒœåˆ©ï¼è·å¾—å¥–åŠ±é‡‘ï¼ˆ%uï¼‰ï¼", pCha->GetGuildName(), dwMoney );
+		LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "æ­å–œæ‚¨é¢†å¯¼çš„å…¬ä¼šã€Š%sã€‹å–å¾—äº†å…¬ä¼šæˆ˜çš„èƒœåˆ©ï¼è·å¾—å¥–åŠ±é‡‘ï¼ˆ%uï¼‰ï¼", pCha->GetGuildName(), dwMoney );*/
 		pCha->SystemNotice( RES_STRING(GM_GAMEAPPNET_CPP_00010), pCha->GetGuildName(), dwMoney );
-		LG( "challenge consortia result", "congratulate you have leading the consortia¡¶%s¡·get win in consortia battle£¡gain bounty£¨%u£©£¡", pCha->GetGuildName(), dwMoney );
+		LG( "challenge consortia result", "congratulate you have leading the consortiaã€Š%sã€‹get win in consortia battleï¼gain bountyï¼ˆ%uï¼‰ï¼", pCha->GetGuildName(), dwMoney );
 	}
 	else
 	{
-		//LG( "ÌôÕ½¹«»á½á¹û", "Î´·¢ÏÖ¹«»á»á³¤ĞÅÏ¢Ö¸Õë£¬ÎŞ·¨½±ÀøDBID[%u],Ç®Êı[%u]", dwChaDBID, dwMoney );
-		LG( "challenge consortia result", "cannot find deacon information finger£¬cannot hortation DBID[%u],how much money[%u]", dwChaDBID, dwMoney );
+		//LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "æœªå‘ç°å…¬ä¼šä¼šé•¿ä¿¡æ¯æŒ‡é’ˆï¼Œæ— æ³•å¥–åŠ±DBID[%u],é’±æ•°[%u]", dwChaDBID, dwMoney );
+		LG( "challenge consortia result", "cannot find deacon information fingerï¼Œcannot hortation DBID[%u],how much money[%u]", dwChaDBID, dwMoney );
 	}
 T_E}
 
-// ´¦Àí¹«»áĞÅÏ¢
+// å¤„ç†å…¬ä¼šä¿¡æ¯
 void CGameApp::ProcessGuildMsg(GateServer *pGate, RPACKET pkt)
 {T_B
 	DWORD dwChaDBID  = READ_LONG(pkt);
@@ -1126,32 +1126,32 @@ void CGameApp::ProcessGuildMsg(GateServer *pGate, RPACKET pkt)
 	}
 T_E}
 
-// ´¦Àí×é¶ÓÓĞ¹ØÏûÏ¢
+// å¤„ç†ç»„é˜Ÿæœ‰å…³æ¶ˆæ¯
 void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
 {T_B
-	//LG("team", "¿ªÊ¼´¦Àí×é¶ÓÏûÏ¢\n");
+	//LG("team", "å¼€å§‹å¤„ç†ç»„é˜Ÿæ¶ˆæ¯\n");
 
 	char cTeamMsgType = READ_CHAR(pkt);
 	
 	switch(cTeamMsgType)
 	{
-		case TEAM_MSG_ADD:     {	/*LG("team", "ÊÕµ½×é¶Ó [ĞÂ¼Ó¶ÓÔ±] ÏûÏ¢\n");*/ break; }
-		case TEAM_MSG_LEAVE:   {	/*LG("team", "ÊÕµ½×é¶Ó [¶ÓÔ±Àë¶Ó] ÏûÏ¢\n");*/ break; }
-		case TEAM_MSG_UPDATE:  {	/*LG("team", "ÊÕµ½×é¶Ó [¶ÓÔ±Ë¢ĞÂ] ÏûÏ¢\n");*/ break; }
+		case TEAM_MSG_ADD:     {	/*LG("team", "æ”¶åˆ°ç»„é˜Ÿ [æ–°åŠ é˜Ÿå‘˜] æ¶ˆæ¯\n");*/ break; }
+		case TEAM_MSG_LEAVE:   {	/*LG("team", "æ”¶åˆ°ç»„é˜Ÿ [é˜Ÿå‘˜ç¦»é˜Ÿ] æ¶ˆæ¯\n");*/ break; }
+		case TEAM_MSG_UPDATE:  {	/*LG("team", "æ”¶åˆ°ç»„é˜Ÿ [é˜Ÿå‘˜åˆ·æ–°] æ¶ˆæ¯\n");*/ break; }
 		default:
-			//LG("team", "ÊÕµ½ÎŞĞ§µÄTeamÏûÏ¢ [%d]\n", cTeamMsgType);
+			//LG("team", "æ”¶åˆ°æ— æ•ˆçš„Teamæ¶ˆæ¯ [%d]\n", cTeamMsgType);
 			return;
 	}
 	
 	char cMemberCnt = READ_CHAR(pkt);
-	//LG("team", "µ±Ç°¶ÓÔ±×ÜÊıÁ¿[%d]\n", cMemberCnt); // Èç¹ûÊÕµ½ÊıÁ¿ < 2Ôò±íÊ¾GroupServerµÄ¶ÓÎéĞÅÏ¢³öÎÊÌâÁË.
+	//LG("team", "å½“å‰é˜Ÿå‘˜æ€»æ•°é‡[%d]\n", cMemberCnt); // å¦‚æœæ”¶åˆ°æ•°é‡ < 2åˆ™è¡¨ç¤ºGroupServerçš„é˜Ÿä¼ä¿¡æ¯å‡ºé—®é¢˜äº†.
 
 	uplayer Team[MAX_TEAM_MEMBER];
 	CPlayer *PlayerList[MAX_TEAM_MEMBER];
 	bool	CanSeenO[MAX_TEAM_MEMBER][2];
 	bool	CanSeenN[MAX_TEAM_MEMBER][2];
 			
-	// ¶ÁÈ¡°üĞÅÏ¢²¢²éÕÒ³öËùÓĞµÄPlayer
+	// è¯»å–åŒ…ä¿¡æ¯å¹¶æŸ¥æ‰¾å‡ºæ‰€æœ‰çš„Player
 	for(char i = 0; i < cMemberCnt; i++)
 	{
 		const char *pszGateName = READ_STRING(pkt);
@@ -1160,7 +1160,7 @@ void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
 		Team[i].Init(pszGateName, dwGateAddr, dwChaDBID);
 		if (!Team[i].pGate)
 		{
-			LG("team", "GameServer can't find matched Gate£º%s, addr = 0x%X, chaid = %d.\n", pszGateName, dwGateAddr, dwChaDBID);
+			LG("team", "GameServer can't find matched Gateï¼š%s, addr = 0x%X, chaid = %d.\n", pszGateName, dwGateAddr, dwChaDBID);
 			LG("team", "\tGameServer all Gate:\n");
 			BEGINGETGATE();
 			GateServer	*pGateServer;
@@ -1172,18 +1172,18 @@ void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
 			
 		PlayerList[i] = GetPlayerByDBID(dwChaDBID);
 		
-		//LG("team", "¶ÓÔ±: %s, %d %d À´×ÔGate [%s]\n", PlayerList[i]!=NULL ? PlayerList[i]->GetCtrlCha()->GetLogName():"(´ËÈË²»ÔÚ±¾Server!)", dwChaDBID, dwGateAddr, pszGateName);
+		//LG("team", "é˜Ÿå‘˜: %s, %d %d æ¥è‡ªGate [%s]\n", PlayerList[i]!=NULL ? PlayerList[i]->GetCtrlCha()->GetLogName():"(æ­¤äººä¸åœ¨æœ¬Server!)", dwChaDBID, dwGateAddr, pszGateName);
 	}
 
 	//RefreshTeamEyeshot(PlayerList, cMemberCnt, cTeamMsgType);
 	CheckSeeWithTeamChange(CanSeenO, PlayerList, cMemberCnt);
 	//if(PlayerList[0]==NULL)
 	//{
-	//	LG("team", "¶Ó³¤²»ÔÚ±¾game serverÉÏÁË\n");
+	//	LG("team", "é˜Ÿé•¿ä¸åœ¨æœ¬game serverä¸Šäº†\n");
 	//}
 
 	int nLeftMember = cMemberCnt;
-	if(cTeamMsgType == TEAM_MSG_LEAVE) // ¶ÓÔ±Àë¶Ó»òÏÂÏß
+	if(cTeamMsgType == TEAM_MSG_LEAVE) // é˜Ÿå‘˜ç¦»é˜Ÿæˆ–ä¸‹çº¿
 	{
 		nLeftMember-=1;
 		CPlayer *pLeave = PlayerList[cMemberCnt - 1];
@@ -1192,7 +1192,7 @@ void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
 			pLeave->LeaveTeam();
 		}
 	}
-	// ±Ë´ËÖ®¼äÌí¼Ó¶ÓÓÑ, Èç¹ûcMember´ËÊ±Îª1, ÔòµÈ¼ÛÓÚ½â³ıÁË¶ÓÎé
+	// å½¼æ­¤ä¹‹é—´æ·»åŠ é˜Ÿå‹, å¦‚æœcMemberæ­¤æ—¶ä¸º1, åˆ™ç­‰ä»·äºè§£é™¤äº†é˜Ÿä¼
 	for(int i = 0; i < nLeftMember; i++)
 	{
 		if(PlayerList[i]==NULL) continue;
@@ -1229,7 +1229,7 @@ void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
 				        {
 					        if(!(pSubMap ->GetMapRes() ->CanTeam()))
 					        {
-						       // pCtrlCha ->SystemNotice("´ËµØÍ¼²»ÄÜ×é¶Ó£¬Äú±»Ìß³ö´ËµØÍ¼£¡");
+						       // pCtrlCha ->SystemNotice("æ­¤åœ°å›¾ä¸èƒ½ç»„é˜Ÿï¼Œæ‚¨è¢«è¸¢å‡ºæ­¤åœ°å›¾ï¼");
 								 pCtrlCha ->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00011));
 						        pCtrlCha ->MoveCity("garner");
 					        }
@@ -1239,12 +1239,12 @@ void CGameApp::ProcessTeamMsg(GateServer *pGate, RPACKET pkt)
         }
 	}
 
-	//if(nLeftMember==1) LG("team", "nLeftMember==1, ¶ÓÎé½âÉ¢!\n");
+	//if(nLeftMember==1) LG("team", "nLeftMember==1, é˜Ÿä¼è§£æ•£!\n");
 	
-	//LG("team", "½áÊø´¦Àí×é¶ÓÏûÏ¢\n\n");
+	//LG("team", "ç»“æŸå¤„ç†ç»„é˜Ÿæ¶ˆæ¯\n\n");
 T_E}
 
-// È·¶¨Íæ¼Ò¼äÊÇ·ñ¿É¼û
+// ç¡®å®šç©å®¶é—´æ˜¯å¦å¯è§
 void CGameApp::CheckSeeWithTeamChange(bool CanSeen[][2], CPlayer **pCPlayerList, char chMemberCnt)
 {T_B
 	if (chMemberCnt <= 1)
@@ -1270,7 +1270,7 @@ void CGameApp::CheckSeeWithTeamChange(bool CanSeen[][2], CPlayer **pCPlayerList,
 	}
 T_E}
 
-// ¸ù¾İµ±Ç°ÊÇ·ñ¿É¼ûÓëÖ®Ç°µÄ½øĞĞ±È½ÏÀ´Ë¢ĞÂÊÓÒ°
+// æ ¹æ®å½“å‰æ˜¯å¦å¯è§ä¸ä¹‹å‰çš„è¿›è¡Œæ¯”è¾ƒæ¥åˆ·æ–°è§†é‡
 void CGameApp::RefreshTeamEyeshot(bool CanSeenOld[][2], bool CanSeenNew[][2], CPlayer **pCPlayerList, char chMemberCnt, char chRefType)
 {T_B
 	if (chMemberCnt <= 1)
@@ -1308,7 +1308,7 @@ void CGameApp::RefreshTeamEyeshot(bool CanSeenOld[][2], bool CanSeenNew[][2], CP
 	}
 T_E}
 
-// ¸ù¾İµ±Ç°ÊÇ·ñ¿É¼ûÀ´Ë¢ĞÂÊÓÒ°
+// æ ¹æ®å½“å‰æ˜¯å¦å¯è§æ¥åˆ·æ–°è§†é‡
 void CGameApp::RefreshTeamEyeshot(CPlayer **pCPlayerList, char chMemberCnt, char chRefType)
 {T_B
 	if (chMemberCnt <= 1)
@@ -1329,7 +1329,7 @@ void CGameApp::RefreshTeamEyeshot(CPlayer **pCPlayerList, char chMemberCnt, char
 			continue;
 		pCCurCha = pCCurPly->GetCtrlCha();
 		bCurChaHide = pCCurCha->IsHide();
-		if (bProcChaHide || bCurChaHide) // ´æÔÚÒşÉí
+		if (bProcChaHide || bCurChaHide) // å­˜åœ¨éšèº«
 		{
 			if (pCProcCha->IsInEyeshot(pCCurCha))
 			{
@@ -1547,7 +1547,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 		{
 			uLong	l_gldid		=lSrcID;
 			cChar* pszMotto = READ_STRING( pkt );
-			{//À´×ÔÓÚFindPlayerChaByID
+			{//æ¥è‡ªäºFindPlayerChaByID
 				BEGINGETGATE();
 				CPlayer	*pCPlayer;
 				CCharacter	*pCha = 0;
@@ -1561,18 +1561,18 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 					{
 						if (++nCount > GETPLAYERCOUNT(pGateServer))
 						{
-							//LG("Íæ¼ÒÁ´±í´íÎó", "Íæ¼ÒÊıÄ¿:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
+							//LG("ç©å®¶é“¾è¡¨é”™è¯¯", "ç©å®¶æ•°ç›®:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
 							LG("player list error", "player number:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
 							break;
 						}
 						pCha = pCPlayer->GetMainCha();
 						if (!pCha)
 							continue;
-						if (pCha->GetGuildID() == l_gldid) // ÕÒµ½½ÇÉ«
+						if (pCha->GetGuildID() == l_gldid) // æ‰¾åˆ°è§’è‰²
 						{							
 							pCha->SetGuildMotto(pszMotto);
 							pCha->SyncGuildInfo();
-							//pCha->SystemNotice("¹«»á×ùÓÒÃúÒÑĞŞ¸Ä£¡");
+							//pCha->SystemNotice("å…¬ä¼šåº§å³é“­å·²ä¿®æ”¹ï¼");
 							//pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00012));
 						}
 					}
@@ -1583,7 +1583,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 	case CMD_MM_GUILD_DISBAND:
 		{
 			uLong	l_gldid		=lSrcID;
-			{//À´×ÔÓÚFindPlayerChaByID
+			{//æ¥è‡ªäºFindPlayerChaByID
 				BEGINGETGATE();
 				CPlayer	*pCPlayer;
 				CCharacter	*pCha = 0;
@@ -1597,14 +1597,14 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 					{
 						if (++nCount > GETPLAYERCOUNT(pGateServer))
 						{
-							//LG("Íæ¼ÒÁ´±í´íÎó", "Íæ¼ÒÊıÄ¿:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
+							//LG("ç©å®¶é“¾è¡¨é”™è¯¯", "ç©å®¶æ•°ç›®:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
 							LG("player list error", "player number:%u, %s\n", GETPLAYERCOUNT(pGateServer), "ProcessInterGameMsg::CMD_MM_GUILD_DISBAND");
 							break;
 						}
 						pCha = pCPlayer->GetMainCha();
 						if (!pCha)
 							continue;
-						if (pCha->GetGuildID() == l_gldid) // ÕÒµ½½ÇÉ«
+						if (pCha->GetGuildID() == l_gldid) // æ‰¾åˆ°è§’è‰²
 						{
 							pCha->m_CChaAttr.ResetChangeFlag();
 							pCha->guildPermission = 0;
@@ -1617,7 +1617,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 							pCha->SetGuildName("");
 							pCha->SetGuildMotto("");
 							pCha->SyncGuildInfo();
-							//pCha->SystemNotice("¹«»áÒÑ¾­±»»á³¤½âÉ¢");
+							//pCha->SystemNotice("å…¬ä¼šå·²ç»è¢«ä¼šé•¿è§£æ•£");
 							pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00013));
 						}
 					}
@@ -1636,12 +1636,12 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 				pCha->guildPermission = 0;
 				pCha->guildCircleColour = -1;
 				pCha->guildIcon = 0;
-				pCha->SetGuildID( 0 );			//ÉèÖÃ¹«»áID
-				pCha->SetGuildType( 0 );		//ÉèÖÃ¹«»áType
+				pCha->SetGuildID( 0 );			//è®¾ç½®å…¬ä¼šID
+				pCha->SetGuildType( 0 );		//è®¾ç½®å…¬ä¼šType
 				pCha->SetGuildState( 0 );				
 				pCha->SetGuildName( "" );
 				pCha->SetGuildMotto( "" );
-               // pCha->SystemNotice("ÄãÒÑ¾­±»¿ª³ı³ö¹«»á[%s].",l_gldname);
+               // pCha->SystemNotice("ä½ å·²ç»è¢«å¼€é™¤å‡ºå…¬ä¼š[%s].",l_gldname);
 				 pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00014),l_gldname);
 				pCha->SyncGuildInfo();
 			}
@@ -1653,16 +1653,16 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 			CCharacter	*pCha	=FindMainPlayerChaByID(l_chaid);
 			if(pCha)
 			{
-				pCha->SetGuildID( READ_LONG(pkt) );				//ÉèÖÃ¹«»áID
+				pCha->SetGuildID( READ_LONG(pkt) );				//è®¾ç½®å…¬ä¼šID
 				pCha->SetGuildType( READ_CHAR(pkt) );
-				pCha->SetGuildState( 0 );	//ÉèÖÃ¹«»áType
+				pCha->SetGuildState( 0 );	//è®¾ç½®å…¬ä¼šType
 				cChar * l_gldname =READ_STRING(pkt);
 				pCha->SetGuildName(l_gldname);
 				cChar * l_gldmotto = READ_STRING(pkt);
 				pCha->SetGuildMotto( l_gldmotto );
 				pCha->guildCircleColour = READ_LONG(pkt);
 				pCha->guildIcon = READ_CHAR(pkt);
-              //  pCha->SystemNotice("ÄãÒÑ¾­±»Åú×¼¼ÓÈë¹«»á[%s].",l_gldname);
+              //  pCha->SystemNotice("ä½ å·²ç»è¢«æ‰¹å‡†åŠ å…¥å…¬ä¼š[%s].",l_gldname);
 				  pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00015),l_gldname);
 				pCha->SyncGuildInfo();
 			}
@@ -1678,7 +1678,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 				pCha->SetGuildState( 0 );
 				pCha->SetGuildName("");				
 
-                //pCha->SystemNotice("Äã¶Ô¹«»á[%s]µÄ¼ÓÈëÉêÇë±»¾Ü¾ø.",READ_STRING(pkt));
+                //pCha->SystemNotice("ä½ å¯¹å…¬ä¼š[%s]çš„åŠ å…¥ç”³è¯·è¢«æ‹’ç».",READ_STRING(pkt));
 				pCha->SystemNotice(RES_STRING(GM_GAMEAPPNET_CPP_00016),READ_STRING(pkt));
 			}
 		}
@@ -1750,7 +1750,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 			if (!pCCha || !pCCha->GetSubMap())
 				break;
 			bool	bTarIsBoat = READ_CHAR(pkt) ? true : false;
-			if (bTarIsBoat != pCCha->IsBoat()) // ²»Í¬ÇøÓòÀàĞÍ
+			if (bTarIsBoat != pCCha->IsBoat()) // ä¸åŒåŒºåŸŸç±»å‹
 				break;
 			const char	*cszMapName = READ_STRING(pkt);
 			long	lPosX = READ_LONG(pkt);
@@ -1827,7 +1827,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 				break;
 			switch (READ_CHAR(pkt))
 			{
-			case	1: // ÇëÇó²éÕÒÄ¿±ê½ÇÉ«
+			case	1: // è¯·æ±‚æŸ¥æ‰¾ç›®æ ‡è§’è‰²
 				{
 					const char	*cszSrcName = READ_STRING(pkt);
 					WPACKET WtPk	=GETWPACKET();
@@ -1850,10 +1850,10 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 
 					break;
 				}
-			case	2: // ÕÒµ½ÁËÄ¿±ê½ÇÉ«£¬Ô­½ÇÉ«½øĞĞÌø×ª
+			case	2: // æ‰¾åˆ°äº†ç›®æ ‡è§’è‰²ï¼ŒåŸè§’è‰²è¿›è¡Œè·³è½¬
 				{
 					bool	bTarIsBoat = READ_CHAR(pkt) ? true : false;
-					if (bTarIsBoat != pCCha->IsBoat()) // ²»Í¬ÇøÓòÀàĞÍ
+					if (bTarIsBoat != pCCha->IsBoat()) // ä¸åŒåŒºåŸŸç±»å‹
 						break;
 					const char	*cszMapName = READ_STRING(pkt);
 					long	lPosX = READ_LONG(pkt);
@@ -1926,18 +1926,18 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 			if( pPlayer )
 			{
 				CCharacter* pCha = pPlayer->GetMainCha();
-				/*pCha->AddMoney( "ÏµÍ³", dwMoney );
-				pCha->SystemNotice( "¹§Ï²ÄúÁìµ¼µÄ¹«»á¡¶%s¡·È¡µÃÁË¹«»áÕ½µÄÊ¤Àû£¡»ñµÃ½±Àø½ğ£¨%u£©£¡", pCha->GetGuildName(), dwMoney );
-				LG( "ÌôÕ½¹«»á½á¹û", "¹§Ï²ÄúÁìµ¼µÄ¹«»á¡¶%s¡·ID£¨%u£©È¡µÃÁË¹«»áÕ½µÄÊ¤Àû£¡»ñµÃ½±Àø½ğ£¨%u£©£¡\n", pCha->GetGuildName(), 
+				/*pCha->AddMoney( "ç³»ç»Ÿ", dwMoney );
+				pCha->SystemNotice( "æ­å–œæ‚¨é¢†å¯¼çš„å…¬ä¼šã€Š%sã€‹å–å¾—äº†å…¬ä¼šæˆ˜çš„èƒœåˆ©ï¼è·å¾—å¥–åŠ±é‡‘ï¼ˆ%uï¼‰ï¼", pCha->GetGuildName(), dwMoney );
+				LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "æ­å–œæ‚¨é¢†å¯¼çš„å…¬ä¼šã€Š%sã€‹IDï¼ˆ%uï¼‰å–å¾—äº†å…¬ä¼šæˆ˜çš„èƒœåˆ©ï¼è·å¾—å¥–åŠ±é‡‘ï¼ˆ%uï¼‰ï¼\n", pCha->GetGuildName(), 
 					pCha->GetGuildID(), dwMoney );*/
 				pCha->AddMoney( RES_STRING(GM_GAMEAPPNET_CPP_00017), dwMoney );
 				pCha->SystemNotice( RES_STRING(GM_GAMEAPPNET_CPP_00010), pCha->GetGuildName(), dwMoney );
-				LG( "challenge consortia result", "congratulate you leading consortia¡¶%s¡·ID£¨%u£©get win in consortia battle£¡gain bounty£¨%u£©£¡\n", pCha->GetGuildName(), 
+				LG( "challenge consortia result", "congratulate you leading consortiaã€Š%sã€‹IDï¼ˆ%uï¼‰get win in consortia battleï¼gain bountyï¼ˆ%uï¼‰ï¼\n", pCha->GetGuildName(), 
 					pCha->GetGuildID(), dwMoney );
 			}
 			//else
 			//{
-			//	LG( "ÌôÕ½¹«»á½á¹û", "Î´·¢ÏÖ¹«»á»á³¤ĞÅÏ¢Ö¸Õë£¬ÎŞ·¨½±ÀøDBID[%u],Ç®Êı[%u]\n", dwChaDBID, dwMoney );
+			//	LG( "æŒ‘æˆ˜å…¬ä¼šç»“æœ", "æœªå‘ç°å…¬ä¼šä¼šé•¿ä¿¡æ¯æŒ‡é’ˆï¼Œæ— æ³•å¥–åŠ±DBID[%u],é’±æ•°[%u]\n", dwChaDBID, dwMoney );
 			//}
 
 			break;
@@ -1984,7 +1984,7 @@ void CGameApp::ProcessInterGameMsg(unsigned short usCmd, GateServer *pGate, RPAC
 			}
 			if(pCha)
 			{
-				pCha->AddMoney("ÏµÍ³", dwMoney);
+				pCha->AddMoney("ç³»ç»Ÿ", dwMoney);
 			}
 
 			break;
@@ -2078,8 +2078,8 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 				cChar	*cszSctLine;
 				Short	sLineNum = READ_SHORT_R(pkt);
 				if (g_cchLogMapEntry)
-					LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÊÕµ½´´½¨Èë¿ÚÇëÇó£ºÎ»ÖÃ %s --> %s[%u, %u]£¬½Å±¾ĞĞÊı %d\n", szSrcMapN, szTarMapN, lPosX, lPosY, sLineNum);
-					//LG("map entry flow", "receive request to create entry£ºposition %s --> %s[%u, %u]£¬script line %d\n", szSrcMapN, szTarMapN, lPosX, lPosY, sLineNum);
+					LG("åœ°å›¾å…¥å£æµç¨‹", "æ”¶åˆ°åˆ›å»ºå…¥å£è¯·æ±‚ï¼šä½ç½® %s --> %s[%u, %u]ï¼Œè„šæœ¬è¡Œæ•° %d\n", szSrcMapN, szTarMapN, lPosX, lPosY, sLineNum);
+					//LG("map entry flow", "receive request to create entryï¼šposition %s --> %s[%u, %u]ï¼Œscript line %d\n", szSrcMapN, szTarMapN, lPosX, lPosY, sLineNum);
 				while (--sLineNum >= 0)
 				{
 					cszSctLine = READ_STRING(pkt);
@@ -2107,13 +2107,13 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 					else
 					{
 						if (g_cchLogMapEntry)
-							LG("µØÍ¼Èë¿ÚÁ÷³Ì", "´´½¨Èë¿ÚÊ§°Ü£ºÎ»ÖÃ %s --> %s[%u, %u]£¬µÀ¾ß %u ³öÉúÊ§°Ü\n", szSrcMapN, szTarMapN, lPosX, lPosY, SItemCont.sID);
-							//LG("map entry flow", "create entry failed£ºposition %s --> %s[%u, %u]£¬item %u create failed\n", szSrcMapN, szTarMapN, lPosX, lPosY, SItemCont.sID);
+							LG("åœ°å›¾å…¥å£æµç¨‹", "åˆ›å»ºå…¥å£å¤±è´¥ï¼šä½ç½® %s --> %s[%u, %u]ï¼Œé“å…· %u å‡ºç”Ÿå¤±è´¥\n", szSrcMapN, szTarMapN, lPosX, lPosY, SItemCont.sID);
+							//LG("map entry flow", "create entry failedï¼šposition %s --> %s[%u, %u]ï¼Œitem %u create failed\n", szSrcMapN, szTarMapN, lPosX, lPosY, SItemCont.sID);
 						g_CDMapEntry.Del(pCEntry);
 						break;
 					}
 				}
-				// Í¨ÖªÔ´·½£¬´´½¨³É¹¦
+				// é€šçŸ¥æºæ–¹ï¼Œåˆ›å»ºæˆåŠŸ
 				WPACKET	wpk	=GETWPACKET();
 				WRITE_CMD(wpk, CMD_MT_MAPENTRY);
 				WRITE_STRING(wpk, szSrcMapN);
@@ -2129,8 +2129,8 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 					break;
 				}
 				if (g_cchLogMapEntry)
-					LG("µØÍ¼Èë¿ÚÁ÷³Ì", "´´½¨Èë¿Ú³É¹¦£ºÎ»ÖÃ %s --> %s[%u, %u] \n", szSrcMapN, szTarMapN, lPosX, lPosY);
-					//LG("map entry flow", "create entry success£ºposition %s --> %s[%u, %u] \n", szSrcMapN, szTarMapN, lPosX, lPosY);
+					LG("åœ°å›¾å…¥å£æµç¨‹", "åˆ›å»ºå…¥å£æˆåŠŸï¼šä½ç½® %s --> %s[%u, %u] \n", szSrcMapN, szTarMapN, lPosX, lPosY);
+					//LG("map entry flow", "create entry successï¼šposition %s --> %s[%u, %u] \n", szSrcMapN, szTarMapN, lPosX, lPosY);
 
 				g_CParser.DoString("after_create_entry", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCEntry, DOSTRING_PARAM_END);
 			}
@@ -2159,7 +2159,7 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 			{
 				pCEntry->ReleaseCopy(sCopyNO);
 			}
-			// Í¨ÖªÔ´·½£¬¸±±¾¹Ø±Õ³É¹¦
+			// é€šçŸ¥æºæ–¹ï¼Œå‰¯æœ¬å…³é—­æˆåŠŸ
 			WPACKET	wpk	=GETWPACKET();
 			WRITE_CMD(wpk, CMD_MT_MAPENTRY);
 			WRITE_STRING(wpk, szSrcMapN);
@@ -2181,8 +2181,8 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 		{
 			CDynMapEntryCell	*pCEntry = g_CDMapEntry.GetEntry(szSrcMapN);
 			if (g_cchLogMapEntry)
-				LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÊÕµ½Ïú»ÙÈë¿ÚÇëÇó£ºÎ»ÖÃ %s --> %s\n", szSrcMapN, szTarMapN);
-				//LG("map entry flow", "receive request to destroy entry£ºposition %s --> %s\n", szSrcMapN, szTarMapN);
+				LG("åœ°å›¾å…¥å£æµç¨‹", "æ”¶åˆ°é”€æ¯å…¥å£è¯·æ±‚ï¼šä½ç½® %s --> %s\n", szSrcMapN, szTarMapN);
+				//LG("map entry flow", "receive request to destroy entryï¼šposition %s --> %s\n", szSrcMapN, szTarMapN);
 			if (pCEntry)
 			{
 				string	strScript = "after_destroy_entry_";
@@ -2190,7 +2190,7 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 				g_CParser.DoString(strScript.c_str(), enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCEntry, DOSTRING_PARAM_END);
 				g_CDMapEntry.Del(pCEntry);
 
-				// Í¨ÖªÔ´·½£¬Ïú»Ù³É¹¦
+				// é€šçŸ¥æºæ–¹ï¼Œé”€æ¯æˆåŠŸ
 				WPACKET	wpk	=GETWPACKET();
 				WRITE_CMD(wpk, CMD_MT_MAPENTRY);
 				WRITE_STRING(wpk, szSrcMapN);
@@ -2206,8 +2206,8 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 					break;
 				}
 				if (g_cchLogMapEntry)
-					LG("µØÍ¼Èë¿ÚÁ÷³Ì", "Ïú»ÙÈë¿Ú³É¹¦£ºÎ»ÖÃ %s --> %s\n", szSrcMapN, szTarMapN);
-					//LG("map entry flow", "destroy entry success£ºposition %s --> %s\n", szSrcMapN, szTarMapN);
+					LG("åœ°å›¾å…¥å£æµç¨‹", "é”€æ¯å…¥å£æˆåŠŸï¼šä½ç½® %s --> %s\n", szSrcMapN, szTarMapN);
+					//LG("map entry flow", "destroy entry successï¼šposition %s --> %s\n", szSrcMapN, szTarMapN);
 			}
 		}
 		break;
@@ -2252,15 +2252,15 @@ void CGameApp::ProcessDynMapEntry(GateServer *pGate, RPACKET pkt)
 				{
 					pCMap->CheckEntryState(enumMAPENTRY_STATE_OPEN);
 					if (g_cchLogMapEntry)
-						LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÊÕµ½Èë¿Ú³É¹¦´´½¨£ºÎ»ÖÃ %s --> %s\n", szSrcMapN, szTarMapN);
-						//LG("map entry flow", "receive entry create success £ºposition %s --> %s\n", szSrcMapN, szTarMapN);
+						LG("åœ°å›¾å…¥å£æµç¨‹", "æ”¶åˆ°å…¥å£æˆåŠŸåˆ›å»ºï¼šä½ç½® %s --> %s\n", szSrcMapN, szTarMapN);
+						//LG("map entry flow", "receive entry create success ï¼šposition %s --> %s\n", szSrcMapN, szTarMapN);
 				}
 				break;
 			case	enumMAPENTRYO_DESTROY_SUC:
 				{
 					if (g_cchLogMapEntry)
-						LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÊÕµ½Èë¿Ú³É¹¦Ïú»Ù£ºÎ»ÖÃ %s --> %s\n", szSrcMapN, szTarMapN);
-						//LG("map entry flow", "receive entry destroy success£ºposition %s --> %s\n", szSrcMapN, szTarMapN);
+						LG("åœ°å›¾å…¥å£æµç¨‹", "æ”¶åˆ°å…¥å£æˆåŠŸé”€æ¯ï¼šä½ç½® %s --> %s\n", szSrcMapN, szTarMapN);
+						//LG("map entry flow", "receive entry destroy successï¼šposition %s --> %s\n", szSrcMapN, szTarMapN);
 					pCMap->CheckEntryState(enumMAPENTRY_STATE_CLOSE_SUC);
 				}
 				break;

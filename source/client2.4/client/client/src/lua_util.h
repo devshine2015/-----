@@ -69,7 +69,7 @@ inline int lua_LG(lua_State *L)
     str << ends;
     LG( (char*)pszFile, str.str() );
  
-	// �ڴ�й©
+	// 内存泄漏
 	str.freeze(false);
    return 0;
 }
@@ -92,7 +92,7 @@ inline int lua_SysInfo(lua_State *L)
     str << ends;
 	g_pGameApp->SysInfo( "luaSysInfo:%s", str.str() );
 
-	// �ڴ�й©
+	// 内存泄漏
 	str.freeze(false);
     return 0;
 }

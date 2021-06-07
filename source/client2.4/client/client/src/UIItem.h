@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¾²Ì¬ÎÄ×Ö
-// ×÷Õß:lh 2004-07-19
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:é™æ€æ–‡å­—
+// ä½œè€…:lh 2004-07-19
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uiguidata.h"
@@ -9,7 +9,7 @@
 
 namespace GUI
 {
-// ¹Ì¶¨ÁĞÊıµÄItemObj
+// å›ºå®šåˆ—æ•°çš„ItemObj
 class CItemRow
 {
 public:
@@ -46,7 +46,7 @@ private:
 
 };
 
-// ÎÄ×Ö
+// æ–‡å­—
 class CItem : public CItemObj
 {
 public:
@@ -100,21 +100,21 @@ private:
 		string strData;
 	};
 
-	// ·Ö¶ÎÏÔÊ¾²»Í¨ÑÕÉ«µÄÎÄ×ÖĞÅÏ¢
+	// åˆ†æ®µæ˜¾ç¤ºä¸é€šé¢œè‰²çš„æ–‡å­—ä¿¡æ¯
 	typedef vector<ITEM_TEXT_DATA> ITEM_TEXT_ARRAY;
 		ITEM_TEXT_ARRAY m_TextArray;
 
 	void ParseScript( const char szScript[], USHORT sStartCom, DWORD dwDefColor );
 };
 
-// ´ø½ø¶ÈÌõµÄÎÄ×Ö
+// å¸¦è¿›åº¦æ¡çš„æ–‡å­—
 class CItemBar : public CItem
 {
 public:
 	CItemBar();
 
 	virtual void	Render( int x, int y );
-	static void		Clear(); //°²È«ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
+	static void		Clear(); //å®‰å…¨é‡Šæ”¾å†…å­˜ by Waiting 2009-06-18
 
 	void			SetScale( float f )			{ if(f>=0.0f && f<=1.0f) _fScale = f; }
 	static void		LoadImage( const char * file, int w, int h, int tx=0, int ty=0 );
@@ -125,7 +125,7 @@ protected:
 
 };
 
-// ¿É»»ĞĞÎÄ×Ö
+// å¯æ¢è¡Œæ–‡å­—
 class CItemEx : public CItemObj
 {
 public:
@@ -167,33 +167,33 @@ public:
 	void		SetItemName(const char* name)	{ _strItemName=name;		}
 	const char*	GetItemName()					{ return _strItemName.c_str();		}
 
-	void		ProcessString( int length );	// ²ÎÊı£º½ÇÉ«Ãû³ÆµÄ³¤¶È
+	void		ProcessString( int length );	// å‚æ•°ï¼šè§’è‰²åç§°çš„é•¿åº¦
 
 protected:
 	string		_str;
 	string		_strItemName;
-	bool		_bParseText;					// ÊÇ·ñĞèÒª½âÎöÍ¼Ôª
-	bool        _bMultiLine;                    //ÊÇ·ñ¶àĞĞÏÔÊ¾
-	string      _strLine[3];					//×î¶à3ĞĞ 
+	bool		_bParseText;					// æ˜¯å¦éœ€è¦è§£æå›¾å…ƒ
+	bool        _bMultiLine;                    //æ˜¯å¦å¤šè¡Œæ˜¾ç¤º
+	string      _strLine[3];					//æœ€å¤š3è¡Œ 
 	DWORD		_HeadLen;
 	DWORD		_HeadColor;
 
 	DWORD		_dwColor;
 	int			_nWidth;
 	int			_nHeight;
-	int         _nLineNum;						//ÏÔÊ¾ÔÚÍ·ÏñÉÏµÄĞĞÊı
-	int         _nMaxWidth;                     //¶àĞĞÖĞ×î´óµÄ¿í¶È
+	int         _nLineNum;						//æ˜¾ç¤ºåœ¨å¤´åƒä¸Šçš„è¡Œæ•°
+	int         _nMaxWidth;                     //å¤šè¡Œä¸­æœ€å¤§çš„å®½åº¦
 	ALLIGN		m_Allign;
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CItemRow::SetIndex( unsigned int v, CItemObj* p )		
 { 
 	if( _items[v]!=_GetNullItem() && _items[v]!=p ) 
 	{
 		//delete _items[v]; 
-		SAFE_DELETE(_items[v]); // UIµ±»ú´¦Àí
+		SAFE_DELETE(_items[v]); // UIå½“æœºå¤„ç†
 	}
 	_items[v]=p; 
 }

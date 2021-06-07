@@ -1,10 +1,10 @@
-// ÌìÆø±¾ÖÊÉÏÊÇÖ¸ÏµÍ³²úÉúµÄµØÃæ×´Ì¬, ±ÈÈç·ç,  À×,  Îí
-// ´¦ÓÚ¸ÃµØÃæ×´Ì¬ÏÂµÄ¿Í»§¶Ë±íÏÖÎª²¥·Å·¶Î§ÌØĞ§
+// å¤©æ°”æœ¬è´¨ä¸Šæ˜¯æŒ‡ç³»ç»Ÿäº§ç”Ÿçš„åœ°é¢çŠ¶æ€, æ¯”å¦‚é£,  é›·,  é›¾
+// å¤„äºè¯¥åœ°é¢çŠ¶æ€ä¸‹çš„å®¢æˆ·ç«¯è¡¨ç°ä¸ºæ’­æ”¾èŒƒå›´ç‰¹æ•ˆ
 
 
-// Ä¿Ç°ÌìÆøÏµÍ³ÓĞ2¸ö×÷ÓÃ
-// Ò». Îªº½º£Ê¿µÄ±´¿Ç³äÖµ
-// ¶ş. Ó°ÏìÍæ¼ÒµÄÒÆ¶¯ËÙ¶È, ÉúÃüÖµµÈ, ·á¸»ÓÎÏ·±íÏÖ
+// ç›®å‰å¤©æ°”ç³»ç»Ÿæœ‰2ä¸ªä½œç”¨
+// ä¸€. ä¸ºèˆªæµ·å£«çš„è´å£³å……å€¼
+// äºŒ. å½±å“ç©å®¶çš„ç§»åŠ¨é€Ÿåº¦, ç”Ÿå‘½å€¼ç­‰, ä¸°å¯Œæ¸¸æˆè¡¨ç°
 
 #pragma once
 
@@ -14,22 +14,22 @@ class CWeather
 {
 public:
 
-	CWeather(BYTE btType) // ¹¹ÔìÊ±±ØĞë´«ÈëÌìÆøÀàĞÍ
+	CWeather(BYTE btType) // æ„é€ æ—¶å¿…é¡»ä¼ å…¥å¤©æ°”ç±»å‹
 	:_dwLastLocationTick(0), _dwFrequence(2)
 	{
 		_btType = btType;
-		_dwStateLastTime = 20; // Ä¬ÈÏÎª20Ãë
+		_dwStateLastTime = 20; // é»˜è®¤ä¸º20ç§’
 	}
 	
-	void	SetRange(int sx, int sy, int w, int h);	// Ö¸¶¨Ò»¸ö´óµÄ×ø±ê·¶Î§
-	void	RandLocation(SubMap *pMap);				// ÔÚÖ¸¶¨µÄ·¶Î§ÄÚ, Ëæ»úÑ¡ÔñµØµã³öÏÖ
-	void	SetFrequence(DWORD dwFre);				// Éè¶¨³öÏÖÆµÂÊ, µ¥Î»ÊÇÃë
-	void	SetStateLastTime(DWORD dwTime);			// ÉèÖÃ×´Ì¬³ÖĞøÊ±¼ä, µ¥Î»ÊÇÃë
+	void	SetRange(int sx, int sy, int w, int h);	// æŒ‡å®šä¸€ä¸ªå¤§çš„åæ ‡èŒƒå›´
+	void	RandLocation(SubMap *pMap);				// åœ¨æŒ‡å®šçš„èŒƒå›´å†…, éšæœºé€‰æ‹©åœ°ç‚¹å‡ºç°
+	void	SetFrequence(DWORD dwFre);				// è®¾å®šå‡ºç°é¢‘ç‡, å•ä½æ˜¯ç§’
+	void	SetStateLastTime(DWORD dwTime);			// è®¾ç½®çŠ¶æ€æŒç»­æ—¶é—´, å•ä½æ˜¯ç§’
 
 protected:
 
-	BYTE	_btType;  // ÌìÆøÀàĞÍ 0·ç  1À×  2Îí
-	int		_sx;	  // ¼ÇÂ¼×ø±ê·¶Î§
+	BYTE	_btType;  // å¤©æ°”ç±»å‹ 0é£  1é›·  2é›¾
+	int		_sx;	  // è®°å½•åæ ‡èŒƒå›´
 	int		_sy;
 	int		_w;
 	int		_h;
@@ -57,7 +57,7 @@ inline void CWeather::SetStateLastTime(DWORD dwTime)
 }
 
 
-// ÌìÆø¹ÜÀíÀà, ¿ÉÒÔÌí¼Ó, É¾³ı, ±éÀúËùÓĞÌìÆø£¬ĞèÎªÃ¿¸öµØÍ¼¶ÔÏóÊµÀı»¯Ò»¸ö
+// å¤©æ°”ç®¡ç†ç±», å¯ä»¥æ·»åŠ , åˆ é™¤, éå†æ‰€æœ‰å¤©æ°”ï¼Œéœ€ä¸ºæ¯ä¸ªåœ°å›¾å¯¹è±¡å®ä¾‹åŒ–ä¸€ä¸ª
 class CWeatherMgr 
 {
 public:
@@ -65,7 +65,7 @@ public:
 	~CWeatherMgr();
 	void	AddWeatherRange(CWeather *pWeather);
 	void	RemoveWeather(CWeather *pWeather);
-	void	Run(SubMap *pMap);	// ±»¶¨Ê±Æ÷µ÷ÓÃ, ÄÚ²¿»áµ÷ÓÃÃ¿Ò»¸öWeatherµÄRandLocation
+	void	Run(SubMap *pMap);	// è¢«å®šæ—¶å™¨è°ƒç”¨, å†…éƒ¨ä¼šè°ƒç”¨æ¯ä¸€ä¸ªWeatherçš„RandLocation
 	void	ClearAll();
 
 protected:

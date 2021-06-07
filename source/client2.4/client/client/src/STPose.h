@@ -1,7 +1,7 @@
 #pragma once
 #include "STStateObj.h"
 
-// ±íÇé
+// è¡¨æƒ…
 class CPoseState : public CActionState
 {
 public:
@@ -29,7 +29,7 @@ protected:
 
 };
 
-// ×øÏÂ×´Ì¬
+// åä¸‹çŠ¶æ€
 class CInsertState : public CActionState
 {
 public:
@@ -61,7 +61,7 @@ protected:
 
 };
 
-// ¸ü»»×°±¸
+// æ›´æ¢è£…å¤‡
 struct stNetUseItem;
 struct stNetItemUnfix;
 

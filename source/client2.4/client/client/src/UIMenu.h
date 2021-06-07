@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:²Ëµ¥
-// ×÷Õß:lh 2005-03-25
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// åç§°:èœå•
+// ä½œè€…:lh 2005-03-25
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #pragma once
 #include "uiguidata.h"
@@ -12,7 +12,7 @@ namespace GUI
 
 class CMenu;
 
-// ²Ëµ¥Ìõ
+// èœå•æ¡
 class CMenuItem : public CItemObj
 {
 public:
@@ -54,14 +54,14 @@ protected:
 
 };
 
-// ²Ëµ¥Àà
+// èœå•ç±»
 class CMenu : public CGuiData
 {
 public:
-	enum eShowStyle		// ²Ëµ¥ÏûÊ§·½Ê½
+	enum eShowStyle		// èœå•æ¶ˆå¤±æ–¹å¼
 	{
-		enumMouseFollow,	// Àë¿ªÊ±ÏûÊ§
-		enumMouseClick,		// µã»÷Ê±ÏûÊ§
+		enumMouseFollow,	// ç¦»å¼€æ—¶æ¶ˆå¤±
+		enumMouseClick,		// ç‚¹å‡»æ—¶æ¶ˆå¤±
 	};
 
 	CMenu( CForm* pForm );
@@ -99,20 +99,20 @@ public:
 	CFramePic*			GetBkgImage()				{ return _pImage;		}
 	CMenuItem*			GetSelectMenu()				{ return _pSelectMenu;	}
 
-public:	// ÊÂ¼ş
-	GuiEvent			evtSelectChange;			// Ñ¡Ôñ·¢ÉúÁË±ä»¯
-	GuiMouseEvent		evtListMouseDown;			// Êó±êÔÚÎÄ×ÖÇø°´ÏÂ
+public:	// äº‹ä»¶
+	GuiEvent			evtSelectChange;			// é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
+	GuiMouseEvent		evtListMouseDown;			// é¼ æ ‡åœ¨æ–‡å­—åŒºæŒ‰ä¸‹
 
 protected:
-	CFramePic*			_pImage;		// ±³¾°
-	CGuiPic*			_pSelect;		// Ñ¡ÔñÌõ
+	CFramePic*			_pImage;		// èƒŒæ™¯
+	CGuiPic*			_pSelect;		// é€‰æ‹©æ¡
 
 	typedef vector<CMenuItem*>	menus;
-	menus				_menus;			// ËùÓĞ²Ëµ¥Ïî
+	menus				_menus;			// æ‰€æœ‰èœå•é¡¹
 
-	int					_nRowSpace;		// ĞĞ¾à
+	int					_nRowSpace;		// è¡Œè·
 
-	int					_nLeftMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+	int					_nLeftMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 	int					_nTopMargin;
 	int					_nRightMargin;
 	int					_nBottomMargin;
@@ -123,18 +123,18 @@ private:
 	void				_MenusClear();
 
 private:
-	CMenuItem*			_pSelectMenu;	// µ±Ç°Ñ¡ÔñµÄ²Ëµ¥Ìõ
+	CMenuItem*			_pSelectMenu;	// å½“å‰é€‰æ‹©çš„èœå•æ¡
 
 	int		_nStartX, _nStartX2;
 	int		_nStartY, _nStartY2;
 
-	// ÓÃÓÚÄÚ´æ¹ÜÀí
+	// ç”¨äºå†…å­˜ç®¡ç†
 	typedef vector<CMenu*>	allmenus;
 	static allmenus		_allmenus;
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CMenu::SetMargin( int left, int top, int right, int bottom ) 
 { 
 	_nLeftMargin = left;

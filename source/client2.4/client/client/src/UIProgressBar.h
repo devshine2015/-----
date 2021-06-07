@@ -1,9 +1,9 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:½ø¶ÈÌõ
-// ×÷Õß:lh 2004-07-19
-// ÓÃÍ¾:ºáÊúÁ½ÖÖ½ø¶ÈÌõ
-//	 ×¢:²»Ö§³Ö¶àÏß³Ì
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:è¿›åº¦æ¡
+// ä½œè€…:lh 2004-07-19
+// ç”¨é€”:æ¨ªç«–ä¸¤ç§è¿›åº¦æ¡
+//	 æ³¨:ä¸æ”¯æŒå¤šçº¿ç¨‹
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -17,17 +17,17 @@ class CProgressBar : public CCompent
 public:
 	enum eStyle
 	{
-		btHorizontal=0, // Ë®Æ½µÄ,´Ó×ó×ÔÓÒµÄ
-		btVertical,     // ´¹Ö±µÄ£¬´ÓÏÂÖ±ÉÏµÄ
+		btHorizontal=0, // æ°´å¹³çš„,ä»å·¦è‡ªå³çš„
+		btVertical,     // å‚ç›´çš„ï¼Œä»ä¸‹ç›´ä¸Šçš„
 		btEnd,
 	};
-	enum ePic           // Á½ÕÅ±³¾°Í¼
+	enum ePic           // ä¸¤å¼ èƒŒæ™¯å›¾
 	{
 		pcBackground=0,
 		pcProgressbar,
 		pcEnd,
 	};
-    enum eHintStyle     // hintÏÔÊ¾·½Ê½:ÏÔÊ¾Êı×Ö±È,ÏÔÊ¾°Ù·Ö±È
+    enum eHintStyle     // hintæ˜¾ç¤ºæ–¹å¼:æ˜¾ç¤ºæ•°å­—æ¯”,æ˜¾ç¤ºç™¾åˆ†æ¯”
     {
         hsHintNum,
         hsHintPercent,
@@ -49,7 +49,7 @@ public:
 
 	void				Start( DWORD time );
 
-	// ´æ´¢¸ñÊ½£º±³¾°£¬½ø¶ÈÌõ
+	// å­˜å‚¨æ ¼å¼ï¼šèƒŒæ™¯ï¼Œè¿›åº¦æ¡
 	bool				LoadImage( const char* file, int w=32, int h=32, bool isHorizontal=true );
 	virtual void		SetAlpha( BYTE alpha )		{ _pImage->SetAlpha(alpha);		}
 
@@ -60,7 +60,7 @@ public:
 	void                SetFlashNum(int v)          {  _nFlash = v ;                }   
 	void                SetActiveMouse(bool v)      { _bActiveMouse = v ;   }       
 	 
-public:	// ÊÂ¼ş
+public:	// äº‹ä»¶
 	GuiMouseEvent		evtMouseDown;
 	GuiEvent			evtTimeArrive;
 
@@ -85,9 +85,9 @@ private:
 
 	eStyle				_style;
 
-	CGuiPic*			_pImage;					// ±³¾°Í¼+½ø¶ÈÌõ
-	int                 _nFlash;                    //ĞòÁĞèåµÄ¸öÊı
-	bool                _bActiveMouse;                 //ÊÇ·ñÏìÓ¦Êó±ê(Õë¶ÔÒôÆµµ÷½Ú·½Ãæ) 
+	CGuiPic*			_pImage;					// èƒŒæ™¯å›¾+è¿›åº¦æ¡
+	int                 _nFlash;                    //åºåˆ—æ¡¢çš„ä¸ªæ•°
+	bool                _bActiveMouse;                 //æ˜¯å¦å“åº”é¼ æ ‡(é’ˆå¯¹éŸ³é¢‘è°ƒèŠ‚æ–¹é¢) 
     eHintStyle          _eHintStyle;
 
 	int					_nStart;

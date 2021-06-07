@@ -20,7 +20,7 @@ public:
 		int nTexture;
 		bool bAnimation;
 		bool bCameraRotate;
-		//bool bViewFar;        //È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
+		//bool bViewFar;        //å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22
 		bool bGroundMark;
 		bool bDepth32;
 		int  nQuality;
@@ -77,7 +77,7 @@ public:
 	}
 
 	/**
-	* ½«ÏµÍ³ÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
+	* å°†ç³»ç»Ÿé…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
 	* @return: success Return 0.
 	*          video failure Return -1.
 	*          audio failure Return -2.
@@ -87,17 +87,17 @@ public:
     int Apply();
 
     /**
-    * ½«ÏµÍ³µÄÊÓÆµÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
+    * å°†ç³»ç»Ÿçš„è§†é¢‘é…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
     * @return: success Return 0.
     */
     int ApplyVideo();
     /**
-    * ½«ÏµÍ³ÒôÆµÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
+    * å°†ç³»ç»ŸéŸ³é¢‘é…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
     * @return: success Return 0.
     */
     int ApplyAudio();
 	/**
-	* ½«ÏµÍ³ÒôÆµÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
+	* å°†ç³»ç»ŸéŸ³é¢‘é…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
 	* @return: success Return 0.
 	*/
 	int ApplyGameOption();
@@ -137,12 +137,12 @@ class CChaExitOnTime
 public:
 	CChaExitOnTime();
 
-public:	// Íæ¼Ò²Ù×÷
-	void	ChangeCha();	// ¸ü»»½ÇÉ«
-	void	ExitApp();		// ÍË³ö³ÌĞò
-	void	Relogin();		// ÖØĞÂµÇÂ¼
+public:	// ç©å®¶æ“ä½œ
+	void	ChangeCha();	// æ›´æ¢è§’è‰²
+	void	ExitApp();		// é€€å‡ºç¨‹åº
+	void	Relogin();		// é‡æ–°ç™»å½•
 
-	void	Cancel();		// È¡ÏûÒÔÉÏ²Ù×÷
+	void	Cancel();		// å–æ¶ˆä»¥ä¸Šæ“ä½œ
 
 	void	FrameMove(DWORD dwTime);
 
@@ -150,12 +150,12 @@ public:	// Íæ¼Ò²Ù×÷
 
 	void	Reset();
 
-public:	// ÍøÂç·µ»Ø
-	void	NetStartExit( DWORD dwExitTime );	// ¿ªÊ¼¼ÆÊ±
-	void	NetCancelExit();					// ÒÑ±»È¡Ïû¼ÆÊ±
+public:	// ç½‘ç»œè¿”å›
+	void	NetStartExit( DWORD dwExitTime );	// å¼€å§‹è®¡æ—¶
+	void	NetCancelExit();					// å·²è¢«å–æ¶ˆè®¡æ—¶
 
 private:
-	bool	_IsTime();				// ÕıÔÚ¼ÆÊ±ÖĞ,Íæ¼Ò²»ÄÜ²Ù×÷
+	bool	_IsTime();				// æ­£åœ¨è®¡æ—¶ä¸­,ç©å®¶ä¸èƒ½æ“ä½œ
 
 private:
 	enum eOptionType
@@ -175,7 +175,7 @@ private:
 
 extern CChaExitOnTime g_ChaExitOnTime;
 
-// ¸Ä±äÍ¼Ïó,ÉùÒô,ÍË³öÏµÍ³µÈ
+// æ”¹å˜å›¾è±¡,å£°éŸ³,é€€å‡ºç³»ç»Ÿç­‰
 class CSystemMgr : public CUIInterface
 {
 public:
@@ -194,7 +194,7 @@ protected:
 
 private:
 	static void		_evtVideoChangeChange(CGuiData *pSender);
-	static void		_evtMainMusicMouseDown(CGuiData *pSender,int x,int y ,DWORD key);		//´¦ÀíÒôĞ§
+	static void		_evtMainMusicMouseDown(CGuiData *pSender,int x,int y ,DWORD key);		//å¤„ç†éŸ³æ•ˆ
 
 	static void		_evtVideoFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 	static void		_evtSystemFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
@@ -217,7 +217,7 @@ private:
 	CCheckGroup      *cbxTexture;
 	CCheckGroup      *cbxMovie;
 	CCheckGroup      *cbxCamera;
-	//CCheckGroup      *cbxView;        //È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
+	//CCheckGroup      *cbxView;        //å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22
 	CCheckGroup      *cbxTrail;
 	CCheckGroup      *cbxColor;
 	CCheckGroup      *cbxSize;

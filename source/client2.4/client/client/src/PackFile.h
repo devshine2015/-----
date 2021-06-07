@@ -1,7 +1,7 @@
 #pragma once
 /************************************************************************/
-/*´ò°üÎÄ¼şÀà:´ò°üÒ»¸öµ±Ç°³ÌĞòÏÂµÄÄ³¸öÄ¿Â¼¼°×ÓÄ¿Â¼¼°ÎÄ¼ş¡£
-/*			ÒÔ¼°´Ó´ò°üÎÄ¼şÖĞ¶ÁÈ¡ÎÄ¼şÊı¾İ¡£
+/*æ‰“åŒ…æ–‡ä»¶ç±»:æ‰“åŒ…ä¸€ä¸ªå½“å‰ç¨‹åºä¸‹çš„æŸä¸ªç›®å½•åŠå­ç›®å½•åŠæ–‡ä»¶ã€‚
+/*			ä»¥åŠä»æ‰“åŒ…æ–‡ä»¶ä¸­è¯»å–æ–‡ä»¶æ•°æ®ã€‚
 /*create by lemon@2005.6.3
 /************************************************************************/
 class CPackFile
@@ -12,29 +12,29 @@ public:
 	~CPackFile();
 	
 
-	struct FileData  // ÎÄ¼şÊı¾İ
+	struct FileData  // æ–‡ä»¶æ•°æ®
 	{
-		s_string strFileName; // ÎÄ¼şÃû
+		s_string strFileName; // æ–‡ä»¶å
 		DWORD offset;   //
-		DWORD length;  // ÎÄ¼ş³¤¶È
+		DWORD length;  // æ–‡ä»¶é•¿åº¦
 	};
 
-	struct DirectoryData // ÎÄ¼şÂ·¾¶Êı¾İ
+	struct DirectoryData // æ–‡ä»¶è·¯å¾„æ•°æ®
 	{
-		s_string  strDirName; // ÎÄ¼şÂ·¾¶
-		DWORD dwDirNum;  // ÎÄ¼şÄ¿Â¼Êı
-		DWORD dwFileNum; // ÎÄ¼şÊı
-		std::vector<DirectoryData>	vecSubDir; // º¯ÊıDirectoryData()×Ô¶¯Ó¦ÓÃÔÚvecSubDirÉÏ
-		std::vector<FileData>	vecFile; // º¯ÊıFileData()×Ô¶¯Ó¦ÓÃÔÚvecFileÉÏ
+		s_string  strDirName; // æ–‡ä»¶è·¯å¾„
+		DWORD dwDirNum;  // æ–‡ä»¶ç›®å½•æ•°
+		DWORD dwFileNum; // æ–‡ä»¶æ•°
+		std::vector<DirectoryData>	vecSubDir; // å‡½æ•°DirectoryData()è‡ªåŠ¨åº”ç”¨åœ¨vecSubDirä¸Š
+		std::vector<FileData>	vecFile; // å‡½æ•°FileData()è‡ªåŠ¨åº”ç”¨åœ¨vecFileä¸Š
 	};
 
-	bool	SaveToPack(char* pszDirName, char* pszOutFile, char* pszFilter = "*.bmp"); // ½«ÎÄ¼ş±£´æ´ò°ü
+	bool	SaveToPack(char* pszDirName, char* pszOutFile, char* pszFilter = "*.bmp"); // å°†æ–‡ä»¶ä¿å­˜æ‰“åŒ…
 
-	bool	LoadPackFile(char* pszFile); // ¶Á´ò°üÎÄ¼şÊı¾İ
+	bool	LoadPackFile(char* pszFile); // è¯»æ‰“åŒ…æ–‡ä»¶æ•°æ®
 
 	void	Clear(); 
 
-	DirectoryData*	GetDir(char* pszDirName) // »ñÈ¡´ò°üÎÄ¼şµÄÄ¿Â¼
+	DirectoryData*	GetDir(char* pszDirName) // è·å–æ‰“åŒ…æ–‡ä»¶çš„ç›®å½•
 	{
 		if(!_pPackFile)  
 			return NULL;
@@ -43,18 +43,18 @@ public:
 		return FindDir(pszDirName, &_RootDir);
 	}
 protected:
-	bool	PackDirectory(FILE* ptf,DirectoryData* pParentDir, char* pszDir); // ´ò°üºóÎÄ¼şËùÔÚÄ¿Â¼
-	long	AddFileToTempPack(FILE* pf, char* pszFileName); // ¼ÓÈëÎÄ¼şµ½´ò°üÎÄ¼şÖĞ
-	long	GetFileDataSize(FileData* pFileData); // »ñÈ¡ÎÄ¼şÊı¾İ´óĞ¡
-	void	SaveFileData(FILE* pf, FileData* pFileData, long offset); //±£´æÎÄ¼şÊı¾İ
-	long	GetDirectorySize(DirectoryData* pDir); // »ñµÃÎÄ¼şÄ¿Â¼Êı¾İ´óĞ¡
-	void	SaveDirData(FILE* pf, DirectoryData* pDir, long offset); // ±£´æÄ¿Â¼Êı¾İ
+	bool	PackDirectory(FILE* ptf,DirectoryData* pParentDir, char* pszDir); // æ‰“åŒ…åæ–‡ä»¶æ‰€åœ¨ç›®å½•
+	long	AddFileToTempPack(FILE* pf, char* pszFileName); // åŠ å…¥æ–‡ä»¶åˆ°æ‰“åŒ…æ–‡ä»¶ä¸­
+	long	GetFileDataSize(FileData* pFileData); // è·å–æ–‡ä»¶æ•°æ®å¤§å°
+	void	SaveFileData(FILE* pf, FileData* pFileData, long offset); //ä¿å­˜æ–‡ä»¶æ•°æ®
+	long	GetDirectorySize(DirectoryData* pDir); // è·å¾—æ–‡ä»¶ç›®å½•æ•°æ®å¤§å°
+	void	SaveDirData(FILE* pf, DirectoryData* pDir, long offset); // ä¿å­˜ç›®å½•æ•°æ®
 
 
-	bool	LoadFileData(FileData* pFileData); // ¶ÁÎÄ¼şÊı¾İ				
-	bool	LoadDirData(DirectoryData* pDir);  // ¶ÁÄ¿Â¼Êı¾İ	
+	bool	LoadFileData(FileData* pFileData); // è¯»æ–‡ä»¶æ•°æ®				
+	bool	LoadDirData(DirectoryData* pDir);  // è¯»ç›®å½•æ•°æ®	
 
-	DirectoryData* FindDir(char* pszDirName, DirectoryData* pDir)  // ²éÕÒÎÄ¼ş´æ·ÅÄ¿Â¼
+	DirectoryData* FindDir(char* pszDirName, DirectoryData* pDir)  // æŸ¥æ‰¾æ–‡ä»¶å­˜æ”¾ç›®å½•
 	{
 		if(pDir->strDirName == pszDirName)
 			return pDir;
@@ -68,18 +68,18 @@ protected:
 		return NULL;
 	}
 public:
-	//µ±Ç°µÄpackÎÄ¼şÃû
+	//å½“å‰çš„packæ–‡ä»¶å
 	s_string strName;
 	s_string strFilter;
 
 protected:
 
-	FILE*			_pPackFile; // Òª´ò°üµÄÎÄ¼ş
-	DirectoryData	_RootDir; // Òªµ½±¨µÄÎÄ¼ş¸ùÄ¿Â¼
+	FILE*			_pPackFile; // è¦æ‰“åŒ…çš„æ–‡ä»¶
+	DirectoryData	_RootDir; // è¦åˆ°æŠ¥çš„æ–‡ä»¶æ ¹ç›®å½•
 }; 
 
 
-class CMiniPack : public CPackFile // ËöËé´ò°ü
+class CMiniPack : public CPackFile // çç¢æ‰“åŒ…
 {
 public:
 	CMiniPack();

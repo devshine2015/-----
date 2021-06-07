@@ -29,13 +29,13 @@ OuterServer::~OuterServer()
 	ShutDown(12*1000);
 T_E}
 
-bool	OuterServer::OnConnect(DataSocket *datasock)					//·µ»ØÖµ:true-ÔÊÐíÁ¬½Ó,false-²»ÔÊÐíÁ¬½Ó
+bool	OuterServer::OnConnect(DataSocket *datasock)					//è¿”å›žå€¼:true-å…è®¸è¿žæŽ¥,false-ä¸å…è®¸è¿žæŽ¥
 {T_B
 	datasock->SetRecvBuf(32*1024); 
 	datasock->SetSendBuf(32*1024);
 	LG(g_szConnectLog, "GateServer Cconnected! IP = [%s] port = %d\n",  datasock->GetPeerIP() , datasock->GetPeerPort());
 
-    // Í¨ÖªÓ¦ÓÃ²ã£¬Á¬ÉÏÒ»¸ö GateServer
+    // é€šçŸ¥åº”ç”¨å±‚ï¼Œè¿žä¸Šä¸€ä¸ª GateServer
     WPacket wpkt = g_gmsvr->GetWPacket();
     wpkt.WriteCmd(CMD_MM_GATE_CONNECT);
     wpkt.WriteChar(0);
@@ -44,7 +44,7 @@ bool	OuterServer::OnConnect(DataSocket *datasock)					//·µ»ØÖµ:true-ÔÊÐíÁ¬½Ó,fal
 	return true;
 T_E}
 
-void	OuterServer::OnDisconnect(DataSocket *datasock,int reason)		//reasonÖµ:0-±¾µØ³ÌÐòÕý³£ÍË³ö£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-1-Socket´íÎó;-5-°ü³¤¶È³¬¹ýÏÞÖÆ¡£
+void	OuterServer::OnDisconnect(DataSocket *datasock,int reason)		//reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-1-Socketé”™è¯¯;-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶ã€‚
 {T_B
 	LG(g_szConnectLog, "GateServer Disconnect! IP = [%s] port = %d, reason = [%d]\n",  datasock->GetPeerIP() , datasock->GetPeerPort(), reason);
 
@@ -53,13 +53,13 @@ void	OuterServer::OnDisconnect(DataSocket *datasock,int reason)		//reasonÖµ:0-±¾
 
 	if (gt->IsValid())
 	{
-		// Í¨ÖªÂß¼­²ãÓë¸ÃGateµÄÁ¬½Ó¶Ï¿ª
+		// é€šçŸ¥é€»è¾‘å±‚ä¸Žè¯¥Gateçš„è¿žæŽ¥æ–­å¼€
 		WPacket WtPk=g_gmsvr->GetWPacket();
 		WtPk.WriteCmd(CMD_MM_GATE_RELEASE);
 		WtPk.WriteChar(0);
 		AddPK(datasock, WtPk);
 
-        // ÇåÀíGateServer
+        // æ¸…ç†GateServer
         gt->Invalid();      
     }
 T_E}
@@ -115,7 +115,7 @@ long ToGateServer::Process()
 	DWORD	dwConnectTick = 0;
 	
 	dwTick = dwCurTick = GetTickCount();
-	dwTick -= dwConnectTick; // ±£Ö¤Ïß³ÌÔËÐÐºóÁ¢¼´Ö´ÐÐÁ¬½ÓGateServerµÄ²Ù×÷
+	dwTick -= dwConnectTick; // ä¿è¯çº¿ç¨‹è¿è¡ŒåŽç«‹å³æ‰§è¡Œè¿žæŽ¥GateServerçš„æ“ä½œ
 
 	while (!GetExitFlag())
     {
@@ -130,7 +130,7 @@ long ToGateServer::Process()
 		
 		dwLastRunTick = dwCurTick;
 
-		// ¶ÔÎ´Á¬½ÓµÄ GateServer ½øÐÐÁ¬½Ó
+		// å¯¹æœªè¿žæŽ¥çš„ GateServer è¿›è¡Œè¿žæŽ¥
 		if (dwCurTick - dwTick >= dwConnectTick)
 	    {
 			dwTick = dwCurTick;

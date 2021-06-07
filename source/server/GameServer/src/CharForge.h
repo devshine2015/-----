@@ -23,15 +23,15 @@ namespace mission
 
 		void	Clear();
 
-		// ×°ÔØ¾«Á·Êı¾İĞÅÏ¢
+		// è£…è½½ç²¾ç»ƒæ•°æ®ä¿¡æ¯
 		BOOL	LoadForgeData( char szName[] );
 		
-		// ¾«Á·ÎïÆ·
+		// ç²¾ç»ƒç‰©å“
 		void	ForgeItem( CCharacter& character, BYTE byIndex );
 
 	private:
 
-		// ¾«Á·Êı¾İ¼¯
+		// ç²¾ç»ƒæ•°æ®é›†
 		CForgeRecordSet* m_pRecordSet;
 	};
 

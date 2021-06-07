@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¹Ì¶¨µÄÍ¼ÏóÊ½ÁĞ±í
-// ×÷Õß:lh 2004-10-09
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:å›ºå®šçš„å›¾è±¡å¼åˆ—è¡¨
+// ä½œè€…:lh 2004-10-09
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -10,7 +10,7 @@
 namespace GUI
 {
 
-// ¹Ì¶¨´óĞ¡µÄList,Êµ¼ÊÉÏ½öÊÇÒ»¸ö±³¾°+Ñ¡Ôñ¿ò,Ñ¡ÔñÊ±ÒÆ¶¯Ñ¡Ôñ¿òÉÏÏÂÎ»ÖÃ
+// å›ºå®šå¤§å°çš„List,å®é™…ä¸Šä»…æ˜¯ä¸€ä¸ªèƒŒæ™¯+é€‰æ‹©æ¡†,é€‰æ‹©æ—¶ç§»åŠ¨é€‰æ‹©æ¡†ä¸Šä¸‹ä½ç½®
 class CFixList : public CCompent
 {
 public:
@@ -38,36 +38,36 @@ public:
 	void				SetRowHeight( int v )		{ if( v>0 ) _nRowHeight = v;	}
 	void				SetRowSpace( int v )		{ if( v>=0 ) _nRowSpace = v;	}
 
-public:	// ÊÂ¼ş
-	GuiEvent			evtSelectChange;				// Ñ¡Ôñ·¢ÉúÁË±ä»¯
-	GuiMouseEvent		evtListMouseDown;			// Êó±êÔÚÁĞ±íµÄÎÄ×ÖÇø°´ÏÂ
+public:	// äº‹ä»¶
+	GuiEvent			evtSelectChange;				// é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
+	GuiMouseEvent		evtListMouseDown;			// é¼ æ ‡åœ¨åˆ—è¡¨çš„æ–‡å­—åŒºæŒ‰ä¸‹
 
 private:
 	void				_SetSelf( const CFixList& rhs );
 	void				_RefreshSelY();
 
 protected:
-	int					_nLeftMargin;	// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+	int					_nLeftMargin;	// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 	int					_nTopMargin;
 	int					_nRightMargin;
 	int					_nBottomMargin;
 
-	int					_nRowHeight;	// ĞĞ¸ß
-	int					_nRowSpace;		// ĞĞ¾à
+	int					_nRowHeight;	// è¡Œé«˜
+	int					_nRowSpace;		// è¡Œè·
 
 	typedef vector<string> vstring;
 	vstring				_vstString;
 
-	CGuiPic*			_pImage;		// ±³¾°Í¼
-	CGuiPic*			_pSelect;		// Ñ¡Ôñ¿ò
+	CGuiPic*			_pImage;		// èƒŒæ™¯å›¾
+	CGuiPic*			_pSelect;		// é€‰æ‹©æ¡†
 	int					_nSelX, _nSelY;
-	CLimit<int>			_lmtSel;		// µ±Ç°Ñ¡Ôñ
+	CLimit<int>			_lmtSel;		// å½“å‰é€‰æ‹©
 
 	int					_nHitX1, _nHitY1, _nHitX2, _nHitY2;
 
 };
 
-// ÓÃÍ¾:ÔÚÃ¿Ò»À¸ÉÏ¿É±êÊ¶ÊÇ·ñÒÑ¾­Ñ¡Ôñ
+// ç”¨é€”:åœ¨æ¯ä¸€æ ä¸Šå¯æ ‡è¯†æ˜¯å¦å·²ç»é€‰æ‹©
 class CCheckFixList : public CFixList
 {
 public:
@@ -98,14 +98,14 @@ protected:
 	typedef vector<bool>	vbool;
 	vbool					_checks;
 
-	int						_nCheckLeftMargin, _nCheckTopMargin;	// ÏÔÊ¾CheckµÄ×ó±ß¾àºÍ¾à¶¥²¿±ß¾à
+	int						_nCheckLeftMargin, _nCheckTopMargin;	// æ˜¾ç¤ºCheckçš„å·¦è¾¹è·å’Œè·é¡¶éƒ¨è¾¹è·
 
-	CGuiPic*				_pImgCheck;			// Ñ¡Ôñ
-	CGuiPic*				_pImgUnCheck;		// Î´Ñ¡Ôñ
+	CGuiPic*				_pImgCheck;			// é€‰æ‹©
+	CGuiPic*				_pImgUnCheck;		// æœªé€‰æ‹©
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline 	void CFixList::SetMargin( int left, int top, int right, int bottom ) 
 { 
 	_nLeftMargin = left;

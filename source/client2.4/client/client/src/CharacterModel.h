@@ -1,46 +1,46 @@
 #pragma once
 
-// CharacterModel ÎªÖ±½ÓÓëLECharacter´ò½»µÀµÄÀà
-// ËüµÄÖ÷Òª×÷ÓÃ°üº¬Ä£ĞÍµÄ´´½¨, ÓëÍâĞÎÓĞ¹ØµÄËùÓĞ²Ù×÷½Ó¿Ú
-// ÒÔ¼°Ïà¹ØÊı¾İµÄ±£´æ, Í¬Ê±Ò²ÓĞ¶¯×÷µÄ²¥·ÅºÍ¹ÜÀí
-// Character½«¼Ì³ĞCharacterModel
-// Character½«±£³Ö´¿ÓÎÏ·Âß¼­Êı¾İÏà¹Ø
-// Æä¼Ì³Ğ¹ØÏµÎª: 
+// CharacterModel ä¸ºç›´æ¥ä¸LECharacteræ‰“äº¤é“çš„ç±»
+// å®ƒçš„ä¸»è¦ä½œç”¨åŒ…å«æ¨¡å‹çš„åˆ›å»º, ä¸å¤–å½¢æœ‰å…³çš„æ‰€æœ‰æ“ä½œæ¥å£
+// ä»¥åŠç›¸å…³æ•°æ®çš„ä¿å­˜, åŒæ—¶ä¹Ÿæœ‰åŠ¨ä½œçš„æ’­æ”¾å’Œç®¡ç†
+// Characterå°†ç»§æ‰¿CharacterModel
+// Characterå°†ä¿æŒçº¯æ¸¸æˆé€»è¾‘æ•°æ®ç›¸å…³
+// å…¶ç»§æ‰¿å…³ç³»ä¸º: 
 
 // CCharacter: public CCharacterModel, public CActor
-// ´ËÀàµÄÖ÷Òª¸ºÔğÈËÎªJack Li
+// æ­¤ç±»çš„ä¸»è¦è´Ÿè´£äººä¸ºJack Li
 
 
 
-// Ëü¶ÔÍâÌá¹©µÄ½Ó¿Ú°üÀ¨
+// å®ƒå¯¹å¤–æä¾›çš„æ¥å£åŒ…æ‹¬
 
-// Load(ÀàĞÍID)
+// Load(ç±»å‹ID)
 
 // ChangePart(PartInfo)
 
 // PlayPose(PoseID, LoopFlag)
 
-// AttachItem(µÀ¾ßID, ²¿Î»±ê¼Ç)
+// AttachItem(é“å…·ID, éƒ¨ä½æ ‡è®°)
 
-// AttachEffect(EffectID, ²¿Î»±ê¼Ç)
+// AttachEffect(EffectID, éƒ¨ä½æ ‡è®°)
 
 /*
-	dummy_0		½Å»ù×ù
-	dummy_1		Í·¶¥
-	dummy_2		ĞØ²¿
-	dummy_3		µ¤Ìï
-	dummy_4		×ó¼ç
-	dummy_5		×ó±Û
-	dummy_6		×óÊÖ
-	dummy_7		ÓÒ¼ç
-	dummy_8		ÓÒ±Û
-	dummy_9		ÓÒÊÖ
-	dummy_10	×óÍÈ
-	dummy_11	×óÏ¥
-	dummy_12	×ó½Å
-	dummy_13	ÓÒÍÈ
-	dummy_14	ÓÒÏ¥
-	dummy_15	ÓÒ½Å
+	dummy_0		è„šåŸºåº§
+	dummy_1		å¤´é¡¶
+	dummy_2		èƒ¸éƒ¨
+	dummy_3		ä¸¹ç”°
+	dummy_4		å·¦è‚©
+	dummy_5		å·¦è‡‚
+	dummy_6		å·¦æ‰‹
+	dummy_7		å³è‚©
+	dummy_8		å³è‡‚
+	dummy_9		å³æ‰‹
+	dummy_10	å·¦è…¿
+	dummy_11	å·¦è†
+	dummy_12	å·¦è„š
+	dummy_13	å³è…¿
+	dummy_14	å³è†
+	dummy_15	å³è„š
 */
 
 enum
@@ -156,11 +156,11 @@ protected:
     int _UIPitch;
     BYTE  _UIColor[3]; // r, g, b
     
-    DWORD _TypeID;  // ÈË£¬´¬£¬ÅÚËşÀàĞÍÅĞ¶Ï
+    DWORD _TypeID;  // äººï¼Œèˆ¹ï¼Œç‚®å¡”ç±»å‹åˆ¤æ–­
     DWORD _BoneID;
     DWORD _PartID[8];
     const char* _PartFile[8];
-    DWORD _ShipType; //¹¥»÷´¬£¬ÔËÊä´¬ÀàĞÍÅĞ¶Ï
+    DWORD _ShipType; //æ”»å‡»èˆ¹ï¼Œè¿è¾“èˆ¹ç±»å‹åˆ¤æ–­
     DWORD _SmallPoseID;
 	DWORD _PoseType;
     DWORD _PoseTabID;
@@ -208,18 +208,18 @@ public:
     virtual int LoadTower( DWORD type_id, DWORD* part_buf );
 
     int LoadPose( int cha_type );
-	void PlayPose( DWORD pose, DWORD type = PLAY_ONCE, int time=-1, int fps = 32, DWORD blend_flag = 1, DWORD blend_src_num = 5  );   // LoopSpeed,¶àÉÙºÁÃëPoseÑ­»·Ò»´Î
+	void PlayPose( DWORD pose, DWORD type = PLAY_ONCE, int time=-1, int fps = 32, DWORD blend_flag = 1, DWORD blend_src_num = 5  );   // LoopSpeed,å¤šå°‘æ¯«ç§’Poseå¾ªç¯ä¸€æ¬¡
     void PlayPose( const LEPlayPoseInfo* info );
     void PlayPosePause();
     void PlayPoseContinue();
-    DWORD GetCurPoseID(); // Êµ¼ÊµÄpose £¬ Ğ¡pose
-    DWORD GetCurPoseType(); // poseµÄÀàĞÍ, ²Î¿¼ enum EActionNumber
+    DWORD GetCurPoseID(); // å®é™…çš„pose ï¼Œ å°pose
+    DWORD GetCurPoseType(); // poseçš„ç±»å‹, å‚è€ƒ enum EActionNumber
 
     int IsPosePlaying( DWORD pose );
     int IsCurPosePlaying();
 
-    // link_id:²Î¿¼ÉÏÃæµÄLINK_ID_XXX; obj:µÀ¾ß¶ÔÏó£¬ĞèÒªÏÈÍ¨¹ıScene->AddSceneItem£¬
-    // part_type£ºÈËÎïÎª-1£¬´¬Ö»Îª²¿Î»Ë÷Òı
+    // link_id:å‚è€ƒä¸Šé¢çš„LINK_ID_XXX; obj:é“å…·å¯¹è±¡ï¼Œéœ€è¦å…ˆé€šè¿‡Scene->AddSceneItemï¼Œ
+    // part_typeï¼šäººç‰©ä¸º-1ï¼Œèˆ¹åªä¸ºéƒ¨ä½ç´¢å¼•
     int AttachItem( DWORD link_id, CSceneItem* obj, DWORD part_type, DWORD item_link_id = 0 );
     int AttachItem( DWORD link_id, const ItemLinkInfo* info );
     CSceneItem* DetachItem( CSceneItem* obj );
@@ -253,7 +253,7 @@ public:
     LEIPoseCtrl* GetPoseCtrl();
     LEPoseInfo* GetPoseInfo(DWORD pose_id);
     LEPoseInfo* GetPoseInfoBig(DWORD big_pose_id);
-    float GetPoseVelocity(); // ÊıÖµÔ½´óÔ½¿ì, default: 1.0f
+    float GetPoseVelocity(); // æ•°å€¼è¶Šå¤§è¶Šå¿«, default: 1.0f
     void SetEmiColorFLag(BOOL flag) { _EmiColor = flag; }
     BOOL GetEmiColorFlag() { return _EmiColor; }
 

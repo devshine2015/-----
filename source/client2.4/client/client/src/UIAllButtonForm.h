@@ -27,7 +27,7 @@ namespace GUI
 	private:
 		CForm*			frmAllBtn;
 		CForm*			frmElfCoin;
-		//CTextButton*	btnTxt03;	//	Õâ¸ö°´Å¥ºÍÏÂÃæµÄ²»Ò»Ñù¡£
+		//CTextButton*	btnTxt03;	//	è¿™ä¸ªæŒ‰é’®å’Œä¸‹é¢çš„ä¸ä¸€æ ·ã€‚
 		CTextButton*	btnTxt01;
 		CTextButton*	btnTxt02;
 		CTextButton*	btnTxt03;
@@ -37,9 +37,9 @@ namespace GUI
 
 		CTextButton*	btnHelp;
 
-		// ×°±¸¾«Á¶Lv5¡¢¿á×°ÈÛºÏLv5¡¢×°±¸´òÄ¥Lv5¡¢±¦Ê¯ºÏ³ÉLv5¡¢
-		// ÊôÐÔ×ªÒÆlv4¡¢ËæÉí½»Ò×Lv4¡¢¿á×°Ç¿»¯Lv5¡¢
-		// ÀëÏß¹Ò»úLv1¡¢¾«ÁéÓ²±ÒÌáÁ¶Lv1¡¢×°±¸ÊôÐÔÖØÖÃlv4¡¢¾«Áé½á»élv1¡¢±³ºóÁé²ú³ölv1		
+		// è£…å¤‡ç²¾ç‚¼Lv5ã€é…·è£…ç†”åˆLv5ã€è£…å¤‡æ‰“ç£¨Lv5ã€å®çŸ³åˆæˆLv5ã€
+		// å±žæ€§è½¬ç§»lv4ã€éšèº«äº¤æ˜“Lv4ã€é…·è£…å¼ºåŒ–Lv5ã€
+		// ç¦»çº¿æŒ‚æœºLv1ã€ç²¾çµç¡¬å¸æç‚¼Lv1ã€è£…å¤‡å±žæ€§é‡ç½®lv4ã€ç²¾çµç»“å©šlv1ã€èƒŒåŽçµäº§å‡ºlv1		
 		
 		static const int Max_Button = 12;
 		CTextButton* btnCommand[Max_Button];

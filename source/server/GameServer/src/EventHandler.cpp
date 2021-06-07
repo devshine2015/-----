@@ -7,7 +7,7 @@
 
 
 //-------------------------------------
-// ÊÂ¼ş : ½ÇÉ«×ö±íÇé
+// äº‹ä»¶ : è§’è‰²åšè¡¨æƒ…
 //-------------------------------------
 void CEventHandler::Event_ChaEmotion(CCharacter *pCha, short sEmotionNo)
 {

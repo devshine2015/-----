@@ -8,9 +8,9 @@
 
 #include "stdafx.h"
 
-BOOL Guild::lua_CreateGuild(CCharacter* pCha, char guildtype)//´´½¨¹«»á,1-º£¾ü,2-º£µÁ
+BOOL Guild::lua_CreateGuild(CCharacter* pCha, char guildtype)//åˆ›å»ºå…¬ä¼š,1-æµ·å†›,2-æµ·ç›—
 {
-	if(pCha->GetPlayer()->m_GuildState.IsFalse(emGuildGetName))//ÇëÇóÓÃ»§ÊäÈë¹«»áÃûºÍÃÜÂë
+	if(pCha->GetPlayer()->m_GuildState.IsFalse(emGuildGetName))//è¯·æ±‚ç”¨æˆ·è¾“å…¥å…¬ä¼šåå’Œå¯†ç 
 	{
 		pCha->GetPlayer()->m_GuildState.SetBit(emGuildGetName);
 		pCha->GetPlayer()->m_cGuildType	=guildtype;
@@ -37,7 +37,7 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 
         if(pCha->m_CKitbag.IsPwdLocked())
         {
-            //pCha->SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨,ÎÞ·¨½¨Á¢¹¤»á");
+            //pCha->SystemNotice("é“å…·æ å·²é”å®š,æ— æ³•å»ºç«‹å·¥ä¼š");
 			pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00001));
 			return;
         }
@@ -45,7 +45,7 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 		//add by ALLEN 2007-10-16
 		if(pCha->IsReadBook())
         {
-            //pCha->SystemNotice("¶ÁÊé×´Ì¬,ÎÞ·¨½¨Á¢¹¤»á");
+            //pCha->SystemNotice("è¯»ä¹¦çŠ¶æ€,æ— æ³•å»ºç«‹å·¥ä¼š");
 			pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00002));
 			return;
         }
@@ -53,17 +53,17 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 		short l_len	=short(strlen(guildname));
 		if(l_len <1)
 		{
-			//pCha->SystemNotice("¹«»áÃûÌ«¶Ì");
+			//pCha->SystemNotice("å…¬ä¼šåå¤ªçŸ­");
 			pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00003));
 			return;
 		}else if(l_len >16)
 		{
-			//pCha->SystemNotice("¹«»áÃûÌ«³¤");
+			//pCha->SystemNotice("å…¬ä¼šåå¤ªé•¿");
 			pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00004));
 			return;
 		}else if(strlen(passwd) >16)
 		{
-			//pCha->SystemNotice("¹«»á¿ÚÁîÌ«³¤");
+			//pCha->SystemNotice("å…¬ä¼šå£ä»¤å¤ªé•¿");
 			pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00005));
 			return;
 		}
@@ -75,7 +75,7 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 	}
 	if (g_CParser.DoString("AskGuildItem", enumSCRIPT_RETURN_NUMBER, 1, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCha,enumSCRIPT_PARAM_NUMBER, 1, pCha->GetPlayer()->m_cGuildType, DOSTRING_PARAM_END))
 	{
-		if(!g_CParser.GetReturnNumber(0))	//Ìõ¼þ²»Âú×ã
+		if(!g_CParser.GetReturnNumber(0))	//æ¡ä»¶ä¸æ»¡è¶³
 			return;
 	}
 	else
@@ -88,27 +88,27 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 		return;
 	}
 
-	//µ÷ÓÃÍ¬²½¹«»áÃû×Öº¯Êý
-	pCha->SetGuildName( l_guildname );//ÉèÖÃ¹«»áÃû×Ö
-	pCha->SetGuildID( l_guildid	);		//ÉèÖÃ¹«»áID
+	//è°ƒç”¨åŒæ­¥å…¬ä¼šåå­—å‡½æ•°
+	pCha->SetGuildName( l_guildname );//è®¾ç½®å…¬ä¼šåå­—
+	pCha->SetGuildID( l_guildid	);		//è®¾ç½®å…¬ä¼šID
 	pCha->SetGuildType( pCha->GetPlayer()->m_cGuildType );
 	pCha->SetGuildState( 0 );
 	pCha->guildPermission = emGldPermMax;
 	pCha->SyncGuildInfo();
 
 	//pCha->setAttr(ATTR_GUILD,l_guildid);		
-	//pCha->setAttr(ATTR_GUILD_TYPE,pCha->GetPlayer()->m_cGuildType);//ÉèÖÃ¹«»áÀàÐÍ
-	//pCha->setAttr(ATTR_GUILD_STATE,0);			//ÉèÖÃ¹«»á×´Ì¬
+	//pCha->setAttr(ATTR_GUILD_TYPE,pCha->GetPlayer()->m_cGuildType);//è®¾ç½®å…¬ä¼šç±»åž‹
+	//pCha->setAttr(ATTR_GUILD_STATE,0);			//è®¾ç½®å…¬ä¼šçŠ¶æ€
 
-	//µ÷ÓÃlua½Å±¾¿Û³ýÎïÆ·Begin
+	//è°ƒç”¨luaè„šæœ¬æ‰£é™¤ç‰©å“Begin
 	g_CParser.DoString("DeductGuildItem", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCha,enumSCRIPT_PARAM_NUMBER, 1, pCha->GetPlayer()->m_cGuildType, DOSTRING_PARAM_END);
-	//µ÷ÓÃlua½Å±¾¿Û³ýÎïÆ·End
+	//è°ƒç”¨luaè„šæœ¬æ‰£é™¤ç‰©å“End
 	
-	//pCha->SystemNotice("¹«»á´´½¨³É¹¦.");
+	//pCha->SystemNotice("å…¬ä¼šåˆ›å»ºæˆåŠŸ.");
 	pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00006));
 
 	char l_str[512];
-	sprintf(l_str, "Íæ¼Ò[%s]´´½¨ÁË[%s]µÄ¹«»á£¬ËùÓÐº£µÁÃÇÏÖÔÚ¿ÉÒÔ¼ÓÈëÁË£¡", 
+	sprintf(l_str, "çŽ©å®¶[%s]åˆ›å»ºäº†[%s]çš„å…¬ä¼šï¼Œæ‰€æœ‰æµ·ç›—ä»¬çŽ°åœ¨å¯ä»¥åŠ å…¥äº†ï¼", 
 			pCha->GetName(), 
 			//pCha->GetPlayer()->m_cGuildType == 0 ? "Navy Division" : "Pirate Guild",
 			l_guildname);
@@ -116,25 +116,25 @@ void Guild::cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cC
 
 	g_pGameApp->ScrollNotice(l_str, 2);
 }
-BOOL Guild::lua_ListAllGuild(CCharacter* pCha, char guildtype)			//¿ªÊ¼¸ø¿Í»§¶Ë´«µÝÁÐ±í£¬Ïò¿Í»§¶Ë·¢ÉúÒ»¸ö¿ªÊ¼ÁÐ±íÃüÁî£¬ÓÉNPC¶Ô»°´¥·¢Ò»´Î
+BOOL Guild::lua_ListAllGuild(CCharacter* pCha, char guildtype)			//å¼€å§‹ç»™å®¢æˆ·ç«¯ä¼ é€’åˆ—è¡¨ï¼Œå‘å®¢æˆ·ç«¯å‘ç”Ÿä¸€ä¸ªå¼€å§‹åˆ—è¡¨å‘½ä»¤ï¼Œç”±NPCå¯¹è¯è§¦å‘ä¸€æ¬¡
 {
 	cmd_ListAllGuild(pCha,guildtype);
 	return TRUE;
 }
-void Guild::cmd_ListAllGuild(CCharacter* pCha, char guildtype)			//µ÷ÓÃÒ»´Î·µ»Ø20ÐÐ£¬ÓÉ¿Í»§¶ËÃüÁî·Ö´Îµ÷ÓÃ£¬Ö±µ½·µ»ØËùÓÐÐÐ
+void Guild::cmd_ListAllGuild(CCharacter* pCha, char guildtype)			//è°ƒç”¨ä¸€æ¬¡è¿”å›ž20è¡Œï¼Œç”±å®¢æˆ·ç«¯å‘½ä»¤åˆ†æ¬¡è°ƒç”¨ï¼Œç›´åˆ°è¿”å›žæ‰€æœ‰è¡Œ
 {
 	pCha->GetPlayer()->m_cGuildType	=1;
 	game_db.ListAllGuild(pCha,7);
 }
-void Guild::cmd_GuildTryFor(CCharacter* pCha, uLong guildid)			//ÉêÇë¼ÓÈë¹«»á
+void Guild::cmd_GuildTryFor(CCharacter* pCha, uLong guildid)			//ç”³è¯·åŠ å…¥å…¬ä¼š
 {
 	if(!guildid)
 	{
-		//pCha->SystemNotice("¶Ô²»Æð!º£¾ü×Ü²¿²»½ÓÊÕÈÎºÎ»áÔ±.");
+		//pCha->SystemNotice("å¯¹ä¸èµ·!æµ·å†›æ€»éƒ¨ä¸æŽ¥æ”¶ä»»ä½•ä¼šå‘˜.");
 		pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00007));
 	}else if(guildid >199)
 	{
-		//pCha->SystemNotice("ÉêÇëµÄ¹«»á·Ç·¨!");
+		//pCha->SystemNotice("ç”³è¯·çš„å…¬ä¼šéžæ³•!");
 		pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00008));
 	}else
 	{
@@ -145,7 +145,7 @@ void Guild::cmd_GuildTryFor(CCharacter* pCha, uLong guildid)			//ÉêÇë¼ÓÈë¹«»á
 		//}
 		if (g_CParser.DoString("AskJoinGuild", enumSCRIPT_RETURN_NUMBER, 1, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCha,enumSCRIPT_PARAM_NUMBER, 1, l_gldtype, DOSTRING_PARAM_END))
 		{
-			if(!g_CParser.GetReturnNumber(0))	//Ìõ¼þ²»Âú×ã
+			if(!g_CParser.GetReturnNumber(0))	//æ¡ä»¶ä¸æ»¡è¶³
 				return;
 		}
 		else
@@ -203,7 +203,7 @@ void Guild::cmd_GuildChallenge( CCharacter* pCha, BYTE byLevel, DWORD dwMoney )
 {
     if(pCha->m_CKitbag.IsPwdLocked())
     {
-        //pCha->SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨,ÎÞ·¨ÌôÕ½¹¤»á");
+        //pCha->SystemNotice("é“å…·æ å·²é”å®š,æ— æ³•æŒ‘æˆ˜å·¥ä¼š");
 		pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00009));
         return;
     }
@@ -211,7 +211,7 @@ void Guild::cmd_GuildChallenge( CCharacter* pCha, BYTE byLevel, DWORD dwMoney )
 	//add by ALLEN 2007-10-16
 	if(pCha->IsReadBook())
     {
-       // pCha->SystemNotice("¶ÁÊé×´Ì¬,ÎÞ·¨ÌôÕ½¹¤»á");
+       // pCha->SystemNotice("è¯»ä¹¦çŠ¶æ€,æ— æ³•æŒ‘æˆ˜å·¥ä¼š");
 		 pCha->SystemNotice(RES_STRING(GM_GUILD_CPP_00010));
         return;
     }
@@ -226,8 +226,8 @@ void Guild::cmd_PMDisband(CCharacter *pCha)
 {
 	//pCha->m_CChaAttr.ResetChangeFlag();
 
-	//pCha->setAttr(ATTR_GUILD,0);			//ÉèÖÃ¹«»áID
-	//pCha->setAttr(ATTR_GUILD_STATE,0);		//ÉèÖÃ¹«»á×´Ì¬
+	//pCha->setAttr(ATTR_GUILD,0);			//è®¾ç½®å…¬ä¼šID
+	//pCha->setAttr(ATTR_GUILD_STATE,0);		//è®¾ç½®å…¬ä¼šçŠ¶æ€
 
 	//pCha->SynAttr(enumATTRSYN_TRADE);
 

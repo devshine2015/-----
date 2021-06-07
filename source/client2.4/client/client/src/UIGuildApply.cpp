@@ -2,194 +2,159 @@
 //	2005.4.27	Arcol	create this file
 //------------------------------------------------------------------------
 
-#include "stdafx.h"
 #include "uiguildapply.h"
-#include "netguild.h"
-#include "UIFormMgr.h"
-#include "UITextButton.h"
+#include "GuildData.h"
 #include "UIBoxForm.h"
 #include "UIEdit.h"
-#include "GuildData.h"
+#include "UIFormMgr.h"
+#include "UITextButton.h"
 #include "commfunc.h"
+#include "netguild.h"
+#include "stdafx.h"
 
+CForm *CUIGuildApply::m_pGuildNameInputForm = NULL;
+CEdit *CUIGuildApply::m_pGuildNameEdit = NULL;
+CEdit *CUIGuildApply::m_pGuildPasswordEdit = NULL;
+CEdit *CUIGuildApply::m_pGuildConfirmEdit = NULL;
+CGuildData::eType CUIGuildApply::m_eType = CGuildData::navy;
 
-CForm* CUIGuildApply::m_pGuildNameInputForm=NULL;
-CEdit* CUIGuildApply::m_pGuildNameEdit=NULL;
-CEdit* CUIGuildApply::m_pGuildPasswordEdit=NULL;
-CEdit* CUIGuildApply::m_pGuildConfirmEdit=NULL;
-CGuildData::eType CUIGuildApply::m_eType=CGuildData::navy;
+CUIGuildApply::CUIGuildApply(void) {}
 
-CUIGuildApply::CUIGuildApply(void)
-{
+CUIGuildApply::~CUIGuildApply(void) {}
+
+bool CUIGuildApply::Init() {
+  FORM_LOADING_CHECK(m_pGuildNameInputForm, "npc.clu", "frmName");
+  FORM_CONTROL_LOADING_CHECK(m_pGuildNameEdit, m_pGuildNameInputForm, CEdit,
+                             "npc.clu", "edtName");
+  FORM_CONTROL_LOADING_CHECK(m_pGuildPasswordEdit, m_pGuildNameInputForm, CEdit,
+                             "npc.clu", "edtPCode");
+  FORM_CONTROL_LOADING_CHECK(m_pGuildConfirmEdit, m_pGuildNameInputForm, CEdit,
+                             "npc.clu", "edtPCode2");
+  m_pGuildPasswordEdit->SetIsPassWord(true);
+  m_pGuildConfirmEdit->SetIsPassWord(true);
+  m_pGuildNameInputForm->evtEntrustMouseEvent = OnConfirm;
+  m_pGuildNameInputForm->evtEscClose = OnEscClose;
+
+  return true;
 }
 
-CUIGuildApply::~CUIGuildApply(void)
-{
+void CUIGuildApply::ShowForm(CGuildData::eType type) {
+  m_eType = type;
+  m_pGuildPasswordEdit->SetCaption("");
+  m_pGuildConfirmEdit->SetCaption("");
+  if (m_eType == CGuildData::navy) {
+    m_pGuildNameEdit->SetCaption(RES_STRING(CL_LANGUAGE_MATCH_579));
+    m_pGuildNameEdit->SetIsEnabled(false);
+    m_pGuildNameInputForm->ShowModal();
+    m_pGuildPasswordEdit->SetActive(m_pGuildPasswordEdit);
+  } else {
+    m_pGuildNameEdit->SetCaption("");
+    m_pGuildNameEdit->SetIsEnabled(true);
+    m_pGuildNameInputForm->ShowModal();
+    m_pGuildNameEdit->SetActive(m_pGuildNameEdit);
+  }
 }
 
-bool CUIGuildApply::Init()
-{
-	FORM_LOADING_CHECK(m_pGuildNameInputForm,"npc.clu","frmName");
-	FORM_CONTROL_LOADING_CHECK(m_pGuildNameEdit,m_pGuildNameInputForm,CEdit,"npc.clu","edtName");
-	FORM_CONTROL_LOADING_CHECK(m_pGuildPasswordEdit,m_pGuildNameInputForm,CEdit,"npc.clu","edtPCode");
-	FORM_CONTROL_LOADING_CHECK(m_pGuildConfirmEdit,m_pGuildNameInputForm,CEdit,"npc.clu","edtPCode2");
-	m_pGuildPasswordEdit->SetIsPassWord(true);
-	m_pGuildConfirmEdit->SetIsPassWord(true);
-	m_pGuildNameInputForm->evtEntrustMouseEvent = OnConfirm;
-	m_pGuildNameInputForm->evtEscClose = OnEscClose;
-	
+//æœ¬å‡½æ•°åŠŸèƒ½åŒ…æ‹¬æ£€æŸ¥å­—ç¬¦ä¸²ä¸­GBKåŒå­—èŠ‚æ±‰å­—å­—ç¬¦çš„å®Œæ•´æ€§ã€ç½‘ç»œåŒ…ä¸­å­—ç¬¦ä¸²çš„å®Œæ•´æ€§ç­‰ã€‚
+// nameä¸ºåªå…è®¸æœ‰å¤§å°å†™å­—æ¯æ•°å­—å’Œæ±‰å­—ï¼ˆå»é™¤å…¨è§’ç©ºæ ¼ï¼‰æ‰è¿”å›true;
+// lenå‚æ•°ä¸ºå­—ç¬¦ä¸²nameçš„é•¿åº¦=strlen(name),ä¸åŒ…æ‹¬ç»“å°¾NULLå­—ç¬¦ã€‚
+inline bool IsValidGuildName(const char *name, unsigned short len, bool bEng) {
+  const unsigned char *l_name = reinterpret_cast<const unsigned char *>(name);
+  bool l_ishan = false;
+  for (unsigned short i = 0; i < len; i++) {
+    if (!l_name[i]) {
+      return false;
+    } else if (l_ishan) {
+      if (l_name[i - 1] == 0xA1 && l_name[i] == 0xA1) //è¿‡æ»¤å…¨è§’ç©ºæ ¼
+      {
+        return false;
+      }
+      if (l_name[i] > 0x3F && l_name[i] < 0xFF && l_name[i] != 0x7F) {
+        l_ishan = false;
+      } else {
+        return false;
+      }
+    } else if (l_name[i] > 0x80 && l_name[i] < 0xFF) {
+      l_ishan = true;
+    } else if ((l_name[i] >= 'A' && l_name[i] <= 'Z') ||
+               (l_name[i] >= 'a' && l_name[i] <= 'z') ||
+               (l_name[i] >= '0' && l_name[i] <= '9')) {
 
-	return true;
+    } else if (bEng && l_name[i] == ' ') {
+    } else {
+      return false;
+    }
+  }
+  return !l_ishan;
 }
 
-void CUIGuildApply::ShowForm(CGuildData::eType type)
-{
-	m_eType=type;
-	m_pGuildPasswordEdit->SetCaption("");
-	m_pGuildConfirmEdit->SetCaption("");
-	if (m_eType==CGuildData::navy)
-	{
-		m_pGuildNameEdit->SetCaption(RES_STRING(CL_LANGUAGE_MATCH_579));
-		m_pGuildNameEdit->SetIsEnabled(false);
-		m_pGuildNameInputForm->ShowModal();
-		m_pGuildPasswordEdit->SetActive( m_pGuildPasswordEdit );
-	}
-	else
-	{
-		m_pGuildNameEdit->SetCaption("");
-		m_pGuildNameEdit->SetIsEnabled(true);
-		m_pGuildNameInputForm->ShowModal();
-		m_pGuildNameEdit->SetActive( m_pGuildNameEdit );
-	}
+void CUIGuildApply::OnEscClose(CForm *pForm) {
+  if (m_pGuildNameInputForm == pForm) {
+    CM_GUILD_PUTNAME(false, "", "");
+    m_pGuildNameInputForm->SetIsShow(false);
+  }
 }
+void CUIGuildApply::OnConfirm(CCompent *pSender, int nMsgType, int x, int y,
+                              DWORD dwKey) {
+  if (nMsgType != CForm::mrYes) {
+    CM_GUILD_PUTNAME(false, "", "");
+    return;
+  }
 
-//±¾º¯Êı¹¦ÄÜ°üÀ¨¼ì²é×Ö·û´®ÖĞGBKË«×Ö½Úºº×Ö×Ö·ûµÄÍêÕûĞÔ¡¢ÍøÂç°üÖĞ×Ö·û´®µÄÍêÕûĞÔµÈ¡£
-//nameÎªÖ»ÔÊĞíÓĞ´óĞ¡Ğ´×ÖÄ¸Êı×ÖºÍºº×Ö£¨È¥³ıÈ«½Ç¿Õ¸ñ£©²Å·µ»Øtrue;
-//len²ÎÊıÎª×Ö·û´®nameµÄ³¤¶È=strlen(name),²»°üÀ¨½áÎ²NULL×Ö·û¡£
-inline bool IsValidGuildName(const char *name,unsigned short len, bool bEng)
-{
-	const unsigned char *l_name =reinterpret_cast<const unsigned char *>(name);
-	bool l_ishan	=false;
-	for(unsigned short i=0;i<len;i++)
-	{
-		if(!l_name[i])
-		{
-			return false;
-		}else if(l_ishan)
-		{
-			if(l_name[i-1] ==0xA1 && l_name[i] ==0xA1)	//¹ıÂËÈ«½Ç¿Õ¸ñ
-			{
-				return false;
-			}
-			if(l_name[i] >0x3F && l_name[i] <0xFF && l_name[i] !=0x7F)
-			{
-				l_ishan =false;
-			}else
-			{
-				return false;
-			}
-		}else if(l_name[i]>0x80 && l_name[i] <0xFF)
-		{
-			l_ishan	=true;
-		}else if((l_name[i] >='A' && l_name[i] <='Z') ||(l_name[i] >='a' && l_name[i] <='z') ||(l_name[i] >='0' && l_name[i] <='9'))
-		{
-			
-		}
-		else if( bEng && l_name[i] == ' ' )
-		{
-		}
-		else
-		{
-			return false;
-		}
-	}
-	return !l_ishan;
-}
+  if (strlen(m_pGuildNameEdit->GetCaption()) > 0) {
+    string name = m_pGuildNameEdit->GetCaption();
+    bool bEnglishName = true;
+    // Xu qin added for illegal text filtering
+    if (!CTextFilter::IsLegalText(CTextFilter::DIALOG_TABLE, name)) {
+      m_pGuildNameEdit->SetCaption("");
+      CBoxMgr::ShowMsgBox(OnShowForm, RES_STRING(CL_UIGUIDAPPLY_CPP_00001),
+                          true);
+      return;
+    }
 
-void CUIGuildApply::OnEscClose(CForm* pForm)
-{
-	if (m_pGuildNameInputForm == pForm)
-	{
-		CM_GUILD_PUTNAME(false,"","");
-		m_pGuildNameInputForm->SetIsShow(false);
-	}
-}
-void CUIGuildApply::OnConfirm(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if (nMsgType!=CForm::mrYes )
-	{
-		CM_GUILD_PUTNAME(false,"","");
-		return;
-	}
+    int nLen = (int)name.size();
+    for (int i = 0; i < nLen; ++i) {
+      if (name[i] & 0x80) {
+        bEnglishName = false;
+        break;
+      }
+    }
 
-	if ( strlen(m_pGuildNameEdit->GetCaption())>0)
-	{
-		string name = m_pGuildNameEdit->GetCaption();
-        bool bEnglishName = true;
-		// Xu qin added for illegal text filtering
-		if( !CTextFilter::IsLegalText(CTextFilter::DIALOG_TABLE, name ) )
-		{
-			m_pGuildNameEdit->SetCaption("");
-			CBoxMgr::ShowMsgBox( OnShowForm, RES_STRING(CL_UIGUIDAPPLY_CPP_00001), true );
-			return;
-		}
-
-        int nLen = (int)name.size();
-        for(int i = 0; i < nLen; ++i)
-        {
-            if(name[i] & 0x80)
-            {
-                bEnglishName = false;
-                break;
-            }
+    if (!IsValidGuildName(name.c_str(), (unsigned short)name.length(),
+                          bEnglishName)) {
+      CBoxMgr::ShowMsgBox(OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_51), true);
+    } else {
+      string strPass = m_pGuildPasswordEdit->GetCaption();
+      if (strPass.length() > 0) {
+        if (strPass == m_pGuildConfirmEdit->GetCaption()) {
+          CM_GUILD_PUTNAME(true, m_pGuildNameEdit->GetCaption(),
+                           m_pGuildPasswordEdit->GetCaption());
+        } else {
+          m_pGuildPasswordEdit->SetCaption("");
+          m_pGuildConfirmEdit->SetCaption("");
+          CBoxMgr::ShowMsgBox(OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_580),
+                              true);
         }
-
-        if(!IsValidGuildName(name.c_str(), (unsigned short)name.length(), bEnglishName))
-		{
-			CBoxMgr::ShowMsgBox( OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_51), true );
-		}
-		else
-		{
-			string strPass=m_pGuildPasswordEdit->GetCaption();
-			if ( strPass.length()>0 )
-			{
-				if ( strPass==m_pGuildConfirmEdit->GetCaption() )
-				{
-					CM_GUILD_PUTNAME(true,m_pGuildNameEdit->GetCaption(),m_pGuildPasswordEdit->GetCaption());
-				}
-				else
-				{
-					m_pGuildPasswordEdit->SetCaption("");
-					m_pGuildConfirmEdit->SetCaption("");
-					CBoxMgr::ShowMsgBox( OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_580), true );
-				}
-			}
-			else
-			{
-				CBoxMgr::ShowMsgBox( OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_581), true );
-			}
-		}
-	}
-	else
-	{
-		CBoxMgr::ShowMsgBox( OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_582), true );
-	}
+      } else {
+        CBoxMgr::ShowMsgBox(OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_581),
+                            true);
+      }
+    }
+  } else {
+    CBoxMgr::ShowMsgBox(OnShowForm, RES_STRING(CL_LANGUAGE_MATCH_582), true);
+  }
 }
 
-void CUIGuildApply::OnShowForm(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if (m_eType==CGuildData::navy)
-	{
-		m_pGuildNameEdit->SetCaption(RES_STRING(CL_LANGUAGE_MATCH_579));
-		m_pGuildNameEdit->SetIsEnabled(false);
-		m_pGuildNameInputForm->ShowModal();
-	}
-	else
-	{
-		m_pGuildNameInputForm->ShowModal();
-		if ( ( strlen(m_pGuildNameEdit->GetCaption())>0) )
-		{
-			m_pGuildPasswordEdit->SetActive( m_pGuildPasswordEdit );
-		}
-	}
+void CUIGuildApply::OnShowForm(CCompent *pSender, int nMsgType, int x, int y,
+                               DWORD dwKey) {
+  if (m_eType == CGuildData::navy) {
+    m_pGuildNameEdit->SetCaption(RES_STRING(CL_LANGUAGE_MATCH_579));
+    m_pGuildNameEdit->SetIsEnabled(false);
+    m_pGuildNameInputForm->ShowModal();
+  } else {
+    m_pGuildNameInputForm->ShowModal();
+    if ((strlen(m_pGuildNameEdit->GetCaption()) > 0)) {
+      m_pGuildPasswordEdit->SetActive(m_pGuildPasswordEdit);
+    }
+  }
 }

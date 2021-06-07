@@ -5,7 +5,7 @@
 #include "UICheckBox.h"
 namespace GUI
 {
-// Ğ¡µØÍ¼
+// å°åœ°å›¾
 class CMiniMapMgr : public CUIInterface
 {
 public:
@@ -13,7 +13,7 @@ public:
 	  frmMinimap(0), MinimatRect(0), labMapPos(0), labMapName(0), frmBigmap(0){}
 
 
-	// ÓÃÓÚĞ¡µØÍ¼¸üĞÂÊ±µÃµ½Form´óĞ¡
+	// ç”¨äºå°åœ°å›¾æ›´æ–°æ—¶å¾—åˆ°Formå¤§å°
 	CCompent*	GetMinimapRect()			{ return MinimatRect;	}
 
 	void		RefreshChaPos( int x, int y );
@@ -50,7 +50,7 @@ private:
 	static void _evtShowbigmap(CGuiData *pSender);
 	static void _evtHidebigmap(CGuiData *pSender);
 
-	//À×´ï½çÃæµÄenterÊÂ¼ş
+	//é›·è¾¾ç•Œé¢çš„enteräº‹ä»¶
 	static void _evtRadarEnter(CGuiData *pSender);
 	static void _RadarFormBeforeShowEvent(CForm* pForm, bool& IsShow);
 
@@ -62,13 +62,13 @@ private:
 	//	End.
 	static void ShowRadar();
 
-	// ¼ì²é×ø±êÊäÈë¿òÊÇ·ñÓĞ·Ç·¨×Ö·û(Ö»Ö§³ÖÕûÊı) ÕıÈ··µ»Ø0,ÆäËûµÄÔİ¶¨Îª-1
+	// æ£€æŸ¥åæ ‡è¾“å…¥æ¡†æ˜¯å¦æœ‰éæ³•å­—ç¬¦(åªæ”¯æŒæ•´æ•°) æ­£ç¡®è¿”å›0,å…¶ä»–çš„æš‚å®šä¸º-1
 	static int CheckCoordinateEdit(const char* input);
 
-	// »æÖÆ´óµØÍ¼ÌáÊ¾
+	// ç»˜åˆ¶å¤§åœ°å›¾æç¤º
     void _RenderBigMapHint(void);//Add by sunny.sun 20080903
 
-	//Ğ¡µØÍ¼±íµ¥
+	//å°åœ°å›¾è¡¨å•
 	CForm*		frmMinimap;
 	CCompent*	MinimatRect;
 
@@ -76,7 +76,7 @@ private:
 	{
 		MAP_POS_MAX = 10,
 	};
-    //Ğ¡µØÍ¼¿Ø¼ş
+    //å°åœ°å›¾æ§ä»¶
 	CLabelEx	*labMapPosRand[MAP_POS_MAX];
 	CLabelEx	*labMapPos;
 	CLabelEx    *labMapName;
@@ -85,7 +85,7 @@ private:
 	CTextButton	*btnQueen;		
 	CTextButton	*btnQQ;
 	CTextButton	*btnPosSearch;	
-	CTextButton *btnSeach;	//	ËÑË÷Å®Éñ
+	CTextButton *btnSeach;	//	æœç´¢å¥³ç¥
 	//	End
 	
 	CCheckBox*	chkID;

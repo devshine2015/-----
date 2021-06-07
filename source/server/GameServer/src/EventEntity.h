@@ -24,18 +24,18 @@ namespace mission
 
 		virtual void Clear();
 
-		// ÉèÖÃÊµÌåÄ£ĞÍÏÔÊ¾ĞÅÏ¢
+		// è®¾ç½®å®ä½“æ¨¡å‹æ˜¾ç¤ºä¿¡æ¯
 		virtual BOOL Create( SubMap& Submap, const char szName[], USHORT sID, USHORT sInfoID, DWORD dwxPos, DWORD dwyPos, USHORT sDir );
 
-		// ÊÂ¼şÊµÌåÏûÏ¢´¦Àí
+		// äº‹ä»¶å®ä½“æ¶ˆæ¯å¤„ç†
 		virtual HRESULT MsgProc( CCharacter& character, dbc::RPacket& packet );
 
-		// »ñÈ¡ÊµÌå×´Ì¬ĞÅÏ¢
+		// è·å–å®ä½“çŠ¶æ€ä¿¡æ¯
 		virtual void GetState( CCharacter& character, BYTE& byState ) { byState = ENTITY_DISABLE; }
 
 	protected:	
-		BYTE	m_byType;	// ÊµÌåÀàĞÍ
-		USHORT  m_sInfoID;  // ÊµÌåÊÂ¼ş¿Í»§¶Ë±íÏÖĞÅÏ¢ID
+		BYTE	m_byType;	// å®ä½“ç±»å‹
+		USHORT  m_sInfoID;  // å®ä½“äº‹ä»¶å®¢æˆ·ç«¯è¡¨ç°ä¿¡æ¯ID
 	};
 
 	class CResourceEntity : public CEventEntity
@@ -47,19 +47,19 @@ namespace mission
 		virtual void Clear();
 		virtual void SetType() { m_byType = RESOURCE_ENTITY; }
 
-		// ÉèÖÃ×ÊÔ´ÊµÌåÊı¾İĞÅÏ¢
+		// è®¾ç½®èµ„æºå®ä½“æ•°æ®ä¿¡æ¯
 		BOOL SetData( USHORT sItemID, USHORT sNum, USHORT sTime );
 
-		// ´«ËÍÊµÌåÏûÏ¢´¦Àí
+		// ä¼ é€å®ä½“æ¶ˆæ¯å¤„ç†
 		virtual HRESULT MsgProc( CCharacter& character, dbc::RPacket& packet );
 
-		// »ñÈ¡ÊµÌå×´Ì¬ĞÅÏ¢
+		// è·å–å®ä½“çŠ¶æ€ä¿¡æ¯
 		virtual void GetState( CCharacter& character, BYTE& byState );
 
 	private:
-		USHORT	m_sID;		// ×ÊÔ´ĞÅÏ¢ID
-		USHORT	m_sNum;		// ×ÊÔ´ÊıÁ¿ĞÅÏ¢
-		USHORT	m_sTime;	// ×ÊÔ´²É¼¯Ê±¼ä
+		USHORT	m_sID;		// èµ„æºä¿¡æ¯ID
+		USHORT	m_sNum;		// èµ„æºæ•°é‡ä¿¡æ¯
+		USHORT	m_sTime;	// èµ„æºé‡‡é›†æ—¶é—´
 	};
 
 	class CTransitEntity : public CEventEntity
@@ -71,17 +71,17 @@ namespace mission
 		virtual void Clear();
 		virtual void SetType() { m_byType = TRANSIT_ENTITY; }
 
-		// ÉèÖÃ´«ËÍÊµÌåÊı¾İĞÅÏ¢
+		// è®¾ç½®ä¼ é€å®ä½“æ•°æ®ä¿¡æ¯
 		BOOL SetData( const char szMap[], USHORT sxPos, USHORT syPos );
 
-		// ´«ËÍÊµÌåÏûÏ¢´¦Àí
+		// ä¼ é€å®ä½“æ¶ˆæ¯å¤„ç†
 		virtual HRESULT MsgProc( CCharacter& character, dbc::RPacket& packet );
 
-		// »ñÈ¡ÊµÌå×´Ì¬ĞÅÏ¢
+		// è·å–å®ä½“çŠ¶æ€ä¿¡æ¯
 		virtual void GetState( CCharacter& character, BYTE& byState );
 
 	private:
-		// ±»´«ËÍµ½µÄµØÍ¼ºÍÎ»ÖÃĞÅÏ¢
+		// è¢«ä¼ é€åˆ°çš„åœ°å›¾å’Œä½ç½®ä¿¡æ¯
 		char	m_szMapName[MAX_MAPNAME_LENGTH];
 		USHORT  m_sxPos;
 		USHORT  m_syPos;
@@ -96,13 +96,13 @@ namespace mission
 		virtual void Clear();
 		virtual void SetType() { m_byType = BERTH_ENTITY; }
 
-		// ÉèÖÃÍ£²´´¬Ö»ÊµÌåÊı¾İĞÅÏ¢
+		// è®¾ç½®åœæ³Šèˆ¹åªå®ä½“æ•°æ®ä¿¡æ¯
 		BOOL SetData( USHORT sBerthID, USHORT sxPos, USHORT syPos, USHORT sDir );
 
-		// ´«ËÍÊµÌåÏûÏ¢´¦Àí
+		// ä¼ é€å®ä½“æ¶ˆæ¯å¤„ç†
 		virtual HRESULT MsgProc( CCharacter& character, dbc::RPacket& packet );
 
-		// »ñÈ¡ÊµÌå×´Ì¬ĞÅÏ¢
+		// è·å–å®ä½“çŠ¶æ€ä¿¡æ¯
 		virtual void GetState( CCharacter& character, BYTE& byState );
 
 	private:

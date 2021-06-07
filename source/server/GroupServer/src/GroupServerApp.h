@@ -30,12 +30,12 @@ public:
 	GroupServerApp(ThreadPool *proc,ThreadPool *comm);
 	~GroupServerApp();
 
-	uLong	m_dwCheatCount;	//Ê¹ÓÃÍâ¹Ò¸öÊı
+	uLong	m_dwCheatCount;	//ä½¿ç”¨å¤–æŒ‚ä¸ªæ•°
 public:
 	friend void Player::EndPlay(DataSocket *datasock);
 	void Initialize();
 	void Finalize();
-	virtual	bool	OnConnect(DataSocket *datasock);					//·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+	virtual	bool	OnConnect(DataSocket *datasock);					//è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
 	virtual void	OnDisconnect(DataSocket *datasock,int reason);
 	virtual	void	OnProcessData(DataSocket *datasock,RPacket &recvbuf);
 	virtual	WPacket	OnServeCall(DataSocket *datasock,RPacket &in_para);
@@ -72,7 +72,7 @@ public:
 	WPacket	TP_REQPLYLST(DataSocket *datasock,RPacket &pk);
 	void	AP_KICKUSER(DataSocket *datasock,RPacket &pk);
 	void	AP_KICKUSER2( DataSocket* datasock, uLong acctid );
-    void    AP_EXPSCALE(DataSocket* datasock, RPacket &pk); //  ·À³ÁÃÔ
+    void    AP_EXPSCALE(DataSocket* datasock, RPacket &pk); //  é˜²æ²‰è¿·
 
 	void	TP_DISC(DataSocket *datasock,RPacket &pk);
 	void	TP_ESTOPUSER_CHECK(DataSocket *datasock,RPacket &pk);
@@ -142,11 +142,11 @@ public:
 	void	OS_PING(DataSocket *datasock,RPacket &pk);
 	// End
 
-	void	MP_GARNER2_UPDATE(Player *ply,DataSocket *datasock,RPacket &pk);//·´¶·°×Òø£¬¸üĞÂÅÅÃû¡£
+	void	MP_GARNER2_UPDATE(Player *ply,DataSocket *datasock,RPacket &pk);//åæ–—ç™½é“¶ï¼Œæ›´æ–°æ’åã€‚
 
 	bool	CheckFunction(string mapName, string funName);
 public:
-	void	CP_GARNER2_GETORDER(Player *ply,DataSocket *datasock,RPacket &pk);//¿Í»§¶ËÇëÇó·´¶·°×ÒøÅÅÃû¡£
+	void	CP_GARNER2_GETORDER(Player *ply,DataSocket *datasock,RPacket &pk);//å®¢æˆ·ç«¯è¯·æ±‚åæ–—ç™½é“¶æ’åã€‚
 	void	KickUser(DataSocket *datasock,uLong gpaddr,uLong gtaddr);
 	void	SendToClient(Player* ply[],short cli_num,const WPacket &wpk);
 	void	SendToClient(Player* ply,WPacket &wpk);
@@ -157,12 +157,12 @@ public:
 	Player		*	FindPlayerByChaName(cChar * plyname);
 	Player		*	FindPlayerByChaID(uLong chaid);
 
-	Player *GetPlayerByChaID(uLong chaid); //¿ìËÙ»ñÈ¡½ÇÉ«Ö¸Õë
+	Player *GetPlayerByChaID(uLong chaid); //å¿«é€Ÿè·å–è§’è‰²æŒ‡é’ˆ
 	bool AddPlayerToList(uLong chaid, Player *pPlayer);
 	bool DelPlayerFromList(uLong chaid);
 
 	enum{GATE_MAX	=50};
-	GateServer		m_gate[GATE_MAX];			//Á´±íÖ¸Õë
+	GateServer		m_gate[GATE_MAX];			//é“¾è¡¨æŒ‡é’ˆ
 
 	// Add by lark.li 20081119 begin
 	GroupServerAgent m_groupServerAgent;
@@ -180,7 +180,7 @@ public:
 		// End
 	};
 
-	//ÄÚ²¿Êı¾İ½á¹¹£º
+	//å†…éƒ¨æ•°æ®ç»“æ„ï¼š
 	PreAllocHeap<Player>		m_plyheap;
 	RunBiDirectChain<Player> 	m_plylst;
 	PreAllocHeap<Guild>			m_gldheap;
@@ -193,7 +193,7 @@ public:
 	Chat_Session *AddSession();
 	void  DelSession(Chat_Session * sess);
 
-	//Êı¾İ¿âÁ¬½Ó£º
+	//æ•°æ®åº“è¿æ¥ï¼š
 	struct
 	{
 		Mutex			m_mtxDB;
@@ -257,11 +257,11 @@ private:
 	bool DelMaster(uLong cha_id1,uLong cha_id2);
 	bool FinishMaster(uLong cha_id);
 
-	map<uLong, uLong> m_mapMasterRelation; //Ê¦Í½¹ØÏµ±í
-	map<uLong, Player *> m_mapPlayerList; //½ÇÉ«Ó³Éä±í
+	map<uLong, uLong> m_mapMasterRelation; //å¸ˆå¾’å…³ç³»è¡¨
+	map<uLong, Player *> m_mapPlayerList; //è§’è‰²æ˜ å°„è¡¨
 
 	// Add by lark.li 20080702 begin
-	map<string, string> m_mapBirthplace; //³öÉúµØ
+	map<string, string> m_mapBirthplace; //å‡ºç”Ÿåœ°
 	// End
 };
 class GMBBS:public Timer
@@ -285,7 +285,7 @@ private:
 	uLong	m_dwCount;
 };
 
-extern void InitACTSvrConnect(GroupServerApp &gpapp);	//AccountServerÁ¬½Ó
+extern void InitACTSvrConnect(GroupServerApp &gpapp);	//AccountServerè¿æ¥
 extern GroupServerApp * g_gpsvr;
 extern InterLockedLong	g_exit;
 extern InterLockedLong	g_ref;

@@ -1,106 +1,99 @@
-#include "StdAfx.h"
 #include "UIGlobalVar.h"
-#include "uitextparse.h"
-#include "uiEditor.h"
-#include "UIFormMgr.h"
-#include "uiheadsay.h"
-#include "UITeam.h"
-#include "uitreeview.h"
+#include "StdAfx.h"
+#include "UIBankForm.h"
+#include "UIBoothForm.h"
+#include "UIBreakForm.h"
 #include "UIChat.h"
-#include "uiboxform.h"
-#include "uitradeform.h"
-#include "uiequipform.h"
-#include "uiminimapform.h"
-#include "uisystemform.h"
-#include "uimissionform.h"
+#include "UIChurchChallenge.h"
+#include "UIComposeForm.h"
+#include "UICookingForm.h"
+#include "UIDoublePwdForm.h"
+#include "UIFindTeamForm.h"
+#include "UIFormMgr.h"
+#include "UIFoundForm.h"
+#include "UIGuildChallengeForm.h"
+#include "UIGuildMgr.h"
+#include "UIHaircutForm.h"
+#include "UIMailForm.h"
+#include "UIMakeEquipForm.h"
 #include "UIMisLogForm.h"
+#include "UINumAnswer.h"
+#include "UIPKDialog.h"
+#include "UIPKSilverForm.h"
+#include "UIPurifyForm.h"
+#include "UISpiritForm.h"
+#include "UIStoreForm.h"
+#include "UITeam.h"
+#include "gameapp.h"
+#include "scene.h"
+#include "uiCozeform.h"
+#include "uiEditor.h"
+#include "uiboatform.h"
+#include "uibourseform.h"
+#include "uiboxform.h"
+#include "uiequipform.h"
+#include "uifastcommand.h"
 #include "uiforgeform.h"
+#include "uigoodsgrid.h"
+#include "uiguildapply.h"
+#include "uiguildlist.h"
+#include "uiheadsay.h"
+#include "uiminimapform.h"
+#include "uimissionform.h"
+#include "uinpctalkform.h"
 #include "uinpctradeform.h"
 #include "uistartform.h"
 #include "uistateform.h"
-#include "uiCozeform.h"
-#include "uifastcommand.h"
-#include "gameapp.h"
-#include "scene.h"
-#include "uigoodsgrid.h"
-#include "uinpctalkform.h"
+#include "uisystemform.h"
+#include "uitextparse.h"
+#include "uitradeform.h"
+#include "uitreeview.h"
 #include "worldscene.h"
-#include "uiguildlist.h"
-#include "UIGuildMgr.h"
-#include "uiguildapply.h"
-#include "uiboatform.h"
-#include "uibourseform.h"
-#include "UIBankForm.h"
-#include "UIBoothForm.h"
-#include "UIHaircutForm.h"
-#include "UIPKDialog.h"
-#include "UIMakeEquipForm.h"
-#include "UIGuildChallengeForm.h"
-#include "UIDoublePwdForm.h"
-#include "UIStoreForm.h"
-#include "uiCozeform.h"
-#include "UISpiritForm.h"
-#include "UIPurifyForm.h"
-#include "UIPKSilverForm.h"
-#include "UIFindTeamForm.h"
-#include "UIComposeForm.h"
-#include "UIBreakForm.h"
-#include "UIFoundForm.h"
-#include "UICookingForm.h"
-#include "UIMailForm.h"
-#include "UINumAnswer.h"
-#include "UIChurchChallenge.h"
 
-#include "UILotteryForm.h"	//Add by lark.li 20080514
 #include "UIAmphitheaterForm.h" //Add by sunny.sun20080716
+#include "UILotteryForm.h"      //Add by lark.li 20080514
 
-#include "UIChaInfo.h"
+#include "GameErrorReport.h"
 #include "UIAllButtonForm.h"
 #include "UIChaInfo.h"
 #include "uibakghostform.h"
-#include "uiitemreform.h"
 #include "uiforgemoveform.h"
+#include "uihelpinfoform.h"
+#include "uiitemreform.h"
 #include "uijewelryupform.h"
-#include "uirumdealform.h"
 #include "uirumbuyform.h"
-#include "uirumsellform.h"
+#include "uirumdealform.h"
+#include "uirumgetform.h"
 #include "uirumpurform.h"
 #include "uirumsaleform.h"
-#include "uirumgetform.h"
-#include "uihelpinfoform.h"
-#include "GameErrorReport.h"
+#include "uirumsellform.h"
 
-namespace GUI
-{
-	CTextParse		g_TextParse;
+namespace GUI {
+CTextParse g_TextParse;
 }
 using namespace GUI;
 
 extern void UI_ReleaseItemScript();
-bool UIMainInit( CFormMgr* pSender )
-{
-    if( !CHeadSay::Init() )
-    {
-        LG( "gui", "CHeadSay::Init failed" );
-        return false;
-    }
+bool UIMainInit(CFormMgr *pSender) {
+  if (!CHeadSay::Init()) {
+    LG("gui", "CHeadSay::Init failed");
+    return false;
+  }
 
-	return CUIInterface::All_Init();
+  return CUIInterface::All_Init();
 }
 
-bool UIClear()
-{
-    if( !CHeadSay::Clear() )
-    {
-        LG( "gui", "CHeadSay::Clear failed" );
-        return false;
-    }
+bool UIClear() {
+  if (!CHeadSay::Clear()) {
+    LG("gui", "CHeadSay::Clear failed");
+    return false;
+  }
 
-    //∞≤»´ Õ∑≈ƒ⁄¥Ê by Waiting 2009-06-18
-	CGuiTime::RemoveAllTimer();
-	CItemBar::Clear();
-	UI_ReleaseItemScript();
-    return true;
+  //ÂÆâÂÖ®ÈáäÊîæÂÜÖÂ≠ò by Waiting 2009-06-18
+  CGuiTime::RemoveAllTimer();
+  CItemBar::Clear();
+  UI_ReleaseItemScript();
+  return true;
 }
 
 //---------------------------------------------------------------------------
@@ -109,400 +102,353 @@ bool UIClear()
 CUIInterface::allmgr CUIInterface::all(0);
 
 #ifdef __EDITOR__
-CEditor			g_stUIEditor;
+CEditor g_stUIEditor;
 #endif
-CChat           g_stUIChat;
-CBoxMgr			g_stUIBox;
-CTradeMgr		g_stUITrade;
-CEquipMgr		g_stUIEquip;
-CMiniMapMgr		g_stUIMap;
-CSystemMgr		g_stUISystem;
-CMissionMgr		g_stUIMission;
-CMisLogForm		g_stUIMisLog;
-CForgeMgr		g_stUIForge;
+CChat g_stUIChat;
+CBoxMgr g_stUIBox;
+CTradeMgr g_stUITrade;
+CEquipMgr g_stUIEquip;
+CMiniMapMgr g_stUIMap;
+CSystemMgr g_stUISystem;
+CMissionMgr g_stUIMission;
+CMisLogForm g_stUIMisLog;
+CForgeMgr g_stUIForge;
 
-CLotteryMgr		g_stUILottery;	//Add by lark.li 20080514
-CAmphitheaterForm g_stUIAmphitheater;//Add by sunny.sun20080715
+CLotteryMgr g_stUILottery;            // Add by lark.li 20080514
+CAmphitheaterForm g_stUIAmphitheater; // Add by sunny.sun20080715
 
-CNpcTradeMgr	g_stUINpcTrade;
-CStartMgr		g_stUIStart;
-CStateMgr		g_stUIState;
-CNpcTalkMgr		g_stUINpcTalk;
-CUIGuildList	g_stUIGuildList;
-CUIGuildMgr		g_stUIGuildMgr;
-CUIGuildApply	g_stUIGuildApply;
-CBoatMgr		g_stUIBoat;
-CBourseMgr		g_stUIBourse;
-CBankMgr		g_stUIBank;
-CBoothMgr		g_stUIBooth;
-CHaircutMgr		g_stUIHaircut;
-CPkDialog		g_stUIPKDialog;
-CMakeEquipMgr	g_stUIMakeEquip;
+CNpcTradeMgr g_stUINpcTrade;
+CStartMgr g_stUIStart;
+CStateMgr g_stUIState;
+CNpcTalkMgr g_stUINpcTalk;
+CUIGuildList g_stUIGuildList;
+CUIGuildMgr g_stUIGuildMgr;
+CUIGuildApply g_stUIGuildApply;
+CBoatMgr g_stUIBoat;
+CBourseMgr g_stUIBourse;
+CBankMgr g_stUIBank;
+CBoothMgr g_stUIBooth;
+CHaircutMgr g_stUIHaircut;
+CPkDialog g_stUIPKDialog;
+CMakeEquipMgr g_stUIMakeEquip;
 CGuildChallengeMgr g_stGuildChallenge;
-CDoublePwdMgr	g_stUIDoublePwd;
-CStoreMgr		g_stUIStore;
-CSpiritMgr		g_stUISpirit;
-CPurifyMgr		g_stUIPurify;
-CBlackTradeMgr  g_stUIBlackTrade;
-CPKSilverMgr    g_stUIPKSilver;
-CFindTeamMgr	g_stUIFindTeam;
-CComposeMgr     g_stUICompose;
-CBreakMgr       g_stUIBreak;
-CFoundMgr       g_stUIFound;
-CCookingMgr     g_stUICooking;
-CMailMgr		g_stUIMail;
-CNumAnswerMgr	g_stUINumAnswer;
+CDoublePwdMgr g_stUIDoublePwd;
+CStoreMgr g_stUIStore;
+CSpiritMgr g_stUISpirit;
+CPurifyMgr g_stUIPurify;
+CBlackTradeMgr g_stUIBlackTrade;
+CPKSilverMgr g_stUIPKSilver;
+CFindTeamMgr g_stUIFindTeam;
+CComposeMgr g_stUICompose;
+CBreakMgr g_stUIBreak;
+CFoundMgr g_stUIFound;
+CCookingMgr g_stUICooking;
+CMailMgr g_stUIMail;
+CNumAnswerMgr g_stUINumAnswer;
 CChurchChallengeMgr g_stChurchChallenge;
 
-CCozeForm          g_stUICozeForm;
+CCozeForm g_stUICozeForm;
 CChannelSwitchForm g_stUIChannelSwitch;
 
-AllButtonMgr	g_stAllButton;
- CBakGhostMgr	g_stBakGhostForm;
- CItemReMgr		g_stItemReForm;
-CForgeMoveMgr	g_stForgeMoveForm;
-CJewelryUpMgr	g_stJewelryUpForm;
-CRumDealMgr		g_stRumDealForm;
-CRumBuyMgr		g_stRumBuyForm;
-CRumSellMgr		g_stRumSellForm;
-CRumPurMgr		g_stRumPurForm;
-CRumSaleMgr		g_stRumSaleForm;
-CRumGetMgr		g_stRumGetForm;
-CHelpInfoMgr	g_FormHelpInfo;
+AllButtonMgr g_stAllButton;
+CBakGhostMgr g_stBakGhostForm;
+CItemReMgr g_stItemReForm;
+CForgeMoveMgr g_stForgeMoveForm;
+CJewelryUpMgr g_stJewelryUpForm;
+CRumDealMgr g_stRumDealForm;
+CRumBuyMgr g_stRumBuyForm;
+CRumSellMgr g_stRumSellForm;
+CRumPurMgr g_stRumPurForm;
+CRumSaleMgr g_stRumSaleForm;
+CRumGetMgr g_stRumGetForm;
+CHelpInfoMgr g_FormHelpInfo;
 
 CChaQeryInfo g_ChaQeryInfo;
 
 bool CUIInterface::_IsAllInit = false;
 
-CUIInterface::CUIInterface()
-{
-	all.push_back( this );
+CUIInterface::CUIInterface() { all.push_back(this); }
+
+bool CUIInterface::All_Init() {
+  //	int size =  all.size();
+  size_t size = all.size();
+
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++) {
+    CUIInterface *pUI = dynamic_cast<CUIInterface *>(*it);
+    if (!pUI->Init()) {
+      const type_info &info = typeid(**it);
+      ErrorReport("msg[%s] Init failed", info.name());
+      return false;
+    }
+  }
+
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+  mgr.AddKeyCharEvent(_evtESCKey);
+  _IsAllInit = true;
+  return true;
 }
 
-bool CUIInterface::All_Init()
-{
-	//	int size =  all.size();
-	size_t size =  all.size();
+void CUIInterface::All_End() {
+  if (!_IsAllInit)
+    return;
 
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-	{
-		CUIInterface* pUI = dynamic_cast<CUIInterface*>(*it);
-		if( !pUI->Init() )
-		{
-			const type_info& info = typeid(**it);
-			ErrorReport("msg[%s] Init failed", info.name() );
-			return false;
-		}
-	}
-
-	CFormMgr& mgr = CFormMgr::s_Mgr;
-	mgr.AddKeyCharEvent( _evtESCKey );
-	_IsAllInit = true;
-	return true;
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++) {
+    (*it)->End();
+  }
+  //	g_stUIEquip.End();
 }
 
-void CUIInterface::All_End()
-{
-	if( !_IsAllInit ) return;
-
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-	{
-		(*it)->End();
-	}
-//	g_stUIEquip.End();
+void CUIInterface::All_FrameMove(DWORD dwTime) {
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++) {
+    (*it)->FrameMove(dwTime);
+  }
 }
 
-void CUIInterface::All_FrameMove( DWORD dwTime )
-{
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-	{
-		(*it)->FrameMove(dwTime);
-	}
+void CUIInterface::All_LoadingCall() {
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++) {
+    (*it)->LoadingCall();
+  }
 }
 
-void CUIInterface::All_LoadingCall()
-{
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-	{
-		(*it)->LoadingCall();
-	}
+void CUIInterface::All_SwitchMap() {
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++) {
+    (*it)->SwitchMap();
+  }
 }
 
-void CUIInterface::All_SwitchMap()
-{
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-	{
-		(*it)->SwitchMap();
-	}
+void CUIInterface::MainChaMove() {
+  for (allmgr::iterator it = all.begin(); it != all.end(); it++)
+    (*it)->CloseForm();
 }
 
-void CUIInterface::MainChaMove()
-{
-	for( allmgr::iterator it=all.begin(); it!=all.end(); it++ )
-		(*it)->CloseForm();
+CForm *CUIInterface::_FindForm(const char *frmName) {
+  CForm *form = CFormMgr::s_Mgr.Find(frmName);
+  //	if( !form )	LG("gui", RES_STRING(CL_LANGUAGE_MATCH_464), frmName );
+  return form;
 }
 
-CForm* CUIInterface::_FindForm(const char * frmName)
-{
-	CForm*	form = CFormMgr::s_Mgr.Find( frmName );
-//	if( !form )	LG("gui", RES_STRING(CL_LANGUAGE_MATCH_464), frmName );
-	return form;
+void CUIInterface::_evtDragToGoodsEvent(CGuiData *pSender, CCommandObj *pItem,
+                                        int nGridID, bool &isAccept) {
+  isAccept = false;
+
+  if (!CGameScene::GetMainCha())
+    return;
+
+  if (!CGameApp::GetCurScene())
+    return;
+
+  CGoodsGrid *pSelf = dynamic_cast<CGoodsGrid *>(pSender);
+  if (!pSelf)
+    return;
+
+  COneCommand *pCom = dynamic_cast<COneCommand *>(CDrag::GetParent());
+  if (pCom) {
+    int iIndex = -1;
+    if (g_stUIEquip.IsEquipCom(pCom) && pSelf == g_stUIEquip.GetGoodsGrid()) {
+      // ‰ªéË£ÖÂ§áÊ†èÂç∏ËΩΩÈÅìÂÖ∑Âà∞ÈÅìÂÖ∑Ê†è
+      g_stUIEquip.UnfixToGrid(pCom->GetCommand(), nGridID, pCom->nTag);
+      return;
+    }
+
+    /* ÈÅìÂÖ∑Ë£ÖÂ§áÁ≤æÁÇº */
+    // ‰ªéÁ≤æÁÇºÁïåÈù¢ÊãñÂä®Âà∞Áâ©ÂìÅÊ†è
+    iIndex = g_stUIForge.GetForgeComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex) {
+      g_stUIForge.DragToEquipGrid(iIndex);
+      return;
+    }
+
+    /* ÈÅìÂÖ∑Ë£ÖÂ§áÂêàÊàê */
+    // ‰ªéÂêàÊàêÁïåÈù¢ÊãñÂä®Âà∞Áâ©ÂìÅÊ†è
+    if (pSelf == g_stUIEquip.GetGoodsGrid() &&
+        g_stUIMakeEquip.IsAllCommand(pCom)) {
+      if (g_stUIMakeEquip.IsRouleauCommand(pCom))
+        g_stUIMakeEquip.DragRouleauToEquipGrid();
+      else {
+        /*int*/ iIndex = g_stUIMakeEquip.GetItemComIndex(pCom);
+        if (iIndex != -1)
+          g_stUIMakeEquip.DragItemToEquipGrid(iIndex);
+      }
+      return;
+    }
+
+    // ÊèêÁ∫Ø
+    // ‰ªéÊèêÁ∫ØÁïåÈù¢ÊãñÂà∞Áâ©ÂìÅÊ†è
+    int nPurifyIndex = g_stUIPurify.GetItemComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != nPurifyIndex) {
+      g_stUIPurify.DragItemToEquipGrid(nPurifyIndex);
+    }
+
+    //  Âà∂ÈÄ†
+    iIndex = g_stUICompose.GetComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex) {
+      if (1 == iIndex) {
+        g_stUICompose.ClearCommand();
+      } else {
+        g_stUICompose.DragToEquipGrid(iIndex);
+      }
+      return;
+    }
+
+    //  ÈîªÈÄ†
+    iIndex = g_stUIFound.GetComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex) {
+      if (1 == iIndex) {
+        g_stUIFound.ClearCommand();
+      } else {
+        g_stUIFound.DragToEquipGrid(iIndex);
+      }
+      return;
+    }
+
+    //  ÁÉπÈ•™
+    iIndex = g_stUICooking.GetComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex) {
+      if (1 == iIndex) {
+        g_stUICooking.ClearCommand();
+      } else {
+        g_stUICooking.DragToEquipGrid(iIndex);
+      }
+      return;
+    }
+
+    //  ÂàÜËß£
+    iIndex = g_stUIBreak.GetComIndex(pCom);
+    if (pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex) {
+      g_stUIBreak.DragToEquipGrid(iIndex);
+      return;
+    }
+
+    return;
+  }
+
+  CGoodsGrid *pDrag = dynamic_cast<CGoodsGrid *>(CDrag::GetParent());
+  if (!pDrag)
+    return;
+
+  // ‰ªéNPCÂ§Ñ‰π∞ÈÅìÂÖ∑
+  if (pSelf == g_stUIEquip.GetGoodsGrid() && g_stUINpcTrade.IsNpcGoods(pDrag)) {
+    g_stUINpcTrade.LocalBuyFromNpc(pDrag, pSelf, nGridID, pItem);
+    return;
+  }
+
+  // ÂçñÈÅìÂÖ∑ÁªôNPC
+  if (pDrag == g_stUIEquip.GetGoodsGrid() && g_stUINpcTrade.IsNpcGoods(pSelf)) {
+    g_stUINpcTrade.LocalSaleToNpc(pSelf, pDrag, nGridID, pItem);
+    return;
+  }
+
+  // ‰ªé‰∫§ÊòìÊâÄ‰π∞‰∏úË•øÂà∞ËàπËà± Michael Chen (2005-05-27)
+  if (pDrag == g_stUIBourse.GetBuyGoodsGrid() &&
+      pSelf == g_stUIBourse.GetShipRoomGoodsGrid()) {
+    g_stUIBourse.BuyItem(*pSelf, *pItem, nGridID);
+    return;
+  }
+
+  // Áé©ÂÆ∂Èó¥‰∫§Êòì:Âä†ÂÖ•‰∏Ä‰∏™Áâ©ÂìÅÊãñÂä®
+  if (pDrag == g_stUITrade.GetRequestGrid() &&
+      pSelf == g_stUITrade.GetPlayertradeSaleGrid()) {
+    g_stUITrade.LocalSaleItem(pSelf, pDrag, nGridID, pItem);
+    return;
+  }
+
+  // Áé©ÂÆ∂Èó¥‰∫§Êòì:ÂèñÊ∂à‰∏Ä‰∏™Áâ©ÂìÅ‰∫§Êòì
+  if (pSelf == g_stUITrade.GetRequestGrid() &&
+      pDrag == g_stUITrade.GetPlayertradeSaleGrid()) {
+    g_stUITrade.LocalCancelItem(pDrag, pSelf, nGridID, pItem);
+    return;
+  }
+
+  // ‰ªéÈì∂Ë°åÂèñÂá∫Áâ©ÂìÅ
+  if (pSelf == g_stUIEquip.GetGoodsGrid() &&
+      pDrag == g_stUIBank.GetBankGoodsGrid()) {
+    g_stUIBank.PopFromBank(*pDrag, *pSelf, nGridID, *pItem);
+  }
+
+  // Â∞ÜÁâ©ÂìÅÂ≠òÂà∞Èì∂Ë°å
+  if (pSelf == g_stUIBank.GetBankGoodsGrid() &&
+      pDrag == g_stUIEquip.GetGoodsGrid()) {
+    g_stUIBank.PushToBank(*pDrag, *pSelf, nGridID, *pItem);
+  }
+
+  /* ÊëÜÊëäÁõ∏ÂÖ≥ */
+  // ‰ªéÊëä‰ΩçÊãñÂä®Âà∞Áâ©ÂìÅÊ†è
+  if (pSelf == g_stUIEquip.GetGoodsGrid() &&
+      pDrag == g_stUIBooth.GetBoothItemsGrid()) {
+    g_stUIBooth.PopFromBooth(*pDrag, *pSelf, nGridID, *pItem);
+  }
+
+  // ‰ªéÁâ©ÂìÅÊ†èÊãñÂä®Âà∞Êëä‰Ωç
+  if (pSelf == g_stUIBooth.GetBoothItemsGrid() &&
+      pDrag == g_stUIEquip.GetGoodsGrid()) {
+    g_stUIBooth.PushToBooth(*pDrag, *pSelf, nGridID, *pItem);
+  }
+
+  // ‰ªé‰∏¥Êó∂ËÉåÂåÖÂà∞ËÉåÂåÖ
+  if (pSelf == g_stUIEquip.GetGoodsGrid() &&
+      pDrag == g_stUIStore.GetTempKitbagGrid()) {
+    g_stUIStore.PopFromTempKitbag(*pDrag, *pSelf, nGridID, *pItem);
+  }
+
+  // ÈªëÂ∏Ç‰∫§Êòì
+  if (pSelf == g_stUIBlackTrade.GetBuyGoodsGrid() &&
+      pDrag == g_stUIBlackTrade.GetSaleGoodsGrid()) {
+    g_stUIBlackTrade.SailToBuy(*pDrag, *pSelf, nGridID, *pItem);
+  }
 }
 
-void CUIInterface::_evtDragToGoodsEvent(CGuiData *pSender, CCommandObj* pItem, int nGridID, bool& isAccept)
-{
-    isAccept = false;
+bool CUIInterface::_evtESCKey(char &key) {
+  if (key == VK_ESCAPE) {
+    if (g_pGameApp->IsCtrlPress())
+      return false; // Â±èËîΩÊåâÈîÆCtrl+[
 
-	if( !CGameScene::GetMainCha() ) return;
+    if (!dynamic_cast<CWorldScene *>(CGameApp::GetCurScene()))
+      return false;
 
-	if( !CGameApp::GetCurScene() ) return;
+    g_stUIStart.CloseForm();
 
-	CGoodsGrid* pSelf = dynamic_cast<CGoodsGrid*>(pSender);
-	if( !pSelf ) return;
+    if (g_stUITrade.IsTrading())
+      return false;
 
-    COneCommand* pCom = dynamic_cast<COneCommand*>(CDrag::GetParent());
-    if( pCom )
-	{
-        int iIndex = -1;
-        if( g_stUIEquip.IsEquipCom( pCom ) && pSelf==g_stUIEquip.GetGoodsGrid() )
-		{
-			// ¥”◊∞±∏¿∏–∂‘ÿµ¿æﬂµΩµ¿æﬂ¿∏
-			g_stUIEquip.UnfixToGrid( pCom->GetCommand(), nGridID, pCom->nTag );
-			return;
-		}
+    CForm *frm = CFormMgr::s_Mgr.FindESCForm();
+    if (frm) {
+      GuiFormEscCloseEvent evtEscClose = frm->evtEscClose;
+      if (evtEscClose) {
+        evtEscClose(frm);
+      } else {
+        frm->Close();
+      }
+      return true;
+    }
 
-		/* µ¿æﬂ◊∞±∏æ´¡∂ */
-		// ¥”æ´¡∂ΩÁ√ÊÕœ∂ØµΩŒÔ∆∑¿∏
-		iIndex = g_stUIForge.GetForgeComIndex(pCom);
-		if (pSelf == g_stUIEquip.GetGoodsGrid()	&& -1 != iIndex)
-		{
-			g_stUIForge.DragToEquipGrid(iIndex);
-			return;
-		}
-
-		/* µ¿æﬂ◊∞±∏∫œ≥… */
-		// ¥”∫œ≥…ΩÁ√ÊÕœ∂ØµΩŒÔ∆∑¿∏
-		if (pSelf == g_stUIEquip.GetGoodsGrid()	&& g_stUIMakeEquip.IsAllCommand(pCom))
-		{
-			if (g_stUIMakeEquip.IsRouleauCommand(pCom))
-				g_stUIMakeEquip.DragRouleauToEquipGrid();
-			else
-			{
-				/*int*/ iIndex = g_stUIMakeEquip.GetItemComIndex(pCom);
-				if (iIndex != -1)
-					g_stUIMakeEquip.DragItemToEquipGrid(iIndex);
-			}
-			return;
-		}
-
-		// Ã·¥ø
-		// ¥”Ã·¥øΩÁ√ÊÕœµΩŒÔ∆∑¿∏
-		int nPurifyIndex = g_stUIPurify.GetItemComIndex(pCom);
-		if (pSelf == g_stUIEquip.GetGoodsGrid()	&& -1 != nPurifyIndex)
-		{
-			g_stUIPurify.DragItemToEquipGrid(nPurifyIndex);
-		}
-
-        //  ÷∆‘Ï
-        iIndex = g_stUICompose.GetComIndex(pCom);
-        if(pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex)
-        {
-            if(1 == iIndex)
-            {
-                g_stUICompose.ClearCommand();
-            }
-            else
-            {
-                g_stUICompose.DragToEquipGrid(iIndex);
-            }
-            return;
-        }
-
-        //  ∂Õ‘Ï
-        iIndex = g_stUIFound.GetComIndex(pCom);
-        if(pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex)
-        {
-            if(1 == iIndex)
-            {
-                g_stUIFound.ClearCommand();
-            }
-            else
-            {
-                g_stUIFound.DragToEquipGrid(iIndex);
-            }
-            return;
-        }
-
-        //  ≈Î‚ø
-        iIndex = g_stUICooking.GetComIndex(pCom);
-        if(pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex)
-        {
-            if(1 == iIndex)
-            {
-                g_stUICooking.ClearCommand();
-            }
-            else
-            {
-                g_stUICooking.DragToEquipGrid(iIndex);
-            }
-            return;
-        }
-
-        //  ∑÷Ω‚
-        iIndex = g_stUIBreak.GetComIndex(pCom);
-        if(pSelf == g_stUIEquip.GetGoodsGrid() && -1 != iIndex)
-        {
-            g_stUIBreak.DragToEquipGrid(iIndex);
-            return;
-        }
-
-		return;
-	}
-
-    CGoodsGrid* pDrag = dynamic_cast<CGoodsGrid*>(CDrag::GetParent());
-	if( !pDrag ) return;
-
-	// ¥”NPC¥¶¬Úµ¿æﬂ
-	if( pSelf==g_stUIEquip.GetGoodsGrid() 
-		&& g_stUINpcTrade.IsNpcGoods( pDrag ) )
-	{		
-		g_stUINpcTrade.LocalBuyFromNpc( pDrag, pSelf, nGridID, pItem );
-		return;
-	}
-
-	// ¬Ùµ¿æﬂ∏¯NPC
-	if( pDrag==g_stUIEquip.GetGoodsGrid() 
-		&& g_stUINpcTrade.IsNpcGoods( pSelf ) )
-	{
-		g_stUINpcTrade.LocalSaleToNpc( pSelf, pDrag, nGridID, pItem );
-		return;
-	}
-
-	// ¥”Ωª“◊À˘¬Ú∂´Œ˜µΩ¥¨≤’ Michael Chen (2005-05-27)
-	if ( pDrag==g_stUIBourse.GetBuyGoodsGrid() && 
-		 pSelf == g_stUIBourse.GetShipRoomGoodsGrid())
-	{			
-		g_stUIBourse.BuyItem(*pSelf, *pItem, nGridID);
-		return;
-	}
-
-	// ÕÊº“º‰Ωª“◊:º”»Î“ª∏ˆŒÔ∆∑Õœ∂Ø
-	if (pDrag == g_stUITrade.GetRequestGrid() &&
-		pSelf==g_stUITrade.GetPlayertradeSaleGrid())
-	{
-		g_stUITrade.LocalSaleItem( pSelf, pDrag, nGridID, pItem );
-		return;
-	}
-
-	// ÕÊº“º‰Ωª“◊:»°œ˚“ª∏ˆŒÔ∆∑Ωª“◊
-	if( pSelf==g_stUITrade.GetRequestGrid() 
-		&&  pDrag==g_stUITrade.GetPlayertradeSaleGrid() )
-	{
-		g_stUITrade.LocalCancelItem( pDrag, pSelf, nGridID, pItem );
-		return;
-	}
-
-	// ¥”“¯––»°≥ˆŒÔ∆∑
-	if ( pSelf == g_stUIEquip.GetGoodsGrid()
-		&& pDrag == g_stUIBank.GetBankGoodsGrid())
-	{
-		g_stUIBank.PopFromBank(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
-	// Ω´ŒÔ∆∑¥ÊµΩ“¯––
-	if ( pSelf == g_stUIBank.GetBankGoodsGrid()
-		&& pDrag == g_stUIEquip.GetGoodsGrid())
-	{
-		g_stUIBank.PushToBank(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
-	/* ∞⁄ÃØœ‡πÿ */
-	// ¥”ÃØŒªÕœ∂ØµΩŒÔ∆∑¿∏
-	if (pSelf == g_stUIEquip.GetGoodsGrid()
-		&& pDrag == g_stUIBooth.GetBoothItemsGrid())
-	{
-		g_stUIBooth.PopFromBooth(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
-	// ¥”ŒÔ∆∑¿∏Õœ∂ØµΩÃØŒª
-	if (pSelf == g_stUIBooth.GetBoothItemsGrid()
-		&& pDrag == g_stUIEquip.GetGoodsGrid())
-	{
-		g_stUIBooth.PushToBooth(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
-	// ¥”¡Ÿ ±±≥∞¸µΩ±≥∞¸
-	if (pSelf == g_stUIEquip.GetGoodsGrid() &&
-		pDrag == g_stUIStore.GetTempKitbagGrid())
-	{
-		g_stUIStore.PopFromTempKitbag(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
-	// ∫⁄ –Ωª“◊
-	if (pSelf == g_stUIBlackTrade.GetBuyGoodsGrid() &&
-		pDrag == g_stUIBlackTrade.GetSaleGoodsGrid())
-	{
-		g_stUIBlackTrade.SailToBuy(*pDrag, *pSelf, nGridID, *pItem);
-	}
-
+    if (CFormMgr::s_Mgr.ModalFormNum() == 0 &&
+        CFormMgr::s_Mgr.GetEnableHotKey()) {
+      frm = g_stUISystem.GetSystemForm();
+      if (frm) {
+        frm->Show();
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
-bool CUIInterface::_evtESCKey(char& key)
-{
-	if( key==VK_ESCAPE )
-	{
-		if( g_pGameApp->IsCtrlPress() ) return false;		// ∆¡±Œ∞¥º¸Ctrl+[
+bool CUIInterface::Error(const char *strInfo, const char *strFormName,
+                         const char *strCompentName) {
+  string strFormat = strInfo;
+  if (strFormat.substr(0, 3) != "msg")
+    strFormat = "msg" + strFormat;
 
-		if( !dynamic_cast<CWorldScene*>(CGameApp::GetCurScene()) ) return false;
+  static BOOL s_bErrorShowed = FALSE;
+  if (!s_bErrorShowed) {
+    s_bErrorShowed = TRUE;
+    char buf[1000];
+    _snprintf_s(buf, _countof(buf), _TRUNCATE, strFormat.c_str(), strFormName,
+                strCompentName);
+    MessageBox(NULL, buf, "Error", MB_OK | MB_ICONERROR);
+  }
 
-		g_stUIStart.CloseForm();
-
-		if( g_stUITrade.IsTrading() ) return false;
-
-		CForm* frm = CFormMgr::s_Mgr.FindESCForm();
-		if( frm ) 
-		{
-			GuiFormEscCloseEvent	evtEscClose = frm->evtEscClose;
-			if( evtEscClose)
-			{
-				evtEscClose( frm );
-			}
-			else
-			{
-				frm->Close();
-			}
-			return true;
-		}
-
-		if( CFormMgr::s_Mgr.ModalFormNum()==0 && CFormMgr::s_Mgr.GetEnableHotKey() )
-		{
-			frm = g_stUISystem.GetSystemForm();
-			if( frm )
-			{
-				frm->Show();
-				return true;
-			}
-		}
-	}
-	return false;
-}
-
-bool CUIInterface::Error(const char* strInfo, const char* strFormName, const char* strCompentName) 
-{
-	string strFormat = strInfo;
-	if( strFormat.substr( 0, 3 )!="msg" )
-		strFormat = "msg" + strFormat;
-	
-	static BOOL s_bErrorShowed = FALSE;
-	if( !s_bErrorShowed )
-	{
-		s_bErrorShowed = TRUE;
-		char buf[1000];
-		_snprintf_s(buf, _countof(buf), _TRUNCATE, strFormat.c_str(), strFormName, strCompentName);
-		MessageBox(NULL, buf, "Error", MB_OK | MB_ICONERROR);
-	}
-
-	GameErrorLog(strFormat.c_str(), strFormName, strCompentName);
-	LG("gui", strFormat.c_str(), strFormName, strCompentName );
-	return false;
+  GameErrorLog(strFormat.c_str(), strFormName, strCompentName);
+  LG("gui", strFormat.c_str(), strFormName, strCompentName);
+  return false;
 }

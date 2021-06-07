@@ -57,8 +57,8 @@ bool CAction::Add(dbc::Short sActionType, void *pActionData)
 T_E}
 
 //=============================================================================
-// sActionType ����ɵĶ�������.0����ʾ�״�ִ�ж�������
-// sActionState �ж�ִ�еĽ��
+// sActionType 刚完成的动作类型.0，表示首次执行动作队列
+// sActionState 行动执行的结果
 //=============================================================================
 bool CAction::DoNext(Short sActionType, Short sActionState)
 {T_B
@@ -232,7 +232,7 @@ void CActionCache::AddCommand(Short sCommand)
 		pSCarrier = new SAction;
 		if (!pSCarrier)
 		{
-			//THROW_EXCP(excpMem, "�����ж���������������з����ڴ�ʧ��");
+			//THROW_EXCP(excpMem, "缓存行动管理对象构造过程中分配内存失败");
 			THROW_EXCP(excpMem, RES_STRING(GM_ACTION_CPP_00001));
 		}
 	}

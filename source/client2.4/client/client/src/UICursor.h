@@ -7,30 +7,30 @@ class CCursor
 public:
 	enum eState
 	{
-		stNormal	= 0,	// Õý³£×´Ì¬
-		stActive	= 1,	// ´ø¶¯×÷×´Ì¬
-		stDrag		= 2,	// ÍÏ¶¯Ê±
-		stSize		= 3,	// ¸Ä±ä´óÐ¡
-		stVertical	= 4,	// ´¹Ö±
-		stLevel		= 5,	// Ë®Æ½
-		stWait		= 6,	// µÈ´ý	
-		stAttack	= 7,	// ÓÃÓÚÊó±êÒÆ¶¯Ê±ÏÔÊ¾µÄ¹¥»÷Êó±ê
-		stSkillAttack = 8,	// µ¥¼¼ÄÜ¹¥»÷
-		stUpBank	= 9,	// ÉÏ°¶
-		stUpBoat	= 10,	// ÉÏ´¬
-		stStop		= 11,	// ²»¿É²Ù×÷
-		stHover		= 12,	// ÐüÍ£ÎïÆ·
-		stPick		= 13,	// Ê°È¡ÎïÆ·
-        stCamera	= 14,   // ¾µÍ·Ðý×ª
-        stChat		= 15,   // ¶Ô»°
-        stMouse		= 16,   // Ò»¸öÊó±ê
-        stButtonClick = 17, // °´Å¥°´ÏÂ
-        stHide		= 18,   // ²»ÏÔÊ¾Êó±ê
-		stSearch	= 19,	// ²éÑ¯
-		stBlock		= 20,	// ²»¿É×ß
-		stRepair	= 21,	// ÐÞÀí
-		stFeed		= 22,	// Î¹Ê³
-		stEnd,				// ½áÊø·û£¬ÓÃÓÚÅÐ¶ÏÊý×é×î´óÖµ
+		stNormal	= 0,	// æ­£å¸¸çŠ¶æ€
+		stActive	= 1,	// å¸¦åŠ¨ä½œçŠ¶æ€
+		stDrag		= 2,	// æ‹–åŠ¨æ—¶
+		stSize		= 3,	// æ”¹å˜å¤§å°
+		stVertical	= 4,	// åž‚ç›´
+		stLevel		= 5,	// æ°´å¹³
+		stWait		= 6,	// ç­‰å¾…	
+		stAttack	= 7,	// ç”¨äºŽé¼ æ ‡ç§»åŠ¨æ—¶æ˜¾ç¤ºçš„æ”»å‡»é¼ æ ‡
+		stSkillAttack = 8,	// å•æŠ€èƒ½æ”»å‡»
+		stUpBank	= 9,	// ä¸Šå²¸
+		stUpBoat	= 10,	// ä¸Šèˆ¹
+		stStop		= 11,	// ä¸å¯æ“ä½œ
+		stHover		= 12,	// æ‚¬åœç‰©å“
+		stPick		= 13,	// æ‹¾å–ç‰©å“
+        stCamera	= 14,   // é•œå¤´æ—‹è½¬
+        stChat		= 15,   // å¯¹è¯
+        stMouse		= 16,   // ä¸€ä¸ªé¼ æ ‡
+        stButtonClick = 17, // æŒ‰é’®æŒ‰ä¸‹
+        stHide		= 18,   // ä¸æ˜¾ç¤ºé¼ æ ‡
+		stSearch	= 19,	// æŸ¥è¯¢
+		stBlock		= 20,	// ä¸å¯èµ°
+		stRepair	= 21,	// ä¿®ç†
+		stFeed		= 22,	// å–‚é£Ÿ
+		stEnd,				// ç»“æŸç¬¦ï¼Œç”¨äºŽåˆ¤æ–­æ•°ç»„æœ€å¤§å€¼
 	};
 
 public:
@@ -38,10 +38,10 @@ public:
 	~CCursor();
 
 	void	Init();
-	void	SetCursor( eState v );			// ÉèÖÃ¹â±ê×´Ì¬£­×´Ì¬º¯Êý
+	void	SetCursor( eState v );			// è®¾ç½®å…‰æ ‡çŠ¶æ€ï¼çŠ¶æ€å‡½æ•°
 	eState  GetCursor()			{ return _eActive;				}
 
-	bool	SetFrame( eState v );			// ÉèÖÃ¹â±ê×´Ì¬£­Ã¿Ö¡µÄµ÷ÓÃº¯Êý
+	bool	SetFrame( eState v );			// è®¾ç½®å…‰æ ‡çŠ¶æ€ï¼æ¯å¸§çš„è°ƒç”¨å‡½æ•°
     void    Restore()           { _IsShowFrame=false;           }
 
 	int		GetMax()			{ return stEnd;					}
@@ -61,10 +61,10 @@ private:
 	bool		_IsInit;
     bool        _IsShowFrame;
 
-	eState		_eFrame;					// Ö¡º¯ÊýµÄ¹â±ê×´Ì¬
-	eState		_eState;					// ×´Ì¬º¯ÊýµÄ¹â±ê×´Ì¬
+	eState		_eFrame;					// å¸§å‡½æ•°çš„å…‰æ ‡çŠ¶æ€
+	eState		_eState;					// çŠ¶æ€å‡½æ•°çš„å…‰æ ‡çŠ¶æ€
 
-	eState		_eActive;					// µ±Ç°ÕýÔÚÊ¹ÓÃµÄ×´Ì¬
+	eState		_eActive;					// å½“å‰æ­£åœ¨ä½¿ç”¨çš„çŠ¶æ€
 	HCURSOR		_hCursor[stEnd];
 
 };
@@ -77,7 +77,7 @@ public:
 	~CWaitCursor()					{ CCursor::I()->SetCursor( CCursor::stNormal );	}
 };
 
-// ÄÚÁªº¯Êý
+// å†…è”å‡½æ•°
 inline void CCursor::SetCursor( eState v )
 {
     if( v>=stNormal && v<stEnd )

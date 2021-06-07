@@ -3,12 +3,12 @@
 
 #include "TChar.h"
 
-// ´Ó¸ø¶¨×Ö·û´Ü(_TCHAR *in)µÄ¸ø¶¨Î»ÖÃ(long *in_from)»ñÈ¡×Ö·û´Ü£¬
-// Ö±µ½Óöµ½×Ö·û´ÜÁĞ±í(_TCHAR *end_list)ÖĞµÄÈÎÒ»×Ö·ûÊ±½áÊø
+// ä»ç»™å®šå­—ç¬¦çªœ(_TCHAR *in)çš„ç»™å®šä½ç½®(long *in_from)è·å–å­—ç¬¦çªœï¼Œ
+// ç›´åˆ°é‡åˆ°å­—ç¬¦çªœåˆ—è¡¨(_TCHAR *end_list)ä¸­çš„ä»»ä¸€å­—ç¬¦æ—¶ç»“æŸ
 long StringGet(_TCHAR *out, long out_max, _TCHAR *in, long *in_from, _TCHAR *end_list, long end_len);
 
 
-// ´Ó¸ø¶¨×Ö·û´Ü(_TCHAR *in)µÄ¸ø¶¨Î»ÖÃ(long *in_from)ÌŞ³ı×Ö·û´ÜÁĞ±í(_TCHAR *end_list)ÖĞµÄÈÎÒ»×Ö·û
+// ä»ç»™å®šå­—ç¬¦çªœ(_TCHAR *in)çš„ç»™å®šä½ç½®(long *in_from)å‰”é™¤å­—ç¬¦çªœåˆ—è¡¨(_TCHAR *end_list)ä¸­çš„ä»»ä¸€å­—ç¬¦
 void StringSkipCompartment(_TCHAR *in, long *in_from, _TCHAR *skip_list, long skip_len);
 
 

@@ -31,11 +31,11 @@ struct uplayer
         return *this;
     }
 
-    DWORD m_dwDBChaId; // Î¨Ò»ID
+    DWORD m_dwDBChaId; // å”¯ä¸€ID
 
-    // È·¶¨Õâ¸öPlayer
+    // ç¡®å®šè¿™ä¸ªPlayer
     GateServer* pGate;
-    unsigned long m_ulGateAddr; // ÔÚ GateServer ½ø³ÌÖĞµÄĞéÄâµØÖ·
+    unsigned long m_ulGateAddr; // åœ¨ GateServer è¿›ç¨‹ä¸­çš„è™šæ‹Ÿåœ°å€
 };
 
 struct GatePlayer
@@ -66,7 +66,7 @@ private:
 
     uplayer ply;
 
-    GatePlayer* m_tmplist; // ÌØ¶¨·¢°ü½Ó¿ÚÖ®ÓÃ£¬Ãû³ÆÒÔºó¿ÉÄÜ»áµ÷Õû
+    GatePlayer* m_tmplist; // ç‰¹å®šå‘åŒ…æ¥å£ä¹‹ç”¨ï¼Œåç§°ä»¥åå¯èƒ½ä¼šè°ƒæ•´
 };
 
 

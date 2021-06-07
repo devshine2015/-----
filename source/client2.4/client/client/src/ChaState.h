@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¹ÜÀíÍæ¼Ò¼¼ÄÜ×´Ì¬
-// ×÷Õß:lh 2005-05-31
+// åç§°:ç®¡ç†ç©å®¶æŠ€èƒ½çŠ¶æ€
+// ä½œè€…:lh 2005-05-31
 //----------------------------------------------------------------------
 #pragma once
 
@@ -17,10 +17,10 @@ class CChaStateMgr
 public:
 	CChaStateMgr(CCharacter* pCha);
 
-	void		ChaDestroy();									// ½ÇÉ«ÎŞĞ§Ê±µ÷ÓÃ
-	void		ChaDied()	{ ChaDestroy();	}					// ½ÇÉ«ËÀÍöÊ±µ÷ÓÃ
+	void		ChaDestroy();									// è§’è‰²æ— æ•ˆæ—¶è°ƒç”¨
+	void		ChaDied()	{ ChaDestroy();	}					// è§’è‰²æ­»äº¡æ—¶è°ƒç”¨
 
-	CBoolSet&	Synchro( stSkillState* pState, int nCount );	// Í¬²½×´Ì¬Ê±µ÷ÓÃ
+	CBoolSet&	Synchro( stSkillState* pState, int nCount );	// åŒæ­¥çŠ¶æ€æ—¶è°ƒç”¨
 
 	int					GetSkillStateNum()					{ return (int)_states.size();	}
 	CSkillStateRecord*	GetSkillState( unsigned int nID )	{ return _states[nID]->pInfo;	}
@@ -49,8 +49,8 @@ private:
 	static	bool		_IsInit;
 	static stChaState	_sInitState[SKILL_STATE_MAXID];
 
-	static CSkillStateRecord*	_pLastActInfo;		// ÓÃÓÚÍ¬²½Ê±·µ»Ø×îºóÒ»¸öÓĞ¶¯×÷±íÏÖµÄÊı¾İ
-	static int					_nShopLevel;		// ÓÃÓÚÊ±·µ»Ø°ÚÌ¯×´Ì¬µÈ¼¶
+	static CSkillStateRecord*	_pLastActInfo;		// ç”¨äºåŒæ­¥æ—¶è¿”å›æœ€åä¸€ä¸ªæœ‰åŠ¨ä½œè¡¨ç°çš„æ•°æ®
+	static int					_nShopLevel;		// ç”¨äºæ—¶è¿”å›æ‘†æ‘ŠçŠ¶æ€ç­‰çº§
 
 };
 

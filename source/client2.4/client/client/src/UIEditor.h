@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:±à¼­Æ÷½çÃæ
-// ×÷Õß:lh 2004-08-21
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:ç¼–è¾‘å™¨ç•Œé¢
+// ä½œè€…:lh 2004-08-21
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 
 #pragma once
@@ -20,7 +20,7 @@ class CEditor : public CUIInterface
 {
 public:
     CEditor();
-    bool Init();			// ÓÃÓÚ³õÊ¼ÄÚ²¿Ö¸Õë
+    bool Init();			// ç”¨äºåˆå§‹å†…éƒ¨æŒ‡é’ˆ
 
     bool Error(const char* strInfo, const char* strFormName, const char* strCompentName) {
         LG("error", strInfo, strFormName, strCompentName );

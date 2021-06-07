@@ -10,14 +10,14 @@
 
 enum	Effect_Type
 {
-	EFF_SCENE,  //³¡¾°ÌØĞ§	
-	EFF_CHA,	//½ÇÉ«°ó¶¨,ĞèÒª½ÇÉ«ID
-	EFF_ITEM,	//ÎäÆ÷°ó¶¨,ĞèÒªitem dummyºÍitem id
-	EFF_STRIP,	//µ¶¹â
-	EFF_SELF,	//×ÔÉíÌØĞ§
-	EFF_HIT,	//ÊÜ»÷ÌØĞ§,ĞèÒªÆğÊ¼µã
-	EFF_MAGIC,	//·ÉĞĞÌØĞ§,ĞèÒªÆğÊ¼µã£¬Ä¿±êµã
-	EFF_FONT,	//·ÉĞĞÌØĞ§,ĞèÒªÆğÊ¼µã£¬Ä¿±êµã
+	EFF_SCENE,  //åœºæ™¯ç‰¹æ•ˆ	
+	EFF_CHA,	//è§’è‰²ç»‘å®š,éœ€è¦è§’è‰²ID
+	EFF_ITEM,	//æ­¦å™¨ç»‘å®š,éœ€è¦item dummyå’Œitem id
+	EFF_STRIP,	//åˆ€å…‰
+	EFF_SELF,	//è‡ªèº«ç‰¹æ•ˆ
+	EFF_HIT,	//å—å‡»ç‰¹æ•ˆ,éœ€è¦èµ·å§‹ç‚¹
+	EFF_MAGIC,	//é£è¡Œç‰¹æ•ˆ,éœ€è¦èµ·å§‹ç‚¹ï¼Œç›®æ ‡ç‚¹
+	EFF_FONT,	//é£è¡Œç‰¹æ•ˆ,éœ€è¦èµ·å§‹ç‚¹ï¼Œç›®æ ‡ç‚¹
 };
 class CCharacter;
 class CGameScene;
@@ -221,7 +221,7 @@ class  CMagicEff;
 ///*CMagicEff*/
 ///************************************************************************/
 
-//¶¨ÒåÁ£×Ó·¢³öµÄÏûÏ¢£¬ÓÉCLEEffectCtrlÀ´·¢³öÕâĞ©ÏûÏ¢£¬
+//å®šä¹‰ç²’å­å‘å‡ºçš„æ¶ˆæ¯ï¼Œç”±CLEEffectCtrlæ¥å‘å‡ºè¿™äº›æ¶ˆæ¯ï¼Œ
 #define				PARTCTRL_MSG_PLAY			1
 #define				PARTCTRL_MSG_STOP			2	
 #define				PARTCTRL_MSG_MOVE			3	
@@ -229,16 +229,16 @@ class  CMagicEff;
 #define				PARTCTRL_MSG_RENDER			5	
 
 
-//´´½¨Ò»¸öÌØĞ§ËùĞèµÄ²ÎÊı
+//åˆ›å»ºä¸€ä¸ªç‰¹æ•ˆæ‰€éœ€çš„å‚æ•°
 struct Eff_Property
 {
-	int			m_iEffType; //0 =³¡¾°ÌØĞ§£¬1Îª½ÇÉ«°ó¶¨ÌØĞ§,2ÎªÎï¼ş°ó¶¨ÌØĞ§,3ÎªÎäÆ÷ÌØĞ§,4ÎªÄ§·¨¹¥»÷ÌØĞ§
-	s_string	m_strName;  //ÌØĞ§ÎÄ¼şÃû
+	int			m_iEffType; //0 =åœºæ™¯ç‰¹æ•ˆï¼Œ1ä¸ºè§’è‰²ç»‘å®šç‰¹æ•ˆ,2ä¸ºç‰©ä»¶ç»‘å®šç‰¹æ•ˆ,3ä¸ºæ­¦å™¨ç‰¹æ•ˆ,4ä¸ºé­”æ³•æ”»å‡»ç‰¹æ•ˆ
+	s_string	m_strName;  //ç‰¹æ•ˆæ–‡ä»¶å
 
-	int			m_iIdxRender;//Ëã·¨Ë÷Òı
+	int			m_iIdxRender;//ç®—æ³•ç´¢å¼•
 };
 
-//!¿ØÖÆÔË¶¯¹æ¼£µÄËã·¨
+//!æ§åˆ¶è¿åŠ¨è§„è¿¹çš„ç®—æ³•
 inline  void	Part_bind(CMagicEff* pEffCtrl);
 inline  void	Part_follow(CMagicEff* pEffCtrl);
 inline  void	Part_foldir(CMagicEff* pEffCtrl);
@@ -290,7 +290,7 @@ public:
 protected:
 	void			RenderMagic();
 public:
-	//Ö¸ÏòËã·¨µÄº¯ÊıÖ¸Õë
+	//æŒ‡å‘ç®—æ³•çš„å‡½æ•°æŒ‡é’ˆ
 	void				(*RenderUpdate)(CMagicEff* pEffCtrl);
 
 	friend	void		Part_bind(CMagicEff* pEffCtrl);
@@ -321,7 +321,7 @@ public:
 	int				getOwerID()			 { return _iOwnerID;}
 
 
-	//iType  0: ½ÇÉ«¶ÔÏó£¬ 1£ºItem¶ÔÏó
+	//iType  0: è§’è‰²å¯¹è±¡ï¼Œ 1ï¼šItemå¯¹è±¡
 	void			setFollowObj(CSceneNode* pObj, NODE_TYPE eType = NODE_CHA, int iDummy = -1, int iDummy2 = -1);
 
 	BOOL            IsSceneEffect()             { return getTypeID() == 0; }
@@ -427,7 +427,7 @@ public:
 
 	DWORD	GetStartTime()					{ return _dwStartTime;		}
 
-	// ÉèÖÃËõ·ÅÌØĞ§Òò×Ó Michael 2005.12.8
+	// è®¾ç½®ç¼©æ”¾ç‰¹æ•ˆå› å­ Michael 2005.12.8
 	void	SetScale(float fX, float fY, float fZ) { _UpdateScale(fX, fY, fZ); }
 	void	SetAlpha(float fAlpha) { 	_pEffCtrl->GetPartCtrl()->SetAlpha(fAlpha); }
 
@@ -448,7 +448,7 @@ protected:
 protected:
 	Effect_Type			_eType;
     CEffDelay*          _pEffDelay;
-	CSceneNode*			_pObj;//¸úËæµÄ¶ÔÏó
+	CSceneNode*			_pObj;//è·Ÿéšçš„å¯¹è±¡
 
 	LETerrain*			_pTerrain;
 	long				_nTag;
@@ -500,7 +500,7 @@ protected:
 	int					_isID;
 	D3DXVECTOR3			_vsBegin;
 	D3DXVECTOR3			_vsEnd;
-	DWORD				_dwStartTime;		// ¼ÇÂ¼·ÉĞĞÌØĞ§µÄÆğÊ¼Ê±¼ä
+	DWORD				_dwStartTime;		// è®°å½•é£è¡Œç‰¹æ•ˆçš„èµ·å§‹æ—¶é—´
 
 };
 
@@ -562,7 +562,7 @@ protected:
 	
     //CGameScene*		_pScene;
 	LETerrain*      _pTerrain;
-	int				_iChaID;//ÓĞ¿ÉÄÜÊÇ½ÇÉ«£¬»òÎï¼ş£¬»òÎäÆ÷»òÌØĞ§µÄID
+	int				_iChaID;//æœ‰å¯èƒ½æ˜¯è§’è‰²ï¼Œæˆ–ç‰©ä»¶ï¼Œæˆ–æ­¦å™¨æˆ–ç‰¹æ•ˆçš„ID
 
 	int				_iIdxID;
 

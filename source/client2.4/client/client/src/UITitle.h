@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÓÎÏ·±êÌâ
-// ×÷Õß:lh 2005-05-23
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// åç§°:æ¸¸æˆæ ‡é¢˜
+// ä½œè€…:lh 2005-05-23
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -43,15 +43,15 @@ protected:
 	CGuiPic*		_pImage;
 
 	unsigned int	_nFontIndex;
-	string			_strCaption;		// ÏÔÊ¾ÔÚ±íÃæµÄÃû³Æ
-	DWORD			_dwColor;			// ×ÖÌåÑÕÉ«
+	string			_strCaption;		// æ˜¾ç¤ºåœ¨è¡¨é¢çš„åç§°
+	DWORD			_dwColor;			// å­—ä½“é¢œè‰²
 	DWORD			_dwShowTime;
 	int				_nFontH;
 
 private:
 	BYTE			_alpha;
 	DWORD			_endtime;
-	int				_posx[enumMax];		// ×ø±ê
+	int				_posx[enumMax];		// åæ ‡
 	int				_posy;
 	int				_posfonty;
 

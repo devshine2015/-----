@@ -30,7 +30,7 @@ namespace mission
 #define defENTITY_NAME_LEN	32
 
 /**
- * @alias ÊµÌå
+ * @alias å®ä½“
  */
 class Entity
 {
@@ -116,7 +116,7 @@ public:
 	dbc::Short		GetEyeshotHeight(void) {return GetEyeshotWidth();}
 	bool			IsInEyeshot(Entity *pCTarEnti);
 
-	// ÊµÌåÇĞ»»µØÍ¼µ¥ÔªÍø¸ñÊÂ¼ş´¦Àíº¯Êı
+	// å®ä½“åˆ‡æ¢åœ°å›¾å•å…ƒç½‘æ ¼äº‹ä»¶å¤„ç†å‡½æ•°
 	virtual	void	GotoMapUnit() {};
 
 	virtual CFightAble *IsFightAble(){return 0;}
@@ -140,8 +140,8 @@ public:
 protected:
 	Entity();
 
-	virtual	void	WritePK(WPACKET& wpk);			//Ğ´ÈëÍæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)µÄËùÓĞÊı¾İ
-	virtual	void	ReadPK(RPACKET& rpk);			//ÖØ¹¹Íæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)
+	virtual	void	WritePK(WPACKET& wpk);			//å†™å…¥ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)çš„æ‰€æœ‰æ•°æ®
+	virtual	void	ReadPK(RPACKET& rpk);			//é‡æ„ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)
 
 	virtual void ReflectINFof(Entity *srcent, WPACKET chginf){}
 
@@ -150,8 +150,8 @@ private:
 	virtual const Square & GetLapChkShape(){return m_shape;}
 	virtual void OnBeginSee(Entity *){}
 	virtual void OnEndSee(Entity *){}
-	virtual void OnBeginSeen(CCharacter *pCCha) =0;		//ToDo:´«Êä×Ô¼ºÍêÕûĞÅÏ¢ÒÔ·´Ó³µ½¿Í»§¶Ë
-	virtual void OnEndSeen(CCharacter *pCCha) =0;			//ToDo:´Ó¿Í»§¶ËÉ¾³ı×Ô¼º
+	virtual void OnBeginSeen(CCharacter *pCCha) =0;		//ToDo:ä¼ è¾“è‡ªå·±å®Œæ•´ä¿¡æ¯ä»¥åæ˜ åˆ°å®¢æˆ·ç«¯
+	virtual void OnEndSeen(CCharacter *pCCha) =0;			//ToDo:ä»å®¢æˆ·ç«¯åˆ é™¤è‡ªå·±
 	virtual void AreaChange(void){}
 
 	bool	EdgeOverlap(long& xdist,long& ydist);
@@ -159,7 +159,7 @@ private:
 public:
 	bool		m_bValid;
 
-	struct // ¶ÔÓ¦ÊµÌåÊı×éµÄË÷Òı£¨ÓÉCEntityAllocÀàÀ´ÅäÖÃ£©
+	struct // å¯¹åº”å®ä½“æ•°ç»„çš„ç´¢å¼•ï¼ˆç”±CEntityAllocç±»æ¥é…ç½®ï¼‰
 	{
 		dbc::Long	m_lHandle;
 		dbc::Long	m_lHoldID;
@@ -169,13 +169,13 @@ public:
 	
 	Point		m_lastpos;
 	Square		m_shape;
-	Circle		m_STerritory; // ÁìµØ
+	Circle		m_STerritory; // é¢†åœ°
 	short		m_sAngle;
 	/**
-	 * @label µ±Ç°ËùÔÚµÄµØÍ¼ 
+	 * @label å½“å‰æ‰€åœ¨çš„åœ°å›¾ 
 	 * @labelDirection forward*/
 	SubMap		*m_submap;
-	CStateCellNode	*m_pCStateCellHead, *m_pCStateCellTail;	// ¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª£¬Ê×½ÚµãÊÇÖĞĞÄµãËùÔÚµÄ¹ÜÀíµ¥Ôª
+	CStateCellNode	*m_pCStateCellHead, *m_pCStateCellTail;	// è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒï¼Œé¦–èŠ‚ç‚¹æ˜¯ä¸­å¿ƒç‚¹æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	struct
 	{
 		Entity	*m_pCEyeshotCellNext;
@@ -190,12 +190,12 @@ public:
 
 	struct SExistCtrl
 	{
-		dbc::Short	sState;			// ´æÔÚ×´Ì¬£¬²Î¼ûCompCommand.h ÖĞµÄEExistStateÀàĞÍ
-		dbc::Short	sStopState;		// ¶¯×÷Í£Ö¹ºóµÄ×´Ì¬£¨EExistState µÄenumEXISTS_WAITING»òenumEXISTS_SLEEPING£©
+		dbc::Short	sState;			// å­˜åœ¨çŠ¶æ€ï¼Œå‚è§CompCommand.h ä¸­çš„EExistStateç±»å‹
+		dbc::Short	sStopState;		// åŠ¨ä½œåœæ­¢åçš„çŠ¶æ€ï¼ˆEExistState çš„enumEXISTS_WAITINGæˆ–enumEXISTS_SLEEPINGï¼‰
 
-		// ÓÃÓÚËÀÍöºÍ¸´»î
-		dbc::Long	lWitherTime;	// ÏûÍöĞèÒªµÄÊ±¼ä£¨ºÁÃë£©
-		dbc::Long	lResumeTime;	// ÖØÉúĞèÒªµÄÊ±¼ä£¨ºÁÃë£©
+		// ç”¨äºæ­»äº¡å’Œå¤æ´»
+		dbc::Long	lWitherTime;	// æ¶ˆäº¡éœ€è¦çš„æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
+		dbc::Long	lResumeTime;	// é‡ç”Ÿéœ€è¦çš„æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
 		dbc::uLong	ulTick;
 		//
 	};
@@ -204,8 +204,8 @@ public:
 	SExistCtrl		m_SExistCtrl;
 	bool			m_bActiveEyeshot;
 
-	dbc::uShort		m_usAreaAttr[2];	// ÊµÌåËùÔÚµØ±íµÄÇøÓòÊôĞÔ£¬0±íÊ¾Ö®Ç°µÄÇøÓòÊôĞÔ£¬1±íÊ¾ÏÖÔÚµÄ£¬²Î¼ûCompCommand.hµÄEAreaMask
-	dbc::uChar		m_ucIslandID[2];	// ÊµÌåËùÔÚµØ±íµÄµºÓìĞÅÏ¢£¬0±íÊ¾Ö®Ç°µÄµºÓìĞÅÏ¢£¬1±íÊ¾ÏÖÔÚµÄ
+	dbc::uShort		m_usAreaAttr[2];	// å®ä½“æ‰€åœ¨åœ°è¡¨çš„åŒºåŸŸå±æ€§ï¼Œ0è¡¨ç¤ºä¹‹å‰çš„åŒºåŸŸå±æ€§ï¼Œ1è¡¨ç¤ºç°åœ¨çš„ï¼Œå‚è§CompCommand.hçš„EAreaMask
+	dbc::uChar		m_ucIslandID[2];	// å®ä½“æ‰€åœ¨åœ°è¡¨çš„å²›å±¿ä¿¡æ¯ï¼Œ0è¡¨ç¤ºä¹‹å‰çš„å²›å±¿ä¿¡æ¯ï¼Œ1è¡¨ç¤ºç°åœ¨çš„
 
 };
 

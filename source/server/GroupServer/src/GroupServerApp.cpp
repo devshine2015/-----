@@ -50,11 +50,11 @@ private:
 			long l_playnum	=long(g_gpsvr->m_curChaNum);
 			long l_wgplaynum = long(g_gpsvr->m_curWGChaNum);
 			
-			//Í³¼ÆÍâ¹ÒÊıÁ¿
+			//ç»Ÿè®¡å¤–æŒ‚æ•°é‡
 			static short sStatCheatCount = 0;
 			if(sStatCheatCount == 0)
 			{
-				//LG("group_cheat", "µ±Ç°Ê¹ÓÃÍâ¹ÒÊıÁ¿ÊÇ[%ld]\n", g_gpsvr->m_dwCheatCount);
+				//LG("group_cheat", "å½“å‰ä½¿ç”¨å¤–æŒ‚æ•°é‡æ˜¯[%ld]\n", g_gpsvr->m_dwCheatCount);
 				LG("group_cheat", "current cheat count [%ld]\n", g_gpsvr->m_dwCheatCount);
 			}
 			sStatCheatCount = (sStatCheatCount + 1) % 60;
@@ -133,7 +133,7 @@ void GMBBS::Process()
 		{
 			WPacket	l_wpk	=g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_MC_SYSINFO);
-			l_wpk.WriteString(m_queue[i].m_word);					//Ëµ»°µÄÄÚÈİ
+			l_wpk.WriteString(m_queue[i].m_word);					//è¯´è¯çš„å†…å®¹
 
 			Player *l_plylst[10240];
 			short	l_plynum	=0;
@@ -217,7 +217,7 @@ GroupServerApp::GroupServerApp(ThreadPool *proc,ThreadPool *comm)
 	m_gldheap.Init();
 	m_teamheap.Init();
 
-	srand( (unsigned int)time( NULL ) );	//³õÊ¼»¯Ëæ»úÊıÖÖ×Ó
+	srand( (unsigned int)time( NULL ) );	//åˆå§‹åŒ–éšæœºæ•°ç§å­
 	try
 	{
 		Initialize();

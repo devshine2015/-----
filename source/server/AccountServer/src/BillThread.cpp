@@ -106,7 +106,7 @@ int BillThread::Run()
 {
 	while (!GetExitFlag() || (GetPkTotal() != 0))
 	{
-		PeekPacket(1000);		// ¸øÓÚ1ÃëµÄÊ±¼äÀ´²É¼¯¶ÓÁĞÖĞµÄÍøÂç°ü
+		PeekPacket(1000);		// ç»™äº1ç§’çš„æ—¶é—´æ¥é‡‡é›†é˜Ÿåˆ—ä¸­çš„ç½‘ç»œåŒ…
 	}
 
 	ExitThread();
@@ -115,7 +115,7 @@ int BillThread::Run()
 
 void BillThread::ProcessData(DataSocket* datasock, RPacket& rpkt)
 {
-	bool bRetry = true;				//¿´²»¶®ÓĞÊ²Ã´ÓÃÍ¾£¬±£Áô(2005-11-30,Arcol). ²¹³ä:¿ÉÄÜÊÇ¸´ÖÆAuthQueue::ProcessData(DataSocket* datasock, RPacket& rpkt)µÄ´¦Àí,´Ë²ÎÊıÓÃÓÚÖØÁ¬½ÓÊı¾İ¿â,µ«ÔÚ´ËÎŞÒâÒå
+	bool bRetry = true;				//çœ‹ä¸æ‡‚æœ‰ä»€ä¹ˆç”¨é€”ï¼Œä¿ç•™(2005-11-30,Arcol). è¡¥å……:å¯èƒ½æ˜¯å¤åˆ¶AuthQueue::ProcessData(DataSocket* datasock, RPacket& rpkt)çš„å¤„ç†,æ­¤å‚æ•°ç”¨äºé‡è¿æ¥æ•°æ®åº“,ä½†åœ¨æ­¤æ— æ„ä¹‰
 	char const* lpszName = NULL;
 	unsigned short usCmd = rpkt.ReadCmd();
 
@@ -168,12 +168,12 @@ void BillThread::ProcessData(DataSocket* datasock, RPacket& rpkt)
 		catch (CSQLException* se)
 		{
 			LG("BillProcessDataExcp", "SQL Exception: %s\n", se->m_strError.c_str());
-			bRetry = false; // ²âÊÔÖĞ£¬·Å¹ı
+			bRetry = false; // æµ‹è¯•ä¸­ï¼Œæ”¾è¿‡
 		}
 		catch (...)
 		{
 			LG("BillProcessDataExcp", "Unknown exception raised from BillService::ProcessData()\n");
-			bRetry = false; // ·ÇÊı¾İ¿âÔì³ÉµÄÒì³£·Å¹ı
+			bRetry = false; // éæ•°æ®åº“é€ æˆçš„å¼‚å¸¸æ”¾è¿‡
 		}
 	}
 }

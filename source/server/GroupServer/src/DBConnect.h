@@ -55,23 +55,23 @@ public:
 	bool SetAddr(long cha_id,long addr);
 	bool InsertRow(const char *cha_name,int act_id,const char *birth,const char * map,const char *look);
 	bool UpdateInfo(unsigned long cha_id,unsigned short icon,const char * motto);
-	//For´´½¨½ÇÉ«
+	//Foråˆ›å»ºè§’è‰²
 	int	FetchRowByChaName(const char *cha_name);
 	int			Getcha_id()			{return atoi(m_buf[0].c_str());}
 	const char *GetMottonByName()	{return		 m_buf[1].c_str() ;}
 	short		GetIconByName()		{return atoi(m_buf[2].c_str());}
-	//ForÆÕÍ¨µÇÂ¼
+	//Foræ™®é€šç™»å½•
 	int	FetchRowByChaID(int cha_id);
 	int FetchChaIDByCharName(cChar* cha_name);
 	int FetchActIDByCharName(cChar* cha_name);
-	const char *GetChaName()	{return		 m_buf[0].c_str(); }	//½ÇÉ«Ãû
+	const char *GetChaName()	{return		 m_buf[0].c_str(); }	//è§’è‰²å
 	const char *GetMotto()		{return		 m_buf[1].c_str(); }
-	short		GetIcon()		{return	atoi(m_buf[2].c_str());}	//Ğ¡Í¼±ê
-	int			GetGuildID()	{return atoi(m_buf[3].c_str());}	//ËùÊô¹«»áID
-	const char *GetGuildName()	{return		 m_buf[4].c_str(); }	//ËùÊô¹«»áÃû
-	const char *GetJob()		{return		 m_buf[5].c_str(); }	//Ö°Òµ
-	short		GetDegree()		{return atoi(m_buf[6].c_str());}	//µÈ¼¶
-	const char *GetMap()		{return		 m_buf[7].c_str(); }	//µØÍ¼Ãû
+	short		GetIcon()		{return	atoi(m_buf[2].c_str());}	//å°å›¾æ ‡
+	int			GetGuildID()	{return atoi(m_buf[3].c_str());}	//æ‰€å±å…¬ä¼šID
+	const char *GetGuildName()	{return		 m_buf[4].c_str(); }	//æ‰€å±å…¬ä¼šå
+	const char *GetJob()		{return		 m_buf[5].c_str(); }	//èŒä¸š
+	short		GetDegree()		{return atoi(m_buf[6].c_str());}	//ç­‰çº§
+	const char *GetMap()		{return		 m_buf[7].c_str(); }	//åœ°å›¾å
 	int			GetMap_X()		{return atoi(m_buf[8].c_str());}
 	int			GetMap_Y()		{return atoi(m_buf[9].c_str());}
 	const char *GetLook()		{return		 m_buf[10].c_str(); }

@@ -17,29 +17,29 @@ namespace GUI
 	struct stTradeBox;
 	struct stSelectBox;
 
-	class CBoothMgr : public CUIInterface // ½çÃæÓÃ»§°ÚÌ¯Àà
+	class CBoothMgr : public CUIInterface // ç•Œé¢ç”¨æˆ·æ‘†æ‘Šç±»
 	{
 	public:
 		CBoothMgr();
 		~CBoothMgr();
 
-		// ÏÔÊ¾ÉèÖÃ°ÚÌ¯½çÃæ
+		// æ˜¾ç¤ºè®¾ç½®æ‘†æ‘Šç•Œé¢
 		void ShowSetupBoothForm(int iLevel);
-		// ÏÔÊ¾°ÚÌ¯½»Ò×½çÃæ
+		// æ˜¾ç¤ºæ‘†æ‘Šäº¤æ˜“ç•Œé¢
 		void ShowTradeBoothForm(DWORD dwOwnerId, const char *szBoothName, int nItemNum);
 
-		// ÍÏ¶¯µ½Ì¯Î»
+		// æ‹–åŠ¨åˆ°æ‘Šä½
 		bool PushToBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem);
-		// ÍÏ¶¯³öÌ¯Î»
+		// æ‹–åŠ¨å‡ºæ‘Šä½
 		bool PopFromBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem);
-		// Ì¯Î»ÍÏ¶¯µ½Ì¯Î»
+		// æ‘Šä½æ‹–åŠ¨åˆ°æ‘Šä½
 		bool BoothToBooth(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem);
 
-		// ·şÎñÆ÷´«»ØµÄÔö¼õÌ¯Î»ÄÚ»õÎï
+		// æœåŠ¡å™¨ä¼ å›çš„å¢å‡æ‘Šä½å†…è´§ç‰©
 		void AddTradeBoothItem(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney);
 		void AddTradeBoothBoat(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney, NET_CHARTRADE_BOATDATA& Data);
 		void AddTradeBoothGood(int iGrid, DWORD dwItemID, int iCount, DWORD dwMoney, SItemGrid& rSItemGrid);
-		void RemoveTradeBoothItem( DWORD dwCharID, int iGrid, int iCount); // É¾¼õÎïÆ·
+		void RemoveTradeBoothItem( DWORD dwCharID, int iGrid, int iCount); // åˆ å‡ç‰©å“
 
 		void SetupBoothSuccess(); 
 		void PullBoothSuccess();   
@@ -48,13 +48,13 @@ namespace GUI
 		CGoodsGrid* GetBoothItemsGrid() { return grdBoothItem; }
 		DWORD GetOwnerId() { return m_dwOwnerId; }
 		void  SetOwnerId(DWORD dwOwnerId) { m_dwOwnerId = dwOwnerId; }
-		//ÅĞ¶Ï±íµ¥ÊÇ·ñ´ò¿ª
+		//åˆ¤æ–­è¡¨å•æ˜¯å¦æ‰“å¼€
 		bool IsOpen() { return frmBooth->GetIsShow(); }
-		//ÅĞ¶ÏÊÇ·ñÔÚ°ÚÌ¯
+		//åˆ¤æ–­æ˜¯å¦åœ¨æ‘†æ‘Š
 		bool IsSetupedBooth() { return m_bSetupedBooth; }
 		void SetSetupedBooth(bool bSetupedBooth) { m_bSetupedBooth = bSetupedBooth; }
 
-		//ÒòÆäËûÈËÊÕÌ¯¶ø¹Ø±Õ±íµ¥
+		//å› å…¶ä»–äººæ”¶æ‘Šè€Œå…³é—­è¡¨å•
 		void CloseBoothByOther(DWORD dwOtherId)	{ if (dwOtherId == m_dwOwnerId)	CloseBoothUI();	}
 
 	protected:
@@ -66,25 +66,25 @@ namespace GUI
 
 		struct SBoothItem;
 
-		// ÉèÖÃÌ¯Î»Ê±£¬ÍÏ¶¯µ½Ì¯Î»
+		// è®¾ç½®æ‘Šä½æ—¶ï¼Œæ‹–åŠ¨åˆ°æ‘Šä½
 		bool PushToBoothSetup(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd);
-		// ÉèÖÃÌ¯Î»Ê±£¬ÍÏ¶¯³öÌ¯Î»
+		// è®¾ç½®æ‘Šä½æ—¶ï¼Œæ‹–åŠ¨å‡ºæ‘Šä½
 		bool PopFromBoothSetup(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd);
-		// ½»Ò×Ì¯Î»Ê±£¬ÍÏ¶¯µ½Ì¯Î»
+		// äº¤æ˜“æ‘Šä½æ—¶ï¼Œæ‹–åŠ¨åˆ°æ‘Šä½
 		bool PushToBoothTrade(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd);
-		// ½»Ò×Ì¯Î»Ê±£¬ÍÏ¶¯³öÌ¯Î»
+		// äº¤æ˜“æ‘Šä½æ—¶ï¼Œæ‹–åŠ¨å‡ºæ‘Šä½
 		bool PopFromBoothTrade(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CItemCommand& rkItemCmd);
-		//¸ù¾İµÈ¼¶·µ»Ø°ÚÌ¯ÊıÁ¿
+		//æ ¹æ®ç­‰çº§è¿”å›æ‘†æ‘Šæ•°é‡
 		int GetItemNumByLevel(int iLevel);
-		//Çå³ıÌ¯Î»ÄÚµÄÎïÆ·
+		//æ¸…é™¤æ‘Šä½å†…çš„ç‰©å“
 		void ClearBoothItems();
-		//½«µ±Ç°µÄÍÏ¶¯µÄÎïÆ··ÅÈëÌ¯Î»
+		//å°†å½“å‰çš„æ‹–åŠ¨çš„ç‰©å“æ”¾å…¥æ‘Šä½
 		void AddBoothItem(SBoothItem* pBoothItem);
-		//½«µ±Ç°ÍÏ¶¯µÄÈô¸É¸öÎïÆ··ÅÈë×°±¸À¸
+		//å°†å½“å‰æ‹–åŠ¨çš„è‹¥å¹²ä¸ªç‰©å“æ”¾å…¥è£…å¤‡æ 
 		void RemoveBoothItemByNum(SBoothItem* pBoothItem, int iNum);
-		//´ò¿ª°ÚÌ¯½çÃæ
+		//æ‰“å¼€æ‘†æ‘Šç•Œé¢
 		void OpenBoothUI();
-		//¹Ø±Õ°ÚÌ¯½çÃæ
+		//å…³é—­æ‘†æ‘Šç•Œé¢
 		void CloseBoothUI();
 
 	private:
@@ -101,7 +101,7 @@ namespace GUI
 		static void _BuyAGoodEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 	private:
-		//½»Ò×Ì¯Î»±íµ¥
+		//äº¤æ˜“æ‘Šä½è¡¨å•
 		CForm			* frmBooth;
 		CLabel			* lblOwnerName;
 		CEdit			* edtBoothName;

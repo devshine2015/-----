@@ -58,7 +58,7 @@ namespace mission
 
 	void CCharBoat::GetBerthName( USHORT sBerthID, char szBerth[], USHORT sLen )
 	{T_B
-		// µ÷ÓÃNPC½Å±¾¶Ô»°´¦Àíº¯Êı
+		// è°ƒç”¨NPCè„šæœ¬å¯¹è¯å¤„ç†å‡½æ•°
 		lua_getglobal( g_pLuaState, "GetBerthData" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -90,26 +90,26 @@ namespace mission
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( sBoatID );
 		if( pInfo == NULL ) 
 		{
-			//owner.SystemNotice( "»ñÈ¡´¬Ö»ĞÅÏ¢Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", sBoatID );
+			//owner.SystemNotice( "è·å–èˆ¹åªä¿¡æ¯å¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", sBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00042), sBoatID );
 			return TRUE;
 		}
 
 		if( pInfo->sLvLimit > (USHORT)owner.getAttr( ATTR_LV ) )
 		{
-			//owner.SystemNotice( "Ìõ¼ş²»×ã£¬ĞèÒªµÈ¼¶%d¡£", pInfo->sLvLimit );
+			//owner.SystemNotice( "æ¡ä»¶ä¸è¶³ï¼Œéœ€è¦ç­‰çº§%dã€‚", pInfo->sLvLimit );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00043), pInfo->sLvLimit );
 			return TRUE;
 		}
 
-		// ËùÓĞÖ°Òµ¶¼ÔÊĞí
+		// æ‰€æœ‰èŒä¸šéƒ½å…è®¸
 		if( pInfo->sPfLimit[0] == USHORT(-1) )
 		{
 			return FALSE;
 		}
 
 		char szData[256];
-		//strcpy( szData, "Ìõ¼ş²»×ã£¬ĞèÒªÖ°Òµ£º" );
+		//strcpy( szData, "æ¡ä»¶ä¸è¶³ï¼Œéœ€è¦èŒä¸šï¼š" );
 		strcpy( szData, RES_STRING(GM_CHARBOAT_CPP_00044));
 		BOOL bRet = TRUE;
 		USHORT sPf = (USHORT)owner.getAttr( ATTR_JOB );
@@ -118,11 +118,11 @@ namespace mission
 			strcat( szData, g_GetJobName( pInfo->sPfLimit[i] ) );
 			if( i + 1 < pInfo->sNumPfLimit )
 			{
-				strcat( szData, "£¬" );
+				strcat( szData, "ï¼Œ" );
 			}
 			else
 			{
-				strcat( szData, "¡£" );
+				strcat( szData, "ã€‚" );
 			}
 			if( pInfo->sPfLimit[i] == sPf ) 
 			{
@@ -143,16 +143,16 @@ namespace mission
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( AttrInfo.sBoat );
 		if( pInfo == NULL ) 
 		{
-			//LG( "boat_error", "ÉèÖÃ´¬Ö»Íâ¹ÛĞÅÏ¢£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", AttrInfo.sBoat );
+			//LG( "boat_error", "è®¾ç½®èˆ¹åªå¤–è§‚ä¿¡æ¯ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", AttrInfo.sBoat );
 			LG( "boat_error", "set boat surface informationg,error information of boat  ID[%d]!", AttrInfo.sBoat );
 			return FALSE;
 		}
 
-		// ´¬Ö»ÊÇ·ñ¿ÉÒÔ¸üĞÂ×é¼ş
+		// èˆ¹åªæ˜¯å¦å¯ä»¥æ›´æ–°ç»„ä»¶
 		xShipPartInfo* pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( pInfo->sBody );
 		if( pData == NULL ) 
 		{
-			//LG( "boat_error", "ÉèÖÃ´¬Ö»Íâ¹ÛĞÅÏ¢£¬´íÎóµÄ´¬ÉíĞÅÏ¢ID[%d]!", pInfo->sBody );
+			//LG( "boat_error", "è®¾ç½®èˆ¹åªå¤–è§‚ä¿¡æ¯ï¼Œé”™è¯¯çš„èˆ¹èº«ä¿¡æ¯ID[%d]!", pInfo->sBody );
 			LG( "boat_error", "set boat surface informationg,error information of boat  ID[%d]!", pInfo->sBody );
 			return FALSE;
 		}
@@ -177,12 +177,12 @@ namespace mission
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( AttrInfo.sBoatID );
 		if( pInfo == NULL ) 
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", AttrInfo.sBoatID );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", AttrInfo.sBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00010), AttrInfo.sBoatID );
 			return FALSE;
 		}
 
-		// ´¬Ö»ÊÇ·ñ¿ÉÒÔ¸üĞÂ×é¼ş
+		// èˆ¹åªæ˜¯å¦å¯ä»¥æ›´æ–°ç»„ä»¶
 		xShipBuildInfo Data;
 		memset( &Data, 0, sizeof(xShipBuildInfo) );
 		Data.dwMoney = 0;
@@ -212,7 +212,7 @@ namespace mission
 		xShipPartInfo* pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( pInfo->sBody );
 		if( pData == NULL ) 
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬ÉíĞÅÏ¢ID[%d]!", pInfo->sBody );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹èº«ä¿¡æ¯ID[%d]!", pInfo->sBody );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00038), pInfo->sBody );
 			return FALSE;
 		}
@@ -239,7 +239,7 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( AttrInfo.sHeader );
 			if( pData == NULL ) 
 			{
-				//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Í·ĞÅÏ¢ID[%d]!", AttrInfo.sHeader );
+				//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹å¤´ä¿¡æ¯ID[%d]!", AttrInfo.sHeader );
 				owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00039), AttrInfo.sHeader );
 				return FALSE;
 			}
@@ -263,7 +263,7 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( AttrInfo.sEngine );
 			if( pData == NULL ) 
 			{
-				//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬¶¯Á¦ĞÅÏ¢ID[%d]!", AttrInfo.sEngine );
+				//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åŠ¨åŠ›ä¿¡æ¯ID[%d]!", AttrInfo.sEngine );
 				owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00040), AttrInfo.sEngine );
 				return FALSE;
 			}
@@ -315,10 +315,10 @@ namespace mission
 		if( pData == NULL ) 
 		{
 			WRITE_CHAR( packet, AttrInfo.byCannon );
-			//WRITE_STRING( packet, "Î´×°ÖÃ»ğÅÚ" );
+			//WRITE_STRING( packet, "æœªè£…ç½®ç«ç‚®" );
 			WRITE_STRING( packet, RES_STRING(GM_CHARBOAT_CPP_00001) );
 
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬»ğÅÚĞÅÏ¢ID[%d]!", AttrInfo.sCannon );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹ç«ç‚®ä¿¡æ¯ID[%d]!", AttrInfo.sCannon );
 			//return FALSE;
 		}
 		else
@@ -344,10 +344,10 @@ namespace mission
 		if( pData == NULL ) 
 		{
 			WRITE_CHAR( packet, 0 );
-			//WRITE_STRING( packet, "Î´×°ÖÃÅä¼ş" );
+			//WRITE_STRING( packet, "æœªè£…ç½®é…ä»¶" );
 			WRITE_STRING( packet, RES_STRING(GM_CHARBOAT_CPP_00002) );
 
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Åä¼şĞÅÏ¢ID[%d]!", AttrInfo.sEquipment );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹é…ä»¶ä¿¡æ¯ID[%d]!", AttrInfo.sEquipment );
 			//return FALSE;
 		}
 		else
@@ -394,7 +394,7 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "ÄãÒÑ¾­³É¹¦È¡ÏûÁË½¨Ôì´¬Ö»µÄ¼Æ»®£¡" );
+			//owner.SystemNotice( "ä½ å·²ç»æˆåŠŸå–æ¶ˆäº†å»ºé€ èˆ¹åªçš„è®¡åˆ’ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00003) );
 		}
 	T_E}
@@ -403,35 +403,35 @@ namespace mission
 	{T_B
 		if( owner.GetPlayer()->IsLuanchOut() )
 		{
-			//owner.SystemNotice( "µ±Ç°³öº£×´Ì¬,²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "å½“å‰å‡ºæµ·çŠ¶æ€,ä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00004) );
 			return FALSE;
 		}
 
 		if( owner.GetTradeData() )
 		{
-			//owner.SystemNotice( "µ±Ç°½»Ò××´Ì¬,²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "å½“å‰äº¤æ˜“çŠ¶æ€,ä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00005) );
 			return FALSE;
 		}
 
 		if( owner.GetStallData() )
 		{
-			//owner.SystemNotice( "ÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00006) );
 			return FALSE;
 		}
 
 		if( owner.m_CKitbag.IsLock() || !owner.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//owner.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00007) );
 			return FALSE;
 		}
 
         if( owner.m_CKitbag.IsPwdLocked() )
         {
-            //owner.SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+            //owner.SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00008) );
 			return FALSE;
         }
@@ -439,7 +439,7 @@ namespace mission
 		//add by ALLEN 2007-10-16
 				if(owner.IsReadBook())
 		{
-			//owner.SystemNotice("ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡");
+			//owner.SystemNotice("æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼");
 			owner.SystemNotice(RES_STRING(GM_CHARBOAT_CPP_00009));
 			return FALSE;
 		}
@@ -447,7 +447,7 @@ namespace mission
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( sBoatID );
 		if( pInfo == NULL ) 
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", sBoatID );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", sBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00010), sBoatID );
 			return FALSE;
 		}
@@ -457,20 +457,20 @@ namespace mission
 			// fixed me to modify
 			owner.GetBoat()->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "¸Ã½ÇÉ«ÒÑ¾­¿ªÊ¼ÁË´¬Ö»½¨ÔìID[%d]£¡", sBoatID );
+			//owner.SystemNotice( "è¯¥è§’è‰²å·²ç»å¼€å§‹äº†èˆ¹åªå»ºé€ ID[%d]ï¼", sBoatID );
 			//return FALSE;
 		}
 
 		if( owner.GetPlayer()->IsBoatFull() )
 		{
-			//owner.SystemNotice( "ÄãÓµÓĞµÄ´¬Ö»ÊıÁ¿ÒÑÂú£¬²»¿ÉÒÔÔÙ½¨ÔìĞÂµÄ´¬Ö»£¡" );
+			//owner.SystemNotice( "ä½ æ‹¥æœ‰çš„èˆ¹åªæ•°é‡å·²æ»¡ï¼Œä¸å¯ä»¥å†å»ºé€ æ–°çš„èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00011) );
 			return  FALSE;
 		}
 
 		if( owner.m_CKitbag.IsFull() )
 		{
-			//owner.BickerNotice( "µÀ¾ßÀ¸ÒÑÂú£¬½¨Ôì´¬Ö»Ê§°Ü£¡" );
+			//owner.BickerNotice( "é“å…·æ å·²æ»¡ï¼Œå»ºé€ èˆ¹åªå¤±è´¥ï¼" );
 			owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00012) );
 			return FALSE;
 		}
@@ -478,7 +478,7 @@ namespace mission
 		CCharacter* pBoat = g_pGameApp->GetNewCharacter();
 		if( pBoat == NULL )
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬·ÖÅä´¬Ö»ÄÚ´æÊ§°Ü!ID[%d]", sBoatID );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œåˆ†é…èˆ¹åªå†…å­˜å¤±è´¥!ID[%d]", sBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00013), sBoatID );
 			return FALSE;
 		}
@@ -487,7 +487,7 @@ namespace mission
 		pBoat->setAttr( ATTR_BOAT_SHIP, sBoatID );
 		pBoat->setAttr( ATTR_BOAT_BERTH, sBerthID );
 
-		// Í¬²½´¬Ö»µÄÊôĞÔ
+		// åŒæ­¥èˆ¹åªçš„å±æ€§
 		BOAT_SYNC_ATTR AttrInfo;
 		memset( &AttrInfo, 0, sizeof(BOAT_SYNC_ATTR) );
 		AttrInfo.byHeader = 0;
@@ -502,10 +502,10 @@ namespace mission
 		
 		if( !SyncAttr( owner, 0, CMD_MC_CREATEBOAT, sBerthID, AttrInfo ) )
 		{
-			// Í¬²½´¬Ö»ÊôĞÔÊ§°Ü£¬È¡Ïû´¬Ö»½¨Ôì
+			// åŒæ­¥èˆ¹åªå±æ€§å¤±è´¥ï¼Œå–æ¶ˆèˆ¹åªå»ºé€ 
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "Çå³ı´¬Ö»½¨ÔìÊı¾İĞÅÏ¢£¡" );
+			//owner.SystemNotice( "æ¸…é™¤èˆ¹åªå»ºé€ æ•°æ®ä¿¡æ¯ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00014) );
 			return FALSE;
 		}
@@ -523,7 +523,7 @@ namespace mission
 		CCharacter* pBoat = pPlayer->GetBoat( dwBoatID );
 		if( !pBoat )
 		{
-			//owner.SystemNotice( "ÕÒ²»µ½¸Ã´¬µÄĞÅÏ¢£¡ID[0x%X]", dwBoatID );
+			//owner.SystemNotice( "æ‰¾ä¸åˆ°è¯¥èˆ¹çš„ä¿¡æ¯ï¼ID[0x%X]", dwBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00015), dwBoatID );
 			return FALSE;
 		}
@@ -552,7 +552,7 @@ namespace mission
 		CCharacter* pBoat = pPlayer->GetBoat( dwBoatID );
 		if( !pBoat )
 		{
-			//owner.SystemNotice( "ÕÒ²»µ½¸Ã´¬µÄĞÅÏ¢£¡ID[0x%X]", dwBoatID );
+			//owner.SystemNotice( "æ‰¾ä¸åˆ°è¯¥èˆ¹çš„ä¿¡æ¯ï¼ID[0x%X]", dwBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00015), dwBoatID );
 			return FALSE;
 		}
@@ -575,7 +575,7 @@ namespace mission
 		CCharacter* pBoat = owner.GetBoat();
 		if( !pBoat ) 
 		{
-			//owner.SystemNotice( "Update:Äã»¹Î´¿ªÊ¼½¨Ôì´¬Ö»£¡ÇëÏÈ¿ªÊ¼£¡" );
+			//owner.SystemNotice( "Update:ä½ è¿˜æœªå¼€å§‹å»ºé€ èˆ¹åªï¼è¯·å…ˆå¼€å§‹ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00016) );
 			return FALSE;
 		}
@@ -589,7 +589,7 @@ namespace mission
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( sBoatID );
 		if( pInfo == NULL ) 
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", sBoatID );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", sBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00010), sBoatID );
 			return FALSE;
 		}
@@ -680,35 +680,35 @@ namespace mission
 	{T_B
 		if( owner.GetPlayer()->IsLuanchOut() )
 		{
-			//owner.SystemNotice( "µ±Ç°³öº£×´Ì¬,²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "å½“å‰å‡ºæµ·çŠ¶æ€,ä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00004) );
 			return FALSE;
 		}
 
 		if( owner.GetTradeData() )
 		{
-			//owner.SystemNotice( "µ±Ç°½»Ò××´Ì¬,²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "å½“å‰äº¤æ˜“çŠ¶æ€,ä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00005) );
 			return FALSE;
 		}
 
 		if( owner.GetStallData() )
 		{
-			//owner.SystemNotice( "ÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00006) );
 			return FALSE;
 		}
 
 		if( owner.m_CKitbag.IsLock() || !owner.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//owner.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+			//owner.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00007) );
 			return FALSE;
 		}
 
         if( owner.m_CKitbag.IsPwdLocked() )
         {
-            //owner.SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+            //owner.SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00008) );
 			return FALSE;
         }
@@ -716,7 +716,7 @@ namespace mission
 		//add by ALLEN 2007-10-16
 		if( owner.IsReadBook() )
         {
-           // owner.SystemNotice( "ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½¨Ôì´¬Ö»£¡" );
+           // owner.SystemNotice( "æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥å»ºé€ èˆ¹åªï¼" );
 			 owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00009) );
 			return FALSE;
         }
@@ -724,7 +724,7 @@ namespace mission
 		CCharacter* pBoat = owner.GetBoat();
 		if( !pBoat ) 
 		{
-			//owner.SystemNotice( "MakeBoat:Äã»¹Î´¿ªÊ¼½¨Ôì´¬Ö»£¡ÇëÏÈ¿ªÊ¼£¡" );
+			//owner.SystemNotice( "MakeBoat:ä½ è¿˜æœªå¼€å§‹å»ºé€ èˆ¹åªï¼è¯·å…ˆå¼€å§‹ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00017) );
 			return FALSE;
 		}
@@ -733,28 +733,28 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.BickerNotice( "µÀ¾ßÀ¸ÒÑÂú£¬½¨Ôì´¬Ö»Ê§°Ü£¡" );
+			//owner.BickerNotice( "é“å…·æ å·²æ»¡ï¼Œå»ºé€ èˆ¹åªå¤±è´¥ï¼" );
 			owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00012) );
 			return FALSE;
 		}
 
-		// Ìí¼Óµ½playerÊı¾İÖĞ
+		// æ·»åŠ åˆ°playeræ•°æ®ä¸­
 		CPlayer* pPlayer = owner.GetPlayer();
 		if( !pPlayer )
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "´íÎó£¬ÕÒ²»µ½½¨ÔìÕßµÄplayerÊı¾İ£¡" );
+			//owner.SystemNotice( "é”™è¯¯ï¼Œæ‰¾ä¸åˆ°å»ºé€ è€…çš„playeræ•°æ®ï¼" );
 			owner.SystemNotice(RES_STRING(GM_CHARBOAT_CPP_00018) );
 			return FALSE;
 		}
 
-		// ¼ì²âÊÇ·ñ¿ÉÒÔÔÙĞÂÔö´¬Ö»
+		// æ£€æµ‹æ˜¯å¦å¯ä»¥å†æ–°å¢èˆ¹åª
 		if( pPlayer->IsBoatFull() )
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "ÄãµÄ´¬Ö»ÊıÁ¿ÒÑÂú£¬²»¿ÉÒÔÔÙ½¨Ôì£¡" );
+			//owner.SystemNotice( "ä½ çš„èˆ¹åªæ•°é‡å·²æ»¡ï¼Œä¸å¯ä»¥å†å»ºé€ ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00019) );
 			return FALSE;
 		}
@@ -770,17 +770,17 @@ namespace mission
 			{
 				pBoat->Free();
 				owner.SetBoat( NULL );
-				//owner.BickerNotice( "´¬Ö»Ãû³Æ×Ö·û³¤¶È±ØĞëÔÚ%d-%d¸ö×Ö·ûÖ®¼ä£¡", BOAT_MAXSIZE_MINNAME, BOAT_MAXSIZE_BOATNAME - 1 );
+				//owner.BickerNotice( "èˆ¹åªåç§°å­—ç¬¦é•¿åº¦å¿…é¡»åœ¨%d-%dä¸ªå­—ç¬¦ä¹‹é—´ï¼", BOAT_MAXSIZE_MINNAME, BOAT_MAXSIZE_BOATNAME - 1 );
 				owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00020), BOAT_MAXSIZE_MINNAME, BOAT_MAXSIZE_BOATNAME - 1 );
 				return FALSE;
 			}
 
-			// Ğ£Ñé´¬ÃûÊÇ·ñÕıÈ·
+			// æ ¡éªŒèˆ¹åæ˜¯å¦æ­£ç¡®
 			if( !IsValidName( pszData, (USHORT)nLen ) || !CTextFilter::IsLegalText( CTextFilter::NAME_TABLE, pszData ) )
 			{
 				pBoat->Free();
 				owner.SetBoat( NULL );
-				//owner.BickerNotice( "´¬Ö»Ãû³Æ¡¶%s¡··Ç·¨£¡", pszData );
+				//owner.BickerNotice( "èˆ¹åªåç§°ã€Š%sã€‹éæ³•ï¼", pszData );
 				owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00021), pszData );
 				return FALSE;
 			}
@@ -789,10 +789,10 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "½ÇÉ«%s´«µİÁË·Ç·¨µÄ×Ö·ûÖ¸Õë£¡", owner.GetName() );
+			//owner.SystemNotice( "è§’è‰²%sä¼ é€’äº†éæ³•çš„å­—ç¬¦æŒ‡é’ˆï¼", owner.GetName() );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00022), owner.GetName() );
-			LG( "boat_error", "½ÇÉ«%s´«µİÁË·Ç·¨µÄ×Ö·ûÖ¸Õë£¡", owner.GetName() );
-			//LG( "boat_error", "character%s pass unlawful character pointer£¡", owner.GetName() );
+			LG( "boat_error", "è§’è‰²%sä¼ é€’äº†éæ³•çš„å­—ç¬¦æŒ‡é’ˆï¼", owner.GetName() );
+			//LG( "boat_error", "character%s pass unlawful character pointerï¼", owner.GetName() );
 			return FALSE;			
 		}
 
@@ -809,7 +809,7 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", Data.sBoat );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", Data.sBoat );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00010), Data.sBoat );
 			return FALSE;
 		}
@@ -895,14 +895,14 @@ namespace mission
 			}
 		}
 		
-		// ¼ÆËã´¬Ö»×é¼şÊôĞÔ¼Ó³ÉĞÅÏ¢
+		// è®¡ç®—èˆ¹åªç»„ä»¶å±æ€§åŠ æˆä¿¡æ¯
 		xShipAttrInfo Info;
 		memset( &Info, 0, sizeof(xShipAttrInfo) );
 		if( !GetData( owner, pInfo->byIsUpdate, Data, Info ) )
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "½¨Ôì´¬Ö»¼ÆËã×é¼şÊôĞÔ¼Ó³ÉĞÅÏ¢´íÎó£¡" );
+			//owner.SystemNotice( "å»ºé€ èˆ¹åªè®¡ç®—ç»„ä»¶å±æ€§åŠ æˆä¿¡æ¯é”™è¯¯ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00023) );
 			return FALSE;
 		}
@@ -911,7 +911,7 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "½¨Ôì´¬Ö»%sĞèÒª½ğÇ®%d£¬ÇëÈ·ÈÏÄãÊÇ·ñÓĞ×ã¹»½ğÇ®£¡", pInfo->szName, Info.dwMoney );
+			//owner.SystemNotice( "å»ºé€ èˆ¹åª%séœ€è¦é‡‘é’±%dï¼Œè¯·ç¡®è®¤ä½ æ˜¯å¦æœ‰è¶³å¤Ÿé‡‘é’±ï¼", pInfo->szName, Info.dwMoney );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00024), pInfo->szName, Info.dwMoney );
 			return TRUE;
 		}
@@ -921,50 +921,50 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "½¨Ôì´¬Ö»Êı¾İ¿â´æ´¢Ê§°Ü£¡" );
+			//owner.SystemNotice( "å»ºé€ èˆ¹åªæ•°æ®åº“å­˜å‚¨å¤±è´¥ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00025) );
 			return FALSE;
 		}
 
 		pBoat->m_CKitbag.SetCapacity( Data.sCapacity );
 
-		// ¼ì²é´¬³¤Ö¤Ã÷µÀ¾ßĞÅÏ¢
+		// æ£€æŸ¥èˆ¹é•¿è¯æ˜é“å…·ä¿¡æ¯
 		SItemGrid SGridCont;
 		SGridCont.sID = pInfo->sItemID;
 		SGridCont.sNum = 1;
 		owner.ItemInstance( enumITEM_INST_TASK, &SGridCont );
 		SGridCont.lDBParam[enumITEMDBP_INST_ID] = dwBoatID;
 
-		// ´æÈëÊµÀı»¯ÎïÆ·
+		// å­˜å…¥å®ä¾‹åŒ–ç‰©å“
 		owner.m_CKitbag.SetChangeFlag(false);
 		Short sPushPos = defKITBAG_DEFPUSH_POS;
 		Short sPushRet = owner.KbPushItem( false, false, &SGridCont, sPushPos );
-		if( sPushRet == enumKBACT_ERROR_LOCK ) // µÀ¾ßÀ¸±»Ëø¶¨
+		if( sPushRet == enumKBACT_ERROR_LOCK ) // é“å…·æ è¢«é”å®š
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.BickerNotice( "µÀ¾ßÀ¸ÒÑ±»Ëø¶¨£¬½¨Ôì´¬Ö»Ê§°Ü£¡" );
+			//owner.BickerNotice( "é“å…·æ å·²è¢«é”å®šï¼Œå»ºé€ èˆ¹åªå¤±è´¥ï¼" );
 			owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00026) );
 			return FALSE;
 		}
-		else if( sPushRet == enumKBACT_ERROR_PUSHITEMID ) // µÀ¾ß²»´æÔÚ
+		else if( sPushRet == enumKBACT_ERROR_PUSHITEMID ) // é“å…·ä¸å­˜åœ¨
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.BickerNotice( "¸ÃµÀ¾ß²»´æÔÚ£¬½¨Ôì´¬Ö»Ê§°Ü£¡" );
+			//owner.BickerNotice( "è¯¥é“å…·ä¸å­˜åœ¨ï¼Œå»ºé€ èˆ¹åªå¤±è´¥ï¼" );
 			owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00027) );
 			return FALSE;
 		}
-		else if( sPushRet == enumKBACT_ERROR_FULL ) // µÀ¾ßÀ¸ÒÑÂú£¬¶ªµ½µØÃæ
+		else if( sPushRet == enumKBACT_ERROR_FULL ) // é“å…·æ å·²æ»¡ï¼Œä¸¢åˆ°åœ°é¢
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.BickerNotice( "µÀ¾ßÀ¸ÒÑÂú£¬½¨Ôì´¬Ö»Ê§°Ü£¡" );
+			//owner.BickerNotice( "é“å…·æ å·²æ»¡ï¼Œå»ºé€ èˆ¹åªå¤±è´¥ï¼" );
 			owner.BickerNotice( RES_STRING(GM_CHARBOAT_CPP_00012) );
 			return FALSE;
 		}
 
-		// ÉèÖÃ´¬Ö»µÄÖ¤Ã÷ID
+		// è®¾ç½®èˆ¹åªçš„è¯æ˜ID
 		pBoat->setAttr( ATTR_CHATYPE, enumCHACTRL_PLAYER );		
 		pBoat->setAttr( ATTR_BOAT_DBID, SGridCont.lDBParam[enumITEMDBP_INST_ID] );
 		pBoat->setAttr( ATTR_BOAT_DIECOUNT, 0 );
@@ -979,12 +979,12 @@ namespace mission
 		pBoat->SetName( Data.szName );
 		pBoat->setAttr( ATTR_LV, 1 );
 
-		// »ñÈ¡´¬Ö»½ÇÉ«ÊôĞÔĞÅÏ¢
+		// è·å–èˆ¹åªè§’è‰²å±æ€§ä¿¡æ¯
 		pBoat->SetCat( pInfo->sCharID );
 		CChaRecord* pRec = GetChaRecordInfo( pInfo->sCharID );
 		if( pRec == NULL )
 		{
-			//owner.SystemNotice( "´´½¨´¬Ö»£¬ÎŞ·¨µÃµ½ÓĞĞ§ÊôĞÔĞÅÏ¢£¡ID[%d]", pInfo->sCharID );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªï¼Œæ— æ³•å¾—åˆ°æœ‰æ•ˆå±æ€§ä¿¡æ¯ï¼ID[%d]", pInfo->sCharID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00028), pInfo->sCharID );
 			pBoat->Free();
 			owner.SetBoat( NULL );
@@ -1002,7 +1002,7 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬ÉèÖÃ´¬Ö»Íâ¹ÛÊı¾İÊ§°Ü!ID[%d]", Data.sBoat );
+			//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œè®¾ç½®èˆ¹åªå¤–è§‚æ•°æ®å¤±è´¥!ID[%d]", Data.sBoat );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00029), Data.sBoat );
 			return FALSE;
 		}
@@ -1011,7 +1011,7 @@ namespace mission
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "ÉèÖÃ´¬Ö»ÊôĞÔÊ§°Ü£¡" );
+			//owner.SystemNotice( "è®¾ç½®èˆ¹åªå±æ€§å¤±è´¥ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00030) );
 			return FALSE;
 		}
@@ -1019,24 +1019,24 @@ namespace mission
 		pBoat->SetPlayer( owner.GetPlayer() );
 		if( !game_db.SaveBoat( *pBoat, enumSAVE_TYPE_TIMER ) )
 		{
-			//owner.SystemNotice( "½ÇÉ«%sµÄ´¬Ö»%sÁÙÊ±Êı¾İ´æ´¢Ê§°Ü£¡", owner.GetName(), pBoat->GetName() );
+			//owner.SystemNotice( "è§’è‰²%sçš„èˆ¹åª%sä¸´æ—¶æ•°æ®å­˜å‚¨å¤±è´¥ï¼", owner.GetName(), pBoat->GetName() );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00031), owner.GetName(), pBoat->GetName() );
-			LG( "boat_error", "½ÇÉ«%sµÄ´¬Ö»%sÁÙÊ±Êı¾İ´æ´¢Ê§°Ü£¡", owner.GetName(), pBoat->GetName() ); 
-			//LG( "boat_error", "character%s boat %s temporary data memory failed£¡", owner.GetName(), pBoat->GetName() ); 
+			LG( "boat_error", "è§’è‰²%sçš„èˆ¹åª%sä¸´æ—¶æ•°æ®å­˜å‚¨å¤±è´¥ï¼", owner.GetName(), pBoat->GetName() ); 
+			//LG( "boat_error", "character%s boat %s temporary data memory failedï¼", owner.GetName(), pBoat->GetName() ); 
 		}
 
 		if( !pPlayer->AddBoat( *pBoat ) )
 		{
 			pBoat->Free();
 			owner.SetBoat( NULL );
-			//owner.SystemNotice( "Ìí¼Ó´¬Ö»Êı¾İµ½playerÖĞÊ§°Ü£¡" );
+			//owner.SystemNotice( "æ·»åŠ èˆ¹åªæ•°æ®åˆ°playerä¸­å¤±è´¥ï¼" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00032) );
 			return FALSE;
 		}
 
 		owner.SynKitbagNew( enumSYN_KITBAG_SYSTEM );
 
-		// ÖØÉèÁÙÊ±Ôì´¬Êı¾İÎª¿Õ
+		// é‡è®¾ä¸´æ—¶é€ èˆ¹æ•°æ®ä¸ºç©º
 		owner.SetBoat( NULL );
 		
 		Char szLogName[defLOG_NAME_LEN] = "";
@@ -1049,7 +1049,7 @@ namespace mission
 
 	BOOL CCharBoat::SetBoatAttr( CCharacter& owner, CCharacter& boat, const xShipInfo& ShipInfo, const BOAT_DATA& Data, bool bFromFile, bool bLoadState )
 	{T_B
-		// ´¬Ö»ÊÇ·ñ¿ÉÒÔ¸üĞÂ×é¼ş
+		// èˆ¹åªæ˜¯å¦å¯ä»¥æ›´æ–°ç»„ä»¶
 		xShipAttrInfo Info;
 		memset( &Info, 0, sizeof(xShipAttrInfo) );
 		Info.dwMinAttack = ShipInfo.sMinAttack;
@@ -1070,7 +1070,7 @@ namespace mission
 		Info.dwScope = ShipInfo.sScope;
 		Info.dwCannonSpeed = ShipInfo.sCannonSpeed;
 
-		// ¼ÆËã´¬Ö»×é¼şÊôĞÔ¼Ó³ÉĞÅÏ¢
+		// è®¡ç®—èˆ¹åªç»„ä»¶å±æ€§åŠ æˆä¿¡æ¯
 		if( !GetData( owner, ShipInfo.byIsUpdate, Data, Info ) )
 		{
 			return FALSE;
@@ -1088,23 +1088,23 @@ namespace mission
 		
 		if( boat.getAttr( ATTR_HP ) < 0 )
 		{
-			LG( "boatattr_error", "SetBoatAttr:´¬Ö»µ±Ç°HPÊıÖµ²»ÕıÈ·£¬×Ô¶¯»Ö¸´£¡HP = %d", boat.getAttr( ATTR_HP ) );
-			//LG( "boatattr_error", "SetBoatAttr: boat currently HP value error£¬automatism resume£¡HP = %d", boat.getAttr( ATTR_HP ) );
+			LG( "boatattr_error", "SetBoatAttr:èˆ¹åªå½“å‰HPæ•°å€¼ä¸æ­£ç¡®ï¼Œè‡ªåŠ¨æ¢å¤ï¼HP = %d", boat.getAttr( ATTR_HP ) );
+			//LG( "boatattr_error", "SetBoatAttr: boat currently HP value errorï¼Œautomatism resumeï¼HP = %d", boat.getAttr( ATTR_HP ) );
 			boat.setAttr( ATTR_HP, 1 );
 		}
 
 		if( boat.getAttr( ATTR_SP ) < 0 )
 		{
-			LG( "boatattr_error", "SetBoatAttr:´¬Ö»µ±Ç°SPÊıÖµ²»ÕıÈ·£¬×Ô¶¯»Ö¸´£¡SP = %d", boat.getAttr( ATTR_SP ) );
-			//LG( "boatattr_error", "SetBoatAttr: boat currently SP value error£¬automatism resume£¡SP = %d", boat.getAttr( ATTR_SP ) );
+			LG( "boatattr_error", "SetBoatAttr:èˆ¹åªå½“å‰SPæ•°å€¼ä¸æ­£ç¡®ï¼Œè‡ªåŠ¨æ¢å¤ï¼SP = %d", boat.getAttr( ATTR_SP ) );
+			//LG( "boatattr_error", "SetBoatAttr: boat currently SP value errorï¼Œautomatism resumeï¼SP = %d", boat.getAttr( ATTR_SP ) );
 			boat.setAttr( ATTR_SP, 1 );
 		}
 
 		if( boat.getAttr( ATTR_BMXSP ) <= 1 || boat.getAttr( ATTR_BMXHP ) <= 1 )
 		{
-			/*LG( "boatattr_error", "SetBoatAttr:´¬Ö»×î´óHP»òÕßSPÊıÖµ²»ÕıÈ·£¬×Ô¶¯»Ö¸´£¡MXHP = %d, MXSP = %d", 
+			/*LG( "boatattr_error", "SetBoatAttr:èˆ¹åªæœ€å¤§HPæˆ–è€…SPæ•°å€¼ä¸æ­£ç¡®ï¼Œè‡ªåŠ¨æ¢å¤ï¼MXHP = %d, MXSP = %d", 
 				boat.getAttr( ATTR_BMXHP ), boat.getAttr( ATTR_BMXSP ) );*/
-			LG( "boatattr_error", "SetBoatAttr: boat max HP or SP value error£¬automatism£¡MXHP = %d, MXSP = %d", 
+			LG( "boatattr_error", "SetBoatAttr: boat max HP or SP value errorï¼Œautomatismï¼MXHP = %d, MXSP = %d", 
 				boat.getAttr( ATTR_BMXHP ), boat.getAttr( ATTR_BMXSP ) );
 			boat.setAttr( ATTR_BMXSP, Info.dwMaxSupply );
 			boat.setAttr( ATTR_BMXHP, Info.dwMaxEndure );
@@ -1131,7 +1131,7 @@ namespace mission
 		return TRUE;
 	T_E}
 
-	// chType£º0£¬½ÇÉ«ÉÏÏß¡£1£¬µØÍ¼ÇĞ»»
+	// chTypeï¼š0ï¼Œè§’è‰²ä¸Šçº¿ã€‚1ï¼Œåœ°å›¾åˆ‡æ¢
 	BOOL CCharBoat::LoadBoat( CCharacter& owner, char chType )
 	{T_B
 		USHORT sNum = owner.m_CKitbag.GetUseGridNum();
@@ -1144,7 +1144,7 @@ namespace mission
 				CItemRecord* pItem = GetItemRecordInfo( pGridCont->sID );
 				if( !pItem )
 				{
-					/*owner.SystemNotice( "Î´·¢ÏÖ½ÇÉ«%s°ü¹üÖĞµÚ%d¸ñµÄÎïÆ·ĞÅÏ¢ID[%d]£¡", owner.GetName(), 
+					/*owner.SystemNotice( "æœªå‘ç°è§’è‰²%såŒ…è£¹ä¸­ç¬¬%dæ ¼çš„ç‰©å“ä¿¡æ¯ID[%d]ï¼", owner.GetName(), 
 						pGridCont->sID );*/
 					owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00033), owner.GetName(), 
 						pGridCont->sID );
@@ -1172,7 +1172,7 @@ namespace mission
 		CCharacter* pBoat = g_pGameApp->GetNewCharacter();
 		if( pBoat == NULL )
 		{
-			LG( "monsterboat_error", "½ÇÉ«ÉÏÏß×°ÔØ´¬Ö»·ÖÅä´¬Ö»ÄÚ´æÊ§°Ü!" );
+			LG( "monsterboat_error", "è§’è‰²ä¸Šçº¿è£…è½½èˆ¹åªåˆ†é…èˆ¹åªå†…å­˜å¤±è´¥!" );
 			//LG( "monsterboat_error", "when character online,loading boat and assign memory failed " );
 			return FALSE;
 		}
@@ -1185,11 +1185,11 @@ namespace mission
 		// Info.sBerth = (USHORT)pBoat->getAttr( ATTR_BOAT_BERTH );
 		Info.sBoat = sBoatID;
 
-		// ÉèÖÃ´¬µÄ»ù±¾ÊôĞÔ
+		// è®¾ç½®èˆ¹çš„åŸºæœ¬å±æ€§
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( Info.sBoat );
 		if( pInfo == NULL ) 
 		{
-			LG( "monsterboat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", Info.sBoat );
+			LG( "monsterboat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", Info.sBoat );
 			//LG( "monsterboat_error", "craete boat failed , error information of boat ID[%d]!", Info.sBoat );
 			return FALSE;
 		}
@@ -1224,21 +1224,21 @@ namespace mission
 		}
 		Info.sEquipment = pInfo->sEquipment[byIndex];
 
-		// »ñÈ¡´¬Ö»½ÇÉ«ÊôĞÔĞÅÏ¢
+		// è·å–èˆ¹åªè§’è‰²å±æ€§ä¿¡æ¯
 		CChaRecord* pRec = GetChaRecordInfo( pInfo->sCharID );
 		if( pRec == NULL )
 		{
-			LG( "monsterboat_error", "´´½¨´¬Ö»£¬ÎŞ·¨µÃµ½ÓĞĞ§ÊôĞÔĞÅÏ¢£¡ID[%d]", pInfo->sCharID );
-			//LG( "monsterboat_error", "create boat£¬cannot get efficiency attribute information£¡ID[%d]", pInfo->sCharID );
+			LG( "monsterboat_error", "åˆ›å»ºèˆ¹åªï¼Œæ— æ³•å¾—åˆ°æœ‰æ•ˆå±æ€§ä¿¡æ¯ï¼ID[%d]", pInfo->sCharID );
+			//LG( "monsterboat_error", "create boatï¼Œcannot get efficiency attribute informationï¼ID[%d]", pInfo->sCharID );
 			pBoat->Free();
 			return FALSE;
 		}
 		pBoat->m_pCChaRecord = pRec;		
 
-		LG( "monsterboat_init", "³É¹¦×°ÔØ´¬Ö»¡¶%s¡·", pBoat->GetName() );
-		//LG( "monsterboat_init", "succeed loading boat¡¶%s¡·", pBoat->GetName() );
+		LG( "monsterboat_init", "æˆåŠŸè£…è½½èˆ¹åªã€Š%sã€‹", pBoat->GetName() );
+		//LG( "monsterboat_init", "succeed loading boatã€Š%sã€‹", pBoat->GetName() );
 
-		// ´¬Ö»ÊÇ·ñ¿ÉÒÔ¸üĞÂ×é¼ş
+		// èˆ¹åªæ˜¯å¦å¯ä»¥æ›´æ–°ç»„ä»¶
 		xShipAttrInfo Data;
 		memset( &Data, 0, sizeof(xShipAttrInfo) );
 		Data.dwMinAttack = pInfo->sMinAttack;
@@ -1258,7 +1258,7 @@ namespace mission
 		Data.dwScope = pInfo->sScope;
 		Data.dwCannonSpeed = pInfo->sCannonSpeed;
 
-		// ¼ÆËã´¬Ö»×é¼şÊôĞÔ¼Ó³ÉĞÅÏ¢
+		// è®¡ç®—èˆ¹åªç»„ä»¶å±æ€§åŠ æˆä¿¡æ¯
 		if( !GetData( *pBoat, pInfo->byIsUpdate, Info, Data ) )
 		{
 			return FALSE;
@@ -1286,15 +1286,15 @@ namespace mission
 		return NULL;
 	T_E}
 
-	// chType£º0£¬½ÇÉ«ÉÏÏß¡£1£¬µØÍ¼ÇĞ»»¡£2£¬ÓÎÏ·Á÷Í¨¡£
+	// chTypeï¼š0ï¼Œè§’è‰²ä¸Šçº¿ã€‚1ï¼Œåœ°å›¾åˆ‡æ¢ã€‚2ï¼Œæ¸¸æˆæµé€šã€‚
 	BOOL CCharBoat::CreateBoat( CCharacter& owner, DWORD dwBoatID, char chType )
 	{T_B
 		CCharacter* pBoat = g_pGameApp->GetNewCharacter();
 		if( pBoat == NULL )
 		{
-			//owner.SystemNotice( "½ÇÉ«ÉÏÏß×°ÔØ´¬Ö»·ÖÅä´¬Ö»ÄÚ´æÊ§°Ü!" );
+			//owner.SystemNotice( "è§’è‰²ä¸Šçº¿è£…è½½èˆ¹åªåˆ†é…èˆ¹åªå†…å­˜å¤±è´¥!" );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00034) );
-			LG( "boat_error", "½ÇÉ«%sÉÏÏß×°ÔØ´¬Ö»·ÖÅä´¬Ö»ID[%d]ÄÚ´æÊ§°Ü!", owner.GetName(), dwBoatID );
+			LG( "boat_error", "è§’è‰²%sä¸Šçº¿è£…è½½èˆ¹åªåˆ†é…èˆ¹åªID[%d]å†…å­˜å¤±è´¥!", owner.GetName(), dwBoatID );
 			//LG( "boat_error", "character %s go up loading boat and assign boatID[%d]memory failed!", owner.GetName(), dwBoatID );
 			return FALSE;
 		}
@@ -1304,10 +1304,10 @@ namespace mission
 		if( !game_db.GetBoat( *pBoat ) )
 		{
 			pBoat->Free();
-			//owner.SystemNotice( "»ñÈ¡½ÇÉ«%s´¬Ö»ID[%d]Êı¾İ¿âÊı¾İÊ§°Ü£¡", owner.GetName(), dwBoatID );
+			//owner.SystemNotice( "è·å–è§’è‰²%sèˆ¹åªID[%d]æ•°æ®åº“æ•°æ®å¤±è´¥ï¼", owner.GetName(), dwBoatID );
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00035), owner.GetName(), dwBoatID );
-			LG( "boat_error", "»ñÈ¡½ÇÉ«%s´¬Ö»ID[%d]Êı¾İ¿âÊı¾İÊ§°Ü£¡\n", owner.GetName(), dwBoatID );
-			//LG( "boat_error", "get character %s boat ID[%d]DB data failed£¡\n", owner.GetName(), dwBoatID );
+			LG( "boat_error", "è·å–è§’è‰²%sèˆ¹åªID[%d]æ•°æ®åº“æ•°æ®å¤±è´¥ï¼\n", owner.GetName(), dwBoatID );
+			//LG( "boat_error", "get character %s boat ID[%d]DB data failedï¼\n", owner.GetName(), dwBoatID );
 			return FALSE;
 		}
 
@@ -1321,28 +1321,28 @@ namespace mission
 		Info.sCannon = (USHORT)pBoat->getAttr( ATTR_BOAT_CANNON );
 		Info.sEquipment = (USHORT)pBoat->getAttr( ATTR_BOAT_PART );
 
-		// ÉèÖÃ´¬µÄ»ù±¾ÊôĞÔ
+		// è®¾ç½®èˆ¹çš„åŸºæœ¬å±æ€§
 		xShipInfo* pInfo = (xShipInfo*)m_pShipSet->GetRawDataInfo( Info.sBoat );
 		if( pInfo == NULL ) 
 		{
 			pBoat->Free();
-			/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", Info.sBoat );
-			LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", Info.sBoat );*/
+			/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", Info.sBoat );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", Info.sBoat );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00010), Info.sBoat );
-			LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Ö»ĞÅÏ¢ID[%d]!", Info.sBoat );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åªä¿¡æ¯ID[%d]!", Info.sBoat );
 			return FALSE;
 		}
 
-		// »ñÈ¡´¬Ö»½ÇÉ«ÊôĞÔĞÅÏ¢
+		// è·å–èˆ¹åªè§’è‰²å±æ€§ä¿¡æ¯
 		pBoat->SetCat( pInfo->sCharID );
 		CChaRecord* pRec = GetChaRecordInfo( pInfo->sCharID );
 		if( pRec == NULL )
 		{
 			pBoat->Free();
-			/*owner.SystemNotice( "´´½¨´¬Ö»£¬ÎŞ·¨µÃµ½ÓĞĞ§ÊôĞÔĞÅÏ¢£¡ID[%d]", pInfo->sCharID );
-			LG( "boat_error", "´´½¨´¬Ö»£¬ÎŞ·¨µÃµ½ÓĞĞ§ÊôĞÔĞÅÏ¢£¡ID[%d]", pInfo->sCharID );*/
+			/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªï¼Œæ— æ³•å¾—åˆ°æœ‰æ•ˆå±æ€§ä¿¡æ¯ï¼ID[%d]", pInfo->sCharID );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªï¼Œæ— æ³•å¾—åˆ°æœ‰æ•ˆå±æ€§ä¿¡æ¯ï¼ID[%d]", pInfo->sCharID );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00028), pInfo->sCharID );
-			LG( "boat_error", "´´½¨´¬Ö»£¬ÎŞ·¨µÃµ½ÓĞĞ§ÊôĞÔĞÅÏ¢£¡ID[%d]", pInfo->sCharID );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªï¼Œæ— æ³•å¾—åˆ°æœ‰æ•ˆå±æ€§ä¿¡æ¯ï¼ID[%d]", pInfo->sCharID );
 			return FALSE;
 		}
 		pBoat->m_pCChaRecord = pRec;
@@ -1356,10 +1356,10 @@ namespace mission
 		if( !SetPartData( *pBoat, pInfo->sCharID, Info ) )
 		{
 			pBoat->Free();
-			/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬ÉèÖÃ´¬Ö»Íâ¹ÛÊı¾İÊ§°Ü!ID[%d]", Info.sBoat );
-			LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬ÉèÖÃ´¬Ö»Íâ¹ÛÊı¾İÊ§°Ü!ID[%d]", Info.sBoat );*/
+			/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œè®¾ç½®èˆ¹åªå¤–è§‚æ•°æ®å¤±è´¥!ID[%d]", Info.sBoat );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œè®¾ç½®èˆ¹åªå¤–è§‚æ•°æ®å¤±è´¥!ID[%d]", Info.sBoat );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00029), Info.sBoat );
-			LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬ÉèÖÃ´¬Ö»Íâ¹ÛÊı¾İÊ§°Ü!ID[%d]", Info.sBoat );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œè®¾ç½®èˆ¹åªå¤–è§‚æ•°æ®å¤±è´¥!ID[%d]", Info.sBoat );
 			return FALSE;
 		}
 
@@ -1371,11 +1371,11 @@ namespace mission
 		if( !SetBoatAttr( owner, *pBoat, *pInfo, Info, false ) )
 		{
 			pBoat->Free();
-			/*owner.SystemNotice( "ÉèÖÃ´¬Ö»ÊôĞÔÊ§°Ü£¡" );
-			LG( "boat_error", "ÉèÖÃ½ÇÉ«%s´¬Ö»ÊôĞÔÊ§°Ü,´¬Ö»¡¶%s¡·ID[%d]µ½½ÇÉ«playerÊı¾İĞÅÏ¢Ê§°Ü£¡", 
+			/*owner.SystemNotice( "è®¾ç½®èˆ¹åªå±æ€§å¤±è´¥ï¼" );
+			LG( "boat_error", "è®¾ç½®è§’è‰²%sèˆ¹åªå±æ€§å¤±è´¥,èˆ¹åªã€Š%sã€‹ID[%d]åˆ°è§’è‰²playeræ•°æ®ä¿¡æ¯å¤±è´¥ï¼", 
 				owner.GetName(), pBoat->GetName(), dwBoatID );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00030) );
-			LG( "boat_error", "set character %s boat attribute failed,boat¡¶%s¡·ID[%d] to character player data information failed£¡", 
+			LG( "boat_error", "set character %s boat attribute failed,boatã€Š%sã€‹ID[%d] to character player data information failedï¼", 
 				owner.GetName(), pBoat->GetName(), dwBoatID );
 			return FALSE;
 		}
@@ -1383,18 +1383,18 @@ namespace mission
 		if( !owner.GetPlayer()->AddBoat( *pBoat ) )
 		{
 			pBoat->Free();
-			/*owner.SystemNotice( "Ìí¼Ó´¬Ö»¡¶%s¡·ID[%d]µ½½ÇÉ«%splayerÊı¾İĞÅÏ¢Ê§°Ü£¡", 
+			/*owner.SystemNotice( "æ·»åŠ èˆ¹åªã€Š%sã€‹ID[%d]åˆ°è§’è‰²%splayeræ•°æ®ä¿¡æ¯å¤±è´¥ï¼", 
 				pBoat->GetName(), dwBoatID, owner.GetName() );
-			LG( "boat_error", "Ìí¼Ó´¬Ö»¡¶%s¡·ID[%d]µ½½ÇÉ«%splayerÊı¾İĞÅÏ¢Ê§°Ü£¡", 
+			LG( "boat_error", "æ·»åŠ èˆ¹åªã€Š%sã€‹ID[%d]åˆ°è§’è‰²%splayeræ•°æ®ä¿¡æ¯å¤±è´¥ï¼", 
 				pBoat->GetName(), dwBoatID, owner.GetName() );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00036), 
 				pBoat->GetName(), dwBoatID, owner.GetName() );
-			LG( "boat_error", "add boat¡¶%s¡·ID[%d] to character %s player data information failed£¡", 
+			LG( "boat_error", "add boatã€Š%sã€‹ID[%d] to character %s player data information failedï¼", 
 				pBoat->GetName(), dwBoatID, owner.GetName() );
 			return FALSE;
 		}
 
-		/*owner.SystemNotice( "³É¹¦×°ÔØµÚ%dËÒ´¬Ö»¡¶%s¡·", owner.GetPlayer()->GetNumBoat(), 
+		/*owner.SystemNotice( "æˆåŠŸè£…è½½ç¬¬%dè‰˜èˆ¹åªã€Š%sã€‹", owner.GetPlayer()->GetNumBoat(), 
 			pBoat->GetName() );*/
 		owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00037), owner.GetPlayer()->GetNumBoat(), 
 			pBoat->GetName() );
@@ -1409,14 +1409,14 @@ namespace mission
 
 	BOOL CCharBoat::GetData( CCharacter& owner, BYTE byIsUpdate, const BOAT_DATA& Info, xShipAttrInfo& Data )
 	{
-		// ´¬Ö»ÊÇ·ñ¿ÉÒÔ¸üĞÂ×é¼ş
+		// èˆ¹åªæ˜¯å¦å¯ä»¥æ›´æ–°ç»„ä»¶
 		xShipPartInfo* pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( Info.sBody );
 		if( pData == NULL ) 
 		{
-			/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬ÉíĞÅÏ¢ID[%d]!", Info.sBody );
-			LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬ÉíĞÅÏ¢ID[%d]!", Info.sBody );*/
+			/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹èº«ä¿¡æ¯ID[%d]!", Info.sBody );
+			LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹èº«ä¿¡æ¯ID[%d]!", Info.sBody );*/
 			owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00038), Info.sBody );
-			LG( "boat_error", "create boat failed£¬error information of hull ID[%d]!", Info.sBody );
+			LG( "boat_error", "create boat failedï¼Œerror information of hull ID[%d]!", Info.sBody );
 		}
 		else
 		{
@@ -1446,10 +1446,10 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( Info.sHeader );
 			if( pData == NULL ) 
 			{
-				/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Í·ĞÅÏ¢ID[%d]!", Info.sHeader );
-				LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Í·ĞÅÏ¢ID[%d]!", Info.sHeader );*/
+				/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹å¤´ä¿¡æ¯ID[%d]!", Info.sHeader );
+				LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹å¤´ä¿¡æ¯ID[%d]!", Info.sHeader );*/
 				owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00039), Info.sHeader );
-				LG( "boat_error", "create boat failed£¬error information of fore ID[%d]!", Info.sHeader );
+				LG( "boat_error", "create boat failedï¼Œerror information of fore ID[%d]!", Info.sHeader );
 			}
 			else
 			{
@@ -1477,10 +1477,10 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( Info.sEngine );
 			if( pData == NULL ) 
 			{
-				/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬¶¯Á¦ĞÅÏ¢ID[%d]!", Info.sEngine );
-				LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬¶¯Á¦ĞÅÏ¢ID[%d]!", Info.sEngine );*/
+				/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åŠ¨åŠ›ä¿¡æ¯ID[%d]!", Info.sEngine );
+				LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹åŠ¨åŠ›ä¿¡æ¯ID[%d]!", Info.sEngine );*/
 				owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00040), Info.sEngine );
-				LG( "boat_error", "create boat failed£¬error information of boat drive ID[%d]!", Info.sEngine );
+				LG( "boat_error", "create boat failedï¼Œerror information of boat drive ID[%d]!", Info.sEngine );
 			}
 			else
 			{
@@ -1538,10 +1538,10 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( Info.sCannon );
 			if( pData == NULL ) 
 			{
-				/*owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬»ğÅÚĞÅÏ¢ID[%d]!", Info.sCannon );
-				LG( "boat_error", "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬»ğÅÚĞÅÏ¢ID[%d]!", Info.sCannon );*/
+				/*owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹ç«ç‚®ä¿¡æ¯ID[%d]!", Info.sCannon );
+				LG( "boat_error", "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹ç«ç‚®ä¿¡æ¯ID[%d]!", Info.sCannon );*/
 				owner.SystemNotice( RES_STRING(GM_CHARBOAT_CPP_00041), Info.sCannon );
-				LG( "boat_error", "create boat failed£¬error information of boat artillery ID[%d]!", Info.sCannon );
+				LG( "boat_error", "create boat failedï¼Œerror information of boat artillery ID[%d]!", Info.sCannon );
 			}
 			else
 			{
@@ -1569,7 +1569,7 @@ namespace mission
 			pData = (xShipPartInfo*)m_pShipPartSet->GetRawDataInfo( Info.sEquipment );
 			if( pData == NULL ) 
 			{
-				//owner.SystemNotice( "´´½¨´¬Ö»Ê§°Ü£¬´íÎóµÄ´¬Åä¼şĞÅÏ¢ID[%d]!", Info.sEquipment );
+				//owner.SystemNotice( "åˆ›å»ºèˆ¹åªå¤±è´¥ï¼Œé”™è¯¯çš„èˆ¹é…ä»¶ä¿¡æ¯ID[%d]!", Info.sEquipment );
 				//return FALSE;
 			}
 			else

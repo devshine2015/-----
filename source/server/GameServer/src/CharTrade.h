@@ -22,8 +22,8 @@ namespace mission
 			USHORT sItemID;			
 		};
 		TRADE_ITEM_DATA ItemArray[ROLE_MAXNUM_TRADEDATA];
-		BYTE  byItemCount;						// ÎïÆ·¼ÆÊı
-		DWORD dwMoney;							// ½»Ò×Ç®Êı
+		BYTE  byItemCount;						// ç‰©å“è®¡æ•°
+		DWORD dwMoney;							// äº¤æ˜“é’±æ•°
 		DWORD dwIMP;
 
 	} TRADE_DATA, *PTRADE_DATA;
@@ -49,20 +49,20 @@ namespace mission
 		{
 			struct
 			{
-				BYTE  bTradeStart : 1;		// ½»Ò×ÊÇ·ñ¿ªÊ¼
-				BYTE  bReqTrade : 1;		// ÇëÇó·½½»Ò×Êı¾İÈ·ÈÏ
-				BYTE  bAcpTrade : 1;		// ½ÓÊÜ·½½»Ò×Êı¾İÈ·ÈÏ
-				BYTE  bReqOk : 1;			// ÇëÇó·½½»Ò×²Ù×÷È·ÈÏ
-				BYTE  bAcpOk : 1;			// ½ÓÊÜ·½½»Ò×²Ù×÷È·ÈÏ
-				BYTE  byParam : 3;			// ±£Áô
+				BYTE  bTradeStart : 1;		// äº¤æ˜“æ˜¯å¦å¼€å§‹
+				BYTE  bReqTrade : 1;		// è¯·æ±‚æ–¹äº¤æ˜“æ•°æ®ç¡®è®¤
+				BYTE  bAcpTrade : 1;		// æ¥å—æ–¹äº¤æ˜“æ•°æ®ç¡®è®¤
+				BYTE  bReqOk : 1;			// è¯·æ±‚æ–¹äº¤æ˜“æ“ä½œç¡®è®¤
+				BYTE  bAcpOk : 1;			// æ¥å—æ–¹äº¤æ˜“æ“ä½œç¡®è®¤
+				BYTE  byParam : 3;			// ä¿ç•™
 			};
 			BYTE byValue;
 		};
-		//USHORT sxPos, syPos;		// ½»Ò×µØµãĞÅÏ¢
-		TRADE_DATA ReqTradeData;	// ÇëÇó·½½»Ò×Êı¾İĞÅÏ¢
-		TRADE_DATA AcpTradeData;	// ½ÓÊÜ·½½»Ò×Êı¾İĞÅÏ¢
+		//USHORT sxPos, syPos;		// äº¤æ˜“åœ°ç‚¹ä¿¡æ¯
+		TRADE_DATA ReqTradeData;	// è¯·æ±‚æ–¹äº¤æ˜“æ•°æ®ä¿¡æ¯
+		TRADE_DATA AcpTradeData;	// æ¥å—æ–¹äº¤æ˜“æ•°æ®ä¿¡æ¯
 		
-		DWORD dwTradeTime;			// ½»Ò×Ê±¼ä¼ÆÊ±(½»Ò×³¬¹ı¹æ¶¨²Ù×÷Ê±¼ä£¬ÏµÍ³È¡Ïû½»Ò×²Ù×÷£¬»ØÊÕ»º³åÇø)
+		DWORD dwTradeTime;			// äº¤æ˜“æ—¶é—´è®¡æ—¶(äº¤æ˜“è¶…è¿‡è§„å®šæ“ä½œæ—¶é—´ï¼Œç³»ç»Ÿå–æ¶ˆäº¤æ˜“æ“ä½œï¼Œå›æ”¶ç¼“å†²åŒº)
 	};
 
 	class CTradeSystem
@@ -71,19 +71,19 @@ namespace mission
 		CTradeSystem();
 		~CTradeSystem();
 
-		// ½»Ò×²Ù×÷
+		// äº¤æ˜“æ“ä½œ
 		BOOL Request( BYTE byType, CCharacter& character, DWORD dwAcceptID );
 		BOOL Accept( BYTE byType, CCharacter& character,  DWORD dwRequestID );
 		BOOL Cancel( BYTE byType, CCharacter& character,  DWORD dwCharID );
 		
-		// ½ÇÉ«ÀëÏßÇå³ı½»Ò×ĞÅÏ¢
+		// è§’è‰²ç¦»çº¿æ¸…é™¤äº¤æ˜“ä¿¡æ¯
 		BOOL Clear( BYTE byType, CCharacter& character );
 
-		// È·ÈÏ½»Ò×ĞÅÏ¢ºÍ²Ù×÷
+		// ç¡®è®¤äº¤æ˜“ä¿¡æ¯å’Œæ“ä½œ
 		BOOL ValidateItemData( BYTE byType, CCharacter& character, DWORD dwCharID );
 		BOOL ValidateTrade( BYTE byType, CCharacter& character, DWORD dwCharID );
 
-		// ·ÅÖÃ»òÕßÈ¡×ßÎïÆ·µ½½»Ò×À¸
+		// æ”¾ç½®æˆ–è€…å–èµ°ç‰©å“åˆ°äº¤æ˜“æ 
 		BOOL AddItem( BYTE byType, CCharacter& character, DWORD dwCharID, BYTE byOpType, BYTE byIndex, BYTE byItemIndex, BYTE byCount );
 		BOOL AddMoney( BYTE byType, CCharacter& charactar, DWORD dwCharID, BYTE byOpType, DWORD dwMoney );
 		BOOL AddIMP(BYTE byType, CCharacter& charactar, DWORD dwCharID, BYTE byOpType, DWORD dwMoney);
@@ -96,19 +96,19 @@ namespace mission
 #pragma pack( push, before_InfoNet )
 #pragma pack( 8 )
 
-    //ÉÌ³Ç¶©µ¥ĞÅÏ¢
+    //å•†åŸè®¢å•ä¿¡æ¯
     struct SOrderData
     {        
-        long long	lOrderID;  //¶©µ¥ºÅ
-        long		lComID;    //ÉÌÆ·ID
-		long		lNum;	   //ÊıÁ¿
-        long		ChaID;	   //½ÇÉ«Êı¾İ¿âID
+        long long	lOrderID;  //è®¢å•å·
+        long		lComID;    //å•†å“ID
+		long		lNum;	   //æ•°é‡
+        long		ChaID;	   //è§’è‰²æ•°æ®åº“ID
 		long		lRecDBID;
 		char		ChaName[defENTITY_NAME_LEN];
 		DWORD		dwTickCount;
     };
 
-	//ÉÌÆ·ĞÅÏ¢
+	//å•†å“ä¿¡æ¯
 	struct SItemData
 	{
 		SItemData():pItemArray(NULL)
@@ -155,18 +155,18 @@ namespace mission
 			return *this;
 		}
 
-		StoreInfo   store_head;       //  ÉÌÆ·ĞÅÏ¢Í·
-		ItemInfo	*pItemArray;      //  µÀ¾ßĞÅÏ¢Ìå
+		StoreInfo   store_head;       //  å•†å“ä¿¡æ¯å¤´
+		ItemInfo	*pItemArray;      //  é“å…·ä¿¡æ¯ä½“
 	};
 
-    //ÉÌ³ÇÏµÍ³
+    //å•†åŸç³»ç»Ÿ
     class CStoreSystem
     {
     public:
         CStoreSystem();
         ~CStoreSystem();
 
-        //ÓÃ»§¹ºÂòµÀ¾ß
+        //ç”¨æˆ·è´­ä¹°é“å…·
         BOOL Request( CCharacter *pCha, long lComID );
 		BOOL Accept( long long lOrderID, RoleInfo *ChaInfo );
 		BOOL Accept( CCharacter *pCha, long lComID );
@@ -176,20 +176,20 @@ namespace mission
 		BOOL AcceptVIP(long long lOrderID, RoleInfo *ChaInfo, DWORD dwVipParam);
 		BOOL CancelVIP(long long lOrderID);
 
-		//ÓÃ»§»ñÈ¡ÉÌÆ·ÁĞ±í
+		//ç”¨æˆ·è·å–å•†å“åˆ—è¡¨
 		BOOL RequestItemList(CCharacter *pCha, long lClsID, short sPage, short sNum);
 
-		//ÓÃ»§ÇëÇó¶Ò»»´ú±Ò
+		//ç”¨æˆ·è¯·æ±‚å…‘æ¢ä»£å¸
 		BOOL RequestChange(CCharacter *pCha, long lNum);
 		BOOL AcceptChange(long long lOrderID, RoleInfo *ChaInfo);
 		BOOL CancelChange(long long lOrderID);
 
-		//²éÑ¯½ÇÉ«ĞÅÏ¢
+		//æŸ¥è¯¢è§’è‰²ä¿¡æ¯
 		BOOL RequestRoleInfo(CCharacter *pCha);
 		BOOL AcceptRoleInfo(long long lOrderID, RoleInfo *ChaInfo);
 		BOOL CancelRoleInfo(long long lOrderID);
 
-		//²éÑ¯½»Ò×¼ÇÂ¼
+		//æŸ¥è¯¢äº¤æ˜“è®°å½•
 		BOOL RequestRecord(CCharacter *pCha, long lNum);
 		BOOL AcceptRecord(long long lOrderID, HistoryInfo *pRecord);
 		BOOL CancelRecord(long long lOrderID);
@@ -202,10 +202,10 @@ namespace mission
 		BOOL AcceptGMRecv(long long lOrderID, MailInfo *pMi);
 		BOOL CancelGMRecv(long long lOrderID);
 
-		//ÓÃ»§¿ªÆôÉÌ³Ç
+		//ç”¨æˆ·å¼€å¯å•†åŸ
 		BOOL Open(CCharacter *pCha, long vip);
 
-		//ÉÌ³ÇÁĞ±í
+		//å•†åŸåˆ—è¡¨
 		BOOL GetItemList();
 		BOOL GetAfficheList();
 
@@ -222,26 +222,26 @@ namespace mission
 		void SetValid() { m_bValid = true; }
 		BOOL IsValid() { return m_bValid; }
 
-        void Run( DWORD dwCurTime, DWORD dwIntervalTime, DWORD dwOrderTime );    //´¦Àí¶©µ¥ÁĞ±í
+        void Run( DWORD dwCurTime, DWORD dwIntervalTime, DWORD dwOrderTime );    //å¤„ç†è®¢å•åˆ—è¡¨
         
     private:
-		//²éÑ¯ÉÌÆ·
+		//æŸ¥è¯¢å•†å“
 		long		GetClassId(long lComID);
 		cChar		*GetClassName(long lClsID);
 		SItemData	*GetItemData(long lComID);
 		BOOL		DelItemData(long lComID);
 
-		//¶©µ¥²Ù×÷
+		//è®¢å•æ“ä½œ
 		BOOL		PushOrder(CCharacter *pCha, long long lOrderID, long lComID, long lNum);
 		SOrderData	PopOrder(long long lOrderID);
 		BOOL		HasOrder(long long lOrderID);
 
-		//map<long long, SOrderData>		m_OrderList;		//¶©µ¥ÁĞ±í
+		//map<long long, SOrderData>		m_OrderList;		//è®¢å•åˆ—è¡¨
 		vector<SOrderData>				m_OrderList;
-        map<long, long>					m_ItemSearchList;	//ÉÌÆ·IDºÍ·ÖÀàµÄÓ³Éä¹ØÏµ
-		map< long, vector<SItemData> >	m_ItemList;			//ÉÌÆ·ÁĞ±í
-		vector<ClassInfo>				m_ItemClass;		//ÉÌÆ··ÖÀà
-		vector<AfficheInfo>				m_AfficheList;		//¹«¸æÁĞ±í
+        map<long, long>					m_ItemSearchList;	//å•†å“IDå’Œåˆ†ç±»çš„æ˜ å°„å…³ç³»
+		map< long, vector<SItemData> >	m_ItemList;			//å•†å“åˆ—è¡¨
+		vector<ClassInfo>				m_ItemClass;		//å•†å“åˆ†ç±»
+		vector<AfficheInfo>				m_AfficheList;		//å…¬å‘Šåˆ—è¡¨
 		BOOL							m_bValid;
         
     };

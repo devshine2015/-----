@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¾²Ì¬ÎÄ×Ö
-// ×÷Õß:lh 2004-07-19
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:é™æ€æ–‡å­—
+// ä½œè€…:lh 2004-07-19
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uiguidata.h"
@@ -9,7 +9,7 @@
 namespace GUI
 {
 
-// Í¼Ôª
+// å›¾å…ƒ
 class CGraph : public CItemObj
 {
 public:
@@ -23,12 +23,12 @@ public:
 	CGraph( const CGraph& rhs )	: CItemObj(rhs), _pImage(new CGuiPic(*rhs._pImage)), nTag(rhs.nTag)	{}
 	CGraph& operator=(const CGraph& rhs) { CItemObj::operator=(rhs) ;*_pImage=*rhs._pImage; nTag=rhs.nTag; return *this;}
 	CGraph() : nTag(0)		{ _pImage = new CGuiPic(NULL, 1);	}
-	~CGraph()				{ SAFE_DELETE(_pImage); } // UIµ±»ú´¦Àí //delete _pImage;					}
+	~CGraph()				{ SAFE_DELETE(_pImage); } // UIå½“æœºå¤„ç† //delete _pImage;					}
 	ITEM_CLONE(CGraph)
 
 	CGraph(unsigned int frame) : nTag(0)	{_pImage = new CGuiPic(NULL, frame);	}
 
-	// Grid½Ó¿Ú
+	// Gridæ¥å£
 	virtual void	Render( int x, int y )	{ _pImage->Render(x, y);	    }
 
     virtual int     GetWidth()				{ return _pImage->GetWidth();	}
@@ -37,7 +37,7 @@ public:
 	void		Next()					{ _pImage->Next();			}
 	void		Reset()					{ _pImage->SetFrame(0);		}
 
-	// Íâ²¿½Ó¿Ú
+	// å¤–éƒ¨æ¥å£
 	CGuiPic*	GetImage()				{ return _pImage;			}
 
 	int			nTag;
@@ -47,7 +47,7 @@ protected:
 
 };
 
-// ´øhintµÄÍ¼Ôª,ÓÃÓÚ±à¼­Æ÷Ê÷ÖĞ½Úµã
+// å¸¦hintçš„å›¾å…ƒ,ç”¨äºç¼–è¾‘å™¨æ ‘ä¸­èŠ‚ç‚¹
 class CHintGraph : public CGraph
 {
 public:
@@ -65,7 +65,7 @@ protected:
 
 };
 
-// ÓÃÓÚÁÄÌìµÄÍ·Ïñ
+// ç”¨äºèŠå¤©çš„å¤´åƒ
 class CTextGraph : public CHintGraph
 {
 public:
@@ -90,7 +90,7 @@ protected:
 
 };
 
-// ÓÃÓÚÊ÷ĞÍ¿Ø¼şµÄ±í¸ñ½Úµã
+// ç”¨äºæ ‘å‹æ§ä»¶çš„è¡¨æ ¼èŠ‚ç‚¹
 class CNoteGraph : public CHintGraph
 {
 public:
@@ -109,7 +109,7 @@ public:
 protected:
     string			_strName;
 	DWORD			_color;
-	int				_nTextX, _nTextY;	// ÎÄ×ÖµÄX,YÆ«ÒÆ
+	int				_nTextX, _nTextY;	// æ–‡å­—çš„X,Yåç§»
 
 };
 

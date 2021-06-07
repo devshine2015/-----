@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¹ÜÀíEditµÄÊäÈë£¬ÏÔÊ¾¹â±ê£¬ÏÔÊ¾Ñ¡ÖĞ×´Ì¬µÈ
-// ×÷Õß:lh 2005-05-23
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// åç§°:ç®¡ç†Editçš„è¾“å…¥ï¼Œæ˜¾ç¤ºå…‰æ ‡ï¼Œæ˜¾ç¤ºé€‰ä¸­çŠ¶æ€ç­‰
+// ä½œè€…:lh 2005-05-23
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #pragma once
 
@@ -20,7 +20,7 @@ public:
 	bool	SetFont( DWORD dwFont );
 	void	SetColor( DWORD dwColor )		{ _dwFontColor=dwColor;		}
 
-public:		// Íâ²¿½Ó¿Ú
+public:		// å¤–éƒ¨æ¥å£
 	bool	OnChar( char c );
 	bool	OnKeyDown( int key );
 
@@ -32,20 +32,20 @@ private:
 private:
 	CEditParse*		_pParse;
 
-	char			_szEnter[16];				// ÓÃÓÚ¼ÆËãÊäÈëµÄbuf
+	char			_szEnter[16];				// ç”¨äºè®¡ç®—è¾“å…¥çš„buf
 	int				_nEnterPos;
 
-	bool			_IsReadyOnly;				// ÊÇ·ñÖ»¶Á
+	bool			_IsReadyOnly;				// æ˜¯å¦åªè¯»
 
-	DWORD			_dwFontColor;				// µ±Ç°×ÖÌåÑÕÉ«
-	int				_dwFontIndex;				// µ±Ç°×ÖÌå
+	DWORD			_dwFontColor;				// å½“å‰å­—ä½“é¢œè‰²
+	int				_dwFontIndex;				// å½“å‰å­—ä½“
 
 private:
-	DWORD			_dwCurosrIndex;				// µ±Ç°¹â±êÎ»ÖÃ
+	DWORD			_dwCurosrIndex;				// å½“å‰å…‰æ ‡ä½ç½®
 
-	DWORD			_dwCursorHeight;			// ¹â±ê¸ß¶È
-	DWORD			_dwCursorColor;				// ¹â±êÑÕÉ« 
-	int				_nCursorX, _nCursorY;		// ¹â±êäÖÈ¾Î»ÖÃ
+	DWORD			_dwCursorHeight;			// å…‰æ ‡é«˜åº¦
+	DWORD			_dwCursorColor;				// å…‰æ ‡é¢œè‰² 
+	int				_nCursorX, _nCursorY;		// å…‰æ ‡æ¸²æŸ“ä½ç½®
 	bool			_IsShowCursor;
 	DWORD			_dwCursorTime;
 	DWORD			_dwCursorSpace;

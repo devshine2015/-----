@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "FindPath.h"
 
-struct NODE_SHARED   //Ѱ·ʱ���õ�·����Ϣ
+struct NODE_SHARED   //寻路时公用的路径信息
 {
 	BYTE*			buf_ptr;
 	BYTE			dire;
@@ -25,10 +25,10 @@ static void DeletePathLink(PATH_LINK **ppPathLink)
 	}
 	*ppPathLink = NULL;
 }
-// ʹ�÷���
-// ����ʾ�ϰ���0,1����, �Լ�����Ŀ��͸�, �������, Ŀ�ĵ����괫���ú���
-// ����һ����¼���������, ����Ϊ�ձ�ʾѰ·ʧ��
-// ������ϰ���������Ǳ߽�ȫ�����Ϊ1, Ѱ·�㷨�в��ټ������߽�
+// 使用方法
+// 将表示障碍的0,1数组, 以及数组的宽和高, 起点坐标, 目的地坐标传给该函数
+// 返回一个记录方向的链表, 链表为空表示寻路失败
+// 传入的障碍数组必须是边界全部填充为1, 寻路算法中不再检查数组边界
 
 PATH_LINK* SearchPath(BYTE *block_buf , short width , short height , short sx , short sy , short tx , short ty)
 {
@@ -78,7 +78,7 @@ PATH_LINK* SearchPath(BYTE *block_buf , short width , short height , short sx , 
 	//BYTE *temp_buf_ptr;
 
 	UINT32 lMaxStep = (height -1) * (height -1);
-	if(lMaxStep>STEP_LIMIT) lMaxStep = STEP_LIMIT; //���������
+	if(lMaxStep>STEP_LIMIT) lMaxStep = STEP_LIMIT; //限制最大步数
 
 	BYTE *end_block = &block_buf[STEP_LIMIT - 1];
 

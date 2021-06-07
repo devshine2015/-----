@@ -16,9 +16,9 @@ namespace mission
 {
 	using namespace dbc;
 
-	#define EN_OK						 0		// ÕıÈ·
-	#define EN_FAILER					-1		// ´íÎó
-	#define INVALID_SCRIPT_NPCHANDLE	USHORT(-1)		// ÎŞĞ§µÄNPC½Å±¾ID
+	#define EN_OK						 0		// æ­£ç¡®
+	#define EN_FAILER					-1		// é”™è¯¯
+	#define INVALID_SCRIPT_NPCHANDLE	USHORT(-1)		// æ— æ•ˆçš„NPCè„šæœ¬ID
 
 	//	
 	class CNpc : public CCharacter
@@ -29,38 +29,38 @@ namespace mission
 		CNpc();
 		virtual ~CNpc();
 
-		// ÀàµÄÀàĞÍĞÅÏ¢
+		// ç±»çš„ç±»å‹ä¿¡æ¯
 		virtual CNpc* IsNpc() { return this; }
 		virtual void SetType() { m_byType = NPC; }
 		BYTE GetType() { return m_byType; }
 		BYTE GetShowType() { return m_byShowType; }
 		
-		// ×°ÔØnpcÅäÖÃĞÅÏ¢
+		// è£…è½½npcé…ç½®ä¿¡æ¯
 		virtual BOOL Load( const CNpcRecord& recNpc, const CChaRecord& recChar );
 
-		// ÍøÂçÏûÏ¢´¦Àíº¯Êı
+		// ç½‘ç»œæ¶ˆæ¯å¤„ç†å‡½æ•°
 		virtual HRESULT MsgProc( CCharacter& character, RPACKET& packet );
 
-		// ÈÎÎñ×´Ì¬´¦Àíº¯Êı
+		// ä»»åŠ¡çŠ¶æ€å¤„ç†å‡½æ•°
 		virtual BOOL MissionProc( CCharacter& character, BYTE& byState );
 
-		// ÅĞ¶¨npcµÄµØÍ¼ÊôĞÔ
+		// åˆ¤å®šnpcçš„åœ°å›¾å±æ€§
 		virtual BOOL IsMapNpc( const char szMap[], USHORT sID );
 
-		// Ìí¼Ó´¥·¢Æ÷ĞÅÏ¢
+		// æ·»åŠ è§¦å‘å™¨ä¿¡æ¯
 		virtual BOOL AddNpcTrigger( WORD wID, mission::TRIGGER_EVENT e, WORD wParam1, WORD wParam2, WORD wParam3, WORD wParam4 );
 
-		// ´¥·¢Æ÷ÊÂ¼ş´¦Àí
+		// è§¦å‘å™¨äº‹ä»¶å¤„ç†
 		virtual BOOL EventProc( TRIGGER_EVENT e, WPARAM wParam, LPARAM lParam );
 
-		//ÉèÖÃnpc½Å±¾¶Ô»°ºÍ½»Ò×ĞÅÏ¢×ÊÔ´ID
+		//è®¾ç½®npcè„šæœ¬å¯¹è¯å’Œäº¤æ˜“ä¿¡æ¯èµ„æºID
 		virtual void	SetScriptID( USHORT sID ) { m_sScriptID = sID; }
 		virtual USHORT	GetScriptID() { return m_sScriptID; }
 		virtual void	SetNpcHasMission( BOOL bHasMission ) { m_bHasMission = bHasMission; }
 		virtual BOOL	GetNpcHasMission() { return m_bHasMission; }
 		virtual const char* GetInitFunc() { return m_szMsgProc; }
 
-		// NPC±»ÕÙ»½
+		// NPCè¢«å¬å”¤
 		virtual void	Summoned( USHORT sTime ) {};
 		
 		const char* GetNpcName() { return m_szName; }
@@ -69,22 +69,22 @@ namespace mission
 		//
 		virtual void Clear();
 
-		// npcÀàĞÍĞÅÏ¢
+		// npcç±»å‹ä¿¡æ¯
 		BYTE	m_byType;
 
-		// npc¿Í»§¶ËÏÔÊ¾²»Í¬ÀàĞÍ
+		// npcå®¢æˆ·ç«¯æ˜¾ç¤ºä¸åŒç±»å‹
 		BYTE	m_byShowType;
 
-		// npcÅäÖÃ±í±àºÅ
+		// npcé…ç½®è¡¨ç¼–å·
 		USHORT	m_sNpcID;
 
-		// npcĞÅÏ¢½á¹¹
+		// npcä¿¡æ¯ç»“æ„
 		char	m_szMsgProc[ROLE_MAXSIZE_MSGPROC];
 
-		// npc½Å±¾ĞÅÏ¢ID
+		// npcè„šæœ¬ä¿¡æ¯ID
 		USHORT	m_sScriptID;
 
-		// npcÊÇ·ñĞ¯´øÈÎÎñĞÅÏ¢
+		// npcæ˜¯å¦æºå¸¦ä»»åŠ¡ä¿¡æ¯
 		BOOL	m_bHasMission;
 
 		char m_szName[128];
@@ -97,13 +97,13 @@ namespace mission
 		CTalkNpc();
 		virtual ~CTalkNpc();
 
-		// ÀàµÄÀàĞÍĞÅÏ¢
+		// ç±»çš„ç±»å‹ä¿¡æ¯
 		virtual void SetType() { m_byType = TALK; }
 
-		// ×°ÔØnpcÅäÖÃĞÅÏ¢
+		// è£…è½½npcé…ç½®ä¿¡æ¯
 		virtual BOOL Load( const CNpcRecord& recNpc, const CChaRecord& recChar );
 		
-		// ×°ÔØ½Å±¾ĞÅÏ¢
+		// è£…è½½è„šæœ¬ä¿¡æ¯
 		virtual BOOL InitScript( const char szFunc[], const char szName[] );
 
 		//
@@ -112,38 +112,38 @@ namespace mission
 		//
 		virtual BOOL MissionProc( CCharacter& character, BYTE& byState );
 
-		// ÅĞ¶¨npcµÄµØÍ¼ÊôĞÔ
+		// åˆ¤å®šnpcçš„åœ°å›¾å±æ€§
 		virtual BOOL IsMapNpc( const char szMap[], USHORT sID );
 
-		// Ìí¼Ó´¥·¢Æ÷ĞÅÏ¢
+		// æ·»åŠ è§¦å‘å™¨ä¿¡æ¯
 		virtual BOOL AddNpcTrigger( WORD wID, mission::TRIGGER_EVENT e, WORD wParam1, WORD wParam2, WORD wParam3, WORD wParam4 );
 
-		// ´¥·¢Æ÷ÊÂ¼ş´¦Àí
+		// è§¦å‘å™¨äº‹ä»¶å¤„ç†
 		virtual BOOL EventProc( TRIGGER_EVENT e, WPARAM wParam, LPARAM lParam );
 
-		// NPC±»ÕÙ»½
+		// NPCè¢«å¬å”¤
 		virtual void Summoned( USHORT sTime );
 
 	protected:
-		// ×°ÔØnpc½Å±¾³õÊ¼»¯npcĞÅÏ¢
+		// è£…è½½npcè„šæœ¬åˆå§‹åŒ–npcä¿¡æ¯
 		virtual BOOL Load( const char szNpcScript[] );
 		
 		// 
 		virtual void Clear();
 
-		// Çå³ı´¥·¢Æ÷ĞÅÏ¢
+		// æ¸…é™¤è§¦å‘å™¨ä¿¡æ¯
 		void	ClearTrigger( WORD wIndex );
 
-		// ÈÎÎñÊÂ¼ş´¦Àíº¯Êı
+		// ä»»åŠ¡äº‹ä»¶å¤„ç†å‡½æ•°
 		void	TimeOut( USHORT sTime );
 
-		// npcĞ¯´øµÄ´¥·¢Æ÷ĞÅÏ¢
+		// npcæºå¸¦çš„è§¦å‘å™¨ä¿¡æ¯
 		BYTE				m_byNumTrigger;
 		NPC_TRIGGER_DATA	m_Trigger[ROLE_MAXNUM_NPCTRIGGER];
 
-		// µ±¿´µ½ÓĞĞ¯´øÄ³¸öÈÎÎñµÄ½ÇÉ«Ê±³öÏÖ
-		USHORT m_sTime;		// Ê£ÓàÏÔÊ¾Ê±¼ä
-		BOOL   m_bSummoned; // ÊÇ·ñÊÇÕÙ»½µÄNPC
+		// å½“çœ‹åˆ°æœ‰æºå¸¦æŸä¸ªä»»åŠ¡çš„è§’è‰²æ—¶å‡ºç°
+		USHORT m_sTime;		// å‰©ä½™æ˜¾ç¤ºæ—¶é—´
+		BOOL   m_bSummoned; // æ˜¯å¦æ˜¯å¬å”¤çš„NPC
 	};
 	
 	class CTradeNpc : public CTalkNpc
@@ -155,7 +155,7 @@ namespace mission
 
 		virtual void SetType() { m_byType = TRADE; }
 
-		// ½»Ò×º¯Êı½Ó¿Ú
+		// äº¤æ˜“å‡½æ•°æ¥å£
 		virtual BOOL Sale( CCharacter& character, RPACKET& packet );
 		virtual BOOL Buy( CCharacter& character, RPACKET& packet );
 
@@ -181,7 +181,7 @@ namespace mission
 			DWORD  dwOwnerID;
 		};
 
-		// ÎïÆ·×°±¸ĞÅÏ¢
+		// ç‰©å“è£…å¤‡ä¿¡æ¯
 		AGENCY_ITEM	m_sItemList[ROLE_MAXNUM_CAPACITY];
 		USHORT		m_sNumItem;
 	};
@@ -195,12 +195,12 @@ namespace mission
 		virtual void SetType() { m_byType = ROLE; }
 		
 	private:
-		// ÈÎÎñĞÅÏ¢
+		// ä»»åŠ¡ä¿¡æ¯
 		USHORT	m_sRoleList[ROLE_MAXNUM_CAPACITY];
 		USHORT	m_sNumRole;
 	};
 
-	extern CTalkNpc* g_TalkNpc;	// ³õÊ¼»¯npc½Å±¾Ê±ºòÉèÖÃÈ«¾ÖnpcÀàÖ¸Õë
+	extern CTalkNpc* g_TalkNpc;	// åˆå§‹åŒ–npcè„šæœ¬æ—¶å€™è®¾ç½®å…¨å±€npcç±»æŒ‡é’ˆ
 }
 
 //---------------------------------------------------------

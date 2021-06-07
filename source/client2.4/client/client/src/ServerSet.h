@@ -15,7 +15,7 @@ typedef map<int, ReginList> ReginListMap;
 
 extern string g_serverset;
 
-// ´ú±íÒ»×é·þÎñÆ÷
+// ä»£è¡¨ä¸€ç»„æœåŠ¡å™¨
 class CServerGroupInfo : public CRawDataInfo
 {
 public:
@@ -24,8 +24,8 @@ public:
     	cValidGateCnt = 0;
 	}
 
-    char  szGateIP[MAX_GROUP_GATE][16]; // Ã¿×é×î¶à5¸öGate
-	char  szRegion[16];                 // ËùÊôµÄÇøÃû
+    char  szGateIP[MAX_GROUP_GATE][16]; // æ¯ç»„æœ€å¤š5ä¸ªGate
+	char  szRegion[16];                 // æ‰€å±žçš„åŒºå
 	char  cValidGateCnt;
 	char	szComment[MAX_PATH];
 	char	szState[16];
@@ -99,7 +99,7 @@ public:
 
 public:
 
-	int		m_nCurGroupList[MAX_REGION][MAX_REGION_GROUP]; // ·ÅÖÃµ±Ç°Ñ¡ÖÐµÄÇøÀïÃæµÄËùÓÐGroup
+	int		m_nCurGroupList[MAX_REGION][MAX_REGION_GROUP]; // æ”¾ç½®å½“å‰é€‰ä¸­çš„åŒºé‡Œé¢çš„æ‰€æœ‰Group
 	int		m_nCurGroupCnt[MAX_REGION];
 
 	ReginList		m_ReginList;
@@ -107,7 +107,7 @@ public:
 
 protected:
     
-	static CServerSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CServerSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
 
     virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
     {
@@ -140,7 +140,7 @@ protected:
         
 		//strcpy(pInfo->szRegion, ParamList[0].c_str());
 		strncpy_s(pInfo->szRegion, sizeof(pInfo->szRegion),ParamList[0].c_str(),_TRUNCATE);
-		for(int i = 0; i < MAX_GROUP_GATE; i++) // ¶ÁÈë5¸ö¿ÉÄÜµÄgate ip
+		for(int i = 0; i < MAX_GROUP_GATE; i++) // è¯»å…¥5ä¸ªå¯èƒ½çš„gate ip
 		{
 			//strcpy(pInfo->szGateIP[i], ParamList[i + 1].c_str());
 			strncpy_s(pInfo->szGateIP[i],sizeof(pInfo->szGateIP[i]), ParamList[i + 1].c_str(),_TRUNCATE);
@@ -162,11 +162,15 @@ protected:
 
 	virtual void _ProcessRawDataInfo(CRawDataInfo *pRawDataInfo)
 	{
+
 	    CServerGroupInfo *pInfo = (CServerGroupInfo*)pRawDataInfo;
+		//MessageBox(0, pInfo->szRegion, "Error", MB_OK);
     
 		for(size_t i = 0; i < m_ReginList.size(); i++)
 		{
-			if( m_ReginList[i] == pInfo->szRegion ) // ÇøÃû·ûºÏ
+		//MessageBox(0, m_ReginList[i].c_str(), "Error", MB_OK);
+
+			if( m_ReginList[i] == pInfo->szRegion ) // åŒºåç¬¦åˆ
 			{
 				m_nCurGroupList[i][m_nCurGroupCnt[i]] = pInfo->nID;
 				m_nCurGroupCnt[i]++;
@@ -176,13 +180,13 @@ protected:
 	}
 };
 
-// Í¨¹ý×é±àºÅ, È¡µÃ×éµÄGateIPÐÅÏ¢
+// é€šè¿‡ç»„ç¼–å·, å–å¾—ç»„çš„GateIPä¿¡æ¯
 inline CServerGroupInfo* GetServerGroupInfo(int nGroupID)
 {
     return (CServerGroupInfo*)CServerSet::I()->GetRawDataInfo(nGroupID);
 }
 
-// Í¨¹ý×éÃû×Ö, È¡µÃ×éµÄGateIPÐÅÏ¢
+// é€šè¿‡ç»„åå­—, å–å¾—ç»„çš„GateIPä¿¡æ¯
 inline CServerGroupInfo* GetServerGroupInfo(const char *pszGroupName)
 {
     return (CServerGroupInfo*)CServerSet::I()->GetRawDataInfo(pszGroupName);
@@ -207,7 +211,7 @@ inline const char* GetCurServerGroupName(int nRegionNo, int nGroupNo)
 	return GetServerGroupInfo(nNo)->szDataName;
 }
 
-// Ôö¼ÓÓÎÏ·ÇøÓòÐÅÏ¢ Michael Chen 2005-06-01
+// å¢žåŠ æ¸¸æˆåŒºåŸŸä¿¡æ¯ Michael Chen 2005-06-01
 inline int GetRegionCnt()
 {
 	return ( int ) CServerSet::I()->m_ReginList.size();
@@ -233,7 +237,7 @@ inline int GetReginIndex( const char* ReginText )
 	return -1;
 }
 
-// Í¨¹ý×é±àºÅ, Ñ¡ÖÐÒ»¸öGateIP
+// é€šè¿‡ç»„ç¼–å·, é€‰ä¸­ä¸€ä¸ªGateIP
 inline const char *SelectGroupIP(int nRegionNo, int nGroupNo)
 {
 //	LG("connect", "Select Region %d Group %d\n", nRegionNo, nGroupNo);
@@ -295,7 +299,7 @@ inline const char* GetGroupState( int nRegionNo, int nGroupNo )
 
 /*
 
-// Í¨¹ý×éÃû×Ö, Ñ¡ÖÐÒ»¸öGateIP
+// é€šè¿‡ç»„åå­—, é€‰ä¸­ä¸€ä¸ªGateIP
 inline const char *SelectGroupIP(const char *pszGroupName)
 {
     LG("connect", "Select Group [%s]\n", pszGroupName);
@@ -308,7 +312,7 @@ inline const char *SelectGroupIP(const char *pszGroupName)
 
 	if(pGroup->cValidGateCnt==0) 
 	{
-		LG("connect", "msg¸Ã·þÎñÆ÷×éÓÐÐ§GateIPÊýÁ¿Îª0, ÎÞ·¨Ñ¡ÔñGate!\n");
+		LG("connect", "msgè¯¥æœåŠ¡å™¨ç»„æœ‰æ•ˆGateIPæ•°é‡ä¸º0, æ— æ³•é€‰æ‹©Gate!\n");
 		return NULL;
 	}
 	
@@ -316,7 +320,7 @@ inline const char *SelectGroupIP(const char *pszGroupName)
 	
 	int nNo = rand()%(int)(pGroup->cValidGateCnt); 
 
-	LG("connect", "Ëæ»úÑ¡ÖÐ¸Ã·þÎñÆ÷×éGate[%d], ip = %s\n", nNo, pGroup->szGateIP[nNo]);
+	LG("connect", "éšæœºé€‰ä¸­è¯¥æœåŠ¡å™¨ç»„Gate[%d], ip = %s\n", nNo, pGroup->szGateIP[nNo]);
 		
 	return pGroup->szGateIP[nNo];
 }*/

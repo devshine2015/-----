@@ -3,7 +3,7 @@
 #ifndef FRIEND_H
 #define FRIEND_H
 #include "Invitation.h"
-//cChar	gc_standard_group[]="ÎÒµÄºÃÓÑ";
+//cChar	gc_standard_group[]="æˆ‘çš„å¥½å‹";
 extern const cChar*	gc_standard_group;
 
 class Friend : public Invitation

@@ -21,7 +21,7 @@ public:
 		m_pCLast = 0;
 	}
 
-	bool			m_bIn;	// ÔÚµ¥ÔªÄÚ
+	bool			m_bIn;	// åœ¨å•å…ƒå†…
 	CCharacter		*m_pCCha;
 	CStateCellNode	*m_pCEntStateNode;
 
@@ -47,7 +47,7 @@ inline void CChaListNode::Finally()
 
 class CEyeshotCell;
 
-// ×´Ì¬µ¥ÔªÀà
+// çŠ¶æ€å•å…ƒç±»
 class CStateCell : public dbc::PreAllocStru
 {
 public:
@@ -88,19 +88,19 @@ public:
 	void			StateBeginSeen(Entity *pCEnt);
 	void			StateEndSeen(Entity *pCEnt);
 
-	short			m_sPosX;		// Î»ÖÃ
-	short			m_sPosY;		// Î»ÖÃ
-	long			m_lActNum;		// ¼¤»î¼ÆÊý
-	long			m_lChaNum;		// ½ÇÉ«×ÜÊý
+	short			m_sPosX;		// ä½ç½®
+	short			m_sPosY;		// ä½ç½®
+	long			m_lActNum;		// æ¿€æ´»è®¡æ•°
+	long			m_lChaNum;		// è§’è‰²æ€»æ•°
 
-	CChaListNode	*m_pCChaIn;		// ¼ÇÂ¼ÖÐÐÄµãÔÚ·¶Î§ÄÚµÄ½ÇÉ«
-	CChaListNode	*m_pCChaCross;	// ¼ÇÂ¼ÖÐÐÄµã²»ÔÚ·¶Î§ÄÚ£¬µ«Óë·¶Î§Ïà½»µÄ½ÇÉ«
+	CChaListNode	*m_pCChaIn;		// è®°å½•ä¸­å¿ƒç‚¹åœ¨èŒƒå›´å†…çš„è§’è‰²
+	CChaListNode	*m_pCChaCross;	// è®°å½•ä¸­å¿ƒç‚¹ä¸åœ¨èŒƒå›´å†…ï¼Œä½†ä¸ŽèŒƒå›´ç›¸äº¤çš„è§’è‰²
 
-	CSkillState		m_CSkillState;	// µØ±íµÄ¼¼ÄÜ×´Ì¬
+	CSkillState		m_CSkillState;	// åœ°è¡¨çš„æŠ€èƒ½çŠ¶æ€
 
-	CEyeshotCell	*m_pCEyeshotCell;	// ËùÔÚµÄÊÓÒ°µ¥ÔªÖ¸Õë
+	CEyeshotCell	*m_pCEyeshotCell;	// æ‰€åœ¨çš„è§†é‡Žå•å…ƒæŒ‡é’ˆ
 
-	CStateCell		*m_pCNext;		// Ö¸Ïò¡°¼¤»îµÄ×´Ì¬µ¥ÔªÁ´±í¡°µÄÖ¸Õë
+	CStateCell		*m_pCNext;		// æŒ‡å‘â€œæ¿€æ´»çš„çŠ¶æ€å•å…ƒé“¾è¡¨â€œçš„æŒ‡é’ˆ
 	CStateCell		*m_pCLast;
 
 protected:
@@ -128,7 +128,7 @@ inline void CStateCell::Finally()
 {
 }
 
-class CActStateCell // ¼¤»îµÄ×´Ì¬µ¥ÔªÁ´±í
+class CActStateCell // æ¿€æ´»çš„çŠ¶æ€å•å…ƒé“¾è¡¨
 {
 public:
 	CActStateCell()
@@ -160,8 +160,8 @@ inline void CActStateCell::Add(CStateCell *pObj)
 {T_B
 	if (pObj->m_pCLast || pObj->m_pCNext)
 	{
-		//LG("×´Ì¬µ¥Ôª²Ù×÷´íÎó", "Ïò×´Ì¬µ¥ÔªÔö¼ÓÊµÌå [%d,%d] Ê±£¬·¢ÏÖÆäÃ»ÓÐÍÑÀëÏÈÇ°µÄµ¥Ôª", pObj->m_sPosX, pObj->m_sPosY);
-		LG("state cell operator error", "when add entity[%d,%d] to state cell£¬find it is not break away foregone manage cell", pObj->m_sPosX, pObj->m_sPosY);
+		//LG("çŠ¶æ€å•å…ƒæ“ä½œé”™è¯¯", "å‘çŠ¶æ€å•å…ƒå¢žåŠ å®žä½“ [%d,%d] æ—¶ï¼Œå‘çŽ°å…¶æ²¡æœ‰è„±ç¦»å…ˆå‰çš„å•å…ƒ", pObj->m_sPosX, pObj->m_sPosY);
+		LG("state cell operator error", "when add entity[%d,%d] to state cellï¼Œfind it is not break away foregone manage cell", pObj->m_sPosX, pObj->m_sPosY);
 		return;
 	}
 

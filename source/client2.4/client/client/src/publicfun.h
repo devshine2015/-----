@@ -2,7 +2,7 @@
 
 inline int GetAngleDistance(int nAngle1, int nAngle2)
 {
-	if(nAngle1 >= 0 && nAngle1 < 90) // nAngle1 ÔÚµÚÒ»ÏóÏÞ
+	if(nAngle1 >= 0 && nAngle1 < 90) // nAngle1 åœ¨ç¬¬ä¸€è±¡é™
 	{
 		if(nAngle2 >= 0 && nAngle2 < 90)
 		{
@@ -25,7 +25,7 @@ inline int GetAngleDistance(int nAngle1, int nAngle2)
 			return -1 * (360 - nAngle2 + nAngle1);
 		}
 	}
-	else if(nAngle1 >= 90 && nAngle1 < 180) // nAngle1 ÔÚµÚ¶þÏóÏÞ
+	else if(nAngle1 >= 90 && nAngle1 < 180) // nAngle1 åœ¨ç¬¬äºŒè±¡é™
 	{
 		if(nAngle2 >= 0 && nAngle2 < 90)
 		{
@@ -104,7 +104,7 @@ inline int FixAngle(int nAngle)
 	return nAngle;
 }
 
-// µÃµ½´Óx1µ½x2µÄ½Ç¶È
+// å¾—åˆ°ä»Žx1åˆ°x2çš„è§’åº¦
 inline int GetLineAngle(int x1, int y1, int x2, int y2)
 {
 	D3DXVECTOR2 dPosition = D3DXVECTOR2((float)x2, (float)y2) - D3DXVECTOR2((float)x1, (float)y1);
@@ -134,16 +134,16 @@ inline BOOL IsValidHeight(DWORD dwCharType, float fHeight)
 
 	switch (dwCharType)
 	{
-		//Ë®Ãæ(´¬Ö»)
+		//æ°´é¢(èˆ¹åª)
 	case	201:
 	case	202:
 		if (fHeight > SEA_LEVEL)
 			ret = FALSE;
 		break;
-		//Ë®Â½Á½ÆÜ(ó¦Ð·)
+		//æ°´é™†ä¸¤æ –(èžƒèŸ¹)
 	case	31:
 		break;
-		//Â½µØ
+		//é™†åœ°
 	default:
 		if (fHeight < (SEA_LEVEL - 0.2f))
 			ret = FALSE;
@@ -153,7 +153,7 @@ inline BOOL IsValidHeight(DWORD dwCharType, float fHeight)
 	return ret;
 }
 
-// ´Óx1, y1ÑØx2, y2·½ÏòÒÆ¶¯disºóµÄ×ø±ê
+// ä»Žx1, y1æ²¿x2, y2æ–¹å‘ç§»åŠ¨disåŽçš„åæ ‡
 inline void GetDistancePos( int x1, int y1, int x2, int y2, int dis, int& x, int& y )
 {
 	D3DXVECTOR2 v1( (float)x1, (float)y1 );
@@ -165,7 +165,7 @@ inline void GetDistancePos( int x1, int y1, int x2, int y2, int dis, int& x, int
 	y = (int)v2.y;
 }
 
-// ´Óx1, y1ÑØx2, y2·´·½ÏòÒÆ¶¯disºóµÄ×ø±ê
+// ä»Žx1, y1æ²¿x2, y2åæ–¹å‘ç§»åŠ¨disåŽçš„åæ ‡
 inline void GetInDistancePos( int x1, int y1, int x2, int y2, int dis, int& x, int& y )
 {
 	D3DXVECTOR2 v1( (float)x1, (float)y1 );
@@ -177,7 +177,7 @@ inline void GetInDistancePos( int x1, int y1, int x2, int y2, int dis, int& x, i
 	y = (int)v2.y;
 }
 
-// ´Óx1, y1ÑØangle·½ÏòÒÆ¶¯disºóµÄ×ø±ê
+// ä»Žx1, y1æ²¿angleæ–¹å‘ç§»åŠ¨disåŽçš„åæ ‡
 inline void GetAnglePos(int x1,int y1, int Dist, int angle, int& x, int& y)
 {
 	D3DXVECTOR2 v1( (float)x1, (float)y1 );
@@ -197,13 +197,13 @@ inline void GetAnglePos(int x1,int y1, int Dist, int angle, int& x, int& y)
 
 inline int GetItemForgeLv( int chForgeLv )
 {
-    if( chForgeLv<4 ) return -1;        // 0~3Ã»ÓÐÍ¼Æ¬,Ð¶ÔØÁ÷¹â
-    else if( chForgeLv<8 ) return 0;    // ÒÔÏÂ×°ÔØÁ÷¹âÊ±Ê±,ÒòÎªÊý×éÔ­Òò,ÒÀ´Î¼õÒ»
+    if( chForgeLv<4 ) return -1;        // 0~3æ²¡æœ‰å›¾ç‰‡,å¸è½½æµå…‰
+    else if( chForgeLv<8 ) return 0;    // ä»¥ä¸‹è£…è½½æµå…‰æ—¶æ—¶,å› ä¸ºæ•°ç»„åŽŸå› ,ä¾æ¬¡å‡ä¸€
     else if( chForgeLv<12 ) return 1;
     else return 2;
 }
 
-// nInLenÊÇÓÐÐ§µã¸öÊý£¬nOutLenÊÇÊä³ö»º³åµÄ´óÐ¡£¬·µ»ØÊä³öµÄÓÐÐ§µã¸öÊý
+// nInLenæ˜¯æœ‰æ•ˆç‚¹ä¸ªæ•°ï¼ŒnOutLenæ˜¯è¾“å‡ºç¼“å†²çš„å¤§å°ï¼Œè¿”å›žè¾“å‡ºçš„æœ‰æ•ˆç‚¹ä¸ªæ•°
 inline int GetMovePoint( POINT* pInPoint, int nInLen, int nDis, POINT* pOutPoint, int nOutLen )
 {
 	if(!pInPoint || !pOutPoint || nInLen <= 1 || nOutLen <= 1)

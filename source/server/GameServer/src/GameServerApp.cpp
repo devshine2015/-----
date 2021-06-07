@@ -10,15 +10,15 @@
 #include "TryUtil.h"
 
 _DBC_USING
-//²»ÒªĞŞ¸ÄÏÂÃæµÄĞĞ,Ğ»Ğ»ºÏ×÷!
+//ä¸è¦ä¿®æ”¹ä¸‹é¢çš„è¡Œ,è°¢è°¢åˆä½œ!
 uLong	NetBuffer[]		={100,10,0};
 bool	g_logautobak	=true;
 //End
 
-extern BOOL	g_bGameEnd; // GameServer ÍË³öÈ«¾Ö±êÖ¾
+extern BOOL	g_bGameEnd; // GameServer é€€å‡ºå…¨å±€æ ‡å¿—
 
 
-// Á¬½Ó GateServer ÈÎÎñÀà
+// è¿æ¥ GateServer ä»»åŠ¡ç±»
 long ConnectGateServer::Process()
 {T_B
     DWORD	dwTick, dwCurTick;
@@ -26,7 +26,7 @@ long ConnectGateServer::Process()
     DWORD	dwConnectTick = 0;
 
     dwTick = dwCurTick = GetTickCount();
-    dwTick -= dwConnectTick; // ±£Ö¤Ïß³ÌÔËĞĞºóÁ¢¼´Ö´ĞĞÁ¬½ÓGateServerµÄ²Ù×÷
+    dwTick -= dwConnectTick; // ä¿è¯çº¿ç¨‹è¿è¡Œåç«‹å³æ‰§è¡Œè¿æ¥GateServerçš„æ“ä½œ
 
     while (!GetExitFlag())
         {
@@ -40,7 +40,7 @@ long ConnectGateServer::Process()
 
         dwLastRunTick = dwCurTick;
 
-        // ¶ÔÎ´Á¬½ÓµÄ GateServer ½øĞĞÁ¬½Ó
+        // å¯¹æœªè¿æ¥çš„ GateServer è¿›è¡Œè¿æ¥
         if (dwCurTick - dwTick >= dwConnectTick)
             {
             dwTick = dwCurTick;
@@ -53,12 +53,12 @@ long ConnectGateServer::Process()
     return 0;
 T_E}
 
-//¼àÌıInfoServerÏß³Ì
+//ç›‘å¬InfoServerçº¿ç¨‹
 long ToInfoServer::Process()
 {T_B
 	if(m_gmsvr->m_IfServer.GetPort() == 0)
 	{
-		//LG("Store_data", "Ã»ÓĞÅäÖÃInfoServer!\n");
+		//LG("Store_data", "æ²¡æœ‰é…ç½®InfoServer!\n");
 		LG("Store_data", "not configure InfoServer!\n");
 		return 0;
 	}
@@ -72,7 +72,7 @@ long ToInfoServer::Process()
 
 	dwCurTick = GetTickCount();
 
-	//µÇÂ¼InfoServer
+	//ç™»å½•InfoServer
 	while(!GetExitFlag())
 	{
 		dwCurTick = GetTickCount();
@@ -123,7 +123,7 @@ T_E}
 
 long InfoServer::PeekMsg(unsigned long ms)
 {T_B
-    //ÖÁÉÙ´¦Àí10ÌõÏûÏ¢
+    //è‡³å°‘å¤„ç†10æ¡æ¶ˆæ¯
     if(ms < 10)
         ms = 10;
 
@@ -180,20 +180,20 @@ void InfoServer::OnDisconnect()
     g_gmsvr->ProcessData(NULL, CMD_FM_DISCONNECTED);
 }
 
-// ÍøÂçÍ¨ĞÅÓ¦ÓÃÀà
+// ç½‘ç»œé€šä¿¡åº”ç”¨ç±»
 GameServerApp::GameServerApp(ThreadPool *proc,ThreadPool *comm)
     :TcpClientApp(this,proc,comm), RPCMGR(this), m_count(0), PKQueue(false)
 {T_B
-	//LG("init", "¿ªÊ¼¹¹ÔìServerApp\n");	
+	//LG("init", "å¼€å§‹æ„é€ ServerApp\n");	
 	LG("init", "start init ServerApp\n");	
 
-	// ³õÊ¼»¯Ëæ»úÊıÖÖ×Ó
+	// åˆå§‹åŒ–éšæœºæ•°ç§å­
 	srand( (unsigned)time( NULL ) );
 
-    // µÃµ½´Ë GameServer µÄÍøÂçÃû³Æ
+    // å¾—åˆ°æ­¤ GameServer çš„ç½‘ç»œåç§°
     m_strGameName = g_Config.m_szName;
 
-    // ³õÊ¼»¯ GateServer Êı×é
+    // åˆå§‹åŒ– GateServer æ•°ç»„
     m_gtnum = min(MAX_GATE, g_Config.m_nGateCnt);
     for (int i = 0; i < m_gtnum; ++ i)
         {
@@ -201,17 +201,17 @@ GameServerApp::GameServerApp(ThreadPool *proc,ThreadPool *comm)
         m_gtarray[i].GetPort() = g_Config.m_nGatePort[i];
         m_gtarray[i].m_playerlist = NULL;}
 
-    //³õÊ¼»¯InfoServer
+    //åˆå§‹åŒ–InfoServer
     m_IfServer.SetInfoServer(g_Config.m_szInfoIP, g_Config.m_nInfoPort, g_Config.m_szInfoPwd, g_Config.m_nSection);
 
-    // ³õÊ¼»¯ Á¬½Ó¶Ï¿ªËø£¬ ·ÀÖ¹¶ÔÒ»¸ö Socket Ö´ĞĞÁ½´Î Disconnect
+    // åˆå§‹åŒ– è¿æ¥æ–­å¼€é”ï¼Œ é˜²æ­¢å¯¹ä¸€ä¸ª Socket æ‰§è¡Œä¸¤æ¬¡ Disconnect
     m_mutdisconn.Create(false);
     
-    // ÍøÂçÉèÖÃ
+    // ç½‘ç»œè®¾ç½®
     SetPKParse(0,2,32*1024,400);
     BeginWork(g_Config.m_lSocketAlive);
 
-	//LG("init", "ServerApp¹¹Ôì½áÊø\n");
+	//LG("init", "ServerAppæ„é€ ç»“æŸ\n");
 	LG("init", "ServerApp init over\n");
 T_E}
 
@@ -226,7 +226,7 @@ GameServerApp::~GameServerApp()
 	ShutDown(2*1000);
 T_E}
 
-//·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+//è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
 bool GameServerApp::OnConnect(DataSocket *datasock)
 {T_B
     datasock->SetRecvBuf(64*1024); 
@@ -236,7 +236,7 @@ bool GameServerApp::OnConnect(DataSocket *datasock)
    return true;
 T_E}
 
-//reasonÖµ:0-±¾µØ³ÌĞòÕı³£ÍË³ö£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-1-Socket´íÎó;-5-°ü³¤¶È³¬¹ıÏŞÖÆ.
+//reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-1-Socketé”™è¯¯;-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶.
 void GameServerApp::OnDisconnect(DataSocket *datasock,int reason)
 {T_B
     LG("Connect", "GateServer Disconnect! IP = [%s] port = %d, reason = [%s]\n",  datasock->GetPeerIP() , datasock->GetPeerPort(), GetDisconnectErrText(reason).c_str());
@@ -250,14 +250,14 @@ void GameServerApp::OnDisconnect(DataSocket *datasock,int reason)
         // dual-check
         if (!gt->IsValid()) break;
 
-        // Í¨ÖªÂß¼­²ãÓë¸ÃGateµÄÁ¬½Ó¶Ï¿ª
+        // é€šçŸ¥é€»è¾‘å±‚ä¸è¯¥Gateçš„è¿æ¥æ–­å¼€
         WPacket pkt = GetWPacket();
         pkt.WriteCmd(CMD_MM_GATE_RELEASE);
 		pkt.WriteLong(MakeULong(gt->m_playerlist));
         AddPK(datasock, RPacket(pkt));
 
-        // ÇåÀíGateServer
-        //gt->Invalid(); // ·Åµ½Íâ²ã²Ù×÷£¨CGameApp::OnGateDisconnect´¦£©
+        // æ¸…ç†GateServer
+        //gt->Invalid(); // æ”¾åˆ°å¤–å±‚æ“ä½œï¼ˆCGameApp::OnGateDisconnectå¤„ï¼‰
 
     } while (false);
     m_mutdisconn.unlock();
@@ -351,7 +351,7 @@ exit:
 	return l_retpk;
 }
 
-// µÇÂ¼ GateServer
+// ç™»å½• GateServer
 void GameServerApp::ConnectGate(GateServer* pGate)
 {T_B
     if (pGate->IsValid()) return;
@@ -359,14 +359,14 @@ void GameServerApp::ConnectGate(GateServer* pGate)
     DataSocket* datasock = Connect(pGate->GetIP().c_str(), pGate->GetPort());
     if (datasock == NULL)
     {
-		LG("Connect", "Á¬½Ó GateServer Ê§°Ü, ip = %s, port = %d.\n", pGate->GetIP().c_str(), pGate->GetPort() ); 
+		LG("Connect", "è¿æ¥ GateServer å¤±è´¥, ip = %s, port = %d.\n", pGate->GetIP().c_str(), pGate->GetPort() ); 
 		//LG("Connect", "connect to  GateServer failed, ip = %s, port = %d.\n", pGate->GetIP().c_str(), pGate->GetPort() ); 
 	}
     else 
 	{
         pGate->SetDataSock(datasock);
         datasock->SetPointer(pGate);
-		// Í¨ÖªÓ¦ÓÃ²ã£¬Á¬ÉÏÒ»¸ö GateServer
+		// é€šçŸ¥åº”ç”¨å±‚ï¼Œè¿ä¸Šä¸€ä¸ª GateServer
 		WPacket wpkt = GetWPacket();
 		wpkt.WriteCmd(CMD_MM_GATE_CONNECT);
 		wpkt.WriteChar(0);
@@ -374,7 +374,7 @@ void GameServerApp::ConnectGate(GateServer* pGate)
 	}
 T_E}
 
-// µÇÂ¼ InfoServer
+// ç™»å½• InfoServer
 bool GameServerApp::ConnectInfo(InfoServer *pInfo)
 {T_B
 	//pInfo->StopInfoService();
@@ -409,30 +409,30 @@ GateServer* GameServerApp::FindGate(char const* gt_name)
 T_E}
 
 
-// Player Ïà¹Ø
+// Player ç›¸å…³
 bool GameServerApp::AddPlayer(GatePlayer* gtplayer, GateServer* gt, uLong gtaddr)
 {T_B
     if (gt == NULL || gtplayer == NULL) return false;
     if (!gt->IsValid()) return false;
 	if (gtplayer->Next || gtplayer->Prev)
 	{
-		//LG("Íæ¼ÒÁ´±í´íÎó", "ÏòÁ´±í²åÈëÍæ¼Ò£¨dbid %u£©Ê±£¬·¢ÏÖÆäÁ¬½ÓÖ¸Õë·Ç¿Õ\n", gtplayer->GetDBChaId());
-		LG("character list error ", "when insert character£¨dbid %u£©to character ,find it connect pointer is not empty!\n", gtplayer->GetDBChaId());
+		//LG("ç©å®¶é“¾è¡¨é”™è¯¯", "å‘é“¾è¡¨æ’å…¥ç©å®¶ï¼ˆdbid %uï¼‰æ—¶ï¼Œå‘ç°å…¶è¿æ¥æŒ‡é’ˆéç©º\n", gtplayer->GetDBChaId());
+		LG("character list error ", "when insert characterï¼ˆdbid %uï¼‰to character ,find it connect pointer is not empty!\n", gtplayer->GetDBChaId());
 		return false;
 	}
 
-    // ¸³Óè GatePlayer Ä³Ğ©×Ö¶ÎÖµ
+    // èµ‹äºˆ GatePlayer æŸäº›å­—æ®µå€¼
     gtplayer->SetGate(gt);
     gtplayer->SetGateAddr(gtaddr);
 
-    // ½« gtplayer ²åÈëµ½Í·²¿
+    // å°† gtplayer æ’å…¥åˆ°å¤´éƒ¨
     gtplayer->Prev = NULL;
     gtplayer->Next = gt->m_playerlist;
 
     if (gtplayer->Next != NULL)
         gtplayer->Next->Prev = gtplayer;
 
-    // ¸üĞÂÍ·²¿
+    // æ›´æ–°å¤´éƒ¨
     gt->m_playerlist = gtplayer;
 
 	gt->AddPlayerCount();    
@@ -448,18 +448,18 @@ bool GameServerApp::DelPlayer(GatePlayer* gtplayer)
 
 	if (gt->m_listcurplayer == gtplayer)
 		gt->m_listcurplayer = gtplayer->Next;
-    // ´ÓÁ´±íÖĞÌŞ³ı
+    // ä»é“¾è¡¨ä¸­å‰”é™¤
     if ((gtplayer->Prev == NULL) && (gtplayer->Next == NULL))
         {
         if (gtplayer == gt->m_playerlist)
-            { // Ö»ÓĞÒ»¸ö£¬Çå¿Õ
+            { // åªæœ‰ä¸€ä¸ªï¼Œæ¸…ç©º
 				gt->m_playerlist = NULL;
             }
-        else { // ·Ç·¨µÄgtplayer
+        else { // éæ³•çš„gtplayer
             return false;}
         }
     else if ((gtplayer->Prev == NULL) && (gtplayer->Next != NULL))
-        { // Í·²¿
+        { // å¤´éƒ¨
 			if (gtplayer != gt->m_playerlist) return false;
 
 			gt->m_playerlist = gtplayer->Next;
@@ -468,12 +468,12 @@ bool GameServerApp::DelPlayer(GatePlayer* gtplayer)
         gtplayer->Next = NULL;
         }    
     else if ((gtplayer->Prev != NULL) && (gtplayer->Next == NULL))
-        { // Î²²¿
+        { // å°¾éƒ¨
         gtplayer->Prev->Next = NULL;
 
         gtplayer->Prev = NULL;
         }
-    else { // ÖĞ¼ä
+    else { // ä¸­é—´
         gtplayer->Prev->Next = gtplayer->Next;
         gtplayer->Next->Prev = gtplayer->Prev;
 
@@ -509,7 +509,7 @@ bool GameServerApp::SendToGroup(WPacket& chginf)
 {
     GateServer* pGate;
 
-    // ×¼±¸ÎªÃ¿Ò»¸öÁ¬½ÓµÄ Gate ²úÉúÍ¨Öª°ü
+    // å‡†å¤‡ä¸ºæ¯ä¸€ä¸ªè¿æ¥çš„ Gate äº§ç”Ÿé€šçŸ¥åŒ…
     for (int i = 0; i < m_gtnum; ++ i)
         {
         pGate = &m_gtarray[i];
@@ -524,7 +524,7 @@ bool GameServerApp::SendToGroup(WPacket& chginf)
     return true;
 }
 
-// ÌØ¶¨·¢°ü½Ó¿Ú
+// ç‰¹å®šå‘åŒ…æ¥å£
 bool GameServerApp::SendToWorld(WPacket& chginf)
 {T_B
     WPacket		CChginf;
@@ -533,7 +533,7 @@ bool GameServerApp::SendToWorld(WPacket& chginf)
     GatePlayer* pPlayer;
     GateServer* pGate;
 
-    // ×¼±¸ÎªÃ¿Ò»¸öÁ¬½ÓµÄ Gate ²úÉúÍ¨Öª°ü
+    // å‡†å¤‡ä¸ºæ¯ä¸€ä¸ªè¿æ¥çš„ Gate äº§ç”Ÿé€šçŸ¥åŒ…
     for (int i = 0; i < m_gtnum; ++ i)
         {
         pGate = &m_gtarray[i];
@@ -582,7 +582,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, GatePlayer* playerlist)
 {T_B
     if (playerlist == NULL) return false;
 
-    // ÕÒ³öÓĞĞ§µÎ Gate
+    // æ‰¾å‡ºæœ‰æ•ˆæ»´ Gate
     uShort		usCount[MAX_GATE];
     WPacket		CChginf[MAX_GATE];
     GateServer* pValidGate[MAX_GATE];
@@ -598,7 +598,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, GatePlayer* playerlist)
             }
         }
 
-    // ±éÀú playerlist £¬×éÖ¯·¢Íù¸÷¸ö Gate µÄ°ü
+    // éå† playerlist ï¼Œç»„ç»‡å‘å¾€å„ä¸ª Gate çš„åŒ…
     GatePlayer* tmp = playerlist;
     while (tmp != NULL)
     {
@@ -626,7 +626,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, GatePlayer* playerlist)
         tmp = tmp->GetNextPlayer();
     }
 
-    //¡¡Ìí¼Ó×îºóÒ»¸ö ¸öÊı Êı¾İ£¬²¢·¢ËÍ³öÈ¥
+    //ã€€æ·»åŠ æœ€åä¸€ä¸ª ä¸ªæ•° æ•°æ®ï¼Œå¹¶å‘é€å‡ºå»
     for (i = 0; i < sValidGateNum; i++)
         {
         if (usCount[i] > 0)
@@ -647,7 +647,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, int array_cnt, uplayer* uplayer_a
     //LG("SendToClient", "\nSendToClient called to notify %d players\n", array_cnt);
 #endif
 
-    // ÕÒ³öÓĞĞ§µÎ Gate
+    // æ‰¾å‡ºæœ‰æ•ˆæ»´ Gate
     uShort		usCount[MAX_GATE];
     WPacket		CChginf[MAX_GATE];
     GateServer* pValidGate[MAX_GATE];
@@ -669,7 +669,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, int array_cnt, uplayer* uplayer_a
     //LG("SendToClient", "Valid Gate num = %d\n", sValidGateNum);
 #endif
 
-    // ±éÀú uplayer_array £¬×éÖ¯·¢Íù¸÷¸ö Gate µÄ°ü
+    // éå† uplayer_array ï¼Œç»„ç»‡å‘å¾€å„ä¸ª Gate çš„åŒ…
     int j;
     for (i = 0; i < array_cnt; ++ i)
     {
@@ -698,7 +698,7 @@ bool GameServerApp::SendToClient(WPacket& pkt, int array_cnt, uplayer* uplayer_a
         }
     }
 
-    //¡¡Ìí¼Ó×îºóÒ»¸ö ¸öÊı Êı¾İ£¬²¢·¢ËÍ³öÈ¥
+    //ã€€æ·»åŠ æœ€åä¸€ä¸ª ä¸ªæ•° æ•°æ®ï¼Œå¹¶å‘é€å‡ºå»
     for (i = 0; i < sValidGateNum; i++)
     {
 #ifdef defCOMMU_LOG

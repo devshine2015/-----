@@ -17,20 +17,20 @@ protected:
 
 public:
 
-    // ±ØĞëÒªÊµÏÖµÄ½Ó¿Ú
+    // å¿…é¡»è¦å®ç°çš„æ¥å£
 
-    static short hdr_sz() {return T::hdr_sz();} // °üÍ·µÄ³ß´ç
-    static short pkt_len(void* dat) {return T::pkt_len(dat);} // °üµÄ×Ü³¤¶È
-    static short pkt_maxlen() {return T::pkt_maxlen();} // ºÏ·¨°üµÄ×î´ó³¤¶È
+    static short hdr_sz() {return T::hdr_sz();} // åŒ…å¤´çš„å°ºå¯¸
+    static short pkt_len(void* dat) {return T::pkt_len(dat);} // åŒ…çš„æ€»é•¿åº¦
+    static short pkt_maxlen() {return T::pkt_maxlen();} // åˆæ³•åŒ…çš„æœ€å¤§é•¿åº¦
 
-    void* pkt_buf() {return _pkt.pkt_buf();} // °üÊ×µØÖ·
-    short pkt_len() {return _pkt.pkt_len();} // °ü×Ü³¤¶È
+    void* pkt_buf() {return _pkt.pkt_buf();} // åŒ…é¦–åœ°å€
+    short pkt_len() {return _pkt.pkt_len();} // åŒ…æ€»é•¿åº¦
 
     void clone_from(cfl_pktc<T>* pkt) {_pkt.clone(pkt->_pkt);} // deep-copy
 
 public:
 
-    // ¶ÁĞ´½Ó¿Ú
+    // è¯»å†™æ¥å£
 
     void WriteCmd(unsigned short command) {_pkt.wcmd(command);}
     void WriteChar(char const c) {_pkt.wc(c);}
@@ -62,8 +62,8 @@ protected:
     void on_get() {_pkt.reset();}
     void on_ret() {_pkt.reset();}
 
-    void pkt_enc() {}; // °ü¼ÓÃÜ
-    void pkt_dec() {}; // °ü½âÃÜ
+    void pkt_enc() {}; // åŒ…åŠ å¯†
+    void pkt_dec() {}; // åŒ…è§£å¯†
 
     // the core packet
     T _pkt;};
@@ -81,21 +81,21 @@ struct cfl_pkt
         int ssid;};
 
 
-    // °ü½á¹¹ begin
+    // åŒ…ç»“æ„ begin
     HDR hdr;
     unsigned short cmd;
     char buf[MYPKT_DATMAXLEN];
     unsigned short offset;
     unsigned short offset_r;
-    // °ü½á¹¹ end
+    // åŒ…ç»“æ„ end
 
 
 
-    // ³ÉÔ±º¯Êı
+    // æˆå‘˜å‡½æ•°
     cfl_pkt() {reset();}
     void reset();
 
-    // ¸¨Öúº¯Êı
+    // è¾…åŠ©å‡½æ•°
     static short hdr_sz();
     static short pkt_len(void* dat);
     static short pkt_maxlen();
@@ -104,16 +104,16 @@ struct cfl_pkt
     bool has_data(short len) const;
     void clone(cfl_pkt const& pkt);
 
-    // ¸Ä±ä°ü³¤¶È
+    // æ”¹å˜åŒ…é•¿åº¦
     short get_len() const;
     void set_len(short len);
     void add_len(short len);
 
-    // µÃµ½»º³åÇøºÍ³¤¶È
+    // å¾—åˆ°ç¼“å†²åŒºå’Œé•¿åº¦
     void* pkt_buf() const {return (void *)&hdr;}
     short pkt_len() const {return get_len();}
 
-    // Ğ´
+    // å†™
     void wcmd(unsigned short);
     void wc(char c);
     void ws(short s);
@@ -123,7 +123,7 @@ struct cfl_pkt
     void wb(char const* p, short len);
     void wstr(char const* str);
 
-    // ¶Á
+    // è¯»
     unsigned short rcmd() const;
     char rc();
     short rs();

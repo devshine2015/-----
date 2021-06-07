@@ -1,5 +1,5 @@
 //-----------------
-// »ñÈ¡µ±Ç°¾µÍ·½¹µã
+// è·å–å½“å‰é•œå¤´ç„¦ç‚¹
 //-----------------
 inline int lua_camGetCenter(lua_State *L)
 {
@@ -10,7 +10,7 @@ inline int lua_camGetCenter(lua_State *L)
 
 inline int lua_camSetCenter(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_isnumber(L, 1) && lua_isnumber(L,2)); 
     if(!bValid) 
     {
@@ -32,7 +32,7 @@ inline int lua_camSetCenter(lua_State *L)
 
 inline int lua_camFollow(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_isnumber(L, 1)); 
     if(!bValid) 
     {

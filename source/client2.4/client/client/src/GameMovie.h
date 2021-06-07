@@ -21,7 +21,7 @@
 #define WM_GRAPHNOTIFY WM_USER + 1024
 
 
-// ¼òµ¥ÊÓÆµ²¥·Å
+// ç®€å•è§†é¢‘æ’­æ”¾
 class CGameMovie
 {
 public:
@@ -30,19 +30,19 @@ public:
 
 public:
 
-	// ²¥·Å
+	// æ’­æ”¾
 	bool Play(HWND hWnd, TCHAR* pszFileName);
 
-	// Í£Ö¹²¥·Å
+	// åœæ­¢æ’­æ”¾
 	void Stop(void);
 
-	// ÊÇ·ñÕıÔÚ²¥·Å
+	// æ˜¯å¦æ­£åœ¨æ’­æ”¾
 	bool IsPlaying(void);
 
-	// Çå³ı
+	// æ¸…é™¤
 	void Cleanup(void);
 
-	// »ñµÃ×îºóµÄ´íÎóÂë
+	// è·å¾—æœ€åçš„é”™è¯¯ç 
 	HRESULT GetLastError(void) { return _hResult; }
 
 	IMediaEventEx* GetEvent() { return _pEvent; }

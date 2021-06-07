@@ -32,7 +32,7 @@ public:
 	virtual void	SetScreen( int w, int h, bool IsFull );
 	static void		SetAttackChaColor( BYTE r, BYTE g, BYTE b );
 
-    virtual void    LoadingCall();          // ÔÚ×°ÔØloadingºó,Ë¢ĞÂ
+    virtual void    LoadingCall();          // åœ¨è£…è½½loadingå,åˆ·æ–°
 	static CWorldScene& GetCurrScene();
 
 public:
@@ -44,7 +44,7 @@ public:
 
     xShipMgr*		GetShipMgr() { return _pShipMgr; }
 
-    CCharacter*     HitSelectCharacter( int nScrX, int nScrY, int nSelect=0 );			// nSelectÎªÑ¡Ôñ·¶Î§,²Î¿´CCharacter.h-eSelectCha
+    CCharacter*     HitSelectCharacter( int nScrX, int nScrY, int nSelect=0 );			// nSelectä¸ºé€‰æ‹©èŒƒå›´,å‚çœ‹CCharacter.h-eSelectCha
 
 	CMouseDown&		GetMouseDown()			{ return _cMouseDown;		}
 
@@ -62,41 +62,41 @@ protected:
 		int x, int y, DWORD dwKey);
 
 	static void         _evtCreateDoublePwdEvent(CCompent *pSender, int nMsgType, 
-		int x, int y, DWORD dwKey);		// Ñ¯ÎÊÊÇ·ñÒª´´½¨¶ş´ÎÃÜÂë
+		int x, int y, DWORD dwKey);		// è¯¢é—®æ˜¯å¦è¦åˆ›å»ºäºŒæ¬¡å¯†ç 
 
 	static void         _evtWelcomeNoticeEvent(CCompent *pSender, int nMsgType, 
-		int x, int y, DWORD dwKey);		// »¶Ó­½çÃæ ÊÂ¼ş´¦Àí
+		int x, int y, DWORD dwKey);		// æ¬¢è¿ç•Œé¢ äº‹ä»¶å¤„ç†
 
 	static void         _evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType, 
-		int x, int y, DWORD dwKey);		// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+		int x, int y, DWORD dwKey);		// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 
 	static void         _evtChaNameAlterMouseEvent(CCompent *pSender, int nMsgType, 
-		int x, int y, DWORD dwKey);		// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+		int x, int y, DWORD dwKey);		// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 
-	static void  _evtCharListLDBDown(CGuiData *pSender, int x, int y, DWORD key);		// ½ÇÉ«Ñ¡Ôñ
+	static void  _evtCharListLDBDown(CGuiData *pSender, int x, int y, DWORD key);		// è§’è‰²é€‰æ‹©
 
-	//~ Âß¼­º¯Êı: ============================================================
+	//~ é€»è¾‘å‡½æ•°: ============================================================
 
 public:
-	//Ïò·şÎñÆ÷·¢ËÍ¿ªÊ¼ÓÎÏ·ÏûÏ¢
+	//å‘æœåŠ¡å™¨å‘é€å¼€å§‹æ¸¸æˆæ¶ˆæ¯
 	void                SendBeginPlayToServer();
-	//É¾³ıµ±Ç°Ñ¡ÖĞµÄ½ÇÉ«
+	//åˆ é™¤å½“å‰é€‰ä¸­çš„è§’è‰²
 	void                DelCurrentSelCha();
-	//ÏÔÊ¾ÏÖÓĞ½ÇÉ«
+	//æ˜¾ç¤ºç°æœ‰è§’è‰²
 	bool                SelectCharacters(NetChaBehave* chabehave, int num);
-	//ĞÂÔö½ÇÉ«
+	//æ–°å¢è§’è‰²
 	bool                CreateCha();
-	// ÉèÖÃ½ÇÉ«Ãû×Öµ½UI
+	// è®¾ç½®è§’è‰²åå­—åˆ°UI
 	void				SetCharNameToUI(CCharacter* pChar, int nChaIndex);
 
 
-	//Ïò·şÎñÆ÷·¢ËÍÉ¾³ı½ÇÉ«ÏûÏ¢
+	//å‘æœåŠ¡å™¨å‘é€åˆ é™¤è§’è‰²æ¶ˆæ¯
 	void SendDelChaToServer(const char szPassword2[]);
 
-	// ¸üĞÂ°´Å¥×´Ì¬
+	// æ›´æ–°æŒ‰é’®çŠ¶æ€
 	void UpdateButton();
 
-	// »ñµÃ½ÇÉ«¸öÊı
+	// è·å¾—è§’è‰²ä¸ªæ•°
 	int GetChaCount();
 
 	void ShowWelcomeNotice(bool bShow = true);
@@ -143,7 +143,7 @@ public:
 	CTextButton*    btnleft;
 	CTextButton*    btnright;
 
-	//Âß¼­
+	//é€»è¾‘
 	int             m_nCurChaIndex;
 
 	//
@@ -151,12 +151,12 @@ public:
 
 	bool			m_isCreateCha;
 
-	CForm*			frmWelcomeNotice;	// ¶¨Òå»¶Ó­½çÃæ  ¸Ã½çÃæ½öÔÚµ±Ç°ÕÊºÅÄÚÎŞ½ÇÉ«Ê±³öÏÖ
-	CForm*			frmCreateOKNotice;	// ¶¨ÒåÊ×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ  ¸Ã½çÃæ½öÔÚ¸ÃÕÊºÅ×ßÍêµÚÒ»¸ö½ÇÉ«µÄ´´½¨Á÷³ÌºóÏÔÊ¾
-	CForm*			frmChaNameAlter;	// ¶¨Òå¸ÄÃû½çÃæ  ¸Ã½çÃæ½ö¶ÔÌ¨Íå°æ±¾ÓĞĞ§£¬Çë×öºÃ±¸·İ¹¤×÷
+	CForm*			frmWelcomeNotice;	// å®šä¹‰æ¬¢è¿ç•Œé¢  è¯¥ç•Œé¢ä»…åœ¨å½“å‰å¸å·å†…æ— è§’è‰²æ—¶å‡ºç°
+	CForm*			frmCreateOKNotice;	// å®šä¹‰é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢  è¯¥ç•Œé¢ä»…åœ¨è¯¥å¸å·èµ°å®Œç¬¬ä¸€ä¸ªè§’è‰²çš„åˆ›å»ºæµç¨‹åæ˜¾ç¤º
+	CForm*			frmChaNameAlter;	// å®šä¹‰æ”¹åç•Œé¢  è¯¥ç•Œé¢ä»…å¯¹å°æ¹¾ç‰ˆæœ¬æœ‰æ•ˆï¼Œè¯·åšå¥½å¤‡ä»½å·¥ä½œ
 
 public:
-	// ÈÓµÀ¾ßÊÇ·ñÏÔÊ¾ÌáÊ¾
+	// æ‰”é“å…·æ˜¯å¦æ˜¾ç¤ºæç¤º
 	static bool		_IsThrowItemHint;	
 	CCharacter*		m_strChar[4];
 	stNetChangeChaPart m_part;

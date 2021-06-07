@@ -1,10 +1,10 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:3D¿Ø¼ş
-// ×÷Õß:lh 2004-09-13
-// ÓÃÍ¾:ÔÚGUIÏµÍ³ÖĞÌá¹©Íâ²¿ÏÔÊ¾½Ó¿Ú
-//		ÓĞ¶şÀà½Ó¿Ú:	Ò»,Íâ²¿¼Ì³ĞC3DRenderObjÊµÏÖRenderº¯Êı
-//					¶ş,×¢²á»Øµ÷º¯ÊıÏÔÊ¾:GUIRenderEvent,GUIRenderMsgEvent
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:3Dæ§ä»¶
+// ä½œè€…:lh 2004-09-13
+// ç”¨é€”:åœ¨GUIç³»ç»Ÿä¸­æä¾›å¤–éƒ¨æ˜¾ç¤ºæ¥å£
+//		æœ‰äºŒç±»æ¥å£:	ä¸€,å¤–éƒ¨ç»§æ‰¿C3DRenderObjå®ç°Renderå‡½æ•°
+//					äºŒ,æ³¨å†Œå›è°ƒå‡½æ•°æ˜¾ç¤º:GUIRenderEvent,GUIRenderMsgEvent
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -27,7 +27,7 @@ public:
 
 	virtual void	Render();
 	virtual bool	MouseRun( int x, int y, DWORD key );
-	virtual bool	IsHandleMouse()		{ return true;			}		// ÊÇ·ñ¿ÉÒÔÏìÓ¦Êó±ê
+	virtual bool	IsHandleMouse()		{ return true;			}		// æ˜¯å¦å¯ä»¥å“åº”é¼ æ ‡
 	virtual void	Refresh();
 
 	void			SetRenderEvent( GUIRenderEvent p )			{ _pRenderEvent=p;			}
@@ -40,8 +40,8 @@ public:
     void*           GetPointer()            { return _pPointer; }
 
 public:
-	GuiMouseEvent	evtMouseDown;		// Êó±ê°´ÏÂÊÂ¼ş
-	GuiMouseEvent   evtMouseLDDown ;    //Êó±êË«»÷ÊÂ¼ş
+	GuiMouseEvent	evtMouseDown;		// é¼ æ ‡æŒ‰ä¸‹äº‹ä»¶
+	GuiMouseEvent   evtMouseLDDown ;    //é¼ æ ‡åŒå‡»äº‹ä»¶
 
 protected:
 	void			_Copy( const C3DCompent& rhs );

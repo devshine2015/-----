@@ -5,7 +5,7 @@
 #include "PlayerMgr.h"
 
 
-class CBillService	//只允许创建一个全局对象,不支持多线程
+class CBillService	//鍙厑璁稿垱寤轰竴涓叏灞�瀵硅薄,涓嶆敮鎸佸绾跨▼
 {
 public:
 	CBillService(void);

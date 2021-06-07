@@ -20,7 +20,7 @@ CChaListNode* CStateCell::AddCharacter(CCharacter *pCCha, bool bIn)
 			m_pCChaIn->m_pCLast = pNode;
 		m_pCChaIn = pNode;
 
-		pNode->m_pCEntStateNode = pCCha->EnterStateCell(this, pNode, true); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntStateNode = pCCha->EnterStateCell(this, pNode, true); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	else
 	{
@@ -29,11 +29,11 @@ CChaListNode* CStateCell::AddCharacter(CCharacter *pCCha, bool bIn)
 			m_pCChaCross->m_pCLast = pNode;
 		m_pCChaCross = pNode;
 
-		pNode->m_pCEntStateNode = pCCha->EnterStateCell(this, pNode); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+		pNode->m_pCEntStateNode = pCCha->EnterStateCell(this, pNode); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 	}
 	m_lChaNum++;
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	if (m_CSkillState.GetStateNum() > 0)
 	{
 		pCCha->m_CChaAttr.ResetChangeFlag();
@@ -68,9 +68,9 @@ void CStateCell::DelCharacter(CChaListNode *pCEntNode)
 	pCEntNode->m_pCLast = 0;
 	pCEntNode->m_pCNext = 0;
 	m_lChaNum--;
-	pCEntNode->m_pCCha->OutMgrUnit(pCEntNode->m_pCEntStateNode); // ÊµÌå¼ÇÂ¼ËùÔÚµÄ¹ÜÀíµ¥Ôª
+	pCEntNode->m_pCCha->OutMgrUnit(pCEntNode->m_pCEntStateNode); // å®ä½“è®°å½•æ‰€åœ¨çš„ç®¡ç†å•å…ƒ
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	CCharacter		*pCCha = pCEntNode->m_pCCha;
 	if (m_CSkillState.GetStateNum() > 0)
 	{
@@ -97,14 +97,14 @@ void CStateCell::SetCharacterIn(CChaListNode *pCEntNode, bool bIn)
 	//{
 	//	if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHACROSS)
 	//	{
-	//		// É¾³ı
+	//		// åˆ é™¤
 	//		if (pCEntNode->m_pCLast)
 	//			pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 	//		if (pCEntNode->m_pCNext)
 	//			pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 	//		if (m_pCChaCross == pCEntNode)
 	//			m_pCChaCross = pCEntNode->m_pCNext;
-	//		// Ôö¼Ó
+	//		// å¢åŠ 
 	//		if (pCEntNode->m_pCNext = m_pCChaIn)
 	//			m_pCChaIn->m_pCLast = pCEntNode;
 	//		m_pCChaIn = pCEntNode;
@@ -113,21 +113,21 @@ void CStateCell::SetCharacterIn(CChaListNode *pCEntNode, bool bIn)
 	//	}
 	//	else if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_ITEMCROSS)
 	//	{
-	//		// É¾³ı
+	//		// åˆ é™¤
 	//		if (pCEntNode->m_pCLast)
 	//			pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 	//		if (pCEntNode->m_pCNext)
 	//			pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 	//		if (m_pCItemCross == pCEntNode)
 	//			m_pCItemCross = pCEntNode->m_pCNext;
-	//		// Ôö¼Ó
+	//		// å¢åŠ 
 	//		if (pCEntNode->m_pCNext = m_pCItemIn)
 	//			m_pCItemIn->m_pCLast = pCEntNode;
 	//		m_pCItemIn = pCEntNode;
 
 	//		pCEntNode->m_chEntiType = def_MGRUNIT_ENTITY_TYPE_ITEMIN;
 	//	}
-	//	else // ²»¿ÉÄÜµÄÇå¿ö
+	//	else // ä¸å¯èƒ½çš„æ¸…å†µ
 	//	{}
 	//	pCEntNode->m_pCEntity->SetCenterMgrNode(pCEntNode->m_pCEntStateNode);
 	//}
@@ -135,14 +135,14 @@ void CStateCell::SetCharacterIn(CChaListNode *pCEntNode, bool bIn)
 	//{
 	//	if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_CHAIN)
 	//	{
-	//		// É¾³ı
+	//		// åˆ é™¤
 	//		if (pCEntNode->m_pCLast)
 	//			pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 	//		if (pCEntNode->m_pCNext)
 	//			pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 	//		if (m_pCChaIn == pCEntNode)
 	//			m_pCChaIn = pCEntNode->m_pCNext;
-	//		// Ôö¼Ó
+	//		// å¢åŠ 
 	//		if (pCEntNode->m_pCNext = m_pCChaCross)
 	//			m_pCChaCross->m_pCLast = pCEntNode;
 	//		m_pCChaCross = pCEntNode;
@@ -151,21 +151,21 @@ void CStateCell::SetCharacterIn(CChaListNode *pCEntNode, bool bIn)
 	//	}
 	//	else if (pCEntNode->m_chEntiType == def_MGRUNIT_ENTITY_TYPE_ITEMIN)
 	//	{
-	//		// É¾³ı
+	//		// åˆ é™¤
 	//		if (pCEntNode->m_pCLast)
 	//			pCEntNode->m_pCLast->m_pCNext = pCEntNode->m_pCNext;
 	//		if (pCEntNode->m_pCNext)
 	//			pCEntNode->m_pCNext->m_pCLast = pCEntNode->m_pCLast;
 	//		if (m_pCItemIn == pCEntNode)
 	//			m_pCItemIn = pCEntNode->m_pCNext;
-	//		// Ôö¼Ó
+	//		// å¢åŠ 
 	//		if (pCEntNode->m_pCNext = m_pCItemCross)
 	//			m_pCItemCross->m_pCLast = pCEntNode;
 	//		m_pCItemCross = pCEntNode;
 
 	//		pCEntNode->m_chEntiType = def_MGRUNIT_ENTITY_TYPE_ITEMCROSS;
 	//	}
-	//	else // ²»¿ÉÄÜµÄÇå¿ö
+	//	else // ä¸å¯èƒ½çš„æ¸…å†µ
 	//	{}
 	//}
 }
@@ -173,11 +173,11 @@ void CStateCell::SetCharacterIn(CChaListNode *pCEntNode, bool bIn)
 bool CStateCell::AddState(unsigned char uchFightID, unsigned long ulSrcWorldID, long lSrcHandle, char chObjType, char chObjHabitat, char chEffType,
 						unsigned char uchStateID, unsigned char uchStateLv, unsigned long ulStartTick, long lOnTick, char chType, char chWithCenter)
 {T_B
-	// ÏòµØ±íÔö¼Ó×´Ì¬
+	// å‘åœ°è¡¨å¢åŠ çŠ¶æ€
 	if (!m_CSkillState.Add(uchFightID, ulSrcWorldID, lSrcHandle, chObjType, chObjHabitat, chEffType, uchStateID, uchStateLv, ulStartTick, lOnTick, chType, chWithCenter))
 		return false;
 
-	// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+	// å‘è§’è‰²å¢åŠ çŠ¶æ€
 	unsigned char	uchStateNo = m_CSkillState.GetReverseID(uchStateID);
 	CChaListNode	*pNode;
 	pNode = m_pCChaIn;
@@ -279,7 +279,7 @@ bool CStateCell::AddStateToCharacter(SSkillStateUnit	*pSStateUnit, CCharacter *p
 	return false;
 T_E}
 
-// ×´Ì¬ÖÜÆÚ¿ØÖÆ
+// çŠ¶æ€å‘¨æœŸæ§åˆ¶
 void CStateCell::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 {T_B
 	unsigned char	uchStateNum = m_CSkillState.GetStateNum();
@@ -291,7 +291,7 @@ void CStateCell::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 	{
 		if (pSStateUnit->lOnTick > 0)
 		{
-			if (ulCurTick - pSStateUnit->ulStartTick >= (unsigned long)pSStateUnit->lOnTick * 1000) // ×´Ì¬¼ÆÊ±Íê³É
+			if (ulCurTick - pSStateUnit->ulStartTick >= (unsigned long)pSStateUnit->lOnTick * 1000) // çŠ¶æ€è®¡æ—¶å®Œæˆ
 			{
 				lOnTime = g_pGameApp->GetSStateTraOnTime(pSStateUnit->GetStateID(), pSStateUnit->GetStateLv());
 				pNode = m_pCChaIn;
@@ -311,7 +311,7 @@ void CStateCell::StateRun(unsigned long ulCurTick, SubMap *pCMap)
 			}
 			else
 			{
-				// Ïò½ÇÉ«Ôö¼Ó×´Ì¬
+				// å‘è§’è‰²å¢åŠ çŠ¶æ€
 				CChaListNode	*pNode;
 				pNode = m_pCChaIn;
 				while (pNode)
@@ -359,7 +359,7 @@ void CStateCell::StateBeginSeen(Entity *pCEnt)
 
 	if (!pCCha)
 		return;
-	if(!pCCha->IsPlayerFocusCha()) // ¸Ã½ÇÉ«²»ÊÇÍæ¼Òµ±Ç°µÄ¿ØÖÆ½¹µã
+	if(!pCCha->IsPlayerFocusCha()) // è¯¥è§’è‰²ä¸æ˜¯ç©å®¶å½“å‰çš„æ§åˆ¶ç„¦ç‚¹
 		return;
 
 	WPACKET pk	=GETWPACKET();
@@ -368,7 +368,7 @@ void CStateCell::StateBeginSeen(Entity *pCEnt)
 	WRITE_SHORT(pk, m_sPosY);
 	m_CSkillState.WriteState(pk);
 
-	pCCha->ReflectINFof(pCCha, pk);//Í¨¸æ
+	pCCha->ReflectINFof(pCCha, pk);//é€šå‘Š
 T_E}
 
 void CStateCell::StateEndSeen(Entity *pCEnt)
@@ -377,7 +377,7 @@ void CStateCell::StateEndSeen(Entity *pCEnt)
 
 	if (!pCCha)
 		return;
-	if(!pCCha->IsPlayerFocusCha()) // ¸Ã½ÇÉ«²»ÊÇÍæ¼Òµ±Ç°µÄ¿ØÖÆ½¹µã
+	if(!pCCha->IsPlayerFocusCha()) // è¯¥è§’è‰²ä¸æ˜¯ç©å®¶å½“å‰çš„æ§åˆ¶ç„¦ç‚¹
 		return;
 
 	if (m_CSkillState.GetStateNum() <= 0)
@@ -388,5 +388,5 @@ void CStateCell::StateEndSeen(Entity *pCEnt)
 	WRITE_SHORT(pk, m_sPosX);
 	WRITE_SHORT(pk, m_sPosY);
 
-	pCCha->ReflectINFof(pCCha, pk);//Í¨¸æ
+	pCCha->ReflectINFof(pCCha, pk);//é€šå‘Š
 T_E}

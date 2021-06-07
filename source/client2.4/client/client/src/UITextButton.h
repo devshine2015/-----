@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:°´Å¥
-// ×÷Õß:lh 2004-07-19
-// ÓÃÍ¾:¿ÉÏÔÊ¾ÎÄ×Ö
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:æŒ‰é’®
+// ä½œè€…:lh 2004-07-19
+// ç”¨é€”:å¯æ˜¾ç¤ºæ–‡å­—
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #ifndef __UITEXT_BUTTON_H
 #define __UITEXT_BUTTON_H
@@ -16,7 +16,7 @@ class CGuiPic;
 class CTextButton : public CCompent
 {
 public:
-	enum eButtonState	// °´Å¥×´Ì¬£ºÕı³££¬Êó±ê¸¡¶¯ÔÚÉÏÃæ£¬ÒÑ¾­°´ÏÂ£¬½ûÓÃ
+	enum eButtonState	// æŒ‰é’®çŠ¶æ€ï¼šæ­£å¸¸ï¼Œé¼ æ ‡æµ®åŠ¨åœ¨ä¸Šé¢ï¼Œå·²ç»æŒ‰ä¸‹ï¼Œç¦ç”¨
 	{
 		csNormal = 0,
 		csHover,
@@ -48,7 +48,7 @@ public:
 
 	virtual	void		SetIsEnabled( bool v );
 
-	// ÎÄ¼şÖĞ´æ´¢¸ñÊ½£ºÒÀ´Î°´csNormal,csHover,csDown,csDisableÅÅÁĞ£¬w£¬hÎªµ¥Ôª¿í¸ß
+	// æ–‡ä»¶ä¸­å­˜å‚¨æ ¼å¼ï¼šä¾æ¬¡æŒ‰csNormal,csHover,csDown,csDisableæ’åˆ—ï¼Œwï¼Œhä¸ºå•å…ƒå®½é«˜
 	bool				LoadImage( const char* file, int w=32, int h=32, int tx=0, int ty=0, bool isHorizontal=true );
 
 	DWORD				GetTextColor()						{ return _textColor;		}
@@ -58,33 +58,33 @@ public:
     void				SetFormModal( CForm::eModalResult v );
 	CForm::eModalResult GetFormModal()						{ return _eFormModal;		}
 
-	void				DoClick(eMouseState state = Mouse_LUp);		// Íâ²¿Ä£Äâµã»÷ÊÂ¼ş
+	void				DoClick(eMouseState state = Mouse_LUp);		// å¤–éƒ¨æ¨¡æ‹Ÿç‚¹å‡»äº‹ä»¶
 
-	// ÉèÖÃÉÁË¸ÖÜÆÚ£¨ºÁÃë£©£¬Éè 0 ²»ÉÁË¸
+	// è®¾ç½®é—ªçƒå‘¨æœŸï¼ˆæ¯«ç§’ï¼‰ï¼Œè®¾ 0 ä¸é—ªçƒ
 	void				SetFlashCycle( DWORD dwCycle = 1000 )	{ _dwFlashCycle = dwCycle;  }
 	DWORD				GetFlashCycle()			{ return _dwFlashCycle;		}
 
-public:	// ÊÂ¼ş
-	GuiMouseEvent		evtMouseClick;			// Êó±ê×ó¼üµã»÷ÊÂ¼ş
-	GuiMouseEvent		evtMouseRClick;			// Êó±êÓÒ¼üµã»÷ÊÂ¼ş  add by Philip.Wu 2006/01/23
-	GuiMouseEvent		evtMouseDBClick;		// Êó±ê×ó¼üË«»÷ÊÂ¼ş  add by Philip.Wu 2006/01/23
-	GuiEvent			evtMouseDownContinue;	// Êó±ê³ÖĞø°´ÔÚ°´Å¥
+public:	// äº‹ä»¶
+	GuiMouseEvent		evtMouseClick;			// é¼ æ ‡å·¦é”®ç‚¹å‡»äº‹ä»¶
+	GuiMouseEvent		evtMouseRClick;			// é¼ æ ‡å³é”®ç‚¹å‡»äº‹ä»¶  add by Philip.Wu 2006/01/23
+	GuiMouseEvent		evtMouseDBClick;		// é¼ æ ‡å·¦é”®åŒå‡»äº‹ä»¶  add by Philip.Wu 2006/01/23
+	GuiEvent			evtMouseDownContinue;	// é¼ æ ‡æŒç»­æŒ‰åœ¨æŒ‰é’®
 
 protected:
 	void				_SetState( eButtonState v );
 	void				_ClearOldState();
 
 protected:
-	string				_strCaption;	// ÏÔÊ¾ÔÚ±íÃæµÄÃû³Æ
-	DWORD				_textColor;		// ×ÖÌåÑÕÉ«
+	string				_strCaption;	// æ˜¾ç¤ºåœ¨è¡¨é¢çš„åç§°
+	DWORD				_textColor;		// å­—ä½“é¢œè‰²
 
-	CGuiPic*			_pImage;		// ±³¾°Í¼,¹²ËÄÖ¡£¬·Ö±ğ¶ÔÓ¦£ºbsNormal,bsHover,bsDown,bsDisable
-	bool				_isDown;		// ÒÔÇ°ÒÑ¾­ÔÚ°´Å¥ÉÏ°´ÏÂ£¬µÈĞĞËÉ¿ªÖ´ĞĞevtMouseClickÊÂ¼ş
+	CGuiPic*			_pImage;		// èƒŒæ™¯å›¾,å…±å››å¸§ï¼Œåˆ†åˆ«å¯¹åº”ï¼šbsNormal,bsHover,bsDown,bsDisable
+	bool				_isDown;		// ä»¥å‰å·²ç»åœ¨æŒ‰é’®ä¸ŠæŒ‰ä¸‹ï¼Œç­‰è¡Œæ¾å¼€æ‰§è¡ŒevtMouseClickäº‹ä»¶
 
-    CForm::eModalResult _eFormModal;    // ¶ÔÓÚËùÊô±íµ¥ÎªÄ£Ì¬ÏÔÊ¾Ê±£¬¸³ÓÚ±íµ¥µÄ·µ»ØÖµ
+    CForm::eModalResult _eFormModal;    // å¯¹äºæ‰€å±è¡¨å•ä¸ºæ¨¡æ€æ˜¾ç¤ºæ—¶ï¼Œèµ‹äºè¡¨å•çš„è¿”å›å€¼
 
-	DWORD				_dwFlashCycle;	// ÉÁË¸ÖÜÆÚ£¬=0 ²»ÉÁË¸
-	DWORD				_dwLastClick;	// ÉÏÒ»´Îµã»÷µÄÊ±¼ä
+	DWORD				_dwFlashCycle;	// é—ªçƒå‘¨æœŸï¼Œ=0 ä¸é—ªçƒ
+	DWORD				_dwLastClick;	// ä¸Šä¸€æ¬¡ç‚¹å‡»çš„æ—¶é—´
 
 	static CTextButton*	m_pCurButton;
 };

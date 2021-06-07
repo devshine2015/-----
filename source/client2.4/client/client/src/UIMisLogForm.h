@@ -5,7 +5,7 @@
 
 namespace GUI
 {
-#define MISLOG_REFRESH_TIME				2000	// 任务日志刷新时间
+#define MISLOG_REFRESH_TIME				2000	// 浠诲姟鏃ュ織鍒锋柊鏃堕棿
 
 class CTreeNodeObj;
 class CMisLogForm : public CUIInterface
@@ -30,31 +30,31 @@ protected:
 	void ClearAllNode();
 
 private:
-	// 窗口处理消息函数
+	// 绐楀彛澶勭悊娑堟伅鍑芥暟
 	static void _MouseEvent( CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey );
 	static void _MouseDown( CGuiData *pSender, int x, int y, DWORD key );
 	static void	_Show( CGuiData *pSender );
 	static void _ItemClickEvent( string strItem );
-	// 确认是否中断任务
+	// 纭鏄惁涓柇浠诲姟
 	static void _evtBreakYesNoEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 	CForm*		m_pForm;
 
-	// 任务日志控件
+	// 浠诲姟鏃ュ織鎺т欢
 	CTreeView*	m_pMisTree;
 	CMemoEx*	m_pMisInfo;
 	
-	// 任务类型节点
+	// 浠诲姟绫诲瀷鑺傜偣
 	CTreeNodeObj*	m_pNormal;
 	CTreeNodeObj*	m_pHistory;
 	CTreeNodeObj*	m_pGuild;
 	CTreeNodeObj*	m_pMain;	// rain add.
 	CTreeNodeObj*	m_pInvalid;
 
-	// 任务日志信息
+	// 浠诲姟鏃ュ織淇℃伅
 	NET_MISLOG_LIST m_LogList;
 
-	// 当前任务说明
+	// 褰撳墠浠诲姟璇存槑
 	WORD  m_wMisID;
 	DWORD m_dwUpdateTick;
 };

@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:»»Ò³Àà
-// ×÷Õß:lh 2004-08-02
-// Éè¼ÆË¼Ïë:CPageItemÊÇ¿Ø¼şÈİÆ÷,CPageÊÇCPageItemÈİÆ÷,²¢ÊµÏÖÇĞ»»CPageItem
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:æ¢é¡µç±»
+// ä½œè€…:lh 2004-08-02
+// è®¾è®¡æ€æƒ³:CPageItemæ˜¯æ§ä»¶å®¹å™¨,CPageæ˜¯CPageItemå®¹å™¨,å¹¶å®ç°åˆ‡æ¢CPageItem
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -13,7 +13,7 @@ namespace GUI
 {
 class CPage;
 
-// »»Ò³ÀàCPageµÄÒ³ÃæÀà
+// æ¢é¡µç±»CPageçš„é¡µé¢ç±»
 class CPageItem : public CContainer
 {
 	friend class CPage;
@@ -57,21 +57,21 @@ private:
 	void			_OnTitleDown();
 
 protected:
-	CImage			*_pTitle;		// ²Ù×÷ÕâÒ»Ò³µÄ±êÌâÀ¸,ÆäÎ»ÖÃÓÉCPage¾ö¶¨
-	CImage			*_pImage;		// Ò³ÏÔÊ¾±³¾°Í¼Æ¬,³äÂúËùÓĞÇøÓò
-	unsigned int	_nIndex;		// ÔÚPageÀàÀïµÄË÷Òı
+	CImage			*_pTitle;		// æ“ä½œè¿™ä¸€é¡µçš„æ ‡é¢˜æ ,å…¶ä½ç½®ç”±CPageå†³å®š
+	CImage			*_pImage;		// é¡µæ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡,å……æ»¡æ‰€æœ‰åŒºåŸŸ
+	unsigned int	_nIndex;		// åœ¨Pageç±»é‡Œçš„ç´¢å¼•
 
 };
 
-// »»Ò³Àà
+// æ¢é¡µç±»
 class CPage : public CCompent
 {
 public:
-	enum eButtonPos		// ¾ùÎªÒÀ´ÎÅÅÁĞ
+	enum eButtonPos		// å‡ä¸ºä¾æ¬¡æ’åˆ—
 	{
-		bpLeftUp=0,		// ×óÉÏ
-		bpUpFull,		// ³äÂúÉÏ²¿
-        bpCustom,       // ×Ô¶¨Òå
+		bpLeftUp=0,		// å·¦ä¸Š
+		bpUpFull,		// å……æ»¡ä¸Šéƒ¨
+        bpCustom,       // è‡ªå®šä¹‰
 		bpEnd,
 	};
 
@@ -94,38 +94,38 @@ public:
     virtual CCompent*       GetHitCommand( int x, int y );
 
 public:
-	void			SetIndex( unsigned int n );		// ¼¤»îÄ³Ò»Ò³
+	void			SetIndex( unsigned int n );		// æ¿€æ´»æŸä¸€é¡µ
 	int				GetIndex()									{ return _nIndex;				}
 	CPageItem*		GetPage( unsigned int n );
 
-	CPageItem*		NewPage();				// ²úÉúĞÂµÄÒ»Ò³
+	CPageItem*		NewPage();				// äº§ç”Ÿæ–°çš„ä¸€é¡µ
 
 	void			SetButtonSize( int w, int h );
 	void			SetButtonPutStyle( eButtonPos style )		{ _eButtonPos=style;			}
 	void			SetButtonMargin( int n )					{ if(n>0) _nButtonMargin=n;		}
 
 public:
-	GuiEvent		evtSelectPage;			// Ñ¡ÔñÁËĞÂµÄÒ»Ò³
+	GuiEvent		evtSelectPage;			// é€‰æ‹©äº†æ–°çš„ä¸€é¡µ
 
 private:
 	void			_RefreshButtonPos();
 
 protected:
-	unsigned int	_nIndex;				// µ±Ç°Ò³		
-	unsigned int	_nMaxPage;				// µ±Ç°×î´óÒ³
+	unsigned int	_nIndex;				// å½“å‰é¡µ		
+	unsigned int	_nMaxPage;				// å½“å‰æœ€å¤§é¡µ
 
 	CGuiPic*		_pImage;
 
 	typedef vector<CPageItem*>	items;
 	items			_pages;
 
-	eButtonPos		_eButtonPos;		// Ò³±êÌâ°´Å¥ÅÅÁĞ·½Ê½
-	int				_nButtonWidth, _nButtonHeight;		// Ò³±êÌâ°´Å¥¿í¸ß
-	int				_nButtonMargin;		// Ò³±êÌâ°´Å¥µÄ±ß¾à
+	eButtonPos		_eButtonPos;		// é¡µæ ‡é¢˜æŒ‰é’®æ’åˆ—æ–¹å¼
+	int				_nButtonWidth, _nButtonHeight;		// é¡µæ ‡é¢˜æŒ‰é’®å®½é«˜
+	int				_nButtonMargin;		// é¡µæ ‡é¢˜æŒ‰é’®çš„è¾¹è·
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CPageItem::_OnTitleDown(CGuiData *pSender, int x, int y, DWORD key)
 {
 	((CPageItem*)(pSender->GetParent()))->_OnTitleDown();

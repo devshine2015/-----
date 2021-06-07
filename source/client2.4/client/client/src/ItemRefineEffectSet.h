@@ -1,8 +1,8 @@
 #pragma once
 //----------------------------------------------------------------------
-// Ãû³Æ:µÀ¾ß¾«Á·Ğ§¹û±í
-// ×÷Õß:lh 2005-11-03
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// åç§°:é“å…·ç²¾ç»ƒæ•ˆæœè¡¨
+// ä½œè€…:lh 2005-11-03
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #include "TableData.h"
 
@@ -21,8 +21,8 @@ public:
 		memset( chDummy, 0, sizeof(chDummy) );
     }
 
-	int		nLightID;													// Á÷¹â±àºÅ
-	short	sEffectID[REFINE_EFFECT_CHA_NUM][REFINE_EFFECT_NUM];		// ÌØĞ§±àºÅ
+	int		nLightID;													// æµå…‰ç¼–å·
+	short	sEffectID[REFINE_EFFECT_CHA_NUM][REFINE_EFFECT_NUM];		// ç‰¹æ•ˆç¼–å·
 	char	chDummy[REFINE_EFFECT_NUM];
 
 	int		GetEffectNum(int nCharID)		{ return _sEffectNum[nCharID];			}
@@ -45,7 +45,7 @@ public:
 	}
 
 protected:
-	static CItemRefineEffectSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CItemRefineEffectSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

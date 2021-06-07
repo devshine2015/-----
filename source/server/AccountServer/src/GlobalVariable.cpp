@@ -9,7 +9,7 @@
 
 
 
-//±ØĞëÓÅÏÈ¶¨ÒåÅäÖÃÎÄ¼ş×Ö·û´®
+//å¿…é¡»ä¼˜å…ˆå®šä¹‰é…ç½®æ–‡ä»¶å­—ç¬¦ä¸²
 std::string g_strCfgFile="AccountServer.cfg";
 
 CBillService	g_BillService;

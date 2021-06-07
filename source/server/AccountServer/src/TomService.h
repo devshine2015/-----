@@ -7,10 +7,10 @@ public:
 	CTomService(void);
 	~CTomService(void);
 
-	bool InitService();													//³õÊ¼»¯Tom·şÎñÏµÍ³
-	bool VerifyLoginMember(const char* lpszUserName, const char* lpszMD5PSW);		//true:ÕıÈ· false:´íÎó
-	void ReportMemberCounts(int nCounts);								//ÏòTom±¨¸æÔÚÏßÍæ¼ÒÊıÁ¿
-	bool IsEnable();													//·µ»ØÊÇ·ñÆôÓÃÁËTom·şÎñÏµÍ³
+	bool InitService();													//åˆå§‹åŒ–TomæœåŠ¡ç³»ç»Ÿ
+	bool VerifyLoginMember(const char* lpszUserName, const char* lpszMD5PSW);		//true:æ­£ç¡® false:é”™è¯¯
+	void ReportMemberCounts(int nCounts);								//å‘TomæŠ¥å‘Šåœ¨çº¿ç©å®¶æ•°é‡
+	bool IsEnable();													//è¿”å›æ˜¯å¦å¯ç”¨äº†TomæœåŠ¡ç³»ç»Ÿ
 	//enum eState{eState_AllowLogin, eState_LoginLocked};
 	//eState CheckMemberState(const char* lpszUserName);
 
@@ -31,6 +31,6 @@ private:
 	HMODULE m_hTomMod;
 	bool m_bEnableService;
 
-	//key=ÓÃ»§Ãû£¬data=ÏÂÏßTickÊ±¿Ì£¨0´ú±íÔÚÏß£©
+	//key=ç”¨æˆ·åï¼Œdata=ä¸‹çº¿Tickæ—¶åˆ»ï¼ˆ0ä»£è¡¨åœ¨çº¿ï¼‰
 	//map<const char*, DWORD> m_mapUserState;
 };

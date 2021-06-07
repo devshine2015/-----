@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÈËÎïÍ·ÉÏÅİÅİ
-// ×÷Õß:lh 2004-08-21
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:äººç‰©å¤´ä¸Šæ³¡æ³¡
+// ä½œè€…:lh 2004-08-21
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uiGuidata.h"
@@ -19,7 +19,7 @@ class CHeadSay
 {
 public:
     CHeadSay(CCharacter* p);
-	~CHeadSay(); //°²È«ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
+	~CHeadSay(); //å®‰å…¨é‡Šæ”¾å†…å­˜ by Waiting 2009-06-18
 
     static bool		Init();
     static bool		Clear();
@@ -28,7 +28,7 @@ public:
     void			AddItem( CItemEx* obj );
     void			Render( D3DXVECTOR3& pos );
 
-    // ÉèÖÃÏÔÊ¾µÄÑªÌõ:numÑªÁ¿£¬max×ÜÑªÁ¿,attacknum±»¹¥»÷µÄÊı×Ö
+    // è®¾ç½®æ˜¾ç¤ºçš„è¡€æ¡:numè¡€é‡ï¼Œmaxæ€»è¡€é‡,attacknumè¢«æ”»å‡»çš„æ•°å­—
     void			SetLifeNum(int num, int max);
     void			SetIsShowLife( bool v )		{ _IsShowLife = v;		}
     bool			GetIsShowLife()				{ return _IsShowLife;	}
@@ -50,7 +50,7 @@ public:
 	static void		SetBkgColor( DWORD v )	{ _dwBkgColor=v;					}
 
 	bool			SetFaceID( unsigned int faceid );
-    int             GetFaceID(){ return  _nCurFaceID ;}      //µÃµ½µ±Ç°µÄID.by billy
+    int             GetFaceID(){ return  _nCurFaceID ;}      //å¾—åˆ°å½“å‰çš„ID.by billy
     void            SetRenderScale(float f ) { _fScale  = f  ;      }
 
     void			SetName( const char* name );
@@ -60,20 +60,20 @@ public:
 	static void		RenderText( const char* szShopName, int x, int y );
 
 private:
-    static int		_nMaxShowTime;	// ×î´óÄÜÏÔÊ¾µÄÊ±¼ä
+    static int		_nMaxShowTime;	// æœ€å¤§èƒ½æ˜¾ç¤ºçš„æ—¶é—´
 
 private:
-    int				_nShowTime;		// Ä¿Ç°ÏÔÊ¾µÄÊ±¼ä
-    float           _fScale ;       //ÏÔÊ¾µÄ±ÈÀı
+    int				_nShowTime;		// ç›®å‰æ˜¾ç¤ºçš„æ—¶é—´
+    float           _fScale ;       //æ˜¾ç¤ºçš„æ¯”ä¾‹
     CItemEx *       _pObj;
-    string          _str ;          //ÁÄÌìÊ±ºòÏÔÊ¾ÔÚÍ·ÏñÉÏÃæµÄÎÄ×ÖĞÅÏ¢
+    string          _str ;          //èŠå¤©æ—¶å€™æ˜¾ç¤ºåœ¨å¤´åƒä¸Šé¢çš„æ–‡å­—ä¿¡æ¯
     CCharacter*		_pOwn;
 
-private:	// ÏÔÊ¾¹¥»÷Ğ§¹ûÊ±£¬ÑªÁ¿±ä»¯
-    static int			_nMaxShowLifeTime;	// ×î´óÏÔÊ¾¶à³¤Ê±¼ä
+private:	// æ˜¾ç¤ºæ”»å‡»æ•ˆæœæ—¶ï¼Œè¡€é‡å˜åŒ–
+    static int			_nMaxShowLifeTime;	// æœ€å¤§æ˜¾ç¤ºå¤šé•¿æ—¶é—´
 
     static CGuiPic*		_pImgLife;
-    static CGuiPic*		_pImgTeamLeaderFlag;// ÏÔÊ¾ÔÚ¶Ó³¤Í·ÉÏµÄ±êÖ¾
+    static CGuiPic*		_pImgTeamLeaderFlag;// æ˜¾ç¤ºåœ¨é˜Ÿé•¿å¤´ä¸Šçš„æ ‡å¿—
 
     float				_fLifeW;
 
@@ -82,41 +82,41 @@ private:	// ÏÔÊ¾¹¥»÷Ğ§¹ûÊ±£¬ÑªÁ¿±ä»¯
     static CGuiPic*	_pImgFace;
 	static DWORD	_dwBkgColor;
 
-    int				_dwFaceTime;	// ±íÇé³õÊ¼Ê±¼ä
-    int             _nCurFaceID ;   //Ä¿Ç°ÏÔÊ¾µÄ±íÇéIDºÅ
+    int				_dwFaceTime;	// è¡¨æƒ…åˆå§‹æ—¶é—´
+    int             _nCurFaceID ;   //ç›®å‰æ˜¾ç¤ºçš„è¡¨æƒ…IDå·
     DWORD           _dwNameColor;
 
-    CGuiPic*		_pCurFace;		// Ä¿Ç°ÏÔÊ¾µÄÊÇÄÇÕÅ±íÇé
-    unsigned int	_nCurFaceFrame;	// Ä¿Ç°ÏÔÊ¾µÄ±íÇéµÚ¼¸Ö¡
+    CGuiPic*		_pCurFace;		// ç›®å‰æ˜¾ç¤ºçš„æ˜¯é‚£å¼ è¡¨æƒ…
+    unsigned int	_nCurFaceFrame;	// ç›®å‰æ˜¾ç¤ºçš„è¡¨æƒ…ç¬¬å‡ å¸§
     unsigned int	_nCurFaceCycle;
 
-    bool			_IsShowLife;	// ÊÇ·ñÏÔÊ¾ÑªÌõ
-    bool            _IsShowName;    // ÊÇ·ñÏÔÊ¾½ÇÉ«µÄÃû×Ö¡£added by billy
-    int				_nChaNameOffX;	// Íæ¼ÒÃû×ÖµÄXÆ«ÒÆ
+    bool			_IsShowLife;	// æ˜¯å¦æ˜¾ç¤ºè¡€æ¡
+    bool            _IsShowName;    // æ˜¯å¦æ˜¾ç¤ºè§’è‰²çš„åå­—ã€‚added by billy
+    int				_nChaNameOffX;	// ç©å®¶åå­—çš„Xåç§»
 
-	// Ãû×ÖµÄ²¿·ÖÊı
+	// åå­—çš„éƒ¨åˆ†æ•°
 	enum {	
 		PRENAME_SEP1_INDEX = 0,			//	(
-		PRENAME_INDEX = 1,				//	Ç°×ºÃû
+		PRENAME_INDEX = 1,				//	å‰ç¼€å
 		PRENAME_SEP2_INDEX = 2,			//	)
-		NAME_INDEX = 3,					//	½ÇÉ«Ãû
+		NAME_INDEX = 3,					//	è§’è‰²å
 		MOTTO_NAME_SEP1_INDEX = 4,		//	(
-		MOTTO_NAME_INDEX = 5,			//	×ùÓÒÃú
+		MOTTO_NAME_INDEX = 5,			//	åº§å³é“­
 		MOTTO_NAME_SEP2_INDEX = 6,		//	)
 		BOAT_NAME_SEP1_INDEX = 7,		//	[
-		BOAT_NAME_INDEX = 8,			//	´¬Ãû
+		BOAT_NAME_INDEX = 8,			//	èˆ¹å
 		BOAT_NAME_SEP2_INDEX = 9,		//	]
 
-		NAME_PART_NUM=10,			//	Ãû×ÖµÄ×é³É²¿·ÖµÄÊıÄ¿
+		NAME_PART_NUM=10,			//	åå­—çš„ç»„æˆéƒ¨åˆ†çš„æ•°ç›®
 	};
-	//Ãû×ÖÇ°×º
-	//Ãû×ÖÏÔÊ¾·½Ê½ (Ç°×º) £« ½ÇÉ«Ãû + (×ùÓÒÃú) £« [´¬Ãû]
+	//åå­—å‰ç¼€
+	//åå­—æ˜¾ç¤ºæ–¹å¼ (å‰ç¼€) ï¼‹ è§’è‰²å + (åº§å³é“­) ï¼‹ [èˆ¹å]
 	static char s_sNamePart[NAME_PART_NUM][64];
-	//Ç°Ò»ÁĞÊÇÇ°¾°É«,ºóÒ»ÁĞÊÇÒõÓ°ÑÕÉ«
+	//å‰ä¸€åˆ—æ˜¯å‰æ™¯è‰²,åä¸€åˆ—æ˜¯é˜´å½±é¢œè‰²
 	static DWORD	s_dwNamePartsColors[NAME_PART_NUM][2];
-	//È«Ãû
+	//å…¨å
 	static char s_szName[1024];
-	//¹«»áÃû
+	//å…¬ä¼šå
 	static char s_szConsortiaNamePart[4][64];
 	static char s_szConsortiaName[256];
 
@@ -125,8 +125,8 @@ private:	// ÏÔÊ¾¹¥»÷Ğ§¹ûÊ±£¬ÑªÁ¿±ä»¯
 		NAME_LENGTH = 64,
 	};
 
-private:	// °ÚÌ¯
-	static CGuiPic	_ImgShop[3];	// 0Îª×ó£¬1ÎªÖĞ¿ÉÒÔÀ­ÉìµÄÍ¼Æ¬£¬2ÎªÓÒ
+private:	// æ‘†æ‘Š
+	static CGuiPic	_ImgShop[3];	// 0ä¸ºå·¦ï¼Œ1ä¸ºä¸­å¯ä»¥æ‹‰ä¼¸çš„å›¾ç‰‡ï¼Œ2ä¸ºå³
 	static int		_nShopFrameWidth;
 	static int		_nShopFontYOff;
 	void			_RenderShop( const char* szShopName, int x, int y );

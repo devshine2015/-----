@@ -11,7 +11,7 @@
 _DBC_USING
 
 void InitDBSvrConnect(GroupServerApp &gpapp);
-void InitACTSvrConnect(GroupServerApp &gpapp);	//AccountServerÁ¬½Ó
+void InitACTSvrConnect(GroupServerApp &gpapp);	//AccountServerè¿æ¥
 
 void GroupServerApp::Initialize()
 {
@@ -20,37 +20,37 @@ void GroupServerApp::Initialize()
 
 	m_dwCheatCount = 0;
 	LogLine l_line(g_LogConnect);
-	l_line<<newln<<"¿ªÊ¼Êı¾İ¿âÁ¬½Ó"<<endln;
+	l_line<<newln<<"å¼€å§‹æ•°æ®åº“è¿æ¥"<<endln;
 	//l_line<<newln<<"begin connect database"<<endln;
 	InitDBSvrConnect(*this);
 	m_tblguilds->InitAllGuilds(7);
 	dstring		l_acct	=m_cfg["AccountServer"]["AcctEnable"];
 	if(l_acct	!="0")
 	{
-		l_line<<newln<<"¿ªÊ¼³õÊ¼»¯AccountServerÁ¬½Ó"<<endln;
+		l_line<<newln<<"å¼€å§‹åˆå§‹åŒ–AccountServerè¿æ¥"<<endln;
 		//l_line<<newln<<"begin init AccountServer connect"<<endln;
 		InitACTSvrConnect(*this);
 	}
 
-	LG("init", "³õÊ¼»¯Lua Script...\n");
+	LG("init", "åˆå§‹åŒ–Lua Script...\n");
 	//LG("init", "init Lua Script...\n");
 	if( !InitLuaScript() )
 	{
-		THROW_EXCP(excp, "³õÊ¼»¯LUA½Å±¾Ê§°Ü£¡");
+		THROW_EXCP(excp, "åˆå§‹åŒ–LUAè„šæœ¬å¤±è´¥ï¼");
 		//THROW_EXCP(excp, "init LUA script failed!");
 	}
 
-	//×îºó´ò¿ª×Ô¼ºµÄ¶Ë¿ÚÕìÌıÀ´×ÔGateServer/GameServerµÄÁ¬½Ó£º
-	//l_line<<newln<<"¿ªÊ¼¿ªÊ¼¶ÁÈ¡GroupServer.cfgÅäÖÃÎÄ¼ş"<<endln;
+	//æœ€åæ‰“å¼€è‡ªå·±çš„ç«¯å£ä¾¦å¬æ¥è‡ªGateServer/GameServerçš„è¿æ¥ï¼š
+	//l_line<<newln<<"å¼€å§‹å¼€å§‹è¯»å–GroupServer.cfgé…ç½®æ–‡ä»¶"<<endln;
 	l_line<<newln<<"begin read GroupServer.cfg"<<endln;
 	IniSection	&l_is	=m_cfg["Main"];
 	cChar		*l_ip	=l_is["Listen_IP"];
 	uShort		l_port	=atoi(l_is["Listen_Port"]);
 /*
-	const_cha.MaxChaNum			=atoi(m_cfg["½ÇÉ«"]["Ã¿ÕÊºÅ×î´ó½ÇÉ«Êı"]);
+	const_cha.MaxChaNum			=atoi(m_cfg["è§’è‰²"]["æ¯å¸å·æœ€å¤§è§’è‰²æ•°"]);
 	const_cha.MaxChaNum			=min(const_cha.MaxChaNum,Player::emMaxCharacters);
-	const_cha.MaxIconVal		=atoi(m_cfg["½ÇÉ«"]["¸öĞÔ»¯Í¼±êµÄ×î´óÖµ"]);
-	const_cha.MaxLoginUsr		=atoi(m_cfg["½ÇÉ«"]["×î´óµÇÂ¼ÈËÊı"]);
+	const_cha.MaxIconVal		=atoi(m_cfg["è§’è‰²"]["ä¸ªæ€§åŒ–å›¾æ ‡çš„æœ€å¤§å€¼"]);
+	const_cha.MaxLoginUsr		=atoi(m_cfg["è§’è‰²"]["æœ€å¤§ç™»å½•äººæ•°"]);
 */
 	const_cha.MaxChaNum			=atoi(m_cfg["character"]["MaxCharacterNum"]);
 	const_cha.MaxChaNum			=min(const_cha.MaxChaNum,Player::emMaxCharacters);
@@ -59,10 +59,10 @@ void GroupServerApp::Initialize()
 
 
 	/*
-	const_frnd.InvitedMax		=atoi(m_cfg["ºÃÓÑ"]["×î¶à±»ÑûÇëÊı"]);
-	const_frnd.PendTimeOut		=atoi(m_cfg["ºÃÓÑ"]["Î´¾öÑûÇë³¬Ê±"])*1000;
-	const_frnd.FriendMax		=atoi(m_cfg["ºÃÓÑ"]["Ã¿½ÇÉ«×î¶àºÃÓÑÊı"]);
-	const_frnd.FriendGroupMax	=atoi(m_cfg["ºÃÓÑ"]["Ã¿½ÇÉ«µÄ×ÔÖÆºÃÓÑ·Ö×éÊı"]);
+	const_frnd.InvitedMax		=atoi(m_cfg["å¥½å‹"]["æœ€å¤šè¢«é‚€è¯·æ•°"]);
+	const_frnd.PendTimeOut		=atoi(m_cfg["å¥½å‹"]["æœªå†³é‚€è¯·è¶…æ—¶"])*1000;
+	const_frnd.FriendMax		=atoi(m_cfg["å¥½å‹"]["æ¯è§’è‰²æœ€å¤šå¥½å‹æ•°"]);
+	const_frnd.FriendGroupMax	=atoi(m_cfg["å¥½å‹"]["æ¯è§’è‰²çš„è‡ªåˆ¶å¥½å‹åˆ†ç»„æ•°"]);
 	*/
 	const_frnd.InvitedMax		=atoi(m_cfg["friend"]["MaxInvitedNum"]);
 	const_frnd.PendTimeOut		=atoi(m_cfg["friend"]["InvitedTime"])*1000;
@@ -71,9 +71,9 @@ void GroupServerApp::Initialize()
 
 
 	/*
-	const_team.InvitedMax		=atoi(m_cfg["×é¶Ó"]["×î¶à±»ÑûÇëÊı"]);
-	const_team.PendTimeOut		=atoi(m_cfg["×é¶Ó"]["Î´¾öÑûÇë³¬Ê±"])*1000;
-	const_team.MemberMax		=atoi(m_cfg["×é¶Ó"]["Ã¿×é¶Ó×î¶à³ÉÔ±Êı"]);
+	const_team.InvitedMax		=atoi(m_cfg["ç»„é˜Ÿ"]["æœ€å¤šè¢«é‚€è¯·æ•°"]);
+	const_team.PendTimeOut		=atoi(m_cfg["ç»„é˜Ÿ"]["æœªå†³é‚€è¯·è¶…æ—¶"])*1000;
+	const_team.MemberMax		=atoi(m_cfg["ç»„é˜Ÿ"]["æ¯ç»„é˜Ÿæœ€å¤šæˆå‘˜æ•°"]);
 	*/
 	const_team.InvitedMax		=atoi(m_cfg["team"]["MaxInvitedNum"]);
 	const_team.PendTimeOut		=atoi(m_cfg["team"]["InvitedTime"])*1000;
@@ -86,9 +86,9 @@ void GroupServerApp::Initialize()
 	const_master.PrenticeMax	= 4;
 
 	/*
-	const_chat.MaxSession		=atoi(m_cfg["ÁÄÌì"]["Ã¿Íæ¼Ò×î¶à»á»°Êı"]);
+	const_chat.MaxSession		=atoi(m_cfg["èŠå¤©"]["æ¯ç©å®¶æœ€å¤šä¼šè¯æ•°"]);
 	const_chat.MaxSession		=min(const_chat.MaxSession,Player::emMaxSessChat);
-	const_chat.MaxPlayer		=atoi(m_cfg["ÁÄÌì"]["Ã¿»á»°×î¶àÍæ¼ÒÊı"]);
+	const_chat.MaxPlayer		=atoi(m_cfg["èŠå¤©"]["æ¯ä¼šè¯æœ€å¤šç©å®¶æ•°"]);
 	const_chat.MaxPlayer		=min(const_chat.MaxPlayer,Player::emMaxSessPlayer);
 	*/
 	const_chat.MaxSession		=atoi(m_cfg["chat"]["MaxChatNumPerPlayer"]);
@@ -98,9 +98,9 @@ void GroupServerApp::Initialize()
 
 
 	/*
-	const_interval.World		=atoi(m_cfg["ÁÄÌì"]["ÊÀ½çÆµµÀËµ»°¼ä¸ô"])*1000;
-	const_interval.Trade		=atoi(m_cfg["ÁÄÌì"]["½»Ò×ÆµµÀËµ»°¼ä¸ô"])*1000;
-	const_interval.ToYou		=atoi(m_cfg["ÁÄÌì"]["Ë½ÁÄÆµµÀËµ»°¼ä¸ô"])*1000;
+	const_interval.World		=atoi(m_cfg["èŠå¤©"]["ä¸–ç•Œé¢‘é“è¯´è¯é—´éš”"])*1000;
+	const_interval.Trade		=atoi(m_cfg["èŠå¤©"]["äº¤æ˜“é¢‘é“è¯´è¯é—´éš”"])*1000;
+	const_interval.ToYou		=atoi(m_cfg["èŠå¤©"]["ç§èŠé¢‘é“è¯´è¯é—´éš”"])*1000;
 	*/
 	const_interval.World		=atoi(m_cfg["chat"]["WorldInterval"])*1000;
 	const_interval.Trade		=atoi(m_cfg["chat"]["TradeInterval"])*1000;
@@ -109,29 +109,29 @@ void GroupServerApp::Initialize()
 
 	if(!InitMasterRelation())
 	{
-		//THROW_EXCP(excp, "³õÊ¼»¯Ê¦Í½¹ØÏµ±íÊ§°Ü£¡");
+		//THROW_EXCP(excp, "åˆå§‹åŒ–å¸ˆå¾’å…³ç³»è¡¨å¤±è´¥ï¼");
 		THROW_EXCP(excp, RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00001));
 	}
 	
-	l_line<<newln<<"¿ªÊ¼×°ÔØChaNameFilter.txt¹ıÂÇÎÄ¼ş"<<endln;
+	l_line<<newln<<"å¼€å§‹è£…è½½ChaNameFilter.txtè¿‡è™‘æ–‡ä»¶"<<endln;
 	//l_line<<newln<<"begin load ChaNameFilter.txt"<<endln;
 	CTextFilter::LoadFile("ChaNameFilter.txt");
-	l_line<<newln<<"¿ªÊ¼´ò¿ªÕìÌı¶Ë¿Ú:"<<l_port<<endln;
+	l_line<<newln<<"å¼€å§‹æ‰“å¼€ä¾¦å¬ç«¯å£:"<<l_port<<endln;
 	//l_line<<newln<<"begin listen port:"<<l_port<<endln;
 	if(OpenListenSocket(l_port,l_ip))
 	{
-		//THROW_EXCP(excpSock,l_ip<<","<<l_port<<" ´ò¿ªÊ§°Ü£¡Çë¼ì²é¶Ë¿Ú"<<l_port<<"ÊÇ·ñ±»Õ¼ÓÃ»òÕßGroupServer.cfgµÄListen_IP²ÎÊıÅäÖÃÊÇ·ñÕıÈ·¡£");
+		//THROW_EXCP(excpSock,l_ip<<","<<l_port<<" æ‰“å¼€å¤±è´¥ï¼è¯·æ£€æŸ¥ç«¯å£"<<l_port<<"æ˜¯å¦è¢«å ç”¨æˆ–è€…GroupServer.cfgçš„Listen_IPå‚æ•°é…ç½®æ˜¯å¦æ­£ç¡®ã€‚");
 		char l_content[500];
 		sprintf(l_content,RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00002),l_ip, l_port, l_port);
 		THROW_EXCP(excpSock,l_content);
 	}
-	l_line<<newln<<"¿ªÊ¼´ò¿ªÕìÌı¶Ë¿Ú:"<<l_port<<"³É¹¦Íê³É£¬³õÊ¼»¯¹ı³Ì½áÊø"<<endln;
+	l_line<<newln<<"å¼€å§‹æ‰“å¼€ä¾¦å¬ç«¯å£:"<<l_port<<"æˆåŠŸå®Œæˆï¼Œåˆå§‹åŒ–è¿‡ç¨‹ç»“æŸ"<<endln;
 	//l_line<<newln<<"open listen port:"<<l_port<<"success, init is ok"<<endln;
 }
 
 void InitDBSvrConnect(GroupServerApp &gpapp)
 {
-	//LG("group_sql", "¿ªÊ¼³õÊ¼»¯Êı¾İ¿âÁ¬½Ó\n");
+	//LG("group_sql", "å¼€å§‹åˆå§‹åŒ–æ•°æ®åº“è¿æ¥\n");
 	LG("group_sql", RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00030));
 	string	l_errinfo;
 
@@ -143,11 +143,11 @@ void InitDBSvrConnect(GroupServerApp &gpapp)
 	dbpswd_out(l_passwd,int(strlen(l_passwd)),l_str);
 	gpapp.m_cfg_db.enable_errinfo();
 
-	LG("group_sql", "¿ªÊ¼³õÊ¼»¯Êı¾İ¿âÁ¬½Ó, ip = [%s], db = [%s]\n", l_ip, l_db);
+	LG("group_sql", "å¼€å§‹åˆå§‹åŒ–æ•°æ®åº“è¿æ¥, ip = [%s], db = [%s]\n", l_ip, l_db);
 	//LG("group_sql", "begin connect database, ip = [%s], db = [%s]\n", l_ip, l_db);
 	if(!gpapp.m_cfg_db.connect(const_cast<char*>(l_ip),const_cast<char*>(l_db),const_cast<char*>(l_login),const_cast<char*>(l_str.c_str()),l_errinfo))
 	{
-		LG("group_sql", "Êı¾İ¿âÁ¬½ÓÊ§°Ü, ´íÎóÔ­Òò[%s]\n", l_errinfo.c_str());
+		LG("group_sql", "æ•°æ®åº“è¿æ¥å¤±è´¥, é”™è¯¯åŸå› [%s]\n", l_errinfo.c_str());
 		//LG("group_sql", "connect database failed, error[%s]\n", l_errinfo.c_str());
 		THROW_EXCP(excpDB,l_errinfo.c_str());
 	} 
@@ -157,10 +157,10 @@ void InitDBSvrConnect(GroupServerApp &gpapp)
 		gpapp.m_tblsystem->Decrement();
 		delete gpapp.m_tblsystem;
 		gpapp.m_tblsystem	=0;
-		THROW_EXCP(excpDB,"GroupServerÖØ¸´£¡£¬³ÌĞòÂíÉÏÍË³ö...");
+		THROW_EXCP(excpDB,"GroupServeré‡å¤ï¼ï¼Œç¨‹åºé©¬ä¸Šé€€å‡º...");
 	}*/
 
-	LG("group_sql", "Êı¾İ¿âÁ¬½Ó³É¹¦, ¿ªÊ¼³õÊ¼»¯Êı¾İ±í\n");
+	LG("group_sql", "æ•°æ®åº“è¿æ¥æˆåŠŸ, å¼€å§‹åˆå§‹åŒ–æ•°æ®è¡¨\n");
 	//LG("group_sql", "connect database ok, begin init datatable\n");
 
 	gpapp.m_tblaccounts		=new TBLAccounts(&(gpapp.m_cfg_db));
@@ -171,39 +171,39 @@ void InitDBSvrConnect(GroupServerApp &gpapp)
 	gpapp.m_tblX1			=new friend_tbl(&(gpapp.m_cfg_db));
 	gpapp.m_tbLparam		=new TBLParam(&(gpapp.m_cfg_db));
 	
-	LG("group_sql", "¿ªÊ¼¼ì²é account±í ÍêÕûĞÔ\n");
+	LG("group_sql", "å¼€å§‹æ£€æŸ¥ accountè¡¨ å®Œæ•´æ€§\n");
 	//LG("group_sql", "begin check table [account] \n");
 	if(!gpapp.m_tblaccounts->IsReady())
 	{
-		//LG("group_sql", " account±í ÍêÕûĞÔ¼ì²éÊ§°Ü\n");
+		//LG("group_sql", " accountè¡¨ å®Œæ•´æ€§æ£€æŸ¥å¤±è´¥\n");
 		LG("group_sql", " check table [account] failed\n");
-		//THROW_EXCP(excpDB,"´¥·¢Æ÷³õÊ¼»¯Ê§°Ü");
+		//THROW_EXCP(excpDB,"è§¦å‘å™¨åˆå§‹åŒ–å¤±è´¥");
 		THROW_EXCP(excpDB,RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00003));
 	}
 	
-	LG("group_sql", "¿ªÊ¼¼ì²é ¹«»á±í ÍêÕûĞÔ\n");
+	LG("group_sql", "å¼€å§‹æ£€æŸ¥ å…¬ä¼šè¡¨ å®Œæ•´æ€§\n");
 	//LG("group_sql", "begin check table [guild]\n");
 	if(!gpapp.m_tblguilds->IsReady())
 	{
-		//LG("group_sql", " ¹«»á±í ÍêÕûĞÔ¼ì²éÊ§°Ü\n");
+		//LG("group_sql", " å…¬ä¼šè¡¨ å®Œæ•´æ€§æ£€æŸ¥å¤±è´¥\n");
 		LG("group_sql", " check table [guild] failed \n");
-		//THROW_EXCP(excpDB,"¹«»á±íÉĞÎ´Ö´ĞĞ³õÊ¼»¯SQLÓï¾ä");
+		//THROW_EXCP(excpDB,"å…¬ä¼šè¡¨å°šæœªæ‰§è¡Œåˆå§‹åŒ–SQLè¯­å¥");
 		THROW_EXCP(excpDB,RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00004));
 	}
 	gpapp.m_tblcharaters->ZeroAddr();
 
-	//LG("group_sql", "¿ªÊ¼¼ì²é param±í ÍêÕûĞÔ\n");
+	//LG("group_sql", "å¼€å§‹æ£€æŸ¥ paramè¡¨ å®Œæ•´æ€§\n");
 	LG("group_sql", "begin check table [param]\n");
 
 	//if(!gpapp.m_tbLparam->IsReady())
 	//{
-	//	LG("group_sql", " ²ÎÊı±í ÍêÕûĞÔ¼ì²éÊ§°Ü\n");
-	//	THROW_EXCP(excpDB,"²ÎÊı±íÉĞÎ´Ö´ĞĞ³õÊ¼»¯SQLÓï¾ä");
+	//	LG("group_sql", " å‚æ•°è¡¨ å®Œæ•´æ€§æ£€æŸ¥å¤±è´¥\n");
+	//	THROW_EXCP(excpDB,"å‚æ•°è¡¨å°šæœªæ‰§è¡Œåˆå§‹åŒ–SQLè¯­å¥");
 
 	//}
 
 	if(gpapp.m_tbLparam->InitParam())
-	LG("group_sql", "Êı¾İ¿â³õÊ¼»¯³É¹¦\n");
+	LG("group_sql", "æ•°æ®åº“åˆå§‹åŒ–æˆåŠŸ\n");
 	//LG("group_sql", "init database success\n");
 }
 
@@ -222,7 +222,7 @@ void InitACTSvrConnect(GroupServerApp &gpapp)
 		gpapp.m_acctsock	=gpapp.Connect(l_ip,l_port);
 		if(!gpapp.m_acctsock)
 		{
-			//std::cout<<"Á¬½ÓAccountServer:("<<l_ip<<","<<l_port<<")Ê§°Ü,5ÃëºóÔÙ´ÎÖØÁ¬..."<<std::endl;
+			//std::cout<<"è¿æ¥AccountServer:("<<l_ip<<","<<l_port<<")å¤±è´¥,5ç§’åå†æ¬¡é‡è¿..."<<std::endl;
 			memset(buffer, 0, sizeof(buffer));
 			sprintf(buffer, RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00005), l_ip, l_port);
 			std::cout<<buffer<<std::endl;
@@ -236,16 +236,16 @@ void InitACTSvrConnect(GroupServerApp &gpapp)
 		RPacket l_rpk	=gpapp.SyncCall(gpapp.m_acctsock,l_wpk);
 		if(!l_rpk.HasData())
 		{
-			//std::cout<<"ÔÚAccountServer:("<<l_ip<<","<<l_port<<")ÉÏµÇÂ¼³¬Ê±,5ÃëÖÓºóÖØĞÂÁ¬½ÓºÍµÇÂ¼..."<<std::endl;
+			//std::cout<<"åœ¨AccountServer:("<<l_ip<<","<<l_port<<")ä¸Šç™»å½•è¶…æ—¶,5ç§’é’Ÿåé‡æ–°è¿æ¥å’Œç™»å½•..."<<std::endl;
 			memset(buffer, 0, sizeof(buffer));
 			sprintf(buffer, RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00006), l_ip, l_port);
 			std::cout<<buffer<<std::endl;
 			gpapp.Disconnect(gpapp.m_acctsock,0,100);
 			break;
 		}
-		if(l_rpk.ReadShort())		//·µ»Ø·Ç0±íÊ¾Ê§°Ü
+		if(l_rpk.ReadShort())		//è¿”å›é0è¡¨ç¤ºå¤±è´¥
 		{
-			//std::cout<<"ÔÚAccountServer:("<<l_ip<<","<<l_port<<")ÉÏµÇÂ¼Ê§°Ü,5ÃëÖÓºóÖØĞÂÁ¬½ÓºÍµÇÂ¼..."<<std::endl;
+			//std::cout<<"åœ¨AccountServer:("<<l_ip<<","<<l_port<<")ä¸Šç™»å½•å¤±è´¥,5ç§’é’Ÿåé‡æ–°è¿æ¥å’Œç™»å½•..."<<std::endl;
 			memset(buffer, 0, sizeof(buffer));
 			sprintf(buffer, RES_STRING(GP_GROUPSERVERAPPINIT_CPP_00007), l_ip, l_port);
 			std::cout<<buffer<<std::endl;

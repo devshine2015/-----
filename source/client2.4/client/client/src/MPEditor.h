@@ -151,7 +151,7 @@ public:
 	
 	//lemon add@2004.11.4
 	bool		m_bShowLightBrush;
-public:		// ÓÃÓÚÍâ²¿½çÃæµ÷ÓÃ
+public:		// ç”¨äºå¤–éƒ¨ç•Œé¢è°ƒç”¨
 
     DWORD       GetColor() { return _dwColor; }
 	void		SetColor( DWORD color ) { _dwColor=color; }
@@ -215,10 +215,10 @@ protected:
 	void		RollBackReturnAction();
     
 	// add by claude for terrain attrib
-	byte _AttribIndex; // ÇøÓòÊôĞÔ°´Å¥µÄ±àºÅ (1...16)
-	byte _getTileAttribMask(byte attrib_btn_index); // ²ÎÊıÊÇÇøÓòÊôĞÔ°´Å¥µÄ±àºÅ
-	byte _IslandIndex; // º£µºµÄ±àºÅ
-    bool _is_erase; // ÊÇÌí¼ÓÊôĞÔ»¹ÊÇÉ¾³ıÊôĞÔ²Ù×÷
+	byte _AttribIndex; // åŒºåŸŸå±æ€§æŒ‰é’®çš„ç¼–å· (1...16)
+	byte _getTileAttribMask(byte attrib_btn_index); // å‚æ•°æ˜¯åŒºåŸŸå±æ€§æŒ‰é’®çš„ç¼–å·
+	byte _IslandIndex; // æµ·å²›çš„ç¼–å·
+    bool _is_erase; // æ˜¯æ·»åŠ å±æ€§è¿˜æ˜¯åˆ é™¤å±æ€§æ“ä½œ
 
 	void _renderTileAttrib(int nX, int nY, int nAttribIndex);
 	void _renderTileIsland(int nX, int nY, int nIslandIndex);

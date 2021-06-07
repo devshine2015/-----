@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 
-// ÓÃÓÚÔÚ½ÇÉ«»òµÀ¾ßÀàµÄFrameMoveÀï¸üĞÂ¸ß¶È
+// ç”¨äºåœ¨è§’è‰²æˆ–é“å…·ç±»çš„FrameMoveé‡Œæ›´æ–°é«˜åº¦
 class CSceneHeight
 {
 public:

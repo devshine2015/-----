@@ -5,11 +5,11 @@
 #define FORM_CONTROL_LOADING_CHECK(a,b,c,d,e) a=dynamic_cast<c*>(b->Find(e)); if (!a) {::Error(RES_STRING(CL_LANGUAGE_MATCH_578),d,b->GetName(),e); return false;}
 
 
-// 热键开关FLAG，SetEnableHotKey调用
-#define HOTKEY_STORE		(1 << 0)	// 商城
-#define HOTKEY_BANK			(1 << 1)	// 银行
-#define HOTKEY_BOOTH		(1 << 2)	// 摆摊
-#define HOTKEY_TRADE		(1 << 3)	// 交易
+// 鐑敭寮�鍏矲LAG锛孲etEnableHotKey璋冪敤
+#define HOTKEY_STORE		(1 << 0)	// 鍟嗗煄
+#define HOTKEY_BANK			(1 << 1)	// 閾惰
+#define HOTKEY_BOOTH		(1 << 2)	// 鎽嗘憡
+#define HOTKEY_TRADE		(1 << 3)	// 浜ゆ槗
 
 
 class CCharacter;
@@ -123,7 +123,7 @@ namespace GUI
 
 	extern CTextParse		g_TextParse;
 
-class CUIInterface // 用户界面信息
+class CUIInterface // 鐢ㄦ埛鐣岄潰淇℃伅
 {
 public:
 	CUIInterface();
@@ -145,7 +145,7 @@ protected:
 	virtual void CloseForm() {}
 	virtual void SwitchMap() {}
 
-    static void		_evtDragToGoodsEvent(CGuiData *pSender, CCommandObj* pItem, int nGridID, bool& isAccept);  // 拖动到道具栏
+    static void		_evtDragToGoodsEvent(CGuiData *pSender, CCommandObj* pItem, int nGridID, bool& isAccept);  // 鎷栧姩鍒伴亾鍏锋爮
 
 protected:
 	bool Error(const char* strInfo, const char* strFormName, const char* strCompentName);

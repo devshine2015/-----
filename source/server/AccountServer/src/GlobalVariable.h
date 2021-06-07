@@ -18,7 +18,7 @@
 #include "pi_Memory.h"
 // End
 
-//#define _RELOGIN_MODE_					//�µĵ���ʱ�ظ���½ģʽ
+//#define _RELOGIN_MODE_					//新的倒计时重复登陆模式
 
 extern std::string g_strCfgFile;
 

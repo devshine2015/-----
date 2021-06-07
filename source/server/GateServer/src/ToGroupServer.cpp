@@ -20,16 +20,16 @@ long ConnectGroupServer::Process()
 				WPacket pk = _tgps->GetWPacket();
 				pk.WriteCmd(CMD_TP_SYNC_PLYLST);
 
-				int ply_cnt = g_gtsvr->m_plylst.GetTotal();		//×ÜÊı
+				int ply_cnt = g_gtsvr->m_plylst.GetTotal();		//æ€»æ•°
 				pk.WriteLong(ply_cnt);
-				pk.WriteString(_tgps->_myself.c_str());			//gateserverµÄÃû×Ö
+				pk.WriteString(_tgps->_myself.c_str());			//gateserverçš„åå­—
 				Player** ply_array = new Player*[ply_cnt];
 
 				int i = 0;
 				for(l_ply =g_gtsvr->m_plylst.GetNextItem();l_ply;l_ply =g_gtsvr->m_plylst.GetNextItem())
 				{
 					uLong test = MakeULong(l_ply);
-					pk.WriteLong(MakeULong(l_ply)); // ¸½¼ÓÉÏÔÚGateServerÉÏµÄÄÚ´æµØÖ·
+					pk.WriteLong(MakeULong(l_ply)); // é™„åŠ ä¸Šåœ¨GateServerä¸Šçš„å†…å­˜åœ°å€
 					pk.WriteLong(l_ply->m_loginID);
 					pk.WriteLong(l_ply->m_actid);
 
@@ -43,7 +43,7 @@ long ConnectGroupServer::Process()
 				{
 					Sleep(5000);
 					_tgps->Disconnect(_tgps->get_datasock());
-					// Ê§°ÜÁË
+					// å¤±è´¥äº†
 				}
 				else
 				{
@@ -53,7 +53,7 @@ long ConnectGroupServer::Process()
 					{
 						Sleep(5000);
 						_tgps->Disconnect(_tgps->get_datasock());
-						// Ê§°ÜÁË
+						// å¤±è´¥äº†
 					}
 					else
 					{
@@ -75,25 +75,25 @@ long ConnectGroupServer::Process()
 			}
 			// End
 
-			// ÒÑ¾­Á¬½ÓÉÏ
+			// å·²ç»è¿æ¥ä¸Š
 			Sleep(1000);
 		}else
 		{
-			// Î´Á¬½Ó»òÁ¬½Ó¶Ïµô£¬ÖØĞÂÁ¬!
+			// æœªè¿æ¥æˆ–è¿æ¥æ–­æ‰ï¼Œé‡æ–°è¿!
 			LogLine l_line(g_gateconnect);
-			//l_line<<newln<<"Á¬½ÓGroupServer¿ªÊ¼..."<<endln;
+			//l_line<<newln<<"è¿æ¥GroupServerå¼€å§‹..."<<endln;
 			l_line<<newln<<RES_STRING(GS_TOGROUPSERVER_CPP_00001)<<endln;
 			datasock = _tgps->Connect(_tgps->_gs.ip.c_str(), _tgps->_gs.port);
 			if (datasock == NULL)
 			{
 				LogLine l_line(g_gateconnect);
-				//l_line<<newln<<"Á¬½ÓGroupServerÊ§°Ü£¬µÈ´ı5Ãëºó×Ô¶¯ÖØÁ¬..."<<endln;
+				//l_line<<newln<<"è¿æ¥GroupServerå¤±è´¥ï¼Œç­‰å¾…5ç§’åè‡ªåŠ¨é‡è¿..."<<endln;
 				l_line<<newln<<RES_STRING(GS_TOGROUPSERVER_CPP_00002)<<endln;
 				Sleep(5000);
 				continue;
 			}else
 			{
-				// µÇÂ¼µ½ GroupServer
+				// ç™»å½•åˆ° GroupServer
 				WPacket pk = _tgps->GetWPacket();
 				pk.WriteCmd(CMD_TP_LOGIN);
 				pk.WriteShort(g_version);
@@ -104,7 +104,7 @@ long ConnectGroupServer::Process()
 				if (!retpk.HasData() || err == ERR_PT_LOGFAIL)
 				{
 					LogLine l_line(g_gateconnect);
-					//l_line<<newln<<"µÇÂ¼GroupServerÊ§°Ü£¬¿ÉÄÜÊÇGateServerÊıÁ¿Ì«¶à,µÈ´ı5ÃëÖÓºó×Ô¶¯ÖØÁ¬..."<<endln;
+					//l_line<<newln<<"ç™»å½•GroupServerå¤±è´¥ï¼Œå¯èƒ½æ˜¯GateServeræ•°é‡å¤ªå¤š,ç­‰å¾…5ç§’é’Ÿåè‡ªåŠ¨é‡è¿..."<<endln;
 					l_line<<newln<<RES_STRING(GS_TOGROUPSERVER_CPP_00003)<<endln;
 					datasock = NULL;
 					Sleep(5000);
@@ -112,7 +112,7 @@ long ConnectGroupServer::Process()
 				}else
 				{
 					LogLine l_line(g_gateconnect);
-					//l_line<<newln<<"µÇÂ¼GroupServer³É¹¦!"<<endln;
+					//l_line<<newln<<"ç™»å½•GroupServeræˆåŠŸ!"<<endln;
 					l_line<<newln<<RES_STRING(GS_TOGROUPSERVER_CPP_00004)<<endln;
 					_tgps->_gs.datasock = datasock;
 					_tgps->_connected = true;
@@ -147,7 +147,7 @@ _myself()
 	_gs.ip = is["IP"];
 	_gs.port = atoi(is["Port"]);
 
-	// Æô¶¯ PING Ïß³Ì
+	// å¯åŠ¨ PING çº¿ç¨‹
 
 	SetPKParse(0, 2, 64 * 1024, 400);
 	BeginWork(atoi(is["EnablePing"]));
@@ -166,20 +166,20 @@ ToGroupServer::~ToGroupServer()
 	ShutDown(12 * 1000);
 }
 
-bool ToGroupServer::OnConnect(DataSocket* datasock) //·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+bool ToGroupServer::OnConnect(DataSocket* datasock) //è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
 {
 	datasock->SetRecvBuf(64 * 1024);
 	datasock->SetSendBuf(64 * 1024);
 	LogLine l_line(g_gateconnect);
-	l_line<<newln<<"Á¬½ÓÉÏGroupServer: "<<datasock->GetPeerIP()<<",SocketÊıÄ¿:"<<GetSockTotal()+1;
+	l_line<<newln<<"è¿æ¥ä¸ŠGroupServer: "<<datasock->GetPeerIP()<<",Socketæ•°ç›®:"<<GetSockTotal()+1;
 	//l_line<<newln<<"connect GroupServer: "<<datasock->GetPeerIP()<<",Socket num:"<<GetSockTotal()+1;
 	return true;
 }
 
-void ToGroupServer::OnDisconnect(DataSocket* datasock, int reason) //reasonÖµ:0-±¾µØ³ÌĞòÕı³£ÍË³ö£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-1-Socket´íÎó;-5-°ü³¤¶È³¬¹ıÏŞÖÆ¡£
-{ // ¼¤»î ConnnectGroupServer Ïß³Ì
+void ToGroupServer::OnDisconnect(DataSocket* datasock, int reason) //reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-1-Socketé”™è¯¯;-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶ã€‚
+{ // æ¿€æ´» ConnnectGroupServer çº¿ç¨‹
 	LogLine l_line(g_gateconnect);
-	l_line<<newln<<"ÓëGroupServerµÄÍøÂçÁ¬½ÓÖĞ¶Ï,SocketÊıÄ¿: "<<GetSockTotal()<<",reason ="<<GetDisconnectErrText(reason).c_str()<<"£¬Á¢¼´ÖØÁ¬..."<<endln;
+	l_line<<newln<<"ä¸GroupServerçš„ç½‘ç»œè¿æ¥ä¸­æ–­,Socketæ•°ç›®: "<<GetSockTotal()<<",reason ="<<GetDisconnectErrText(reason).c_str()<<"ï¼Œç«‹å³é‡è¿..."<<endln;
 	//l_line<<newln<<"disconnection with GroupServer,Socket num: "<<GetSockTotal()<<",reason ="<<GetDisconnectErrText(reason).c_str()<<", reconnecting..."<<endln;
 
 	if (!g_appexit) {_connected = false;}
@@ -206,11 +206,18 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 	//LG("ToGroupServer", "-->l_cmd = %d\n", l_cmd);
 	try
 	{
+		printf("===================To GroupServer===========================\n");
+		printf("packet: %d\n", l_cmd);
+		printf("buffer size: %d\n", recvbuf.Size());
+		printf("packet data len: %d\n", recvbuf.GetDataLen());
+		printf("packet pkt len: %d\n", recvbuf.GetPktLen());
+		printf("packet content: %s\n", (char*)recvbuf.GetBuffer());
+		
 		switch(l_cmd)
 		{
 		//case CMD_PM_GARNER2_UPDATE:
 		//	{
-		//		//ºöÂÔCMD_PM_GARNER2_UPDATEÏûÏ¢
+		//		//å¿½ç•¥CMD_PM_GARNER2_UPDATEæ¶ˆæ¯
 		//	}
 		//	break;
 		case CMD_PM_GUILDCIRCLECOLOUR:
@@ -266,18 +273,18 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 			{
 				uShort	l_aimnum	=recvbuf.ReverseReadShort();
 				Player *l_ply		=(Player *)MakePointer(recvbuf.ReverseReadLong());
-				//printf( "Ìßµô´ËÈË£¬ÕÊºÅ·şÎñÆ÷ÒòÎªÓĞÖØ¸´µÇÂ½¡£%d\n", l_ply->m_actid );
+				//printf( "è¸¢æ‰æ­¤äººï¼Œå¸å·æœåŠ¡å™¨å› ä¸ºæœ‰é‡å¤ç™»é™†ã€‚%d\n", l_ply->m_actid );
 				if(l_ply && l_ply->gp_addr ==recvbuf.ReverseReadLong())
 				{
 					LogLine l_line(g_gatelog);
-					//l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°ü²¢ÇÒTµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
-					l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°ü²¢ÇÒTµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					//l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…å¹¶ä¸”Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…å¹¶ä¸”Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					g_gtsvr->cli_conn->Disconnect(l_ply->m_datasock,0,-21);
 				}else if(l_ply)
 				{
 					LogLine l_line(g_gatelog);
-					//l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°üµ«Ã»Tµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
-					l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°üµ«Ã»Tµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					//l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…ä½†æ²¡Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…ä½†æ²¡Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 				}			
 				break;
 			}
@@ -289,14 +296,14 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				if(l_ply && l_ply->gp_addr ==recvbuf.ReverseReadLong())
 				{
 					LogLine l_line(g_gatelog);
-					//l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°ü²¢ÇÒTµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
-					l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°ü²¢ÇÒTµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					//l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…å¹¶ä¸”Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…å¹¶ä¸”Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					g_gtsvr->cli_conn->Disconnect(l_ply->m_datasock,0,-21);
 				}else if(l_ply)
 				{
 					LogLine l_line(g_gatelog);
-					//l_line<<newln<<"ÊÕµ½GroupServerµÄTÈË°üµ«Ã»Tµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
-					l_line<<newln<<"GroupServer ÌßÈË, but can't kick person,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					//l_line<<newln<<"æ”¶åˆ°GroupServerçš„TäººåŒ…ä½†æ²¡Tæ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"GroupServer è¸¢äºº, but can't kick person,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 				}
 				break;
 			}
@@ -308,14 +315,14 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				if(l_ply && l_ply->gp_addr ==recvbuf.ReverseReadLong())
 				{
 					LogLine l_line(g_gatelog);
-					l_line<<newln<<"ÊÕµ½GroupServerµÄ½â³ı½ûÑÔ°ü£¬²Ù×÷³É¹¦,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„è§£é™¤ç¦è¨€åŒ…ï¼Œæ“ä½œæˆåŠŸ,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					//l_line<<newln<<"GroupServer del estop user,operator success,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					l_ply->m_estop = false;
 				}
 				else if(l_ply)
 				{
 					LogLine l_line(g_gatelog);
-					l_line<<newln<<"ÊÕµ½GroupServerµÄ½â³ı½ûÑÔ°üµ«Ã»½âµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„è§£é™¤ç¦è¨€åŒ…ä½†æ²¡è§£æ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					//l_line<<newln<<"GroupServer del estop user, but can't operator success,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 				}
 			}
@@ -328,21 +335,21 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				if(l_ply && l_ply->gp_addr ==recvbuf.ReverseReadLong())
 				{
 					LogLine l_line(g_gatelog);
-					l_line<<newln<<"ÊÕµ½GroupServerµÄ½ûÑÔ°ü£¬²Ù×÷³É¹¦,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„ç¦è¨€åŒ…ï¼Œæ“ä½œæˆåŠŸ,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					//l_line<<newln<<"GroupServer del estop user,operator success,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					l_ply->m_estop = true;
 				}
 				else if(l_ply)
 				{
 					LogLine l_line(g_gatelog);
-					l_line<<newln<<"ÊÕµ½GroupServerµÄ½ûÑÔ°üµ«Ã»½ûµô,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
+					l_line<<newln<<"æ”¶åˆ°GroupServerçš„ç¦è¨€åŒ…ä½†æ²¡ç¦æ‰,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 					//l_line<<newln<<"GroupServer del estop user, but can't operator success,l_ply->m_dbid ="<<l_ply->m_dbid<<endln;
 				}
 			}
 			break;
 		case CMD_MC_SYSINFO:
 			l_cmd	=CMD_PC_BASE;
-		default:	//È±Ê¡×ª·¢
+		default:	//ç¼ºçœè½¬å‘
 			{
 				if(l_cmd/500 == CMD_PC_BASE/500)
 				{
@@ -371,7 +378,7 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 						WPacket	l_wpk	=recvbuf;
 						l_wpk.WriteCmd(CMD_TM_CHANGE_PERSONINFO);
 						l_wpk.WriteLong(MakeULong(l_ply));
-						l_wpk.WriteLong(l_ply->gm_addr);	//¸½¼ÓÉÏÔÚGameServerÉÏµÄÄÚ´æµØÖ·
+						l_wpk.WriteLong(l_ply->gm_addr);	//é™„åŠ ä¸Šåœ¨GameServerä¸Šçš„å†…å­˜åœ°å€
 						g_gtsvr->gm_conn->SendData(l_ply->game->m_datasock ,l_wpk);
 						break;
 					}
@@ -420,7 +427,7 @@ void ToGroupServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 	//LG("ToGroupServer", "<--l_cmd = %d\n", l_cmd);
 }
 
-// ´Ó GroupServer ÉÏµÃµ½ËùÓĞÓÃ»§ÁĞ±í
+// ä» GroupServer ä¸Šå¾—åˆ°æ‰€æœ‰ç”¨æˆ·åˆ—è¡¨
 RPacket ToGroupServer::get_playerlist()
 {
 	WPacket pk = GetWPacket();

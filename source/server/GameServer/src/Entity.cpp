@@ -30,7 +30,7 @@ Entity::Entity():m_cat(0),m_ID(0)
 	m_bValid = false;
 
 	m_CLog.SetEnable(g_bLogEntity);
-	//m_CLog.SetLogName("Î´ÃüÃûLog");
+	//m_CLog.SetLogName("脦麓脙眉脙没Log");
 	m_CLog.SetLogName("Unnamed Log");
 T_E}
 
@@ -42,7 +42,7 @@ T_E}
 void Entity::Initially()
 {T_B
 	m_CLog.SetEnable(g_bLogEntity);
-	//m_CLog.SetLogName("Î´ÃüÃûLog");
+	//m_CLog.SetLogName("脦麓脙眉脙没Log");
 m_CLog.SetLogName("Unnamed Log");
 	m_bValid = true;
 	memset(&m_shape, 0, sizeof(Square));
@@ -81,9 +81,9 @@ void Entity::Finally()
 	m_pCEyeshotHost = 0;
 T_E}
 
-void Entity::WritePK(WPACKET& wpk)			//Ð´ÈëÍæ¼Ò±¾Éí¼°ÆäËùÓÐ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊÞµÈ)µÄËùÓÐÊý¾Ý
+void Entity::WritePK(WPACKET& wpk)			//脨麓脠毛脥忙录脪卤戮脡铆录掳脝盲脣霉脫脨赂陆录脫陆谩鹿鹿(脠莽脮脵禄陆脢脼碌脠)碌脛脣霉脫脨脢媒戮脻
 {T_B
-	//ToDo:Ð´Èë×Ô¼ºµÄÊý¾Ý
+	//ToDo:脨麓脠毛脳脭录潞碌脛脢媒戮脻
 	WRITE_LONG(wpk, m_cat);
 	WRITE_LONG(wpk, m_ID);
 	//WRITE_LONG(wpk, GetShape().centre.x);
@@ -95,9 +95,9 @@ void Entity::WritePK(WPACKET& wpk)			//Ð´ÈëÍæ¼Ò±¾Éí¼°ÆäËùÓÐ�
 	WRITE_SEQ(wpk, szLogName,uShort(strlen(szLogName)+1));
 T_E}
 
-void Entity::ReadPK(RPACKET& rpk)			//ÖØ¹¹Íæ¼Ò±¾Éí¼°ÆäËùÓÐ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊÞµÈ)
+void Entity::ReadPK(RPACKET& rpk)			//脰脴鹿鹿脥忙录脪卤戮脡铆录掳脝盲脣霉脫脨赂陆录脫陆谩鹿鹿(脠莽脮脵禄陆脢脼碌脠)
 {T_B
-	//ToDo:¶Á³ö×Ô¼ºµÄÊý¾Ý
+	//ToDo:露脕鲁枚脳脭录潞碌脛脢媒戮脻
 	m_cat	=(short)(READ_LONG(rpk));
 	m_ID	= READ_LONG(rpk);
 	//Square	SShape;
@@ -191,8 +191,8 @@ void Entity::NotiChgToEyeshot(WPACKET chginf, bool bIncludeOwn)
 		cszSrcLogName = pCSrcCha->GetLogName();
 	if (!pCMap)
 	{
-		//LG("ÊÓÒ°¼¤»î´íÎó", "ÊµÌå %s ÔÚ½øÐÐÊÓÒ°Í¨¸æÊ±£¬ÆäµØÍ¼Îª¿Õ\n", GetLogName());
-		LG("eye shot activation error", "when entity %s is doing eye shot notify£¬the map is null\n", GetLogName());
+		//LG("脢脫脪掳录陇禄卯麓铆脦贸", "脢碌脤氓 %s 脭脷陆酶脨脨脢脫脪掳脥篓赂忙脢卤拢卢脝盲碌脴脥录脦陋驴脮\n", GetLogName());
+		LG("eye shot activation error", "when entity %s is doing eye shot notify拢卢the map is null\n", GetLogName());
 		return;
 	}
 
@@ -218,7 +218,7 @@ void Entity::NotiChgToEyeshot(WPACKET chginf, bool bIncludeOwn)
 				{
 					if (++lEntCount > lEntNum)
 					{
-						//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊý %d\n", x, y, lEntNum);
+						//LG("脢脫脪掳录陇禄卯麓铆脦贸", "脢脫脪掳碌楼脭陋[%d,%d]脢碌录脢脢碌脤氓脢媒 %d\n", x, y, lEntNum);
 						LG("eye shot activation error", "eye shot cell [%d,%d] the fact entity number %d\n", x, y, lEntNum);
 						break;
 					}
@@ -246,7 +246,7 @@ void Entity::NotiChgToEyeshot(WPACKET chginf, bool bIncludeOwn)
 							}
 
 							if (!pCTarCha->GetSubMap())
-								//LG("ÊÓÒ°¼¤»î´íÎó", "ÊµÌå %s[%d,%d] ÔÚ½øÐÐÊÓÒ°Í¨¸æÊ±Ä¿±êÍæ¼Ò %s(%s)[%d,%d] µÄµØÍ¼Îª¿Õ\n",
+								//LG("脢脫脪掳录陇禄卯麓铆脦贸", "脢碌脤氓 %s[%d,%d] 脭脷陆酶脨脨脢脫脪掳脥篓赂忙脢卤脛驴卤锚脥忙录脪 %s(%s)[%d,%d] 碌脛碌脴脥录脦陋驴脮\n",
 								LG("eye shot activation error", "when entity %s[%d,%d] is doing eye shot notify, the aim player %s(%s)[%d,%d] map is null\n",
 									cszSrcLogName, l_pos1.x, l_pos1.y,
 									pCTarCha->GetLogName(), pCTarCha->GetPlyCtrlCha()->GetLogName(), pCTarCha->GetPos().x, pCTarCha->GetPos().y);
@@ -260,9 +260,9 @@ void Entity::NotiChgToEyeshot(WPACKET chginf, bool bIncludeOwn)
 	}
 	catch (...)
 	{
-		//LG("ÊÓÒ°¼¤»î´íÎó", "ÊµÌå %s ÔÚ½øÐÐÊÓÒ°Í¨¸æÊ±´íÎó(×ø±ê[%d,%d]£¬ÊÓÒ°[%d,%d;%d,%d])£¬µ±Ç°ÊÓÒ°µ¥Ôª[%d,%d]\n", cszSrcLogName,
+		//LG("脢脫脪掳录陇禄卯麓铆脦贸", "脢碌脤氓 %s 脭脷陆酶脨脨脢脫脪掳脥篓赂忙脢卤麓铆脦贸(脳酶卤锚[%d,%d]拢卢脢脫脪掳[%d,%d;%d,%d])拢卢碌卤脟掳脢脫脪掳碌楼脭陋[%d,%d]\n", cszSrcLogName,
 		//	l_pos1.x, l_pos1.y, l_rect.ltop.x, l_rect.ltop.y, l_rect.rbtm.x, l_rect.rbtm.y, x, y);
-		LG("eye shot activation error", "entity %s eye shot notify error(coordnate [%d,%d]£¬eye shot [%d,%d;%d,%d])£¬currently eye shot cell[%d,%d]\n", cszSrcLogName,
+		LG("eye shot activation error", "entity %s eye shot notify error(coordnate [%d,%d]拢卢eye shot [%d,%d;%d,%d])拢卢currently eye shot cell[%d,%d]\n", cszSrcLogName,
 			l_pos1.x, l_pos1.y, l_rect.ltop.x, l_rect.ltop.y, l_rect.rbtm.x, l_rect.rbtm.y, x, y);
 		throw;
 	}
@@ -293,15 +293,15 @@ bool Entity::EdgeOverlap(long& xdist, long& ydist)
 {T_B
 	bool	l_retval = false;
 
-	//±¸·ÝÏÂÀ´×÷ÎªÒ»¸öÒÆ¶¯·½ÏòµÄ¼ÇÂ¼
+	//卤赂路脻脧脗脌麓脳梅脦陋脪禄赂枚脪脝露炉路陆脧貌碌脛录脟脗录
 	const long lc_xdist = xdist;
 	const long lc_ydist = ydist;
-	//¼ì²éÊÇ·ñÔ½³öµØÍ¼
+	//录矛虏茅脢脟路帽脭陆鲁枚碌脴脥录
 
 	Square l_shape, SSrcShape = GetShape();
 
 	l_shape.radius = SSrcShape.radius;
-	//x·½Ïò
+	//x路陆脧貌
 	const Rect	&area = m_submap->GetRange();
 	bool	l_flag = false;
 	l_shape.centre.x = SSrcShape.centre.x + xdist;
@@ -328,7 +328,7 @@ bool Entity::EdgeOverlap(long& xdist, long& ydist)
 			ydist = (lc_ydist * xdist) / lc_xdist;
 		}
 	}
-	//y·½Ïò
+	//y路陆脧貌
 	l_flag = false;
 	l_shape.centre.y = SSrcShape.centre.y + ydist;
 	long l_ydlt = (l_shape.centre.y - l_shape.radius) - area.ltop.y;
@@ -602,7 +602,7 @@ CStateCellNode* Entity::EnterStateCell(CStateCell *pStateCell, CChaListNode *pEn
 	CStateCellNode	*pCMgrNode = g_pGameApp->m_StateCellNodeHeap.Get();
 	pCMgrNode->m_pCStateCell = pStateCell;
 	pCMgrNode->m_pCChaNode = pEntiNode;
-	if (bIsIn) // ×÷ÎªÊ×½Úµã¼ÓÈë
+	if (bIsIn) // 脳梅脦陋脢脳陆脷碌茫录脫脠毛
 	{
 		pCMgrNode->m_pCLast = 0;
 		if (pCMgrNode->m_pCNext = m_pCStateCellHead)
@@ -754,7 +754,7 @@ void Entity::WriteEventInfo(WPACKET &pk)
 void Entity::SynEventInfo(void)
 {
 	WPACKET WtPk	=GETWPACKET();
-	WRITE_CMD(WtPk, CMD_MC_EVENT_INFO);	//Í¨¸æÐÐ¶¯
+	WRITE_CMD(WtPk, CMD_MC_EVENT_INFO);	//脥篓赂忙脨脨露炉
 	WriteEventInfo(WtPk);
 	NotiChgToEyeshot(WtPk, false);
 }

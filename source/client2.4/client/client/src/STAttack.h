@@ -48,7 +48,7 @@ protected:
 	virtual void	_End();
     virtual bool	_IsAllowCancel()				{ return false;						}
 
-	void	CalcSkillSpeed();		// ¿ªÊ¼Ê±Ö´ĞĞ
+	void	CalcSkillSpeed();		// å¼€å§‹æ—¶æ‰§è¡Œ
 
 protected:
 	virtual void    _UseSkill();
@@ -61,15 +61,15 @@ protected:
     void    _PopThis();
 
 protected:
-	CCharacter		*_pTarget;				// ¹¥»÷µÄÄ¿±ê
-	CSkillRecord	*_pSkillInfo;			// µ±Ç°¶ÔÓ¦µÄ¼¼ÄÜ
-	int				_nAttackX,  _nAttackY;	// ¹¥»÷Ê±¹¥»÷ÖĞĞÄµã
-	CCharacter		*_pSelf;				// ×Ô¼º,ÓÃÓÚ¿ìËÙ·ÃÎÊ
+	CCharacter		*_pTarget;				// æ”»å‡»çš„ç›®æ ‡
+	CSkillRecord	*_pSkillInfo;			// å½“å‰å¯¹åº”çš„æŠ€èƒ½
+	int				_nAttackX,  _nAttackY;	// æ”»å‡»æ—¶æ”»å‡»ä¸­å¿ƒç‚¹
+	CCharacter		*_pSelf;				// è‡ªå·±,ç”¨äºå¿«é€Ÿè®¿é—®
     int             _nAngle;
     bool            _IsHaveAngle;
     int             _nKeyFrameNum;
-    int             _nSkillPoseID;          // µ±Ç°Ê¹ÓÃµÄPose,ÓÃÓÚÓĞÒ»¸ö¼¼ÄÜÓĞ¶à¸öpose£¬È·¶¨ÊÇÄÇ¸öpose
-	int				_nSkillActionIndex;		// ÓĞ¶à¸öPoseÊ±,ÓÃÓÚË³Ğò²¥·Å
+    int             _nSkillPoseID;          // å½“å‰ä½¿ç”¨çš„Pose,ç”¨äºæœ‰ä¸€ä¸ªæŠ€èƒ½æœ‰å¤šä¸ªposeï¼Œç¡®å®šæ˜¯é‚£ä¸ªpose
+	int				_nSkillActionIndex;		// æœ‰å¤šä¸ªPoseæ—¶,ç”¨äºé¡ºåºæ’­æ”¾
 	float			_fSkillSpeed[ defSKILL_POSE_NUM ];
 	float			_fSkillRate;
 
@@ -95,7 +95,7 @@ namespace GUI
 class CCommandObj;
 };
 
-// ¹¥»÷
+// æ”»å‡»
 class CAttackState : public CWaitAttackState
 {
 public:
@@ -137,12 +137,12 @@ protected:
 protected:
 	virtual void    _UseSkill();
 
-	static stLastAttack  _sLastTarget;	// ÉÏ´Î¹¥»÷µÄÈË
+	static stLastAttack  _sLastTarget;	// ä¸Šæ¬¡æ”»å‡»çš„äºº
 	static DWORD		 _dwLastAttackTime;
 
 protected:
 	CServerMoveState*	_pMove;
-    int					_nTotalDis;     // ¼¼ÄÜ¿ÉÊ¹ÓÃµÄ¾àÀë
+    int					_nTotalDis;     // æŠ€èƒ½å¯ä½¿ç”¨çš„è·ç¦»
 	bool				_IsForce;
 
     bool				_IsMoveOver;
@@ -155,7 +155,7 @@ protected:
 
 };
 
-// ×·É±
+// è¿½æ€
 class CTraceAttackState : public CAttackState
 {
 public:
@@ -175,11 +175,11 @@ protected:
 
 protected:
 	bool		_IsTrace;
-	bool		_IsSuccess;		// ÊÇ·ñ³É¹¦×·»÷
+	bool		_IsSuccess;		// æ˜¯å¦æˆåŠŸè¿½å‡»
 
 };
 
-// ²âÊÔÎåÁ¬»÷
+// æµ‹è¯•äº”è¿å‡»
 class CHitAttackState : public CActionState
 {
 public:
@@ -208,12 +208,12 @@ private:
 	CCharacter*		_pSelf;
 	float			_fSpeed;
 
-	int				_nIndex;		// ÕıÔÚ²¥·ÅµÄË÷Òı
+	int				_nIndex;		// æ­£åœ¨æ’­æ”¾çš„ç´¢å¼•
 	int				_nCurPose;
 
 };
 
-// ²âÊÔËùÓĞpose,²¢ÇÒ×Ô¶¯Ñ¡ÔñÏÂÒ»¸ö½ÇÉ«
+// æµ‹è¯•æ‰€æœ‰pose,å¹¶ä¸”è‡ªåŠ¨é€‰æ‹©ä¸‹ä¸€ä¸ªè§’è‰²
 class CAllPoseState : public CActionState
 {
 public:
@@ -246,7 +246,7 @@ private:
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline bool CWaitAttackState::_IsPoseValid( DWORD pose_id )
 {
     return _nSkillPoseID==pose_id;

@@ -13,7 +13,7 @@
 #include "Item.h"
 #include "StateCell.h"
 
-// ÊÓÒ°µ¥ÔªÀà£¬¼ÍÂ¼µ¥ÔªÄÚµÄËùÓĞ½ÇÉ«ºÍµÀ¾ß£¬ÒÔ¼°×´Ì¬µ¥ÔªÌå
+// è§†é‡å•å…ƒç±»ï¼Œçºªå½•å•å…ƒå†…çš„æ‰€æœ‰è§’è‰²å’Œé“å…·ï¼Œä»¥åŠçŠ¶æ€å•å…ƒä½“
 class CEyeshotCell
 {
 public:
@@ -31,20 +31,20 @@ public:
 	void	OutEyeshot(Entity *pCEnt);
 	void	RefreshEyeshot(Entity *pCEnt, bool bToEyeshot, bool bToNoHide, bool bToNoShow);
 
-	void	BeginGetCha(void) {m_pCChaSearch = m_pCChaL;} // ¿ªÊ¼È¡µ¥ÔªÄÚµÄ½ÇÉ«.
-	CCharacter*	GetNextCha(void); // È¡µ¥ÔªÄÚµÄÏÂÒ»¸ö½ÇÉ«
+	void	BeginGetCha(void) {m_pCChaSearch = m_pCChaL;} // å¼€å§‹å–å•å…ƒå†…çš„è§’è‰².
+	CCharacter*	GetNextCha(void); // å–å•å…ƒå†…çš„ä¸‹ä¸€ä¸ªè§’è‰²
 
 public:
-	short			m_sPosX;	// Î»ÖÃ
+	short			m_sPosX;	// ä½ç½®
 	short			m_sPosY;
-	long	 	    m_lActNum;	// ¼¤»î¼ÆÊı
-	CCharacter		*m_pCChaL;	// ½ÇÉ«Á´
-	CItem			*m_pCItemL;	// µÀ¾ßÁ´
+	long	 	    m_lActNum;	// æ¿€æ´»è®¡æ•°
+	CCharacter		*m_pCChaL;	// è§’è‰²é“¾
+	CItem			*m_pCItemL;	// é“å…·é“¾
 
-	CEyeshotCell	*m_pCNext;	// Ö¸Ïò¡°¼¤»îµÄ¹ÜÀíµ¥ÔªÁ´±í¡°µÄÖ¸Õë
+	CEyeshotCell	*m_pCNext;	// æŒ‡å‘â€œæ¿€æ´»çš„ç®¡ç†å•å…ƒé“¾è¡¨â€œçš„æŒ‡é’ˆ
 	CEyeshotCell	*m_pCLast;
 
-	CStateCell		***m_pCStateCell;	// ÊÓÒ°µ¥Ôª°üº¬µÄ×´Ì¬µ¥Ôª£¬Ò»µ©ÊÓÒ°±»¼¤»î£¬Ôò°üº¬µÄ×´Ì¬µ¥ÔªÒ²»á±»¼¤»î£¬Ïà·´Ä³Ò»×´Ì¬µ¥ÔªµÄ¼¤»î£¬Ò²»á¼¤»îÊÓÒ°
+	CStateCell		***m_pCStateCell;	// è§†é‡å•å…ƒåŒ…å«çš„çŠ¶æ€å•å…ƒï¼Œä¸€æ—¦è§†é‡è¢«æ¿€æ´»ï¼Œåˆ™åŒ…å«çš„çŠ¶æ€å•å…ƒä¹Ÿä¼šè¢«æ¿€æ´»ï¼Œç›¸åæŸä¸€çŠ¶æ€å•å…ƒçš„æ¿€æ´»ï¼Œä¹Ÿä¼šæ¿€æ´»è§†é‡
 	short			m_sStateCellNum;
 
 private:
@@ -61,7 +61,7 @@ inline void CEyeshotCell::AddEntity(CCharacter *pCCha)
 		return;
 	if (pCCha->m_pCEyeshotCellLast || pCCha->m_pCEyeshotCellNext)
 	{
-		//LG("ÊÓÒ°µ¥Ôª²Ù×÷´íÎó", "ÏòÊÓÒ°µ¥ÔªÔö¼Ó½ÇÉ«ÊµÌå %s Ê±£¬·¢ÏÖÆäÃ»ÓĞÍÑÀëÏÈÇ°µÄ¹ÜÀíµ¥Ôª", pCCha->GetLogName());
+		//LG("è§†é‡å•å…ƒæ“ä½œé”™è¯¯", "å‘è§†é‡å•å…ƒå¢åŠ è§’è‰²å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶æ²¡æœ‰è„±ç¦»å…ˆå‰çš„ç®¡ç†å•å…ƒ", pCCha->GetLogName());
 		LG("eyeshot cell operator error", " when add character entity to eyeshot cell %s ,find it is not break away foregone manage cell", pCCha->GetLogName());
 		return;
 	}
@@ -83,8 +83,8 @@ inline void CEyeshotCell::AddEntity(CItem *pCItem)
 		return;
 	if (pCItem->m_pCEyeshotCellLast || pCItem->m_pCEyeshotCellNext)
 	{
-		//LG("ÊÓÒ°µ¥Ôª²Ù×÷´íÎó", "ÏòÊÓÒ°µ¥ÔªÔö¼ÓµÀ¾ßÊµÌå %s Ê±£¬·¢ÏÖÆäÃ»ÓĞÍÑÀëÏÈÇ°µÄ¹ÜÀíµ¥Ôª", pCItem->GetLogName());
-		LG("eyeshot cell operator error", "when add item entity to  %s £¬find it is not break away foregone manage cell", pCItem->GetLogName());
+		//LG("è§†é‡å•å…ƒæ“ä½œé”™è¯¯", "å‘è§†é‡å•å…ƒå¢åŠ é“å…·å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶æ²¡æœ‰è„±ç¦»å…ˆå‰çš„ç®¡ç†å•å…ƒ", pCItem->GetLogName());
+		LG("eyeshot cell operator error", "when add item entity to  %s ï¼Œfind it is not break away foregone manage cell", pCItem->GetLogName());
 		return;
 	}
 
@@ -145,7 +145,7 @@ inline void CEyeshotCell::DelEntity(Entity *pCEnt)
 }
 
 //=============================================================================
-// ¼¤»îµÄÊÓÒ°µ¥ÔªÁ´±í
+// æ¿€æ´»çš„è§†é‡å•å…ƒé“¾è¡¨
 class CActEyeshotCell
 {
 public:
@@ -158,8 +158,8 @@ public:
 	void			Add(CEyeshotCell *pObj);
 	void			Del(CEyeshotCell *pObj);
 
-	void			BeginGet(void); // ¿ªÊ¼È¡¼¤»îµ¥Ôª.
-	CEyeshotCell*	GetNext(void); // È¡ÏÂÒ»¸ö¼¤»îµ¥Ôª.
+	void			BeginGet(void); // å¼€å§‹å–æ¿€æ´»å•å…ƒ.
+	CEyeshotCell*	GetNext(void); // å–ä¸‹ä¸€ä¸ªæ¿€æ´»å•å…ƒ.
 	CEyeshotCell*	GetCurrent(void);
 
 	long			GetActiveNum(void) {return m_lCount;}

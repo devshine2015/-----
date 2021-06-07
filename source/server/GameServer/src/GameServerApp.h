@@ -29,7 +29,7 @@ using namespace dbc;
 using namespace std;
 
 
-// GateServer ÃèÊö½á¹¹
+// GateServer æè¿°ç»“æ„
 class GameServerApp;
 class GateServer
 {
@@ -71,9 +71,9 @@ public:
         }        
     }
 
-	GatePlayer* m_listcurplayer;	// ÓÃÓÚ±éÀúÁ´±í
+	GatePlayer* m_listcurplayer;	// ç”¨äºéå†é“¾è¡¨
 
-    // Player Ë«Á´±í
+    // Player åŒé“¾è¡¨
     GatePlayer* m_playerlist;
 	int m_playercount;
 	void AddPlayerCount() {++ m_playercount;}
@@ -90,7 +90,7 @@ protected:
 };
 
 
-// Á¬½Ó GateServer ÈÎÎñÀà
+// è¿æ¥ GateServer ä»»åŠ¡ç±»
 class ConnectGateServer : public Task
     {
 public:
@@ -101,7 +101,7 @@ private:
     DWORD dwTimeOut;
     GameServerApp* m_gmsvr;};
 
-// InfoServerÏûÏ¢¶ÓÁĞ
+// InfoServeræ¶ˆæ¯é˜Ÿåˆ—
 class NetMessageQueue : public MsgQueue<pNetMessage>
 {
 public:
@@ -125,15 +125,15 @@ public:
     
 };
 
-// InfoServer·şÎñÀà
+// InfoServeræœåŠ¡ç±»
 class InfoServer : public InfoNetBase
 {
 public:
     enum
     {
-        CMD_FM_CONNECTED,       // Á¬ÉÏInfoServer
-        CMD_FM_DISCONNECTED,    // ºÍInfoServer¶Ï¿ªÁ¬½Ó
-        CMD_FM_MSG,             // InfoServer·¢À´µÄÏûÏ¢
+        CMD_FM_CONNECTED,       // è¿ä¸ŠInfoServer
+        CMD_FM_DISCONNECTED,    // å’ŒInfoServeræ–­å¼€è¿æ¥
+        CMD_FM_MSG,             // InfoServerå‘æ¥çš„æ¶ˆæ¯
 
         CMD_INFO_MSG_MAX
     };
@@ -166,7 +166,7 @@ public:
 
 	void Login();
 
-    //ÏòInfoServer·¢ËÍÏûÏ¢
+    //å‘InfoServerå‘é€æ¶ˆæ¯
     virtual bool SendData(pNetMessage msg)
     {
 		bool bSend = false;
@@ -184,7 +184,7 @@ public:
         return bSend;
     }
 
-    //È¡ÏûÏ¢¶ÓÁĞ
+    //å–æ¶ˆæ¯é˜Ÿåˆ—
     virtual long PeekMsg(unsigned long ms);
 
     virtual void OnConnect(bool result);
@@ -210,7 +210,7 @@ protected:
 
 };
 
-// ¼àÌı InfoServer ÈÎÎñÀà
+// ç›‘å¬ InfoServer ä»»åŠ¡ç±»
 class ToInfoServer : public Task
 {
 public:
@@ -224,7 +224,7 @@ private:
 };
 
 
-// ÍøÂçÍ¨ĞÅÓ¦ÓÃÀà
+// ç½‘ç»œé€šä¿¡åº”ç”¨ç±»
 class GameServerApp : public dbc::TcpClientApp, public dbc::RPCMGR, public PKQueue
     {
     friend class ConnectGateServer;
@@ -235,7 +235,7 @@ public:
 	GameServerApp(dbc::ThreadPool *proc,dbc::ThreadPool *comm);
 	virtual ~GameServerApp();
 
-    // µÇÂ¼Ïà¹Ø
+    // ç™»å½•ç›¸å…³
     char const* GetName() const {return m_strGameName.c_str();}
 	void ConnectGate(GateServer *pGate);
     bool IsValidGate(int i);
@@ -245,7 +245,7 @@ public:
     void DisconnectInfo(InfoServer *pInfo);
     InfoServer *GetInfoServer() { return &m_IfServer; }
 
-    // Player Ïà¹Ø (GateServerÄÚÓĞGatePlayerµÄÒ»¸öË«Á´±í)
+    // Player ç›¸å…³ (GateServerå†…æœ‰GatePlayerçš„ä¸€ä¸ªåŒé“¾è¡¨)
     bool AddPlayer(GatePlayer* gtplayer, GateServer* gt, uLong gtaddr);
     bool DelPlayer(GatePlayer* gtplayer);
 	// add by xuedong
@@ -259,7 +259,7 @@ public:
     bool KickPlayer(GatePlayer* gtplayer, long lTimeSec = 0);
 	bool KickPlayer2(GatePlayer *gtplayer);
 
-    // ÌØ¶¨·¢°ü½Ó¿Ú
+    // ç‰¹å®šå‘åŒ…æ¥å£
     bool SendToWorld(WPacket& pkt);
 	bool SendToGroup(WPacket& chginf);
     bool SendToClient(GatePlayer* player, WPacket& pkt);
@@ -268,8 +268,8 @@ public:
     bool SendToGame(WPacket& pkt, uplayer* uplyr);
     
 protected:
-	virtual bool OnConnect(dbc::DataSocket *datasock); //·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
-	virtual void OnDisconnect(dbc::DataSocket *datasock,int reason); //reasonÖµ:0-±¾µØ³ÌĞòÕı³£ÍË³ö£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-1-Socket´íÎó;-5-°ü³¤¶È³¬¹ıÏŞÖÆ.
+	virtual bool OnConnect(dbc::DataSocket *datasock); //è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
+	virtual void OnDisconnect(dbc::DataSocket *datasock,int reason); //reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-1-Socketé”™è¯¯;-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶.
 	virtual void OnProcessData(dbc::DataSocket *datasock,dbc::RPacket &recvbuf);
 	void ProcessData(DataSocket *datasock,RPacket &recvbuf);
 
@@ -279,7 +279,7 @@ public:
 
 	WPacket TM_KICKCHA(DataSocket *datasock, RPacket &pk);
 
-    //´¦ÀíInfoServerÏûÏ¢
+    //å¤„ç†InfoServeræ¶ˆæ¯
     void ProcessData(pNetMessage msg, short sType);
 
 public:	

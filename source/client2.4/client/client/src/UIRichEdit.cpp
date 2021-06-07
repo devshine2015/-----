@@ -1,5 +1,5 @@
-#include "StdAfx.h"
 #include "uirichedit.h"
+#include "StdAfx.h"
 #include "gameapp.h"
 #include "uieditkey.h"
 
@@ -7,162 +7,136 @@ using namespace GUI;
 //---------------------------------------------------------------------------
 // class CRichEdit
 //---------------------------------------------------------------------------
-CRichEdit::CRichEdit(CForm& frmOwn)
-: CCompent(frmOwn), _IsReadyOnly(false)
-{
-	_IsFocus = true;
+CRichEdit::CRichEdit(CForm &frmOwn) : CCompent(frmOwn), _IsReadyOnly(false) {
+  _IsFocus = true;
 
-	_pEditKey = new CEditKey;
+  _pEditKey = new CEditKey;
 
-	_SetSelf();
+  _SetSelf();
 }
 
-CRichEdit::CRichEdit( const CRichEdit& rhs )
-: CCompent(rhs)
-{
-	_pEditKey = new CEditKey;
+CRichEdit::CRichEdit(const CRichEdit &rhs) : CCompent(rhs) {
+  _pEditKey = new CEditKey;
 
-	_Copy( rhs );
+  _Copy(rhs);
 }
 
-CRichEdit& CRichEdit::operator=(const CRichEdit& rhs)
-{
-	_Copy( rhs );
-	return *this;
+CRichEdit &CRichEdit::operator=(const CRichEdit &rhs) {
+  _Copy(rhs);
+  return *this;
 }
 
-void CRichEdit::_SetSelf()
-{
-	_cArticle.SetEdit( this );
+void CRichEdit::_SetSelf() {
+  _cArticle.SetEdit(this);
 
-	memset( _szEnter, 0, sizeof(_szEnter) );
-	_nEnterPos = 0;
+  memset(_szEnter, 0, sizeof(_szEnter));
+  _nEnterPos = 0;
 }
 
-void CRichEdit::_Copy( const CRichEdit& rhs )
-{
-	_SetSelf();
+void CRichEdit::_Copy(const CRichEdit &rhs) { _SetSelf(); }
+
+CRichEdit::~CRichEdit(void) {}
+
+void CRichEdit::Init() { _pEditKey->Init(); }
+
+void CRichEdit::Refresh() {}
+
+void CRichEdit::OnActive() {}
+
+void CRichEdit::OnLost() {}
+
+bool CRichEdit::OnKeyDown(int key) {
+  if (_IsReadyOnly)
+    return false;
+
+  _cArticle.OnKeyDown(key, g_pGameApp->IsShiftPress() != 0);
+  switch (key) {
+  case VK_LEFT:
+    break;
+  case VK_RIGHT:
+    break;
+  case VK_UP:
+    break;
+  case VK_DOWN:
+    break;
+  case VK_HOME:
+    break;
+  case VK_END:
+    break;
+  case VK_PRIOR: // pageup
+    break;
+  case VK_NEXT: // pagedown
+    break;
+  case VK_DELETE:
+    break;
+  default:
+    return false;
+  }
+  return false;
 }
 
-CRichEdit::~CRichEdit(void)
-{
+bool CRichEdit::OnChar(char c) {
+  if (_IsReadyOnly)
+    return false;
+
+  // æœ‰ä¸‰ç§æƒ…å†µï¼šä¸€ã€è‹±æ–‡å­—ç¬¦ï¼ŒäºŒã€æ±‰å­—ï¼Œä¸‰ã€æ§åˆ¶å­—ç¬¦
+  switch (c) {
+  case '\r': // å›è½¦
+    _cArticle.AddControl(c);
+    break;
+  case '\b': // é€€æ ¼
+    break;
+  case '\t':
+    break;
+  case 3: // copy
+    break;
+  case 22: // paste
+    break;
+  case 24: // cut
+    break;
+  case 27: // ESC
+    break;
+  default: {
+    _szEnter[_nEnterPos++] = c;
+    bool IsError = false;
+    if (_nEnterPos == 1) {
+      IsError = false;
+      if (_ismbslead((unsigned char *)_szEnter,
+                     (unsigned char *)&_szEnter[0]) == 0 &&
+          _ismbstrail((unsigned char *)_szEnter,
+                      (unsigned char *)&_szEnter[0]) == 0) {
+        // ä¸ºè‹±æ–‡æˆ–æ§åˆ¶å­—ç¬¦
+        _nEnterPos = 0;
+
+        _cArticle.AddChar(c);
+      }
+    } else if (_nEnterPos == 2) {
+      if (_ismbslead((unsigned char *)_szEnter,
+                     (unsigned char *)&_szEnter[0]) == -1 &&
+          _ismbstrail((unsigned char *)_szEnter,
+                      (unsigned char *)&_szEnter[1]) == -1) {
+        // æ±‰å­—
+        _cArticle.AddChar(_szEnter[0], _szEnter[1]);
+
+        IsError = false;
+        _nEnterPos = 0;
+        _szEnter[1] = 0;
+      }
+    }
+
+    if (IsError) {
+      // é”™è¯¯
+      _nEnterPos = 0;
+      _szEnter[1] = 0;
+    }
+  }
+  }
+
+  return false;
 }
 
-void CRichEdit::Init()
-{
-	_pEditKey->Init();
+void CRichEdit::Render() {
+  _cArticle.Render();
+
+  _pEditKey->Render();
 }
-
-void CRichEdit::Refresh()
-{
-}
-
-void CRichEdit::OnActive()
-{
-}
-
-void CRichEdit::OnLost()
-{
-}
-
-bool CRichEdit::OnKeyDown( int key )
-{
-	if( _IsReadyOnly ) return false;
-
-	_cArticle.OnKeyDown( key, g_pGameApp->IsShiftPress()!=0 );
-	switch( key )
-	{
-	case VK_LEFT:
-		break;
-	case VK_RIGHT:
-		break;
-	case VK_UP:
-		break;
-	case VK_DOWN:
-		break;
-	case VK_HOME:
-		break;
-	case VK_END:
-		break;
-	case VK_PRIOR:	// pageup
-		break;
-	case VK_NEXT:	// pagedown
-		break;
-	case VK_DELETE:
-		break;
-	default:
-		return false;
-	}
-	return false;
-}
-
-bool CRichEdit::OnChar( char c )
-{
-	if( _IsReadyOnly ) return false;
-
-	// ÓĞÈıÖÖÇé¿ö£ºÒ»¡¢Ó¢ÎÄ×Ö·û£¬¶ş¡¢ºº×Ö£¬Èı¡¢¿ØÖÆ×Ö·û
-	switch( c )
-	{
-	case '\r':		// »Ø³µ
-		_cArticle.AddControl( c );
-		break;
-	case '\b':		// ÍË¸ñ
-		break;
-	case '\t':
-		break;
-	case 3:			// copy
-		break;
-	case 22:		// paste
-		break;
-	case 24:		// cut
-		break;
-	case 27:		// ESC
-		break;
-	default:
-		{
-			_szEnter[_nEnterPos++] = c;
-			bool	IsError = false;
-			if( _nEnterPos==1 )
-			{
-				IsError = false;
-				if( _ismbslead( (unsigned char*)_szEnter, (unsigned char*)&_szEnter[0] )==0 
-					&& _ismbstrail( (unsigned char*)_szEnter, (unsigned char*)&_szEnter[0] )==0 )
-				{
-					// ÎªÓ¢ÎÄ»ò¿ØÖÆ×Ö·û
-					_nEnterPos = 0;
-
-					_cArticle.AddChar( c );
-				}
-			}
-			else if( _nEnterPos==2 )
-			{
-				if( _ismbslead( (unsigned char*)_szEnter, (unsigned char*)&_szEnter[0] )==-1 && _ismbstrail( (unsigned char*)_szEnter, (unsigned char*)&_szEnter[1] )==-1 )
-				{
-					// ºº×Ö
-					_cArticle.AddChar(_szEnter[0], _szEnter[1] );
-
-					IsError = false;
-					_nEnterPos = 0;
-					_szEnter[1] = 0;
-				}
-			}
-
-			if( IsError )
-			{
-				// ´íÎó
-				_nEnterPos = 0;
-				_szEnter[1] = 0;
-			}
-		}
-	}
-
-	return false;
-}
-
-void CRichEdit::Render()
-{
-	_cArticle.Render();
-
-	_pEditKey->Render();
-}
-

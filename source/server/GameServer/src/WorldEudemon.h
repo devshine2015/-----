@@ -18,26 +18,26 @@ namespace mission
 
 		virtual void SetType() { m_byType = EUDEMON; }
 
-		// ÍøÂçÏûÏ¢´¦Àíº¯Êı
+		// ç½‘ç»œæ¶ˆæ¯å¤„ç†å‡½æ•°
 		virtual HRESULT MsgProc( CCharacter& character, RPACKET& packet );
 		
-		// ×°ÔØÊÀ½çÊØ»¤ÉñÅäÖÃĞÅÏ¢
+		// è£…è½½ä¸–ç•Œå®ˆæŠ¤ç¥é…ç½®ä¿¡æ¯
 		virtual BOOL Load( const char szMsgProc[], const char szName[], dbc::uLong ulID );
 
 	private:
-		// ×°ÔØ½Å±¾ĞÅÏ¢
+		// è£…è½½è„šæœ¬ä¿¡æ¯
 		virtual BOOL InitScript( const char szFunc[], const char szName[] );
 		
 	};
 
-	// ÔİÊ±Î´ÓÃ
+	// æš‚æ—¶æœªç”¨
 	class CEudemonManager
 	{
 	public:
 		CEudemonManager();
 		~CEudemonManager();
 
-		// ×°ÔØÊÀ½çÊØ»¤ÉñÁĞ±í£¬Éú³ÉÊÀ½çÊØ»¤Éñ
+		// è£…è½½ä¸–ç•Œå®ˆæŠ¤ç¥åˆ—è¡¨ï¼Œç”Ÿæˆä¸–ç•Œå®ˆæŠ¤ç¥
 		BOOL	Load( const char szTable[] );
 
 	private:

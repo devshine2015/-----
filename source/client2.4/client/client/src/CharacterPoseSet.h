@@ -12,7 +12,7 @@ public:
 	{
         for(int i=0; i<7; i++)  sRealPoseID[i] = 0;
     }
-    short sRealPoseID[7]; // 5ÖÖ¶¯×÷ÀàÐÍ, ¿ÕÊÖ, µ¥ÊÖÎäÆ÷, Ë«ÊÖÎäÆ÷, ¹­¼ý.....
+    short sRealPoseID[7]; // 5ç§åŠ¨ä½œç±»åž‹, ç©ºæ‰‹, å•æ‰‹æ­¦å™¨, åŒæ‰‹æ­¦å™¨, å¼“ç®­.....
 };
 
 
@@ -32,7 +32,7 @@ public:
 
 protected:
 
-	static CPoseSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CPoseSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

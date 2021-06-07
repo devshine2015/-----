@@ -1,4 +1,4 @@
-//  [10/14/2005]	´ÓAccountServer2ÎÄ¼şÀï½øĞĞÄ£¿é²ğ·Ö,·ÖÀë³ö´ËÄ£¿é - by Arcol
+//  [10/14/2005]	ä»AccountServer2æ–‡ä»¶é‡Œè¿›è¡Œæ¨¡å—æ‹†åˆ†,åˆ†ç¦»å‡ºæ­¤æ¨¡å— - by Arcol
 #pragma once
 
 #ifndef _BILLTHREAD_H_

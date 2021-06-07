@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 {
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	C_PRINT("GateServer 1.38 (by: Sheep Squad)\n");
-	C_PRINT("GateServer 1.38 (”≈ªØby: …œπŸË§Ë§)\n");
+	C_PRINT("GateServer 1.38 (Optimization by: Shangguan Yuyu)\n");
 	C_TITLE("GateServer.exe")
 	SEHTranslator translator;
 

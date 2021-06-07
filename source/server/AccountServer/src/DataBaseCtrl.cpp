@@ -30,7 +30,7 @@ CDataBaseCtrl::~CDataBaseCtrl(void)
 
 bool CDataBaseCtrl::CreateObject()
 {
-	//¶ÁÈ¡ÅäÖÃ
+	//è¯»å–é…ç½®
 	char buf[512];
 	dbc::IniFile inf(g_strCfgFile.c_str());
 	dbc::IniSection& is = inf["db"];
@@ -58,10 +58,10 @@ bool CDataBaseCtrl::CreateObject()
 		return false;
 	C_PRINT("success!\n");
 
-	//³õÊ¼»¯²¢²âÊÔÊý¾Ý¿â×Ö¶Î
+	//åˆå§‹åŒ–å¹¶æµ‹è¯•æ•°æ®åº“å­—æ®µ
 	try
 	{
-        //  TOM±íÃûÒÑÐÞ¸Ä
+        //  TOMè¡¨åå·²ä¿®æ”¹
 		//if (g_TomService.IsEnable())
 		//{
 		//	//m_pDataBase->ExecuteSQL("update tom_account set login_status=0, from_server='', last_login_tick=0");
@@ -155,7 +155,7 @@ bool CDataBaseCtrl::Connect()
 {
 	if (IsConnect()) return true;
 
-	//½¨Á¢Êý¾Ý¿â¶ÔÏó
+	//å»ºç«‹æ•°æ®åº“å¯¹è±¡
 	try
 	{
 		m_pDataBase=new CSQLDatabase();
@@ -173,7 +173,7 @@ bool CDataBaseCtrl::Connect()
 		return false;
 	}
 
-	//Á¬½ÓÊý¾Ý¿â
+	//è¿žæŽ¥æ•°æ®åº“
 	char buf[512] = {0};
 	sprintf(buf, "DRIVER={SQL Server};SERVER=%s;UID=%s;PWD=%s;DATABASE=%s", 
 		m_strServerIP.c_str(), m_strUserID.c_str(), m_strUserPwd.c_str(), m_strServerDB.c_str());
@@ -481,7 +481,7 @@ bool CDataBaseCtrl::UserLogoutMap(std::string strUserName)
 
 	CDataBaseCtrl::sPlayerData sData=iter->second;
 	CTimeSpan ctSpan=CTime::GetCurrentTime() - sData.ctLoginTime;
-	if (ctSpan > CTimeSpan(5) && ctSpan< CTimeSpan(30, 0, 0, 0))	//¼ÇÂ¼ÓÐÐ§Ê±¼ä5Ãëµ½30Ìì
+	if (ctSpan > CTimeSpan(5) && ctSpan< CTimeSpan(30, 0, 0, 0))	//è®°å½•æœ‰æ•ˆæ—¶é—´5ç§’åˆ°30å¤©
 	{
 		char buf[1024];
 		__int64 i64Span=ctSpan.GetTotalSeconds();
@@ -510,7 +510,7 @@ bool CDataBaseCtrl::UserLogoutMap(std::string strUserName)
 		}
 		else
 		{
-			//Ô­¼ÆÊ±·½Ê½ÔÚµÇÂ½Ê±ÒÑ¾­ÐÞ¸Ä
+			//åŽŸè®¡æ—¶æ–¹å¼åœ¨ç™»é™†æ—¶å·²ç»ä¿®æ”¹
 			return true;
 		}
 		LG("AccountServer", "CDataBaseCtrl::UserLogoutMap: Update the live time failed! Username=%s \n", strUserName.c_str());

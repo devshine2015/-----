@@ -1,12 +1,12 @@
-// ÏÂÃæµÄÀàºÍº¯ÊýÊÊÓÃµÄ×ø±êÏµÎª
-// ÕýÉÏ·½Îª0¶È, Ë³Ê±Õë½Ç¶ÈÔö¼Ó
+// ä¸‹é¢çš„ç±»å’Œå‡½æ•°é€‚ç”¨çš„åæ ‡ç³»ä¸º
+// æ­£ä¸Šæ–¹ä¸º0åº¦, é¡ºæ—¶é’ˆè§’åº¦å¢žåŠ 
 
 //----------------------------------------
-//  Ö÷ÒªÓÃ·¨  CRangeFan   fan;
+//  ä¸»è¦ç”¨æ³•  CRangeFan   fan;
 //            CRangeLine  line;
 //			  CRangeStick stick;
-//            BOOL bIn = fan.PointHitTest(x, y)                    // ÓÃÀ´¼ì²é¹ÖÎïÊÇ·ñÔÚ·¶Î§ÄÚ
-//            BOOL bIn = fan.RectHitTest(x1,y1,x2,y2,x3,y3,x4,y4)  // ÓÃÀ´¼ì²é¹ÜÀíµ¥ÔªÊÇ·ñÔÚ·¶Î§ÄÚ
+//            BOOL bIn = fan.PointHitTest(x, y)                    // ç”¨æ¥æ£€æŸ¥æ€ªç‰©æ˜¯å¦åœ¨èŒƒå›´å†…
+//            BOOL bIn = fan.RectHitTest(x1,y1,x2,y2,x3,y3,x4,y4)  // ç”¨æ¥æ£€æŸ¥ç®¡ç†å•å…ƒæ˜¯å¦åœ¨èŒƒå›´å†…
 //            BOOL bIn = line.PointHitTest(x, y)
 //            BOOL bIn = line.RectHitTest(x1,y1,x2,y2,x3,y3,x4,y4)
 //		      BOOL bIn = stick.PointHitTest(x, y)
@@ -20,10 +20,10 @@
 //            (x4,y4) -------------(x3, y3)
 //----------------------------------------
 
-// ¹«ÓÃ¶¨ÒåÒÔ¼°º¯Êý----------------------------------------------------------------------------
+// å…¬ç”¨å®šä¹‰ä»¥åŠå‡½æ•°----------------------------------------------------------------------------
 #define RADIAN  57.296f  //  = 180.0 / 3.1415926
 
-// Ð±ÂÊ×ª»¯Îª0 ~ 360Ö®¼äµÄ½Ç¶ÈÖµ
+// æ–œçŽ‡è½¬åŒ–ä¸º0 ~ 360ä¹‹é—´çš„è§’åº¦å€¼
 inline float Tan2Angle(int nOffX, int nOffY, float fTan)
 {
 	float fAngle = atan(fTan) * RADIAN;
@@ -181,7 +181,7 @@ public:
 	int     getEndX()	{ return _x2; }
 	int		getEndY()	{ return _y2; }
 
-	BOOL	LineHitTest(int x1, int y1, int x2, int y2) // ¼ì²éÖ±ÏßÊÇ·ñÅö×²
+	BOOL	LineHitTest(int x1, int y1, int x2, int y2) // æ£€æŸ¥ç›´çº¿æ˜¯å¦ç¢°æ’ž
 	{
 		float v1[2]; v1[0] = (float)x1; v1[1]  = (float)y1;
 		float v2[2]; v2[0] = (float)x2; v2[1]  = (float)y2;
@@ -244,17 +244,17 @@ protected:
 };
 
 
-class CRangeFan : public CRangeBase// ÉÈÐÎ·¶Î§¶ÔÏó(ÊÊÓÃµÄ×ø±êÏµÎª : ÕýÉÏ·½Îª0¶È, Ë³Ê±Õë½Ç¶ÈÔö¼Ó)
+class CRangeFan : public CRangeBase// æ‰‡å½¢èŒƒå›´å¯¹è±¡(é€‚ç”¨çš„åæ ‡ç³»ä¸º : æ­£ä¸Šæ–¹ä¸º0åº¦, é¡ºæ—¶é’ˆè§’åº¦å¢žåŠ )
 {
 public:
 
 	CRangeFan()
-	: _nAngleStep(60) // Ä¬ÈÏ½Ç¶È
+	: _nAngleStep(60) // é»˜è®¤è§’åº¦
 	{
 		setRadius(100);
 	}
 	
-	BOOL	PointHitTest(int x, int y)    // ¼ì²éÖ¸¶¨µãÊÇ·ñÔÚÉÈÐÎ·¶Î§
+	BOOL	PointHitTest(int x, int y)    // æ£€æŸ¥æŒ‡å®šç‚¹æ˜¯å¦åœ¨æ‰‡å½¢èŒƒå›´
 	{
 		int nX =  x - _x;
 		int nY =  _y - y;
@@ -268,9 +268,9 @@ public:
 		//return TRUE;
 
 		float k = (float)(nY) / (float)(nX);
-		int nAngle = (int)Tan2Angle(nX, nY, k); // ÓÉÐ±ÂÊ°´ÕÕ4¸öÏóÏÞ×ª»¯Îª0 ~ 360¶ÈÖ®¼äµÄÖµ
+		int nAngle = (int)Tan2Angle(nX, nY, k); // ç”±æ–œçŽ‡æŒ‰ç…§4ä¸ªè±¡é™è½¬åŒ–ä¸º0 ~ 360åº¦ä¹‹é—´çš„å€¼
 
-		if(_nAngle > 180 && nAngle < 180) // ½Ç¶È¼ä¸ô·¶Î§²»»á³¬¹ý180, ÕâÑù¿ÉÒÔ·½±ã±È½Ï
+		if(_nAngle > 180 && nAngle < 180) // è§’åº¦é—´éš”èŒƒå›´ä¸ä¼šè¶…è¿‡180, è¿™æ ·å¯ä»¥æ–¹ä¾¿æ¯”è¾ƒ
 		{
 			nAngle+=360;
 		}
@@ -283,15 +283,15 @@ public:
 	}
 	BOOL	RectHitTest(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
 	{
-		// ÏÈ¼ì²é¾ØÐÎµÄËÄ¸ö¶¥µã
+		// å…ˆæ£€æŸ¥çŸ©å½¢çš„å››ä¸ªé¡¶ç‚¹
 		if(PointHitTest(x1, y1) || PointHitTest(x2, y2) ||
 		   PointHitTest(x3, y3) || PointHitTest(x4, y4))
 		{
 			return TRUE;
 		}
 
-		// ËÄ¸ö¶¥µã¶¼²»ÔÚÉÈÐÎ·¶Î§ÄÚ
-		// ¼ì²éÉÈÐÎµÄÁ½Ìõ±ßÓë¾ØÐÎµÄËÄÌõÖ±ÏßÊÇ·ñÏà½»
+		// å››ä¸ªé¡¶ç‚¹éƒ½ä¸åœ¨æ‰‡å½¢èŒƒå›´å†…
+		// æ£€æŸ¥æ‰‡å½¢çš„ä¸¤æ¡è¾¹ä¸ŽçŸ©å½¢çš„å››æ¡ç›´çº¿æ˜¯å¦ç›¸äº¤
 
 		int vx1, vy1, vx2, vy2; CalEndPos(vx1, vy1, vx2, vy2);
 		float v0[2]; v0[0] = (float)_x, v0[1] = (float)_y;
@@ -318,7 +318,7 @@ public:
 		if(LineIntersection(v0, v2, p3, p4, FALSE)) return TRUE;
 		if(LineIntersection(v0, v2, p4, p1, FALSE)) return TRUE;
 		
-		// Á½Ìõ±ßÃ»ÓÐÓë¾ØÐÎÏà½», Ôò¿ÉÄÜÔÚÉÈÐÎ¶¥²¿ºá¿çÏà½», ÔÝÊ±ºöÂÔ
+		// ä¸¤æ¡è¾¹æ²¡æœ‰ä¸ŽçŸ©å½¢ç›¸äº¤, åˆ™å¯èƒ½åœ¨æ‰‡å½¢é¡¶éƒ¨æ¨ªè·¨ç›¸äº¤, æš‚æ—¶å¿½ç•¥
 		return FALSE;
 	}
 	BOOL	RectHitTest(int x1, int y1, int x2, int y2)
@@ -339,7 +339,7 @@ public:
 		y2 = _y - (int)(fDis * cos(fAngle));
 	}
 
-	void	setAngleStep(int nAngleStep)   // ÉèÖÃ½Ç¶È·¶Î§ 
+	void	setAngleStep(int nAngleStep)   // è®¾ç½®è§’åº¦èŒƒå›´ 
 	{
 		if(nAngleStep < 0) nAngleStep = 0;
 		else if(nAngleStep > 150) nAngleStep = 150;
@@ -360,7 +360,7 @@ protected:
 
 
 
-class CRangeStick : public CRangeBase // Öù×´ÎïÌå(Ðý×ªµÄ¾ØÐÎ)
+class CRangeStick : public CRangeBase // æŸ±çŠ¶ç‰©ä½“(æ—‹è½¬çš„çŸ©å½¢)
 {
 public:
 	CRangeStick()
@@ -370,7 +370,7 @@ public:
 	
 	BOOL	PointHitTest(int x, int y)
 	{
-		// ½«µã×ø±ê×öÐý×ª, ·½ÏòÎª_nAngleÄæ×ª
+		// å°†ç‚¹åæ ‡åšæ—‹è½¬, æ–¹å‘ä¸º_nAngleé€†è½¬
 		float fDis = (float)sqrt((float)((x - _x) * (x - _x) + (y - _y) * (y - _y)));
 		
 		float fRelativeAngle = _Point2Angle(x, y) - (float)_nAngle;
@@ -393,19 +393,19 @@ public:
 		int vx1, vx2, vx3, vx4, vy1, vy2, vy3, vy4;
 		getPoint(vx1, vy1, vx2, vy2, vx3, vy3, vx4, vy4);
 
-		// ¼ì²éÖùµÄ¶¥µãÊÇ·ñÔÚ¾ØÐÎÄÚ
+		// æ£€æŸ¥æŸ±çš„é¡¶ç‚¹æ˜¯å¦åœ¨çŸ©å½¢å†…
 		if(vx1 >= x1 && vx1 < x2 && vy1 >= y1 && vy1 < y2) return TRUE;
 		if(vx2 >= x1 && vx2 < x2 && vy2 >= y1 && vy2 < y2) return TRUE;
 		if(vx3 >= x1 && vx3 < x2 && vy3 >= y1 && vy3 < y2) return TRUE;
 		if(vx4 >= x1 && vx4 < x2 && vy4 >= y1 && vy4 < y2) return TRUE;
 
-		// ¼ì²é¾ØÐÎµÄ¶¥µãÊÇ·ñÔÚÖùÄÚ
+		// æ£€æŸ¥çŸ©å½¢çš„é¡¶ç‚¹æ˜¯å¦åœ¨æŸ±å†…
 		if(PointHitTest(x1, y1)) return TRUE;
 		if(PointHitTest(x2, y1)) return TRUE;
 		if(PointHitTest(x2, y2)) return TRUE;
 		if(PointHitTest(x1, y2)) return TRUE;
 		
-		// ¼ì²éÖùÐÎµÄ±ß½çÏß4ÌõÓë¾ØÐÎµÄ±ß½çÏß4ÌõÊÇ·ñÏà½»
+		// æ£€æŸ¥æŸ±å½¢çš„è¾¹ç•Œçº¿4æ¡ä¸ŽçŸ©å½¢çš„è¾¹ç•Œçº¿4æ¡æ˜¯å¦ç›¸äº¤
 
 		float p1[2], p2[2], p3[2], p4[2];
 		p1[0] = (float)x1;
@@ -489,7 +489,7 @@ protected:
 };
 
 
-class CRangeCircle : public CRangeBase // Ô²ÐÎ·¶Î§¶ÔÏó
+class CRangeCircle : public CRangeBase // åœ†å½¢èŒƒå›´å¯¹è±¡
 {
 public:
 	BOOL	PointHitTest(int x, int y)
@@ -511,7 +511,7 @@ public:
 		__int64	nR2 = _nRadius * _nRadius;
 
 		if (nDist1 <= nR2 || nDist2 <= nR2 || nDist3 <= nR2 || nDist4 <= nR2
-			|| (_x >= x1 && _x <= x2 && _y >= y1 && _y <= y2)) // Ô²ÐÄÔÚ²ÎÊý·¶Î§ÄÚ
+			|| (_x >= x1 && _x <= x2 && _y >= y1 && _y <= y2)) // åœ†å¿ƒåœ¨å‚æ•°èŒƒå›´å†…
 			return TRUE;
 		else
 			return FALSE;
@@ -523,7 +523,7 @@ private:
 
 };
 
-class CRangeSquare : public CRangeBase // Õý·½ÐÎ·¶Î§¶ÔÏó
+class CRangeSquare : public CRangeBase // æ­£æ–¹å½¢èŒƒå›´å¯¹è±¡
 {
 public:
 	BOOL	PointHitTest(int x, int y)
@@ -535,8 +535,8 @@ public:
 	}
 	BOOL	RectHitTest(int x1, int y1, int x2, int y2)
 	{
-		if (PointHitTest(x1, y1) || PointHitTest(x2, y1) || PointHitTest(x2, y2) || PointHitTest(x1, y2) // ÈÎºÎÒ»µãÔÚÕý·½ÐÎÄÚ
-			|| (_x >= x1 && _x <= x2 && _y >= y1 && _y <= y2)) // Õý·½ÐÎÖÐÐÄÔÚ²ÎÊý·¶Î§ÄÚ
+		if (PointHitTest(x1, y1) || PointHitTest(x2, y1) || PointHitTest(x2, y2) || PointHitTest(x1, y2) // ä»»ä½•ä¸€ç‚¹åœ¨æ­£æ–¹å½¢å†…
+			|| (_x >= x1 && _x <= x2 && _y >= y1 && _y <= y2)) // æ­£æ–¹å½¢ä¸­å¿ƒåœ¨å‚æ•°èŒƒå›´å†…
 			return TRUE;
 		else
 			return FALSE;

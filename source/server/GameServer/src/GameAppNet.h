@@ -2,7 +2,7 @@
 #ifndef _GAMEAPPNET_H_
 #define _GAMEAPPNET_H_
 
-// Í¨ÓÃÊı¾İ
+// é€šç”¨æ•°æ®
 
 #include "stdafx.h" //add by alfred.shi 20080313
 
@@ -16,16 +16,16 @@
 #define NETMSG_GATE_DISCONNECT  101
 #define NETMSG_PACKET           200
 
-#define EXCEPTION()	LG("EXCEPTION", "Exception£ºFile %s£¬Line %d¡£\n", __FILE__, __LINE__)
+#define EXCEPTION()	LG("EXCEPTION", "Exceptionï¼šFile %sï¼ŒLine %dã€‚\n", __FILE__, __LINE__)
 
 inline const char* g_GameGateConnError( int error_code )
 {
     switch( error_code )
     {
-    /*case ERR_TM_OVERNAME:	return "GameServerÃûÖØ¸´";
-    case ERR_TM_OVERMAP:	return "GameServerÉÏµØÍ¼ÃûÖØ¸´";
-    case ERR_TM_MAPERR:		return "GameServerµØÍ¼ÅäÖÃÓï·¨´íÎó";
-    default:                return "Î´Öª´íÎó";*/
+    /*case ERR_TM_OVERNAME:	return "GameServeråé‡å¤";
+    case ERR_TM_OVERMAP:	return "GameServerä¸Šåœ°å›¾åé‡å¤";
+    case ERR_TM_MAPERR:		return "GameServeråœ°å›¾é…ç½®è¯­æ³•é”™è¯¯";
+    default:                return "æœªçŸ¥é”™è¯¯";*/
 	case ERR_TM_OVERNAME:	return RES_STRING(GM_GAMEAPPNET_H_00001);
     case ERR_TM_OVERMAP:	return RES_STRING(GM_GAMEAPPNET_H_00002);
     case ERR_TM_MAPERR:		return RES_STRING(GM_GAMEAPPNET_H_00003);
@@ -35,7 +35,7 @@ inline const char* g_GameGateConnError( int error_code )
 
 
 
-// ²»Í¬ÍøÂçµ×²ãÊı¾İ½á¹¹ºÍÀàĞÍ³éÏó
+// ä¸åŒç½‘ç»œåº•å±‚æ•°æ®ç»“æ„å’Œç±»å‹æŠ½è±¡
 
 #ifdef USE_IOCP
 

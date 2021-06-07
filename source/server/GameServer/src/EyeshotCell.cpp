@@ -46,7 +46,7 @@ CEyeshotCell::~CEyeshotCell()
 	}
 }
 
-// 实体pCEnt进入视野单元，执行可视化操作
+// 瀹炰綋pCEnt杩涘叆瑙嗛噹鍗曞厓锛屾墽琛屽彲瑙嗗寲鎿嶄綔
 void CEyeshotCell::EnterEyeshot(Entity *pCEnt)
 {T_B
 	for (short i = 0; i < m_sStateCellNum; i++)

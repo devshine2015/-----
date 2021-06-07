@@ -1,554 +1,506 @@
 
-#include "StdAfx.h"
 #include "UIDoublePwdForm.h"
+#include "StdAfx.h"
 #include "UIStoreForm.h"
-#include "uirumdealform.h"
 #include "WorldScene.h"
+#include "uirumdealform.h"
 
 #include "GameApp.h"
 #include "PacketCmd.h"
-#include "UIItemCommand.h"// ning.yan 2008-11-11
+#include "UIItemCommand.h" // ning.yan 2008-11-11
 
+namespace GUI {
 
-namespace GUI
+CDoublePwdMgr::CDoublePwdMgr() {}
+
+// åˆå§‹åŒ–äºŒæ¬¡å¯†ç æ‰€æœ‰çš„ç•Œé¢
+bool CDoublePwdMgr::Init() {
+  CFormMgr &mgr = CFormMgr::s_Mgr;
+
+  // äºŒæ¬¡å¯†ç åˆ›å»ºè¡¨å•
+  frmDoublePwdCreate = mgr.Find("frmDoublePwdCreate");
+  if (!frmDoublePwdCreate)
+    return false;
+
+  edtDoublePwdCreate =
+      dynamic_cast<CEdit *>(frmDoublePwdCreate->Find("edtDoublePwdCreate"));
+  if (!edtDoublePwdCreate)
+    return false;
+
+  edtDoublePwdCreateRetry = dynamic_cast<CEdit *>(
+      frmDoublePwdCreate->Find("edtDoublePwdCreateRetry"));
+  if (!edtDoublePwdCreateRetry)
+    return false;
+
+  frmDoublePwdCreate->evtEntrustMouseEvent = _evtCreateFromMouseEvent;
+  frmDoublePwdCreate->evtClose = _evtFormClose;
+  edtDoublePwdCreate->evtActive = _evtEditFocus;
+  edtDoublePwdCreateRetry->evtActive = _evtEditFocus;
+
+  edtDoublePwdCreate->SetIsPassWord(true);
+  edtDoublePwdCreateRetry->SetIsPassWord(true);
+
+  // äºŒæ¬¡å¯†ç ä¿®æ”¹è¡¨å•
+  frmDoublePwdAlter = mgr.Find("frmDoublePwdAlter");
+  if (!frmDoublePwdAlter)
+    return false;
+
+  edtDoublePwdAlterOld =
+      dynamic_cast<CEdit *>(frmDoublePwdAlter->Find("edtDoublePwdAlterOld"));
+  if (!edtDoublePwdAlterOld)
+    return false;
+
+  edtDoublePwdAlterNew =
+      dynamic_cast<CEdit *>(frmDoublePwdAlter->Find("edtDoublePwdAlterNew"));
+  if (!edtDoublePwdAlterNew)
+    return false;
+
+  edtDoublePwdAlterNewRetry = dynamic_cast<CEdit *>(
+      frmDoublePwdAlter->Find("edtDoublePwdAlterNewRetry"));
+  if (!edtDoublePwdAlterNewRetry)
+    return false;
+
+  frmDoublePwdAlter->evtEntrustMouseEvent = _evtAlterFromMouseEvent;
+  frmDoublePwdAlter->evtClose = _evtFormClose;
+  edtDoublePwdAlterOld->evtActive = _evtEditFocus;
+  edtDoublePwdAlterNew->evtActive = _evtEditFocus;
+  edtDoublePwdAlterNewRetry->evtActive = _evtEditFocus;
+
+  edtDoublePwdAlterOld->SetIsPassWord(true);
+  edtDoublePwdAlterNew->SetIsPassWord(true);
+  edtDoublePwdAlterNewRetry->SetIsPassWord(true);
+
+  // äºŒæ¬¡å¯†ç è¾“å…¥è¡¨å•
+  frmDoublePwd = mgr.Find("frmDoublePwd");
+  if (!frmDoublePwd)
+    return false;
+
+  edtDoublePwd = dynamic_cast<CEdit *>(frmDoublePwd->Find("edtDoublePwd"));
+  if (!edtDoublePwd)
+    return false;
+
+  frmDoublePwd->evtEntrustMouseEvent = _evtDoublePwdFromMouseEvent;
+  frmDoublePwd->evtClose = _evtFormClose;
+  edtDoublePwd->evtActive = _evtEditFocus;
+  edtDoublePwd->SetIsPassWord(true);
+
+  // äºŒæ¬¡å¯†ç è¾“å…¥è½¯é”®ç›˜
+  frmDoublePwdInput = mgr.Find("frmDoublePwdInput");
+  if (!frmDoublePwdInput)
+    return false;
+
+  frmDoublePwdInput->evtEntrustMouseEvent = _evtInputFromMouseEvent;
+  frmDoublePwdInput->evtClose = _evtFormClose;
+
+  // åˆ›å»ºäºŒæ¬¡å¯†ç çš„æç¤º
+  frmDoublePwdInfo = mgr.Find("frmDoublePwdInfo");
+  if (!frmDoublePwdInfo)
+    return false;
+
+  return true;
+}
+
+// å…³é—­äºŒæ¬¡å¯†ç 
+void CDoublePwdMgr::CloseForm() { CloseAllForm(); }
+
+// äºŒæ¬¡å¯†ç æ˜¯å¦åˆæ³•
+bool CDoublePwdMgr::IsPwdValid(const char *szStr) {
+  if (!szStr)
+    return false;
+
+  for (int i = 0; szStr[i]; ++i) {
+    if ('0' > szStr[i] || szStr[i] > '9')
+      return false;
+  }
+
+  return true;
+}
+
+// æ˜¾ç¤ºåˆ›å»ºè¡¨å•
+void CDoublePwdMgr::ShowCreateForm() {
+  CloseAllForm();
+
+  if (frmDoublePwdCreate && !frmDoublePwdCreate->GetIsShow()) {
+    edtDoublePwdCreate->SetCaption("");
+    edtDoublePwdCreateRetry->SetCaption("");
+
+    frmDoublePwdCreate->Show();
+  }
+
+  if (frmDoublePwdInfo) {
+    frmDoublePwdInfo->SetPos(frmDoublePwdCreate->GetLeft(),
+                             frmDoublePwdCreate->GetBottom());
+    frmDoublePwdInfo->Refresh();
+
+    frmDoublePwdInfo->SetIsShow(true);
+  }
+
+  frmDoublePwdInput->SetPos(frmDoublePwdCreate->GetRight(),
+                            frmDoublePwdCreate->GetTop());
+  frmDoublePwdInput->Refresh();
+  ShowDoublePwdKeyboardForm();
+}
+
+// æ˜¾ç¤ºä¿®æ”¹è¡¨å•
+void CDoublePwdMgr::ShowAlterForm() {
+  CloseAllForm();
+
+  if (frmDoublePwdAlter && !frmDoublePwdAlter->GetIsShow()) {
+    edtDoublePwdAlterOld->SetCaption("");
+    edtDoublePwdAlterNew->SetCaption("");
+    edtDoublePwdAlterNewRetry->SetCaption("");
+
+    frmDoublePwdAlter->Show();
+  }
+
+  frmDoublePwdInput->SetPos(frmDoublePwdAlter->GetRight(),
+                            frmDoublePwdAlter->GetTop());
+  frmDoublePwdInput->Refresh();
+  ShowDoublePwdKeyboardForm();
+}
+
+// æ˜¾ç¤ºè¾“å…¥è¡¨å•
+void CDoublePwdMgr::ShowDoublePwdForm() {
+  CloseAllForm();
+
+  if (frmDoublePwd && !frmDoublePwd->GetIsShow()) {
+    edtFocusEditBox = edtDoublePwd;
+
+    edtDoublePwd->SetCaption("");
+    frmDoublePwd->Show();
+  }
+
+  frmDoublePwdInput->SetPos(frmDoublePwd->GetRight(), frmDoublePwd->GetTop());
+  frmDoublePwdInput->Refresh();
+  ShowDoublePwdKeyboardForm();
+}
+
+// å…³é—­å…¨éƒ¨è¡¨å•
+void CDoublePwdMgr::CloseAllForm() {
+  // å…³é—­åˆ›å»ºè¡¨å•
+  if (frmDoublePwdCreate && frmDoublePwdCreate->GetIsShow()) {
+    frmDoublePwdCreate->Close();
+  }
+
+  // å…³é—­ä¿®æ”¹è¡¨å•
+  if (frmDoublePwdAlter && frmDoublePwdAlter->GetIsShow()) {
+    frmDoublePwdAlter->Close();
+  }
+
+  // å…³é—­äºŒæ¬¡å¯†ç è¾“å…¥è¡¨å•
+  if (frmDoublePwd && frmDoublePwd->GetIsShow()) {
+    frmDoublePwd->Close();
+  }
+
+  // å…³é—­äºŒæ¬¡å¯†ç è½¯é”®ç›˜è¡¨å•
+  if (frmDoublePwdInput && frmDoublePwdInput->GetIsShow()) {
+    frmDoublePwdInput->Close();
+  }
+
+  // å…³é—­åˆ›å»ºäºŒæ¬¡å¯†ç æç¤º
+  if (frmDoublePwdInfo && frmDoublePwdInfo->GetIsShow()) {
+    frmDoublePwdInfo->Close();
+  }
+}
+
+// æ˜¾ç¤ºäºŒæ¬¡å¯†ç è½¯é”®ç›˜
+void CDoublePwdMgr::ShowDoublePwdKeyboardForm() {
+  if (!frmDoublePwdInput)
+    return;
+
+  RandomInputButton();
+  frmDoublePwdInput->Refresh();
+  frmDoublePwdInput->Show();
+}
+
+// å‘é€åˆ é™¤è§’è‰²æ¶ˆæ¯
+void CDoublePwdMgr::SendDeleteCharactor() {
+  CWorldScene *pScene = dynamic_cast<CWorldScene *>(g_pGameApp->GetCurScene());
+
+  char szMD5[33] = {0};
+  md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
+
+  pScene->SendDelChaToServer(szMD5);
+  CGameApp::Waiting();
+}
+
+// å‘é€èƒŒåŒ…è§£é”æ¶ˆæ¯
+void CDoublePwdMgr::SendPackageUnlock() {
+  char szMD5[33] = {0};
+  md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
+
+  CS_UnlockKitbag(szMD5);
+}
+
+// å‘é€é“å…·è§£é”æ¶ˆæ¯ add by ning.yan 2008-11-11 begin
+void CDoublePwdMgr::SendItemUnlock() // è¢«é”é“å…·çš„ä½ç½®å’Œid
 {
-
-	CDoublePwdMgr::CDoublePwdMgr()
-	{
-	}
-
-
-	// ³õÊ¼»¯¶ş´ÎÃÜÂëËùÓĞµÄ½çÃæ
-	bool CDoublePwdMgr::Init()
-	{
-		CFormMgr& mgr = CFormMgr::s_Mgr;
-
-		// ¶ş´ÎÃÜÂë´´½¨±íµ¥
-		frmDoublePwdCreate = mgr.Find("frmDoublePwdCreate");
-		if(! frmDoublePwdCreate) return false;
-
-		edtDoublePwdCreate = dynamic_cast<CEdit*>(frmDoublePwdCreate->Find("edtDoublePwdCreate"));
-		if(! edtDoublePwdCreate) return false;
-
-		edtDoublePwdCreateRetry = dynamic_cast<CEdit*>(frmDoublePwdCreate->Find("edtDoublePwdCreateRetry"));
-		if(! edtDoublePwdCreateRetry) return false;
-
-		frmDoublePwdCreate->evtEntrustMouseEvent = _evtCreateFromMouseEvent;
-		frmDoublePwdCreate->evtClose             = _evtFormClose;
-		edtDoublePwdCreate->evtActive            = _evtEditFocus;
-		edtDoublePwdCreateRetry->evtActive       = _evtEditFocus;
-
-		edtDoublePwdCreate->SetIsPassWord(true);
-		edtDoublePwdCreateRetry->SetIsPassWord(true);
-
-
-		// ¶ş´ÎÃÜÂëĞŞ¸Ä±íµ¥
-		frmDoublePwdAlter = mgr.Find("frmDoublePwdAlter");
-		if(! frmDoublePwdAlter) return false;
-
-		edtDoublePwdAlterOld = dynamic_cast<CEdit*>(frmDoublePwdAlter->Find("edtDoublePwdAlterOld"));
-		if(! edtDoublePwdAlterOld) return false;
-
-		edtDoublePwdAlterNew = dynamic_cast<CEdit*>(frmDoublePwdAlter->Find("edtDoublePwdAlterNew"));
-		if(! edtDoublePwdAlterNew) return false;
-
-		edtDoublePwdAlterNewRetry = dynamic_cast<CEdit*>(frmDoublePwdAlter->Find("edtDoublePwdAlterNewRetry"));
-		if(! edtDoublePwdAlterNewRetry) return false;
-
-		frmDoublePwdAlter->evtEntrustMouseEvent = _evtAlterFromMouseEvent;
-		frmDoublePwdAlter->evtClose             = _evtFormClose;
-		edtDoublePwdAlterOld->evtActive         = _evtEditFocus;
-		edtDoublePwdAlterNew->evtActive         = _evtEditFocus;
-		edtDoublePwdAlterNewRetry->evtActive    = _evtEditFocus;
-
-		edtDoublePwdAlterOld->SetIsPassWord(true);
-		edtDoublePwdAlterNew->SetIsPassWord(true);
-		edtDoublePwdAlterNewRetry->SetIsPassWord(true);
-
-
-		// ¶ş´ÎÃÜÂëÊäÈë±íµ¥
-		frmDoublePwd = mgr.Find("frmDoublePwd");
-		if(! frmDoublePwd) return false;
-
-		edtDoublePwd = dynamic_cast<CEdit*>(frmDoublePwd->Find("edtDoublePwd"));
-		if(! edtDoublePwd) return false;
-
-		frmDoublePwd->evtEntrustMouseEvent = _evtDoublePwdFromMouseEvent;
-		frmDoublePwd->evtClose             = _evtFormClose;
-		edtDoublePwd->evtActive            = _evtEditFocus;
-		edtDoublePwd->SetIsPassWord(true);
-
-
-		// ¶ş´ÎÃÜÂëÊäÈëÈí¼üÅÌ
-		frmDoublePwdInput = mgr.Find("frmDoublePwdInput");
-		if(! frmDoublePwdInput) return false;
-
-		frmDoublePwdInput->evtEntrustMouseEvent = _evtInputFromMouseEvent;
-		frmDoublePwdInput->evtClose             = _evtFormClose;
-
-
-		// ´´½¨¶ş´ÎÃÜÂëµÄÌáÊ¾
-		frmDoublePwdInfo = mgr.Find("frmDoublePwdInfo");
-		if(! frmDoublePwdInfo) return false;
-
-		return true;
-	}
-
-
-	// ¹Ø±Õ¶ş´ÎÃÜÂë
-	void CDoublePwdMgr::CloseForm()
-	{
-		CloseAllForm();
-	}
-
-
-	// ¶ş´ÎÃÜÂëÊÇ·ñºÏ·¨
-	bool CDoublePwdMgr::IsPwdValid(const char* szStr)
-	{
-		if(! szStr)
-			return false;
-
-		for(int i = 0; szStr[i]; ++i)
-		{
-			if('0' > szStr[i] || szStr[i] > '9')
-				return false;
-		}
-
-		return true;
-	}
-
-
-	// ÏÔÊ¾´´½¨±íµ¥
-	void CDoublePwdMgr::ShowCreateForm()
-	{
-		CloseAllForm();
-
-		if(frmDoublePwdCreate && !frmDoublePwdCreate->GetIsShow())
-		{
-			edtDoublePwdCreate->SetCaption("");
-			edtDoublePwdCreateRetry->SetCaption("");
-
-			frmDoublePwdCreate->Show();
-		}
-
-		if(frmDoublePwdInfo)
-		{
-			frmDoublePwdInfo->SetPos(frmDoublePwdCreate->GetLeft(), frmDoublePwdCreate->GetBottom());
-			frmDoublePwdInfo->Refresh();
-
-			frmDoublePwdInfo->SetIsShow(true);
-		}
-
-		frmDoublePwdInput->SetPos(frmDoublePwdCreate->GetRight(), frmDoublePwdCreate->GetTop());
-		frmDoublePwdInput->Refresh();
-		ShowDoublePwdKeyboardForm();
-	}
-
-
-	// ÏÔÊ¾ĞŞ¸Ä±íµ¥
-	void CDoublePwdMgr::ShowAlterForm()
-	{
-		CloseAllForm();
-
-		if(frmDoublePwdAlter && !frmDoublePwdAlter->GetIsShow())
-		{
-			edtDoublePwdAlterOld->SetCaption("");
-			edtDoublePwdAlterNew->SetCaption("");
-			edtDoublePwdAlterNewRetry->SetCaption("");
-
-			frmDoublePwdAlter->Show();
-		}
-
-		frmDoublePwdInput->SetPos(frmDoublePwdAlter->GetRight(), frmDoublePwdAlter->GetTop());
-		frmDoublePwdInput->Refresh();
-		ShowDoublePwdKeyboardForm();
-	}
-
-
-	// ÏÔÊ¾ÊäÈë±íµ¥
-	void CDoublePwdMgr::ShowDoublePwdForm()
-	{
-		CloseAllForm();
-
-		if(frmDoublePwd && !frmDoublePwd->GetIsShow())
-		{
-			edtFocusEditBox = edtDoublePwd;
-
-			edtDoublePwd->SetCaption("");
-			frmDoublePwd->Show();
-		}
-
-		frmDoublePwdInput->SetPos(frmDoublePwd->GetRight(), frmDoublePwd->GetTop());
-		frmDoublePwdInput->Refresh();
-		ShowDoublePwdKeyboardForm();
-	}
-
-
-	// ¹Ø±ÕÈ«²¿±íµ¥
-	void CDoublePwdMgr::CloseAllForm()
-	{
-		// ¹Ø±Õ´´½¨±íµ¥
-		if(frmDoublePwdCreate && frmDoublePwdCreate->GetIsShow())
-		{
-			frmDoublePwdCreate->Close();
-		}
-
-		// ¹Ø±ÕĞŞ¸Ä±íµ¥
-		if(frmDoublePwdAlter && frmDoublePwdAlter->GetIsShow())
-		{
-			frmDoublePwdAlter->Close();
-		}
-
-		// ¹Ø±Õ¶ş´ÎÃÜÂëÊäÈë±íµ¥
-		if(frmDoublePwd && frmDoublePwd->GetIsShow())
-		{
-			frmDoublePwd->Close();
-		}
-
-		// ¹Ø±Õ¶ş´ÎÃÜÂëÈí¼üÅÌ±íµ¥
-		if(frmDoublePwdInput && frmDoublePwdInput->GetIsShow())
-		{
-			frmDoublePwdInput->Close();
-		}
-
-		// ¹Ø±Õ´´½¨¶ş´ÎÃÜÂëÌáÊ¾
-		if(frmDoublePwdInfo && frmDoublePwdInfo->GetIsShow())
-		{
-			frmDoublePwdInfo->Close();
-		}
-	}
-
-
-	// ÏÔÊ¾¶ş´ÎÃÜÂëÈí¼üÅÌ
-	void CDoublePwdMgr::ShowDoublePwdKeyboardForm()
-	{
-		if(! frmDoublePwdInput)
-			return;
-
-		RandomInputButton();
-		frmDoublePwdInput->Refresh();
-		frmDoublePwdInput->Show();
-	}
-
-
-	// ·¢ËÍÉ¾³ı½ÇÉ«ÏûÏ¢
-	void CDoublePwdMgr::SendDeleteCharactor()
-	{
-		CWorldScene* pScene = dynamic_cast<CWorldScene*>(g_pGameApp->GetCurScene());
-
-		char szMD5[33] = {0};
-		md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
-
-		pScene->SendDelChaToServer(szMD5);
-        CGameApp::Waiting();
-	}
-
-
-	// ·¢ËÍ±³°ü½âËøÏûÏ¢
-	void CDoublePwdMgr::SendPackageUnlock()
-	{
-		char szMD5[33] = {0};
-		md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
-
-		CS_UnlockKitbag(szMD5);
-	}
-
-	 // ·¢ËÍµÀ¾ß½âËøÏûÏ¢ add by ning.yan 2008-11-11 begin
-	void CDoublePwdMgr::SendItemUnlock()// ±»ËøµÀ¾ßµÄÎ»ÖÃºÍid
-	{
-		char szMD5[33] = {0};
-		md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
-
-		//CS_UnlockItem( szMD5,
-		//			   _lock_pos_,			  // ËøµÀ¾ßµÄÎ»ÖÃ
-		//			   _lock_item_id_,	      // ËøµÀ¾ßµÄid
-		//			   _lock_grid_id_,       // ±»ËøµÀ¾ßµÄÎ»ÖÃ
-		//			   _lock_fusion_item_id_);// ±»ËøµÀ¾ßµÄid
-		CS_UnlockItem( szMD5,
-			_lock_pos_,			  // ËøµÀ¾ßµÄÎ»ÖÃ
-			(dbc::Char)_lock_item_id_,	      // ËøµÀ¾ßµÄid
-			(dbc::Char)_lock_grid_id_,       // ±»ËøµÀ¾ßµÄÎ»ÖÃ
-			(dbc::Char)_lock_fusion_item_id_);// ±»ËøµÀ¾ßµÄid
-		// ¹Ø±Õ¶ş´ÎÃÜÂë¿ò
-		g_stUIDoublePwd.CloseAllForm();
-
-		// ÉèÖÃµÈ´ı·şÎñÆ÷·µ»Ø½âËø½á¹û×´Ì¬
-		g_yyy_add_lock_item_wait_return_state = true;
-	} 
-	// end
-
-	// ·¢ËÍÉÌ³Ç´ò¿ªÏûÏ¢
-	void CDoublePwdMgr::SendPackageStoreOpen()
-	{
-		if(! g_stUIStore.ResetLastOperate())
-		{
-			CloseAllForm();
-			return;
-		}
-
-		char szMD5[33] = {0};
-		md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
-
-		g_stUIStore.ShowStoreLoad();
-		CS_StoreOpenAsk(szMD5);
-		CloseAllForm();
-	}
-
-	void CDoublePwdMgr::SendOpenExchange()
-	{
-		char szMD5[33] = {0};
-		md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
-		CS_ExchangeOpenAsk( szMD5 );
-	}
-
-
-	// ¶ÔÈí¼üÅÌ°´Å¥½øĞĞËæ»úÅÅÁĞ
-	void CDoublePwdMgr::RandomInputButton()
-	{
-		CTextButton* btnNum[10] = {0};
-
-		char szName[32] = {0};
-		for(int i = 0; i < 10;++i)
-		{
-			_snprintf_s( szName, _countof( szName ), _TRUNCATE,  "btnNum%d", i);
-			btnNum[i] = dynamic_cast<CTextButton*>(frmDoublePwdInput->Find(szName));
-
-			if(! btnNum[i])
-				return;
-		}
-
-		const int nRandomCount = 10;
-		srand(g_pGameApp->GetCurTick());
-
-		int nOldX, nOldY, nNewX, nNewY, nNum1, nNum2;
-		for(int i = 0; i < nRandomCount; )
-		{
-			nNum1 = rand() % 10;
-			nNum2 = rand() % 10;
-
-			if(nNum1 == nNum2)
-				continue;
-
-			nOldX = btnNum[nNum1]->GetLeft();
-			nOldY = btnNum[nNum1]->GetTop();
-			nNewX = btnNum[nNum2]->GetLeft();
-			nNewY = btnNum[nNum2]->GetTop();
-
-			btnNum[nNum1]->SetPos(nNewX, nNewY);
-			btnNum[nNum2]->SetPos(nOldX, nOldY);
-
-			++i;
-		}
-	}
-
+  char szMD5[33] = {0};
+  md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
+
+  // CS_UnlockItem( szMD5,
+  //			   _lock_pos_,			  // é”é“å…·çš„ä½ç½®
+  //			   _lock_item_id_,	      // é”é“å…·çš„id
+  //			   _lock_grid_id_,       // è¢«é”é“å…·çš„ä½ç½®
+  //			   _lock_fusion_item_id_);// è¢«é”é“å…·çš„id
+  CS_UnlockItem(szMD5,
+                _lock_pos_,                        // é”é“å…·çš„ä½ç½®
+                (dbc::Char)_lock_item_id_,         // é”é“å…·çš„id
+                (dbc::Char)_lock_grid_id_,         // è¢«é”é“å…·çš„ä½ç½®
+                (dbc::Char)_lock_fusion_item_id_); // è¢«é”é“å…·çš„id
+  // å…³é—­äºŒæ¬¡å¯†ç æ¡†
+  g_stUIDoublePwd.CloseAllForm();
+
+  // è®¾ç½®ç­‰å¾…æœåŠ¡å™¨è¿”å›è§£é”ç»“æœçŠ¶æ€
+  g_yyy_add_lock_item_wait_return_state = true;
+}
+// end
+
+// å‘é€å•†åŸæ‰“å¼€æ¶ˆæ¯
+void CDoublePwdMgr::SendPackageStoreOpen() {
+  if (!g_stUIStore.ResetLastOperate()) {
+    CloseAllForm();
+    return;
+  }
+
+  char szMD5[33] = {0};
+  md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
+
+  g_stUIStore.ShowStoreLoad();
+  CS_StoreOpenAsk(szMD5);
+  CloseAllForm();
+}
+
+void CDoublePwdMgr::SendOpenExchange() {
+  char szMD5[33] = {0};
+  md5string(g_stUIDoublePwd.edtDoublePwd->GetCaption(), szMD5);
+  CS_ExchangeOpenAsk(szMD5);
+}
+
+// å¯¹è½¯é”®ç›˜æŒ‰é’®è¿›è¡Œéšæœºæ’åˆ—
+void CDoublePwdMgr::RandomInputButton() {
+  CTextButton *btnNum[10] = {0};
+
+  char szName[32] = {0};
+  for (int i = 0; i < 10; ++i) {
+    _snprintf_s(szName, _countof(szName), _TRUNCATE, "btnNum%d", i);
+    btnNum[i] = dynamic_cast<CTextButton *>(frmDoublePwdInput->Find(szName));
+
+    if (!btnNum[i])
+      return;
+  }
+
+  const int nRandomCount = 10;
+  srand(g_pGameApp->GetCurTick());
+
+  int nOldX, nOldY, nNewX, nNewY, nNum1, nNum2;
+  for (int i = 0; i < nRandomCount;) {
+    nNum1 = rand() % 10;
+    nNum2 = rand() % 10;
+
+    if (nNum1 == nNum2)
+      continue;
+
+    nOldX = btnNum[nNum1]->GetLeft();
+    nOldY = btnNum[nNum1]->GetTop();
+    nNewX = btnNum[nNum2]->GetLeft();
+    nNewY = btnNum[nNum2]->GetTop();
+
+    btnNum[nNum1]->SetPos(nNewX, nNewY);
+    btnNum[nNum2]->SetPos(nOldX, nOldY);
+
+    ++i;
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
-	// ´´½¨¶ş´ÎÃÜÂë±íµ¥°´Å¥ÊÂ¼ş
-	void CDoublePwdMgr::_evtCreateFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		string strName = pSender->GetName();
+// åˆ›å»ºäºŒæ¬¡å¯†ç è¡¨å•æŒ‰é’®äº‹ä»¶
+void CDoublePwdMgr::_evtCreateFromMouseEvent(CCompent *pSender, int nMsgType,
+                                             int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
 
-		if(strName == "btnYes")
-		{
-			int nPwdLen = (int) strlen(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption());
+  if (strName == "btnYes") {
+    int nPwdLen = (int)strlen(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption());
 
-			if(! IsPwdValid(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption()))
-			{
-				// ÃÜÂëÖ»ÄÜÊÇÊı×Ö
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_797));//"¶ş´ÎÃÜÂëÖ»ÄÜÓĞ 0 ~ 9 Êı×Ö×é³É£¬ÇëÖØĞÂÊäÈë"
+    if (!IsPwdValid(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption())) {
+      // å¯†ç åªèƒ½æ˜¯æ•°å­—
+      g_pGameApp->MsgBox(RES_STRING(
+          CL_LANGUAGE_MATCH_797)); //"äºŒæ¬¡å¯†ç åªèƒ½æœ‰ 0 ~ 9 æ•°å­—ç»„æˆï¼Œè¯·é‡æ–°è¾“å…¥"
 
-				g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
-				return;
-			}
+      g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
+      return;
+    }
 
-			if(6 > nPwdLen || 12 < nPwdLen)
-			{
-				// ÃÜÂë³¤¶È²»ÔÚ 6 ~ 12 Ö®¼ä
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_798));//"¶ş´ÎÃÜÂë³¤¶È²»ÔÚ 6 ~ 12£¬ÇëÖØĞÂÊäÈë"
+    if (6 > nPwdLen || 12 < nPwdLen) {
+      // å¯†ç é•¿åº¦ä¸åœ¨ 6 ~ 12 ä¹‹é—´
+      g_pGameApp->MsgBox(RES_STRING(
+          CL_LANGUAGE_MATCH_798)); //"äºŒæ¬¡å¯†ç é•¿åº¦ä¸åœ¨ 6 ~ 12ï¼Œè¯·é‡æ–°è¾“å…¥"
 
-				g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
-				return;
-			}
+      g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
+      return;
+    }
 
-			if(0 != strcmp(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption(), 
-						   g_stUIDoublePwd.edtDoublePwdCreateRetry->GetCaption()))
-			{
-				// Á½´ÎÃÜÂë²»Í¬
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_799));//"Á½´ÎÊäÈëµÄÃÜÂë²»Í¬£¬ÇëÖØĞÂÊäÈë"
+    if (0 != strcmp(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption(),
+                    g_stUIDoublePwd.edtDoublePwdCreateRetry->GetCaption())) {
+      // ä¸¤æ¬¡å¯†ç ä¸åŒ
+      g_pGameApp->MsgBox(
+          RES_STRING(CL_LANGUAGE_MATCH_799)); //"ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸åŒï¼Œè¯·é‡æ–°è¾“å…¥"
 
-				g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
-				return;
-			}
+      g_stUIDoublePwd.edtDoublePwdCreate->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdCreateRetry->SetCaption("");
+      return;
+    }
 
-			// Á½´ÎÃÜÂëÏàÍ¬£¬Ïò·şÎñÆ÷·¢ËÍ´´½¨¶ş´ÎÃÜÂëÏûÏ¢
-			char szMD5[33] = {0};
-			md5string(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption(), szMD5);
+    // ä¸¤æ¬¡å¯†ç ç›¸åŒï¼Œå‘æœåŠ¡å™¨å‘é€åˆ›å»ºäºŒæ¬¡å¯†ç æ¶ˆæ¯
+    char szMD5[33] = {0};
+    md5string(g_stUIDoublePwd.edtDoublePwdCreate->GetCaption(), szMD5);
 
-			CS_CreatePassword2(szMD5);
-			CCursor::I()->SetCursor(CCursor::stWait);
-		}
-		else
-		{
-			// ÓÃ»§È¡Ïû
-			extern TOM_SERVER g_TomServer;
-			if( g_TomServer.bEnable )
-			{
-				g_pGameApp->SetIsRun( false );
-				return;
-			}
+    CS_CreatePassword2(szMD5);
+    CCursor::I()->SetCursor(CCursor::stWait);
+  } else {
+    // ç”¨æˆ·å–æ¶ˆ
+    extern TOM_SERVER g_TomServer;
+    if (g_TomServer.bEnable) {
+      g_pGameApp->SetIsRun(false);
+      return;
+    }
 
-			// ÍË³öÑ¡ÈË³¡¾°
-			CS_Logout();
-			CS_Disconnect(DS_DISCONN);
-			g_pGameApp->LoadScriptScene( enumLoginScene );
-		}
-	}
-
-
-	// ĞŞ¸Ä¶ş´ÎÃÜÂë±íµ¥°´Å¥ÊÂ¼ş
-	void CDoublePwdMgr::_evtAlterFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		string strName = pSender->GetName();
-		if(strName.size() <= 0) return;
-
-		if(strName == "btnYes")
-		{
-			if(! IsPwdValid(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption()))
-			{
-				// ÃÜÂëÖ»ÄÜÊÇÊı×Ö
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_797));//"¶ş´ÎÃÜÂëÖ»ÄÜÓĞ 0 ~ 9 Êı×Ö×é³É£¬ÇëÖØĞÂÊäÈë"
-
-				g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
-				return;
-			}
-
-			int nPwdLen = (int) strlen(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption());
-			if(6 > nPwdLen || 12 < nPwdLen)
-			{
-				// ÃÜÂë³¤¶È²»ÔÚ 6 ~ 12 Ö®¼ä
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_798));//"¶ş´ÎÃÜÂë³¤¶È²»ÔÚ 6 ~ 12£¬ÇëÖØĞÂÊäÈë"
-
-				g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
-				return;
-			}
-
-			if(0 != strcmp(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption(), 
-						   g_stUIDoublePwd.edtDoublePwdAlterNewRetry->GetCaption()))
-			{
-				// Á½´ÎÃÜÂë²»Í¬
-				g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_799));//"Á½´ÎÊäÈëµÄÃÜÂë²»Í¬£¬ÇëÖØĞÂÊäÈë"
-
-				g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
-				g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
-				return;
-			}
-
-			// Á½´ÎÃÜÂëÏàÍ¬£¬Ïò·şÎñÆ÷·¢ËÍĞŞ¸Ä¶ş´ÎÃÜÂëÏûÏ¢
-			char szOldMD5[33] = {0};
-			md5string(g_stUIDoublePwd.edtDoublePwdAlterOld->GetCaption(), szOldMD5);
-
-			char szNewMD5[33] = {0};
-			md5string(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption(), szNewMD5);
-
-			CS_UpdatePassword2(szOldMD5, szNewMD5);
-		}
-		else
-		{
-			g_stUIDoublePwd.CloseAllForm();
-		}
-	}
-
-
-	// ÊäÈë¶ş´ÎÃÜÂë±íµ¥°´Å¥ÊÂ¼ş
-	void CDoublePwdMgr::_evtDoublePwdFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		string strName = pSender->GetName();
-		if(strName.size() <= 0) return;
-
-		if(strName == "btnYes")
-		{
-			switch(g_stUIDoublePwd.m_nType)
-			{
-			case DELETE_CHARACTOR:
-				g_stUIDoublePwd.SendDeleteCharactor();
-				break;
-
-			case PACKAGE_UNLOCK:
-				g_stUIDoublePwd.SendPackageUnlock();
-				break;
-
-			case STORE_OPEN_ASK:
-				g_stUIDoublePwd.SendPackageStoreOpen();
-				break;
-			// add by ning.yan 2008-11-11 µÀ¾ß½âËø begin
-			case ITEM_UNLOCK:
-				g_stUIDoublePwd.SendItemUnlock();
-				break;// end
-
-			case SHOW_EXCHANGEFORM:
-				g_stUIDoublePwd.SendOpenExchange();
-				break;
-			}
-		}
-		else
-		{
-			g_stUIDoublePwd.RandomInputButton();
-			g_stUIDoublePwd.CloseAllForm();
-		}
-	}
-
-
-	// ¶ş´ÎÃÜÂëÊäÈëÈí¼üÅÌ±íµ¥°´Å¥ÊÂ¼ş
-	void CDoublePwdMgr::_evtInputFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-	{
-		if(! g_stUIDoublePwd.edtFocusEditBox)
-			return;
-
-		string strName = pSender->GetName();
-		if(strName.empty()) return;
-
-		char cNumber = strName[strName.size() - 1];
-		string strPwd  = g_stUIDoublePwd.edtFocusEditBox->GetCaption();
-
-		if(strName == "btnClear")
-		{
-			// Çå¿Õ°´Å¥
-			g_stUIDoublePwd.edtFocusEditBox->SetCaption("");
-		}
-		else if('0' <= cNumber && cNumber <= '9' && strPwd.size() < 12)
-		{ 
-			// Êı×Ö¼ü
-			strPwd += cNumber;
-			g_stUIDoublePwd.edtFocusEditBox->SetCaption(strPwd.c_str());
-		}
-	}
-
-
-	// ±à¼­¿ò¼¤»îÊÂ¼ş£¨±£´æÏÂ¼¤»îµÄ±à¼­¿ò£©
-	void CDoublePwdMgr::_evtEditFocus(CGuiData* pSender)
-	{
-		CEdit* edtTemp = dynamic_cast<CEdit*>(pSender);
-		if(edtTemp)
-		{
-			g_stUIDoublePwd.SetFocusEditBox(edtTemp);
-		}
-	}
-
-
-	// ¹Ø±Õ´°ÌåÊÂ¼ş
-	void CDoublePwdMgr::_evtFormClose(CForm* pForm, bool& IsClose)
-	{
-		//g_stUIDoublePwd.CloseAllForm();
-	}
-
+    // é€€å‡ºé€‰äººåœºæ™¯
+    CS_Logout();
+    CS_Disconnect(DS_DISCONN);
+    g_pGameApp->LoadScriptScene(enumLoginScene);
+  }
 }
 
+// ä¿®æ”¹äºŒæ¬¡å¯†ç è¡¨å•æŒ‰é’®äº‹ä»¶
+void CDoublePwdMgr::_evtAlterFromMouseEvent(CCompent *pSender, int nMsgType,
+                                            int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
+  if (strName.size() <= 0)
+    return;
+
+  if (strName == "btnYes") {
+    if (!IsPwdValid(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption())) {
+      // å¯†ç åªèƒ½æ˜¯æ•°å­—
+      g_pGameApp->MsgBox(RES_STRING(
+          CL_LANGUAGE_MATCH_797)); //"äºŒæ¬¡å¯†ç åªèƒ½æœ‰ 0 ~ 9 æ•°å­—ç»„æˆï¼Œè¯·é‡æ–°è¾“å…¥"
+
+      g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
+      return;
+    }
+
+    int nPwdLen =
+        (int)strlen(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption());
+    if (6 > nPwdLen || 12 < nPwdLen) {
+      // å¯†ç é•¿åº¦ä¸åœ¨ 6 ~ 12 ä¹‹é—´
+      g_pGameApp->MsgBox(RES_STRING(
+          CL_LANGUAGE_MATCH_798)); //"äºŒæ¬¡å¯†ç é•¿åº¦ä¸åœ¨ 6 ~ 12ï¼Œè¯·é‡æ–°è¾“å…¥"
+
+      g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
+      return;
+    }
+
+    if (0 != strcmp(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption(),
+                    g_stUIDoublePwd.edtDoublePwdAlterNewRetry->GetCaption())) {
+      // ä¸¤æ¬¡å¯†ç ä¸åŒ
+      g_pGameApp->MsgBox(
+          RES_STRING(CL_LANGUAGE_MATCH_799)); //"ä¸¤æ¬¡è¾“å…¥çš„å¯†ç ä¸åŒï¼Œè¯·é‡æ–°è¾“å…¥"
+
+      g_stUIDoublePwd.edtDoublePwdAlterOld->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNew->SetCaption("");
+      g_stUIDoublePwd.edtDoublePwdAlterNewRetry->SetCaption("");
+      return;
+    }
+
+    // ä¸¤æ¬¡å¯†ç ç›¸åŒï¼Œå‘æœåŠ¡å™¨å‘é€ä¿®æ”¹äºŒæ¬¡å¯†ç æ¶ˆæ¯
+    char szOldMD5[33] = {0};
+    md5string(g_stUIDoublePwd.edtDoublePwdAlterOld->GetCaption(), szOldMD5);
+
+    char szNewMD5[33] = {0};
+    md5string(g_stUIDoublePwd.edtDoublePwdAlterNew->GetCaption(), szNewMD5);
+
+    CS_UpdatePassword2(szOldMD5, szNewMD5);
+  } else {
+    g_stUIDoublePwd.CloseAllForm();
+  }
+}
+
+// è¾“å…¥äºŒæ¬¡å¯†ç è¡¨å•æŒ‰é’®äº‹ä»¶
+void CDoublePwdMgr::_evtDoublePwdFromMouseEvent(CCompent *pSender, int nMsgType,
+                                                int x, int y, DWORD dwKey) {
+  string strName = pSender->GetName();
+  if (strName.size() <= 0)
+    return;
+
+  if (strName == "btnYes") {
+    switch (g_stUIDoublePwd.m_nType) {
+    case DELETE_CHARACTOR:
+      g_stUIDoublePwd.SendDeleteCharactor();
+      break;
+
+    case PACKAGE_UNLOCK:
+      g_stUIDoublePwd.SendPackageUnlock();
+      break;
+
+    case STORE_OPEN_ASK:
+      g_stUIDoublePwd.SendPackageStoreOpen();
+      break;
+    // add by ning.yan 2008-11-11 é“å…·è§£é” begin
+    case ITEM_UNLOCK:
+      g_stUIDoublePwd.SendItemUnlock();
+      break; // end
+
+    case SHOW_EXCHANGEFORM:
+      g_stUIDoublePwd.SendOpenExchange();
+      break;
+    }
+  } else {
+    g_stUIDoublePwd.RandomInputButton();
+    g_stUIDoublePwd.CloseAllForm();
+  }
+}
+
+// äºŒæ¬¡å¯†ç è¾“å…¥è½¯é”®ç›˜è¡¨å•æŒ‰é’®äº‹ä»¶
+void CDoublePwdMgr::_evtInputFromMouseEvent(CCompent *pSender, int nMsgType,
+                                            int x, int y, DWORD dwKey) {
+  if (!g_stUIDoublePwd.edtFocusEditBox)
+    return;
+
+  string strName = pSender->GetName();
+  if (strName.empty())
+    return;
+
+  char cNumber = strName[strName.size() - 1];
+  string strPwd = g_stUIDoublePwd.edtFocusEditBox->GetCaption();
+
+  if (strName == "btnClear") {
+    // æ¸…ç©ºæŒ‰é’®
+    g_stUIDoublePwd.edtFocusEditBox->SetCaption("");
+  } else if ('0' <= cNumber && cNumber <= '9' && strPwd.size() < 12) {
+    // æ•°å­—é”®
+    strPwd += cNumber;
+    g_stUIDoublePwd.edtFocusEditBox->SetCaption(strPwd.c_str());
+  }
+}
+
+// ç¼–è¾‘æ¡†æ¿€æ´»äº‹ä»¶ï¼ˆä¿å­˜ä¸‹æ¿€æ´»çš„ç¼–è¾‘æ¡†ï¼‰
+void CDoublePwdMgr::_evtEditFocus(CGuiData *pSender) {
+  CEdit *edtTemp = dynamic_cast<CEdit *>(pSender);
+  if (edtTemp) {
+    g_stUIDoublePwd.SetFocusEditBox(edtTemp);
+  }
+}
+
+// å…³é—­çª—ä½“äº‹ä»¶
+void CDoublePwdMgr::_evtFormClose(CForm *pForm, bool &IsClose) {
+  // g_stUIDoublePwd.CloseAllForm();
+}
+
+} // namespace GUI

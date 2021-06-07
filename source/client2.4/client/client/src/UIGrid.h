@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:·­Ò³±í¸ñ
-// ×÷Õß:lh 2004-07-29
-// ÓÃÍ¾:ÄÚ²¿ÏÔÊ¾Í¼ÔªÎªCGraph,°´·­Ò³Êı×Ö¿É·­Ò³,¿É¸Ä±ä±í¸ñ´óĞ¡
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:ç¿»é¡µè¡¨æ ¼
+// ä½œè€…:lh 2004-07-29
+// ç”¨é€”:å†…éƒ¨æ˜¾ç¤ºå›¾å…ƒä¸ºCGraph,æŒ‰ç¿»é¡µæ•°å­—å¯ç¿»é¡µ,å¯æ”¹å˜è¡¨æ ¼å¤§å°
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -59,7 +59,7 @@ public:
     int             GetSelectIndex(){ return _nSelectIndex; }
 
 public:
-	GuiEvent		evtSelectChange;				// Ñ¡Ôñ·¢ÉúÁË±ä»¯
+	GuiEvent		evtSelectChange;				// é€‰æ‹©å‘ç”Ÿäº†å˜åŒ–
 
 protected:
 	void			_SetSelf();
@@ -93,30 +93,30 @@ protected:
 
 protected:
 	CGuiPic*		_pImage;
-	CImage*			_pSelectImage;		// ÓÃÓÚ»­Ñ¡Ôñ¿ò
+	CImage*			_pSelectImage;		// ç”¨äºç”»é€‰æ‹©æ¡†
 
 	CDragTitle*		_pSizeImg;
 
-	CTextButton*	_pNextPage;			// ·­µ½ÏÂÒ»Ò³
-	CTextButton*	_pPriorPage;		// ·­µ½ÉÏÒ»Ò³	
+	CTextButton*	_pNextPage;			// ç¿»åˆ°ä¸‹ä¸€é¡µ
+	CTextButton*	_pPriorPage;		// ç¿»åˆ°ä¸Šä¸€é¡µ	
 
-	char			_strPage[10];		// ÓÃÓÚÏÔÊ¾µ±Ç°¶àÉÙÒ³£¬×Ü¹²¶àÉÙÒ³
+	char			_strPage[10];		// ç”¨äºæ˜¾ç¤ºå½“å‰å¤šå°‘é¡µï¼Œæ€»å…±å¤šå°‘é¡µ
 	int				_nStrX, _nStrY;
 	int				_nStrWidth;
 
-	int				_nUnitHeight, _nUnitWidth;  // µ¥Ôª¿í¸ß
-    int             _nSpaceX, _nSpaceY; // ĞĞ¼ä¾à
+	int				_nUnitHeight, _nUnitWidth;  // å•å…ƒå®½é«˜
+    int             _nSpaceX, _nSpaceY; // è¡Œé—´è·
 
 	typedef vector<CGraph*>		memory;
 	memory		_memory;
 	int			_nSize;			
-	int			_nFirst, _nLast;		// ÔÚÏÔÊ¾ÇøµÄµÚÒ»¸öIDºÍ×îºóÒ»¸öID
-	int			_nPage, _nMaxPage;		// µ±Ç°Ò³Êı£¬×î´óÒ³Êı
-	int			_nColNum;				// Ò»ĞĞ¿ÉÒÔÏÔÊ¾¶àÉÙÁĞ
-	int			_nRowNum;				// Ò»Ò³¿ÉÒÔÏÔÊ¾¶àÉÙĞĞ
-	int			_nPageNum;				// Ò»Ò³¿ÉÒÔÏÔÊ¾¶àÉÙ¸ö
+	int			_nFirst, _nLast;		// åœ¨æ˜¾ç¤ºåŒºçš„ç¬¬ä¸€ä¸ªIDå’Œæœ€åä¸€ä¸ªID
+	int			_nPage, _nMaxPage;		// å½“å‰é¡µæ•°ï¼Œæœ€å¤§é¡µæ•°
+	int			_nColNum;				// ä¸€è¡Œå¯ä»¥æ˜¾ç¤ºå¤šå°‘åˆ—
+	int			_nRowNum;				// ä¸€é¡µå¯ä»¥æ˜¾ç¤ºå¤šå°‘è¡Œ
+	int			_nPageNum;				// ä¸€é¡µå¯ä»¥æ˜¾ç¤ºå¤šå°‘ä¸ª
 
-	int			_nMargin;				// ÓëÖÜÎ§±ß¿òµÄ¾àÀë
+	int			_nMargin;				// ä¸å‘¨å›´è¾¹æ¡†çš„è·ç¦»
 	int			_nStartX, _nStartY;
 
 private:
@@ -130,7 +130,7 @@ private:
 	
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CGrid::SetUnitSize(int w, int h) 
 { 
 	if( w>0 ) _nUnitWidth=w; 

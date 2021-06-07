@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// ÃèÊö:EditµÄÊı¾İ½á¹¹½âÎöËã·¨
-// ×÷Õß:lh 2004-07-12
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// æè¿°:Editçš„æ•°æ®ç»“æ„è§£æç®—æ³•
+// ä½œè€…:lh 2004-07-12
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #pragma once
 
@@ -14,7 +14,7 @@ class CEditRow;
 class CEditSentence;
 class CEditObj;
 
-// Ò»ĞĞ,½öÎªÒ»¸öÈİÆ÷
+// ä¸€è¡Œ,ä»…ä¸ºä¸€ä¸ªå®¹å™¨
 class CEditRow
 {
 public:
@@ -34,9 +34,9 @@ public:
 
 private:
 	typedef vector<CEditObj*> units;
-	units			_units;				// ¸ñÊ½ºóµÄÊı¾İ
+	units			_units;				// æ ¼å¼åçš„æ•°æ®
 	DWORD			_dwWordCount;
-	units			_atoms;				// Ô­Ê¼Êı¾İÖ¸Õë£¬²»¹ÜÀíÄÚ´æ£¬ÓÃÓÚ¼ÆËã¹â±ê
+	units			_atoms;				// åŸå§‹æ•°æ®æŒ‡é’ˆï¼Œä¸ç®¡ç†å†…å­˜ï¼Œç”¨äºè®¡ç®—å…‰æ ‡
 
 	DWORD			_dwHeight;
 	DWORD			_dwWidth;
@@ -52,39 +52,39 @@ class CEditParse
 public:
 	CEditParse()	{	_items.push_back( new CEditRow );	}
 
-	// ÔÚÎ»ÖÃ´¦²åÈë¶ÔÏó,³É¹¦·µ»Ø²åÈëºóµÄË÷Òı£¬Ê§°Ü·µ»Ø-1
+	// åœ¨ä½ç½®å¤„æ’å…¥å¯¹è±¡,æˆåŠŸè¿”å›æ’å…¥åçš„ç´¢å¼•ï¼Œå¤±è´¥è¿”å›-1
 	int		Insert( DWORD nIndex, CEditObj* pObj )			{ return -1;			}
 
-	// É¾³ıÆğÊ¼µ½ÖÕÖ¹µÄ¿é
+	// åˆ é™¤èµ·å§‹åˆ°ç»ˆæ­¢çš„å—
 	bool	Del( DWORD nStart, DWORD nEnd );
 
-	// µÃµ½ĞĞÁĞ´¦µÄ¹â±êĞÅÏ¢,ÄÚ²¿ÊÇ·µ»Ø×îºóÒ»¸öÎÄ±¾µÄ×ÖÌåÒÔ¼°ÑÕÉ«
+	// å¾—åˆ°è¡Œåˆ—å¤„çš„å…‰æ ‡ä¿¡æ¯,å†…éƒ¨æ˜¯è¿”å›æœ€åä¸€ä¸ªæ–‡æœ¬çš„å­—ä½“ä»¥åŠé¢œè‰²
 	bool	GetPos( DWORD nIndex, int& x, int& y, DWORD& dwFont, DWORD& dwColor );
 
-	// µÃµ½Ñ¡ÔñºóµÄÇøÓò
+	// å¾—åˆ°é€‰æ‹©åçš„åŒºåŸŸ
 	bool	GetSelectRect( DWORD dwStart, DWORD dwEnd, vector<POINT>& pt );
 
 public:	
-	// ²åÈëµ¥Ôª
+	// æ’å…¥å•å…ƒ
 	bool	InsertText( CEditTextObj* pText );
 	bool	InsertControl( CEditControl* pControl );
 	bool	InsertObj( CEditObj* pObj );
 
-	// ¼ÆËã¹â±ê
+	// è®¡ç®—å…‰æ ‡
 	int		CursorText( CEditTextObj* pText );
 	int		CursorControl( CEditControl* pControl );
 	int		CursorObj( CEditControl* pControl );
 
 private:
 	typedef vector<CEditRow*> items;
-	items		_items;					// Âß¼­ÄÚ´æ£¬ÓÃÓÚÏÔÊ¾£¬¼ÆËãÂß¼­µÈ
+	items		_items;					// é€»è¾‘å†…å­˜ï¼Œç”¨äºæ˜¾ç¤ºï¼Œè®¡ç®—é€»è¾‘ç­‰
 
-	DWORD		_dwRowLimit;			// ĞĞÊıÏŞÖÆ
-	DWORD		_dwMaxWordLimit;		// ×î´ó×ÖÊıÏŞÖÆ
+	DWORD		_dwRowLimit;			// è¡Œæ•°é™åˆ¶
+	DWORD		_dwMaxWordLimit;		// æœ€å¤§å­—æ•°é™åˆ¶
 
 };
 
-// Ëã·¨£¬ÓÃÓÚ¸ú¾İÔ­Ê¼ÄÚ´æÉú´æ¿ÉÏÔÊ¾µÄÎÄÕÂ
+// ç®—æ³•ï¼Œç”¨äºè·Ÿæ®åŸå§‹å†…å­˜ç”Ÿå­˜å¯æ˜¾ç¤ºçš„æ–‡ç« 
 class CEditStrategy
 {
 public:
@@ -97,7 +97,7 @@ public:
 	void	Render();
 	void	RefreshPos( int x, int y );
 
-public:		// vistorÄ£Ê½£¬ÓÃÓÚÎÄ±¾£¬¿ØÖÆ£¬Í¼ÔªÈıÖÖÀàĞÍµÄ½âÎö
+public:		// vistoræ¨¡å¼ï¼Œç”¨äºæ–‡æœ¬ï¼Œæ§åˆ¶ï¼Œå›¾å…ƒä¸‰ç§ç±»å‹çš„è§£æ
 	void	ParseText( CEditTextObj* pText );
 	void	ParseControl( CEditControl* pControl );
 	void	ParseObj( CEditObj* pObj );
@@ -109,13 +109,13 @@ private:
 	CEditArticle*	_pActicle;	
 
 	typedef vector<CEditRow*> items;
-	items			_items;			// Âß¼­ÄÚ´æ£¬ÓÃÓÚÏÔÊ¾£¬¼ÆËãÂß¼­µÈ
+	items			_items;			// é€»è¾‘å†…å­˜ï¼Œç”¨äºæ˜¾ç¤ºï¼Œè®¡ç®—é€»è¾‘ç­‰
 
 };
 
 inline void CEditStrategy::ParseObj( CEditObj* pObj )
 {
-	// ²»¿ÉºÏ²¢µÄÍ¼Ôª
+	// ä¸å¯åˆå¹¶çš„å›¾å…ƒ
 	CEditRow* pRow = _AppendToBackRow( pObj );
 	pRow->PushUnit( pObj, pObj );
 }

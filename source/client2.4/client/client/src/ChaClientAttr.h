@@ -1,9 +1,9 @@
 #pragma  once
 struct SClientAttr
 {
-	short sTeamAngle; // 组队时的头像角度
-	float fTeamDis;   // 组队时的头像距离
-	float fTeamHei;   // 组队时的头像距离
+	short sTeamAngle; // 缁勯槦鏃剁殑澶村儚瑙掑害
+	float fTeamDis;   // 缁勯槦鏃剁殑澶村儚璺濈
+	float fTeamHei;   // 缁勯槦鏃剁殑澶村儚璺濈
 
 	SClientAttr()
 		:sTeamAngle(0),
@@ -15,7 +15,7 @@ struct SClientAttr
 
 extern SClientAttr g_ClientAttr[450];
 
-// 参数为CharacterInfo里面的ID
+// 鍙傛暟涓篊haracterInfo閲岄潰鐨処D
 inline SClientAttr* GetClientAttr(int nScriptID)
 {
 	return &g_ClientAttr[nScriptID];

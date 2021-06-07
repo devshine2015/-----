@@ -3,10 +3,10 @@
 #include "Submap.h"
 
 
-// ÌìÆøÔ¤±¨¼ÆÊ±, ¼ÇÂ¼Ã¿Ò»ÖÖÌìÆøÉÏÒ»´ÎÔ¤±¨µÄÊ±¼ä
+// å¤©æ°”é¢„æŠ¥è®¡æ—¶, è®°å½•æ¯ä¸€ç§å¤©æ°”ä¸Šä¸€æ¬¡é¢„æŠ¥çš„æ—¶é—´
 DWORD g_dwLastWeatherTick[20] = { 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0 };
 
-// ÔÚÖ¸¶¨µÄ´ó·¶Î§ÄÚ, ²úÉúËæ»ú×ø±êµÄµØÃæ×´Ì¬
+// åœ¨æŒ‡å®šçš„å¤§èŒƒå›´å†…, äº§ç”Ÿéšæœºåæ ‡çš„åœ°é¢çŠ¶æ€
 void CWeather::RandLocation(SubMap *pMap)
 {
 	DWORD dwCurTick = GetTickCount();
@@ -15,15 +15,15 @@ void CWeather::RandLocation(SubMap *pMap)
 
 	_dwLastLocationTick = dwCurTick;
 	
-	// ÔÚ·¶Î§ÄÚÑ¡ÔñÒ»¸öËæ»ú×ø±ê, ²úÉúµØÃæ×´Ì¬
+	// åœ¨èŒƒå›´å†…é€‰æ‹©ä¸€ä¸ªéšæœºåæ ‡, äº§ç”Ÿåœ°é¢çŠ¶æ€
 		
 	int sx = _sx + rand()%_w;
 	int sy = _sy + rand()%_h;
-	int nw = 1 +  rand()%3; // Ã¿Ò»´Î²úÉúµÄµØÃæ·¶Î§µÄ³ß´ç, µ¥Î»Îª2Ã×
+	int nw = 1 +  rand()%3; // æ¯ä¸€æ¬¡äº§ç”Ÿçš„åœ°é¢èŒƒå›´çš„å°ºå¯¸, å•ä½ä¸º2ç±³
 	int nh = 1 +  rand()%3;
 
 	Rect	SRange = {{sx * 2 * 100, sy * 2 * 100}, {(sx + nw) * 2 * 100, (sy + nh) * 2 * 100}};
-	short	sStateParam[defSKILL_STATE_PARAM_NUM];	// ×´Ì¬±àºÅ£¬µÈ¼¶£¬³ÖĞøÊ±¼ä£¨ºÁÃë£©
+	short	sStateParam[defSKILL_STATE_PARAM_NUM];	// çŠ¶æ€ç¼–å·ï¼Œç­‰çº§ï¼ŒæŒç»­æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
 
     sStateParam[0] = _btType;
     sStateParam[1] = 1;
@@ -34,11 +34,11 @@ void CWeather::RandLocation(SubMap *pMap)
 	CSkillStateRecord *pEff = GetCSkillStateRecordInfo(_btType);
 	if(pEff)
 	{
-		if( (dwCurTick - g_dwLastWeatherTick[_btType]) > 1000 * g_Config.m_lWeather) // Ã¿ÖÖÌìÆø, Ã¿2·ÖÖÓÒ»´ÎÌìÆøÔ¤±¨
+		if( (dwCurTick - g_dwLastWeatherTick[_btType]) > 1000 * g_Config.m_lWeather) // æ¯ç§å¤©æ°”, æ¯2åˆ†é’Ÿä¸€æ¬¡å¤©æ°”é¢„æŠ¥
 		{
 			g_dwLastWeatherTick[_btType] = dwCurTick; 
 			char szText[128]; 
-			//sprintf(szText, "ÌìÆø:±¾º£Óò%d %d¸½½ü½«·¢Éú%s", SRange.ltop.x / 100,  SRange.ltop.y / 100, pEff->szDataName); 
+			//sprintf(szText, "å¤©æ°”:æœ¬æµ·åŸŸ%d %dé™„è¿‘å°†å‘ç”Ÿ%s", SRange.ltop.x / 100,  SRange.ltop.y / 100, pEff->szDataName); 
 			
 			// Modify by lark.li 20080618 begin
 			CFormatParameter param(3);
@@ -55,12 +55,12 @@ void CWeather::RandLocation(SubMap *pMap)
 			// End
 
 			g_pGameApp->LocalNotice( szText );
-			//LG("weather", "[%s]Ô¤±¨[%s], time = %d\n", pMap->GetName(), szText, dwCurTick / 1000);
+			//LG("weather", "[%s]é¢„æŠ¥[%s], time = %d\n", pMap->GetName(), szText, dwCurTick / 1000);
 			LG("weather", "[%s]predict[%s], time = %d\n", pMap->GetName(), szText, dwCurTick / 1000);
 		}
 	}
 	
-	// LG("weather", "²úÉúÌìÆø×´Ì¬%d, [%d %d] w = %d h = %d\n", _btType, sx * 2, sy * 2, nw, nh);
+	// LG("weather", "äº§ç”Ÿå¤©æ°”çŠ¶æ€%d, [%d %d] w = %d h = %d\n", _btType, sx * 2, sy * 2, nw, nh);
 }
 
 

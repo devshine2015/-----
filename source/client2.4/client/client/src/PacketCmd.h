@@ -7,75 +7,75 @@
 class CActionState;
 
 //-----------------------------------------------------------------------------------
-//  Ğ­Òéº¯ÊıÁĞ±í Àà±ğ°üÀ¨: [µÇÂ¼Ğ­Òé] [½ÇÉ«Ñ¡ÔñĞ­Òé] [ÒÆ¶¯Ğ­Òé] [Õ½¶·Ğ­Òé] [ÁÄÌìĞ­Òé]
+//  åè®®å‡½æ•°åˆ—è¡¨ ç±»åˆ«åŒ…æ‹¬: [ç™»å½•åè®®] [è§’è‰²é€‰æ‹©åè®®] [ç§»åŠ¨åè®®] [æˆ˜æ–—åè®®] [èŠå¤©åè®®]
 //-----------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------
 //                          Client To Server Protocol
 //---------------------------------------------------------------------------------
-// Ğ­ÒéC->S : Á¬½ÓÓÎÏ··şÎñÆ÷,·µ»ØÖµtrue£¬Ìá½»Á¬½ÓÇëÇó³É¹¦£¬false£¬Ìá½»Á¬½ÓÇëÇóÊ§°Ü£¬Ìá½»³É¹¦ºóÊ¹ÓÃGetConnStat¼ì²âÁ¬½Ó¹ı³ÌµÄ×´Ì¬¡£
+// åè®®C->S : è¿æ¥æ¸¸æˆæœåŠ¡å™¨,è¿”å›å€¼trueï¼Œæäº¤è¿æ¥è¯·æ±‚æˆåŠŸï¼Œfalseï¼Œæäº¤è¿æ¥è¯·æ±‚å¤±è´¥ï¼Œæäº¤æˆåŠŸåä½¿ç”¨GetConnStatæ£€æµ‹è¿æ¥è¿‡ç¨‹çš„çŠ¶æ€ã€‚
 extern bool	CS_Connect(dbc::cChar *hostname,dbc::uShort port,dbc::uLong timeout);
-// Ğ­ÒéC->S : ¶Ï¿ªÁ¬½Ó,³ÌĞòÍË³öÓ¦¸ÃÖ±½Óµ÷ÓÃShutDown,²»ÓÃµ¥¶Àµ÷ÓÃDisconnect;
+// åè®®C->S : æ–­å¼€è¿æ¥,ç¨‹åºé€€å‡ºåº”è¯¥ç›´æ¥è°ƒç”¨ShutDown,ä¸ç”¨å•ç‹¬è°ƒç”¨Disconnect;
 extern void	CS_Disconnect(int reason);
 
 
-// Ğ­ÒéC->S : ·¢ËÍµÇÂ¼ÃüÁî
+// åè®®C->S : å‘é€ç™»å½•å‘½ä»¤
 extern void	CS_Login(const char *accounts,const char *password, const char* passport);
-// Ğ­ÒéC->S : ·¢ËÍµÇ³öÃüÁî
+// åè®®C->S : å‘é€ç™»å‡ºå‘½ä»¤
 extern void	CS_Logout();
 
-// ÒªÇóÈ¡Ïû¼ÆÊ±ÍË³ö
+// è¦æ±‚å–æ¶ˆè®¡æ—¶é€€å‡º
 extern void CS_CancelExit();
 
-// ´´½¨¶ş´ÎÃÜÂë
+// åˆ›å»ºäºŒæ¬¡å¯†ç 
 extern void CS_CreatePassword2( const char szPassword[] );
-// ¸üĞÂ¶ş´ÎÃÜÂë
+// æ›´æ–°äºŒæ¬¡å¯†ç 
 extern void CS_UpdatePassword2( const char szOld[], const char szPassword[] );
 
-//±³°üËø¶¨
+//èƒŒåŒ…é”å®š
 extern void CS_LockKitbag();
 extern void CS_UnlockKitbag( const char szPassword[] );
 extern void CS_KitbagCheck();
 extern void CS_AutoKitbagLock(bool bAutoLock);
 
-// Ğ­ÒéC->S : ·¢ËÍ¿ªÊ¼Íæ½ÇÉ«ÃüÁî
+// åè®®C->S : å‘é€å¼€å§‹ç©è§’è‰²å‘½ä»¤
 extern void	CS_BeginPlay(const char *cha);
-// Ğ­ÒéC->S : ·¢ËÍ½áÊøÍæÃüÁî
+// åè®®C->S : å‘é€ç»“æŸç©å‘½ä»¤
 extern void	CS_EndPlay();
 
-// Ğ­ÒéC->S : ·¢ËÍĞÂ½¨½ÇÉ«ÃüÁî
+// åè®®C->S : å‘é€æ–°å»ºè§’è‰²å‘½ä»¤
 extern void	CS_NewCha(const char *chaname,const char *birth,LOOK &look);
-// Ğ­ÒéC->S : ·¢ËÍÉ¾³ı½ÇÉ«ÃüÁî
+// åè®®C->S : å‘é€åˆ é™¤è§’è‰²å‘½ä»¤
 extern void	CS_DelCha(const char *cha, const char szPassword2[]);
 
-// Ğ­ÒéC->S : ·¢ËÍĞĞ¶¯ĞÅÏ¢
+// åè®®C->S : å‘é€è¡ŒåŠ¨ä¿¡æ¯
 extern void	CS_BeginAction( CCharacter* pCha, DWORD type, void* param, CActionState* pState=NULL );
-// Ğ­ÒéC->S : ·¢ËÍÍ£Ö¹ĞĞ¶¯ĞÅÏ¢
+// åè®®C->S : å‘é€åœæ­¢è¡ŒåŠ¨ä¿¡æ¯
 extern void	CS_EndAction( CActionState* pState=NULL );
-// Ğ­ÒéC->S : ·¢ËÍËÀÍö»Ø³ÇĞÅÏ¢
+// åè®®C->S : å‘é€æ­»äº¡å›åŸä¿¡æ¯
 extern void	CS_DieReturn(char chReliveType);
-// Ğ­ÒéC->S	: Ping·şÎñÆ÷£¬·µ»ØºÁÃëÊı¡£
+// åè®®C->S	: PingæœåŠ¡å™¨ï¼Œè¿”å›æ¯«ç§’æ•°ã€‚
 extern void	CS_SendPing();
-// ´óµØÍ¼
+// å¤§åœ°å›¾
 extern void	CS_MapMask(char *szMapName = "");
 
-// Ğ­ÒéC->S : ·¢ËÍÁÄÌìÏûÏ¢
+// åè®®C->S : å‘é€èŠå¤©æ¶ˆæ¯
 extern void CS_Say(const char *pszContent);
 // Added by knight-gongjian 2004.11.29
-// NPC¶Ô»°
+// NPCå¯¹è¯
 extern void	CS_RequestTalk( DWORD dwNpcID, BYTE byCmd );
 extern void	CS_SelFunction( DWORD dwNpcID, BYTE byPageID, BYTE byIndex );
 
-// NPC½»Ò×
+// NPCäº¤æ˜“
 extern void	CS_Sale( DWORD dwNpcID, BYTE byIndex, BYTE byCount );
 extern void	CS_Buy(  DWORD dwNpcID, BYTE byItemType, BYTE byIndex1, BYTE byIndex2, BYTE byCount );
 
-// ´¬²Õ»õÎï½»Ò×
+// èˆ¹èˆ±è´§ç‰©äº¤æ˜“
 extern void CS_SelectBoatList( DWORD dwNpcID, BYTE byType, BYTE byIndex );
 extern void CS_SaleGoods( DWORD dwNpcID, DWORD dwBoatID, BYTE byIndex, BYTE byCount );
 extern void CS_BuyGoods( DWORD dwNpcID, DWORD dwBoatID, BYTE byItemType, BYTE byIndex1, BYTE byIndex2, BYTE byCount );
 
-// ½ÇÉ«½»Ò×,½»Ò×ÖĞµÄËùÓĞID¶¼Îªµ±Ç°µÄWorldID,Í¨¹ıÀàĞÍbyTypeÖªµÀÊÇ´¬µÄ»õ²Õ½»Ò×»¹ÊÇÈËµÄµÀ¾ß½»Ò×
+// è§’è‰²äº¤æ˜“,äº¤æ˜“ä¸­çš„æ‰€æœ‰IDéƒ½ä¸ºå½“å‰çš„WorldID,é€šè¿‡ç±»å‹byTypeçŸ¥é“æ˜¯èˆ¹çš„è´§èˆ±äº¤æ˜“è¿˜æ˜¯äººçš„é“å…·äº¤æ˜“
 extern void	CS_RequestTrade( BYTE byType, DWORD dwCharID );
 extern void	CS_AcceptTrade( BYTE byType, DWORD dwCharID );
 extern void	CS_AddItem( BYTE byType, DWORD dwCharID, BYTE byOpType, BYTE byIndex, BYTE byItemIndex, BYTE byCount );
@@ -84,7 +84,7 @@ extern void	CS_ValidateTradeData( BYTE byType, DWORD dwCharID );
 extern void	CS_ValidateTrade( BYTE byType, DWORD dwCharID );
 extern void	CS_CancelTrade( BYTE byType, DWORD dwCharID );
 
-// ÈÎÎñ²Ù×÷
+// ä»»åŠ¡æ“ä½œ
 extern void	CS_MissionPage( DWORD dwNpcID, BYTE byCmd, BYTE bySelItem = 0, BYTE byParam = 0 );
 extern void	CS_SelMission( DWORD dwNpcID, BYTE byIndex );
 extern void	CS_MissionTalk( DWORD dwNpcID, BYTE byCmd );
@@ -93,50 +93,50 @@ extern void	CS_MisLog();
 extern void	CS_MisLogInfo( WORD wID );
 extern void	CS_MisClear( WORD wID );
 
-// ¾«Á·
-// extern void	CS_ForgeItem( BYTE byIndex ); ÒÑÎŞÓÃ -Waiting Mark 2009-03-25
+// ç²¾ç»ƒ
+// extern void	CS_ForgeItem( BYTE byIndex ); å·²æ— ç”¨ -Waiting Mark 2009-03-25
 
-// Ôì´¬
+// é€ èˆ¹
 extern void	CS_UpdateBoat( char szHeader, char szEngine, char szCannon, char szEquipment );
 extern void	CS_CancelBoat();
 extern void	CS_CreateBoat( const char szBoat[], char szHeader, char szEngine, char szCannon, char szEquipment );
 extern void	CS_SelectBoat( DWORD dwNpcID, BYTE byIndex );
 extern void CS_GetBoatInfo();
 
-// ´¬Ö»ÎïÆ·´ò°ü
+// èˆ¹åªç‰©å“æ‰“åŒ…
 extern void	CS_SelectBoatBag( DWORD dwNpcID, BYTE byIndex );
 
-// ÊÂ¼şÊµÌå½»»¥
+// äº‹ä»¶å®ä½“äº¤äº’
 extern void CS_EntityEvent( DWORD dwEntityID );
 
-// °ÚÌ¯»õÎï½»Ò×
+// æ‘†æ‘Šè´§ç‰©äº¤æ˜“
 extern void CS_StallInfo( const char szName[], mission::NET_STALL_ALLDATA& Data );
 extern void CS_StallOpen( DWORD dwCharID );
 extern void CS_StallBuy( DWORD dwCharID, BYTE byIndex, BYTE byCount );
 extern void CS_StallClose();
 extern BOOL	SC_SynStallName(LPRPACKET pk);
 
-//¶ÁÊé   add by jilinlee 2007/4/20
+//è¯»ä¹¦   add by jilinlee 2007/4/20
 extern void CS_ReadBookStart();
 extern void CS_ReadBookClose();
 
-// ¼ÆÊ±ÍË³ö
+// è®¡æ—¶é€€å‡º
 extern BOOL SC_StartExit( LPRPACKET packet );
 extern BOOL SC_CancelExit( LPRPACKET packet );
 
-// ÇëÇó¸üĞÂ·¢ĞÍ
+// è¯·æ±‚æ›´æ–°å‘å‹
 extern void CS_UpdateHair( stNetUpdateHair& stData );
 // End
 
-// ¶ÓÎéµ¥Ìô
+// é˜Ÿä¼å•æŒ‘
 extern void CS_TeamFightAsk( unsigned long ulWorldID, long lHandle, char chType );
 extern void CS_TeamFightAnswer(bool bAccess);
 
-// µÀ¾ßĞŞÀí
+// é“å…·ä¿®ç†
 extern void CS_ItemRepairAsk(long lRepairmanID, long lRepairmanHandle, char chPosType, char chPosID);
 extern void	CS_ItemRepairAnswer(bool bAccess);
 
-// µÀ¾ß¾«Á¶
+// é“å…·ç²¾ç‚¼
 extern void	CS_ItemForgeAsk(bool bSure, stNetItemForgeAsk *pSForge = NULL);
 extern void CS_ItemForgeAsk(bool bSure, int nType, int arPacketPos[], int nPosCount);
 extern void CS_ItemForgeAnswer(bool bAccess);
@@ -150,7 +150,7 @@ extern void CS_ItemLotteryAsk(bool bSure, stNetItemLotteryAsk *pSLottery = NULL)
 
 extern void CS_ItemAmphitheaterAsk(bool bSure,int IDindex);//Add by sunny.sun 20080726
 
-// ÉÌ³Ç
+// å•†åŸ
 extern void CS_StoreOpenAsk(const char szPassword[]);
 extern void CS_StoreListAsk(long lClsID, short sPage, short sNum);
 extern void CS_StoreBuyAsk(long lComID);
@@ -166,14 +166,14 @@ extern void CS_RequestCancelAsk( short type );
 extern void CS_RequestGetFlatMoney( LONG Money );
 extern void CS_RequestRefresh();
 
-// ºÚÊĞÉÌÈË
+// é»‘å¸‚å•†äºº
 extern void CS_BlackMarketExchangeReq( DWORD dwNpcID, short sSrcID, short sSrcNum, short sTarID, short sTarNum, short sTimeNum, BYTE byIndex );
 
-//¾«ÁéÀÏ»¢»ú
+//ç²¾çµè€è™æœº
 extern void CS_TigerStart(DWORD dwNpcID, short sSel1, short sSel2, short sSel3);
 extern void CS_TigerStop(DWORD dwNpcID, short sNum);
 
-//ÀÏÊÖ´øĞÂÊÖ
+//è€æ‰‹å¸¦æ–°æ‰‹
 extern void CS_VolunteerList(short sPage, short sNum);
 extern void CS_VolunteerAdd();
 extern void CS_VolunteerDel();
@@ -181,17 +181,17 @@ extern void CS_VolunteerSel(const char *szName);
 extern void CS_VolunteerOpen(short sNum);
 extern void CS_VolunteerAsr(BOOL bRet, const char *szName);
 
-//Í¬²½ÁÙÊ±±³°ü
+//åŒæ­¥ä¸´æ—¶èƒŒåŒ…
 extern void CS_SyncKitbagTemp();
 
-// ±¨¸æÍâ¹Ò
+// æŠ¥å‘Šå¤–æŒ‚
 extern void CS_ReportWG( const char szInfo[] );
 
 // Add by lark.li 20080707 begun
 extern void CS_CaptainConfirmAsr(short sRet, DWORD dwTeamID);
 // End
 
-//°İÊ¦
+//æ‹œå¸ˆ
 extern void CS_MasterInvite(const char *szName, DWORD dwCharID);
 extern void CS_MasterAsr(short sRet, const char *szName, DWORD dwCharID);
 extern void CS_MasterDel(const char *szName, uLong ulChaID);
@@ -223,25 +223,25 @@ extern void CS_AutionBidup(DWORD dwNPCID, short sItemID, uLong price);
 
 extern void CS_AntiIndulgence_Close();
 
-//	µÀ¾ß¼ÓËø¡£
+//	é“å…·åŠ é”ã€‚
 extern	void	CS_DropLock(
-					dbc::Char	lockPosType,	//	ËøµÀ¾ßµÄÎ»ÖÃ¡£
-					dbc::Long	lockItemID,		//	ËøµÀ¾ßµÄIDºÅ¡£
-					dbc::Char	usePosType,		//	±»ËøµÀ¾ßµÄÎ»ÖÃ¡£
-					dbc::Long	useItemID		//	±»ËøµÀ¾ßµÄIDºÅ¡£
+					dbc::Char	lockPosType,	//	é”é“å…·çš„ä½ç½®ã€‚
+					dbc::Long	lockItemID,		//	é”é“å…·çš„IDå·ã€‚
+					dbc::Char	usePosType,		//	è¢«é”é“å…·çš„ä½ç½®ã€‚
+					dbc::Long	useItemID		//	è¢«é”é“å…·çš„IDå·ã€‚
 					);
 
-// µÀ¾ß½âËø add by ning.yan 2008-11-11 
-extern void CS_UnlockItem(  const char szPassword[], // md5¼ÓÃÜºóµÄ¶ş´ÎÃÜÂë
-				 			dbc::Char	lockPosType, //	ËøµÀ¾ßµÄÎ»ÖÃ¡£
-							dbc::Long	lockItemID,	 //	ËøµÀ¾ßµÄIDºÅ¡£
-							dbc::Char	usePosType,	 //	±»ËøµÀ¾ßµÄÎ»ÖÃ¡£
-							dbc::Long	useItemID);	 //	±»ËøµÀ¾ßµÄIDºÅ¡£
+// é“å…·è§£é” add by ning.yan 2008-11-11 
+extern void CS_UnlockItem(  const char szPassword[], // md5åŠ å¯†åçš„äºŒæ¬¡å¯†ç 
+				 			dbc::Char	lockPosType, //	é”é“å…·çš„ä½ç½®ã€‚
+							dbc::Long	lockItemID,	 //	é”é“å…·çš„IDå·ã€‚
+							dbc::Char	usePosType,	 //	è¢«é”é“å…·çš„ä½ç½®ã€‚
+							dbc::Long	useItemID);	 //	è¢«é”é“å…·çš„IDå·ã€‚
 
 //---------------------------------------------------------------------------------
 //                          Server To Client Protocol
 //---------------------------------------------------------------------------------
-// Ğ­ÒéS->C : ½ÓÊÕµÇÂ½ÃüÁî
+// åè®®S->C : æ¥æ”¶ç™»é™†å‘½ä»¤
 extern BOOL SC_CHARSTR(LPRPACKET pk);
 extern BOOL	SC_Login(LPRPACKET pk);
 extern BOOL	SC_EnterMap(LPRPACKET pk);
@@ -252,61 +252,61 @@ extern BOOL	SC_DelCha(LPRPACKET pk);
 extern BOOL SC_CreatePassword2(LPRPACKET pk);
 extern BOOL SC_UpdatePassword2(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)³öÏÖ
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)å‡ºç°
 extern BOOL    SC_ChaBeginSee(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)ÏûÊ§
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)æ¶ˆå¤±
 extern BOOL	SC_ChaEndSee(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Ìí¼ÓµÀ¾ß½ÇÉ«
+// åè®®S->C : æ·»åŠ é“å…·è§’è‰²
 extern BOOL	SC_AddItemCha(LPRPACKET pk);
 
-// Ğ­ÒéS->C : É¾³ıµÀ¾ß½ÇÉ«
+// åè®®S->C : åˆ é™¤é“å…·è§’è‰²
 extern BOOL	SC_DelItemCha(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ½ÇÉ«ĞĞ¶¯Í¨Öª
-// ÏûÏ¢¶¨Òå : CMD_MC_NOTIACTION
-// ÊÊÓÃ¶ÔÏó : Ö÷½Ç, ËûÈË
+// åè®®S->C : è§’è‰²è¡ŒåŠ¨é€šçŸ¥
+// æ¶ˆæ¯å®šä¹‰ : CMD_MC_NOTIACTION
+// é€‚ç”¨å¯¹è±¡ : ä¸»è§’, ä»–äºº
 extern BOOL	SC_CharacterAction(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ½ÇÉ«ÇëÇóµÄĞĞ¶¯Ê§°Ü
+// åè®®S->C : è§’è‰²è¯·æ±‚çš„è¡ŒåŠ¨å¤±è´¥
 extern BOOL	SC_FailedAction(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)³öÏÖ
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)å‡ºç°
 extern BOOL    SC_ItemCreate(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)ÏûÊ§
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)æ¶ˆå¤±
 extern BOOL	SC_ItemDestroy(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½½ÇÉ«ÊôĞÔ
+// åè®®S->C : åŒæ­¥è§’è‰²å±æ€§
 extern BOOL	SC_SynAttribute(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½½ÇÉ«¼¼ÄÜ°ü
+// åè®®S->C : åŒæ­¥è§’è‰²æŠ€èƒ½åŒ…
 extern BOOL	SC_SynSkillBag(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½½ÇÉ«¼¼ÄÜ°ü
+// åè®®S->C : åŒæ­¥è§’è‰²æŠ€èƒ½åŒ…
 extern BOOL	SC_SynDefaultSkill(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½½ÇÉ«¼¼ÄÜ×´Ì¬
+// åè®®S->C : åŒæ­¥è§’è‰²æŠ€èƒ½çŠ¶æ€
 extern BOOL	SC_SynSkillState(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½¶ÓÎéĞÅÏ¢
+// åè®®S->C : åŒæ­¥é˜Ÿä¼ä¿¡æ¯
 extern BOOL	SC_SynTeam(LPRPACKET pk);
 
-// Ğ­ÒéS->C : Í¬²½½ÇÉ«µÄ¶Ó³¤ĞÅÏ¢
+// åè®®S->C : åŒæ­¥è§’è‰²çš„é˜Ÿé•¿ä¿¡æ¯
 extern BOOL	SC_SynTLeaderID(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ĞÅÏ¢ÏÔÊ¾
+// åè®®S->C : ä¿¡æ¯æ˜¾ç¤º
 extern BOOL	SC_Message(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)³öÏÖ
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)å‡ºç°
 extern BOOL    SC_AStateBeginSee(LPRPACKET pk);
 
-// Ğ­ÒéS->C : ÆäËü½ÇÉ«(°üº¬¹ÖÎïµÈ)ÏûÊ§
+// åè®®S->C : å…¶å®ƒè§’è‰²(åŒ…å«æ€ªç‰©ç­‰)æ¶ˆå¤±
 extern BOOL	SC_AStateEndSee(LPRPACKET pk);
 
 
-// ¹ÖÎï±íÇé
+// æ€ªç‰©è¡¨æƒ…
 extern BOOL	SC_Cha_Emotion(LPRPACKET pk);
 
 //
@@ -314,13 +314,13 @@ extern BOOL	PC_Ping(LPRPACKET pk);
 extern BOOL	SC_Ping(LPRPACKET pk);
 extern BOOL	SC_CheckPing(LPRPACKET pk);
 
-//ÏµÍ³ĞÅÏ¢ÌáÊ¾
+//ç³»ç»Ÿä¿¡æ¯æç¤º
 extern BOOL	SC_SysInfo(LPRPACKET pk);
 extern BOOL	SC_BickerNotice( LPRPACKET pk );
 extern BOOL	SC_Say(LPRPACKET pk);
 
 // Added by knight-gongjian 2004.11.29
-// NPC¶Ô»°
+// NPCå¯¹è¯
 extern BOOL	SC_TalkInfo( LPRPACKET packet );
 extern BOOL	SC_FuncInfo( LPRPACKET packet );
 extern BOOL	SC_CloseTalk( LPRPACKET packet );
@@ -332,16 +332,16 @@ extern BOOL	SC_TradeInfo( LPRPACKET packet );
 extern BOOL	SC_TradeUpdate( LPRPACKET packet );
 extern BOOL	SC_TradeResult( LPRPACKET packet );
 
-// npc ÈÎÎñ×´Ì¬ÇĞ»»
+// npc ä»»åŠ¡çŠ¶æ€åˆ‡æ¢
 extern BOOL	SC_NpcStateChange( LPRPACKET packet );
 
-// ÊÂ¼şÊµÌå×´Ì¬ÇĞ»»
+// äº‹ä»¶å®ä½“çŠ¶æ€åˆ‡æ¢
 extern BOOL SC_EntityStateChange( LPRPACKET packet );
 
-// ½ÇÉ«½»Ò×
+// è§’è‰²äº¤æ˜“
 extern BOOL	SC_CharTradeInfo( LPRPACKET packet );
 
-// ÈÎÎñ²Ù×÷
+// ä»»åŠ¡æ“ä½œ
 extern BOOL	SC_MissionInfo( LPRPACKET packet );
 extern BOOL	SC_MisPage( LPRPACKET packet );
 extern BOOL	SC_MisLog( LPRPACKET packet );
@@ -350,10 +350,10 @@ extern BOOL	SC_MisLogClear( LPRPACKET packet );
 extern BOOL	SC_MisLogAdd( LPRPACKET packet );
 extern BOOL	SC_MisLogState( LPRPACKET packet );
 
-// ÈÎÎñ´¥·¢Æ÷¶¯×÷Í¨Öª
+// ä»»åŠ¡è§¦å‘å™¨åŠ¨ä½œé€šçŸ¥
 extern BOOL	SC_TriggerAction( LPRPACKET packet );
 
-// ÎïÆ·¾«Á·
+// ç‰©å“ç²¾ç»ƒ
 extern BOOL	SC_Forge( LPRPACKET packet );
 
 extern BOOL	SC_Lottery( LPRPACKET packet );	//Add by lark.li 20080514
@@ -373,17 +373,17 @@ extern BOOL SC_Tiger(LPRPACKET packet);
 extern BOOL SC_GMSend(LPRPACKET packet);
 extern BOOL SC_GMRecv(LPRPACKET packet);
 
-// ´¬Ö»½¨Ôì
+// èˆ¹åªå»ºé€ 
 extern BOOL	SC_CreateBoat( LPRPACKET packet );
 extern BOOL	SC_UpdateBoat( LPRPACKET packet );
 extern BOOL	SC_UpdateBoatPart( LPRPACKET packet );
 extern BOOL	SC_BoatList( LPRPACKET packet );
 extern BOOL SC_BoatInfo( LPRPACKET packet );
 
-// ´¬Ö»´ò°ü
+// èˆ¹åªæ‰“åŒ…
 //extern BOOL	SC_BoatBagList( LPRPACKET packet );
 
-// ½ÇÉ«»õÎï°ÚÌ¯½»Ò×
+// è§’è‰²è´§ç‰©æ‘†æ‘Šäº¤æ˜“
 extern BOOL SC_StallInfo( LPRPACKET packet );
 extern BOOL SC_StallUpdateInfo( LPRPACKET packet );
 extern BOOL SC_StallDelGoods( LPRPACKET packet );
@@ -392,18 +392,18 @@ extern BOOL SC_StallSuccess( LPRPACKET packet );
 
 // End by knight.gong
 
-// Àí·¢
-extern BOOL SC_OpenHairCut( LPRPACKET packet );		// ´ò¿ªÀí·¢½çÃæ
-extern BOOL SC_UpdateHairRes( LPRPACKET packet );	// Àí·¢½á¹û·µ»Ø
+// ç†å‘
+extern BOOL SC_OpenHairCut( LPRPACKET packet );		// æ‰“å¼€ç†å‘ç•Œé¢
+extern BOOL SC_UpdateHairRes( LPRPACKET packet );	// ç†å‘ç»“æœè¿”å›
 
-// ¶ÓÎéÌôÕ½
+// é˜Ÿä¼æŒ‘æˆ˜
 extern BOOL	SC_TeamFightAsk(LPRPACKET packet);
 
-// µÀ¾ßĞŞÀí
+// é“å…·ä¿®ç†
 extern BOOL	SC_BeginItemRepair(LPRPACKET packet);
 extern BOOL	SC_ItemRepairAsk(LPRPACKET packet);
 
-// µÀ¾ß¾«Á¶/ºÏ³É
+// é“å…·ç²¾ç‚¼/åˆæˆ
 extern BOOL	SC_ItemForgeAsk(LPRPACKET packet);
 extern BOOL	SC_ItemForgeAnswer(LPRPACKET packet);
 
@@ -414,19 +414,19 @@ extern BOOL	SC_ItemLotteryAnswer(LPRPACKET packet);
 extern BOOL SC_ItemAmphitheaterAnswer(LPRPACKET packet);
 extern BOOL SC_JewelryUpAnswer( LPRPACKET packet );
 
-// Ê¹ÓÃµÀ¾ß³É¹¦
+// ä½¿ç”¨é“å…·æˆåŠŸ
 extern BOOL	SC_ItemUseSuc(LPRPACKET packet);
 
-// ±³°üÈİÁ¿
+// èƒŒåŒ…å®¹é‡
 extern BOOL	SC_EspeItem(LPRPACKET packet);
 
-// ÌØÊâµÀ¾ß
+// ç‰¹æ®Šé“å…·
 extern BOOL	SC_KitbagCapacity(LPRPACKET packet);
 
-// ¸½¼ÓÍâ¹Û
+// é™„åŠ å¤–è§‚
 extern BOOL	SC_SynAppendLook(LPRPACKET packet);
 
-//µØÍ¼·şÎñÆ÷¹ÊÕÏ
+//åœ°å›¾æœåŠ¡å™¨æ•…éšœ
 extern BOOL    SC_MapCrash(LPRPACKET packet);
 
 extern BOOL    SC_QueryCha(LPRPACKET packet);
@@ -439,10 +439,10 @@ extern BOOL    SC_MapMask(LPRPACKET packet);
 extern BOOL    SC_SynEventInfo(LPRPACKET packet);
 extern BOOL    SC_SynSideInfo(LPRPACKET packet);
 
-//±³°üËø¶¨
+//èƒŒåŒ…é”å®š
 extern BOOL    SC_KitbagCheckAnswer(LPRPACKET packet);
 
-//ÉÌ³Ç
+//å•†åŸ
 extern BOOL	SC_StoreOpenAnswer(LPRPACKET packet);
 extern BOOL	SC_StoreListAnswer(LPRPACKET packet);
 extern BOOL	SC_StoreBuyAnswer(LPRPACKET packet);
@@ -459,7 +459,7 @@ extern BOOL SC_GetFlatMoneyAsk(LPRPACKET packet);
 extern BOOL SC_RequestRefreshAsr(LPRPACKET packet);
 extern BOOL SC_RequesttCrystalState(LPRPACKET packet);
 
-//ºÚÊĞÉÌÈË
+//é»‘å¸‚å•†äºº
 extern BOOL SC_BlackMarketExchangeData(LPRPACKET packet);
 extern BOOL SC_BlackMarketExchangeAsr(LPRPACKET packet);
 extern BOOL SC_BlackMarketExchangeUpdate(LPRPACKET packet);
@@ -467,13 +467,13 @@ extern BOOL SC_ExchangeData(LPRPACKET packet);
 
 extern BOOL SC_TigerItemID(LPRPACKET packet);
 
-//ÀÏÊÖ´øĞÂÊÖ
+//è€æ‰‹å¸¦æ–°æ‰‹
 extern BOOL SC_VolunteerList(LPRPACKET packet);
 extern BOOL SC_VolunteerState(LPRPACKET packet);
 extern BOOL SC_VolunteerOpen(LPRPACKET packet);
 extern BOOL SC_VolunteerAsk(LPRPACKET packet);
 
-//Í¬²½ÁÙÊ±±³°ü
+//åŒæ­¥ä¸´æ—¶èƒŒåŒ…
 extern BOOL SC_SyncKitbagTemp(LPRPACKET packet);
 
 extern BOOL SC_SyncTigerString(LPRPACKET packet);
@@ -522,10 +522,10 @@ extern void	ReadEntEventPacket(LPRPACKET pk, stNetEvent &SNetEvent);
 extern void	ReadChaSidePacket(LPRPACKET pk, stNetChaSideInfo &SNetSideInfo);
 extern void	ReadChaAppendLookPacket(LPRPACKET pk, stNetAppendLook &SNetAppendLook);
 
-//·´¶·°×Òø³Ç
+//åæ–—ç™½é“¶åŸ
 extern BOOL PC_PKSilver(LPRPACKET packet);
 
-//	¹Ò»ú
+//	æŒ‚æœº
 extern BOOL SC_LeaveTimeShow(LPRPACKET packet);
 extern BOOL SC_LeaveExpShow(LPRPACKET packet);
 //	End
@@ -536,10 +536,10 @@ extern BOOL SC_LifeSkillAsr(LPRPACKET packet);
 
 extern BOOL SC_ChaPlayEffect(LPRPACKET packet);
 
-//	µÀ¾ßËø¶¨¡£
+//	é“å…·é”å®šã€‚
 extern	BOOL	SC_DropLockAsr(LPRPACKET pk );
 
-extern  BOOL    SC_UnlockItemAsr(LPRPACKET pk ); // add by ning.yan µÀ¾ß½âËø»ØÓ¦ÏûÏ¢ 2008-11-12
+extern  BOOL    SC_UnlockItemAsr(LPRPACKET pk ); // add by ning.yan é“å…·è§£é”å›åº”æ¶ˆæ¯ 2008-11-12
 
 //==================================================================================
 

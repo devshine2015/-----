@@ -6,7 +6,7 @@
 
 #define MONSTER_LIST_MAX   8
 
-//¶ÁÈ¡¹ÖÎïÐÅÏ¢ÁÐ±í
+//è¯»å–æ€ªç‰©ä¿¡æ¯åˆ—è¡¨
 class CMonsterInfo : public CRawDataInfo
 {
 public:
@@ -42,7 +42,7 @@ public:
 
 protected:
 
-	static CMonsterSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CMonsterSet* _Instance; // ç›¸å½“äºŽå•é”®, æŠŠè‡ªå·±è®°ä½
 
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{
@@ -76,31 +76,31 @@ protected:
 
         CMonsterInfo* pInfo = (CMonsterInfo*)pRawDataInfo;
 
-        // Ãû×Ö£¬´Ë´¦µÈÍ¬ ID
+        // åå­—ï¼Œæ­¤å¤„ç­‰åŒ ID
         //strncpy(pInfo->szName, ParamList[nCol++].c_str(), sizeof(pInfo->szName));
 
-        // ×óÉÏÎ»ÖÃ
+        // å·¦ä¸Šä½ç½®
         if(2 == Util_ResolveTextLine(ParamList[nCol++].c_str(), strList, 2, ','))
         {
             pInfo->ptStart.x = Str2Int(strList[0]) / 100;
             pInfo->ptStart.y = Str2Int(strList[1]) / 100;
         }
 
-        // ÓÒÏÂÎ»ÖÃ
+        // å³ä¸‹ä½ç½®
         if(2 == Util_ResolveTextLine(ParamList[nCol++].c_str(), strList, 2, ','))
         {
             pInfo->ptEnd.x = Str2Int(strList[0]) / 100;
             pInfo->ptEnd.y = Str2Int(strList[1]) / 100;
         }
 
-        // ¹ÖÎïÁÐ±í
+        // æ€ªç‰©åˆ—è¡¨
         int nCount = Util_ResolveTextLine(ParamList[nCol++].c_str(), strList, MONSTER_LIST_MAX, ',');
         for(int i = 0; i < nCount; ++i)
         {
             pInfo->nMonsterList[i] = Str2Int(strList[i]);
         }
 
-        // ´óµØÍ¼Ãû
+        // å¤§åœ°å›¾å
         //strncpy(pInfo->szArea, ParamList[nCol++].c_str(), sizeof(pInfo->szArea));
 		strncpy_s(pInfo->szArea,sizeof(pInfo->szArea) ,ParamList[nCol++].c_str(),_TRUNCATE );
 

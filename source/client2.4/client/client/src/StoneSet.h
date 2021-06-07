@@ -2,7 +2,7 @@
 
 #include "TableData.h"
 
-#define STONE_EQUIP_MAX		3		// ×î¶àÈı¸ö±¦Ê¯Î»ÖÃ
+#define STONE_EQUIP_MAX		3		// æœ€å¤šä¸‰ä¸ªå®çŸ³ä½ç½®
 
 class CStoneInfo : public CRawDataInfo
 {
@@ -16,10 +16,10 @@ public:
 
     int		nItemID;
 	int		nEquipPos[STONE_EQUIP_MAX];
-	int		nType;						// ±¦Ê¯ÀàĞÍ
-	char	szHintFunc[64];				// Ğ§¹ûÏÔÊ¾½Å±¾
+	int		nType;						// å®çŸ³ç±»å‹
+	char	szHintFunc[64];				// æ•ˆæœæ˜¾ç¤ºè„šæœ¬
 
-	bool	IsEquip( int pos ){			// µ±Ç°Î»ÖÃÊÇ·ñ¿ÉÒÔ×°±¸±¦Ê¯,´«Èë:1,2,3
+	bool	IsEquip( int pos ){			// å½“å‰ä½ç½®æ˜¯å¦å¯ä»¥è£…å¤‡å®çŸ³,ä¼ å…¥:1,2,3
 		if( pos<=1 || pos>=3 ) return false;
 
 		for( int i=0; i<STONE_EQUIP_MAX; i++ )
@@ -45,7 +45,7 @@ public:
 
 protected:
 
-	static CStoneSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+	static CStoneSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
    
 	virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
 	{

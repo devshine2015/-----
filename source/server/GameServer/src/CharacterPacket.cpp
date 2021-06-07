@@ -71,7 +71,7 @@ void CCharacter::WriteBaseInfo(WPACKET &pkret, Char chLookType)
 	WRITE_LONG(pkret, GetPos().y);
 	WRITE_LONG(pkret, GetRadius());
 	WRITE_SHORT(pkret, GetAngle());
-	// ¶Ó³¤ID
+	// é˜Ÿé•¿ID
 	CPlayer	*pCPly = GetPlayer();
 	if (pCPly)
 		WRITE_LONG(pkret, pCPly->getTeamLeaderID());
@@ -116,7 +116,7 @@ void CCharacter::WriteSkillbag(WPACKET &pk, int nSynType)
 	CCharacter	*pCCtrlCha = GetPlyCtrlCha();
 	bool	bIsBoatCtrl = pCCtrlCha->IsBoat();
 	bool	bAddBoatSkill = false;
-	if (bIsBoatCtrl) // Ö÷¿ØÊÇ´¬½ÇÉ«£¬Ôò¼ÓÈë´¬µÄÄ¬ÈÏ¼¼ÄÜ
+	if (bIsBoatCtrl) // ä¸»æ§æ˜¯èˆ¹è§’è‰²ï¼Œåˆ™åŠ å…¥èˆ¹çš„é»˜è®¤æŠ€èƒ½
 	{
 		pSkillGrid = pCCtrlCha->m_CSkillBag.GetSkillContByNum(0);
 		if (pSkillGrid)
@@ -196,7 +196,7 @@ void CCharacter::WriteKitbag(CKitbag &CKb, WPACKET &WtPk, int nSynType)
 			WRITE_SHORT(WtPk, 0);
 			continue;
 		}
-		// ÓĞµÀ¾ß
+		// æœ‰é“å…·
 		WRITE_SHORT(WtPk, pGridCont->sID);
 		WRITE_LONG(WtPk, pGridCont->dwDBID	);
 		WRITE_SHORT(WtPk, pGridCont->sNeedLv);
@@ -209,7 +209,7 @@ void CCharacter::WriteKitbag(CKitbag &CKb, WPACKET &WtPk, int nSynType)
 		WRITE_CHAR(WtPk, pGridCont->IsValid() ? 1 : 0);
 
 		pItemRec = GetItemRecordInfo( pGridCont->sID );
-		if( pItemRec->sType == enumItemTypeBoat ) // ´¬µÀ¾ß£¬Ğ´Èë´¬µÄWorldID£¬ÓÃÓÚ¿Í»§¶Ë½«µÀ¾ßÓë´¬½ÇÉ«¹Ò¹³
+		if( pItemRec->sType == enumItemTypeBoat ) // èˆ¹é“å…·ï¼Œå†™å…¥èˆ¹çš„WorldIDï¼Œç”¨äºå®¢æˆ·ç«¯å°†é“å…·ä¸èˆ¹è§’è‰²æŒ‚é’©
 		{
 			CCharacter	*pCBoat = GetPlayer()->GetBoat((DWORD)pGridCont->GetDBParam(enumITEMDBP_INST_ID));
 			if (pCBoat)
@@ -220,7 +220,7 @@ void CCharacter::WriteKitbag(CKitbag &CKb, WPACKET &WtPk, int nSynType)
 
 		WRITE_LONG(WtPk, pGridCont->GetDBParam(enumITEMDBP_FORGE));
 		WRITE_LONG(WtPk, pGridCont->GetDBParam(enumITEMDBP_INST_ID));
-		if (pGridCont->IsInstAttrValid()) // ´æÔÚÊµÀıÊôĞÔ
+		if (pGridCont->IsInstAttrValid()) // å­˜åœ¨å®ä¾‹å±æ€§
 		{
 			WRITE_CHAR(WtPk, 1);
 			for (int j = 0; j < defITEM_INSTANCE_ATTR_NUM; j++)
@@ -230,9 +230,9 @@ void CCharacter::WriteKitbag(CKitbag &CKb, WPACKET &WtPk, int nSynType)
 			}
 		}
 		else
-			WRITE_CHAR(WtPk, 0); // ²»´æÔÚÊµÀıÊôĞÔ
+			WRITE_CHAR(WtPk, 0); // ä¸å­˜åœ¨å®ä¾‹å±æ€§
 	}
-	WRITE_SHORT(WtPk, -1); // ½áÊø±êÖ¾
+	WRITE_SHORT(WtPk, -1); // ç»“æŸæ ‡å¿—
 }
 
 // client: ReadChaLookPacket
@@ -308,7 +308,7 @@ void CCharacter::WriteLookData(WPACKET &WtPk, Char chLookType, Char chSynType)
 	WRITE_SHORT(WtPk, m_SChaPart.sTypeID);
 	if( m_CChaAttr.GetAttr(ATTR_CHATYPE) == enumCHACTRL_PLAYER && IsBoat() )
 	{
-		WRITE_CHAR( WtPk, 1); // ´¬µÄÍâ¹Û
+		WRITE_CHAR( WtPk, 1); // èˆ¹çš„å¤–è§‚
 		WRITE_SHORT( WtPk, m_SChaPart.sPosID );
 		WRITE_SHORT( WtPk, m_SChaPart.sBoatID );
 		WRITE_SHORT( WtPk, m_SChaPart.sHeader );
@@ -366,7 +366,7 @@ void CCharacter::WriteLookData(WPACKET &WtPk, Char chLookType, Char chSynType)
 					WRITE_CHAR(WtPk, pItem->chForgeLv);
 					WRITE_CHAR(WtPk, pItem->IsValid() ? 1 : 0);
 				}
-				if(chLookType!=LOOK_SELF) // ³ı·ÇÊÇ×ÔÉíÍ¨Öª, ·ñÔò²»ĞèÒªÏÂÃæµÄĞÅÏ¢
+				if(chLookType!=LOOK_SELF) // é™¤éæ˜¯è‡ªèº«é€šçŸ¥, å¦åˆ™ä¸éœ€è¦ä¸‹é¢çš„ä¿¡æ¯
 				{
 					WRITE_CHAR(WtPk, 0);
 					continue;
@@ -396,7 +396,7 @@ void CCharacter::WriteLookData(WPACKET &WtPk, Char chLookType, Char chSynType)
 
 		int nItemCnt = enumEQUIP_NUM;
 
-		//if(chLookType==LOOK_TEAM) nItemCnt = 3; // ×é¶ÓÀàĞÍµÄÍâ¹ÛÍ¨Öª, Ö»ĞèÒªÉÏ°ëÉíĞÅÏ¢
+		//if(chLookType==LOOK_TEAM) nItemCnt = 3; // ç»„é˜Ÿç±»å‹çš„å¤–è§‚é€šçŸ¥, åªéœ€è¦ä¸ŠåŠèº«ä¿¡æ¯
 
 		for (int i = 0; i < nItemCnt; i++)
 		{
@@ -432,7 +432,7 @@ void CCharacter::WriteLookData(WPACKET &WtPk, Char chLookType, Char chSynType)
 				WRITE_CHAR(WtPk, pItem->IsValid() ? 1 : 0);
 			}
 
-			//if(chLookType!=LOOK_SELF) // ³ı·ÇÊÇ×ÔÉíÍ¨Öª, ·ñÔò²»ĞèÒªÏÂÃæµÄĞÅÏ¢
+			//if(chLookType!=LOOK_SELF) // é™¤éæ˜¯è‡ªèº«é€šçŸ¥, å¦åˆ™ä¸éœ€è¦ä¸‹é¢çš„ä¿¡æ¯
 			//{
 			//	WRITE_CHAR(WtPk, 0);
 			//	continue;
@@ -456,7 +456,7 @@ void CCharacter::WriteLookData(WPACKET &WtPk, Char chLookType, Char chSynType)
 	}
 }
 
-// ×¢Òâ¸Ãº¯ÊıÊ¹ÓÃµÀ¾ßÀ¸µÄ¸Ä±ä±êÖ¾¡£
+// æ³¨æ„è¯¥å‡½æ•°ä½¿ç”¨é“å…·æ çš„æ”¹å˜æ ‡å¿—ã€‚
 bool CCharacter::WriteAppendLook(CKitbag &CKb, WPACKET &pk, bool bInit)
 {
 	SItemGrid	*pGridCont;
@@ -512,6 +512,6 @@ void CCharacter::WriteItemChaBoat(WPACKET &WtPk, CCharacter *pCBoat)
 	pCBoat->WriteBaseInfo(WtPk);
 	pCBoat->WriteAttr(WtPk, enumATTRSYN_INIT);
 	pCBoat->m_CKitbag.SetChangeFlag(true);
-	pCBoat->WriteKitbag(pCBoat->m_CKitbag, WtPk, enumSYN_KITBAG_INIT); // µÀ¾ßÀ¸
+	pCBoat->WriteKitbag(pCBoat->m_CKitbag, WtPk, enumSYN_KITBAG_INIT); // é“å…·æ 
 	pCBoat->WriteSkillState(WtPk);
 }

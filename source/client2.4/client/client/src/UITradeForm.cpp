@@ -1,599 +1,618 @@
-#include "StdAfx.h"
 #include "uitradeform.h"
-#include "gameapp.h"
-#include "scene.h"
+#include "ShipFactory.h"
+#include "StdAfx.h"
+#include "StringLib.h"
 #include "character.h"
-#include "uiformmgr.h"
-#include "uilabel.h"
+#include "gameapp.h"
 #include "packetcmd.h"
-#include "uiequipform.h"
+#include "rolecommon.h"
+#include "scene.h"
+#include "uiboatform.h"
 #include "uiboxform.h"
-#include "uigoodsgrid.h"
-#include "uiequipform.h"
 #include "uicheckbox.h"
 #include "uicommand.h"
+#include "uiequipform.h"
+#include "uiformmgr.h"
+#include "uigoodsgrid.h"
 #include "uiitemcommand.h"
-#include "uiboatform.h"
-#include "rolecommon.h"
-#include "ShipFactory.h"
-#include "rolecommon.h"
-#include "StringLib.h"
+#include "uilabel.h"
 using namespace GUI;
 
 //---------------------------------------------------------------------------
 // class CTradeMgr
 //---------------------------------------------------------------------------
-bool CTradeMgr::Init()
-{
-	m_bTradeType = 0;
-	m_dwAcceptID = 0;         // ½»Ò×½ÓÊÜ·½
-	m_dwRequestID = 0;        // ½»Ò×ÉêÇë·½
-	m_dwMainID = 0;
+bool CTradeMgr::Init() {
+  m_bTradeType = 0;
+  m_dwAcceptID = 0;  // äº¤æ˜“æ¥å—æ–¹
+  m_dwRequestID = 0; // äº¤æ˜“ç”³è¯·æ–¹
+  m_dwMainID = 0;
 
-	frmRequest = NULL;				
-	grdRequest = NULL;
+  frmRequest = NULL;
+  grdRequest = NULL;
 
-	CFormMgr &mgr = CFormMgr::s_Mgr;
+  CFormMgr &mgr = CFormMgr::s_Mgr;
 
-    //½ÇÉ«½»Ò×½çÃæºÍ¿Ø¼ş
-	frmPlayertrade =  mgr.Find("frmPlayertrade");
-	if ( !frmPlayertrade)
-	{
-		LG("gui", RES_STRING(CL_LANGUAGE_MATCH_456));
-		return false;
-	}
-	frmPlayertrade->evtEntrustMouseEvent = _MainMousePlayerTradeEvent ;
+  //è§’è‰²äº¤æ˜“ç•Œé¢å’Œæ§ä»¶
+  frmPlayertrade = mgr.Find("frmPlayertrade");
+  if (!frmPlayertrade) {
+    LG("gui", RES_STRING(CL_LANGUAGE_MATCH_456));
+    return false;
+  }
+  frmPlayertrade->evtEntrustMouseEvent = _MainMousePlayerTradeEvent;
 
-	// µÀ¾ßÒÔ¼°×°±¸À¸
-	grdSale = dynamic_cast<CGoodsGrid*>(frmPlayertrade->Find("grdSale"));
-	if( !grdSale )		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "grdSale" );
-	GetPlayertradeSaleGrid()->evtBeforeAccept = _evtDragToGoodsEvent;
-	GetPlayertradeSaleGrid()->evtRMouseEvent = _evtSelfRMouseGridEvent;
+  // é“å…·ä»¥åŠè£…å¤‡æ 
+  grdSale = dynamic_cast<CGoodsGrid *>(frmPlayertrade->Find("grdSale"));
+  if (!grdSale)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "grdSale");
+  GetPlayertradeSaleGrid()->evtBeforeAccept = _evtDragToGoodsEvent;
+  GetPlayertradeSaleGrid()->evtRMouseEvent = _evtSelfRMouseGridEvent;
 
-	grdBuy = dynamic_cast<CGoodsGrid*>(frmPlayertrade->Find("grdBuy"));
-	if( !grdBuy )		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "grdBuy" );
-    GetPlayertradeBuyGrid()->evtBeforeAccept = _evtDragToGoodsEvent;
-	GetPlayertradeBuyGrid()->evtRMouseEvent = _evtOtherRMouseGridEvent;
+  grdBuy = dynamic_cast<CGoodsGrid *>(frmPlayertrade->Find("grdBuy"));
+  if (!grdBuy)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "grdBuy");
+  GetPlayertradeBuyGrid()->evtBeforeAccept = _evtDragToGoodsEvent;
+  GetPlayertradeBuyGrid()->evtRMouseEvent = _evtOtherRMouseGridEvent;
 
-	//½ÇÉ«½»Ò×µÄ½ğ¶î
-	labOtherGold =  dynamic_cast<CLabelEx*>(frmPlayertrade->Find("labOtherGold") ); 
-	if ( !labOtherGold)		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "labOtherGold" );
-	
-	labSelfGold =  dynamic_cast<CLabelEx*>(frmPlayertrade->Find("labSelfGold") ); 
-	if ( !labSelfGold)		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "labSelfGold" );
+  //è§’è‰²äº¤æ˜“çš„é‡‘é¢
+  labOtherGold = dynamic_cast<CLabelEx *>(frmPlayertrade->Find("labOtherGold"));
+  if (!labOtherGold)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "labOtherGold");
 
-	chkYes = ( CCheckBox *)frmPlayertrade->Find( "chkYes" );     
-	if ( !chkYes)	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "chkYes" );    
+  labSelfGold = dynamic_cast<CLabelEx *>(frmPlayertrade->Find("labSelfGold"));
+  if (!labSelfGold)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "labSelfGold");
 
-	chkTrade = ( CCheckBox *)frmPlayertrade->Find( "chkTrade" );  
-	if ( !chkTrade )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "chkTrade" );     
+  chkYes = (CCheckBox *)frmPlayertrade->Find("chkYes");
+  if (!chkYes)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "chkYes");
 
-	btnYes =  ( CTextButton *)frmPlayertrade->Find( "btnYes" ); 
-	if ( !btnYes )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "btnYes" );         
+  chkTrade = (CCheckBox *)frmPlayertrade->Find("chkTrade");
+  if (!chkTrade)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "chkTrade");
 
-	btnTrade =  ( CTextButton *)frmPlayertrade->Find( "btnTrade" ); 
-	if ( !btnTrade )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "btnTrade" );             
+  btnYes = (CTextButton *)frmPlayertrade->Find("btnYes");
+  if (!btnYes)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "btnYes");
 
-	btnGold =  ( CTextButton *)frmPlayertrade->Find( "btnGold" ); 
-	if ( !btnGold )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(), "btnGold" );             
-	return true;
+  btnTrade = (CTextButton *)frmPlayertrade->Find("btnTrade");
+  if (!btnTrade)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "btnTrade");
+
+  btnGold = (CTextButton *)frmPlayertrade->Find("btnGold");
+  if (!btnGold)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmPlayertrade->GetName(),
+                 "btnGold");
+  return true;
 }
 
-void CTradeMgr::End()
-{
-}
+void CTradeMgr::End() {}
 
-void CTradeMgr::FrameMove(DWORD dwTime)
-{
-    if(IsTrading())
-    {
-        CWorldScene* pWorldScene = dynamic_cast<CWorldScene*>(g_pGameApp->GetCurScene());
-        if(pWorldScene && pWorldScene->GetShipMgr())
-        {
-	        pWorldScene->GetShipMgr()->CloseForm();
-        }
+void CTradeMgr::FrameMove(DWORD dwTime) {
+  if (IsTrading()) {
+    CWorldScene *pWorldScene =
+        dynamic_cast<CWorldScene *>(g_pGameApp->GetCurScene());
+    if (pWorldScene && pWorldScene->GetShipMgr()) {
+      pWorldScene->GetShipMgr()->CloseForm();
     }
+  }
 }
 
-void CTradeMgr::ShowCharTradeRequest( BYTE byType, DWORD dwRequestID )
+void CTradeMgr::ShowCharTradeRequest(BYTE byType, DWORD dwRequestID) {
+  CGameScene *pScene = CGameApp::GetCurScene();
+  if (!pScene)
+    return;
+
+  CCharacter *pCha = pScene->SearchByID(dwRequestID); //ç”³è¯·æ–¹
+  if (!pCha) {
+    if (!pCha)
+      return;
+  }
+
+  char szBuf[80] = {0};
+  if (byType == mission::TRADE_CHAR)
+    _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE,
+                RES_STRING(CL_LANGUAGE_MATCH_779), pCha->getHumanName());
+  else
+    _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE,
+                RES_STRING(CL_LANGUAGE_MATCH_780), pCha->getHumanName());
+
+  // add by Philip.Wu  2006-06-11  é˜²æ­¢å› å¼¹å‡ºè¿‡å¤šçš„é€‰æ‹©æ¡†å¯¼è‡´å½“æœº
+  //                               ä¿®æ”¹ä¸ºä¸€æ—¦æœ‰äº¤æ˜“é‚€è¯·ï¼Œå°±å…³é—­ä¹‹å‰çš„ç¡®å®šæ¡†
+  g_stUIBox.CloseAllBox();
+
+  stSelectBox *pBox = g_stUIBox.ShowSelectBox(_evtSelectYesNoEvent, szBuf);
+  pBox->dwTag = dwRequestID;
+  pBox->dwParam = byType;
+  static int PosY = 100;
+  PosY += 10;
+  if (PosY > 150)
+    PosY = 100;
+  pBox->frmDialog->SetPos(10, PosY);
+  pBox->frmDialog->Refresh();
+}
+
+void CTradeMgr::_evtSelectYesNoEvent(CCompent *pSender, int nMsgType, int x,
+                                     int y, DWORD dwKey) {
+  pSender->GetForm()->Close();
+  string name = pSender->GetName();
+  if (name != "btnYes")
+    return;
+
+  stSelectBox *pBox = (stSelectBox *)pSender->GetForm()->GetPointer();
+  CS_AcceptTrade((BYTE)pBox->dwParam, pBox->dwTag);
+}
+
+void CTradeMgr::_MainMousePlayerTradeEvent(CCompent *pSender, int nMsgType,
+                                           int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  if (name == "btnNo" || name == "btnClose") //å¦‚æœæ˜¯é€€å‡ºæŒ‰é’®,åˆ™å…³é—­è¯¥è¡¨å•
+  {
+    if (g_stUITrade.m_dwMainID == g_stUITrade.m_dwAcceptID)
+      ::CS_CancelTrade(g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID);
+    else
+      ::CS_CancelTrade(g_stUITrade.m_bTradeType, g_stUITrade.m_dwAcceptID);
+    g_stUITrade.btnTrade->SetIsEnabled(false);
+    g_stUITrade.btnYes->SetIsEnabled(false);
+    g_stUITrade.btnGold->SetIsEnabled(false);
+    return;
+  } else if (name == "btnYes") {
+    if (g_stUITrade.m_dwMainID == g_stUITrade.m_dwAcceptID)
+      ::CS_ValidateTradeData(g_stUITrade.m_bTradeType,
+                             g_stUITrade.m_dwRequestID);
+    else
+      ::CS_ValidateTradeData(g_stUITrade.m_bTradeType,
+                             g_stUITrade.m_dwAcceptID);
+
+    g_stUITrade.btnYes->SetIsEnabled(false);
+    g_stUITrade.btnGold->SetIsEnabled(false);
+    if (g_stUITrade.chkYes->GetIsChecked())
+      g_stUITrade.btnTrade->SetIsEnabled(true);
+    return;
+  } else if (name == "btnTrade") {
+    if (g_stUITrade.m_dwMainID == g_stUITrade.m_dwAcceptID)
+      ::CS_ValidateTrade(g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID);
+    else
+      ::CS_ValidateTrade(g_stUITrade.m_bTradeType, g_stUITrade.m_dwAcceptID);
+    g_stUITrade.btnTrade->SetIsEnabled(false);
+    return;
+  } else if (name == "btnGold") {
+    // g_stUIBox.ShowNumberBox( _evtGoldFormEvent,
+    // g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_GD),
+    // RES_STRING(CL_LANGUAGE_MATCH_781), false );
+    g_stUIBox.ShowNumberBox(
+        _evtGoldFormEvent,
+        (int)g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_GD),
+        RES_STRING(CL_LANGUAGE_MATCH_781), false);
+  }
+}
+
+void CTradeMgr::_evtGoldFormEvent(CCompent *pSender, int nMsgType, int x, int y,
+                                  DWORD dwKey) {
+  if (nMsgType != CForm::mrYes)
+    return;
+
+  stNumBox *pBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!pBox)
+    return;
+
+  DWORD dwCharID = 0;
+  if (g_stUITrade.m_dwMainID == g_stUITrade.m_dwRequestID)
+    dwCharID = g_stUITrade.m_dwAcceptID;
+  else
+    dwCharID = g_stUITrade.m_dwRequestID;
+
+  CS_AddMoney(g_stUITrade.m_bTradeType, dwCharID,
+              mission::TRADE_DRAGMONEY_TRADE, pBox->GetNumber());
+}
+
+void CTradeMgr::ShowCharTrade(BYTE byType, DWORD dwAcceptID,
+                              DWORD dwRequestID) {
+  if (!frmPlayertrade)
+    return; //äº¤æ˜“ç•Œé¢
+
+  CGameScene *pScene = g_pGameApp->GetCurScene();
+  if (!pScene)
+    return;
+
+  m_bTradeType = byType;
+  m_dwRequestID = dwRequestID;
+  m_dwAcceptID = dwAcceptID;
+  CCharacter *pRequestCha(NULL);
+  CCharacter *pAcceptCha(NULL);
+
+  if (mission::TRADE_CHAR == byType) //ç©å®¶äººç‰©ä¹‹é—´çš„äº¤æ˜“
+  {
+    frmRequest = g_stUIEquip.GetItemForm();
+    grdRequest = g_stUIEquip.GetGoodsGrid(); //é“å…·æ çš„Gridæ§ä»¶
+
+    pRequestCha = pScene->SearchByHumanID(dwRequestID);
+    pAcceptCha = pScene->SearchByHumanID(dwAcceptID);
+  } else if (mission::TRADE_BOAT ==
+             byType) //ç©å®¶èˆ¹åªä¹‹é—´çš„äº¤æ˜“,è¿™æ—¶ä¸¤äººéƒ½æ˜¯èˆ¹,æ‰€æœ‰ç”¨IDæœç´¢
+  {
+    CCharacter *pMain = CGameScene::GetMainCha();
+    if (!pMain)
+      return;
+
+    if (!pMain->IsBoat())
+      return;
+
+    pRequestCha = pScene->SearchByID(dwRequestID);
+    pAcceptCha = pScene->SearchByID(dwAcceptID);
+
+    CCharacter *pMainShip = NULL;
+    if (pRequestCha->GetMainType())
+      pMainShip = pRequestCha;
+    else
+      pMainShip = pAcceptCha;
+
+    xShipFactory *pkShip =
+        ((CWorldScene *)g_pGameApp->GetCurScene())->GetShipMgr()->_factory;
+    pkShip->SetState(xShipFactory::STATE_TRADE_FREEDOM);
+    CBoat *pBoat = g_stUIBoat.FindBoat(pMainShip->getAttachID());
+    if (!pBoat) {
+      return;
+    }
+    // åˆ¤æ–­èˆ¹åªå±æ€§é¡µé¢æ˜¯å¦æ‰“å¼€,å¦‚æœæ‰“å¼€,å…³é—­å®ƒ
+    CForm *pBoatRoom = pBoat->GetForm();
+    if (!pBoatRoom)
+      return;
+    CForm *pForm = dynamic_cast<CForm *>(pBoatRoom->GetParent());
+    if (pkShip && pkShip->sbf.wnd->GetIsShow() && pForm == pkShip->sbf.wnd) {
+      pkShip->sbf.wnd->SetIsShow(false);
+    }
+
+    pkShip->SetBoatID(pMainShip->getAttachID());
+
+    DWORD dwBuf[8];
+    if (!CCharacter::ConvertPartTo8DWORD(pMainShip->GetPart(), dwBuf))
+      return;
+    pkShip->UpdateBoatFreedomTrade(pMainShip->getName(), dwBuf, sizeof(dwBuf));
+
+    grdRequest = pBoat->GetGoodsGrid();
+    frmRequest = pkShip->sbf.wnd;
+    // frmRequest = pBoat->GetForm();
+  } // end of if
+
+  if (!frmRequest)
+    return;
+  if (!pRequestCha || !pAcceptCha)
+    return;
+
+  if (pRequestCha->GetMainType())
+    m_dwMainID = dwRequestID;
+  else
+    m_dwMainID = dwAcceptID;
+
+  //è®¾ç½®è¡¨å•çš„ä½ç½®å¹¶æ˜¾ç¤º,ä»¥åŠäº¤æ˜“è¡¨å•æ§ä»¶åˆå§‹åŒ–
+  frmRequest->SetParent(NULL);
+  frmRequest->SetPos(0, 100);
+  frmRequest->Refresh();
+  frmRequest->Show();
+
+  frmPlayertrade->SetPos(frmRequest->GetWidth(), 100);
+  frmPlayertrade->Refresh();
+  frmPlayertrade->Show();
+
+  if (grdBuy)
+    grdBuy->Clear();
+  if (grdSale)
+    grdSale->Clear();
+  if (labOtherGold)
+    labOtherGold->SetCaption("0");
+  if (labSelfGold)
+    labSelfGold->SetCaption("0");
+
+  chkYes->SetIsChecked(false);
+  chkTrade->SetIsChecked(false);
+
+  btnYes->SetIsEnabled(true);
+  btnGold->SetIsEnabled(m_bTradeType == mission::TRADE_CHAR);
+  btnTrade->SetIsEnabled(false);
+
+  string strPlayTradeLabName(""); // labPlayertradeNameæ§ä»¶Caption
+  strPlayTradeLabName = pRequestCha->getHumanName();
+  strPlayTradeLabName += "/";
+  strPlayTradeLabName += pAcceptCha->getHumanName();
+
+  // åˆšå¼€å§‹çœ‹è§å¯¹æ–¹è¾“å…¥çš„é‡‘é¢ä»¥ç‰©å“ï¼Œåªæœ‰å¯¹æ–¹ç¡®å®šä»¥åæ‰èƒ½çœ‹è§
+  labOtherGold->SetIsShow(false);
+  GetPlayertradeBuyGrid()->SetIsShow(false);
+
+  CLabelEx *labPlayertradeName =
+      dynamic_cast<CLabelEx *>(frmPlayertrade->Find("labPlayertradeName"));
+  if (labPlayertradeName) {
+    labPlayertradeName->SetCaption(strPlayTradeLabName.c_str());
+  }
+}
+
+void CTradeMgr::DragTradeToItem(DWORD dwCharID, BYTE byIndex,
+                                BYTE byItemIndex) {
+  CGoodsGrid *tradeGrd = NULL;
+  if (g_stUITrade.m_dwMainID == dwCharID) {
+    tradeGrd = g_stUITrade.GetPlayertradeSaleGrid();
+
+    CCommandObj *pObj = grdRequest->GetItem(byItemIndex);
+    if (pObj)
+      pObj->SetIsValid(true);
+  } else {
+    tradeGrd = g_stUITrade.GetPlayertradeBuyGrid();
+  }
+
+  if (tradeGrd)
+    tradeGrd->DelItem(byIndex);
+}
+
+void CTradeMgr::DragItemToTrade(DWORD dwCharID, USHORT sItemID, BYTE byIndex,
+                                BYTE byCount, BYTE byItemIndex,
+                                SItemGrid *pGrid,
+                                const NET_CHARTRADE_BOATDATA *const pBoat) {
+  // LG( "Trade", "DragItemToTrade( CharID:%u, ItemID:%d, Index:%d, Count:%d,
+  // ItemIndex:%d ) - MainID:%d\n", dwCharID, sItemID, byIndex, byCount,
+  // byItemIndex, g_stUITrade.m_dwMainID );
+
+  CGoodsGrid *tradeGrd;
+  if (m_dwMainID == dwCharID) {
+    tradeGrd = g_stUITrade.GetPlayertradeSaleGrid();
+
+    //é“å…·æ ä¸­è¯¥é“å…·å˜ç°
+    CCommandObj *pSelf = grdRequest->GetItem(byItemIndex);
+    if (pSelf) {
+      pSelf->SetIsValid(false);
+    }
+  } else {
+    tradeGrd = g_stUITrade.GetPlayertradeBuyGrid();
+  }
+
+  CItemRecord *pItem = GetItemRecordInfo(sItemID);
+  if (!pItem) {
+    // LG( "protocol", "GetItemRecordInfo return NULL" );
+    return;
+  }
+
+  CCommandObj *pObj = tradeGrd->GetItem(byIndex);
+  if (pObj) {
+    // LG( "Trade", "msgTrade Error\n" );
+  } else {
+    CItemCommand *pItemCommand = new CItemCommand(pItem);
+    if (pGrid)
+      pItemCommand->SetData(*pGrid);
+    pItemCommand->SetBoatHint(pBoat);
+    if (!tradeGrd->SetItem(byIndex, pItemCommand)) {
+      // LG( "protocol", "SetItem return false" );
+      return;
+    }
+  }
+}
+
+void CTradeMgr::ShowCharTradeMoney(DWORD dwCharID, DWORD dwMoney) {
+  if (!frmPlayertrade)
+    return;
+  if (!labOtherGold)
+    return;
+  if (!labSelfGold)
+    return;
+
+  char szBuf[32] = {0};
+  int nCurMoney = dwMoney;
+  _snprintf_s(szBuf, _countof(szBuf), _TRUNCATE, "%s",
+              StringSplitNum(nCurMoney));
+  if (dwCharID == m_dwMainID) {
+    labSelfGold->SetCaption(szBuf);
+  } else {
+    labOtherGold->SetCaption(szBuf);
+  }
+}
+
+void CTradeMgr::_evtLocalSaleEvent(CCompent *pSender, int nMsgType, int x,
+                                   int y, DWORD dwKey) {
+  if (nMsgType != CForm::mrYes)
+    return;
+
+  stNumBox *pBox = (stNumBox *)pSender->GetForm()->GetPointer();
+  if (!pBox)
+    return;
+
+  stSale *p = (stSale *)pBox->pointer;
+  CS_AddItem(g_stUITrade.m_bTradeType, p->dwSaleID, mission::TRADE_DRAGTO_TRADE,
+             p->nGridID, p->nDragID, pBox->GetNumber());
+}
+
+void CTradeMgr::LocalSaleItem(CGoodsGrid *pSaleGrid, CGoodsGrid *pSelfGrid,
+                              int nGridID, CCommandObj *pItem) {
+  if (!pItem->GetIsValid())
+    return;
+
+  if (CItemCommand *pBoat = dynamic_cast<CItemCommand *>(pItem)) {
+    if (pBoat && pBoat->GetItemInfo()->sType == 43) {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_782));
+    }
+  }
+
+  if (pItem->GetIsPile() && pItem->GetTotalNum() > 1) {
+    stNumBox *pBox =
+        g_stUIBox.ShowNumberBox(_evtLocalSaleEvent, pItem->GetTotalNum());
+    if (pBox) {
+      pBox->pointer = (void *)&_sSale;
+      _sSale.dwSaleID =
+          g_stUITrade.m_dwMainID == m_dwAcceptID ? m_dwRequestID : m_dwAcceptID;
+      _sSale.nGridID = nGridID;
+      _sSale.nDragID = pSelfGrid->GetDragIndex();
+      return;
+    }
+  }
+
+  if (m_dwMainID == m_dwAcceptID)
+    CS_AddItem(g_stUITrade.m_bTradeType, m_dwRequestID,
+               mission::TRADE_DRAGTO_TRADE, nGridID, pSelfGrid->GetDragIndex(),
+               pItem->GetTotalNum());
+  else
+    CS_AddItem(g_stUITrade.m_bTradeType, m_dwAcceptID,
+               mission::TRADE_DRAGTO_TRADE, nGridID, pSelfGrid->GetDragIndex(),
+               pItem->GetTotalNum());
+}
+
+void CTradeMgr::LocalCancelItem(CGoodsGrid *pSaleGrid, CGoodsGrid *pSelfGrid,
+                                int nGridID, CCommandObj *pItem) {
+  if (!pItem->GetIsValid())
+    return;
+
+  if (m_dwMainID == m_dwAcceptID)
+    CS_AddItem(g_stUITrade.m_bTradeType, m_dwRequestID,
+               mission::TRADE_DRAGTO_ITEM, pSaleGrid->GetDragIndex(), nGridID,
+               0);
+  else
+    CS_AddItem(g_stUITrade.m_bTradeType, m_dwAcceptID,
+               mission::TRADE_DRAGTO_ITEM, pSaleGrid->GetDragIndex(), nGridID,
+               0);
+}
+
+void CTradeMgr::ValidateTradeData(DWORD dwCharID) //
 {
-	CGameScene *pScene = CGameApp::GetCurScene();
-	if(!pScene) return;
+  if (dwCharID == m_dwMainID) {
+    btnYes->SetIsEnabled(false);
+    btnGold->SetIsEnabled(false);
+  } else {
+    labOtherGold->SetIsShow(true);
+    GetPlayertradeBuyGrid()->SetIsShow(true);
 
-	CCharacter * pCha = pScene->SearchByID( dwRequestID );  //ÉêÇë·½
-	if( !pCha)	
-	{
-		if( !pCha ) return;
-	}
-	
-	char szBuf[80] = { 0 };
-	if( byType==mission::TRADE_CHAR )
-		_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE , RES_STRING(CL_LANGUAGE_MATCH_779), pCha->getHumanName() );
-	else
-		_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE , RES_STRING(CL_LANGUAGE_MATCH_780), pCha->getHumanName() );
-
-
-	// add by Philip.Wu  2006-06-11  ·ÀÖ¹Òòµ¯³ö¹ı¶àµÄÑ¡Ôñ¿òµ¼ÖÂµ±»ú
-	//                               ĞŞ¸ÄÎªÒ»µ©ÓĞ½»Ò×ÑûÇë£¬¾Í¹Ø±ÕÖ®Ç°µÄÈ·¶¨¿ò
-	g_stUIBox.CloseAllBox();
-
-	stSelectBox* pBox = g_stUIBox.ShowSelectBox( _evtSelectYesNoEvent, szBuf );
-	pBox->dwTag = dwRequestID;
-	pBox->dwParam = byType;
-	static int PosY = 100;
-	PosY+=10;
-	if( PosY>150 ) PosY=100;
-	pBox->frmDialog->SetPos( 10, PosY );
-	pBox->frmDialog->Refresh();
+    chkYes->SetIsChecked(true);
+    if (!btnYes->GetIsEnabled())
+      btnTrade->SetIsEnabled(true);
+  }
 }
 
-void CTradeMgr::_evtSelectYesNoEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	pSender->GetForm()->Close();
-	string name = pSender->GetName();
-	if( name!="btnYes" ) return;
-
-	stSelectBox* pBox = (stSelectBox*)pSender->GetForm()->GetPointer();
-	CS_AcceptTrade( (BYTE)pBox->dwParam, pBox->dwTag );
+void CTradeMgr::ValidateTrade(DWORD dwCharID) {
+  if (dwCharID == m_dwMainID) {
+    btnYes->SetIsEnabled(false);
+    btnGold->SetIsEnabled(false);
+  } else {
+    chkTrade->SetIsChecked(true);
+  }
 }
 
-void CTradeMgr::_MainMousePlayerTradeEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	if( name=="btnNo"  || name == "btnClose" )  //Èç¹ûÊÇÍË³ö°´Å¥,Ôò¹Ø±Õ¸Ã±íµ¥
-	{	
-		if ( g_stUITrade.m_dwMainID==g_stUITrade.m_dwAcceptID )
-			::CS_CancelTrade( g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID );
-		else
-			::CS_CancelTrade( g_stUITrade.m_bTradeType, g_stUITrade.m_dwAcceptID );
-		g_stUITrade.btnTrade->SetIsEnabled(false);
-		g_stUITrade.btnYes->SetIsEnabled(false);
-		g_stUITrade.btnGold->SetIsEnabled(false);
-		return;
-	}
-	else if ( name == "btnYes")
-	{
-		if ( g_stUITrade.m_dwMainID==g_stUITrade.m_dwAcceptID )
-			::CS_ValidateTradeData( g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID );
-		else
-			::CS_ValidateTradeData( g_stUITrade.m_bTradeType, g_stUITrade.m_dwAcceptID );
+void CTradeMgr::ShowTradeSuccess() {
+  int nFree = g_stUIEquip.GetGoodsGrid()->GetMaxNum() -
+              g_stUIEquip.GetGoodsGrid()->GetCurNum();
+  if (nFree < g_stUITrade.grdBuy->GetCurNum()) {
+    g_pGameApp->ShowMidText(RES_STRING(CL_LANGUAGE_MATCH_783));
+    g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_783));
+  }
 
-		g_stUITrade.btnYes->SetIsEnabled(false);
-		g_stUITrade.btnGold->SetIsEnabled(false);
-		if( g_stUITrade.chkYes->GetIsChecked() )
-			g_stUITrade.btnTrade->SetIsEnabled(true);
-		return ;
-	}
-	else if ( name == "btnTrade" )
-	{
-		if ( g_stUITrade.m_dwMainID==g_stUITrade.m_dwAcceptID )
-			::CS_ValidateTrade( g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID );
-		else
-			::CS_ValidateTrade( g_stUITrade.m_bTradeType, g_stUITrade.m_dwAcceptID );
-		g_stUITrade.btnTrade->SetIsEnabled(false);
-		return;
-	}
-	else if ( name=="btnGold")
-	{			
-		//g_stUIBox.ShowNumberBox( _evtGoldFormEvent, g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_GD), RES_STRING(CL_LANGUAGE_MATCH_781), false );
-		g_stUIBox.ShowNumberBox( _evtGoldFormEvent, (int)g_stUIBoat.GetHuman()->getGameAttr()->get(ATTR_GD), RES_STRING(CL_LANGUAGE_MATCH_781), false );
-	}
+  g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_784));
+  Clear();
 }
 
-void CTradeMgr::_evtGoldFormEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if( nMsgType!=CForm::mrYes ) return;
-
-	stNumBox* pBox = (stNumBox*)pSender->GetForm()->GetPointer();
-	if( !pBox ) return;
-
-	DWORD dwCharID = 0;
-	if ( g_stUITrade.m_dwMainID==g_stUITrade.m_dwRequestID )
-		dwCharID = g_stUITrade.m_dwAcceptID;	
-	else
-		dwCharID = g_stUITrade.m_dwRequestID;
-
-	CS_AddMoney( g_stUITrade.m_bTradeType, dwCharID, mission::TRADE_DRAGMONEY_TRADE, pBox->GetNumber() );
+void CTradeMgr::ShowTradeFailed() {
+  g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_785));
+  Clear();
 }
 
-void CTradeMgr::ShowCharTrade( BYTE byType, DWORD dwAcceptID, DWORD dwRequestID )
-{
-	if( !frmPlayertrade ) return;			//½»Ò×½çÃæ
+void CTradeMgr::Clear() {
+  CCommandObj *pItem(NULL);
+  for (int i = 0; i < grdRequest->GetMaxNum(); i++) {
+    pItem = grdRequest->GetItem(i);
+    if (pItem && !pItem->GetIsValid()) {
+      pItem->SetIsValid(true);
+    }
+  }
 
-	CGameScene *pScene = g_pGameApp->GetCurScene();
-	if(!pScene) return;
+  //å…³é—­å·¦è¾¹è¡¨å•
+  if (frmRequest)
+    frmRequest->Close();
 
-	m_bTradeType = byType;
-	m_dwRequestID = dwRequestID;
-	m_dwAcceptID = dwAcceptID;
-	CCharacter* pRequestCha(NULL);
-	CCharacter* pAcceptCha(NULL);
+  //å…³é—­å³è¾¹è¡¨å•
+  if (frmPlayertrade)
+    frmPlayertrade->Close();
 
-	if (mission::TRADE_CHAR == byType)		//Íæ¼ÒÈËÎïÖ®¼äµÄ½»Ò×
-	{
-		frmRequest = g_stUIEquip.GetItemForm();
-		grdRequest = g_stUIEquip.GetGoodsGrid();  //µÀ¾ßÀ¸µÄGrid¿Ø¼ş
+  //å…¶ä»–
+  frmRequest = NULL;
+  grdRequest = NULL;
 
-		pRequestCha = pScene->SearchByHumanID( dwRequestID );
-		pAcceptCha =  pScene->SearchByHumanID( dwAcceptID );
-	} 
-	else if (mission::TRADE_BOAT == byType)	//Íæ¼Ò´¬Ö»Ö®¼äµÄ½»Ò×,ÕâÊ±Á½ÈË¶¼ÊÇ´¬,ËùÓĞÓÃIDËÑË÷
-	{		
-		CCharacter* pMain = CGameScene::GetMainCha();
-		if( !pMain ) return;
+  m_bTradeType = 0;
+  m_dwAcceptID = 0;
+  m_dwRequestID = 0;
 
-		if( !pMain->IsBoat() ) return;
+  if (CDrag::GetDrag()) {
+    CDrag::GetDrag()->Reset();
+  }
 
-		pRequestCha = pScene->SearchByID( dwRequestID );
-		pAcceptCha =  pScene->SearchByID( dwAcceptID );
-
-		CCharacter* pMainShip = NULL;
-		if( pRequestCha->GetMainType() )
-			pMainShip = pRequestCha;
-		else
-			pMainShip = pAcceptCha;
-
-		xShipFactory* pkShip = ((CWorldScene*)g_pGameApp->GetCurScene())->GetShipMgr()->_factory;
-		pkShip->SetState(xShipFactory::STATE_TRADE_FREEDOM);
-		CBoat* pBoat = g_stUIBoat.FindBoat( pMainShip->getAttachID() );
-		if( !pBoat )
-		{
-			return;			
-		}
-		// ÅĞ¶Ï´¬Ö»ÊôĞÔÒ³ÃæÊÇ·ñ´ò¿ª,Èç¹û´ò¿ª,¹Ø±ÕËü
-		CForm* pBoatRoom = pBoat->GetForm();
-		if (!pBoatRoom) return;
-		CForm* pForm = dynamic_cast<CForm*>(pBoatRoom->GetParent());
-		if (pkShip && pkShip->sbf.wnd->GetIsShow() && pForm == pkShip->sbf.wnd)
-		{
-			pkShip->sbf.wnd->SetIsShow(false);
-		}
-
-		pkShip->SetBoatID(pMainShip->getAttachID());
-
-		DWORD dwBuf[8];
-		if (!CCharacter::ConvertPartTo8DWORD(pMainShip->GetPart(), dwBuf))
-			return;
-		pkShip->UpdateBoatFreedomTrade(pMainShip->getName(), dwBuf, sizeof(dwBuf));
-
-		grdRequest = pBoat->GetGoodsGrid();
-		frmRequest = pkShip->sbf.wnd;
-		// frmRequest = pBoat->GetForm();
-	}	//end of if
-
-	if( !frmRequest )	return;
-	if(!pRequestCha || !pAcceptCha) return;
-
-	if( pRequestCha->GetMainType() )
-		m_dwMainID = dwRequestID;
-	else
-		m_dwMainID = dwAcceptID;
-
-	//ÉèÖÃ±íµ¥µÄÎ»ÖÃ²¢ÏÔÊ¾,ÒÔ¼°½»Ò×±íµ¥¿Ø¼ş³õÊ¼»¯
-	frmRequest->SetParent( NULL );
-	frmRequest->SetPos( 0, 100 );
-	frmRequest->Refresh();	
-	frmRequest->Show();
-
-	frmPlayertrade->SetPos( frmRequest->GetWidth(),100 );
-	frmPlayertrade->Refresh();
-	frmPlayertrade->Show();
-
-	if( grdBuy ) grdBuy->Clear();
-	if( grdSale )	grdSale->Clear();
-    if( labOtherGold ) labOtherGold->SetCaption("0");
-	if( labSelfGold )	labSelfGold->SetCaption("0");
-
-	chkYes->SetIsChecked( false );
-	chkTrade->SetIsChecked( false );
-
-	btnYes->SetIsEnabled( true );
-	btnGold->SetIsEnabled( m_bTradeType==mission::TRADE_CHAR );
-	btnTrade->SetIsEnabled( false );	
-
-	string strPlayTradeLabName("");			//labPlayertradeName¿Ø¼şCaption
-	strPlayTradeLabName = pRequestCha->getHumanName();
-	strPlayTradeLabName +=  "/";
-	strPlayTradeLabName += pAcceptCha->getHumanName();
-
-	// ¸Õ¿ªÊ¼¿´¼û¶Ô·½ÊäÈëµÄ½ğ¶îÒÔÎïÆ·£¬Ö»ÓĞ¶Ô·½È·¶¨ÒÔºó²ÅÄÜ¿´¼û
-	labOtherGold->SetIsShow( false );
-	GetPlayertradeBuyGrid()->SetIsShow( false );
-
-	CLabelEx  *labPlayertradeName = dynamic_cast<CLabelEx*>(frmPlayertrade->Find("labPlayertradeName") ); 
-	if ( labPlayertradeName )
-	{	
-		labPlayertradeName->SetCaption( strPlayTradeLabName.c_str() );			
-	}	
+  // äº¤æ˜“åå…³é—­å‡ºæµ·
+  CWorldScene *pWorldScene =
+      dynamic_cast<CWorldScene *>(g_pGameApp->GetCurScene());
+  if (pWorldScene && pWorldScene->GetShipMgr()) {
+    pWorldScene->GetShipMgr()->CloseForm();
+  }
 }
 
-void CTradeMgr::DragTradeToItem( DWORD dwCharID, BYTE byIndex, BYTE byItemIndex )
-{
-	CGoodsGrid* tradeGrd = NULL;
-	if ( g_stUITrade.m_dwMainID==dwCharID )
-	{
-		tradeGrd = g_stUITrade.GetPlayertradeSaleGrid();
-	
-		CCommandObj* pObj  = grdRequest->GetItem( byItemIndex );
-		if(pObj) pObj->SetIsValid(true);
-	}
-	else
-	{
-		tradeGrd = g_stUITrade.GetPlayertradeBuyGrid();
-	}
+void CTradeMgr::CancelCharTrade(DWORD dwCharID) {
+  if (dwCharID == m_dwMainID)
+    g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_786));
+  else
+    g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_787));
 
-	if ( tradeGrd ) tradeGrd->DelItem( byIndex );	
+  Clear();
 }
 
-void  CTradeMgr::DragItemToTrade(DWORD dwCharID,USHORT sItemID,BYTE byIndex,BYTE byCount,BYTE byItemIndex, SItemGrid* pGrid, const NET_CHARTRADE_BOATDATA* const pBoat )
-{
-	//LG( "Trade", "DragItemToTrade( CharID:%u, ItemID:%d, Index:%d, Count:%d, ItemIndex:%d ) - MainID:%d\n", dwCharID, sItemID, byIndex, byCount, byItemIndex, g_stUITrade.m_dwMainID );
-
-	CGoodsGrid* tradeGrd;
-	if ( m_dwMainID==dwCharID )
-	{
-		tradeGrd = g_stUITrade.GetPlayertradeSaleGrid();
-
-		//µÀ¾ßÀ¸ÖĞ¸ÃµÀ¾ß±ä»Ò
-		CCommandObj* pSelf = grdRequest->GetItem( byItemIndex );
-		if (pSelf)
-		{
-			pSelf->SetIsValid(false);
-		}
-	}
-	else
-	{
-		tradeGrd = g_stUITrade.GetPlayertradeBuyGrid();
-	}	
-
-	CItemRecord *pItem = GetItemRecordInfo( sItemID );
-	if( !pItem )
-	{
-		//LG( "protocol", "GetItemRecordInfo return NULL" );
-		return;
-	}
-	
-	CCommandObj* pObj  = tradeGrd->GetItem( byIndex );	
-	if ( pObj )
-	{
-		//LG( "Trade", "msgTrade Error\n" );
-	}
-	else
-	{
-		CItemCommand* pItemCommand = new CItemCommand( pItem );
-		if( pGrid ) pItemCommand->SetData( *pGrid );
-		pItemCommand->SetBoatHint( pBoat );
-		if( !tradeGrd->SetItem( byIndex, pItemCommand ) )
-		{
-			//LG( "protocol", "SetItem return false" );
-			return;
-		}
-	}
+bool CTradeMgr::IsTrading() {
+  if (frmPlayertrade)
+    return frmPlayertrade->GetIsShow();
+  return false;
 }
 
-void CTradeMgr::ShowCharTradeMoney(DWORD dwCharID, DWORD dwMoney)
-{
-	if( !frmPlayertrade )	return;
-	if ( !labOtherGold )	return;
-	if ( !labSelfGold )		return;
+void CTradeMgr::_evtSelfRMouseGridEvent(CGuiData *pSender, CCommandObj *pItem,
+                                        int nGridID) {
+  return;
+  if (!g_stUIBoat.GetHuman())
+    return;
 
-	char  szBuf[32] = { 0 };
-	int  nCurMoney = dwMoney ;
-	_snprintf_s( szBuf, _countof( szBuf ), _TRUNCATE, "%s", StringSplitNum( nCurMoney ) );
-	if ( dwCharID==m_dwMainID )
-	{
-		labSelfGold->SetCaption ( szBuf );
-	}
-	else
-	{
-		labOtherGold->SetCaption( szBuf );
-	}
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || pItemCommand->GetItemInfo()->sType != 43)
+    return;
+
+  stNetItemInfo info;
+  info.chType = mission::VIEW_CHARTRADE_SELF;
+  info.sGridID = nGridID;
+  CS_BeginAction(g_stUIBoat.GetHuman(), enumACTION_ITEM_INFO, &info);
 }
 
-void CTradeMgr::_evtLocalSaleEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	if( nMsgType!=CForm::mrYes ) return;
+void CTradeMgr::_evtOtherRMouseGridEvent(CGuiData *pSender, CCommandObj *pItem,
+                                         int nGridID) {
+  return;
+  if (!g_stUIBoat.GetHuman())
+    return;
 
-	stNumBox* pBox = (stNumBox*)pSender->GetForm()->GetPointer();
-	if( !pBox ) return;
+  CItemCommand *pItemCommand = dynamic_cast<CItemCommand *>(pItem);
+  if (!pItemCommand || pItemCommand->GetItemInfo()->sType != 43)
+    return;
 
-	stSale* p = (stSale*)pBox->pointer;
-	CS_AddItem( g_stUITrade.m_bTradeType, p->dwSaleID, mission::TRADE_DRAGTO_TRADE, p->nGridID, p->nDragID, pBox->GetNumber() );
+  stNetItemInfo info;
+  info.chType = mission::VIEW_CHARTRADE_OTHER;
+  info.sGridID = nGridID;
+  CS_BeginAction(g_stUIBoat.GetHuman(), enumACTION_ITEM_INFO, &info);
 }
 
-void CTradeMgr::LocalSaleItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem )
-{
-	if( !pItem->GetIsValid() ) return;
+// add by Philip.Wu  2006-07-04  åœæ­¢äº¤æ˜“å¹¶å…³é—­äº¤æ˜“æ¡†
+void CTradeMgr::CloseAllForm() {
+  // å…ˆåœæ­¢äº¤æ˜“
+  if (IsTrading()) {
+    ::CS_CancelTrade(g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID);
+  }
 
-	if( CItemCommand* pBoat = dynamic_cast<CItemCommand*>(pItem) )
-	{
-		if( pBoat && pBoat->GetItemInfo()->sType==43 )
-		{
-			g_pGameApp->MsgBox( RES_STRING(CL_LANGUAGE_MATCH_782) );
-		}
-	}
+  // å…³é—­çª—ä½“
+  if (frmPlayertrade && frmPlayertrade->GetIsShow()) {
+    frmPlayertrade->SetIsShow(false);
+  }
 
-	if( pItem->GetIsPile() && pItem->GetTotalNum()>1 )
-	{
-		stNumBox* pBox = g_stUIBox.ShowNumberBox( _evtLocalSaleEvent, pItem->GetTotalNum() );
-		if( pBox )
-		{
-			pBox->pointer = (void*)&_sSale;
-			_sSale.dwSaleID = g_stUITrade.m_dwMainID==m_dwAcceptID ? m_dwRequestID : m_dwAcceptID;
-			_sSale.nGridID = nGridID;
-			_sSale.nDragID = pSelfGrid->GetDragIndex();
-			return;
-		}
-	}
-
-	if ( m_dwMainID==m_dwAcceptID )
-		CS_AddItem( g_stUITrade.m_bTradeType, m_dwRequestID, mission::TRADE_DRAGTO_TRADE, nGridID, pSelfGrid->GetDragIndex(), pItem->GetTotalNum() );
-	else 
-		CS_AddItem( g_stUITrade.m_bTradeType, m_dwAcceptID, mission::TRADE_DRAGTO_TRADE, nGridID, pSelfGrid->GetDragIndex(), pItem->GetTotalNum() );
+  if (frmRequest && frmRequest->GetIsShow()) {
+    frmRequest->SetIsShow(false);
+  }
 }
-
-void CTradeMgr::LocalCancelItem( CGoodsGrid* pSaleGrid, CGoodsGrid* pSelfGrid, int nGridID, CCommandObj* pItem )
-{
-	if( !pItem->GetIsValid() ) return;
-
-	if ( m_dwMainID==m_dwAcceptID )
-		CS_AddItem( g_stUITrade.m_bTradeType, m_dwRequestID, mission::TRADE_DRAGTO_ITEM, pSaleGrid->GetDragIndex(), nGridID, 0 );
-	else
-		CS_AddItem( g_stUITrade.m_bTradeType, m_dwAcceptID, mission::TRADE_DRAGTO_ITEM, pSaleGrid->GetDragIndex(), nGridID, 0 );		
-}
-
-void  CTradeMgr::ValidateTradeData( DWORD dwCharID )  // 
-{
-	if ( dwCharID==m_dwMainID ) 
-	{
-		btnYes->SetIsEnabled( false );
-		btnGold->SetIsEnabled( false );
-	}
-	else
-	{
-		labOtherGold->SetIsShow( true );
-		GetPlayertradeBuyGrid()->SetIsShow( true );
-
-		chkYes->SetIsChecked( true );
-		if( !btnYes->GetIsEnabled() )
-			btnTrade->SetIsEnabled(true);
-	}
-}
-
-void  CTradeMgr::ValidateTrade( DWORD dwCharID )
-{	
-	if ( dwCharID==m_dwMainID )
-	{
-		btnYes->SetIsEnabled( false );
-		btnGold->SetIsEnabled( false );
-	}
-	else
-	{
-		chkTrade->SetIsChecked( true );
-	}
-}
-
-void  CTradeMgr::ShowTradeSuccess()
-{
-	int nFree = g_stUIEquip.GetGoodsGrid()->GetMaxNum() - g_stUIEquip.GetGoodsGrid()->GetCurNum();
-	if( nFree < g_stUITrade.grdBuy->GetCurNum() )
-	{
-		g_pGameApp->ShowMidText(RES_STRING(CL_LANGUAGE_MATCH_783));
-		g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_783));
-	}
-
-	g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_784));
-	Clear();
-}
-
-void CTradeMgr::ShowTradeFailed()
-{
-	g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_785));
-	Clear();
-}
-
-void CTradeMgr::Clear()
-{
-	CCommandObj* pItem(NULL);
-	for( int i = 0; i <grdRequest->GetMaxNum(); i++ )
-	{
-		pItem = grdRequest->GetItem( i);
-		if (pItem && !pItem->GetIsValid())
-		{
-			pItem->SetIsValid(true);
-		}
-	}
-
-	//¹Ø±Õ×ó±ß±íµ¥
-	if ( frmRequest ) frmRequest->Close();
-
-	//¹Ø±ÕÓÒ±ß±íµ¥
-	if ( frmPlayertrade) frmPlayertrade->Close();
-
-	//ÆäËû
-	frmRequest = NULL;
-	grdRequest = NULL;
-
-	m_bTradeType = 0;
-	m_dwAcceptID  = 0;
-	m_dwRequestID = 0;	
-
-	if( CDrag::GetDrag() )
-	{
-		CDrag::GetDrag()->Reset();
-	}
-
-    // ½»Ò×ºó¹Ø±Õ³öº£
-	CWorldScene* pWorldScene = dynamic_cast<CWorldScene*>(g_pGameApp->GetCurScene());
-	if(pWorldScene && pWorldScene->GetShipMgr())
-	{
-		pWorldScene->GetShipMgr()->CloseForm();
-	}
-}
-
-void CTradeMgr::CancelCharTrade(  DWORD dwCharID )
-{	
-	if ( dwCharID==m_dwMainID )
-		g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_786));
-	else
-		g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_787));
-
-	Clear();
-}
-
-bool CTradeMgr::IsTrading()
-{
-	if( frmPlayertrade ) return frmPlayertrade->GetIsShow();
-	return false;
-}
-
-void CTradeMgr::_evtSelfRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID)
-{
-	return;
-	if( !g_stUIBoat.GetHuman() ) return;
-
-	CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand || pItemCommand->GetItemInfo()->sType!=43 ) return;
-
-	stNetItemInfo info;
-	info.chType = mission::VIEW_CHARTRADE_SELF;
-	info.sGridID = nGridID;
-	CS_BeginAction( g_stUIBoat.GetHuman(), enumACTION_ITEM_INFO, &info );	
-}
-
-void CTradeMgr::_evtOtherRMouseGridEvent(CGuiData *pSender,CCommandObj* pItem,int nGridID)
-{
-	return;
-	if( !g_stUIBoat.GetHuman() ) return;
-
-	CItemCommand* pItemCommand = dynamic_cast<CItemCommand*>(pItem);
-	if( !pItemCommand || pItemCommand->GetItemInfo()->sType!=43 ) return;
-
-	stNetItemInfo info;
-	info.chType = mission::VIEW_CHARTRADE_OTHER;
-	info.sGridID = nGridID;
-	CS_BeginAction( g_stUIBoat.GetHuman(), enumACTION_ITEM_INFO, &info );	
-}
-
-
-// add by Philip.Wu  2006-07-04  Í£Ö¹½»Ò×²¢¹Ø±Õ½»Ò×¿ò
-void CTradeMgr::CloseAllForm()
-{
-	// ÏÈÍ£Ö¹½»Ò×
-	if(IsTrading())
-	{
-		::CS_CancelTrade( g_stUITrade.m_bTradeType, g_stUITrade.m_dwRequestID );
-	}
-
-	// ¹Ø±Õ´°Ìå
-	if(frmPlayertrade && frmPlayertrade->GetIsShow())
-	{
-		frmPlayertrade->SetIsShow(false);
-	}
-
-	if(frmRequest && frmRequest->GetIsShow())
-	{
-		frmRequest->SetIsShow(false);
-	}
-}
-

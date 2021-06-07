@@ -58,52 +58,52 @@ public:
 	
 public:
 
-	// Çë×¢Òâ´Ë´¦²»Òª·ÅÖÃÈÎºÎ·Ç¹Ì¶¨ÄÚ´æ³ß´çµÄ±äÁ¿, ±ÈÈçÄ£°å, stringÖ®ÀàµÄ,
-	// ´ËÀà½«±»Ö±½ÓĞ´ÅÌºÍ¶ÁÅÌ
-	char    m_szGateIP[MAX_GATE][64];  // GateIPµØÖ·ÁĞ±í
-    int     m_nGatePort[MAX_GATE];     // Gate PortÁĞ±í
-    int     m_nGateCnt;                // GateÊıÁ¿
+	// è¯·æ³¨æ„æ­¤å¤„ä¸è¦æ”¾ç½®ä»»ä½•éå›ºå®šå†…å­˜å°ºå¯¸çš„å˜é‡, æ¯”å¦‚æ¨¡æ¿, stringä¹‹ç±»çš„,
+	// æ­¤ç±»å°†è¢«ç›´æ¥å†™ç›˜å’Œè¯»ç›˜
+	char    m_szGateIP[MAX_GATE][64];  // GateIPåœ°å€åˆ—è¡¨
+    int     m_nGatePort[MAX_GATE];     // Gate Portåˆ—è¡¨
+    int     m_nGateCnt;                // Gateæ•°é‡
     char    m_szInfoIP[64];            // InfoServer IP
     int     m_nInfoPort;               // InfoServer Port
-	char	m_szInfoPwd[33];		   // InfoServerÑéÖ¤Âë
-	int		m_nSection;				   // Ğ¡ÇøºÅ
+	char	m_szInfoPwd[33];		   // InfoServeréªŒè¯ç 
+	int		m_nSection;				   // å°åŒºå·
     char    m_szMapList[MAX_MAP][MAX_MAPNAME_LENGTH];
-	BYTE	m_btMapOK[MAX_MAP];		   // µØÍ¼ÊÇ·ñ³õÊ¼»¯³É¹¦
-	int     m_nMapCnt;				   // µØÍ¼ÊıÁ¿
-	char	m_szEqument[MAX_MAPNAME_LENGTH];   // ÊÀ½çÊØ»¤Éñ
-    char    m_szName[64];			   // ·şÎñÆ÷Ãû×Ö
+	BYTE	m_btMapOK[MAX_MAP];		   // åœ°å›¾æ˜¯å¦åˆå§‹åŒ–æˆåŠŸ
+	int     m_nMapCnt;				   // åœ°å›¾æ•°é‡
+	char	m_szEqument[MAX_MAPNAME_LENGTH];   // ä¸–ç•Œå®ˆæŠ¤ç¥
+    char    m_szName[64];			   // æœåŠ¡å™¨åå­—
 	char	m_szDBIP[64];			   // DB IP
-	char	m_szDBUsr[32];			   // DB ÓÃ»§Ãû
-	char	m_szDBPass[32];			   // DB ÃÜÂë
+	char	m_szDBUsr[32];			   // DB ç”¨æˆ·å
+	char	m_szDBPass[32];			   // DB å¯†ç 
 
 	// Add by lark.li 20080321 begin
 	char	m_szTradeLogDBIP[64];			   // DB IP
 	char	m_szTradeLogDBName[32];			   // DB IP
-	char	m_szTradeLogDBUsr[32];			   // DB ÓÃ»§Ãû
-	char	m_szTradeLogDBPass[32];			   // DB ÃÜÂë
+	char	m_szTradeLogDBUsr[32];			   // DB ç”¨æˆ·å
+	char	m_szTradeLogDBPass[32];			   // DB å¯†ç 
 
 	BOOL	m_bTradeLogIsConfig;
 	// End
 	char	m_szDBName[32];            // kong@pkodev.net 09.22.2017
 
-	long	m_lSocketAlive;            // Socket±£³Ö»î¶¯
-	int		m_nMaxPly;                 // ×î´óÍæ¼ÒÊı
-	int		m_nMaxCha;                 // ×î´ó½ÇÉ«Êı
-	int		m_nMaxItem;                // ×î´óµÀ¾ßÊı
-	int		m_nMaxTNpc;                // ×î´ó¶Ô»°NPC
-	unsigned long	m_ulBaseID;        // ·şÎñÆ÷µÄID»ùÊı
-	long	m_lItemShowTime;           // µÀ¾ß´æÔÚÊ±¼ä
-	long	m_lItemProtTime;           // µÀ¾ß±£»¤Ê±¼ä
-	long	m_lSayInterval;            // º°»°¼ä¸ô
-	char	m_szResDir[255];		   // ÔËĞĞ×ÊÔ´ËùÔÚµÄÄ¿Â¼
-	char	m_szLogDir[255];		   // LogËùÔÚµÄÄ¿Â¼
-	char	m_chMapMask;               // ÊÇ·ñ´æÈ¡´óµØÍ¼
-	long	m_lDBSave;                 // Êı¾İ¿â¶¨Ê±´æÅÌÊ±¼ä¼ä¸ô
+	long	m_lSocketAlive;            // Socketä¿æŒæ´»åŠ¨
+	int		m_nMaxPly;                 // æœ€å¤§ç©å®¶æ•°
+	int		m_nMaxCha;                 // æœ€å¤§è§’è‰²æ•°
+	int		m_nMaxItem;                // æœ€å¤§é“å…·æ•°
+	int		m_nMaxTNpc;                // æœ€å¤§å¯¹è¯NPC
+	unsigned long	m_ulBaseID;        // æœåŠ¡å™¨çš„IDåŸºæ•°
+	long	m_lItemShowTime;           // é“å…·å­˜åœ¨æ—¶é—´
+	long	m_lItemProtTime;           // é“å…·ä¿æŠ¤æ—¶é—´
+	long	m_lSayInterval;            // å–Šè¯é—´éš”
+	char	m_szResDir[255];		   // è¿è¡Œèµ„æºæ‰€åœ¨çš„ç›®å½•
+	char	m_szLogDir[255];		   // Logæ‰€åœ¨çš„ç›®å½•
+	char	m_chMapMask;               // æ˜¯å¦å­˜å–å¤§åœ°å›¾
+	long	m_lDBSave;                 // æ•°æ®åº“å®šæ—¶å­˜ç›˜æ—¶é—´é—´éš”
 
-	BOOL	m_bLogAI;				   // ÊÇ·ñ´ò¿ªAIµÄlog
-	BOOL	m_bLogCha;				   // ÊÇ·ñ´ò¿ª½ÇÉ«µÄlog
-	BOOL	m_bLogCal;				   // ÊÇ·ñ´ò¿ªÊıÖµ¼ÆËãµÄlog
-	BOOL	m_bLogMission;			   // ÊÇ·ñ´ò¿ªMissionµÄlog
+	BOOL	m_bLogAI;				   // æ˜¯å¦æ‰“å¼€AIçš„log
+	BOOL	m_bLogCha;				   // æ˜¯å¦æ‰“å¼€è§’è‰²çš„log
+	BOOL	m_bLogCal;				   // æ˜¯å¦æ‰“å¼€æ•°å€¼è®¡ç®—çš„log
+	BOOL	m_bLogMission;			   // æ˜¯å¦æ‰“å¼€Missionçš„log
 
 	BOOL	m_bSuperCmd;
 	
@@ -118,7 +118,7 @@ public:
 	char	m_szChaosMap[32];
 	DWORD	m_dwStallTime;		
 	
-	BOOL	m_bLogDB;				   // ÊÇ·ñ°ÑÍæ¼ÒĞĞÎª¼ÇÂ¼µ½Êı¾İ¿â
+	BOOL	m_bLogDB;				   // æ˜¯å¦æŠŠç©å®¶è¡Œä¸ºè®°å½•åˆ°æ•°æ®åº“
 	BOOL    m_bInstantIGS;
 
 	long	m_lWeather;

@@ -12,9 +12,9 @@
 #pragma warning(disable : 4800)
 
 //TLSIndex g_TlsIndex;
-AuthQueue g_Auth;				// ÈÏÖ¤·şÎñ¶ÔÏó
+AuthQueue g_Auth;				// è®¤è¯æœåŠ¡å¯¹è±¡
 
-LoginTmpList    tmpLogin;       //   µÇÂ½ÁÙÊ±ÁĞ±í
+LoginTmpList    tmpLogin;       //   ç™»é™†ä¸´æ—¶åˆ—è¡¨
 
 uLong	NetBuffer[]		= {100, 10, 0};
 bool	g_logautobak	= true;
@@ -86,7 +86,7 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt)
     unsigned short usCmd = rpkt.ReadCmd();
 
     switch (usCmd) {
-        // GroupServerĞ­Òé
+        // GroupServer protocol
 	case CMD_PA_CHANGEPASS:{
 		string name = rpkt.ReadString();
 		string pass = rpkt.ReadString();
@@ -106,14 +106,14 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt)
 			break;
 		}
 
-        // ÈÏÖ¤ÀàĞ­Òé
+        // Authentication protocol
     case CMD_PA_USER_LOGOUT:
 		{
 			g_Auth.AddPK(datasock, rpkt);
 			break;
 		}
 
-        // ¼Æ·ÑÀàĞ­Òé-ÓÃ»§¿ªÊ¼¼Æ·Ñ
+        // Billing protocol-user starts billing
     case CMD_PA_USER_BILLBGN:
 		{
 			IncreaseMembers();
@@ -136,7 +136,7 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt)
 			break;
 		}
 
-		// ¼Æ·ÑÀàĞ­Òé-ÓÃ»§Í£Ö¹¼Æ·Ñ
+		// Billing protocol-users stop billing
     case CMD_PA_USER_BILLEND:
 		{
 			DecreaseMembers();
@@ -158,7 +158,7 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt)
 			break;
 		}
 
-		// ¼Æ·ÑÀàĞ­Òé-ËùÓĞÓÃ»§½áÊø¼Æ·Ñ
+		// Billing protocol-all users end billing
     case CMD_PA_GROUP_BILLEND_AND_LOGOUT:
 		{
 			ResetMembersCount();
@@ -182,25 +182,26 @@ void AccountServer2::OnProcessData(DataSocket* datasock, RPacket& rpkt)
 			g_MainDBHandle.OperAccountBan( actName, 0 );
 			break;
 		}
-        // ÆäËüÎ´ÖªĞ­Òé
+        // å…¶å®ƒæœªçŸ¥åè®®
     default:
         LG("As2Excp", "Unknown usCmd=[%d]\n", usCmd);
     }
 }
 WPacket AccountServer2::OnServeCall(DataSocket* datasock, RPacket& rpkt)
 {
+	printf("===================AccountServer2 user login===========================\n");
     unsigned short usCmd = rpkt.ReadCmd();
 
     switch (usCmd) {
-        // GroupServerĞ­Òé
+        // GroupServeråè®®
     case CMD_PA_LOGIN:
         return Gs_Login(datasock, rpkt);
 
-        // ÈÏÖ¤ÀàĞ­Òé
+        // è®¤è¯ç±»åè®®
     case CMD_PA_USER_LOGIN:
         return g_Auth.SyncPK(datasock, rpkt, 20 * 1000);
 
-        // ÆäËüÎ´ÖªĞ­Òé
+        // å…¶å®ƒæœªçŸ¥åè®®
     default:
 		LG("As2Excp", "Unknown usCmd=[%d]\n", usCmd);
         return ProcessUnknownCmd(rpkt);
@@ -217,7 +218,7 @@ void AccountServer2::OnDisconnect(DataSocket* datasock, int reason)
     Gs_Logout(datasock);
 }
 
-// GroupServerÏà¹Ø·½·¨
+// GroupServerç›¸å…³æ–¹æ³•
 void AccountServer2::Gs_Init()
 {
     m_GsNumber = 0;
@@ -285,11 +286,11 @@ WPacket AccountServer2::Gs_Login(DataSocket* datasock, RPacket& rpkt)
 {
 /*
 2005-4-14 add by Arcol: 
-·¢ÏÖ´Ëº¯Êı»á²úÉú¶à¸öÏß³Ìµ÷ÓÃ,×ÔÉíĞèÒªÒ»¸öÏß³ÌÍ¬²½Ëø
-·¢ÏÖ´Ëº¯ÊıÓëGs_Logout¿ÉÄÜ´æÔÚ¶àÏß³ÌÍ¬²½ÔËĞĞµÄÇé¿ö,´Ëº¯ÊıĞèÒªÓëGs_Logout½¨Á¢Ò»¸öÏß³ÌÍ¬²½Ëø
-Èô´Ëº¯ÊıÄÜ¸ßËÙ·µ»Ø(²»°üº¬Êı¾İ¿â²Ù×÷),³öÏÖÏß³ÌÍ¬²½ÎÊÌâ»úÂÊºÜµÍ
-Ê¹ÓÃ´ó·¶Î§Ïß³ÌÍ¬²½Ëø¿ÉÒÔ½â¾öÍ¬Ò»º¯ÊıÄÚ²¿×ÊÔ´³åÍ»ÎÊÌâ,µ«ÎŞ·¨½â¾ö½»²æº¯Êıµ÷ÓÃµÄ³åÍ»(ËäÈ»´ËÇé¿ö³öÏÖ¼¸ÂÊ¸ü¼ÓµÍ)
-×îÓĞĞ§µÄ·½·¨ÊÇ°ÑGs_LoginºÍGs_LogoutÖ®¼äµÄºÍ×ÔÉíµÄÏß³Ìµ÷ÓÃ×ª»»³É¶ÓÁĞÏûÏ¢·ÃÎÊ,Òò½á¹¹¸Ä¶¯±È½Ï´ó,Ä¿Ç°Î´²ÉÓÃ´Ë·½·¨
+å‘ç°æ­¤å‡½æ•°ä¼šäº§ç”Ÿå¤šä¸ªçº¿ç¨‹è°ƒç”¨,è‡ªèº«éœ€è¦ä¸€ä¸ªçº¿ç¨‹åŒæ­¥é”
+å‘ç°æ­¤å‡½æ•°ä¸Gs_Logoutå¯èƒ½å­˜åœ¨å¤šçº¿ç¨‹åŒæ­¥è¿è¡Œçš„æƒ…å†µ,æ­¤å‡½æ•°éœ€è¦ä¸Gs_Logoutå»ºç«‹ä¸€ä¸ªçº¿ç¨‹åŒæ­¥é”
+è‹¥æ­¤å‡½æ•°èƒ½é«˜é€Ÿè¿”å›(ä¸åŒ…å«æ•°æ®åº“æ“ä½œ),å‡ºç°çº¿ç¨‹åŒæ­¥é—®é¢˜æœºç‡å¾ˆä½
+ä½¿ç”¨å¤§èŒƒå›´çº¿ç¨‹åŒæ­¥é”å¯ä»¥è§£å†³åŒä¸€å‡½æ•°å†…éƒ¨èµ„æºå†²çªé—®é¢˜,ä½†æ— æ³•è§£å†³äº¤å‰å‡½æ•°è°ƒç”¨çš„å†²çª(è™½ç„¶æ­¤æƒ…å†µå‡ºç°å‡ ç‡æ›´åŠ ä½)
+æœ€æœ‰æ•ˆçš„æ–¹æ³•æ˜¯æŠŠGs_Loginå’ŒGs_Logoutä¹‹é—´çš„å’Œè‡ªèº«çš„çº¿ç¨‹è°ƒç”¨è½¬æ¢æˆé˜Ÿåˆ—æ¶ˆæ¯è®¿é—®,å› ç»“æ„æ”¹åŠ¨æ¯”è¾ƒå¤§,ç›®å‰æœªé‡‡ç”¨æ­¤æ–¹æ³•
 */
 
 	bool bAuthSuccess = false;
@@ -314,13 +315,13 @@ WPacket AccountServer2::Gs_Login(DataSocket* datasock, RPacket& rpkt)
             pGs->m_datasock = datasock;
 
             if (AddGroup(pGs)) {
-                // ¼ÓÈëµ½List³É¹¦
+                // åŠ å…¥åˆ°ListæˆåŠŸ
                 datasock->SetPointer(pGs);
                 wpkt.WriteShort(ERR_SUCCESS);
 				//cout << "[" << szGroupName << "] Add Successfully!" << endl;
 				LG("GroupServer", "[%s] Add Successfully!\n", szGroupName);
             } else {
-                // ¼ÓÈëµ½ListÊ§°Ü£¬ËµÃ÷ÓĞÍ¬ÃûGroupServer¸Õ¸ÕµÇÂ¼£¬»ò´æÔÚÒì³£
+                // åŠ å…¥åˆ°Listå¤±è´¥ï¼Œè¯´æ˜æœ‰åŒåGroupServeråˆšåˆšç™»å½•ï¼Œæˆ–å­˜åœ¨å¼‚å¸¸
                 pGs->Free();
                 bAlreadyLogin = true;
                 wpkt.WriteShort(ERR_AP_GPSAUTHFAIL);
@@ -337,12 +338,12 @@ void AccountServer2::Gs_Logout(DataSocket* datasock)
 {
 /*
 2005-4-14 add by Arcol: 
-·¢ÏÖ´Ëº¯Êı»á²úÉú¶à¸öÏß³Ìµ÷ÓÃ,×ÔÉíĞèÒªÒ»¸öÏß³ÌÍ¬²½Ëø
-·¢ÏÖ´Ëº¯ÊıÓëGs_Login¿ÉÄÜ´æÔÚ¶àÏß³ÌÍ¬²½ÔËĞĞµÄÇé¿ö,´Ëº¯ÊıĞèÒªÓëGs_Login½¨Á¢Ò»¸öÏß³ÌÍ¬²½Ëø
-Èô´Ëº¯ÊıÄÜ¸ßËÙ·µ»Ø(²»°üº¬Êı¾İ¿â²Ù×÷),³öÏÖÏß³ÌÍ¬²½ÎÊÌâ»úÂÊºÜµÍ
-Ê¹ÓÃ´ó·¶Î§Ïß³ÌÍ¬²½Ëø¿ÉÒÔ½â¾öÍ¬Ò»º¯ÊıÄÚ²¿×ÊÔ´³åÍ»ÎÊÌâ,µ«ÎŞ·¨½â¾ö½»²æº¯Êıµ÷ÓÃµÄ³åÍ»(ËäÈ»´ËÇé¿ö³öÏÖ¼¸ÂÊ¸ü¼ÓµÍ)
-×îÓĞĞ§µÄ·½·¨ÊÇ°ÑGs_LoginºÍGs_LogoutÖ®¼äµÄºÍ×ÔÉíµÄÏß³Ìµ÷ÓÃ×ª»»³É¶ÓÁĞÏûÏ¢·ÃÎÊ,Òò½á¹¹¸Ä¶¯±È½Ï´ó,Ä¿Ç°Î´²ÉÓÃ´Ë·½·¨
-ÓÉÓÚGroupServer¶Ï¿ªÁ¬½Óºó²»Çå¿Õ×´Ì¬,ËùÒÔAccountServerÒ²²»Ó¦¸ÃÇå¿ÕÓÃ»§×´Ì¬,ÔÚµÈ´ı×Ô¶¯ÖØÁ¬½Óºó±ãÄÜ»Ö¸´Õı³£,ÕâÒªÇóGroupServerÖØÆôºóAccountServerÒ²±ØĞëÖØÆô
+å‘ç°æ­¤å‡½æ•°ä¼šäº§ç”Ÿå¤šä¸ªçº¿ç¨‹è°ƒç”¨,è‡ªèº«éœ€è¦ä¸€ä¸ªçº¿ç¨‹åŒæ­¥é”
+å‘ç°æ­¤å‡½æ•°ä¸Gs_Loginå¯èƒ½å­˜åœ¨å¤šçº¿ç¨‹åŒæ­¥è¿è¡Œçš„æƒ…å†µ,æ­¤å‡½æ•°éœ€è¦ä¸Gs_Loginå»ºç«‹ä¸€ä¸ªçº¿ç¨‹åŒæ­¥é”
+è‹¥æ­¤å‡½æ•°èƒ½é«˜é€Ÿè¿”å›(ä¸åŒ…å«æ•°æ®åº“æ“ä½œ),å‡ºç°çº¿ç¨‹åŒæ­¥é—®é¢˜æœºç‡å¾ˆä½
+ä½¿ç”¨å¤§èŒƒå›´çº¿ç¨‹åŒæ­¥é”å¯ä»¥è§£å†³åŒä¸€å‡½æ•°å†…éƒ¨èµ„æºå†²çªé—®é¢˜,ä½†æ— æ³•è§£å†³äº¤å‰å‡½æ•°è°ƒç”¨çš„å†²çª(è™½ç„¶æ­¤æƒ…å†µå‡ºç°å‡ ç‡æ›´åŠ ä½)
+æœ€æœ‰æ•ˆçš„æ–¹æ³•æ˜¯æŠŠGs_Loginå’ŒGs_Logoutä¹‹é—´çš„å’Œè‡ªèº«çš„çº¿ç¨‹è°ƒç”¨è½¬æ¢æˆé˜Ÿåˆ—æ¶ˆæ¯è®¿é—®,å› ç»“æ„æ”¹åŠ¨æ¯”è¾ƒå¤§,ç›®å‰æœªé‡‡ç”¨æ­¤æ–¹æ³•
+ç”±äºGroupServeræ–­å¼€è¿æ¥åä¸æ¸…ç©ºçŠ¶æ€,æ‰€ä»¥AccountServerä¹Ÿä¸åº”è¯¥æ¸…ç©ºç”¨æˆ·çŠ¶æ€,åœ¨ç­‰å¾…è‡ªåŠ¨é‡è¿æ¥åä¾¿èƒ½æ¢å¤æ­£å¸¸,è¿™è¦æ±‚GroupServeré‡å¯åAccountServerä¹Ÿå¿…é¡»é‡å¯
 */
     std::string strGroupName;
 
@@ -383,7 +384,7 @@ extern BOOL AddGroupToList(char const* strName, char const* strAddr, char const*
     m_GsListLock.lock();
     try {
         while (pGs != NULL) {
-            //AddGroupToList(pGs->GetName(), pGs->GetAddr(), "ÒÑÁ¬½Ó");
+            //AddGroupToList(pGs->GetName(), pGs->GetAddr(), "å·²è¿æ¥");
 			AddGroupToList(pGs->GetName(), pGs->GetAddr(), RES_STRING(AS_ACCOUNTSERVER2_CPP_00001));
             pGs = pGs->m_next;
         }
@@ -405,7 +406,7 @@ bool AccountServer2::AddGroup(GroupServer2* pGs)
         }
     } catch (...) {
         LG("As2Excp", "Exception raised from AddGroup() when add [%s]\n", pGs->m_strName.c_str());
-        bAlreadyLogin = true; // ²»ÔÊĞí´ËGroupServerµÇÂ¼
+        bAlreadyLogin = true; // ä¸å…è®¸æ­¤GroupServerç™»å½•
     }
     m_GsListLock.unlock();
 
@@ -418,7 +419,7 @@ bool AccountServer2::DelGroup(DataSocket* datasock)
 
     m_GsListLock.lock();
     try {
-        // ÔÙ×÷Ò»´Î¼ì²â!
+        // å†ä½œä¸€æ¬¡æ£€æµ‹!
         pGs = (GroupServer2 *)datasock->GetPointer();
         if ((pGs != NULL) && (pGs->m_datasock == datasock)) {
             Gs_ListDel(pGs);
@@ -442,7 +443,7 @@ void AuthQueue::ProcessData(DataSocket* datasock, RPacket& rpkt)
     bool bRetry = true;
     unsigned short usCmd = rpkt.ReadCmd();
 
-    // µÃµ½µ±Ç°Ïß³Ì¶ÔÏó
+    // å¾—åˆ°å½“å‰çº¿ç¨‹å¯¹è±¡
     AuthThread* pThis = (AuthThread *)(g_TlsIndex.GetPointer());
     if (pThis == NULL) return;
 
@@ -498,24 +499,25 @@ void AuthQueue::ProcessData(DataSocket* datasock, RPacket& rpkt)
 		{
             LG("AuthProcessDataExcp", "SQL Exception: %s\n", se->m_strError.c_str());
 
-			// ÖØÁ¬
+			// é‡è¿
 			pThis->Reconnt();
         }
 		catch (...)
 		{
             LG("AuthProcessDataExcp", "unknown exception raised from AuthQueue::ProcessData()\n");
-            bRetry = false; // ·ÇÊı¾İ¿âÔì³ÉµÄÒì³£·Å¹ı
+            bRetry = false; // éæ•°æ®åº“é€ æˆçš„å¼‚å¸¸æ”¾è¿‡
         }
     }
 }
 
 WPacket AuthQueue::ServeCall(DataSocket* datasock, RPacket& rpkt)
 {
+	printf("===================ServeCall user Login===========================\n");
     bool bRetry = true;
     unsigned short usCmd = rpkt.ReadCmd();
 	WPacket wpkt = datasock->GetWPacket();
 
-    // µÃµ½µ±Ç°Ïß³Ì¶ÔÏó
+    // Get the current thread object
     AuthThread* pThis = (AuthThread *)(g_TlsIndex.GetPointer());
 	if (pThis == NULL)
 	{
@@ -534,10 +536,12 @@ WPacket AuthQueue::ServeCall(DataSocket* datasock, RPacket& rpkt)
 				{
 					if (g_TomService.IsEnable())
 					{
+						printf("checking tomservice\n");
 						return pThis->TomAccountLogin(datasock, rpkt);
 					}
 					else
 					{
+						printf("checking not tomservice\n");
 						pThis->QueryAccount(rpkt);
 						return pThis->AccountLogin(datasock);
 					}
@@ -555,13 +559,13 @@ WPacket AuthQueue::ServeCall(DataSocket* datasock, RPacket& rpkt)
 		{
             LG("AuthServeCallExcp", "SQL Exception: %s\n", se->m_strError.c_str());
             
-            // ÖØÁ¬
+            // é‡è¿
             pThis->Reconnt();
         }
 		catch (...)
 		{
             LG("AuthServeCallExcp", "unknown exception raised from AuthQueue::ServerCall()\n");
-            bRetry = false; // ·ÇÊı¾İ¿âÔì³ÉµÄÒì³£·Å¹ı
+            bRetry = false; // éæ•°æ®åº“é€ æˆçš„å¼‚å¸¸æ”¾è¿‡
         }
     }
 
@@ -682,7 +686,7 @@ bool AuthThread::Connect()
     bool ret = true;
     if (m_pAuth != NULL) return true;
 
-    // ´´½¨¶ÔÏó
+    // åˆ›å»ºå¯¹è±¡
     try {
         m_pAuth = new CSQLDatabase();
     } catch (std::bad_alloc& ba) {
@@ -695,7 +699,7 @@ bool AuthThread::Connect()
         return false;
     }
 
-    // Á¬½Ódatabase
+    // è¿æ¥database
     char conn_str[512] = {0};
     char const* conn_fmt = "DRIVER={SQL Server};SERVER=%s;UID=%s;PWD=%s;DATABASE=%s";
     sprintf(conn_str, conn_fmt, m_strSrvip.c_str(), m_strUserId.c_str(),
@@ -755,7 +759,7 @@ void AuthThread::LoadConfig()
         ExitProcess(-1);
     }
     dbpswd_out(strTmp.c_str(), (int)strTmp.length(), m_strUserPwd);
-    //  TOM±íÃûÒÑĞŞ¸Ä
+    //  TOMè¡¨åå·²ä¿®æ”¹
 	//if (g_TomService.IsEnable())
 	//{
 	//	m_strAccountTableName="tom_account";
@@ -796,33 +800,33 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt)
 	WPacket retWPacket = datasock->GetWPacket();
 
 	retWPacket.WriteCmd(0);
-	rpkt.ReadString();	//µÚÒ»¸öĞÅÏ¢ÎŞĞ§£¬¶ªÆú
+	rpkt.ReadString();	//ç¬¬ä¸€ä¸ªä¿¡æ¯æ— æ•ˆï¼Œä¸¢å¼ƒ
 	pName = rpkt.ReadString(&usBufLen);
 	if ((pName == NULL) || (!IsValidName(pName, usBufLen)))
 	{
 		LG("AuthExcp", "NULL or INVALID Name field\n");
-		// ²»´æÔÚ´ËÓÃ»§
+		// ä¸å­˜åœ¨æ­¤ç”¨æˆ·
 		retWPacket.WriteShort(ERR_AP_INVALIDUSER);
 		return retWPacket;
 	}
-	pPass = rpkt.ReadSequence(usBufLen); // ¼ÓÃÜĞÅÏ¢
+	pPass = rpkt.ReadSequence(usBufLen); // åŠ å¯†ä¿¡æ¯
 	GroupServer2* pGs = (GroupServer2 *)datasock->GetPointer();
     if (pGs == NULL)
 	{
         LG("AuthExcp", "pGs = NULL\n");
 		retWPacket.WriteShort(ERR_AP_DISCONN);
-        return retWPacket; // ´ËGroupServerÒÑ¶Ïµô
+        return retWPacket; // æ­¤GroupServerå·²æ–­æ‰
     }
 
 	int nUserID=0;
 	// Modify by lark.li 20080825 begin
-	//bool bBan=false;							//ÊÇ·ñ±»ban
-	int nBan=0;							//ÊÇ·ñ±»ban
+	//bool bBan=false;							//æ˜¯å¦è¢«ban
+	int nBan=0;							//æ˜¯å¦è¢«ban
 	// End
 
-	int nUserState=0;							//0:¿ÕÏĞ 1:ÒÑ¾­µÇÂ½ 2:ÕıÔÚËø¶¨(µÈ´ı15Ãë)
-	DWORD dwLoginLastTick=0;					//×îºóµÇÂ½µÄTickÊ±¼ä
-	std::string strLastFromServerName="";		//×îºóµÇÂ½µÄGroupServer
+	int nUserState=0;							//0:ç©ºé—² 1:å·²ç»ç™»é™† 2:æ­£åœ¨é”å®š(ç­‰å¾…15ç§’)
+	DWORD dwLoginLastTick=0;					//æœ€åç™»é™†çš„Tickæ—¶é—´
+	std::string strLastFromServerName="";		//æœ€åç™»é™†çš„GroupServer
 	std::string strUserName=pName;
 	std::string strEncodePassword=pPass;
 	std::string strMAC=rpkt.ReadString();
@@ -833,24 +837,24 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt)
 
 	std::string strFromServerName=pGs->GetName();
 
-	//printf("user=[%s] ÕıÔÚTomÈÏÖ¤...",strUserName.c_str());
+	//printf("user=[%s] æ­£åœ¨Tomè®¤è¯...",strUserName.c_str());
 	printf(RES_STRING(AS_ACCOUNTSERVER2_CPP_00003),strUserName.c_str());
 	if (!g_TomService.VerifyLoginMember(strUserName.c_str(), strEncodePassword.c_str()))
 	{
-		//printf("Ê§°Ü...\n");
+		//printf("å¤±è´¥...\n");
 		printf(RES_STRING(AS_ACCOUNTSERVER2_CPP_00004));
 		retWPacket.WriteShort(ERR_AP_INVALIDUSER);
 		return retWPacket;
 	}
 	printf("success...\n");
 
-	//ÓĞĞ§µÄÕÊºÅ£¬µÇ¼Çµ½Êı¾İ¿â(ÈôÎª¿ÕÔòÌí¼ÓĞÂ¼ÇÂ¼)
+	//æœ‰æ•ˆçš„å¸å·ï¼Œç™»è®°åˆ°æ•°æ®åº“(è‹¥ä¸ºç©ºåˆ™æ·»åŠ æ–°è®°å½•)
 	char lpszSQLBuf[512];
 	CSQLRecordset rs(*m_pAuth);
 	sprintf(lpszSQLBuf, "select id, login_status, from_server, last_login_tick, ban from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
 	rs << lpszSQLBuf;
 	rs.SQLExecDirect();
-	if (rs.SQLFetch())				//´æÔÚ¼ÇÂ¼
+	if (rs.SQLFetch())				//å­˜åœ¨è®°å½•
 	{
 		nUserID=rs.nSQLGetData(1);
 		nUserState=rs.nSQLGetData(2);
@@ -876,23 +880,23 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt)
 		}
 		// End
 
-		if (nUserState==1)			//Íæ¼ÒÒÑ¾­µÇÂ½(ÖØ¸´µÇÂ½)
+		if (nUserState==1)			//ç©å®¶å·²ç»ç™»é™†(é‡å¤ç™»é™†)
 		{
 #ifdef _RELOGIN_MODE_
-			if (strFromServerName == strLastFromServerName)		//Ô´×ÔÏàÍ¬GroupServerµÄµÇÂ½
+			if (strFromServerName == strLastFromServerName)		//æºè‡ªç›¸åŒGroupServerçš„ç™»é™†
 			{
 				retWPacket.WriteCmd(CMD_AP_RELOGIN);
 			}
 			else
 			{
-				// ÌßµôÏÈÇ°µÇÂ¼µÄ¡¢À´×Ô²»Í¬GroupServerµÄ¿Í»§¶Ë
+				// è¸¢æ‰å…ˆå‰ç™»å½•çš„ã€æ¥è‡ªä¸åŒGroupServerçš„å®¢æˆ·ç«¯
 				KickAccount(strLastFromServerName, nUserID);
 			}
 #else
 			sprintf(lpszSQLBuf, "update %s set login_status=2, enable_login_time=getdate(), last_login_tick=%d where id=%d", m_strAccountTableName.c_str(), GetTickCount(), nUserID);
 			rs<<lpszSQLBuf;
 			rs.SQLExecDirect();
-			if (strFromServerName == strLastFromServerName)		//Ô´×ÔÏàÍ¬GroupServerµÄµÇÂ½
+			if (strFromServerName == strLastFromServerName)		//æºè‡ªç›¸åŒGroupServerçš„ç™»é™†
 			{
 				retWPacket.WriteCmd(CMD_AP_KICKUSER);
 				retWPacket.WriteShort(ERR_AP_ONLINE);
@@ -900,68 +904,68 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt)
 			}
 			else
 			{
-				// ÌßµôÏÈÇ°µÇÂ¼µÄ¡¢À´×Ô²»Í¬GroupServerµÄ¿Í»§¶Ë
+				// è¸¢æ‰å…ˆå‰ç™»å½•çš„ã€æ¥è‡ªä¸åŒGroupServerçš„å®¢æˆ·ç«¯
 				KickAccount(strLastFromServerName, nUserID);
 			}
 			return retWPacket;
 #endif
 		}
-		else if (nUserState==2)		//Íæ¼ÒÕıÔÚ±£»¤Ê±¼äÄÚ(µÈ´ı15ÃëÖĞ)
+		else if (nUserState==2)		//ç©å®¶æ­£åœ¨ä¿æŠ¤æ—¶é—´å†…(ç­‰å¾…15ç§’ä¸­)
 		{
-			if (GetTickCount()>dwLoginLastTick && GetTickCount()< dwLoginLastTick +15000)	//ÈÔÔÚ±£»¤ÖĞ
+			if (GetTickCount()>dwLoginLastTick && GetTickCount()< dwLoginLastTick +15000)	//ä»åœ¨ä¿æŠ¤ä¸­
 			{
 				retWPacket.WriteShort(ERR_AP_SAVING);
 				return retWPacket;
 			}
-			else					//±£»¤ÒÑ¹ıÆÚ£¬ÔÊĞíµÇÂ½
+			else					//ä¿æŠ¤å·²è¿‡æœŸï¼Œå…è®¸ç™»é™†
 			{
 			}
 		}
-		//ÔÊĞíµÇÂ½
+		//å…è®¸ç™»é™†
 		sprintf(lpszSQLBuf, "update %s set login_status=1, from_server='%s', enable_login_time=getdate(), last_login_tick=%d, last_login_time=getdate(), last_login_ip='%s' where id=%d", 
 			m_strAccountTableName.c_str(), strFromServerName.c_str(), GetTickCount(), strIP.c_str(), nUserID);
 		rs<<lpszSQLBuf;
 		rs.SQLExecDirect();
 
 /*
-		if (nUserState==1)			//Íæ¼ÒÒÑ¾­µÇÂ½(ÖØ¸´µÇÂ½)
+		if (nUserState==1)			//ç©å®¶å·²ç»ç™»é™†(é‡å¤ç™»é™†)
 		{
 			sprintf(lpszSQLBuf, "update %s set login_status=2, last_login_tick=%d where id=%d", m_strAccountTableName.c_str(), GetTickCount(), nUserID);
 			rs<<lpszSQLBuf;
 			rs.SQLExecDirect();
 
-			if (strFromServerName == strLastFromServerName)		//Ô´×ÔÏàÍ¬GroupServerµÄµÇÂ½
+			if (strFromServerName == strLastFromServerName)		//æºè‡ªç›¸åŒGroupServerçš„ç™»é™†
 			{
 				retWPacket.WriteCmd(CMD_AP_RELOGIN);
-				//retWPacket.WriteShort(ERR_AP_ONLINE);			//¾ÉÄ£Ê½
-				//retWPacket.WriteLong(nUserID);				//¾ÉÄ£Ê½
+				//retWPacket.WriteShort(ERR_AP_ONLINE);			//æ—§æ¨¡å¼
+				//retWPacket.WriteLong(nUserID);				//æ—§æ¨¡å¼
 			}
 			else
 			{
-				// ÌßµôÏÈÇ°µÇÂ¼µÄ¡¢À´×Ô²»Í¬GroupServerµÄ¿Í»§¶Ë
+				// è¸¢æ‰å…ˆå‰ç™»å½•çš„ã€æ¥è‡ªä¸åŒGroupServerçš„å®¢æˆ·ç«¯
 				KickAccount(strLastFromServerName, nUserID);
 			}
-			//return retWPacket;								//¾ÉÄ£Ê½
+			//return retWPacket;								//æ—§æ¨¡å¼
 		}
-		else if (nUserState==2)		//Íæ¼ÒÕıÔÚ±£»¤Ê±¼äÄÚ(µÈ´ı15ÃëÖĞ)
+		else if (nUserState==2)		//ç©å®¶æ­£åœ¨ä¿æŠ¤æ—¶é—´å†…(ç­‰å¾…15ç§’ä¸­)
 		{
-			if (GetTickCount()>dwLoginLastTick && GetTickCount()< dwLoginLastTick +15000)	//ÈÔÔÚ±£»¤ÖĞ
+			if (GetTickCount()>dwLoginLastTick && GetTickCount()< dwLoginLastTick +15000)	//ä»åœ¨ä¿æŠ¤ä¸­
 			{
 				retWPacket.WriteShort(ERR_AP_SAVING);
 				return retWPacket;
 			}
-			else					//±£»¤ÒÑ¹ıÆÚ£¬ÔÊĞíµÇÂ½
+			else					//ä¿æŠ¤å·²è¿‡æœŸï¼Œå…è®¸ç™»é™†
 			{
 			}
 		}
-		//ÔÊĞíµÇÂ½
+		//å…è®¸ç™»é™†
 		sprintf(lpszSQLBuf, "update %s set login_status=1, from_server='%s', last_login_tick=%d, last_login_time=getdate(), last_login_ip='%s' where id=%d", 
 			m_strAccountTableName.c_str(), strFromServerName.c_str(), GetTickCount(), strIP.c_str(), nUserID);
 		rs<<lpszSQLBuf;
 		rs.SQLExecDirect();
 */
 	}
-	else							//²»´æÔÚ¼ÇÂ¼
+	else							//ä¸å­˜åœ¨è®°å½•
 	{
 		sprintf(lpszSQLBuf, "insert into %s (name, login_status, from_server, create_time, last_login_tick, last_login_time, last_login_ip, enable_login_time) values ('%s', 1, '%s', getdate(), %d, getdate(), '%s', getdate())", 
 				m_strAccountTableName.c_str(), strUserName.c_str(), strFromServerName.c_str(), GetTickCount(), strIP.c_str());
@@ -971,7 +975,7 @@ WPacket AuthThread::TomAccountLogin(DataSocket* datasock, RPacket& rpkt)
 		sprintf(lpszSQLBuf, "select id from %s where name='%s'", m_strAccountTableName.c_str(), strUserName.c_str());
 		rs<<lpszSQLBuf;
 		rs.SQLExecDirect();
-		if (!rs.SQLFetch())				//²»´æÔÚ¼ÇÂ¼
+		if (!rs.SQLFetch())				//ä¸å­˜åœ¨è®°å½•
 		{
 			retWPacket.WriteShort(ERR_AP_INVALIDUSER);
 			return retWPacket;
@@ -1004,7 +1008,7 @@ void AuthThread::TomAccountLogout(RPacket& rpkt)
 {
 	char lpszSQLBuf[512] = {0};
 	int nUserID = rpkt.ReadLong();
-	int nSid = rpkt.ReadLong();		//Î´Ê¹ÓÃ
+	int nSid = rpkt.ReadLong();		//æœªä½¿ç”¨
 
 	CSQLRecordset rs(*m_pAuth);
 	sprintf(lpszSQLBuf, "select login_status from %s where id=%d", m_strAccountTableName.c_str(), nUserID);
@@ -1047,10 +1051,15 @@ void AuthThread::QueryAccount(RPacket rpkt)
     char szSql[512] = {0};
 	SetRunLabel(11);
 
-    // È¡°üÖĞµÄĞÅÏ¢£¬µÚÒ»¸öÊÇÎŞÓÃĞÅÏ¢£¬¶ªÆú(shit!)
+    // Take the information in the packet, the first one is useless information, discard it (shit!)
     pName = rpkt.ReadString();
+	printf("locale is %s", pName);
 
-    // µÚ¶ş¸öÊÇÕÊºÅÃûĞÅÏ¢	
+	//Evg
+	pName = rpkt.ReadString();
+	printf("Bill is %s", pName);
+
+    // The second is the account name information
 	pName = rpkt.ReadString(&usNameLen);
     LG("PASSWD", "From GroupServer [%s] = [%d]\n", pName, strlen(pName));
     if ((pName == NULL) || (!IsValidName(pName, usNameLen)))
@@ -1061,7 +1070,7 @@ void AuthThread::QueryAccount(RPacket rpkt)
 	}
 
 	m_AcctInfo.strName = pName;
-    m_AcctInfo.pDat = rpkt.ReadSequence(m_AcctInfo.usDatLen); // ¼ÓÃÜĞÅÏ¢
+    m_AcctInfo.pDat = rpkt.ReadSequence(m_AcctInfo.usDatLen); // Encrypted information
 	m_AcctInfo.strMAC = rpkt.ReadString();
     m_AcctInfo.strChapString = rpkt.ReadString();
 	in_addr ipAddr;
@@ -1074,20 +1083,20 @@ void AuthThread::QueryAccount(RPacket rpkt)
 		return;
 	}
 
-    // ²éÑ¯¶ÔÏó
+    // æŸ¥è¯¢å¯¹è±¡
 	SetRunLabel(12);
     CSQLRecordset rs(*m_pAuth);
 
-    // ×éÖ¯SQL²éÑ¯Óï¾ä
+    // ç»„ç»‡SQLæŸ¥è¯¢è¯­å¥
 	sprintf(szSql, "select id, password, sid, login_status, login_group, ban, datediff(s, enable_login_time, getdate()) as protect_time from account_login where name='%s'",
             m_AcctInfo.strName.c_str());
-    rs << szSql; //account_login±íÖĞname×Ö¶ÎÒ»¶¨Òª×öÎ¨Ò»Ô¼Êø
+    rs << szSql; //account_loginè¡¨ä¸­nameå­—æ®µä¸€å®šè¦åšå”¯ä¸€çº¦æŸ
 
-    // Ö´ĞĞ²éÑ¯
+    // æ‰§è¡ŒæŸ¥è¯¢
     rs.SQLExecDirect();
 	SetRunLabel(13);
 
-    // ²úÉú²éÑ¯½á¹û
+    // äº§ç”ŸæŸ¥è¯¢ç»“æœ
     if (rs.SQLFetch())
 	{
         int n = 1;
@@ -1116,7 +1125,7 @@ void AuthThread::QueryAccount(RPacket rpkt)
 }
 bool AuthThread::IsValidName(char const* szName, unsigned short usNameLen)
 {
-//TomµÄ°æ±¾ÕÊºÅÔÊĞíÓĞ"_" "-" "."3ÖÖ×Ö·û
+//Tomçš„ç‰ˆæœ¬å¸å·å…è®¸æœ‰"_" "-" "."3ç§å­—ç¬¦
 	if (usNameLen>32) return false;
 	if (!g_TomService.IsEnable() && usNameLen>20) return false;
 	const unsigned char *l_name =reinterpret_cast<const unsigned char *>(szName);
@@ -1128,7 +1137,7 @@ bool AuthThread::IsValidName(char const* szName, unsigned short usNameLen)
 			return false;
 		}else if(l_ishan)
 		{
-			if(l_name[i-1] ==0xA1 && l_name[i] ==0xA1)	//¹ıÂËÈ«½Ç¿Õ¸ñ
+			if(l_name[i-1] ==0xA1 && l_name[i] ==0xA1)	//è¿‡æ»¤å…¨è§’ç©ºæ ¼
 			{
 				return false;
 			}
@@ -1171,19 +1180,19 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	GroupServer2* pFromGroupServer=(GroupServer2 *)datasock->GetPointer();
 	if (pFromGroupServer == NULL)
 	{
-		// ´ËGroupServerÒÑ¶Ïµô
+		// æ­¤GroupServerå·²æ–­æ‰
 		LG("AuthExcp", "pFromGroupServer = NULL\n");
 		wpkt.WriteShort(ERR_AP_DISCONN);
 		return wpkt; 
 	}
 	SetRunLabel(15);
 	
-	wpkt.WriteCmd(0);	//added by andor.zhang,±ÜÃâ»º´æÖØÓÃÔ­ÒòGroupServer¶Áµ½CMD_AP_KICKUSERÃüÁîÂë
+	wpkt.WriteCmd(0);	//added by andor.zhang,é¿å…ç¼“å­˜é‡ç”¨åŸå› GroupServerè¯»åˆ°CMD_AP_KICKUSERå‘½ä»¤ç 
 
 	// Modify by lark.li 20080825 begin
 	if (!m_AcctInfo.bExist)
 	{
-		// ²»´æÔÚ´ËÓÃ»§
+		// ä¸å­˜åœ¨æ­¤ç”¨æˆ·
 		wpkt.WriteShort(ERR_AP_INVALIDUSER);
 		return wpkt;
 	}
@@ -1216,7 +1225,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	bVerify=ChapSvr.DoAuth(m_AcctInfo.strName.c_str(), m_AcctInfo.strChapString.c_str(), m_AcctInfo.pDat, m_AcctInfo.usDatLen, m_AcctInfo.strPwdDigest.c_str());
 	ChapSvr.NewSessionKey();
 	if (!bVerify)
-	{	// ÈÏÖ¤Ê§°Ü
+	{	// è®¤è¯å¤±è´¥
 		wpkt.WriteShort(ERR_AP_INVALIDPWD);
 		LG("AccountAuth", "Thread#%d Auth [%s] (id=%d) failed: invalid password!\n", m_nIndex, m_AcctInfo.strName.c_str(), m_AcctInfo.nId);
         tmpLogin.Remove(m_AcctInfo.strName);
@@ -1230,7 +1239,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	int nSid = GenSid(m_AcctInfo.strName.c_str());
 	if (m_AcctInfo.nStatus == ACCOUNT_OFFLINE)
 	{
-		//µÇÂ½Ç°×´Ì¬ÊÇ²»ÔÚÏß(Õı³£µÇÂ½)
+		//ç™»é™†å‰çŠ¶æ€æ˜¯ä¸åœ¨çº¿(æ­£å¸¸ç™»é™†)
 		sprintf(lpszSQL, "update account_login set login_status=%d, login_group='%s', enable_login_time=getdate(), last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
 			ACCOUNT_ONLINE, pFromGroupServer->GetName(), m_AcctInfo.strMAC.c_str(), m_AcctInfo.strIP.c_str(), m_AcctInfo.nId);
 		if (m_pAuth->ExecuteSQL(lpszSQL))
@@ -1255,7 +1264,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	}
 	else if (m_AcctInfo.nStatus == ACCOUNT_ONLINE)
 	{
-		//µÇÂ½Ç°×´Ì¬ÊÇÒÑÔÚÏß(ÖØ¸´µÇÂ½)
+		//ç™»é™†å‰çŠ¶æ€æ˜¯å·²åœ¨çº¿(é‡å¤ç™»é™†)
 		sprintf(lpszSQL, "update account_login set login_status=%d, login_group='%s', last_login_time=getdate(), last_login_mac='%s', last_login_ip='%s' where id=%d",
 			ACCOUNT_SAVING, pFromGroupServer->GetName(), m_AcctInfo.strMAC.c_str(), m_AcctInfo.strIP.c_str(), m_AcctInfo.nId);
 		if (m_pAuth->ExecuteSQL(lpszSQL))
@@ -1301,7 +1310,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	}
 	else if (m_AcctInfo.nStatus == ACCOUNT_SAVING)
 	{
-		//ÕÊºÅÔÚËø¶¨×´Ì¬(±£´æ½ÇÉ«)
+		//å¸å·åœ¨é”å®šçŠ¶æ€(ä¿å­˜è§’è‰²)
 		if (m_AcctInfo.nProtectTime>=0 && m_AcctInfo.nProtectTime < SAVING_TIME)
 		{
 			wpkt.WriteShort(ERR_AP_SAVING);
@@ -1335,7 +1344,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	}
 	else
 	{
-		//µÇÂ½Ç°×´Ì¬ÊÇ²»È·¶¨
+		//ç™»é™†å‰çŠ¶æ€æ˜¯ä¸ç¡®å®š
 		wpkt.WriteShort(ERR_AP_UNKNOWN);
 		LG("AccountAuth", "Thread#%d Auth [%s] (id=%d) failed: unknown last login status!\n", m_nIndex, m_AcctInfo.strName.c_str(), m_AcctInfo.nId);
 		SetRunLabel(25);
@@ -1369,40 +1378,40 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 	{
         LG("AuthExcp", "pGs = NULL\n");
 		wpkt.WriteShort(ERR_AP_DISCONN);
-        return wpkt; // ´ËGroupServerÒÑ¶Ïµô
+        return wpkt; // æ­¤GroupServerå·²æ–­æ‰
     }
 	SetRunLabel(15);
 
-	wpkt.WriteCmd(0);	//added by andor.zhang,±ÜÃâ»º´æÖØÓÃÔ­ÒòGroupServer¶Áµ½CMD_AP_KICKUSERÃüÁîÂë
+	wpkt.WriteCmd(0);	//added by andor.zhang,é¿å…ç¼“å­˜é‡ç”¨åŸå› GroupServerè¯»åˆ°CMD_AP_KICKUSERå‘½ä»¤ç 
     if (m_AcctInfo.bExist) 
 	{
 		KCHAPs ChapSvr;
 		bool bVerify=false;
 		ChapSvr.NewSessionKey();
-		if (g_TomService.IsEnable())	//Ê¹ÓÃTomµÄ·şÎñÑéÖ¤
+		if (g_TomService.IsEnable())	//ä½¿ç”¨Tomçš„æœåŠ¡éªŒè¯
 		{
 			//bVerify=g_TomService.VerifyLoginMember(m_AcctInfo.strName.c_str(), m_AcctInfo.pDat);
 			//CTomService::eState eUserState=g_TomService.CheckMemberState(m_AcctInfo.strName.c_str());
-			//if (eUserState==CTomService::eState_AllowLogin)				//³É¹¦µÇÂ½
+			//if (eUserState==CTomService::eState_AllowLogin)				//æˆåŠŸç™»é™†
 			//{
 			//}
-			//else if (eUserState==CTomService::eState_LoginLocked)		//ÖØ¸´µÇÂ½
+			//else if (eUserState==CTomService::eState_LoginLocked)		//é‡å¤ç™»é™†
 			//{
 			//}
 		}
-		else							//Ê¹ÓÃ×ÔÉíµÄÑéÖ¤·½Ê½
+		else							//ä½¿ç”¨è‡ªèº«çš„éªŒè¯æ–¹å¼
 		{
 			bVerify=ChapSvr.DoAuth(m_AcctInfo.strName.c_str(), m_AcctInfo.strChapString.c_str(), m_AcctInfo.pDat, m_AcctInfo.usDatLen, m_AcctInfo.strPwdDigest.c_str());
 			ChapSvr.NewSessionKey();
 			if (bVerify)
 			{
-				// ÈÏÖ¤³É¹¦£¬²úÉúSid
+				// è®¤è¯æˆåŠŸï¼Œäº§ç”ŸSid
 				LG("AccountAuth", "Thread#%d Auth [%s] successfully\n", m_nIndex, m_AcctInfo.strName.c_str());
 				int nSid = GenSid(m_AcctInfo.strName.c_str());
 				int nKeyLen = 0;
 				char szKey[1024] = {0};
 
-				// ×öµÇÂ¼Âß¼­ÅĞ¶Ï
+				// åšç™»å½•é€»è¾‘åˆ¤æ–­
 				char szSql[2048] = {0};
 				char szFmt[2048] = "update l set l.login_status=case l.login_status when %d then %d \
 								   when %d then %d when %d then %d end, l.enable_login_time=case l.login_status when %d then \
@@ -1412,15 +1421,15 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 								   when %d then '%s' end from account_login l where l.id=%d and (l.login_status=%d or (l.login_status=%d \
 								   and l.enable_login_time<=getdate()) or (l.login_status=%d and l.enable_login_time<=getdate()))";
 				sprintf(szSql, szFmt,
-					ACCOUNT_OFFLINE, ACCOUNT_ONLINE, // ÀëÏß±äÔÚÏß
-					ACCOUNT_ONLINE, ACCOUNT_SAVING, // ÔÚÏß±ä´æÅÌ
-					//ACCOUNT_SAVING, ACCOUNT_ONLINE, // ´æÅÌ±äÔÚÏß    2006-2-24 arcol_test
-					ACCOUNT_SAVING, ACCOUNT_SAVING, // ´æÅÌ±ä´æÅÌ    2006-2-24 arcol_test Ìæ»»
+					ACCOUNT_OFFLINE, ACCOUNT_ONLINE, // ç¦»çº¿å˜åœ¨çº¿
+					ACCOUNT_ONLINE, ACCOUNT_SAVING, // åœ¨çº¿å˜å­˜ç›˜
+					//ACCOUNT_SAVING, ACCOUNT_ONLINE, // å­˜ç›˜å˜åœ¨çº¿    2006-2-24 arcol_test
+					ACCOUNT_SAVING, ACCOUNT_SAVING, // å­˜ç›˜å˜å­˜ç›˜    2006-2-24 arcol_test æ›¿æ¢
 
 					ACCOUNT_OFFLINE, RELOGIN_TIME,
 					ACCOUNT_ONLINE, SAVING_TIME,
 					//ACCOUNT_SAVING, RELOGIN_TIME,    2006-2-24 arcol_test
-					ACCOUNT_SAVING, SAVING_TIME,	// 2006-2-24 arcol_test Ìæ»»
+					ACCOUNT_SAVING, SAVING_TIME,	// 2006-2-24 arcol_test æ›¿æ¢
 
 					ACCOUNT_OFFLINE, nSid,
 					ACCOUNT_ONLINE, INVALID_SID,
@@ -1436,7 +1445,7 @@ WPacket AuthThread::AccountLogin(DataSocket* datasock)
 					ACCOUNT_ONLINE,
 					ACCOUNT_SAVING);
 
-/*-------ÒÔÉÏ¾­Arcol·ÖÎöÎªÒÔÏÂÄÚÈİ
+/*-------ä»¥ä¸Šç»Arcolåˆ†æä¸ºä»¥ä¸‹å†…å®¹
 update l set l.login_status=case l.login_status
 						when ACCOUNT_OFFLINE then ACCOUNT_ONLINE
 						when ACCOUNT_ONLINE then ACCOUNT_SAVING
@@ -1464,10 +1473,10 @@ and
 				m_pAuth->ExecuteSQL(szSql);
 				SetRunLabel(17);
 
-				// µÃµ½ĞÂµÄÕËºÅ×´Ì¬
+				// å¾—åˆ°æ–°çš„è´¦å·çŠ¶æ€
 				int nLinesAffected = 0;
-				bool bIsFromSameGroup = pGs->IsSame(m_AcctInfo.strGroup);	//Arcol 06-2-14 ·¢ÏÖÖ®Ç°°æ±¾ÓĞBUG£­ºóÃæÊ¹ÓÃµÄÅĞ¶ÏÒÑ¾­ÎŞĞ§£¬ÌáÇ°×öÅĞ¶Ï
-				string strLastLoginGroup = m_AcctInfo.strGroup;				//Arcol 06-2-14 ·¢ÏÖÖ®Ç°°æ±¾ÓĞBUG£­ºóÃæÊ¹ÓÃµÄÅĞ¶ÏÒÑ¾­ÎŞĞ§£¬ÌáÇ°×öÅĞ¶Ï
+				bool bIsFromSameGroup = pGs->IsSame(m_AcctInfo.strGroup);	//Arcol 06-2-14 å‘ç°ä¹‹å‰ç‰ˆæœ¬æœ‰BUGï¼åé¢ä½¿ç”¨çš„åˆ¤æ–­å·²ç»æ— æ•ˆï¼Œæå‰åšåˆ¤æ–­
+				string strLastLoginGroup = m_AcctInfo.strGroup;				//Arcol 06-2-14 å‘ç°ä¹‹å‰ç‰ˆæœ¬æœ‰BUGï¼åé¢ä½¿ç”¨çš„åˆ¤æ–­å·²ç»æ— æ•ˆï¼Œæå‰åšåˆ¤æ–­
 
 				{
 					CSQLRecordset rs(*m_pAuth);
@@ -1488,12 +1497,12 @@ and
 					}
 				}
 
-				// ¸ù¾İ×´Ì¬×éÖ¯Êı¾İ°ü
+				// æ ¹æ®çŠ¶æ€ç»„ç»‡æ•°æ®åŒ…
 				if (nLinesAffected == 1) 
 				{
 					if (m_AcctInfo.nStatus == ACCOUNT_ONLINE)
 					{
-						// ÕÊºÅ³É¹¦µÇÂ¼
+						// å¸å·æˆåŠŸç™»å½•
 						sprintf(szSql, "update account_login set last_login_time=getdate(), last_login_mac = '%s' where id=%d",
 							m_AcctInfo.strMAC.c_str(), m_AcctInfo.nId);
 						m_pAuth->ExecuteSQL(szSql);
@@ -1508,26 +1517,26 @@ and
 					}
 					else if (m_AcctInfo.nStatus == ACCOUNT_SAVING)
 					{
-						// ÕÊºÅÖØ¸´µÇÂ¼
+						// å¸å·é‡å¤ç™»å½•
 						sprintf(szSql, "update account_login set last_logout_time=getdate(), total_live_time=total_live_time+datediff(second, last_login_time, getdate()) where id=%d",
 							m_AcctInfo.nId);
 						m_pAuth->ExecuteSQL(szSql);
 
-						//if (pGs->IsSame(m_AcctInfo.strGroup))					//Arcol 06-2-14 ·¢ÏÖÖ®Ç°°æ±¾ÓĞBUG£­ÕâÀïÊ¹ÓÃµÄÅĞ¶ÏÒÑ¾­ÎŞĞ§£¬ĞèÒªÌáÇ°×öÅĞ¶Ï
+						//if (pGs->IsSame(m_AcctInfo.strGroup))					//Arcol 06-2-14 å‘ç°ä¹‹å‰ç‰ˆæœ¬æœ‰BUGï¼è¿™é‡Œä½¿ç”¨çš„åˆ¤æ–­å·²ç»æ— æ•ˆï¼Œéœ€è¦æå‰åšåˆ¤æ–­
 						if (bIsFromSameGroup)
 						{
 							wpkt.WriteCmd(CMD_AP_RELOGIN);
-							//wpkt.WriteShort(ERR_AP_ONLINE);					//¾ÉÄ£Ê½
-							//wpkt.WriteLong(m_AcctInfo.nId);					//¾ÉÄ£Ê½
+							//wpkt.WriteShort(ERR_AP_ONLINE);					//æ—§æ¨¡å¼
+							//wpkt.WriteLong(m_AcctInfo.nId);					//æ—§æ¨¡å¼
 						}
 						else
 						{
-							// ÌßµôÏÈÇ°µÇÂ¼µÄ¡¢À´×Ô²»Í¬GroupServerµÄ¿Í»§¶Ë
-							//KickAccount(m_AcctInfo.strGroup, m_AcctInfo.nId);	//Arcol 06-2-14 ·¢ÏÖÖ®Ç°°æ±¾ÓĞBUG
+							// è¸¢æ‰å…ˆå‰ç™»å½•çš„ã€æ¥è‡ªä¸åŒGroupServerçš„å®¢æˆ·ç«¯
+							//KickAccount(m_AcctInfo.strGroup, m_AcctInfo.nId);	//Arcol 06-2-14 å‘ç°ä¹‹å‰ç‰ˆæœ¬æœ‰BUG
 							KickAccount(strLastLoginGroup, m_AcctInfo.nId);
 						}
 
-						/*ĞÂÄ£Ê½*/
+						/*æ–°æ¨¡å¼*/
 						sprintf(szSql, "update account_login set last_login_time=getdate(), last_login_mac = '%s' where id=%d",
 							m_AcctInfo.strMAC.c_str(), m_AcctInfo.nId);
 						m_pAuth->ExecuteSQL(szSql);
@@ -1539,7 +1548,7 @@ and
 						ChapSvr.GetSessionClrKey(szKey, sizeof szKey, nKeyLen);
 						wpkt.WriteSequence(szKey, nKeyLen);
 						wpkt.WriteLong(nSid);
-						/*ĞÂÄ£Ê½*/
+						/*æ–°æ¨¡å¼*/
 					}
 					else
 					{
@@ -1549,20 +1558,20 @@ and
 				}
 				else 
 				{
-					// ÕÊºÅÈÔ´¦ÓÚACCOUNT_SAVING×´Ì¬»òRELOGIN±£»¤×´Ì¬
+					// å¸å·ä»å¤„äºACCOUNT_SAVINGçŠ¶æ€æˆ–RELOGINä¿æŠ¤çŠ¶æ€
 					wpkt.WriteShort(ERR_AP_SAVING);
 				}
 			}
 		}
 		if (!bVerify)
-		{	// ÈÏÖ¤Ê§°Ü
+		{	// è®¤è¯å¤±è´¥
 			wpkt.WriteShort(ERR_AP_INVALIDPWD);
 			LG("AccountAuth", "Thread#%d Auth [%s] failed\n", m_nIndex, m_AcctInfo.strName.c_str());
 		}
     }
 	else
 	{
-        // ²»´æÔÚ´ËÓÃ»§
+        // ä¸å­˜åœ¨æ­¤ç”¨æˆ·
         wpkt.WriteShort(ERR_AP_INVALIDUSER);
     }
 
@@ -1607,7 +1616,7 @@ void AuthThread::AccountLogout(RPacket rpkt)
 	char lpszSQL[2048] = {0};
 	int nID = rpkt.ReadLong();
 	//sprintf(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate() where id=%d", ACCOUNT_OFFLINE, nID);
-    sprintf(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate(), total_live_time=total_live_time+datediff(second, last_login_time, getdate()) where id=%d", ACCOUNT_OFFLINE, nID);  //  Ôö¼ÓÔÚÏßÊ±¼ä by jampe
+    sprintf(lpszSQL, "update account_login set login_status=%d, login_group='', enable_login_time=getdate(), last_logout_time=getdate(), total_live_time=total_live_time+datediff(second, last_login_time, getdate()) where id=%d", ACCOUNT_OFFLINE, nID);  //  å¢åŠ åœ¨çº¿æ—¶é—´ by jampe
 	if (m_pAuth->ExecuteSQL(lpszSQL))
 	{
 		SetRunLabel(0);
@@ -1634,14 +1643,14 @@ void AuthThread::LogoutGroup(DataSocket* datasock, RPacket rpkt)
 {
 /*
 2005-4-14 added by arcol:
-·şÎñÆ÷¶Ï¿ªºó»áÁ¢¼´×Ô¶¯ÖØÁ¬,Òò´Ë²»Çå³ıÕÊºÅ×´Ì¬,ÒªÇóGroupServerÖØÆôºóAccountServerÒ²ĞèÒªÖØÆô
+æœåŠ¡å™¨æ–­å¼€åä¼šç«‹å³è‡ªåŠ¨é‡è¿,å› æ­¤ä¸æ¸…é™¤å¸å·çŠ¶æ€,è¦æ±‚GroupServeré‡å¯åAccountServerä¹Ÿéœ€è¦é‡å¯
 */
 
 /*
 	char szSql[512] = {0};
     std::string strName;
     char const* pszGroup = rpkt.ReadString();
-    LG("As2Logout", "GroupServer: [%s] ¶Ï¿ª£¬Çå³ı´ÓÆäµÇÂ¼ÉÏµÄËùÓĞÕÊºÅµÄµÇÂ¼×´Ì¬\n", pszGroup);
+    LG("As2Logout", "GroupServer: [%s] æ–­å¼€ï¼Œæ¸…é™¤ä»å…¶ç™»å½•ä¸Šçš„æ‰€æœ‰å¸å·çš„ç™»å½•çŠ¶æ€\n", pszGroup);
 
     SetRunLabel(23);
     try {
@@ -1703,16 +1712,16 @@ long AuthThread::GenSid(char const* szName)
 #define SHA1_DIGEST_LEN 20
     char md[SHA1_DIGEST_LEN];
 
-    // ²úÉúĞÅÏ¢Ô´
+    // äº§ç”Ÿä¿¡æ¯æº
     char buf[256];
     int buf_len = sprintf(buf, "%s%d", szName, GetTickCount());
     if (buf_len >= sizeof buf)
         throw std::out_of_range("buffer overflow in GenSid()\n");
 
-    // Éú³ÉÕªÒª
+    // ç”Ÿæˆæ‘˜è¦
     sha1((unsigned char *)buf, buf_len, (unsigned char *)md);
 
-    // È¡³öÇ°4¸ö×Ö½Ú
+    // å–å‡ºå‰4ä¸ªå­—èŠ‚
     long* ptr = (long *)md;
     return ptr[0];
 }
@@ -1720,13 +1729,13 @@ void AuthThread::ResetAccount()
 {
 /*
 2005-4-17 added by Arcol:
-ÕâÀï´úÂë¿´µÃÎÒÍ·ÔÎ,ÈçÓĞÄÜÁ¦½¨ÒéÖØĞ´,Ä¿Ç°Íâ²¿Ö÷Ïß³ÌÓĞCDataBaseCtrl¶ÔÏó¿ÉÒÔ³õÊ¼»¯¼°ºóÆÚ»¯Êı¾İ¿â
-×¢Òâ:ÕâÀïµÄm_nIndexÎª0Ê±²»´ú±íÒ»¶¨ÊÇÊ×´ÎÖ´ĞĞ,Òò´Ë,¿ÉÄÜ³öÏÖÒ»ÖÖÇé¿ö,µ±ÆäËüÏß³ÌÒÑ¾­¿ªÕ¹ÑéÖ¤·şÎñ¹¤×÷,¶ø´ËÊ±0ºÅË÷ÒıÏß³Ì²Å½øÀ´³õÊ¼»¯±í¸ñ»áÔì³É±í¸ñ×ÊÔ´·ÃÎÊ³åÍ»,µ¼ÖÂ³õÊ¼»¯Ê§°Ü
+è¿™é‡Œä»£ç çœ‹å¾—æˆ‘å¤´æ™•,å¦‚æœ‰èƒ½åŠ›å»ºè®®é‡å†™,ç›®å‰å¤–éƒ¨ä¸»çº¿ç¨‹æœ‰CDataBaseCtrlå¯¹è±¡å¯ä»¥åˆå§‹åŒ–åŠåæœŸåŒ–æ•°æ®åº“
+æ³¨æ„:è¿™é‡Œçš„m_nIndexä¸º0æ—¶ä¸ä»£è¡¨ä¸€å®šæ˜¯é¦–æ¬¡æ‰§è¡Œ,å› æ­¤,å¯èƒ½å‡ºç°ä¸€ç§æƒ…å†µ,å½“å…¶å®ƒçº¿ç¨‹å·²ç»å¼€å±•éªŒè¯æœåŠ¡å·¥ä½œ,è€Œæ­¤æ—¶0å·ç´¢å¼•çº¿ç¨‹æ‰è¿›æ¥åˆå§‹åŒ–è¡¨æ ¼ä¼šé€ æˆè¡¨æ ¼èµ„æºè®¿é—®å†²çª,å¯¼è‡´åˆå§‹åŒ–å¤±è´¥
 */
-	return;	//·ÅÆúÊ¹ÓÃºóÃæµÄ´úÂë 2005-4-17
+	return;	//æ”¾å¼ƒä½¿ç”¨åé¢çš„ä»£ç  2005-4-17
 
     if (m_nIndex == 0) {
-        // Ö»ÓĞµÚÒ»¸öÏß³Ì±»ÔÊĞíĞŞ¸Ä
+        // åªæœ‰ç¬¬ä¸€ä¸ªçº¿ç¨‹è¢«å…è®¸ä¿®æ”¹
         CSQLUpdate s("account_login");
         s.SetColumn("login_status", ACCOUNT_OFFLINE);
         s.SetColumn("sid", INVALID_SID);
@@ -1734,7 +1743,7 @@ void AuthThread::ResetAccount()
 
 		try {
             m_pAuth->ExecuteSQL(s.GetStatement());
-	        //LG("As2", "AuthThread#%dÁ¬½ÓAuthÊı¾İ¿â³É¹¦\n", m_nIndex);
+	        //LG("As2", "AuthThread#%dè¿æ¥Authæ•°æ®åº“æˆåŠŸ\n", m_nIndex);
 	        LG("As2", RES_STRING(AS_ACCOUNTSERVER2_CPP_00005), m_nIndex);
 		} catch (CSQLException* pEx) {
 			LG("AuthDBExcp", "AuthThread::ResetAccount() ExecuteSQL failed : %s\n",
@@ -1743,15 +1752,15 @@ void AuthThread::ResetAccount()
 			LG("AuthDBExcp", "Unknown exception raised from AuthThread::ResetAccount()\n");
 		}
 
-        // ¼¤»îÒ»¸öÏß³Ì
+        // æ¿€æ´»ä¸€ä¸ªçº¿ç¨‹
         AuthThread::m_Sema.unlock();
     } else {
-        // ÆäËüÏß³Ì²»ĞŞ¸Ä£¬²¢µÈ´ıĞŞ¸ÄÍê³É
+        // å…¶å®ƒçº¿ç¨‹ä¸ä¿®æ”¹ï¼Œå¹¶ç­‰å¾…ä¿®æ”¹å®Œæˆ
         AuthThread::m_Sema.lock();
-        //LG("As2", "AuthThread#%dÁ¬½ÓAuthÊı¾İ¿â³É¹¦\n", m_nIndex);
+        //LG("As2", "AuthThread#%dè¿æ¥Authæ•°æ®åº“æˆåŠŸ\n", m_nIndex);
         LG("As2", RES_STRING(AS_ACCOUNTSERVER2_CPP_00005), m_nIndex);
 
-        // ÔÙ¼¤»îÒ»¸öÏß³Ì
+        // å†æ¿€æ´»ä¸€ä¸ªçº¿ç¨‹
         AuthThread::m_Sema.unlock();
     }
 }
@@ -1770,7 +1779,7 @@ int AuthThread::Run()
 {
     Init();
     while (!GetExitFlag()) {
-        g_Auth.PeekPacket(1000); // ¸øÓÚ1ÃëµÄÊ±¼äÀ´²É¼¯¶ÓÁĞÖĞµÄÍøÂç°ü
+        g_Auth.PeekPacket(1000); // ç»™äº1ç§’çš„æ—¶é—´æ¥é‡‡é›†é˜Ÿåˆ—ä¸­çš„ç½‘ç»œåŒ…
     }
     Exit();
 
@@ -1819,7 +1828,7 @@ void AuthThreadPool::NotifyToExit()
 }
 void AuthThreadPool::WaitForExit()
 {
-	//printf("ÕıÔÚµÈ´ıÏß³Ì³ØÄÚµÄ×ÓÏß³ÌÍË³ö£¬ÇëÉÔºò\n");
+	//printf("æ­£åœ¨ç­‰å¾…çº¿ç¨‹æ± å†…çš„å­çº¿ç¨‹é€€å‡ºï¼Œè¯·ç¨å€™\n");
 	printf(RES_STRING(AS_ACCOUNTSERVER2_CPP_00006));
     for (int i = 0; i < AT_MAXNUM; ++ i) {
         m_Pool[i]->WaitForExit(-1);
@@ -1848,5 +1857,5 @@ int isValidMacAddress(const char* mac) {
     return (i == 12 && (s == 5 || s == 0));
 }
 
-// ÍøÂç¿ò¼Ü¶ÔÏó
+// ç½‘ç»œæ¡†æ¶å¯¹è±¡
 AccountServer2* g_As2 = NULL;

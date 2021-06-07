@@ -10,7 +10,7 @@ class CActor;
 class CSkillRecord;
 class CServerHarm;
 
-// Ò»´ÎÐÔµÄÊÜ»÷ÌØÐ§,ÈçµØÃæÌØÐ§,ÊÜ»÷ÒôÐ§,ÈËÎïÊÜ»÷ÌØÐ§µÈ
+// ä¸€æ¬¡æ€§çš„å—å‡»ç‰¹æ•ˆ,å¦‚åœ°é¢ç‰¹æ•ˆ,å—å‡»éŸ³æ•ˆ,äººç‰©å—å‡»ç‰¹æ•ˆç­‰
 class CHitRepresent 
 {
 public:
@@ -26,24 +26,24 @@ public:
 
 private:
 	CSkillRecord*	_pSkill;
-	CCharacter*		_pTarget;				// ¹¥»÷µ¥ÈËÊ±µÄÄ¿±ê
-	int				_nAttackX,  _nAttackY;	// ¹¥»÷Ê±¹¥»÷ÖÐÐÄµã
-	CCharacter*		_pAttack;				// ¹¥»÷·½, ÓÃÓÚÏÔÊ¾ÊÜ»÷µÄ·½Ïò,¿ÉÄÜÎª¿Õ
+	CCharacter*		_pTarget;				// æ”»å‡»å•äººæ—¶çš„ç›®æ ‡
+	int				_nAttackX,  _nAttackY;	// æ”»å‡»æ—¶æ”»å‡»ä¸­å¿ƒç‚¹
+	CCharacter*		_pAttack;				// æ”»å‡»æ–¹, ç”¨äºŽæ˜¾ç¤ºå—å‡»çš„æ–¹å‘,å¯èƒ½ä¸ºç©º
 
 private:
 	void	Exec( CServerHarm* pHarm );
 
 };
 
-// ÓÃÓÚ·ÉÐÐÌØÐ§Ê§Ð§ºó²¥·ÅÑÓ³ÙµÄÊÜ»÷ÌØÐ§,ÑÓ³ÙÌØÐ§,ÍøÂçÉËº¦°üµÈ
+// ç”¨äºŽé£žè¡Œç‰¹æ•ˆå¤±æ•ˆåŽæ’­æ”¾å»¶è¿Ÿçš„å—å‡»ç‰¹æ•ˆ,å»¶è¿Ÿç‰¹æ•ˆ,ç½‘ç»œä¼¤å®³åŒ…ç­‰
 class CEffDelay
 {
 public:
     enum ePlayStyle
     {
-        enumNone,       // Ê²Ã´ÊÂ¶¼²»×ö 
-        enumPos,        // ÔÚÄ³µØµã²¥·Å
-        enumHitEffect,  // ÊÜ»÷ÌØÐ§
+        enumNone,       // ä»€ä¹ˆäº‹éƒ½ä¸åš 
+        enumPos,        // åœ¨æŸåœ°ç‚¹æ’­æ”¾
+        enumHitEffect,  // å—å‡»ç‰¹æ•ˆ
     };
 
 public:
@@ -70,7 +70,7 @@ private:
 
 };
 
-// ÄÚÁªº¯Êý
+// å†…è”å‡½æ•°
 inline void CHitRepresent::EffectExec( CServerHarm* pHarm )
 {
 	if( !_pSkill->IsEffectHarm() ) return;

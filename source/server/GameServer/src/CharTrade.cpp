@@ -43,12 +43,12 @@ namespace mission
 
 	T_E}
 
-	// ½»Ò×²Ù×÷
+	// äº¤æ˜“æ“ä½œ
 	BOOL CTradeSystem::Request( BYTE byType, CCharacter& character, DWORD dwAcceptID )
 	{T_B
 		if(character.GetPlyMainCha()->IsStoreEnable())
 		{
-			//character.SystemNotice("ÎŞ·¨½»Ò×!");
+			//character.SystemNotice("æ— æ³•äº¤æ˜“!");
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00001));
 			return FALSE;
 		}
@@ -61,7 +61,7 @@ namespace mission
 
 		if( character.GetStallData() )
 		{
-			//character.SystemNotice( "ÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½»Ò×" );
+			//character.SystemNotice( "æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥äº¤æ˜“" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00003) );
 			return FALSE;
 		}
@@ -69,28 +69,28 @@ namespace mission
 		//add by ALLEN 2007-10-16
 		if(character.IsReadBook())
 		{
-			//character.SystemNotice("ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½»Ò×");
+			//character.SystemNotice("æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥äº¤æ˜“");
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00004));
 			return FALSE;
 		}
 
 		if( character.m_CKitbag.IsLock() || !character.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//character.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//character.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00005) );
 			return FALSE;
 		}
 
 		if( character.GetPlyMainCha() && character.GetPlyMainCha()->m_CKitbag.IsLock() )
 		{
-			//character.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//character.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00005) );
 			return FALSE;
 		}
 
         if( character.GetPlyMainCha() && character.GetPlyMainCha()->m_CKitbag.IsPwdLocked() )
         {
-            //character.SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+            //character.SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00006) );
 			return FALSE;
         }
@@ -99,50 +99,50 @@ namespace mission
 		CCharacter* pChar = pMain->GetSubMap()->FindCharacter( dwAcceptID, pMain->GetShape().centre );
 		if( pChar == NULL || !pChar->IsPlayerCha() ) 
 		{
-			//pMain->SystemNotice( "±»ÑûÇëÍæ¼ÒÒÑ¾­Àë¿ª!" );
+			//pMain->SystemNotice( "è¢«é‚€è¯·ç©å®¶å·²ç»ç¦»å¼€!" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00007) );
 			return FALSE;
 		}
 
         if(pChar->GetPlayer()->GetBankNpc())
         {
-            //pMain->SystemNotice( "¶Ô·½ÕıÔÚÊ¹ÓÃÒøĞĞ£¬ÇëÉÔºòÔÙÊÔ£¡" );
+            //pMain->SystemNotice( "å¯¹æ–¹æ­£åœ¨ä½¿ç”¨é“¶è¡Œï¼Œè¯·ç¨å€™å†è¯•ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00008)  );
             return FALSE;
         }
 
 		if(pChar->GetPlyMainCha()->IsStoreEnable())
 		{
-			//character.SystemNotice("ÎŞ·¨½»Ò×!");
+			//character.SystemNotice("æ— æ³•äº¤æ˜“!");
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00001));
 			return FALSE;
 		}
 
 		if( !pMain->GetPlyMainCha() || !pChar->GetPlyMainCha() )
 		{
-			/*pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
-			pChar->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );*/
+			/*pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
+			pChar->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );*/
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
 		if(pMain->GetPlyMainCha()->GetLevel() < 6)
 		{
-			//pMain->SystemNotice("ÄúµÄµÈ¼¶²»¹»,ÎŞ·¨½»Ò×!");
+			//pMain->SystemNotice("æ‚¨çš„ç­‰çº§ä¸å¤Ÿ,æ— æ³•äº¤æ˜“!");
 			pMain->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00011));
 			return FALSE;
 		}
 
 		if( pChar->GetBoat() )
 		{
-			//character.SystemNotice( "½ÇÉ«%sÕıÔÚÔì´¬£¬²»¿ÉÒÔ½»Ò×", pChar->GetName() );
+			//character.SystemNotice( "è§’è‰²%sæ­£åœ¨é€ èˆ¹ï¼Œä¸å¯ä»¥äº¤æ˜“", pChar->GetName() );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00012), pChar->GetName() );
 			return FALSE;
 		}
 
 		if( pChar->GetStallData() )
 		{
-			//character.SystemNotice( "½ÇÉ«%sÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½»Ò×", pChar->GetName() );
+			//character.SystemNotice( "è§’è‰²%sæ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥äº¤æ˜“", pChar->GetName() );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00013), pChar->GetName() );
 			return FALSE;
 		}
@@ -150,21 +150,21 @@ namespace mission
 		//add by ALLEN 2007-10-16
 		if( pChar->IsReadBook() )
 		{
-			//character.SystemNotice( "½ÇÉ«%sÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½»Ò×", pChar->GetName() );
+			//character.SystemNotice( "è§’è‰²%sæ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥äº¤æ˜“", pChar->GetName() );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00014), pChar->GetName() );
 			return FALSE;
 		}
 
 		if( pChar->m_CKitbag.IsLock() || !pChar->GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//character.SystemNotice( "½ÇÉ«%s±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡", pChar->GetName() );
+			//character.SystemNotice( "è§’è‰²%sèƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼", pChar->GetName() );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00015), pChar->GetName() );
 			return FALSE;
 		}
 
         if( pChar->GetPlyMainCha()->m_CKitbag.IsPwdLocked() )
         {
-           // character.SystemNotice( "½ÇÉ«%s±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½»Ò×£¡", pChar->GetName() );
+           // character.SystemNotice( "è§’è‰²%sèƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼", pChar->GetName() );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00016), pChar->GetName() );
 			return FALSE;
         }
@@ -178,8 +178,8 @@ namespace mission
 		{
 			if( pChar == pChar->GetPlyMainCha() || pMain == pMain->GetPlyMainCha() )
 			{
-				/*pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
-				pChar->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );*/
+				/*pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
+				pChar->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );*/
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
@@ -188,18 +188,18 @@ namespace mission
 
 		if( pMain->GetPlayer()->IsLuanchOut() || pChar->GetPlayer()->IsLuanchOut() )
 		{
-			//pMain->SystemNotice( "º£ÉÏ½ûÖ¹½»Ò×£¡" );
+			//pMain->SystemNotice( "æµ·ä¸Šç¦æ­¢äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00018) );
 			return FALSE;
 		}
 		/*else if( pMain->GetPlayer()->IsLuanchOut() && !pChar->GetPlayer()->IsLuanchOut() )
 		{
-			pMain->SystemNotice( "ÄãÒÑ¾­³öº££¬ÏÖÔÚ²»¿ÉÒÔÇëÇóÓëËû½»Ò×£¡" );
+			pMain->SystemNotice( "ä½ å·²ç»å‡ºæµ·ï¼Œç°åœ¨ä¸å¯ä»¥è¯·æ±‚ä¸ä»–äº¤æ˜“ï¼" );
 			return FALSE;
 		}*/
 		else if( pMain->GetPlayer()->IsInForge() )
 		{
-			//pMain->SystemNotice( "ÄãÏÖÔÚ²»¿ÉÒÔÇëÇóÓëÆäËûÈË½»Ò×£¡" );
+			//pMain->SystemNotice( "ä½ ç°åœ¨ä¸å¯ä»¥è¯·æ±‚ä¸å…¶ä»–äººäº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00019) );
 			return FALSE;
 		}
@@ -207,7 +207,7 @@ namespace mission
 		CTradeData* pTradeData1 = pChar->GetTradeData();
 		if( pTradeData1 )
 		{
-			//pMain->SystemNotice( "%sÕıÔÚ½»Ò×ÖĞ£¡", pChar->GetName() );
+			//pMain->SystemNotice( "%sæ­£åœ¨äº¤æ˜“ä¸­ï¼", pChar->GetName() );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00020), pChar->GetName() );
 			return FALSE;
 		}
@@ -218,7 +218,7 @@ namespace mission
 			return FALSE;
 		}
 
-		// ·¢ËÍ½»Ò×ÑûÇë
+		// å‘é€äº¤æ˜“é‚€è¯·
 		WPACKET packet = GETWPACKET();
         WRITE_CMD(packet, CMD_MC_CHARTRADE);
         WRITE_SHORT(packet, CMD_MC_CHARTRADE_REQUEST);
@@ -242,14 +242,14 @@ namespace mission
 	{T_B
 		if( character.GetBoat() )
 		{
-			//character.SystemNotice( "ÕıÔÚ½¨Ôì´¬Ö»£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//character.SystemNotice( "æ­£åœ¨å»ºé€ èˆ¹åªï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00002) );
 			return FALSE;
 		}
 
 		if( character.GetStallData() )
 		{
-			//character.SystemNotice( "ÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½»Ò×" );
+			//character.SystemNotice( "æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥äº¤æ˜“" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00003) );
 			return FALSE;
 		}
@@ -257,40 +257,40 @@ namespace mission
 		//add by ALLEN 2007-10-16
 				if( character.IsReadBook() )
 		{
-			//character.SystemNotice("ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½»Ò×");
+			//character.SystemNotice("æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥äº¤æ˜“");
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00004));
 			return FALSE;
 		}
 
 		if( character.m_CKitbag.IsLock() || !character.GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//character.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//character.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00005) );
 			return FALSE;
 		}
 
 		if( character.GetPlyMainCha() && character.GetPlyMainCha()->m_CKitbag.IsLock() )
 		{
-			//character.SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//character.SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00005) );
 			return FALSE;
 		}
 
         if( character.GetPlyMainCha() && character.GetPlyMainCha()->m_CKitbag.IsPwdLocked() )
         {
-           // character.SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+           // character.SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			 character.SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00006) );
 			return FALSE;
         }
 
 		if (!character.IsLiveing()){
-			character.SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
+			character.SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
 			return FALSE;
 		}
 		CCharacter* pMain = &character;
 		if( pMain->GetID() == dwRequestID )
 		{
-			//pMain->SystemNotice( "²»¿ÉÒÔÇëÇóºÍ×Ô¼º½»Ò×£¡" );
+			//pMain->SystemNotice( "ä¸å¯ä»¥è¯·æ±‚å’Œè‡ªå·±äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00021) );
 			return FALSE;
 		}
@@ -298,28 +298,28 @@ namespace mission
 		CCharacter* pChar = pMain->GetSubMap()->FindCharacter( dwRequestID, pMain->GetShape().centre );
 		if( pChar == NULL ) 
 		{
-			//pMain->SystemNotice( "·¢ËÍÍ¨Öª¸Ã½ÇÉ«ÒÑ¾­Àë¿ª!" );
+			//pMain->SystemNotice( "å‘é€é€šçŸ¥è¯¥è§’è‰²å·²ç»ç¦»å¼€!" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00022) );
 			return FALSE;
 		}
 		if (!pChar->IsLiveing()){
-			pChar->SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
+			pChar->SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
 			return FALSE;
 		}
 
         if(character.GetPlyMainCha()->GetPlayer()->GetBankNpc())
         {
-           // character.SystemNotice("ÄãÕıÔÚÊ¹ÓÃÒøĞĞ£¬²»¿ÉÒÔ½»Ò×");
+           // character.SystemNotice("ä½ æ­£åœ¨ä½¿ç”¨é“¶è¡Œï¼Œä¸å¯ä»¥äº¤æ˜“");
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00023));
-           // pChar->SystemNotice( "¶Ô·½ÕıÔÚÊ¹ÓÃÒøĞĞ£¬ÇëÉÔºòÔÙÊÔ£¡" );
+           // pChar->SystemNotice( "å¯¹æ–¹æ­£åœ¨ä½¿ç”¨é“¶è¡Œï¼Œè¯·ç¨å€™å†è¯•ï¼" );
            pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00008) );
 			return FALSE;
         }
 
 		if(character.GetPlyMainCha()->IsStoreEnable() || pChar->GetPlyMainCha()->IsStoreEnable())
 		{
-			/*character.SystemNotice("ÎŞ·¨½»Ò×!");
-			pChar->SystemNotice("ÎŞ·¨½»Ò×!");*/
+			/*character.SystemNotice("æ— æ³•äº¤æ˜“!");
+			pChar->SystemNotice("æ— æ³•äº¤æ˜“!");*/
 			character.SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00001));
 			pChar->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00001));
 			return FALSE;
@@ -327,28 +327,28 @@ namespace mission
 
 		if( !pChar->IsLiveing() )
 		{
-			//pMain->SystemNotice( "ÇëÇó½»Ò×·½ÒÑËÀÍö²»¿É½»Ò×£¡" );
+			//pMain->SystemNotice( "è¯·æ±‚äº¤æ˜“æ–¹å·²æ­»äº¡ä¸å¯äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00025) );
 			return FALSE;
 		}
 
 		if( !pMain->IsLiveing() )
 		{
-			//pMain->SystemNotice( "ÄãÒÑËÀÍö²»¿É½»Ò×£¡" );
+			//pMain->SystemNotice( "ä½ å·²æ­»äº¡ä¸å¯äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00026) );
 			return FALSE;
 		}
 
 		if( pChar->GetBoat() )
 		{
-			//pChar->SystemNotice( "ÕıÔÚ½¨Ôì´¬Ö»£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//pChar->SystemNotice( "æ­£åœ¨å»ºé€ èˆ¹åªï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00002) );
 			return FALSE;
 		}
 
 		if( pChar->GetStallData() )
 		{
-			//pChar->SystemNotice( "ÕıÔÚ°ÚÌ¯£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//pChar->SystemNotice( "æ­£åœ¨æ‘†æ‘Šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00003) );
 			return FALSE;
 		}
@@ -356,28 +356,28 @@ namespace mission
 		//add by ALLEN 2007-10-16
 				if( pChar->IsReadBook() )
 		{
-			//pChar->SystemNotice( "ÕıÔÚ¶ÁÊé£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//pChar->SystemNotice( "æ­£åœ¨è¯»ä¹¦ï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00004) );
 			return FALSE;
 		}
 
 		if( pChar->m_CKitbag.IsLock() || !pChar->GetActControl(enumACTCONTROL_ITEM_OPT) )
 		{
-			//pChar->SystemNotice( "±³°üÒÑ±»Ëø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+			//pChar->SystemNotice( "èƒŒåŒ…å·²è¢«é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00005) );
 			return FALSE;
 		}
 
         if( pChar->GetPlyMainCha()->m_CKitbag.IsPwdLocked() )
         {
-            //pChar->SystemNotice( "±³°üÒÑ±»ÃÜÂëËø¶¨£¬²»¿ÉÒÔ½»Ò×£¡" );
+            //pChar->SystemNotice( "èƒŒåŒ…å·²è¢«å¯†ç é”å®šï¼Œä¸å¯ä»¥äº¤æ˜“ï¼" );
 			pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00006) );
 			return FALSE;
         }
 
         if(pChar->GetPlayer()->GetBankNpc())
         {
-           // pChar->SystemNotice("ÒøĞĞ´ò¿ªÊ±£¬²»ÔÊĞí½»Ò×£¡");
+           // pChar->SystemNotice("é“¶è¡Œæ‰“å¼€æ—¶ï¼Œä¸å…è®¸äº¤æ˜“ï¼");
 			 pChar->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00027));
             return FALSE;
         }
@@ -391,8 +391,8 @@ namespace mission
 		{
 			if( pChar == pChar->GetPlyMainCha() || pMain == pMain->GetPlyMainCha() )
 			{
-				/*pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
-				pChar->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );*/
+				/*pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
+				pChar->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );*/
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				pChar->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
@@ -401,33 +401,33 @@ namespace mission
 
 		if( !pMain->GetPlayer()->IsLuanchOut() && pChar->GetPlayer()->IsLuanchOut() )
 		{
-			//pMain->SystemNotice( "¶Ô·½ÒÑ¾­³öº££¬ÄãÏÖÔÚ²»¿ÉÒÔ½ÓÊÜÇëÇóÓëËû½»Ò×£¡" );
+			//pMain->SystemNotice( "å¯¹æ–¹å·²ç»å‡ºæµ·ï¼Œä½ ç°åœ¨ä¸å¯ä»¥æ¥å—è¯·æ±‚ä¸ä»–äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00029) );
 			return FALSE;
 		}
 		else if( pMain->GetPlayer()->IsLuanchOut() && !pChar->GetPlayer()->IsLuanchOut() )
 		{
-			//pMain->SystemNotice( "ÄãÒÑ¾­³öº££¬ÏÖÔÚ²»¿ÉÒÔ½ÓÊÜÇëÇóÓëËû½»Ò×£¡" );
+			//pMain->SystemNotice( "ä½ å·²ç»å‡ºæµ·ï¼Œç°åœ¨ä¸å¯ä»¥æ¥å—è¯·æ±‚ä¸ä»–äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00024) );
 			return FALSE;
 		}
 		else if( pMain->GetPlayer()->IsInForge() )
 		{
-			//pMain->SystemNotice( "ÄãÏÖÔÚ²»¿ÉÒÔÇëÇóÓëÆäËûËûÈË½»Ò×£¡" );
+			//pMain->SystemNotice( "ä½ ç°åœ¨ä¸å¯ä»¥è¯·æ±‚ä¸å…¶ä»–ä»–äººäº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00030) );
 			return FALSE;
 		}
 
 		//if( !IsTradeDist( *pMain, *pChar, ROLE_MAXSIZE_TRADEDIST - 400 ) )
 		//{
-		//	// ³¬³ö½ÇÉ«½»Ò×¾àÀë£¬·¢ËÍ½ÇÉ«ÒÑÀë¿ªĞÅÏ¢£¡
+		//	// è¶…å‡ºè§’è‰²äº¤æ˜“è·ç¦»ï¼Œå‘é€è§’è‰²å·²ç¦»å¼€ä¿¡æ¯ï¼
 		//	return FALSE;
 		//}
 
 		CTradeData* pTradeData1 = pChar->GetTradeData();
 		if( pTradeData1 )
 		{
-			//pMain->SystemNotice( "%sÕıÔÚ½»Ò×ÖĞ£¡", pChar->GetName() );
+			//pMain->SystemNotice( "%sæ­£åœ¨äº¤æ˜“ä¸­ï¼", pChar->GetName() );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00020), pChar->GetName() );
 			return FALSE;
 		}
@@ -435,15 +435,15 @@ namespace mission
 		CTradeData* pTradeData2 = pMain->GetTradeData();
 		if( pTradeData2 )
 		{
-			// ×Ô¼ºÕıÔÚÓëÆäËûÍõ¼Ò½øĞĞ½»Ò×ÖĞ
+			// è‡ªå·±æ­£åœ¨ä¸å…¶ä»–ç‹å®¶è¿›è¡Œäº¤æ˜“ä¸­
 			return FALSE;
 		}
 
-		// ·ÖÅäµÄ×ÊÔ´ÓÉ½»Ò×ÑûÇëÕßÊÍ·Å
+		// åˆ†é…çš„èµ„æºç”±äº¤æ˜“é‚€è¯·è€…é‡Šæ”¾
 		CTradeData* pData = g_pGameApp->m_TradeDataHeap.Get();
 		if( pData == NULL ) 
 		{
-			//pMain->SystemNotice( "·ÖÅä½»Ò×Êı¾İ»º³åÊ§°Ü£¡" );
+			//pMain->SystemNotice( "åˆ†é…äº¤æ˜“æ•°æ®ç¼“å†²å¤±è´¥ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00031) );
 			return FALSE;
 		}
@@ -453,15 +453,15 @@ namespace mission
 		pData->dwTradeTime = GetTickCount();
 		pData->bTradeStart = ROLE_TRADE_START;
 
-		//// ½»Ò×ÑéÖ¤µØµã
+		//// äº¤æ˜“éªŒè¯åœ°ç‚¹
 		//pData->sxPos = (USHORT)pMain->GetShape().centre.x;
 		//pData->syPos = (USHORT)pMain->GetShape().centre.y;
 
-		// ÉèÖÃ½»Ò×½»Ò×ĞÅÏ¢Êı¾İ
+		// è®¾ç½®äº¤æ˜“äº¤æ˜“ä¿¡æ¯æ•°æ®
 		pMain->SetTradeData( pData );
 		pChar->SetTradeData( pData );
 		
-		// Ëø¶¨½»Ò×½ÇÉ«×´Ì¬
+		// é”å®šäº¤æ˜“è§’è‰²çŠ¶æ€
 		pMain->TradeAction( TRUE );
 		pChar->TradeAction( TRUE );
 		CKitbag& ReqBag = pData->pRequest->m_CKitbag;
@@ -469,7 +469,7 @@ namespace mission
 		ReqBag.Lock();
 		AcpBag.Lock();
 
-		// ·¢ËÍ½ÇÉ«½»Ò×Ò³ÃüÁî
+		// å‘é€è§’è‰²äº¤æ˜“é¡µå‘½ä»¤
 		WPACKET packet = GETWPACKET();
         WRITE_CMD(packet, CMD_MC_CHARTRADE);
         WRITE_SHORT(packet, CMD_MC_CHARTRADE_PAGE);
@@ -486,7 +486,7 @@ namespace mission
 		CCharacter* pMain = &character;
 		if( !pMain->GetPlyMainCha() )
 		{
-			//pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
@@ -498,7 +498,7 @@ namespace mission
 		{
 			if( pMain == pMain->GetPlyMainCha() )
 			{
-				//pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
+				//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
 			}
@@ -508,7 +508,7 @@ namespace mission
 		if( !pTradeData2 )
 		{
 			char szData[128];
-			//sprintf( szData, "Cancel:¸Ã½ÇÉ«%s²¢²»½»Ò×ÖĞ!\n", pMain->GetName() );
+			//sprintf( szData, "Cancel:è¯¥è§’è‰²%så¹¶ä¸äº¤æ˜“ä¸­!\n", pMain->GetName() );
 			sprintf( szData, RES_STRING(GM_CHARTRADE_CPP_00032), pMain->GetName() );
 			LG( "trade_error", szData );
 			return FALSE;
@@ -517,7 +517,7 @@ namespace mission
 		CCharacter* pChar;
 		if( pMain->GetID() == dwCharID )
 		{
-			//printf( "±¨ÎÄĞÅÏ¢´íÎó£¬²»ÄÜÈ¡ÏûºÍ×Ô¼ºIDÏàÍ¬µÄ½»Ò×²Ù×÷£¡" );
+			//printf( "æŠ¥æ–‡ä¿¡æ¯é”™è¯¯ï¼Œä¸èƒ½å–æ¶ˆå’Œè‡ªå·±IDç›¸åŒçš„äº¤æ˜“æ“ä½œï¼" );
 			printf( RES_STRING(GM_CHARTRADE_CPP_00033) );
 			return FALSE;
 		}
@@ -531,7 +531,7 @@ namespace mission
 		}
 		else
 		{
-			//pMain->SystemNotice( "¿Í»§¶ËÇëÇóµÄ½»Ò×¶ÔÏóĞÅÏ¢´íÎó£¡ID = 0x%x", dwCharID );
+			//pMain->SystemNotice( "å®¢æˆ·ç«¯è¯·æ±‚çš„äº¤æ˜“å¯¹è±¡ä¿¡æ¯é”™è¯¯ï¼ID = 0x%x", dwCharID );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00034), dwCharID );
 			return FALSE;
 		}
@@ -539,12 +539,12 @@ namespace mission
 		CTradeData* pTradeData1 = pChar->GetTradeData();
 		if( pTradeData1 == NULL || pTradeData2 != pTradeData1 )
 		{
-			//pMain->SystemNotice( "´íÎó:Íæ¼Ò%sÎ´ºÍÄã½øĞĞ½»Ò×£¡", pChar->GetName() );
+			//pMain->SystemNotice( "é”™è¯¯:ç©å®¶%sæœªå’Œä½ è¿›è¡Œäº¤æ˜“ï¼", pChar->GetName() );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00009), pChar->GetName() );
 			return FALSE;
 		}
 		
-		// Çå³ıµÀ¾ßÀ¸Î»Ëø¶¨×´Ì¬
+		// æ¸…é™¤é“å…·æ ä½é”å®šçŠ¶æ€
 		pTradeData1->pAccept->m_CKitbag.UnLock();
 		pTradeData1->pRequest->m_CKitbag.UnLock();
 
@@ -554,7 +554,7 @@ namespace mission
 		pTradeData1->pAccept->SetTradeData( NULL );
 		pTradeData1->pRequest->SetTradeData( NULL );
 
-		// È¡Ïû½ÇÉ«½»Ò×
+		// å–æ¶ˆè§’è‰²äº¤æ˜“
 		WPACKET packet = GETWPACKET();
 		WRITE_CMD(packet, CMD_MC_CHARTRADE );
 		WRITE_SHORT(packet, CMD_MC_CHARTRADE_CANCEL );
@@ -563,7 +563,7 @@ namespace mission
 		pTradeData1->pAccept->ReflectINFof( pMain, packet );
 		pTradeData1->pRequest->ReflectINFof( pMain, packet );
 
-		// È¡Ïû½ÇÉ«Ëø¶¨×´Ì¬
+		// å–æ¶ˆè§’è‰²é”å®šçŠ¶æ€
 		pTradeData1->pAccept->TradeAction( FALSE );
 		pTradeData1->pRequest->TradeAction( FALSE );
 
@@ -577,7 +577,7 @@ namespace mission
 		CCharacter* pMain = &character;
 		if( !pMain->GetPlyMainCha() )
 		{
-			//pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
@@ -589,7 +589,7 @@ namespace mission
 		{
 			if( pMain == pMain->GetPlyMainCha() )
 			{
-				//pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
+				//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
 			}
@@ -598,13 +598,13 @@ namespace mission
 		CTradeData* pTradeData = pMain->GetTradeData();
 		if( !pTradeData )
 		{
-			// ¸Ã½ÇÉ«²¢²»½»Ò×ÖĞ!
+			// è¯¥è§’è‰²å¹¶ä¸äº¤æ˜“ä¸­!
 			return FALSE;
 		}
 
 		if( pTradeData->pRequest == pMain )
 		{
-			// È¡Ïû½ÇÉ«½»Ò×
+			// å–æ¶ˆè§’è‰²äº¤æ˜“
 			WPACKET packet = GETWPACKET();
 			WRITE_CMD(packet, CMD_MC_CHARTRADE );
 			WRITE_SHORT(packet, CMD_MC_CHARTRADE_CANCEL );
@@ -612,14 +612,14 @@ namespace mission
 			pTradeData->pAccept->ReflectINFof( pMain, packet );
 			pTradeData->pAccept->SetTradeData( NULL );
 
-			// Çå³ıµÀ¾ßÀ¸Î»Ëø¶¨×´Ì¬
+			// æ¸…é™¤é“å…·æ ä½é”å®šçŠ¶æ€
 			pTradeData->pAccept->m_CKitbag.UnLock();
 			pTradeData->pAccept->TradeAction( FALSE );
 			ResetItemState( *pTradeData->pAccept, *pTradeData );
 		}
 		else if( pTradeData->pAccept == pMain )
 		{
-			// È¡Ïû½ÇÉ«½»Ò×
+			// å–æ¶ˆè§’è‰²äº¤æ˜“
 			WPACKET packet = GETWPACKET();
 			WRITE_CMD(packet, CMD_MC_CHARTRADE );
 			WRITE_SHORT(packet, CMD_MC_CHARTRADE_CANCEL );
@@ -627,15 +627,15 @@ namespace mission
 			pTradeData->pRequest->ReflectINFof( pMain, packet );
 			pTradeData->pRequest->SetTradeData( NULL );
 			
-			// Çå³ıµÀ¾ßÀ¸Î»Ëø¶¨×´Ì¬
+			// æ¸…é™¤é“å…·æ ä½é”å®šçŠ¶æ€
 			pTradeData->pRequest->m_CKitbag.UnLock();
 			pTradeData->pRequest->TradeAction( FALSE );
 			ResetItemState( *pTradeData->pRequest, *pTradeData );
 		}
 		else
 		{
-			LG( "Trade", "É¾³ı½ÇÉ«Ê±£¬Çå³ıÆä½»Ò×ĞÅÏ¢·¢ÏÖ´íÎó(²»Æ¥ÅäµÄ½ÇÉ«Ö¸Õë)£¡"  );
-			//LG( "Trade", "when delete character£¬it find error while clear trade information,the error is:(unsuited charcter pointer)£¡"  );
+			LG( "Trade", "åˆ é™¤è§’è‰²æ—¶ï¼Œæ¸…é™¤å…¶äº¤æ˜“ä¿¡æ¯å‘ç°é”™è¯¯(ä¸åŒ¹é…çš„è§’è‰²æŒ‡é’ˆ)ï¼"  );
+			//LG( "Trade", "when delete characterï¼Œit find error while clear trade information,the error is:(unsuited charcter pointer)ï¼"  );
 			return FALSE;
 		}
 
@@ -812,7 +812,7 @@ namespace mission
 		return TRUE;
 	T_E}
 
-	// ·ÅÖÃ»òÕßÈ¡×ßÎïÆ·µ½½»Ò×À¸
+	// æ”¾ç½®æˆ–è€…å–èµ°ç‰©å“åˆ°äº¤æ˜“æ 
 	BOOL CTradeSystem::AddItem( BYTE byType, CCharacter& character, DWORD dwCharID, BYTE byOpType, BYTE byIndex, BYTE byItemIndex, BYTE byCount )
 	{T_B
 		CCharacter* pMain = &character;
@@ -823,7 +823,7 @@ namespace mission
 
 		if( !pMain->GetPlyMainCha() )
 		{
-			//pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
@@ -835,7 +835,7 @@ namespace mission
 		{
 			if( pMain == pMain->GetPlyMainCha() )
 			{
-				//pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
+				//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
 			}
@@ -849,7 +849,7 @@ namespace mission
 		if( !pTradeData )
 		{
 			char szData[128];
-			//sprintf( szData, "AddItem:¸Ã½ÇÉ«%s²¢²»½»Ò×ÖĞ!", pMain->GetName() );
+			//sprintf( szData, "AddItem:è¯¥è§’è‰²%så¹¶ä¸äº¤æ˜“ä¸­!", pMain->GetName() );
 			sprintf( szData, RES_STRING(GM_CHARTRADE_CPP_00040), pMain->GetName() );
 			LG( "trade_error", szData );
 			return FALSE;
@@ -857,27 +857,27 @@ namespace mission
 
 		if( pMain->GetID() == dwCharID )
 		{
-			//pMain->SystemNotice( "±¨ÎÄĞÅÏ¢´íÎó£¬²»ÄÜÌí¼ÓÎïÆ·ºÍ×Ô¼ºIDÏàÍ¬µÄ½»Ò×²Ù×÷£¡" );
+			//pMain->SystemNotice( "æŠ¥æ–‡ä¿¡æ¯é”™è¯¯ï¼Œä¸èƒ½æ·»åŠ ç‰©å“å’Œè‡ªå·±IDç›¸åŒçš„äº¤æ˜“æ“ä½œï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00041) );
 			return FALSE;
 		}		
 		else if( pTradeData->pRequest->GetID() != dwCharID && pTradeData->pAccept->GetID() != dwCharID )
 		{
-			//pMain->SystemNotice( "½»Ò×¶ÔÏóĞÅÏ¢´íÎó£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“å¯¹è±¡ä¿¡æ¯é”™è¯¯ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00036) );
 			return FALSE;
 		}
 
 		CCharacter* pChar = NULL;
 		TRADE_DATA* pItemData = NULL;
-		// ÑéÖ¤ÊÇ·ñ¿ÉÒÔÌí¼ÓÎïÆ·»òÈ¡×ßÎïÆ·²Ù×÷
+		// éªŒè¯æ˜¯å¦å¯ä»¥æ·»åŠ ç‰©å“æˆ–å–èµ°ç‰©å“æ“ä½œ
 		if( pMain == pTradeData->pRequest )
 		{
-			// ÅĞ¶ÏÊÇ·ñ¿ÉÒÔ²Ù×÷ÎïÆ·
+			// åˆ¤æ–­æ˜¯å¦å¯ä»¥æ“ä½œç‰©å“
 			if( pTradeData->bReqTrade == 1 )
 			{
 				
-				//pMain->SystemNotice( "¸Ã½ÇÉ«½»Ò×ÎïÆ·ÑéÖ¤°´Å¥ÒÑ¾­°´ÏÂ£¬²»¿ÉÒÔÔÙ×÷ÎïÆ·ÍÏ¶¯²Ù×÷£¡" );
+				//pMain->SystemNotice( "è¯¥è§’è‰²äº¤æ˜“ç‰©å“éªŒè¯æŒ‰é’®å·²ç»æŒ‰ä¸‹ï¼Œä¸å¯ä»¥å†ä½œç‰©å“æ‹–åŠ¨æ“ä½œï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00042) );
 				return FALSE;
 			}
@@ -888,7 +888,7 @@ namespace mission
 		{
 			if( pTradeData->bAcpTrade == 1 )
 			{
-				//pMain->SystemNotice( "¸Ã½ÇÉ«½»Ò×ÎïÆ·ÑéÖ¤°´Å¥ÒÑ¾­°´ÏÂ£¬²»¿ÉÒÔÔÙ×÷ÎïÆ·ÍÏ¶¯²Ù×÷£¡" );
+				//pMain->SystemNotice( "è¯¥è§’è‰²äº¤æ˜“ç‰©å“éªŒè¯æŒ‰é’®å·²ç»æŒ‰ä¸‹ï¼Œä¸å¯ä»¥å†ä½œç‰©å“æ‹–åŠ¨æ“ä½œï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00042) );
 				return FALSE;
 			}
@@ -897,37 +897,37 @@ namespace mission
 		}
 		else
 		{
-			//pMain->SystemNotice( "¸Ã½ÇÉ«Î´ÔÚ½»Ò×£¡" );
+			//pMain->SystemNotice( "è¯¥è§’è‰²æœªåœ¨äº¤æ˜“ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00038) );
 			return FALSE;
 		}
 		
-		// ÉèÖÃ½»Ò×À¸ÎïÆ·£¬²¢ÇÒ·¢ËÍÍ¨ÖªĞÅÏ¢µ½¿Í»§¶Ë
+		// è®¾ç½®äº¤æ˜“æ ç‰©å“ï¼Œå¹¶ä¸”å‘é€é€šçŸ¥ä¿¡æ¯åˆ°å®¢æˆ·ç«¯
 		if( byOpType == TRADE_DRAGTO_ITEM )
 		{
 			if( byIndex >= ROLE_MAXNUM_TRADEDATA )
 			{
-				//pMain->SystemNotice( "Î´ÖªµÄ½»Ò×À¸Î»Ë÷ÒıĞÅÏ¢£¡" );
+				//pMain->SystemNotice( "æœªçŸ¥çš„äº¤æ˜“æ ä½ç´¢å¼•ä¿¡æ¯ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00043));
 				return FALSE;
 			}
 			int nCapacity = pMain->m_CKitbag.GetCapacity();
 			if( byItemIndex >= nCapacity )
 			{
-				//pMain->SystemNotice( "Î´ÖªµÄµÀ¾ßÀ¸Î»Ë÷ÒıĞÅÏ¢£¡" );
+				//pMain->SystemNotice( "æœªçŸ¥çš„é“å…·æ ä½ç´¢å¼•ä¿¡æ¯ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00044) );
 				return FALSE;
 			}
 			if( pItemData->ItemArray[byIndex].sItemID == 0 )
 			{
-				//pMain->SystemNotice( "¸Ã½ÇÉ«ÍÏ¶¯µÄ½»Ò×À¸Î»ÎïÆ·²»´æÔÚ£¡" );
+				//pMain->SystemNotice( "è¯¥è§’è‰²æ‹–åŠ¨çš„äº¤æ˜“æ ä½ç‰©å“ä¸å­˜åœ¨ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00045) );
 				return FALSE;
 			}
 			if( Bag.GetNum( pItemData->ItemArray[byIndex].byIndex ) > 0 && 
 				Bag.GetID( pItemData->ItemArray[byIndex].byIndex ) != pItemData->ItemArray[byIndex].sItemID )
 			{
-				//pMain->SystemNotice( "ÏµÍ³ÎïÆ·À¸½»Ò×¼ÇÂ¼´íÎó£¬ÇëÍ¨Öª¿ª·¢ÈËÔ±£¬Ğ»Ğ»£¡ID1= %d, ID2 = %d", 
+				//pMain->SystemNotice( "ç³»ç»Ÿç‰©å“æ äº¤æ˜“è®°å½•é”™è¯¯ï¼Œè¯·é€šçŸ¥å¼€å‘äººå‘˜ï¼Œè°¢è°¢ï¼ID1= %d, ID2 = %d", 
 				//	Bag.GetID( pItemData->ItemArray[byIndex].byIndex ), pItemData->ItemArray[byIndex].sItemID );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00046), 
 					Bag.GetID( pItemData->ItemArray[byIndex].byIndex ), pItemData->ItemArray[byIndex].sItemID );
@@ -943,7 +943,7 @@ namespace mission
 			WRITE_CHAR(packet, byIndex );
 			WRITE_CHAR(packet, byCount );
 
-			// ¿ªÆôµÀ¾ßÀ¸ÎïÎïÆ·»î¶¯×´Ì¬
+			// å¼€å¯é“å…·æ ç‰©ç‰©å“æ´»åŠ¨çŠ¶æ€
 			Bag.Enable( pItemData->ItemArray[byIndex].byIndex );
 			pItemData->ItemArray[byIndex].sItemID = 0;
 			pItemData->ItemArray[byIndex].byCount = 0;
@@ -958,27 +958,27 @@ namespace mission
 		{
 			if( byIndex >= ROLE_MAXNUM_TRADEDATA )
 			{
-				//pMain->SystemNotice( "Î´ÖªµÄ½»Ò×À¸Î»Ë÷ÒıĞÅÏ¢£¡" );
+				//pMain->SystemNotice( "æœªçŸ¥çš„äº¤æ˜“æ ä½ç´¢å¼•ä¿¡æ¯ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00043) );
 				return FALSE;
 			}
 			int nCapacity = pMain->m_CKitbag.GetCapacity();
 			if( byItemIndex >= nCapacity )
 			{
-				//pMain->SystemNotice( "Î´ÖªµÄµÀ¾ßÀ¸Î»Ë÷ÒıĞÅÏ¢£¡" );
+				//pMain->SystemNotice( "æœªçŸ¥çš„é“å…·æ ä½ç´¢å¼•ä¿¡æ¯ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00044) );
 				return FALSE;
 			}
 
 			if( !Bag.HasItem( byItemIndex ) || !Bag.IsEnable( byItemIndex ) )
 			{
-				//pMain->SystemNotice( "¸ÃÎïÆ·À¸Î»ÒÑ±»½ûÖ¹ÍÏ¶¯£¡" );
+				//pMain->SystemNotice( "è¯¥ç‰©å“æ ä½å·²è¢«ç¦æ­¢æ‹–åŠ¨ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00047) );
 				return FALSE;
 			}
 			if( pItemData->ItemArray[byIndex].sItemID != 0 )
 			{
-				//pMain->SystemNotice( "¸Ã½»Ò×ÎïÆ·À¸Î»ÒÑ´æÔÚÎïÆ·£¬ÇëÁíÑ¡Î»ÖÃ°Ú·Å£¡" );
+				//pMain->SystemNotice( "è¯¥äº¤æ˜“ç‰©å“æ ä½å·²å­˜åœ¨ç‰©å“ï¼Œè¯·å¦é€‰ä½ç½®æ‘†æ”¾ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00048) );
 				return FALSE;
 			}
@@ -987,27 +987,27 @@ namespace mission
 			CItemRecord* pItem = (CItemRecord*)GetItemRecordInfo( Bag.GetID( byItemIndex ) );
 			if( pItem == NULL )
 			{
-				//pMain->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", Bag.GetID( byItemIndex ) );
+				//pMain->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", Bag.GetID( byItemIndex ) );
 				pMain->SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00041), Bag.GetID( byItemIndex ) );
 				return FALSE;
 			}
 
 			if( !pItem->chIsTrade )
 			{
-				//pMain->SystemNotice( "ÎïÆ·¡¶%s¡·²»¿É½»Ò×£¡", pItem->szName );
+				//pMain->SystemNotice( "ç‰©å“ã€Š%sã€‹ä¸å¯äº¤æ˜“ï¼", pItem->szName );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00049), pItem->szName );
 				return FALSE;
 			}
 
 			if (pGridCont->dwDBID)
 			{
-				pMain->SystemNotice("ÎïÆ·°ó¶¨£¬²»ÄÜ½»Ò×!");
+				pMain->SystemNotice("ç‰©å“ç»‘å®šï¼Œä¸èƒ½äº¤æ˜“!");
 				return	FALSE;
 			};
 
 			//if( pItem->sType == enumItemTypeMission )
 			//{
-			//	pMain->SystemNotice( "ÈÎÎñµÀ¾ß¡¶%s¡·²»¿ÉÒÔ½»Ò×£¡", pItem->szName );
+			//	pMain->SystemNotice( "ä»»åŠ¡é“å…·ã€Š%sã€‹ä¸å¯ä»¥äº¤æ˜“ï¼", pItem->szName );
 			//	return FALSE;
 			//}
 			//else 
@@ -1017,7 +1017,7 @@ namespace mission
 				{
 					if( Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) == pMain->GetPlayer()->GetLuanchID() )
 					{
-						//pMain->SystemNotice( "ÄãÕıÔÚÊ¹ÓÃ¸Ã´¬Ö»£¬²»¿ÉÒÔ½»Ò×¸Ã´¬Ö»´¬³¤Ö¤Ã÷£¡" );
+						//pMain->SystemNotice( "ä½ æ­£åœ¨ä½¿ç”¨è¯¥èˆ¹åªï¼Œä¸å¯ä»¥äº¤æ˜“è¯¥èˆ¹åªèˆ¹é•¿è¯æ˜ï¼" );
 						pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00050) );
 						return FALSE;
 					}
@@ -1035,7 +1035,7 @@ namespace mission
 							sNum++;
 							if( sNum >= MAX_CHAR_BOAT )
 							{
-								//pMain->SystemNotice( "¶Ô·½ÒÑ¾­ÓµÓĞÁË×ã¹»ÊıÁ¿µÄ´¬Ö»£¬²»¿ÉÒÔÔÙÓµÓĞĞÂ´¬Ö»£¡" );
+								//pMain->SystemNotice( "å¯¹æ–¹å·²ç»æ‹¥æœ‰äº†è¶³å¤Ÿæ•°é‡çš„èˆ¹åªï¼Œä¸å¯ä»¥å†æ‹¥æœ‰æ–°èˆ¹åªï¼" );
 								pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00051) );
 								return FALSE;
 							}
@@ -1044,7 +1044,7 @@ namespace mission
 				}
 				else
 				{
-					//pMain->SystemNotice( "¶Ô·½ÒÑ¾­ÓµÓĞÁË×ã¹»ÊıÁ¿µÄ´¬Ö»£¬²»¿ÉÒÔÔÙÓµÓĞĞÂ´¬Ö»£¡" );
+					//pMain->SystemNotice( "å¯¹æ–¹å·²ç»æ‹¥æœ‰äº†è¶³å¤Ÿæ•°é‡çš„èˆ¹åªï¼Œä¸å¯ä»¥å†æ‹¥æœ‰æ–°èˆ¹åªï¼" );
 					pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00051) );
 					return FALSE;
 				}
@@ -1052,25 +1052,25 @@ namespace mission
 				CCharacter* pBoat = pMain->GetPlayer()->GetBoat( (DWORD)Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
 				if( !pBoat )
 				{
-					/*pMain->SystemNotice( "¸Ã´¬Êı¾İ´íÎó£¬²»¿É½»Ò×£¡ID[0x%X]", 
+					/*pMain->SystemNotice( "è¯¥èˆ¹æ•°æ®é”™è¯¯ï¼Œä¸å¯äº¤æ˜“ï¼ID[0x%X]", 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
-					LG( "trade_error", "¸Ã´¬Êı¾İ´íÎó£¬²»¿É½»Ò×£¡ID[0x%X]", 
+					LG( "trade_error", "è¯¥èˆ¹æ•°æ®é”™è¯¯ï¼Œä¸å¯äº¤æ˜“ï¼ID[0x%X]", 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );*/
 					pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00052), 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
-					LG( "trade_error", "The data error of this boat£¬cannot trade£¡ID[0x%X]", 
+					LG( "trade_error", "The data error of this boatï¼Œcannot tradeï¼ID[0x%X]", 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
 					return FALSE;
 				}
 				if( !game_db.SaveBoat( *pBoat, enumSAVE_TYPE_OFFLINE ) )
 				{
-					/*pMain->SystemNotice( "AddItem:±£´æ´¬Ö»Êı¾İÊ§°Ü£¡´¬Ö»¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(), 
+					/*pMain->SystemNotice( "AddItem:ä¿å­˜èˆ¹åªæ•°æ®å¤±è´¥ï¼èˆ¹åªã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(), 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
-					LG( "trade_error", "AddItem:±£´æ´¬Ö»Êı¾İÊ§°Ü£¡´¬Ö»¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(), 
+					LG( "trade_error", "AddItem:ä¿å­˜èˆ¹åªæ•°æ®å¤±è´¥ï¼èˆ¹åªã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(), 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );*/
 					pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00053), pBoat->GetName(), 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
-					LG( "trade_error", "AddItem:it failed to save boat data£¡boat¡¶%s¡·ID[0x%X]¡£", pBoat->GetName(), 
+					LG( "trade_error", "AddItem:it failed to save boat dataï¼boatã€Š%sã€‹ID[0x%X]ã€‚", pBoat->GetName(), 
 						Bag.GetDBParam( enumITEMDBP_INST_ID, byItemIndex ) );
 					return FALSE;
 				}
@@ -1096,7 +1096,7 @@ namespace mission
 			pItemData->ItemArray[byIndex].byIndex = byItemIndex;
 			pItemData->byItemCount++;
 
-			// ½ûÖ¹ÎïÆ·À¸Î»»î¶¯×´Ì¬
+			// ç¦æ­¢ç‰©å“æ ä½æ´»åŠ¨çŠ¶æ€
 			Bag.Disable( byItemIndex );
 
 			WPACKET packet = GETWPACKET();
@@ -1142,11 +1142,11 @@ namespace mission
 			}
 			else
 			{
-				// ¸ÃµÀ¾ßµÄÊµÀıÊôĞÔ
+				// è¯¥é“å…·çš„å®ä¾‹å±æ€§
 				SItemGrid* pGridCont = Bag.GetGridContByID( byItemIndex );
 				if( !pGridCont )
 				{
-					//pMain->SystemNotice( "Ö¸¶¨µÄÎïÆ·À¸Î»ÎïÆ·ÊµÀıĞÅÏ¢Îª¿Õ£¡ID[%d]", byItemIndex );
+					//pMain->SystemNotice( "æŒ‡å®šçš„ç‰©å“æ ä½ç‰©å“å®ä¾‹ä¿¡æ¯ä¸ºç©ºï¼ID[%d]", byItemIndex );
 					pMain->SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00057), byItemIndex );
 					return FALSE;
 				}
@@ -1159,7 +1159,7 @@ namespace mission
 				WRITE_CHAR( packet, pGridCont->IsValid() ? 1 : 0 );
 				WRITE_LONG(packet, pGridCont->GetDBParam(enumITEMDBP_FORGE));
 				WRITE_LONG(packet, pGridCont->GetDBParam(enumITEMDBP_INST_ID));
-				if( pGridCont->IsInstAttrValid() ) // ´æÔÚÊµÀıÊôĞÔ
+				if( pGridCont->IsInstAttrValid() ) // å­˜åœ¨å®ä¾‹å±æ€§
 				{
 					WRITE_CHAR( packet, 1 );
 					for (int j = 0; j < defITEM_INSTANCE_ATTR_NUM; j++)
@@ -1170,7 +1170,7 @@ namespace mission
 				}
 				else
 				{
-					WRITE_CHAR( packet, 0 ); // ²»´æÔÚÊµÀıÊôĞÔ
+					WRITE_CHAR( packet, 0 ); // ä¸å­˜åœ¨å®ä¾‹å±æ€§
 				}
 			}
 
@@ -1179,7 +1179,7 @@ namespace mission
 		}
 		else
 		{
-			//pMain->SystemNotice( "Î´ÖªµÄÎïÆ·ÍÏ¶¯ÀàĞÍÖ¸Áî£¡" );
+			//pMain->SystemNotice( "æœªçŸ¥çš„ç‰©å“æ‹–åŠ¨ç±»å‹æŒ‡ä»¤ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00054) );
 			return FALSE;
 		}
@@ -1192,7 +1192,7 @@ namespace mission
 		CCharacter* pMain = &character;
 		if( !pMain->GetPlyMainCha() )
 		{
-			//pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
@@ -1204,7 +1204,7 @@ namespace mission
 		{
 			if( pMain == pMain->GetPlyMainCha() )
 			{
-				//pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
+				//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
 			}
@@ -1214,7 +1214,7 @@ namespace mission
 		if( !pTradeData )
 		{
 			char szData[128];
-			//sprintf( szData, "ValidateItemData:¸Ã½ÇÉ«%s²¢²»½»Ò×ÖĞ!", pMain->GetName() );
+			//sprintf( szData, "ValidateItemData:è¯¥è§’è‰²%så¹¶ä¸äº¤æ˜“ä¸­!", pMain->GetName() );
 			sprintf( szData, RES_STRING(GM_CHARTRADE_CPP_00055), pMain->GetName() );
 			LG( "trade_error", szData );
 			return FALSE;
@@ -1222,25 +1222,25 @@ namespace mission
 
 
 		if (!pTradeData->pRequest->IsLiveing() || !pTradeData->pAccept->IsLiveing()){
-			pTradeData->pAccept->SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
-			pTradeData->pRequest->SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
+			pTradeData->pAccept->SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
+			pTradeData->pRequest->SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
 			return FALSE;
 		}
 
 		if( pMain->GetID() == dwCharID )
 		{
-			//pMain->SystemNotice( "±¨ÎÄĞÅÏ¢´íÎó£¬²»ÄÜÈ¡ÏûºÍ×Ô¼ºIDÏàÍ¬µÄ½»Ò×²Ù×÷£¡" );
+			//pMain->SystemNotice( "æŠ¥æ–‡ä¿¡æ¯é”™è¯¯ï¼Œä¸èƒ½å–æ¶ˆå’Œè‡ªå·±IDç›¸åŒçš„äº¤æ˜“æ“ä½œï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00033) );
 			return FALSE;
 		}		
 		else if( pTradeData->pRequest->GetID() != dwCharID && pTradeData->pAccept->GetID() != dwCharID )
 		{
-			//pMain->SystemNotice( "½»Ò×¶ÔÏóĞÅÏ¢´íÎó£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“å¯¹è±¡ä¿¡æ¯é”™è¯¯ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00036) );
 			return FALSE;
 		}
 
-		// ÉèÖÃÈ·¶¨ÎïÆ·ĞÅÏ¢×´Ì¬
+		// è®¾ç½®ç¡®å®šç‰©å“ä¿¡æ¯çŠ¶æ€
 		if( pMain == pTradeData->pRequest )
 		{
 			pTradeData->bReqTrade = 1;
@@ -1251,10 +1251,10 @@ namespace mission
 		}
 		else
 		{
-			/*pMain->SystemNotice( "½»Ò×¶ÔÏóĞÅÏ¢ÄÚ²¿´íÎó£¡" );
-			LG( "trade_error", "½»Ò×¶ÔÏóĞÅÏ¢ÄÚ²¿´íÎó£¡" );*/
+			/*pMain->SystemNotice( "äº¤æ˜“å¯¹è±¡ä¿¡æ¯å†…éƒ¨é”™è¯¯ï¼" );
+			LG( "trade_error", "äº¤æ˜“å¯¹è±¡ä¿¡æ¯å†…éƒ¨é”™è¯¯ï¼" );*/
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00056) );
-			LG( "trade_error", "½»Ò×¶ÔÏóĞÅÏ¢ÄÚ²¿´íÎó£¡" );
+			LG( "trade_error", "äº¤æ˜“å¯¹è±¡ä¿¡æ¯å†…éƒ¨é”™è¯¯ï¼" );
 			return FALSE;
 		}
 	
@@ -1279,7 +1279,7 @@ namespace mission
 		CCharacter* pMain = &character;
 		if( !pMain->GetPlyMainCha() )
 		{
-			//pMain->SystemNotice( "½»Ò×½ÇÉ«²»´æÔÚ£¡" );
+			//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ä¸å­˜åœ¨ï¼" );
 			pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00010) );
 		}
 
@@ -1291,7 +1291,7 @@ namespace mission
 		{
 			if( pMain == pMain->GetPlyMainCha() )
 			{
-				//pMain->SystemNotice( "½»Ò×½ÇÉ«ÀàĞÍ²»Æ¥Åä£¡" );
+				//pMain->SystemNotice( "äº¤æ˜“è§’è‰²ç±»å‹ä¸åŒ¹é…ï¼" );
 				pMain->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00017) );
 				return FALSE;
 			}
@@ -1301,32 +1301,32 @@ namespace mission
 		if( !pTradeData )
 		{
 			char szData[128];
-			//sprintf( szData, "ValidateTrade:¸Ã½ÇÉ«%s²¢²»½»Ò×ÖĞ!", pMain->GetName() );
+			//sprintf( szData, "ValidateTrade:è¯¥è§’è‰²%så¹¶ä¸äº¤æ˜“ä¸­!", pMain->GetName() );
 			sprintf( szData, RES_STRING(GM_CHARTRADE_CPP_00057), pMain->GetName() );
 			LG( "trade_error", szData );
 			return FALSE;
 		}
 
 		if (!pTradeData->pRequest->IsLiveing() || !pTradeData->pAccept->IsLiveing()){
-			pTradeData->pAccept->SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
-			pTradeData->pRequest->SystemNotice("ÎşÉüµÄº£µÁ²»ÄÜ½»Ò×.");
+			pTradeData->pAccept->SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
+			pTradeData->pRequest->SystemNotice("ç‰ºç‰²çš„æµ·ç›—ä¸èƒ½äº¤æ˜“.");
 			return FALSE;
 		}
 
 		if( pMain->GetID() == dwCharID )
 		{
-			//printf( "±¨ÎÄĞÅÏ¢´íÎó£¬²»ÄÜÈ¡ÏûºÍ×Ô¼ºIDÏàÍ¬µÄ½»Ò×²Ù×÷£¡" );
+			//printf( "æŠ¥æ–‡ä¿¡æ¯é”™è¯¯ï¼Œä¸èƒ½å–æ¶ˆå’Œè‡ªå·±IDç›¸åŒçš„äº¤æ˜“æ“ä½œï¼" );
 			printf( RES_STRING(GM_CHARTRADE_CPP_00033) );
 			return FALSE;
 		}		
 		else if( pTradeData->pRequest->GetID() != dwCharID && pTradeData->pAccept->GetID() != dwCharID )
 		{
-			//printf( "½»Ò×¶ÔÏóĞÅÏ¢´íÎó£¡" );
+			//printf( "äº¤æ˜“å¯¹è±¡ä¿¡æ¯é”™è¯¯ï¼" );
 			printf( RES_STRING(GM_CHARTRADE_CPP_00036) );
 			return FALSE;
 		}
 
-		// ÉèÖÃ½»Ò××´Ì¬£¬²¢¼ì²âÊÇ·ñË«·½¶¼ÇëÇó½»Ò×
+		// è®¾ç½®äº¤æ˜“çŠ¶æ€ï¼Œå¹¶æ£€æµ‹æ˜¯å¦åŒæ–¹éƒ½è¯·æ±‚äº¤æ˜“
 		if( pMain == pTradeData->pRequest )
 		{
 			if( pTradeData->bReqTrade != 1 || pTradeData->bAcpTrade != 1 )
@@ -1359,37 +1359,37 @@ namespace mission
 
 			if (pTradeData->ReqTradeData.dwIMP > dwReqIMP)
 			{
-				pAccept->SystemNotice("½ÇÉ«µÄ [%s] IMP ÔÚ½»Ò×Ä£Ê½ÏÂ²»ÕıÈ·, ½»Ò×ÎŞ·¨¼ÌĞø!", pRequest->GetName());
-				pRequest->SystemNotice("½ÇÉ«µÄ [%s] IMP ÔÚ½»Ò×Ä£Ê½ÏÂ²»ÕıÈ·, ½»Ò×ÎŞ·¨¼ÌĞø!", pRequest->GetName());
+				pAccept->SystemNotice("è§’è‰²çš„ [%s] IMP åœ¨äº¤æ˜“æ¨¡å¼ä¸‹ä¸æ­£ç¡®, äº¤æ˜“æ— æ³•ç»§ç»­!", pRequest->GetName());
+				pRequest->SystemNotice("è§’è‰²çš„ [%s] IMP åœ¨äº¤æ˜“æ¨¡å¼ä¸‹ä¸æ­£ç¡®, äº¤æ˜“æ— æ³•ç»§ç»­!", pRequest->GetName());
 
 				return FALSE;
 			}
 
 			if (pTradeData->AcpTradeData.dwIMP > dwAcpIMP)
 			{
-				pAccept->SystemNotice("½ÇÉ«µÄ [%s] IMP ÔÚ½»Ò×Ä£Ê½ÏÂ²»ÕıÈ·, ½»Ò×ÎŞ·¨¼ÌĞø!", pAccept->GetName());
-				pRequest->SystemNotice("½ÇÉ«µÄ [%s] IMP ÔÚ½»Ò×Ä£Ê½ÏÂ²»ÕıÈ·, ½»Ò×ÎŞ·¨¼ÌĞø!", pAccept->GetName());
+				pAccept->SystemNotice("è§’è‰²çš„ [%s] IMP åœ¨äº¤æ˜“æ¨¡å¼ä¸‹ä¸æ­£ç¡®, äº¤æ˜“æ— æ³•ç»§ç»­!", pAccept->GetName());
+				pRequest->SystemNotice("è§’è‰²çš„ [%s] IMP åœ¨äº¤æ˜“æ¨¡å¼ä¸‹ä¸æ­£ç¡®, äº¤æ˜“æ— æ³•ç»§ç»­!", pAccept->GetName());
 				return FALSE;
 			}
 
 			if (dwAcpIMP + pTradeData->ReqTradeData.dwIMP > 2000000000){
-				pAccept->SystemNotice("½ÇÉ«µÄ [%s] IMP Èç¹û³¬¹ı20E, ½»Ò×ÎŞ·¨¼ÌĞø!", pAccept->GetName());
-				pRequest->SystemNotice("½ÇÉ«µÄ [%s] IMP Èç¹û³¬¹ı20E, ½»Ò×ÎŞ·¨¼ÌĞø!", pAccept->GetName());
+				pAccept->SystemNotice("è§’è‰²çš„ [%s] IMP å¦‚æœè¶…è¿‡20E, äº¤æ˜“æ— æ³•ç»§ç»­!", pAccept->GetName());
+				pRequest->SystemNotice("è§’è‰²çš„ [%s] IMP å¦‚æœè¶…è¿‡20E, äº¤æ˜“æ— æ³•ç»§ç»­!", pAccept->GetName());
 				return FALSE;
 			}
 
 			if (dwReqIMP + pTradeData->AcpTradeData.dwIMP > 2000000000){
-				pAccept->SystemNotice("½ÇÉ«µÄ [%s] IMP Èç¹û³¬¹ı20E, ½»Ò×ÎŞ·¨¼ÌĞø!", pRequest->GetName());
-				pRequest->SystemNotice("½ÇÉ«µÄ [%s] IMP Èç¹û³¬¹ı20E, ½»Ò×ÎŞ·¨¼ÌĞø!", pRequest->GetName());
+				pAccept->SystemNotice("è§’è‰²çš„ [%s] IMP å¦‚æœè¶…è¿‡20E, äº¤æ˜“æ— æ³•ç»§ç»­!", pRequest->GetName());
+				pRequest->SystemNotice("è§’è‰²çš„ [%s] IMP å¦‚æœè¶…è¿‡20E, äº¤æ˜“æ— æ³•ç»§ç»­!", pRequest->GetName());
 				return FALSE;
 			}
 
 
-			// ÔÙ´ÎĞ£Ñé½»Ò×½ğÇ®Êı¾İĞÅÏ¢
+			// å†æ¬¡æ ¡éªŒäº¤æ˜“é‡‘é’±æ•°æ®ä¿¡æ¯
 			if( pTradeData->ReqTradeData.dwMoney > dwReqMoney )
 			{
-				/*pAccept->SystemNotice( "½ÇÉ«¡¶%s¡·½»Ò×½ğÇ®Êı¾İ²»ÕıÈ·£¬²»¿ÉÒÔ¼ÌĞø½»Ò×£¡", pRequest->GetName() );
-				pRequest->SystemNotice( "½ÇÉ«¡¶%s¡·½»Ò×½ğÇ®Êı¾İ²»ÕıÈ·£¬²»¿ÉÒÔ¼ÌĞø½»Ò×£¡", pRequest->GetName() );*/
+				/*pAccept->SystemNotice( "è§’è‰²ã€Š%sã€‹äº¤æ˜“é‡‘é’±æ•°æ®ä¸æ­£ç¡®ï¼Œä¸å¯ä»¥ç»§ç»­äº¤æ˜“ï¼", pRequest->GetName() );
+				pRequest->SystemNotice( "è§’è‰²ã€Š%sã€‹äº¤æ˜“é‡‘é’±æ•°æ®ä¸æ­£ç¡®ï¼Œä¸å¯ä»¥ç»§ç»­äº¤æ˜“ï¼", pRequest->GetName() );*/
 				pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00058), pRequest->GetName() );
 				pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00058), pRequest->GetName() );
 				return FALSE;
@@ -1397,20 +1397,20 @@ namespace mission
 
 			if( pTradeData->AcpTradeData.dwMoney > dwAcpMoney )
 			{
-				/*pAccept->SystemNotice( "½ÇÉ«¡¶%s¡·½»Ò×½ğÇ®Êı¾İ²»ÕıÈ·£¬²»¿ÉÒÔ¼ÌĞø½»Ò×£¡", pAccept->GetName() );
-				pRequest->SystemNotice( "½ÇÉ«¡¶%s¡·½»Ò×½ğÇ®Êı¾İ²»ÕıÈ·£¬²»¿ÉÒÔ¼ÌĞø½»Ò×£¡", pAccept->GetName() );*/
+				/*pAccept->SystemNotice( "è§’è‰²ã€Š%sã€‹äº¤æ˜“é‡‘é’±æ•°æ®ä¸æ­£ç¡®ï¼Œä¸å¯ä»¥ç»§ç»­äº¤æ˜“ï¼", pAccept->GetName() );
+				pRequest->SystemNotice( "è§’è‰²ã€Š%sã€‹äº¤æ˜“é‡‘é’±æ•°æ®ä¸æ­£ç¡®ï¼Œä¸å¯ä»¥ç»§ç»­äº¤æ˜“ï¼", pAccept->GetName() );*/
 				pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00058), pRequest->GetName() );
 				pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00058), pRequest->GetName() );
 				return FALSE;
 			}
 
-			// Çå³ıµÀ¾ßÀ¸Î»Ëø¶¨×´Ì¬
+			// æ¸…é™¤é“å…·æ ä½é”å®šçŠ¶æ€
 			ReqBag.UnLock();
 			AcpBag.UnLock();
 			ResetItemState( *pAccept, *pTradeData );
 			ResetItemState( *pRequest, *pTradeData );
 
-			// ±¸·İ½»Ò×Ë«·½±³°üºÍ½ğÇ®Êı¾İĞÅÏ¢
+			// å¤‡ä»½äº¤æ˜“åŒæ–¹èƒŒåŒ…å’Œé‡‘é’±æ•°æ®ä¿¡æ¯
 			CKitbag ReqBagData, AcpBagData;
 			ReqBagData = ReqBag;
 			AcpBagData = AcpBag;	
@@ -1423,32 +1423,32 @@ namespace mission
 			pAccept->m_CChaAttr.ResetChangeFlag();
 			pAccept->SetBoatAttrChangeFlag(false);
 
-			// Íê³É½»Ò×ĞÅÏ¢²Ù×÷
+			// å®Œæˆäº¤æ˜“ä¿¡æ¯æ“ä½œ
 			int nAcpCapacity = pAccept->m_CKitbag.GetCapacity();
 			int nReqCapacity = pRequest->m_CKitbag.GetCapacity();
 			SItemGrid AcpGrid[ROLE_MAXNUM_TRADEDATA];
 			SItemGrid ReqGrid[ROLE_MAXNUM_TRADEDATA];
 
-			// ¼ìÑéµÀ¾ß½»Ò×ÊÇ·ñ¿ÉÒÔ½øĞĞ
+			// æ£€éªŒé“å…·äº¤æ˜“æ˜¯å¦å¯ä»¥è¿›è¡Œ
 			char szTemp[128] = "";
 			char szTrade[2046] = "";
-			//sprintf( szTrade, "½ÓÊÜÕß%s½»Ò×Êı¾İ£º{", pAccept->GetName() );
+			//sprintf( szTrade, "æ¥å—è€…%säº¤æ˜“æ•°æ®ï¼š{", pAccept->GetName() );
 			sprintf( szTrade, RES_STRING(GM_CHARTRADE_CPP_00059), pAccept->GetName() );
 
-			//ÅĞ¶ÏË«·½±³°ü
+			//åˆ¤æ–­åŒæ–¹èƒŒåŒ…
 			BOOL bBagSucc = true;
 			if(!pTradeData->pAccept->HasLeaveBagGrid(pTradeData->ReqTradeData.byItemCount))
 			{
-				/*pTradeData->pRequest->SystemNotice("¶Ô·½±³°ü¿Õ¼ä²»¹»,½»Ò×Ê§°Ü!");
-				pTradeData->pAccept->SystemNotice("±³°ü¿Õ¼ä²»¹»,½»Ò×Ê§°Ü!");*/
+				/*pTradeData->pRequest->SystemNotice("å¯¹æ–¹èƒŒåŒ…ç©ºé—´ä¸å¤Ÿ,äº¤æ˜“å¤±è´¥!");
+				pTradeData->pAccept->SystemNotice("èƒŒåŒ…ç©ºé—´ä¸å¤Ÿ,äº¤æ˜“å¤±è´¥!");*/
 				pTradeData->pRequest->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00060));
 				pTradeData->pAccept->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00061));
 				bBagSucc = false;
 			}
 			else if(!pTradeData->pRequest->HasLeaveBagGrid(pTradeData->AcpTradeData.byItemCount))
 			{
-				/*pTradeData->pAccept->SystemNotice("¶Ô·½±³°ü¿Õ¼ä²»¹»,½»Ò×Ê§°Ü!");
-				pTradeData->pRequest->SystemNotice("±³°ü¿Õ¼ä²»¹»,½»Ò×Ê§°Ü!");*/
+				/*pTradeData->pAccept->SystemNotice("å¯¹æ–¹èƒŒåŒ…ç©ºé—´ä¸å¤Ÿ,äº¤æ˜“å¤±è´¥!");
+				pTradeData->pRequest->SystemNotice("èƒŒåŒ…ç©ºé—´ä¸å¤Ÿ,äº¤æ˜“å¤±è´¥!");*/
 				pTradeData->pAccept->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00060));
 				pTradeData->pRequest->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00061));
 				bBagSucc = false;	
@@ -1459,7 +1459,7 @@ namespace mission
 				pRequest->SetTradeData( NULL );
 				pTradeData->Free();
 
-				// È¡Ïû½ÇÉ«Ëø¶¨×´Ì¬
+				// å–æ¶ˆè§’è‰²é”å®šçŠ¶æ€
 				pTradeData->pAccept->TradeAction( FALSE );
 				pTradeData->pRequest->TradeAction( FALSE );
 
@@ -1473,7 +1473,7 @@ namespace mission
 				return FALSE;
 			}
 
-			// µÀ¾ß½»Ò×²Ù×÷
+			// é“å…·äº¤æ˜“æ“ä½œ
 			for( int i = 0; i < ROLE_MAXNUM_TRADEDATA; i++ )
 			{
 				// 
@@ -1482,10 +1482,10 @@ namespace mission
 					CItemRecord* pItem = GetItemRecordInfo( pTradeData->AcpTradeData.ItemArray[i].sItemID );
 					if( pItem == NULL )
 					{
-						/*pMain->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
+						/*pMain->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
 						pMain->SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00041), pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						return FALSE;
 					}
 					else
@@ -1493,17 +1493,17 @@ namespace mission
 						AcpGrid[i].sNum = pTradeData->AcpTradeData.ItemArray[i].byCount;
 						if( pAccept->KbPopItem( true, false, AcpGrid  + i, pTradeData->AcpTradeData.ItemArray[i].byIndex ) != enumKBACT_SUCCESS )
 						{
-							/*pAccept->SystemNotice( "´Ó½»Ò×½ÓÊÜÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							/*pAccept->SystemNotice( "ä»äº¤æ˜“æ¥å—è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );
-							pRequest->SystemNotice( "´Ó½»Ò×½ÓÊÜÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							pRequest->SystemNotice( "ä»äº¤æ˜“æ¥å—è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );
-							LG( "trade_error", "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							LG( "trade_error", "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00062), 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00062), 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );
-							LG( "trade_error", "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							LG( "trade_error", "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pAccept->GetName(), pTradeData->AcpTradeData.ItemArray[i].sItemID );
 							return FALSE;
 						}
@@ -1513,7 +1513,7 @@ namespace mission
 							CCharacter* pBoat = pAccept->GetPlayer()->GetBoat( (DWORD)AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							if( pBoat )
 							{
-								//sprintf( szTemp, "%dËÒ´¬Ö»¡¶%s¡·ID[0x%X]£¬", AcpGrid[i].sNum, pBoat->GetName(),
+								//sprintf( szTemp, "%dè‰˜èˆ¹åªã€Š%sã€‹ID[0x%X]ï¼Œ", AcpGrid[i].sNum, pBoat->GetName(),
 								//	AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00063), AcpGrid[i].sNum, pBoat->GetName(),
 									AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
@@ -1521,7 +1521,7 @@ namespace mission
 							}
 							else
 							{
-								//sprintf( szTemp, "%dËÒ´¬Ö»£ºÎ´Öª´¬Ö»Êı¾İID[0x%X]£¬", AcpGrid[i].sNum, 
+								//sprintf( szTemp, "%dè‰˜èˆ¹åªï¼šæœªçŸ¥èˆ¹åªæ•°æ®ID[0x%X]ï¼Œ", AcpGrid[i].sNum, 
 								sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00064), AcpGrid[i].sNum, 
 									AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								strcat( szTrade, szTemp );
@@ -1529,17 +1529,17 @@ namespace mission
 
 							if( !pAccept->BoatClear( AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
-								/*pAccept->SystemNotice( "É¾³ı%sÓµÓĞµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "åˆ é™¤%sæ‹¥æœ‰çš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								pRequest->SystemNotice( "É¾³ı%sÓµÓĞµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								pRequest->SystemNotice( "åˆ é™¤%sæ‹¥æœ‰çš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+								LG( "trade_error", "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00065), 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00065), 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "it failed to delete captain confirm boat that %s have £¡DBID[0x%X]", 
+								LG( "trade_error", "it failed to delete captain confirm boat that %s have ï¼DBID[0x%X]", 
 									pAccept->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 						}
@@ -1553,7 +1553,7 @@ namespace mission
 			}
 
 			
-			// sprintf( szTemp, "}£¬ÇëÇóÕß%s½»Ò×Êı¾İ£º{", pRequest->GetName() );
+			// sprintf( szTemp, "}ï¼Œè¯·æ±‚è€…%säº¤æ˜“æ•°æ®ï¼š{", pRequest->GetName() );
 			sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00066), pRequest->GetName() );
 			strcat( szTrade, szTemp );
 			for( int i = 0; i < ROLE_MAXNUM_TRADEDATA; i++ )
@@ -1563,10 +1563,10 @@ namespace mission
 					CItemRecord* pItem = GetItemRecordInfo( pTradeData->ReqTradeData.ItemArray[i].sItemID );
 					if( pItem == NULL )
 					{
-						/*pMain->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );*/
+						/*pMain->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );*/
 						pMain->SystemNotice( RES_STRING(GM_CHARSTALL_CPP_00041), pTradeData->ReqTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ID = %d", pTradeData->ReqTradeData.ItemArray[i].sItemID );
 						return FALSE;
 					}
 					else
@@ -1574,17 +1574,17 @@ namespace mission
 						ReqGrid[i].sNum = pTradeData->ReqTradeData.ItemArray[i].byCount;
 						if( pRequest->KbPopItem( true, false, ReqGrid + i, pTradeData->ReqTradeData.ItemArray[i].byIndex ) != enumKBACT_SUCCESS )
 						{
-							/*pAccept->SystemNotice( "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							/*pAccept->SystemNotice( "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );
-							pRequest->SystemNotice( "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							pRequest->SystemNotice( "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );
-							LG( "trade_error", "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							LG( "trade_error", "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00067), 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00067), 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );
-							LG( "trade_error", "´Ó½»Ò×ÇëÇóÕß¡¶%s¡·½»Ò×ÌáÈ¡ÎïÆ·¡¶%d¡·ÎïÆ·Ê§°Ü£¡ID = %d", 
+							LG( "trade_error", "ä»äº¤æ˜“è¯·æ±‚è€…ã€Š%sã€‹äº¤æ˜“æå–ç‰©å“ã€Š%dã€‹ç‰©å“å¤±è´¥ï¼ID = %d", 
 								pRequest->GetName(), pTradeData->ReqTradeData.ItemArray[i].sItemID );
 							return FALSE;
 						}
@@ -1594,7 +1594,7 @@ namespace mission
 							CCharacter* pBoat = pRequest->GetPlayer()->GetBoat( (DWORD)ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							if( pBoat )
 							{
-								/*sprintf( szTemp, "%dËÒ´¬Ö»¡¶%s¡·ID[0x%X]£¬", ReqGrid[i].sNum, pBoat->GetName(),
+								/*sprintf( szTemp, "%dè‰˜èˆ¹åªã€Š%sã€‹ID[0x%X]ï¼Œ", ReqGrid[i].sNum, pBoat->GetName(),
 									ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00063), ReqGrid[i].sNum, pBoat->GetName(),
 									ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
@@ -1602,7 +1602,7 @@ namespace mission
 							}
 							else
 							{
-								/*sprintf( szTemp, "%dËÒ´¬Ö»£ºÎ´Öª´¬Ö»Êı¾İID[0x%X]£¬", ReqGrid[i].sNum, 
+								/*sprintf( szTemp, "%dè‰˜èˆ¹åªï¼šæœªçŸ¥èˆ¹åªæ•°æ®ID[0x%X]ï¼Œ", ReqGrid[i].sNum, 
 									ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00063), ReqGrid[i].sNum, 
 									ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
@@ -1611,23 +1611,23 @@ namespace mission
 
 							if( !pRequest->BoatClear( ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
-								/*pAccept->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								pRequest->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								pRequest->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+								LG( "trade_error", "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "it failed to delete boat that captain confirm of %s have£¡DBID[0x%X]", 
+								LG( "trade_error", "it failed to delete boat that captain confirm of %s haveï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 						}
 						else
 						{
-							sprintf( szTemp, "%d¸ö%s£¬", ReqGrid[i].sNum, pItem->szName );
+							sprintf( szTemp, "%dä¸ª%sï¼Œ", ReqGrid[i].sNum, pItem->szName );
 							strcat( szTrade, szTemp );
 						}
 					}
@@ -1642,29 +1642,29 @@ namespace mission
 					CItemRecord* pItem = GetItemRecordInfo( pTradeData->AcpTradeData.ItemArray[i].sItemID );
 					if( pItem == NULL )
 					{
-						/*pRequest->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						/*pRequest->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						pAccept->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						pAccept->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "res ID error£¬it cannot find res information£¡it cannot give you this res£¬ID = %d", 
+						LG( "trade_error", "res ID errorï¼Œit cannot find res informationï¼it cannot give you this resï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						continue;
 					}
 
-					// ½«½ÓÊÜÕß¸øµÄ¶«Î÷¸³ÓèÇëÇóÕß					
+					// å°†æ¥å—è€…ç»™çš„ä¸œè¥¿èµ‹äºˆè¯·æ±‚è€…					
 					USHORT sCount = AcpGrid[i].sNum;
 					Short sPushPos = defKITBAG_DEFPUSH_POS;
 					Short sPushRet = pRequest->KbPushItem( true, false, AcpGrid + i, sPushPos );
 
-					if( sPushRet == enumKBACT_ERROR_FULL ) // µÀ¾ßÀ¸ÒÑÂú£¬¶ªµ½µØÃæ
+					if( sPushRet == enumKBACT_ERROR_FULL ) // é“å…·æ å·²æ»¡ï¼Œä¸¢åˆ°åœ°é¢
 					{
-						// »ñµÃÎïÆ·´¥·¢ÊÂ¼ş
+						// è·å¾—ç‰©å“è§¦å‘äº‹ä»¶
 						USHORT sNum = sCount - AcpGrid[i].sNum;
 
 						CCharacter	*pCCtrlCha = pRequest->GetPlyCtrlCha(), *pCMainCha = pRequest->GetPlyMainCha();
@@ -1672,33 +1672,33 @@ namespace mission
 						pCCtrlCha->GetTrowItemPos(&lPosX, &lPosY);
 						if( pCCtrlCha->GetSubMap()->ItemSpawn( AcpGrid + i, lPosX, lPosY, enumITEM_APPE_THROW, pCCtrlCha->GetID(), pCMainCha->GetID(), pCMainCha->GetHandle() ) == NULL )
 						{
-							/*pAccept->SystemNotice( "½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							/*pAccept->SystemNotice( "äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
-							pRequest->SystemNotice( "½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							pRequest->SystemNotice( "äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
-							LG( "trade_error", "Error code[%d],½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							LG( "trade_error", "Error code[%d],äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								sPushRet, pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00070), 
 								pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00070), 
 								pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
-							LG( "trade_error", "Error code[%d],when trading,%s bag is full,¡¶%s¡·failed to put on floor£¡trade res failed£¡ID[%d], Num[%d]", 
+							LG( "trade_error", "Error code[%d],when trading,%s bag is full,ã€Š%sã€‹failed to put on floorï¼trade res failedï¼ID[%d], Num[%d]", 
 								sPushRet, pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
 						}
 					}
 					else if( sPushRet != enumKBACT_SUCCESS )
 					{						
-						/*pAccept->SystemNotice( "½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", pItem->szName, pRequest->GetName(), 
+						/*pAccept->SystemNotice( "äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
-						pRequest->SystemNotice( "½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", pItem->szName, pRequest->GetName(), 
+						pRequest->SystemNotice( "äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
-						LG( "trade_error", "Error code[%d],½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
+						LG( "trade_error", "Error code[%d],äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );*/
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00071), pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00071), pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
-						LG( "trade_error", "Error code[%d],it failed to put res in %s bag when trading res ¡¶%s¡·£¡trade res failed£¡ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
+						LG( "trade_error", "Error code[%d],it failed to put res in %s bag when trading res ã€Š%sã€‹ï¼trade res failedï¼ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
 					}
 					else
@@ -1710,17 +1710,17 @@ namespace mission
 					{
 						if( !pRequest->BoatAdd( AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 						{
-							/*pAccept->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							/*pAccept->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							pRequest->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							pRequest->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+							LG( "trade_error", "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "add to %scaptain confirm it hold boat failed£¡DBID[0x%X]", 
+							LG( "trade_error", "add to %scaptain confirm it hold boat failedï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 						}
 					}
@@ -1732,29 +1732,29 @@ namespace mission
 					CItemRecord* pItem = GetItemRecordInfo( pTradeData->ReqTradeData.ItemArray[i].sItemID );
 					if( pItem == NULL )
 					{
-						/*pRequest->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						/*pRequest->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );
-						pAccept->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						pAccept->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );*/
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "res ID error£¬cannot find this res information£¡this res cannot give you£¬ID = %d", 
+						LG( "trade_error", "res ID errorï¼Œcannot find this res informationï¼this res cannot give youï¼ŒID = %d", 
 							pTradeData->ReqTradeData.ItemArray[i].sItemID );
 						continue;
 					}
 
-					// ½«ÇëÇóÕß¸øµÄ¶«Î÷¸³Óè½ÓÊÜÕß
+					// å°†è¯·æ±‚è€…ç»™çš„ä¸œè¥¿èµ‹äºˆæ¥å—è€…
 					USHORT sCount = ReqGrid[i].sNum;
 					Short sPushPos = defKITBAG_DEFPUSH_POS;
 					Short sPushRet = pAccept->KbPushItem( true, false, ReqGrid + i, sPushPos );
 					
-					if( sPushRet == enumKBACT_ERROR_FULL ) // µÀ¾ßÀ¸ÒÑÂú£¬¶ªµ½µØÃæ
+					if( sPushRet == enumKBACT_ERROR_FULL ) // é“å…·æ å·²æ»¡ï¼Œä¸¢åˆ°åœ°é¢
 					{
-						// »ñµÃÎïÆ·´¥·¢ÊÂ¼ş
+						// è·å¾—ç‰©å“è§¦å‘äº‹ä»¶
 						USHORT sNum = sCount - ReqGrid[i].sNum;
 
 						CCharacter	*pCCtrlCha = pAccept->GetPlyCtrlCha(), *pCMainCha = pAccept->GetPlyMainCha();
@@ -1762,33 +1762,33 @@ namespace mission
 						pCCtrlCha->GetTrowItemPos(&lPosX, &lPosY);
 						if( pCCtrlCha->GetSubMap()->ItemSpawn( ReqGrid + i, lPosX, lPosY, enumITEM_APPE_THROW, pCCtrlCha->GetID(), pCMainCha->GetID(), pCMainCha->GetHandle() ) == NULL )
 						{
-							/*pAccept->SystemNotice( "½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							/*pAccept->SystemNotice( "äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								pAccept->GetName(), pItem->szName, ReqGrid[i].sID, ReqGrid[i].sNum );
-							pRequest->SystemNotice( "½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							pRequest->SystemNotice( "äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								pAccept->GetName(), pItem->szName, ReqGrid[i].sID, ReqGrid[i].sNum );
-							LG( "trade_error", "Error code[%d],½»Ò×Ê±½«%s±³°ü×°²»ÏÂµÄÎïÆ·¡¶%s¡··Åµ½µØÃæÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", 
+							LG( "trade_error", "Error code[%d],äº¤æ˜“æ—¶å°†%sèƒŒåŒ…è£…ä¸ä¸‹çš„ç‰©å“ã€Š%sã€‹æ”¾åˆ°åœ°é¢å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", 
 								sPushRet, pAccept->GetName(), pItem->szName, ReqGrid[i].sID, ReqGrid[i].sNum );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00070), 
 								pAccept->GetName(), pItem->szName, ReqGrid[i].sID, ReqGrid[i].sNum );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00070), 
 								pAccept->GetName(), pItem->szName, ReqGrid[i].sID, ReqGrid[i].sNum );
-							LG( "trade_error", "Error code[%d],when trading,%s bag is full,¡¶%s¡·failed to put on floor£¡trade res failed£¡ID[%d], Num[%d]", 
+							LG( "trade_error", "Error code[%d],when trading,%s bag is full,ã€Š%sã€‹failed to put on floorï¼trade res failedï¼ID[%d], Num[%d]", 
 								sPushRet, pRequest->GetName(), pItem->szName, AcpGrid[i].sID, AcpGrid[i].sNum );
 						}
 					}
 					else if( sPushRet != enumKBACT_SUCCESS )
 					{						
-						/*pAccept->SystemNotice( "½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", pItem->szName, pAccept->GetName(), 
+						/*pAccept->SystemNotice( "äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", pItem->szName, pAccept->GetName(), 
 							ReqGrid[i].sID, ReqGrid[i].sNum );
-						pRequest->SystemNotice( "½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", pItem->szName, pAccept->GetName(), 
+						pRequest->SystemNotice( "äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", pItem->szName, pAccept->GetName(), 
 							ReqGrid[i].sID, ReqGrid[i].sNum );
-						LG( "trade_error", "Error code[%d],½»Ò×Ê±½«ÎïÆ·¡¶%s¡··ÅÈë%s±³°üÊ§°Ü£¡½»Ò×ÎïÆ·¶ªÊ§£¡ID[%d], Num[%d]", sPushRet, pItem->szName, pAccept->GetName(), 
+						LG( "trade_error", "Error code[%d],äº¤æ˜“æ—¶å°†ç‰©å“ã€Š%sã€‹æ”¾å…¥%sèƒŒåŒ…å¤±è´¥ï¼äº¤æ˜“ç‰©å“ä¸¢å¤±ï¼ID[%d], Num[%d]", sPushRet, pItem->szName, pAccept->GetName(), 
 							ReqGrid[i].sID, ReqGrid[i].sNum );*/
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00071), pItem->szName, pAccept->GetName(), 
 							ReqGrid[i].sID, ReqGrid[i].sNum );
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00071), pItem->szName, pAccept->GetName(), 
 							ReqGrid[i].sID, ReqGrid[i].sNum );
-						LG( "trade_error", "Error code[%d],it failed to put res in %s bag when trading res ¡¶%s¡·£¡trade res failed£¡ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
+						LG( "trade_error", "Error code[%d],it failed to put res in %s bag when trading res ã€Š%sã€‹ï¼trade res failedï¼ID[%d], Num[%d]", sPushRet, pItem->szName, pRequest->GetName(), 
 							AcpGrid[i].sID, ReqGrid[i].sNum );
 					}
 					else 
@@ -1800,24 +1800,24 @@ namespace mission
 					{
 						if( !pAccept->BoatAdd( ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 						{
-							/*pAccept->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							/*pAccept->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							pRequest->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							pRequest->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+							LG( "trade_error", "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "add to %scaptain confirm it hold boat failed£¡DBID[0x%X]", 
+							LG( "trade_error", "add to %scaptain confirm it hold boat failedï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 						}
 					}
 				}
 			}
 
-			// ¿ÛÇ®
+			// æ‰£é’±
 			if( pTradeData->ReqTradeData.dwMoney > 0 )
 			{				
 				pRequest->setAttr( ATTR_GD, pRequest->getAttr( ATTR_GD ) - pTradeData->ReqTradeData.dwMoney );
@@ -1843,7 +1843,7 @@ namespace mission
 				pRequest->GetPlayer()->SetIMP(pRequest->GetPlayer()->GetIMP() + pTradeData->AcpTradeData.dwIMP);
 			}
 
-			//sprintf( szTemp, "½ÓÊÜÕß½»Ò×½ğÇ®£º%d£¬ÇëÇóÕß½»Ò×½ğÇ®£º%d", pTradeData->AcpTradeData.dwMoney, 
+			//sprintf( szTemp, "æ¥å—è€…äº¤æ˜“é‡‘é’±ï¼š%dï¼Œè¯·æ±‚è€…äº¤æ˜“é‡‘é’±ï¼š%d", pTradeData->AcpTradeData.dwMoney, 
 				//pTradeData->ReqTradeData.dwMoney );
 			sprintf( szTemp, RES_STRING(GM_CHARTRADE_CPP_00073), pTradeData->AcpTradeData.dwMoney, 
 				pTradeData->ReqTradeData.dwMoney );
@@ -1853,19 +1853,19 @@ namespace mission
 			pRequest->SetTradeData( NULL );
 			pTradeData->Free();	
 
-			// Êı¾İ¿â´æ´¢
+			// æ•°æ®åº“å­˜å‚¨
 			game_db.BeginTran();
 			if( !pRequest->SaveAssets() || !pAccept->SaveAssets() )
 			{
 				game_db.RollBack();
 
-				// ½»Ò×Êı¾İ¿â´æ´¢Ê§°Ü£¬Êı¾İ»Ö¸´
+				// äº¤æ˜“æ•°æ®åº“å­˜å‚¨å¤±è´¥ï¼Œæ•°æ®æ¢å¤
 				ReqBag = ReqBagData;
 				AcpBag = AcpBagData;
 				pRequest->setAttr( ATTR_GD, dwReqMoney );
 				pAccept->setAttr( ATTR_GD, dwAcpMoney );
 
-				// »Ö¸´´¬Ö»Êı¾İĞÅÏ¢
+				// æ¢å¤èˆ¹åªæ•°æ®ä¿¡æ¯
 				for( int i = 0; i < ROLE_MAXNUM_TRADEDATA; i++ )
 				{
 					if( pTradeData->AcpTradeData.ItemArray[i].sItemID != 0 )
@@ -1873,54 +1873,54 @@ namespace mission
 						CItemRecord* pItem = GetItemRecordInfo( pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						if( pItem == NULL )
 						{
-							/*pRequest->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+							/*pRequest->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						pAccept->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						pAccept->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "res ID error£¬it cannot find res information£¡it cannot give you this res£¬ID = %d", 
+						LG( "trade_error", "res ID errorï¼Œit cannot find res informationï¼it cannot give you this resï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 							continue;
 						}
 
-						// ½«½ÓÊÜÕß¸øµÄ¶«Î÷¸³ÓèÇëÇóÕß					
+						// å°†æ¥å—è€…ç»™çš„ä¸œè¥¿èµ‹äºˆè¯·æ±‚è€…					
 						if( pItem->sType == enumItemTypeBoat )
 						{
 							if( !pRequest->BoatClear( AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
 								
-								/*pAccept->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								pRequest->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								pRequest->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+								LG( "trade_error", "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "it failed to delete boat that captain confirm of %s have£¡DBID[0x%X]", 
+								LG( "trade_error", "it failed to delete boat that captain confirm of %s haveï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 
 							if( !pAccept->BoatAdd( AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
-								/*pAccept->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							pRequest->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							pRequest->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+							LG( "trade_error", "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "add to %scaptain confirm it hold boat failed£¡DBID[0x%X]", 
+							LG( "trade_error", "add to %scaptain confirm it hold boat failedï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 						}
@@ -1932,75 +1932,75 @@ namespace mission
 						CItemRecord* pItem = GetItemRecordInfo( pTradeData->ReqTradeData.ItemArray[i].sItemID );
 						if( pItem == NULL )
 						{
-							/*pRequest->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+							/*pRequest->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						pAccept->SystemNotice( "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						pAccept->SystemNotice( "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "ÎïÆ·ID´íÎó£¬ÎŞ·¨ÕÒµ½¸ÃÎïÆ·ĞÅÏ¢£¡²»ÄÜ¸øÓèÄã¸ÃÎïÆ·£¬ID = %d", 
+						LG( "trade_error", "ç‰©å“IDé”™è¯¯ï¼Œæ— æ³•æ‰¾åˆ°è¯¥ç‰©å“ä¿¡æ¯ï¼ä¸èƒ½ç»™äºˆä½ è¯¥ç‰©å“ï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );*/
 						pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 						pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00069), 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
-						LG( "trade_error", "res ID error£¬it cannot find res information£¡it cannot give you this res£¬ID = %d", 
+						LG( "trade_error", "res ID errorï¼Œit cannot find res informationï¼it cannot give you this resï¼ŒID = %d", 
 							pTradeData->AcpTradeData.ItemArray[i].sItemID );
 							continue;
 						}
 
-						// ½«ÇëÇóÕß¸øµÄ¶«Î÷¸³Óè½ÓÊÜÕß
+						// å°†è¯·æ±‚è€…ç»™çš„ä¸œè¥¿èµ‹äºˆæ¥å—è€…
 						if( pItem->sType == enumItemTypeBoat )
 						{
 							if( !pAccept->BoatClear( ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
 								
-								/*pAccept->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								pRequest->SystemNotice( "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								pRequest->SystemNotice( "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "É¾³ı%sµÄ´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+								LG( "trade_error", "åˆ é™¤%sçš„èˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 								pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 								pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00068), 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-								LG( "trade_error", "it failed to delete boat that captain confirm of %s have£¡DBID[0x%X]", 
+								LG( "trade_error", "it failed to delete boat that captain confirm of %s haveï¼DBID[0x%X]", 
 									pRequest->GetName(), ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 
 							if( !pRequest->BoatAdd( ReqGrid[i].GetDBParam( enumITEMDBP_INST_ID ) ) )
 							{
-								/*pAccept->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+								/*pAccept->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							pRequest->SystemNotice( "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡ID[0x%X]", 
+							pRequest->SystemNotice( "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼ID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "Ìí¼Ó¸ø%s´¬³¤Ö¤Ã÷ÓµÓĞµÄ´¬Ö»Ê§°Ü£¡DBID[0x%X]", 
+							LG( "trade_error", "æ·»åŠ ç»™%sèˆ¹é•¿è¯æ˜æ‹¥æœ‰çš„èˆ¹åªå¤±è´¥ï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );*/
 							pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00072), 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
-							LG( "trade_error", "add to %scaptain confirm it hold boat failed£¡DBID[0x%X]", 
+							LG( "trade_error", "add to %scaptain confirm it hold boat failedï¼DBID[0x%X]", 
 								pRequest->GetName(), AcpGrid[i].GetDBParam( enumITEMDBP_INST_ID ) );
 							}
 						}
 					}
 				}
 
-				// Í¨Öª¿Í»§¶Ë²¢ÇÒ¼ÇÂ¼ÈÕÖ¾
-				/*pRequest->SystemNotice( "½»Ò×Ê§°Ü£¬Êı¾İ´æ´¢´íÎó£¡" );
-				pAccept->SystemNotice( "½»Ò×Ê§°Ü£¬Êı¾İ´æ´¢´íÎó£¡" );
-				LG( "trade_error", "½»Ò×Êı¾İ´æ´¢Êı¾İ¿âÊ§°Ü£¬½»Ò×Êı¾İ»Ö¸´Íê³É£¬½»Ò×£ºÇëÇó·½¡¶%s¡·ID[0x%X]£¬½ÓÊÜ·½¡¶%s¡·ID[0x%X]¡£",
+				// é€šçŸ¥å®¢æˆ·ç«¯å¹¶ä¸”è®°å½•æ—¥å¿—
+				/*pRequest->SystemNotice( "äº¤æ˜“å¤±è´¥ï¼Œæ•°æ®å­˜å‚¨é”™è¯¯ï¼" );
+				pAccept->SystemNotice( "äº¤æ˜“å¤±è´¥ï¼Œæ•°æ®å­˜å‚¨é”™è¯¯ï¼" );
+				LG( "trade_error", "äº¤æ˜“æ•°æ®å­˜å‚¨æ•°æ®åº“å¤±è´¥ï¼Œäº¤æ˜“æ•°æ®æ¢å¤å®Œæˆï¼Œäº¤æ˜“ï¼šè¯·æ±‚æ–¹ã€Š%sã€‹ID[0x%X]ï¼Œæ¥å—æ–¹ã€Š%sã€‹ID[0x%X]ã€‚",
 					pRequest->GetName(), pRequest->GetPlayer()->GetDBChaId(), pAccept->GetName(), pAccept->GetPlayer()->GetDBChaId() );*/
 				pRequest->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00074) );
 				pAccept->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00074) );
-				LG( "trade_error", "the trade data failed to memory in DB£¬trade data resume complete£¬trade£ºrequest one¡¶%s¡·ID[0x%X]£¬accept one¡¶%s¡·ID[0x%X]¡£",
+				LG( "trade_error", "the trade data failed to memory in DBï¼Œtrade data resume completeï¼Œtradeï¼šrequest oneã€Š%sã€‹ID[0x%X]ï¼Œaccept oneã€Š%sã€‹ID[0x%X]ã€‚",
 					pRequest->GetName(), pRequest->GetPlayer()->GetDBChaId(), pAccept->GetName(), pAccept->GetPlayer()->GetDBChaId() );
 
-				// È¡Ïû½ÇÉ«Ëø¶¨×´Ì¬
+				// å–æ¶ˆè§’è‰²é”å®šçŠ¶æ€
 				pAccept->TradeAction( FALSE );
 				pRequest->TradeAction( FALSE );
 
-				// ½ÇÉ«½»Ò×³É¹¦
+				// è§’è‰²äº¤æ˜“æˆåŠŸ
 				WPACKET packet = GETWPACKET();
 				WRITE_CMD(packet, CMD_MC_CHARTRADE );
 				WRITE_SHORT(packet, CMD_MC_CHARTRADE_RESULT );
@@ -2013,14 +2013,14 @@ namespace mission
 			}
 			else
 			{
-				// Á½´ÎÊı¾İ´æ´¢³É¹¦
+				// ä¸¤æ¬¡æ•°æ®å­˜å‚¨æˆåŠŸ
 				game_db.CommitTran();
 				if( pRequest->IsBoat() )
 				{
 					char szBoat1[64] = "";
 					char szBoat2[64] = "";
-					//sprintf( szBoat1, "%s´¬¡¶%s¡·", pAccept->GetPlyMainCha()->GetName(), pAccept->GetName() );
-					//sprintf( szBoat2, "%s´¬¡¶%s¡·", pRequest->GetPlyMainCha()->GetName(), pRequest->GetName() );
+					//sprintf( szBoat1, "%sèˆ¹ã€Š%sã€‹", pAccept->GetPlyMainCha()->GetName(), pAccept->GetName() );
+					//sprintf( szBoat2, "%sèˆ¹ã€Š%sã€‹", pRequest->GetPlyMainCha()->GetName(), pRequest->GetName() );
 					sprintf( szBoat1, RES_STRING(GM_CHARTRADE_CPP_00075), pAccept->GetPlyMainCha()->GetName(), pAccept->GetName() );
 					sprintf( szBoat2, RES_STRING(GM_CHARTRADE_CPP_00075), pRequest->GetPlyMainCha()->GetName(), pRequest->GetName() );
 					TL( CHA_CHA, szBoat1, szBoat2, szTrade );
@@ -2034,7 +2034,7 @@ namespace mission
 				pAccept->LogAssets(enumLASSETS_TRADE);
 			}
 
-			// ½»Ò×ÎïÆ·³É¹¦ºó»ñÈ¡´¥·¢
+			// äº¤æ˜“ç‰©å“æˆåŠŸåè·å–è§¦å‘
 			for( int i = 0; i < ROLE_MAXNUM_TRADEDATA; i++ )
 			{
 				if( pTradeData->AcpTradeData.ItemArray[i].sItemID != 0 )
@@ -2058,12 +2058,12 @@ namespace mission
 				}
 			}
 
-			// Í¨Öª½»Ò×½ğÇ®Êı¾İĞÅÏ¢
+			// é€šçŸ¥äº¤æ˜“é‡‘é’±æ•°æ®ä¿¡æ¯
 			char szNotice[255];
 
 			if( pTradeData->ReqTradeData.dwMoney )
 			{
-				//pAccept->SystemNotice( "Äã´Ó(%s)´¦µÃµ½ÁË%d½ğÇ®£¡", pRequest->GetName(), pTradeData->ReqTradeData.dwMoney );
+				//pAccept->SystemNotice( "ä½ ä»(%s)å¤„å¾—åˆ°äº†%dé‡‘é’±ï¼", pRequest->GetName(), pTradeData->ReqTradeData.dwMoney );
 				CFormatParameter param(2);
 				param.setString(0, pRequest->GetName());
 				param.setLong(1, pTradeData->ReqTradeData.dwMoney);
@@ -2086,20 +2086,20 @@ namespace mission
 
 			if (pTradeData->AcpTradeData.dwIMP)
 			{
-				sprintf(szNotice, "ÄãÒÑ¾­ÊÕµ½ÁË [%d] IMPs À´×Ô (%s).", pTradeData->AcpTradeData.dwIMP, pAccept->GetName());
+				sprintf(szNotice, "ä½ å·²ç»æ”¶åˆ°äº† [%d] IMPs æ¥è‡ª (%s).", pTradeData->AcpTradeData.dwIMP, pAccept->GetName());
 				pRequest->SystemNotice(szNotice);
 
 			}
 
 			if (pTradeData->ReqTradeData.dwIMP)
 			{
-				sprintf(szNotice, "ÄãÒÑ¾­ÊÕµ½ÁË [%d] IMPs À´×Ô (%s).", pTradeData->ReqTradeData.dwIMP, pRequest->GetName());
+				sprintf(szNotice, "ä½ å·²ç»æ”¶åˆ°äº† [%d] IMPs æ¥è‡ª (%s).", pTradeData->ReqTradeData.dwIMP, pRequest->GetName());
 				pAccept->SystemNotice(szNotice);
 			}
 
 			
 
-			// Í¬²½½ğÇ®Êı¾İºÍ±³°üÊı¾İ
+			// åŒæ­¥é‡‘é’±æ•°æ®å’ŒèƒŒåŒ…æ•°æ®
 			pAccept->SynAttr( enumATTRSYN_TRADE );
 			pAccept->SyncBoatAttr(enumATTRSYN_TRADE);
 			pRequest->SynAttr( enumATTRSYN_TRADE );	
@@ -2120,11 +2120,11 @@ namespace mission
 				pRequest->ReflectINFof(pMain, packet2);
 			}
 
-			// È¡Ïû½ÇÉ«Ëø¶¨×´Ì¬
+			// å–æ¶ˆè§’è‰²é”å®šçŠ¶æ€
 			pAccept->TradeAction( FALSE );
 			pRequest->TradeAction( FALSE );
 
-			// ½ÇÉ«½»Ò×³É¹¦
+			// è§’è‰²äº¤æ˜“æˆåŠŸ
 			WPACKET packet = GETWPACKET();
 			WRITE_CMD(packet, CMD_MC_CHARTRADE );
 			WRITE_SHORT(packet, CMD_MC_CHARTRADE_RESULT );
@@ -2316,7 +2316,7 @@ namespace mission
     {T_B
 		if(pCha->IsStoreBuy())
 		{
-			//pCha->SystemNotice("ÄúµÄÉÏÒ»¸ö¶©µ¥»¹Î´´¦ÀíÍê!");
+			//pCha->SystemNotice("æ‚¨çš„ä¸Šä¸€ä¸ªè®¢å•è¿˜æœªå¤„ç†å®Œ!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00077));
 
 			WPACKET WtPk	= GETWPACKET();
@@ -2330,7 +2330,7 @@ namespace mission
 		SItemData *pComData = GetItemData(lComID);
 		if(!pComData || pComData->store_head.comNumber == 0)
 		{
-			//pCha->SystemNotice("¸ÃÉÌÆ·ÒÑ³·¼Ü!");
+			//pCha->SystemNotice("è¯¥å•†å“å·²æ’¤æ¶!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00078));
 
 			WPACKET WtPk	= GETWPACKET();
@@ -2344,7 +2344,7 @@ namespace mission
 		cChar *szClsName = GetClassName(pComData->store_head.comClass);
 		if(szClsName)
 		{
-			//if(!strcmp(szClsName, "°×½ğ»áÔ±"))
+			//if(!strcmp(szClsName, "ç™½é‡‘ä¼šå‘˜"))
 			if(!strcmp(szClsName, RES_STRING(GM_CHARTRADE_CPP_00079)))
 			{
 				// Modify by lark.li 20080919 begin
@@ -2352,7 +2352,7 @@ namespace mission
 				if(pCha->GetPlayer()->GetVipType() == 0 || pCha->m_SChaPart.sTypeID == 1 || pCha->m_SChaPart.sTypeID == 2  )
 				// End
 				{
-					//pCha->SystemNotice("Ö»ÓĞ°×½ğ»áÔ±²ÅÄÜÂòÕâ¸öÉÌÆ·!");
+					//pCha->SystemNotice("åªæœ‰ç™½é‡‘ä¼šå‘˜æ‰èƒ½ä¹°è¿™ä¸ªå•†å“!");
 					pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00080));
 
 					WPACKET WtPk	= GETWPACKET();
@@ -2372,7 +2372,7 @@ namespace mission
 			CItemRecord* pItemRec = GetItemRecordInfo( pItem->itemID );
 			if( pItemRec == NULL )
 			{
-				//pCha->SystemNotice( "Request: ´íÎóµÄÎïÆ·Êı¾İÀàĞÍ£¡ID = %d", pItem->itemID );
+				//pCha->SystemNotice( "Request: é”™è¯¯çš„ç‰©å“æ•°æ®ç±»å‹ï¼ID = %d", pItem->itemID );
 				pCha->SystemNotice( RES_STRING(GM_CHARTRADE_CPP_00081), pItem->itemID );
 
 				WPACKET WtPk	= GETWPACKET();
@@ -2396,7 +2396,7 @@ namespace mission
 
 		if (!pCha->HasLeaveBagTempGrid(sGridNum))
 		{
-			//pCha->PopupNotice("ÄúµÄÁÙÊ±±³°ü¿Õ¼ä²»¹»!");
+			//pCha->PopupNotice("æ‚¨çš„ä¸´æ—¶èƒŒåŒ…ç©ºé—´ä¸å¤Ÿ!");
 			pCha->PopupNotice(RES_STRING(GM_CHARTRADE_CPP_00082));
 			return false;
 		}
@@ -2417,14 +2417,14 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number [ID:%I64i] repeat!\n", pNm->msgHead.msgOrder);
 
 			WPACKET WtPk	= GETWPACKET();
 			WRITE_CMD(WtPk, CMD_MC_STORE_BUY_ASR);
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->SystemNotice("ÉÌ³Ç²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("å•†åŸæ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00083));
 
 			return false;
@@ -2433,7 +2433,7 @@ namespace mission
 		{
 			pCha->SetStoreBuy(true);
 			PushOrder(pCha, pNm->msgHead.msgOrder, lComID, 1);
-			LG("Store_record", "½ÇÉ«[%s][ID:%ld]¶©¹ºÁËÉÌÆ·[ID:%ld]!\n", pChaInfo->chaName, pChaInfo->chaID, lComID);
+			LG("Store_record", "è§’è‰²[%s][ID:%ld]è®¢è´­äº†å•†å“[ID:%ld]!\n", pChaInfo->chaName, pChaInfo->chaID, lComID);
 			//LG("Store_record", "character [%s][ID:%ld] order merchandise [ID:%ld]!\n", pChaInfo->chaName, pChaInfo->chaID, lComID);
 		}
 		else
@@ -2442,10 +2442,10 @@ namespace mission
 			WRITE_CMD(WtPk, CMD_MC_STORE_BUY_ASR);
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->SystemNotice("ÉÌ³Ç½»Ò×Ê§°Ü!");
+			//pCha->SystemNotice("å•†åŸäº¤æ˜“å¤±è´¥!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00084));
 
-			//LG("Store_msg", "Request: InfoServer·¢ËÍÊ§°Ü!\n");
+			//LG("Store_msg", "Request: InfoServerå‘é€å¤±è´¥!\n");
 		
 		LG("Store_msg", "Request: InfoServer send failed!\n");}
 
@@ -2470,7 +2470,7 @@ namespace mission
 				pItem++;
 			}
 
-			//LG("Store_record", "½ÇÉ«[%s][ID:%ld]¹ºÂòÁËÉÌÆ·[ID:%ld], ¼ÓµÀ¾ß²Ù×÷³É¹¦!\n", pCha->GetName(), pCha->GetPlayer()->GetDBChaId(), lComID);
+			//LG("Store_record", "è§’è‰²[%s][ID:%ld]è´­ä¹°äº†å•†å“[ID:%ld], åŠ é“å…·æ“ä½œæˆåŠŸ!\n", pCha->GetName(), pCha->GetPlayer()->GetDBChaId(), lComID);
 			LG("Store_record", RES_STRING(GM_CHARTRADE_CPP_00085), pCha->GetName(), pCha->GetPlayer()->GetDBChaId(), lComID);
 
 			if(pComData->store_head.comNumber > 0)
@@ -2478,7 +2478,7 @@ namespace mission
 				pComData->store_head.comNumber--;
 			}
 
-			//É¾³ıÉÌÆ·
+			//åˆ é™¤å•†å“
 			if(pComData->store_head.comNumber <= 0 && pComData->store_head.comNumber != -1)
 			{
 				DelItemData(lComID);
@@ -2486,7 +2486,7 @@ namespace mission
 		}
 		else
 		{
-			//LG("Store_msg", "Accept2: ÕÒ²»µ½ÉÌÆ·[ID:%ld]!\n", lComID);
+			//LG("Store_msg", "Accept2: æ‰¾ä¸åˆ°å•†å“[ID:%ld]!\n", lComID);
 			LG("Store_msg", "Accept2: cannot find merchandise [ID:%ld]!\n", lComID);
 			return false;
 		}
@@ -2510,7 +2510,7 @@ namespace mission
 				pCha = pPlayer->GetMainCha();
 			}
 
-			//LG("Store_record", "½ÇÉ«[%s][ID:%ld]¹ºÂòÁËÉÌÆ·[ID:%ld], ÒÑ¿Û¿î!\n", ChaInfo->chaName, lChaID, lComID);
+			//LG("Store_record", "è§’è‰²[%s][ID:%ld]è´­ä¹°äº†å•†å“[ID:%ld], å·²æ‰£æ¬¾!\n", ChaInfo->chaName, lChaID, lComID);
 			LG("Store_record", "character[%s][ID:%ld] has buy res[ID:%ld], has buckle money!\n", ChaInfo->chaName, lChaID, lComID);
 			SItemData *pCData = GetItemData(lComID);
 			if(pCData->store_head.comNumber > 0)
@@ -2520,11 +2520,11 @@ namespace mission
 
 			if(!pCha)
 			{
-				//LG("Store_msg", "½ÇÉ«[%s][ID:%ld]ÒÑÀë¿ª!\n", ChaInfo->chaName, lChaID);
+				//LG("Store_msg", "è§’è‰²[%s][ID:%ld]å·²ç¦»å¼€!\n", ChaInfo->chaName, lChaID);
 				LG("Store_msg", "character[%s][ID:%ld] has leava!\n", ChaInfo->chaName, lChaID);
 			}
 
-			//¼ÓµÀ¾ß
+			//åŠ é“å…·
 			if(pCha)
 			{
 				pCha->SetStoreBuy(false);
@@ -2548,37 +2548,37 @@ namespace mission
 				}
 				else
 				{
-					LG("Store_msg", "ÕÒ²»µ½ÉÌÆ·[ID:%ld]!\n", lComID);
+					LG("Store_msg", "æ‰¾ä¸åˆ°å•†å“[ID:%ld]!\n", lComID);
 					//LG("Store_msg", "cannot finde merchandise[ID:%ld]!\n", lComID);
 				}
 			}
 			else
 			{
-				LG("Store_msg", "½ÇÉ«[%s][ID:%ld]²»ÔÚ±¾µØÍ¼!\n", ChaInfo->chaName, lChaID);
+				LG("Store_msg", "è§’è‰²[%s][ID:%ld]ä¸åœ¨æœ¬åœ°å›¾!\n", ChaInfo->chaName, lChaID);
 				//LG("Store_msg", "character[%s][ID:%ld] don't in this map!\n", ChaInfo->chaName, lChaID);
 
 				BOOL bOnline;
 				if(!game_db.IsChaOnline(lChaID, bOnline))
 				{
-					LG("Store_msg", "¶ÁÈ¡½ÇÉ«ÔÚÏß×´Ì¬Ê§°Ü¡£\n");
-					//LG("Store_msg", "it failed to get character online state¡£\n");
+					LG("Store_msg", "è¯»å–è§’è‰²åœ¨çº¿çŠ¶æ€å¤±è´¥ã€‚\n");
+					//LG("Store_msg", "it failed to get character online stateã€‚\n");
 				}
 				else
 				{
 					if(!bOnline)
 					{
-						LG("Store_msg", "½ÇÉ«²»ÔÚÏß¡£\n");
-						//LG("Store_msg", "character didn't online¡£\n");
+						LG("Store_msg", "è§’è‰²ä¸åœ¨çº¿ã€‚\n");
+						//LG("Store_msg", "character didn't onlineã€‚\n");
 
 						if(!game_db.SaveStoreItemID(lChaID, lComID))
 						{
-							LG("Store_msg", "´æÈëÀëÏß½ÇÉ«ÉÌÆ·ĞÅÏ¢Ê§°Ü¡£\n");
-							//LG("Store_msg", "it failed to memory merchandise information who did not online character¡£\n");
+							LG("Store_msg", "å­˜å…¥ç¦»çº¿è§’è‰²å•†å“ä¿¡æ¯å¤±è´¥ã€‚\n");
+							//LG("Store_msg", "it failed to memory merchandise information who did not online characterã€‚\n");
 						}
 					}
 					else
 					{
-						LG("Store_msg", "½ÇÉ«[%s][ID:%ld]ÔÚÆäËûµØÍ¼!\n", ChaInfo->chaName, lChaID);
+						LG("Store_msg", "è§’è‰²[%s][ID:%ld]åœ¨å…¶ä»–åœ°å›¾!\n", ChaInfo->chaName, lChaID);
 						//LG("Store_msg", "character[%s][ID:%ld]is in other map!\n", ChaInfo->chaName, lChaID);
 
 						BEGINGETGATE();
@@ -2603,7 +2603,7 @@ namespace mission
 									WRITE_LONG(WtPk, lComID);
 									//WRITE_LONG(WtPk, ChaInfo->moBean);
 									WRITE_LONG(WtPk, ChaInfo->rplMoney);
-									pChaOut->ReflectINFof(pChaOut, WtPk);//Í¨¸æ
+									pChaOut->ReflectINFof(pChaOut, WtPk);//é€šå‘Š
 
 									bFound = true;
 									break;
@@ -2618,12 +2618,12 @@ namespace mission
 					}
 				}
 			}
-			//¼ÇÂ¼
+			//è®°å½•
 			if(bSucc)
 			{
-				LG("Store_record", "½ÇÉ«[%s][ID:%ld]¹ºÂòÁËÉÌÆ·[ID:%ld], ¼ÓµÀ¾ß²Ù×÷³É¹¦!\n", pCha->GetName(), lChaID, lComID);
+				LG("Store_record", "è§’è‰²[%s][ID:%ld]è´­ä¹°äº†å•†å“[ID:%ld], åŠ é“å…·æ“ä½œæˆåŠŸ!\n", pCha->GetName(), lChaID, lComID);
 
-				//Í¨ÖªÍæ¼Ò½»Ò×³É¹¦
+				//é€šçŸ¥ç©å®¶äº¤æ˜“æˆåŠŸ
 				WPACKET WtPk	= GETWPACKET();
 				WRITE_CMD(WtPk, CMD_MC_STORE_BUY_ASR);
 				WRITE_CHAR(WtPk, 1);
@@ -2635,7 +2635,7 @@ namespace mission
 			{
 			}
 
-			//É¾³ıÉÌÆ·
+			//åˆ é™¤å•†å“
 			if(pCData->store_head.comNumber <= 0 && pCData->store_head.comNumber != -1)
 			{
 				DelItemData(lComID);
@@ -2643,7 +2643,7 @@ namespace mission
 		}
 		else
 		{
-			LG("Store_msg", "Accept:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			LG("Store_msg", "Accept:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			//LG("Store_msg", "Accept:not find order form[ID:%I64i]!\n", lOrderID);
 		}
         return true;
@@ -2664,7 +2664,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID != 0)
 		{
-			//Í¨ÖªÍæ¼Ò½»Ò×Ê§°Ü
+			//é€šçŸ¥ç©å®¶äº¤æ˜“å¤±è´¥
 			if(pCha)
 			{
 				pCha->SetStoreBuy(false);
@@ -2674,15 +2674,15 @@ namespace mission
 				WRITE_CHAR(WtPk, 0);
 				pCha->ReflectINFof(pCha, WtPk);
 
-				//pCha->SystemNotice("ÉÌ³Ç½»Ò×Ê§°Ü!");
+				//pCha->SystemNotice("å•†åŸäº¤æ˜“å¤±è´¥!");
 				pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00084));
-				LG("Store_data", "[%s]¹ºÂòµÀ¾ß[ComID:%ld]Ê§°Ü!\n", pCha->GetName(), OrderInfo.lComID);
+				LG("Store_data", "[%s]è´­ä¹°é“å…·[ComID:%ld]å¤±è´¥!\n", pCha->GetName(), OrderInfo.lComID);
 				//LG("Store_data", "[%s]failed to buy prop [ComID:%ld]!\n", pCha->GetName(), OrderInfo.lComID);
 			}
 		}
 		else
 		{
-			LG("Store_msg", "Cancel:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			LG("Store_msg", "Cancel:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			//LG("Store_msg", "Cancel:not find order form[ID:%I64i]!\n", lOrderID);
 		}
         return true;
@@ -2719,7 +2719,7 @@ namespace mission
 					}
 					if(pCha)
 					{
-						//pCha->SystemNotice("ÉÌ³Ç²Ù×÷³¬Ê±,ÒÑ±»È¡Ïû!");
+						//pCha->SystemNotice("å•†åŸæ“ä½œè¶…æ—¶,å·²è¢«å–æ¶ˆ!");
 						pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00095));
 					}
 
@@ -2734,7 +2734,7 @@ namespace mission
 
 	BOOL CStoreSystem::GetItemList()
 	{T_B
-		//LG("Store_msg", "ÇëÇóÉÌ³ÇÁĞ±í!\n");
+		//LG("Store_msg", "è¯·æ±‚å•†åŸåˆ—è¡¨!\n");
 		LG("Store_msg", "ask for store list!\n");
 		pNetMessage pNm = new NetMessage();
 		BuildNetMessage(pNm, INFO_REQUEST_STORE, 0, 0, 0, NULL, 0);
@@ -2757,7 +2757,7 @@ namespace mission
 			if(sPage > sPageNum)
 			{
 				sItemNum = 0;
-				LG("Store_msg", "Íæ¼ÒÇëÇóµÄÒ³Ãæ³¬³öÁË·¶Î§!\n");
+				LG("Store_msg", "ç©å®¶è¯·æ±‚çš„é¡µé¢è¶…å‡ºäº†èŒƒå›´!\n");
 				//LG("Store_msg", "player open-eared page layout over range!\n");
 			}
 			else if(sPage == sPageNum)
@@ -2853,14 +2853,14 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number[ID:%I64i]repeat!\n", pNm->msgHead.msgOrder);
 
 			WPACKET WtPk	= GETWPACKET();
 			WRITE_CMD(WtPk, CMD_MC_STORE_VIP);
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->SystemNotice("ÉÌ³Ç²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("å•†åŸæ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00083));
 
 			return false;
@@ -2876,7 +2876,7 @@ namespace mission
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
 
-		//	LG("Store_msg", "RequestVIP: InfoServer·¢ËÍÊ§°Ü!\n");
+		//	LG("Store_msg", "RequestVIP: InfoServerå‘é€å¤±è´¥!\n");
 			LG("Store_msg", "RequestVIP: InfoServer send failed!\n");
 		}
 
@@ -2894,7 +2894,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptVIP:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptVIP:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptVIP: cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -2921,9 +2921,9 @@ namespace mission
 			WRITE_LONG(WtPk, ChaInfo->rplMoney);
 			WRITE_LONG(WtPk, ChaInfo->moBean);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->PopupNotice("¹ºÂò°×½ğ»áÔ±³É¹¦!");
+			//pCha->PopupNotice("è´­ä¹°ç™½é‡‘ä¼šå‘˜æˆåŠŸ!");
 			pCha->PopupNotice(RES_STRING(GM_CHARTRADE_CPP_00086));
-			//LG("Store_data", "[%s]¹ºÂòVIP³É¹¦!\n", pCha->GetName());
+			//LG("Store_data", "[%s]è´­ä¹°VIPæˆåŠŸ!\n", pCha->GetName());
 			LG("Store_data", "[%s] purchase VIP succeed!\n", pCha->GetName());
 		}
 		return true;
@@ -2950,15 +2950,15 @@ namespace mission
 				WRITE_CMD(WtPk, CMD_MC_STORE_VIP);
 				WRITE_CHAR(WtPk, 0);
 				pCha->ReflectINFof(pCha, WtPk);
-				//pCha->PopupNotice("¹ºÂò°×½ğ»áÔ±Ê§°Ü!");
+				//pCha->PopupNotice("è´­ä¹°ç™½é‡‘ä¼šå‘˜å¤±è´¥!");
 				pCha->PopupNotice(RES_STRING(GM_CHARTRADE_CPP_00087));
-				//LG("Store_data", "[%s]¹ºÂòVIPÊ§°Ü!\n", pCha->GetName());
+				//LG("Store_data", "[%s]è´­ä¹°VIPå¤±è´¥!\n", pCha->GetName());
 				LG("Store_data", "[%s]perchase VIP failed!\n", pCha->GetName());
 			}
 		}
 		else
 		{
-			//LG("Store_msg", "CancelVIP:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "CancelVIP:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "CancelVIP:cannot find order form[ID:%I64i]!\n", lOrderID);
 		}
 		return true;
@@ -2982,14 +2982,14 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number [ID:%I64i] repeat!\n", pNm->msgHead.msgOrder);
 
 			WPACKET WtPk	= GETWPACKET();
 			WRITE_CMD(WtPk, CMD_MC_STORE_CHANGE_ASR);
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->SystemNotice("ÉÌ³Ç²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("å•†åŸæ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00083));
 
 			return false;
@@ -3005,7 +3005,7 @@ namespace mission
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
 
-			//LG("Store_msg", "RequestChange: InfoServer·¢ËÍÊ§°Ü!\n");
+			//LG("Store_msg", "RequestChange: InfoServerå‘é€å¤±è´¥!\n");
 			LG("Store_msg", "RequestChange: InfoServer send failed!\n");
 		}
 
@@ -3023,7 +3023,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptChange:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptChange:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptChange:cannot find order form [ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3048,7 +3048,7 @@ namespace mission
 			WRITE_LONG(WtPk, ChaInfo->moBean);
 			WRITE_LONG(WtPk, ChaInfo->rplMoney);
 			pCha->ReflectINFof(pCha, WtPk);
-			//LG("Store_data", "[%s]¶Ò»»´ú±Ò³É¹¦!\n", pCha->GetName());
+			//LG("Store_data", "[%s]å…‘æ¢ä»£å¸æˆåŠŸ!\n", pCha->GetName());
 			LG("Store_data", "[%s]change token succeed!\n", pCha->GetName());
 		}
 		return true;
@@ -3061,7 +3061,7 @@ namespace mission
 		SOrderData OrderInfo = PopOrder(lOrderID);
 		if(OrderInfo.lOrderID != 0)
 		{
-			//Í¨ÖªÍæ¼Ò¶Ò»»´ú±ÒÊ§°Ü
+			//é€šçŸ¥ç©å®¶å…‘æ¢ä»£å¸å¤±è´¥
 			CCharacter *pCha = NULL;
 			CPlayer *pPlayer = g_pGameApp->GetPlayerByDBID(OrderInfo.ChaID);
 			if(pPlayer)
@@ -3076,7 +3076,7 @@ namespace mission
 				WRITE_CMD(WtPk, CMD_MC_STORE_CHANGE_ASR);
 				WRITE_CHAR(WtPk, 0);
 				pCha->ReflectINFof(pCha, WtPk);
-				//LG("Store_data", "[%s]¶Ò»»´ú±ÒÊ§°Ü!\n", pCha->GetName());
+				//LG("Store_data", "[%s]å…‘æ¢ä»£å¸å¤±è´¥!\n", pCha->GetName());
 				LG("Store_data", "[%s]change token failed!\n", pCha->GetName());
 			}
 		}
@@ -3102,9 +3102,9 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number[ID:%I64i]repeat!\n", pNm->msgHead.msgOrder);
-			//pCha->SystemNotice("ÉÌ³Ç²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("å•†åŸæ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00083));
 
 			return false;
@@ -3131,7 +3131,7 @@ namespace mission
 				SetValid();
 			}
 
-			//LG("Store_msg", "RequestRoleInfo: InfoServer·¢ËÍÊ§°Ü!\n");
+			//LG("Store_msg", "RequestRoleInfo: InfoServerå‘é€å¤±è´¥!\n");
 			LG("Store_msg", "RequestRoleInfo: InfoServer send failed!\n");
 		}
 
@@ -3149,7 +3149,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptRoleInfo:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptRoleInfo:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptRoleInfo:cannot find order form [ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3173,7 +3173,7 @@ namespace mission
 			pCha->GetPlayer()->SetVipType(lVip);
 
 			g_StoreSystem.Open(pCha, lVip);
-			//LG("Store_data", "[%s]»ñÈ¡ÕÊ»§ĞÅÏ¢³É¹¦!\n", pCha->GetName());
+			//LG("Store_data", "[%s]è·å–å¸æˆ·ä¿¡æ¯æˆåŠŸ!\n", pCha->GetName());
 			LG("Store_data", "[%s]get account information succeed!\n", pCha->GetName());
 		}
 		return true;
@@ -3186,7 +3186,7 @@ namespace mission
 		SOrderData OrderInfo = PopOrder(lOrderID);
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "CancelRoleInfo:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "CancelRoleInfo:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "CancelRoleInfo:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3206,8 +3206,8 @@ namespace mission
 			pCha->GetPlayer()->SetVipType(0);
 			pCha->ResetStoreTime();
 			//g_StoreSystem.Open(pCha, 0);
-			/*pCha->SystemNotice("ÎŞ·¨²éµ½ÄúµÄÕËºÅ,´ò¿ªÉÌ³ÇÊ§°Ü!");
-			LG("Store_data", "[%s]»ñÈ¡ÕÊ»§ĞÅÏ¢Ê§°Ü!\n", pCha->GetName());*/
+			/*pCha->SystemNotice("æ— æ³•æŸ¥åˆ°æ‚¨çš„è´¦å·,æ‰“å¼€å•†åŸå¤±è´¥!");
+			LG("Store_data", "[%s]è·å–å¸æˆ·ä¿¡æ¯å¤±è´¥!\n", pCha->GetName());*/
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00088));
 			LG("Store_data", "[%s]get account information failed!\n", pCha->GetName());
 		}
@@ -3232,14 +3232,14 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number[ID:%I64i]repeat!\n", pNm->msgHead.msgOrder);
 
 			WPACKET WtPk	= GETWPACKET();
 			WRITE_CMD(WtPk, CMD_MC_STORE_QUERY);
 			WRITE_CHAR(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//pCha->SystemNotice("ÉÌ³Ç²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("å•†åŸæ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00083));
 
 			return false;
@@ -3255,7 +3255,7 @@ namespace mission
 			WRITE_LONG(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
 
-			//LG("Store_msg", "RequestRecord: InfoServer·¢ËÍÊ§°Ü!\n");
+			//LG("Store_msg", "RequestRecord: InfoServerå‘é€å¤±è´¥!\n");
 			LG("Store_msg", "RequestRecord: InfoServer send failed!\n");
 		}
 
@@ -3272,7 +3272,7 @@ namespace mission
 		SOrderData OrderInfo = PopOrder(lOrderID);
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptRecord:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptRecord:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptRecord:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3301,7 +3301,7 @@ namespace mission
 				pRecord++;
 			}
 			pCha->ReflectINFof(pCha, WtPk);
-			//LG("Store_data", "[%s]²éÑ¯½»Ò×¼ÇÂ¼³É¹¦!\n", pCha->GetName());
+			//LG("Store_data", "[%s]æŸ¥è¯¢äº¤æ˜“è®°å½•æˆåŠŸ!\n", pCha->GetName());
 			LG("Store_data", "[%s]query trade note succeed!\n", pCha->GetName());
 		}
 		return true;
@@ -3315,7 +3315,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "CancelRecord:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "CancelRecord:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "CancelRecord:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3333,7 +3333,7 @@ namespace mission
 			WRITE_CMD(WtPk, CMD_MC_STORE_QUERY);
 			WRITE_LONG(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
-			//LG("Store_data", "[%s]²éÑ¯½»Ò×¼ÇÂ¼Ê§°Ü!\n", pCha->GetName());
+			//LG("Store_data", "[%s]æŸ¥è¯¢äº¤æ˜“è®°å½•å¤±è´¥!\n", pCha->GetName());
 			LG("Store_data", "[%s]query trade note failed!\n", pCha->GetName());
 		}
 		return true;
@@ -3357,9 +3357,9 @@ namespace mission
 		{
 			SAFE_DELETE(pMi);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number[ID:%I64i]repeat!\n", pNm->msgHead.msgOrder);
-			//pCha->SystemNotice("ÓÊ¼ş²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("é‚®ä»¶æ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00089));
 
 			return false;
@@ -3370,8 +3370,8 @@ namespace mission
 		}
 		else
 		{
-			/*pCha->SystemNotice("GMÓÊ¼ş·¢ËÍÊ§°Ü£¬Èç¹ûÄúÒÑ¾­·¢ËÍ¹ıÒ»´ÎÓÊ¼ş£¬ÇëµÈ´ıGM»Ø¸´Ö®ºóÔÙ´Î·¢ËÍ!");
-			LG("Store_msg", "RequestGMSend: InfoServer·¢ËÍÊ§°Ü!\n");*/
+			/*pCha->SystemNotice("GMé‚®ä»¶å‘é€å¤±è´¥ï¼Œå¦‚æœæ‚¨å·²ç»å‘é€è¿‡ä¸€æ¬¡é‚®ä»¶ï¼Œè¯·ç­‰å¾…GMå›å¤ä¹‹åå†æ¬¡å‘é€!");
+			LG("Store_msg", "RequestGMSend: InfoServerå‘é€å¤±è´¥!\n");*/
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00090));
 			LG("Store_msg", "RequestGMSend: InfoServer send failed!\n");
 		}
@@ -3390,7 +3390,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptGMSend:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptGMSend:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptGMSend:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3404,8 +3404,8 @@ namespace mission
 
 		if(pCha)
 		{
-			/*pCha->SystemNotice("GMÓÊ¼ş·¢ËÍ³É¹¦, [ÎÊÌâID: %ld]!", lMailID);
-			LG("Store_data", "[%s]·¢ËÍGMÓÊ¼ş³É¹¦!\n", pCha->GetName());*/
+			/*pCha->SystemNotice("GMé‚®ä»¶å‘é€æˆåŠŸ, [é—®é¢˜ID: %ld]!", lMailID);
+			LG("Store_data", "[%s]å‘é€GMé‚®ä»¶æˆåŠŸ!\n", pCha->GetName());*/
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00091), lMailID);
 			LG("Store_data", "[%s]send GM mail succeed !\n", pCha->GetName());
 		}
@@ -3421,7 +3421,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "CancelGMSend:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "CancelGMSend:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "CancelGMSend:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3435,8 +3435,8 @@ namespace mission
 
 		if(pCha)
 		{
-			/*pCha->SystemNotice("GMÓÊ¼ş·¢ËÍÊ§°Ü£¬Èç¹ûÄúÒÑ¾­·¢ËÍ¹ıÒ»´ÎÓÊ¼ş£¬ÇëµÈ´ıGM»Ø¸´Ö®ºóÔÙ´Î·¢ËÍ!");
-			LG("Store_data", "[%s]·¢ËÍGMÓÊ¼şÊ§°Ü!\n", pCha->GetName());*/
+			/*pCha->SystemNotice("GMé‚®ä»¶å‘é€å¤±è´¥ï¼Œå¦‚æœæ‚¨å·²ç»å‘é€è¿‡ä¸€æ¬¡é‚®ä»¶ï¼Œè¯·ç­‰å¾…GMå›å¤ä¹‹åå†æ¬¡å‘é€!");
+			LG("Store_data", "[%s]å‘é€GMé‚®ä»¶å¤±è´¥!\n", pCha->GetName());*/
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00090));
 			LG("Store_data", "[%s]send GM mail failed!\n", pCha->GetName());
 		}
@@ -3462,9 +3462,9 @@ namespace mission
 		{
 			SAFE_DELETE(pChaInfo);
 			FreeNetMessage(pNm);
-			//LG("Store_msg", "¶©µ¥ºÅ[ID:%I64i]ÖØ¸´!\n", pNm->msgHead.msgOrder);
+			//LG("Store_msg", "è®¢å•å·[ID:%I64i]é‡å¤!\n", pNm->msgHead.msgOrder);
 			LG("Store_msg", "order form number [ID:%I64i]repeat!\n", pNm->msgHead.msgOrder);
-			//pCha->SystemNotice("ÓÊ¼ş²Ù×÷Ê§°Ü, ¶©µ¥ºÅÖØ¸´!");
+			//pCha->SystemNotice("é‚®ä»¶æ“ä½œå¤±è´¥, è®¢å•å·é‡å¤!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00089));
 
 			return false;
@@ -3475,9 +3475,9 @@ namespace mission
 		}
 		else
 		{
-			//pCha->SystemNotice("GMÓÊ¼ş½ÓÊÕÊ§°Ü!");
+			//pCha->SystemNotice("GMé‚®ä»¶æ¥æ”¶å¤±è´¥!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00092));
-			//LG("Store_msg", "RequestGMRecv: InfoServer·¢ËÍÊ§°Ü!\n");
+			//LG("Store_msg", "RequestGMRecv: InfoServerå‘é€å¤±è´¥!\n");
 			LG("Store_msg", "RequestGMRecv: InfoServersend failed!\n");
 		}
 
@@ -3495,7 +3495,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "AcceptGMRecv:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "AcceptGMRecv:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "AcceptGMRecv:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3515,8 +3515,8 @@ namespace mission
 			WRITE_STRING(WtPk, pMi->description);
 			WRITE_LONG(WtPk, static_cast<long>(pMi->sendTime));
 			pCha->ReflectINFof(pCha, WtPk);
-			/*pCha->SystemNotice("GMÓÊ¼ş»Ø¸´: [ÎÊÌâID: %ld]!", pMi->id);
-			LG("Store_data", "[%s]½ÓÊÕGMÓÊ¼ş³É¹¦!\n", pCha->GetName());*/
+			/*pCha->SystemNotice("GMé‚®ä»¶å›å¤: [é—®é¢˜ID: %ld]!", pMi->id);
+			LG("Store_data", "[%s]æ¥æ”¶GMé‚®ä»¶æˆåŠŸ!\n", pCha->GetName());*/
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00093), pMi->id);
 			LG("Store_data", "[%s] receive GM mail succeed!\n", pCha->GetName());
 		}
@@ -3532,7 +3532,7 @@ namespace mission
 
 		if(OrderInfo.lOrderID == 0)
 		{
-			//LG("Store_msg", "CancelGMRecv:ÕÒ²»µ½¶©µ¥[ID:%I64i]!\n", lOrderID);
+			//LG("Store_msg", "CancelGMRecv:æ‰¾ä¸åˆ°è®¢å•[ID:%I64i]!\n", lOrderID);
 			LG("Store_msg", "CancelGMRecv:cannot find order form[ID:%I64i]!\n", lOrderID);
 			return false;
 		}
@@ -3548,13 +3548,13 @@ namespace mission
 		{
 			WPACKET WtPk	= GETWPACKET();
 			WRITE_CMD(WtPk, CMD_MC_GM_MAIL);
-			//WRITE_STRING(WtPk, "GMÃ»ÓĞÓÊ¼ş¸øÄã!");
+			//WRITE_STRING(WtPk, "GMæ²¡æœ‰é‚®ä»¶ç»™ä½ !");
 			WRITE_STRING(WtPk, "GM do not have mail send to you!");
 			WRITE_STRING(WtPk, "");
 			WRITE_LONG(WtPk, 0);
 			pCha->ReflectINFof(pCha, WtPk);
 
-			//LG("Store_data", "[%s]½ÓÊÕGMÓÊ¼şÊ§°Ü!\n", pCha->GetName());
+			//LG("Store_data", "[%s]æ¥æ”¶GMé‚®ä»¶å¤±è´¥!\n", pCha->GetName());
 		
 			LG("Store_data", "[%s]receive GM mail failed!\n", pCha->GetName());
 		}
@@ -3564,7 +3564,7 @@ namespace mission
 
 	BOOL CStoreSystem::GetAfficheList()
 	{T_B
-		//LG("Store_msg", "ÇëÇó¹«¸æÁĞ±í!\n");
+		//LG("Store_msg", "è¯·æ±‚å…¬å‘Šåˆ—è¡¨!\n");
 		LG("Store_msg", "ask for affiche list!\n");
 		pNetMessage pNm = new NetMessage();
 		BuildNetMessage(pNm, INFO_REQUEST_AFFICHE, 0, 0, 0, NULL, 0);
@@ -3577,7 +3577,7 @@ namespace mission
 	{
 		try
 		{
-			//LG("Store_msg", "ÉèÖÃÉÌ³ÇµÀ¾ßÁĞ±í!\n");
+			//LG("Store_msg", "è®¾ç½®å•†åŸé“å…·åˆ—è¡¨!\n");
 			LG("Store_msg", "set store item list!\n");
 
 			ClearItemList();
@@ -3592,7 +3592,7 @@ namespace mission
 				long lItemNum = pStore->itemNum;
 				time_t lComTime = pStore->comTime;
 
-				//·ÖÅäÉÌÆ·½Úµã
+				//åˆ†é…å•†å“èŠ‚ç‚¹
 				SItemData ItemNode;
 				memcpy(&ItemNode.store_head, pStore, sizeof(StoreInfo));
 				if(lItemNum > 0)
@@ -3603,7 +3603,7 @@ namespace mission
 				else
 					ItemNode.pItemArray = NULL;
 
-				//²åÈëÉÌÆ·ÁĞ±í
+				//æ’å…¥å•†å“åˆ—è¡¨
 				map< long, vector<SItemData> >::iterator map_it = m_ItemList.find(lClsID);
 				if(map_it != m_ItemList.end())
 				{
@@ -3625,7 +3625,7 @@ namespace mission
 			}
 
 			//for test
-			//LG("Store_info", "ÉÌ³ÇÉÌÆ·:\n");
+			//LG("Store_info", "å•†åŸå•†å“:\n");
 			LG("Store_info", "store merchandise:\n");
 			vector<ClassInfo>::iterator cls_it = m_ItemClass.begin();
 			{
@@ -3660,7 +3660,7 @@ namespace mission
 		}
 		catch(...)
 		{
-			//LG("Store_error", "CStoreSystem::SetItemList() Î´ÖªÒì³£!\n");
+			//LG("Store_error", "CStoreSystem::SetItemList() æœªçŸ¥å¼‚å¸¸!\n");
 			LG("Store_error", "CStoreSystem::SetItemList() unknown abnormity!\n");
 		}
 
@@ -3676,7 +3676,7 @@ namespace mission
 
 	BOOL CStoreSystem::SetItemClass(ClassInfo *pClassList, long lNum)
 	{T_B
-		//LG("Store_msg", "ÉèÖÃÉÌ³ÇµÀ¾ß·ÖÀà!\n");
+		//LG("Store_msg", "è®¾ç½®å•†åŸé“å…·åˆ†ç±»!\n");
 		LG("Store_msg", "set store item sort!\n");
 		ClearItemClass();
 		while(lNum-- > 0)
@@ -3686,7 +3686,7 @@ namespace mission
 		}
 
 		//for test
-		//LG("Store_info", "ÉÌ³Ç·ÖÀà:\n");
+		//LG("Store_info", "å•†åŸåˆ†ç±»:\n");
 		LG("Store_info", "store sort:\n");
 		vector<ClassInfo>::iterator it = m_ItemClass.begin();
 		while(it != m_ItemClass.end())
@@ -3707,7 +3707,7 @@ namespace mission
 
 	BOOL CStoreSystem::SetAfficheList(AfficheInfo *pAfficheList, long lNum)
 	{T_B
-		//LG("Store_msg", "ÉèÖÃÉÌ³Ç¹«¸æÁĞ±í!\n");
+		//LG("Store_msg", "è®¾ç½®å•†åŸå…¬å‘Šåˆ—è¡¨!\n");
 		LG("Store_msg", "set stroe affiche list!\n");
 		ClearAfficheList();
 		while(lNum > 0)
@@ -3718,7 +3718,7 @@ namespace mission
 		}
 
 		//for test
-		//LG("Store_info", "ÉÌ³Ç¹«¸æ:\n");
+		//LG("Store_info", "å•†åŸå…¬å‘Š:\n");
 		LG("Store_info", "store affiche:\n");
 		vector<AfficheInfo>::iterator it = m_AfficheList.begin();
 		while(it != m_AfficheList.end())
@@ -3763,22 +3763,22 @@ namespace mission
 		}
 		WPACKET WtPk	= GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MC_STORE_OPEN_ASR);
-		WRITE_CHAR(WtPk, bValid);	// ÉÌ³ÇÊÇ·ñ¿ªÆô
+		WRITE_CHAR(WtPk, bValid);	// å•†åŸæ˜¯å¦å¼€å¯
 
 		if(bValid == 1)
 		{
 			WRITE_LONG(WtPk, vip);
-			WRITE_LONG(WtPk, pCha->GetPlayer()->GetMoBean());	// Ä¦¶¹
-			WRITE_LONG(WtPk, pCha->GetPlayer()->GetRplMoney());	// Ôª±¦
+			WRITE_LONG(WtPk, pCha->GetPlayer()->GetMoBean());	// æ‘©è±†
+			WRITE_LONG(WtPk, pCha->GetPlayer()->GetRplMoney());	// å…ƒå®
 
-			WRITE_LONG(WtPk, lAfficheNum);	// ¹«¸æÊıÁ¿
+			WRITE_LONG(WtPk, lAfficheNum);	// å…¬å‘Šæ•°é‡
 			for(i = 0; i < lAfficheNum; i++)
 			{
 				WRITE_LONG(WtPk, m_AfficheList[i].affiID);
 				WRITE_SEQ(WtPk, m_AfficheList[i].affiTitle, uShort(strlen(m_AfficheList[i].affiTitle) + 1));
 				WRITE_SEQ(WtPk, m_AfficheList[i].comID, uShort(strlen(m_AfficheList[i].comID) + 1));
 			}
-			WRITE_LONG(WtPk, lClsNum);	// ·ÖÀàÊıÁ¿
+			WRITE_LONG(WtPk, lClsNum);	// åˆ†ç±»æ•°é‡
 			for(i = 0; i < lClsNum; i++)
 			{
 				WRITE_SHORT(WtPk, m_ItemClass[i].clsID);
@@ -3790,7 +3790,7 @@ namespace mission
 
 		if(bValid != 1)
 		{
-			//pCha->SystemNotice("ÄÚÖÃÉÌ³Ç»¹Î´¿ªÕÅ,ÕıÔÚ´ò¿ªÉÌ³ÇÍøÒ³!");
+			//pCha->SystemNotice("å†…ç½®å•†åŸè¿˜æœªå¼€å¼ ,æ­£åœ¨æ‰“å¼€å•†åŸç½‘é¡µ!");
 			pCha->SystemNotice(RES_STRING(GM_CHARTRADE_CPP_00094));
 		}
 

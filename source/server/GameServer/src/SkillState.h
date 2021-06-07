@@ -19,19 +19,19 @@ struct SSkillStateUnit
 	unsigned char	uchStateID;
 	unsigned char	uchStateLv;
 
-	char			chCenter;		// ���ڱ�ʾ�Ƿ�������״̬�����ģ������ڵر�״̬������
-	unsigned char	uchFightID;		// �����ڿͻ��˽���˳��ʶ��
-	char			chObjType;		// ״̬���õ�Ŀ�����ͣ��������з��������ڵ���״̬�����õ�Ŀ�����ѡ��
-	char			chObjHabitat;	// ״̬���õ�Ŀ����Ϣ�����ͣ�½�أ��������ܣ������ڵ���״̬�����õ�Ŀ�����ѡ��
-	char			chEffType;		// ״̬���õ�Ч�����ͣ�����ģ��к��ģ������ڵ���״̬�����õ�Ŀ�����ѡ��
-	// ״̬�ͷ��ߵı�ʾ
+	char			chCenter;		// 用于标示是否是区域状态的中心，仅用于地表状态！！！
+	unsigned char	uchFightID;		// 仅用于客户端进行顺序识别
+	char			chObjType;		// 状态作用的目标类型（己方，敌方），用于地面状态对作用的目标进行选择
+	char			chObjHabitat;	// 状态作用的目标栖息地类型（陆地，海洋，两栖），用于地面状态对作用的目标进行选择
+	char			chEffType;		// 状态作用的效果类型（有益的，有害的），用于地面状态对作用的目标进行选择
+	// 状态释放者的标示
 	unsigned long	ulSrcWorldID;
 	long			lSrcHandle;
 	//
 
-	long			lOnTick;		// �롣-1��ʾ���޳���ʱ�䣬>0��ʾ���޳���ʱ�䣬0δʹ��
-	unsigned long	ulStartTick;	// ����
-	unsigned long	ulLastTick;		// ����
+	long			lOnTick;		// 秒。-1表示无限持续时间，>0表示有限持续时间，0未使用
+	unsigned long	ulStartTick;	// 毫秒
+	unsigned long	ulLastTick;		// 毫秒
 
 	unsigned char	GetStateID() {return uchStateID;}
 	unsigned char	GetStateLv() {return uchStateLv;}
@@ -78,8 +78,8 @@ private:
 	unsigned char	m_uchMaxState;
 	SSkillStateUnit	m_SState[SKILL_STATE_MAXID + 1];
 
-	char			m_szChangeFlag[SSTATE_SIGN_BYTE_NUM]; // ��ʶ�ı�ļ���״̬
-	unsigned char	m_uchChangeNum; // ����״̬�ı�ĸ���
+	char			m_szChangeFlag[SSTATE_SIGN_BYTE_NUM]; // 标识改变的技能状态
+	unsigned char	m_uchChangeNum; // 技能状态改变的个数
 	unsigned char	m_uchCurGetNo;
 };
 
@@ -234,9 +234,9 @@ inline SSkillStateUnit* CSkillState::GetSStateByNum(unsigned char uchNum)
 
 	if (m_pSState[uchNum]->uchStateLv > 0)
 		return m_pSState[uchNum];
-	else // �÷�֧��Ӧ��ִ��
+	else // 该分支不应该执行
 	{
-		//LG("״̬��������", "msg״̬������ͳ�Ƹ�����ʵ�ʸ���������!");
+		//LG("状态链表错误", "msg状态链表的统计个数与实际个数不符合!");
 		return 0;
 	}
 T_E}

@@ -1,250 +1,234 @@
-#include "StdAfx.h"
 #include "NetChat.h"
+#include "StdAfx.h"
 
+#include "Algo.h"
 #include "Character.h"
-#include "Scene.h"
+#include "CharacterRecord.h"
+#include "CommFunc.h"
+#include "DrawPointList.h"
 #include "GameApp.h"
-#include "actor.h"
+#include "GameAppMsg.h"
 #include "NetProtocol.h"
 #include "PacketCmd.h"
-#include "GameAppMsg.h"
-#include "CharacterRecord.h"
-#include "DrawPointList.h"
-#include "Algo.h"
-#include "CommFunc.h"
+#include "Scene.h"
 #include "ShipSet.h"
-#include "uistartform.h"
 #include "UIChat.h"
-
+#include "actor.h"
+#include "uistartform.h"
 
 _DBC_USING
 
 //----------------------------
-// –≠“ÈC->S : ∑¢ÀÕ»´ÃÂ¡ƒÃÏœ˚œ¢
+// ÂçèËÆÆC->S : ÂèëÈÄÅÂÖ®‰ΩìËÅäÂ§©Ê∂àÊÅØ
 //----------------------------
-void  CS_GMSay(const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_GMSAY);	//√¸¡Ó
-	pk.WriteString(pszContent);
+void CS_GMSay(const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_GMSAY); //ÂëΩ‰ª§
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
 
-void  CS_GM1Say(const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_GM1SAY);	//√¸¡Ó
-	pk.WriteString(pszContent);
+void CS_GM1Say(const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_GM1SAY); //ÂëΩ‰ª§
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
 
-//add by sunny.sun20080804
-void  CS_GM1Say1(const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_GM1SAY1);	//√¸¡Ó
-	pk.WriteString(pszContent);
+// add by sunny.sun20080804
+void CS_GM1Say1(const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_GM1SAY1); //ÂëΩ‰ª§
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
-//End
-void  CS_Say2Trade(const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_SAY2TRADE);	//√¸¡Ó
-	pk.WriteString(pszContent);
+// End
+void CS_Say2Trade(const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_SAY2TRADE); //ÂëΩ‰ª§
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
-void CS_Say2All(const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_SAY2ALL);	//√¸¡Ó
-	pk.WriteString(pszContent);
+void CS_Say2All(const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_SAY2ALL); //ÂëΩ‰ª§
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
-void  CP_RefuseToMe(bool refusetome)	//…Ë÷√æ‹æ¯ÀΩ¡ƒ±Í÷æ
+void CP_RefuseToMe(bool refusetome) //ËÆæÁΩÆÊãíÁªùÁßÅËÅäÊ†áÂøó
 {
-	WPacket	pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_REFUSETOME);
-	pk.WriteChar(refusetome?1:0);
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_REFUSETOME);
+  pk.WriteChar(refusetome ? 1 : 0);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
-void  CS_Say2You(const char *you,const char *pszContent)
-{
-	WPacket pk	=g_NetIF->GetWPacket();
-	pk.WriteCmd(CMD_CP_SAY2YOU);	//√¸¡Ó
-	pk.WriteString(you);
-	pk.WriteString(pszContent);
+void CS_Say2You(const char *you, const char *pszContent) {
+  WPacket pk = g_NetIF->GetWPacket();
+  pk.WriteCmd(CMD_CP_SAY2YOU); //ÂëΩ‰ª§
+  pk.WriteString(you);
+  pk.WriteString(pszContent);
 
-	g_NetIF->SendPacketMessage(pk);
+  g_NetIF->SendPacketMessage(pk);
 }
-void  CS_Say2Team(const char *pszContent)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SAY2TEM);
-	l_wpk.WriteString(pszContent);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Say2Team(const char *pszContent) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SAY2TEM);
+  l_wpk.WriteString(pszContent);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Say2Guild( const char* pszContent)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SAY2GUD);
-	l_wpk.WriteString(pszContent);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Say2Guild(const char *pszContent) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SAY2GUD);
+  l_wpk.WriteString(pszContent);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Team_Invite(const char *chaname)
-{
-	if( !g_stUIStart.IsCanTeamAndInfo() ) return;
+void CS_Team_Invite(const char *chaname) {
+  if (!g_stUIStart.IsCanTeamAndInfo())
+    return;
 
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_TEAM_INVITE);
-	l_wpk.WriteString(chaname);
-	g_NetIF->SendPacketMessage(l_wpk);
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_TEAM_INVITE);
+  l_wpk.WriteString(chaname);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Team_Refuse(unsigned long chaid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_TEAM_REFUSE);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Team_Refuse(unsigned long chaid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_TEAM_REFUSE);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Team_Confirm(unsigned long chaid)
-{
-	if( !g_stUIStart.IsCanTeamAndInfo() ) return;
+void CS_Team_Confirm(unsigned long chaid) {
+  if (!g_stUIStart.IsCanTeamAndInfo())
+    return;
 
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_TEAM_ACCEPT);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_TEAM_ACCEPT);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Team_Kick( DWORD dwKickedID )
-{
-	if( !g_stUIStart.IsCanTeamAndInfo() ) return;
+void CS_Team_Kick(DWORD dwKickedID) {
+  if (!g_stUIStart.IsCanTeamAndInfo())
+    return;
 
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_TEAM_KICK);
-	l_wpk.WriteLong( dwKickedID );
-	g_NetIF->SendPacketMessage(l_wpk);
-}
-
-void  CS_Team_Leave()
-{
-	if( !g_stUIStart.IsCanTeamAndInfo() ) return;
-
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_TEAM_LEAVE);
-	g_NetIF->SendPacketMessage(l_wpk);
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_TEAM_KICK);
+  l_wpk.WriteLong(dwKickedID);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CS_Frnd_Invite(const char *chaname)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_INVITE);
-	l_wpk.WriteString(chaname);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Team_Leave() {
+  if (!g_stUIStart.IsCanTeamAndInfo())
+    return;
+
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_TEAM_LEAVE);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Frnd_Refuse(unsigned long chaid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_REFUSE);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+
+void CS_Frnd_Invite(const char *chaname) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_INVITE);
+  l_wpk.WriteString(chaname);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Frnd_Confirm(unsigned long chaid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_ACCEPT);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Frnd_Refuse(unsigned long chaid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_REFUSE);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Frnd_Delete(unsigned long chaid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_DELETE);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CS_Frnd_Confirm(unsigned long chaid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_ACCEPT);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
+}
+void CS_Frnd_Delete(unsigned long chaid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_DELETE);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
 // Add by lark.li 20080804 begin
-void  CP_Frnd_Del_Group(const char * groupname)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_DEL_GROUP);
-	l_wpk.WriteString(groupname);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CP_Frnd_Del_Group(const char *groupname) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_DEL_GROUP);
+  l_wpk.WriteString(groupname);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CP_Frnd_Add_Group(const char * groupname)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_ADD_GROUP);
-	l_wpk.WriteString(groupname);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CP_Frnd_Add_Group(const char *groupname) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_ADD_GROUP);
+  l_wpk.WriteString(groupname);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
-void  CP_Frnd_Move_Group(unsigned long chaid, const char * oldgroup,const char * newgroup)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_MOVE_GROUP);
-	l_wpk.WriteLong(chaid);
-	l_wpk.WriteString(oldgroup);
-	l_wpk.WriteString(newgroup);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CP_Frnd_Move_Group(unsigned long chaid, const char *oldgroup,
+                        const char *newgroup) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_MOVE_GROUP);
+  l_wpk.WriteLong(chaid);
+  l_wpk.WriteString(oldgroup);
+  l_wpk.WriteString(newgroup);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 // End
 
-void  CP_Frnd_Change_Group(const char * oldgroup,const char * newgroup)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_CHANGE_GROUP);
-	l_wpk.WriteString(oldgroup);
-	l_wpk.WriteString(newgroup);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CP_Frnd_Change_Group(const char *oldgroup, const char *newgroup) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_CHANGE_GROUP);
+  l_wpk.WriteString(oldgroup);
+  l_wpk.WriteString(newgroup);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CP_Frnd_Refresh_Info(unsigned long chaid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_FRND_REFRESH_INFO);
-	l_wpk.WriteLong(chaid);
-	g_NetIF->SendPacketMessage(l_wpk);
+void CP_Frnd_Refresh_Info(unsigned long chaid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_FRND_REFRESH_INFO);
+  l_wpk.WriteLong(chaid);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 
 // Add by lark.li 20080808 begin
-void  CP_Query_PersonInfo(stQueryPersonInfo *pInfo)
-{
-	WPacket	l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_QUERY_PERSONINFO);
+void CP_Query_PersonInfo(stQueryPersonInfo *pInfo) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_QUERY_PERSONINFO);
 
-	l_wpk.WriteString(pInfo->sChaName);			// √˚◊÷
-	l_wpk.WriteChar(pInfo->bHavePic);			//  «∑Òœ‘ æÕ∑œÒ
-	l_wpk.WriteString(pInfo->cSex);				// –‘±	  1 «ƒ– 0 «≈Æµƒ
-	l_wpk.WriteLong(pInfo->nMinAge[0]);			// ƒÍ¡‰≤È—Øµƒm_nMinAge[1]◊Ó¥Û∫Õm_nMinAge[0]◊Ó–°÷µ
-	l_wpk.WriteLong(pInfo->nMinAge[1]);			// 
-	l_wpk.WriteString(pInfo->szAnimalZodiac);	// …˙–§
-	l_wpk.WriteLong(pInfo->iBirthday[0]);		// ≤È—Ø≥ˆ…˙ƒÍµƒm_nBirth[1]◊Ó¥Û∫Õm_nBirth[0]◊Ó–°÷µ
-	l_wpk.WriteLong(pInfo->iBirthday[1]);		// 
-	l_wpk.WriteString(pInfo->szState);			//  °∑›
-	l_wpk.WriteString(pInfo->szCity);			// ≥« –
-	l_wpk.WriteString(pInfo->szConstellation);	// –«◊˘
-	l_wpk.WriteString(pInfo->szCareer);			// π§◊˜
-	l_wpk.WriteLong(pInfo->nPageItemNum);		// √ø“ª“≥œ‘ æµƒ∏ˆ ˝
-	l_wpk.WriteLong(pInfo->nCurPage);			// µ±«∞“≥ ˝
+  l_wpk.WriteString(pInfo->sChaName); // ÂêçÂ≠ó
+  l_wpk.WriteChar(pInfo->bHavePic);   // ÊòØÂê¶ÊòæÁ§∫Â§¥ÂÉè
+  l_wpk.WriteString(pInfo->cSex);     // ÊÄßÂà´	  1ÊòØÁî∑ 0ÊòØÂ•≥ÁöÑ
+  l_wpk.WriteLong(
+      pInfo->nMinAge[0]); // Âπ¥ÈæÑÊü•ËØ¢ÁöÑm_nMinAge[1]ÊúÄÂ§ßÂíåm_nMinAge[0]ÊúÄÂ∞èÂÄº
+  l_wpk.WriteLong(pInfo->nMinAge[1]);       //
+  l_wpk.WriteString(pInfo->szAnimalZodiac); // ÁîüËÇñ
+  l_wpk.WriteLong(
+      pInfo->iBirthday[0]); // Êü•ËØ¢Âá∫ÁîüÂπ¥ÁöÑm_nBirth[1]ÊúÄÂ§ßÂíåm_nBirth[0]ÊúÄÂ∞èÂÄº
+  l_wpk.WriteLong(pInfo->iBirthday[1]);      //
+  l_wpk.WriteString(pInfo->szState);         // ÁúÅ‰ªΩ
+  l_wpk.WriteString(pInfo->szCity);          // ÂüéÂ∏Ç
+  l_wpk.WriteString(pInfo->szConstellation); // ÊòüÂ∫ß
+  l_wpk.WriteString(pInfo->szCareer);        // Â∑•‰Ωú
+  l_wpk.WriteLong(pInfo->nPageItemNum);      // ÊØè‰∏ÄÈ°µÊòæÁ§∫ÁöÑ‰∏™Êï∞
+  l_wpk.WriteLong(pInfo->nCurPage);          // ÂΩìÂâçÈ°µÊï∞
 
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 // End
 
-//void  CP_Change_PersonInfo(const stQueryPersonInfo *pinfo,unsigned short icon,bool refuse_sess)
+// void  CP_Change_PersonInfo(const stQueryPersonInfo *pinfo,unsigned short
+// icon,bool refuse_sess)
 //{
 //	// Modify by lark.li 20080807 begin
 //	//WPacket l_wpk	=g_NetIF->GetWPacket();
@@ -258,23 +242,23 @@ void  CP_Query_PersonInfo(stQueryPersonInfo *pInfo)
 //	/*stPersonInfo info;
 //	strncpy(info.szMotto, pinfo, sizeof(info.szMotto));
 //	info.bShowMotto = true;
-//	strncpy(info.szSex, "–‘±", sizeof(info.szMotto));
+//	strncpy(info.szSex, "ÊÄßÂà´", sizeof(info.szMotto));
 //	info.sAge = 30;
-//	strncpy(info.szName, "√˚◊÷", sizeof(info.szMotto));
-//	strncpy(info.szAnimalZodiac, " Ùœ‡", sizeof(info.szMotto));
-//	strncpy(info.szBloodType, "—™–Õ", sizeof(info.szMotto));
+//	strncpy(info.szName, "ÂêçÂ≠ó", sizeof(info.szMotto));
+//	strncpy(info.szAnimalZodiac, "Â±ûÁõ∏", sizeof(info.szMotto));
+//	strncpy(info.szBloodType, "Ë°ÄÂûã", sizeof(info.szMotto));
 //	info.iBirthday = 8<<4 + 8;
-//	strncpy(info.szState, "÷›£® °£©", sizeof(info.szMotto));
-//	strncpy(info.szCity, "≥« –£®«¯£©", sizeof(info.szMotto));
-//	strncpy(info.szConstellation, "–«◊˘", sizeof(info.szMotto));
-//	strncpy(info.szCareer, "÷∞“µ", sizeof(info.szMotto));
+//	strncpy(info.szState, "Â∑ûÔºàÁúÅÔºâ", sizeof(info.szMotto));
+//	strncpy(info.szCity, "ÂüéÂ∏ÇÔºàÂå∫Ôºâ", sizeof(info.szMotto));
+//	strncpy(info.szConstellation, "ÊòüÂ∫ß", sizeof(info.szMotto));
+//	strncpy(info.szCareer, "ËÅå‰∏ö", sizeof(info.szMotto));
 //	info.iSize = 0;*/
 //
 //	//FILE* file = fopen("c:\\lark.jpg","rb");
 //	//if(file)
 //	//{
 //	//	size_t len = fread(info.pAvatar, 1, 8*1024, file);
-//	//	
+//	//
 //	//	if(feof( file ))
 //	//	{
 //	//		info.iSize = len;
@@ -293,502 +277,464 @@ void  CP_Query_PersonInfo(stQueryPersonInfo *pInfo)
 //	stQueryPersonInfo query;
 //	query.nPageItemNum = 1;
 //	query.nCurPage = 1;
-//	strncpy(query.sChaName, "√˚◊÷", sizeof(query.sChaName));		// √˚◊÷
+//	strncpy(query.sChaName, "ÂêçÂ≠ó", sizeof(query.sChaName));		//
+//ÂêçÂ≠ó
 //
 //	CP_Query_PersonInfo(&query);
 //	// End
 //}
 
 // Add by lark.li 20080807 begin
-void  CP_Change_PersonInfo(stPersonInfo *pInfo ,const char* pOldMotto/*◊˘”“√˙*/)
-{
-	WPacket	l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_CHANGE_PERSONINFO);
+void CP_Change_PersonInfo(stPersonInfo *pInfo,
+                          const char *pOldMotto /*Â∫ßÂè≥Èì≠*/) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_CHANGE_PERSONINFO);
 
-	l_wpk.WriteString(pInfo->szMotto);				// «©√˚
-	l_wpk.WriteChar(pInfo->bShowMotto);				// œ‘ æ«©√˚ø™πÿ
-	l_wpk.WriteString(pInfo->szSex);					// –‘±
-	l_wpk.WriteLong(pInfo->sAge);						// ƒÍ¡‰
-	l_wpk.WriteString(pInfo->szName);				// √˚◊÷
-	l_wpk.WriteString(pInfo->szAnimalZodiac);		//  Ùœ‡
-	l_wpk.WriteString(pInfo->szBloodType);			// —™–Õ
-	l_wpk.WriteLong(pInfo->iBirthday);			// …˙»’
-	l_wpk.WriteString(pInfo->szState);				// ÷›£® °£©
-	l_wpk.WriteString(pInfo->szCity);				// ≥« –£®«¯£©
-	l_wpk.WriteString(pInfo->szConstellation);		// –«◊˘
-	l_wpk.WriteString(pInfo->szCareer);				// ÷∞“µ
-	l_wpk.WriteLong(pInfo->iSize);						// Õ∑œÒ¥Û–°
-	l_wpk.WriteSequence(pInfo->pAvatar,pInfo->iSize);		// Õ∑œÒ
-	l_wpk.WriteChar(pInfo->bPprevent);					//  «∑Ò◊Ë÷πœ˚œ¢
-	l_wpk.WriteLong(pInfo->iSupport);					// œ ª® ˝
-	l_wpk.WriteLong(pInfo->iOppose);					// ≥Ùº¶µ∞ ˝
+  l_wpk.WriteString(pInfo->szMotto);                 // Á≠æÂêç
+  l_wpk.WriteChar(pInfo->bShowMotto);                // ÊòæÁ§∫Á≠æÂêçÂºÄÂÖ≥
+  l_wpk.WriteString(pInfo->szSex);                   // ÊÄßÂà´
+  l_wpk.WriteLong(pInfo->sAge);                      // Âπ¥ÈæÑ
+  l_wpk.WriteString(pInfo->szName);                  // ÂêçÂ≠ó
+  l_wpk.WriteString(pInfo->szAnimalZodiac);          // Â±ûÁõ∏
+  l_wpk.WriteString(pInfo->szBloodType);             // Ë°ÄÂûã
+  l_wpk.WriteLong(pInfo->iBirthday);                 // ÁîüÊó•
+  l_wpk.WriteString(pInfo->szState);                 // Â∑ûÔºàÁúÅÔºâ
+  l_wpk.WriteString(pInfo->szCity);                  // ÂüéÂ∏ÇÔºàÂå∫Ôºâ
+  l_wpk.WriteString(pInfo->szConstellation);         // ÊòüÂ∫ß
+  l_wpk.WriteString(pInfo->szCareer);                // ËÅå‰∏ö
+  l_wpk.WriteLong(pInfo->iSize);                     // Â§¥ÂÉèÂ§ßÂ∞è
+  l_wpk.WriteSequence(pInfo->pAvatar, pInfo->iSize); // Â§¥ÂÉè
+  l_wpk.WriteChar(pInfo->bPprevent);                 // ÊòØÂê¶ÈòªÊ≠¢Ê∂àÊÅØ
+  l_wpk.WriteLong(pInfo->iSupport);                  // È≤úËä±Êï∞
+  l_wpk.WriteLong(pInfo->iOppose);                   // Ëá≠È∏°ËõãÊï∞
 
-	l_wpk.WriteString(pOldMotto);				// ◊˘”“√˙
+  l_wpk.WriteString(pOldMotto); // Â∫ßÂè≥Èì≠
 
-
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 // End
 
-void  CS_Sess_Create(const char *chaname[],unsigned char chanum)
-{
-	WPacket	l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SESS_CREATE);
-	l_wpk.WriteChar(chanum);
-	for(char i=0;i<chanum; i++)
-	{
-		l_wpk.WriteString(chaname[i]);
-	}
+void CS_Sess_Create(const char *chaname[], unsigned char chanum) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SESS_CREATE);
+  l_wpk.WriteChar(chanum);
+  for (char i = 0; i < chanum; i++) {
+    l_wpk.WriteString(chaname[i]);
+  }
 
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Sess_Add(unsigned long sessid,const char *chaname)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SESS_ADD);
-	l_wpk.WriteLong(sessid);
-	l_wpk.WriteString(chaname);
+void CS_Sess_Add(unsigned long sessid, const char *chaname) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SESS_ADD);
+  l_wpk.WriteLong(sessid);
+  l_wpk.WriteString(chaname);
 
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Sess_Leave(unsigned long sessid)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SESS_LEAVE);
-	l_wpk.WriteLong(sessid);
+void CS_Sess_Leave(unsigned long sessid) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SESS_LEAVE);
+  l_wpk.WriteLong(sessid);
 
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
-void  CS_Sess_Say(unsigned long sessid,const char *word)
-{
-	WPacket l_wpk	=g_NetIF->GetWPacket();
-	l_wpk.WriteCmd(CMD_CP_SESS_SAY);
-	l_wpk.WriteLong(sessid);
-	l_wpk.WriteString(word);
+void CS_Sess_Say(unsigned long sessid, const char *word) {
+  WPacket l_wpk = g_NetIF->GetWPacket();
+  l_wpk.WriteCmd(CMD_CP_SESS_SAY);
+  l_wpk.WriteLong(sessid);
+  l_wpk.WriteString(word);
 
-	g_NetIF->SendPacketMessage(l_wpk);
+  g_NetIF->SendPacketMessage(l_wpk);
 }
 //--------------------
-// –≠“ÈS->C : ÀΩ¡ƒ
+// ÂçèËÆÆS->C : ÁßÅËÅä
 //--------------------
-BOOL	PC_Say2You(LPRPACKET pk)
-{
-	stNetSay2You l_say;
-	l_say.m_src		=pk.ReadString();
-	l_say.m_dst		=pk.ReadString();
-	l_say.m_content	=pk.ReadString();
-	NetSay2You(l_say);
-	return TRUE;
+BOOL PC_Say2You(LPRPACKET pk) {
+  stNetSay2You l_say;
+  l_say.m_src = pk.ReadString();
+  l_say.m_dst = pk.ReadString();
+  l_say.m_content = pk.ReadString();
+  NetSay2You(l_say);
+  return TRUE;
 }
-BOOL	PC_Say2Team(LPRPACKET pk)
-{
-	unsigned long l_chaid	=pk.ReadLong();
-	const char	* l_word	=pk.ReadString();
-	NetSay2Team(l_chaid,l_word);
-	return TRUE;
+BOOL PC_Say2Team(LPRPACKET pk) {
+  unsigned long l_chaid = pk.ReadLong();
+  const char *l_word = pk.ReadString();
+  NetSay2Team(l_chaid, l_word);
+  return TRUE;
 }
 
-BOOL	PC_Say2Gud(LPRPACKET pk)
-{
-	const char  * l_src		=pk.ReadString();
-	const char	* l_word	=pk.ReadString();
-	NetSay2Gud(l_src,l_word);
-	return TRUE;
+BOOL PC_Say2Gud(LPRPACKET pk) {
+  const char *l_src = pk.ReadString();
+  const char *l_word = pk.ReadString();
+  NetSay2Gud(l_src, l_word);
+  return TRUE;
 }
 
-BOOL	PC_Say2All(LPRPACKET pk)
-{
-	stNetSay2All l_say;
-	l_say.m_src		=pk.ReadString();
-	l_say.m_content	=pk.ReadString();
-	NetSay2All(l_say);
-	return TRUE;
+BOOL PC_Say2All(LPRPACKET pk) {
+  stNetSay2All l_say;
+  l_say.m_src = pk.ReadString();
+  l_say.m_content = pk.ReadString();
+  NetSay2All(l_say);
+  return TRUE;
 }
-BOOL	PC_GM1SAY(LPRPACKET pk)
-{
-	stNetSay2All l_say;
-	l_say.m_src		=pk.ReadString();
-	l_say.m_content	=pk.ReadString();
-	NetGM1Say(l_say);
-	return TRUE;
+BOOL PC_GM1SAY(LPRPACKET pk) {
+  stNetSay2All l_say;
+  l_say.m_src = pk.ReadString();
+  l_say.m_content = pk.ReadString();
+  NetGM1Say(l_say);
+  return TRUE;
 }
-//Add by sunny.sun20080804
-BOOL	PC_GM1SAY1(LPRPACKET pk)
-{
-	stNetScrollSay l_say;
-	l_say.m_content	=pk.ReadString();
-	l_say.setnum = pk.ReadLong();
-	NetGM1Say1(l_say);
-	return TRUE;
+// Add by sunny.sun20080804
+BOOL PC_GM1SAY1(LPRPACKET pk) {
+  stNetScrollSay l_say;
+  l_say.m_content = pk.ReadString();
+  l_say.setnum = pk.ReadLong();
+  NetGM1Say1(l_say);
+  return TRUE;
 }
-//End
-BOOL	PC_SAY2TRADE(LPRPACKET pk)
-{
-	stNetSay2All l_say;
-	l_say.m_src		=pk.ReadString();
-	l_say.m_content	=pk.ReadString();
-	NetSay2Trade(l_say);
-	return TRUE;
+// End
+BOOL PC_SAY2TRADE(LPRPACKET pk) {
+  stNetSay2All l_say;
+  l_say.m_src = pk.ReadString();
+  l_say.m_content = pk.ReadString();
+  NetSay2Trade(l_say);
+  return TRUE;
 }
-BOOL	PC_SESS_CREATE(LPRPACKET pk)
-{
-	uLong	l_newsessid	=pk.ReadLong();
-	if(!l_newsessid)
-	{
-		NetSessCreate(pk.ReadString());
-	}else
-	{
-		uShort	l_chanum	=pk.ReverseReadShort();
-		if(!l_chanum && l_chanum >100) return FALSE;
+BOOL PC_SESS_CREATE(LPRPACKET pk) {
+  uLong l_newsessid = pk.ReadLong();
+  if (!l_newsessid) {
+    NetSessCreate(pk.ReadString());
+  } else {
+    uShort l_chanum = pk.ReverseReadShort();
+    if (!l_chanum && l_chanum > 100)
+      return FALSE;
 
-		stNetSessCreate l_nsc[100];
-		for(uShort i=0;i<l_chanum;i++)
-		{
-			l_nsc[i].lChaID		=pk.ReadLong();
-			l_nsc[i].szChaName	=pk.ReadString();
-			l_nsc[i].szMotto	=pk.ReadString();
-			l_nsc[i].sIconID	=pk.ReadShort();
-		}
-		NetSessCreate(l_newsessid,l_nsc,l_chanum);
-	}
-	return TRUE;
+    stNetSessCreate l_nsc[100];
+    for (uShort i = 0; i < l_chanum; i++) {
+      l_nsc[i].lChaID = pk.ReadLong();
+      l_nsc[i].szChaName = pk.ReadString();
+      l_nsc[i].szMotto = pk.ReadString();
+      l_nsc[i].sIconID = pk.ReadShort();
+    }
+    NetSessCreate(l_newsessid, l_nsc, l_chanum);
+  }
+  return TRUE;
 }
-BOOL	PC_SESS_ADD(LPRPACKET pk)
-{
-	stNetSessCreate l_nsc;
-	uLong	l_sessid=pk.ReadLong();
-	l_nsc.lChaID	=pk.ReadLong();
-	l_nsc.szChaName	=pk.ReadString();
-	l_nsc.szMotto	=pk.ReadString();
-	l_nsc.sIconID	=pk.ReadShort();
-	NetSessAdd(l_sessid,&l_nsc);
-	return TRUE;
+BOOL PC_SESS_ADD(LPRPACKET pk) {
+  stNetSessCreate l_nsc;
+  uLong l_sessid = pk.ReadLong();
+  l_nsc.lChaID = pk.ReadLong();
+  l_nsc.szChaName = pk.ReadString();
+  l_nsc.szMotto = pk.ReadString();
+  l_nsc.sIconID = pk.ReadShort();
+  NetSessAdd(l_sessid, &l_nsc);
+  return TRUE;
 }
-BOOL	PC_SESS_LEAVE(LPRPACKET pk)
-{
-	uLong l_sessid	=pk.ReadLong();
-	uLong l_chaid	=pk.ReadLong();
-	NetSessLeave(l_sessid,l_chaid);
-	return TRUE;
+BOOL PC_SESS_LEAVE(LPRPACKET pk) {
+  uLong l_sessid = pk.ReadLong();
+  uLong l_chaid = pk.ReadLong();
+  NetSessLeave(l_sessid, l_chaid);
+  return TRUE;
 }
-BOOL	PC_SESS_SAY(LPRPACKET pk)
-{
-	uLong	l_sessid	=pk.ReadLong();
-	uLong	l_chaid		=pk.ReadLong();
-	cChar*	l_word		=pk.ReadString();
-	NetSessSay(l_sessid,l_chaid,l_word);
-	return TRUE;
+BOOL PC_SESS_SAY(LPRPACKET pk) {
+  uLong l_sessid = pk.ReadLong();
+  uLong l_chaid = pk.ReadLong();
+  cChar *l_word = pk.ReadString();
+  NetSessSay(l_sessid, l_chaid, l_word);
+  return TRUE;
 }
-BOOL	PC_TEAM_INVITE(LPRPACKET pk)
-{
-	const char * l_inviter_name =pk.ReadString();
-	uLong		 l_inviter_chaid=pk.ReadLong();
-	uShort		 l_inviter_icon	=pk.ReadShort();
-	NetTeamInvite(l_inviter_name,l_inviter_chaid,l_inviter_icon);
-	return TRUE;
+BOOL PC_TEAM_INVITE(LPRPACKET pk) {
+  const char *l_inviter_name = pk.ReadString();
+  uLong l_inviter_chaid = pk.ReadLong();
+  uShort l_inviter_icon = pk.ReadShort();
+  NetTeamInvite(l_inviter_name, l_inviter_chaid, l_inviter_icon);
+  return TRUE;
 }
-BOOL	PC_TEAM_CANCEL(LPRPACKET pk)
-{
-	unsigned char reason =pk.ReadChar();
-	NetTeamCancel(pk.ReadLong(),reason);
-	return TRUE;
+BOOL PC_TEAM_CANCEL(LPRPACKET pk) {
+  unsigned char reason = pk.ReadChar();
+  NetTeamCancel(pk.ReadLong(), reason);
+  return TRUE;
 }
-//◊È∂”≥…‘±±‰ªØ–≈œ¢À¢–¬
-BOOL	PC_TEAM_REFRESH(LPRPACKET pk)
-{
-	stNetPCTeam	l_pcteam;
-	l_pcteam.kind	=pk.ReadChar();
-	l_pcteam.count	=pk.ReadChar();  
+//ÁªÑÈòüÊàêÂëòÂèòÂåñ‰ø°ÊÅØÂà∑Êñ∞
+BOOL PC_TEAM_REFRESH(LPRPACKET pk) {
+  stNetPCTeam l_pcteam;
+  l_pcteam.kind = pk.ReadChar();
+  l_pcteam.count = pk.ReadChar();
 
-   // LG("Team", "Kind:[%u], Count[%u]\n", l_pcteam.kind, l_pcteam.count );
+  // LG("Team", "Kind:[%u], Count[%u]\n", l_pcteam.kind, l_pcteam.count );
 
-	// ◊Ó¥Û10∏ˆ
-	l_pcteam.count = min(l_pcteam.count, 10);
+  // ÊúÄÂ§ß10‰∏™
+  l_pcteam.count = min(l_pcteam.count, 10);
 
-	for(unsigned char i=0;i<l_pcteam.count;i++)
-	{
-		l_pcteam.cha_dbid[i]	=pk.ReadLong();
-		/*strcpy( l_pcteam.cha_name[i], pk.ReadString() );
-		strcpy( l_pcteam.motto[i], pk.ReadString() );*/
-		strncpy_s( l_pcteam.cha_name[i],sizeof(l_pcteam.cha_name), pk.ReadString(),_TRUNCATE );
-		strncpy_s( l_pcteam.motto[i],sizeof(l_pcteam.motto[i]) ,pk.ReadString(),_TRUNCATE );
-		l_pcteam.cha_icon[i]		=pk.ReadShort();
+  for (unsigned char i = 0; i < l_pcteam.count; i++) {
+    l_pcteam.cha_dbid[i] = pk.ReadLong();
+    /*strcpy( l_pcteam.cha_name[i], pk.ReadString() );
+    strcpy( l_pcteam.motto[i], pk.ReadString() );*/
+    strncpy_s(l_pcteam.cha_name[i], sizeof(l_pcteam.cha_name), pk.ReadString(),
+              _TRUNCATE);
+    strncpy_s(l_pcteam.motto[i], sizeof(l_pcteam.motto[i]), pk.ReadString(),
+              _TRUNCATE);
+    l_pcteam.cha_icon[i] = pk.ReadShort();
 
-       // LG("Team", "    DB_ID:[%u], Name[%s]\n", l_pcteam.cha_dbid[i], l_pcteam.cha_name[i] );
-	}    
+    // LG("Team", "    DB_ID:[%u], Name[%s]\n", l_pcteam.cha_dbid[i],
+    // l_pcteam.cha_name[i] );
+  }
 
-	NetPCTeam(l_pcteam);
-	return TRUE;
+  NetPCTeam(l_pcteam);
+  return TRUE;
 }
-BOOL PC_FRND_INVITE(LPRPACKET pk)
-{
-	const char * l_inviter_name =pk.ReadString();
-	uLong		 l_inviter_chaid=pk.ReadLong();
-	uShort		 l_inviter_icon	=pk.ReadShort();
-	NetFrndInvite(l_inviter_name,l_inviter_chaid,l_inviter_icon);
-	return TRUE;
+BOOL PC_FRND_INVITE(LPRPACKET pk) {
+  const char *l_inviter_name = pk.ReadString();
+  uLong l_inviter_chaid = pk.ReadLong();
+  uShort l_inviter_icon = pk.ReadShort();
+  NetFrndInvite(l_inviter_name, l_inviter_chaid, l_inviter_icon);
+  return TRUE;
 }
-BOOL PC_FRND_CANCEL(LPRPACKET pk)
-{
-	unsigned char reason =pk.ReadChar();
-	NetFrndCancel(pk.ReadLong(),reason);
-	return TRUE;
+BOOL PC_FRND_CANCEL(LPRPACKET pk) {
+  unsigned char reason = pk.ReadChar();
+  NetFrndCancel(pk.ReadLong(), reason);
+  return TRUE;
 }
-BOOL PC_FRND_REFRESH(LPRPACKET pk)
-{
-	unsigned char l_type =pk.ReadChar();
-	switch (l_type)
-	{
-	case MSG_FRND_REFRESH_ONLINE:
-		{
-			NetFrndOnline(pk.ReadLong());
-		}
-		break;
-	case MSG_FRND_REFRESH_OFFLINE:
-		{
-			NetFrndOffline(pk.ReadLong());
-		}
-		break;
-	case MSG_FRND_REFRESH_DEL:
-		{
-			NetFrndDel(pk.ReadLong());
-		}
-		break;
-	case MSG_FRND_REFRESH_ADD:
-		{
-			cChar	*l_grp		=pk.ReadString();
-			uLong	l_chaid		=pk.ReadLong();
-			cChar	*l_chaname	=pk.ReadString();
-			cChar	*l_motto	=pk.ReadString();
-			uShort	l_icon		=pk.ReadShort();
-			NetFrndAdd(l_chaid,l_chaname,l_motto,l_icon,l_grp);
-		}
-		break;
-	case MSG_FRND_REFRESH_START:
-		{
-			stNetFrndStart l_self;
-			l_self.lChaid	=pk.ReadLong();
-			l_self.szChaname=pk.ReadString();
-			l_self.szMotto	=pk.ReadString();
-			l_self.sIconID	=pk.ReadShort();
+BOOL PC_FRND_REFRESH(LPRPACKET pk) {
+  unsigned char l_type = pk.ReadChar();
+  switch (l_type) {
+  case MSG_FRND_REFRESH_ONLINE: {
+    NetFrndOnline(pk.ReadLong());
+  } break;
+  case MSG_FRND_REFRESH_OFFLINE: {
+    NetFrndOffline(pk.ReadLong());
+  } break;
+  case MSG_FRND_REFRESH_DEL: {
+    NetFrndDel(pk.ReadLong());
+  } break;
+  case MSG_FRND_REFRESH_ADD: {
+    cChar *l_grp = pk.ReadString();
+    uLong l_chaid = pk.ReadLong();
+    cChar *l_chaname = pk.ReadString();
+    cChar *l_motto = pk.ReadString();
+    uShort l_icon = pk.ReadShort();
+    NetFrndAdd(l_chaid, l_chaname, l_motto, l_icon, l_grp);
+  } break;
+  case MSG_FRND_REFRESH_START: {
+    stNetFrndStart l_self;
+    l_self.lChaid = pk.ReadLong();
+    l_self.szChaname = pk.ReadString();
+    l_self.szMotto = pk.ReadString();
+    l_self.sIconID = pk.ReadShort();
 
-			// Modify by lark.li 20080806 begin
-			//stNetFrndStart l_nfs[100];
-			stNetFrndStart l_nfs[200];
-			// End
+    // Modify by lark.li 20080806 begin
+    // stNetFrndStart l_nfs[100];
+    stNetFrndStart l_nfs[200];
+    // End
 
-			// Add by lark.li 20080804 begin
-			uShort	l_grpnamenum	=pk.ReadShort();
-			if(l_grpnamenum > 10)
-				l_grpnamenum = 10;
+    // Add by lark.li 20080804 begin
+    uShort l_grpnamenum = pk.ReadShort();
+    if (l_grpnamenum > 10)
+      l_grpnamenum = 10;
 
-			string groupNames[10];
+    string groupNames[10];
 
-			for(uShort l_grpi =0;l_grpi<l_grpnamenum;l_grpi++)
-			{
-				groupNames[l_grpi]=pk.ReadString();	
-			}
-			// End
+    for (uShort l_grpi = 0; l_grpi < l_grpnamenum; l_grpi++) {
+      groupNames[l_grpi] = pk.ReadString();
+    }
+    // End
 
-			uShort	l_nfnum=0,l_grpnum	=pk.ReadShort();
-			for(uShort l_grpi =0;l_grpi<l_grpnum;l_grpi++)
-			{
-				cChar*	l_grp		=pk.ReadString();
-				uShort	l_grpmnum	=pk.ReadShort();
-				for(uShort l_grpmi =0;l_grpmi<l_grpmnum;l_grpmi++)
-				{
-					l_nfs[l_nfnum].szGroup	=l_grp;
-					l_nfs[l_nfnum].lChaid	=pk.ReadLong();
-					l_nfs[l_nfnum].szChaname=pk.ReadString();
-					l_nfs[l_nfnum].szMotto	=pk.ReadString();
-					l_nfs[l_nfnum].sIconID	=pk.ReadShort();
-					l_nfs[l_nfnum].cStatus	=pk.ReadChar();
-					l_nfnum	++;
+    uShort l_nfnum = 0, l_grpnum = pk.ReadShort();
+    for (uShort l_grpi = 0; l_grpi < l_grpnum; l_grpi++) {
+      cChar *l_grp = pk.ReadString();
+      uShort l_grpmnum = pk.ReadShort();
+      for (uShort l_grpmi = 0; l_grpmi < l_grpmnum; l_grpmi++) {
+        l_nfs[l_nfnum].szGroup = l_grp;
+        l_nfs[l_nfnum].lChaid = pk.ReadLong();
+        l_nfs[l_nfnum].szChaname = pk.ReadString();
+        l_nfs[l_nfnum].szMotto = pk.ReadString();
+        l_nfs[l_nfnum].sIconID = pk.ReadShort();
+        l_nfs[l_nfnum].cStatus = pk.ReadChar();
+        l_nfnum++;
 
-					// Add by lark.li 20080806 begin
-					if(l_nfnum >= 200)
-						break;
-					// End
-				}
+        // Add by lark.li 20080806 begin
+        if (l_nfnum >= 200)
+          break;
+        // End
+      }
 
-				// Add by lark.li 20080806 begin
-				if(l_nfnum >= 200)
-					break;
-				// End
-			}
+      // Add by lark.li 20080806 begin
+      if (l_nfnum >= 200)
+        break;
+      // End
+    }
 
-			// Modify by lark.li 20080804 begin
-			//NetFrndStart(l_self,l_nfs,l_nfnum);
-			NetFrndStart(l_self,l_nfs,l_nfnum,groupNames,l_grpnamenum);
-			// End
-		}
-		break;
-	}
-	return TRUE;
+    // Modify by lark.li 20080804 begin
+    // NetFrndStart(l_self,l_nfs,l_nfnum);
+    NetFrndStart(l_self, l_nfs, l_nfnum, groupNames, l_grpnamenum);
+    // End
+  } break;
+  }
+  return TRUE;
 }
 
 // Add by lark.li 20080805 begin
-BOOL	PC_FRND_DEL_GROUP(LPRPACKET pk)
-{
-	const char	* l_grp				=pk.ReadString();
-	NetFrndDelGroup(l_grp);
-	return TRUE;
+BOOL PC_FRND_DEL_GROUP(LPRPACKET pk) {
+  const char *l_grp = pk.ReadString();
+  NetFrndDelGroup(l_grp);
+  return TRUE;
 }
 
-BOOL	PC_FRND_ADD_GROUP(LPRPACKET pk)
-{
-	const char	* l_grp				=pk.ReadString();
-	NetFrndAddGroup(l_grp);
-	return TRUE;
+BOOL PC_FRND_ADD_GROUP(LPRPACKET pk) {
+  const char *l_grp = pk.ReadString();
+  NetFrndAddGroup(l_grp);
+  return TRUE;
 }
 
-BOOL	PC_FRND_MOVE_GROUP(LPRPACKET pk)
-{
-	unsigned long l_changed_chaid	=pk.ReadLong();
-	const char	* l_grp1				=pk.ReadString();
-	const char	* l_grp2				=pk.ReadString();
-	NetFrndMoveGroup(l_changed_chaid,l_grp1,l_grp2);
-	return TRUE;
+BOOL PC_FRND_MOVE_GROUP(LPRPACKET pk) {
+  unsigned long l_changed_chaid = pk.ReadLong();
+  const char *l_grp1 = pk.ReadString();
+  const char *l_grp2 = pk.ReadString();
+  NetFrndMoveGroup(l_changed_chaid, l_grp1, l_grp2);
+  return TRUE;
 }
 // End
 
-BOOL	PC_FRND_CHANGE_GROUP(LPRPACKET pk)
-{
-	// Modify by lark.li 20080805 begin
-	//unsigned long l_changed_chaid	=pk.ReadLong();
-	//const char	* l_grp				=pk.ReadString();
-	//NetFrndChangeGroup(l_changed_chaid,l_grp);
-	const char	* l_grp1				=pk.ReadString();
-	const char	* l_grp2				=pk.ReadString();
-	NetFrndChangeGroup(l_grp1,l_grp2);
-	// End
+BOOL PC_FRND_CHANGE_GROUP(LPRPACKET pk) {
+  // Modify by lark.li 20080805 begin
+  // unsigned long l_changed_chaid	=pk.ReadLong();
+  // const char	* l_grp				=pk.ReadString();
+  // NetFrndChangeGroup(l_changed_chaid,l_grp);
+  const char *l_grp1 = pk.ReadString();
+  const char *l_grp2 = pk.ReadString();
+  NetFrndChangeGroup(l_grp1, l_grp2);
+  // End
 
-	return TRUE;
+  return TRUE;
 }
-BOOL	PC_FRND_REFRESH_INFO(LPRPACKET pk)
-{
-	stPersonInfo info;
-	const char* act_name = pk.ReadString(); //Add by sunny.sun ∫√”—µƒ’ ªß√˚
+BOOL PC_FRND_REFRESH_INFO(LPRPACKET pk) {
+  stPersonInfo info;
+  const char *act_name = pk.ReadString(); // Add by sunny.sun Â•ΩÂèãÁöÑÂ∏êÊà∑Âêç
 
-	//add guojiangang 20090211
-	if ( strcmp(const_cast<char*>(act_name), g_stUIChat._PictureCChat.getUserName()))
-	{
-		g_stUIChat._PictureCChat.setVisitorName(const_cast<char*>(act_name)); 
-	}
-	//end
+  // add guojiangang 20090211
+  if (strcmp(const_cast<char *>(act_name),
+             g_stUIChat._PictureCChat.getUserName())) {
+    g_stUIChat._PictureCChat.setVisitorName(const_cast<char *>(act_name));
+  }
+  // end
 
-	unsigned long l_chaid	=pk.ReadLong();
-	const char	* l_motto	=pk.ReadString();
-	unsigned short l_icon	=pk.ReadShort();
-	unsigned short l_degr	=pk.ReadShort();
-	if(l_degr==0)
-		l_degr=1;
-	const char	* l_job		=pk.ReadString();
-	const char	* l_guild	=pk.ReadString();
-	//bool _bFind = pk.ReadChar();
-	bool _bFind = ( pk.ReadChar() == 1 ? true:false );
-	if (_bFind)
-	{
-		// Add by lark.li 20080808 begin
-		uShort	l_len;
-		//strncpy(info.szMotto, pk.ReadString(&l_len), sizeof(info.szMotto));
-		////info.bShowMotto = pk.ReadChar();
-		//info.bShowMotto = (bool)pk.ReadChar();
-		//strncpy(info.szSex, pk.ReadString(&l_len), sizeof(info.szSex));
-		//info.sAge = (short)pk.ReadLong();
-		//strncpy(info.szName, pk.ReadString(&l_len), sizeof(info.szName));
-		//strncpy(info.szAnimalZodiac, pk.ReadString(&l_len), sizeof(info.szAnimalZodiac));
-		//strncpy(info.szBloodType, pk.ReadString(&l_len), sizeof(info.szBloodType));
-		//info.iBirthday = pk.ReadLong();
-		//strncpy(info.szState, pk.ReadString(&l_len), sizeof(info.szState));
-		//strncpy(info.szCity, pk.ReadString(&l_len), sizeof(info.szCity));
-		//strncpy(info.szConstellation, pk.ReadString(&l_len), sizeof(info.szConstellation));
-		//strncpy(info.szCareer, pk.ReadString(&l_len), sizeof(info.szCareer));
+  unsigned long l_chaid = pk.ReadLong();
+  const char *l_motto = pk.ReadString();
+  unsigned short l_icon = pk.ReadShort();
+  unsigned short l_degr = pk.ReadShort();
+  if (l_degr == 0)
+    l_degr = 1;
+  const char *l_job = pk.ReadString();
+  const char *l_guild = pk.ReadString();
+  // bool _bFind = pk.ReadChar();
+  bool _bFind = (pk.ReadChar() == 1 ? true : false);
+  if (_bFind) {
+    // Add by lark.li 20080808 begin
+    uShort l_len;
+    // strncpy(info.szMotto, pk.ReadString(&l_len), sizeof(info.szMotto));
+    ////info.bShowMotto = pk.ReadChar();
+    // info.bShowMotto = (bool)pk.ReadChar();
+    // strncpy(info.szSex, pk.ReadString(&l_len), sizeof(info.szSex));
+    // info.sAge = (short)pk.ReadLong();
+    // strncpy(info.szName, pk.ReadString(&l_len), sizeof(info.szName));
+    // strncpy(info.szAnimalZodiac, pk.ReadString(&l_len),
+    // sizeof(info.szAnimalZodiac)); strncpy(info.szBloodType,
+    // pk.ReadString(&l_len), sizeof(info.szBloodType)); info.iBirthday =
+    // pk.ReadLong(); strncpy(info.szState, pk.ReadString(&l_len),
+    // sizeof(info.szState)); strncpy(info.szCity, pk.ReadString(&l_len),
+    // sizeof(info.szCity)); strncpy(info.szConstellation, pk.ReadString(&l_len),
+    // sizeof(info.szConstellation)); strncpy(info.szCareer,
+    // pk.ReadString(&l_len), sizeof(info.szCareer));
 
-		strncpy_s(info.szMotto,sizeof(info.szMotto), pk.ReadString(&l_len), _TRUNCATE);
-		//info.bShowMotto = pk.ReadChar();
-		info.bShowMotto = ( pk.ReadChar() == 1 ? true : false);
-		strncpy_s(info.szSex,sizeof(info.szSex), pk.ReadString(&l_len),_TRUNCATE );
-		info.sAge = (short)pk.ReadLong();
-		strncpy_s(info.szName,sizeof(info.szName), pk.ReadString(&l_len),_TRUNCATE );
-		strncpy_s(info.szAnimalZodiac,sizeof(info.szAnimalZodiac), pk.ReadString(&l_len), _TRUNCATE);
-		strncpy_s(info.szBloodType,sizeof(info.szBloodType), pk.ReadString(&l_len),_TRUNCATE );
-		info.iBirthday = pk.ReadLong();
-		strncpy_s(info.szState,sizeof(info.szState), pk.ReadString(&l_len), _TRUNCATE);
-		strncpy_s(info.szCity,sizeof(info.szCity), pk.ReadString(&l_len),_TRUNCATE );
-		strncpy_s(info.szConstellation,sizeof(info.szConstellation), pk.ReadString(&l_len), _TRUNCATE);
-		strncpy_s(info.szCareer, sizeof(info.szCareer),pk.ReadString(&l_len), _TRUNCATE);
-		info.iSize = pk.ReadLong();
+    strncpy_s(info.szMotto, sizeof(info.szMotto), pk.ReadString(&l_len),
+              _TRUNCATE);
+    // info.bShowMotto = pk.ReadChar();
+    info.bShowMotto = (pk.ReadChar() == 1 ? true : false);
+    strncpy_s(info.szSex, sizeof(info.szSex), pk.ReadString(&l_len), _TRUNCATE);
+    info.sAge = (short)pk.ReadLong();
+    strncpy_s(info.szName, sizeof(info.szName), pk.ReadString(&l_len),
+              _TRUNCATE);
+    strncpy_s(info.szAnimalZodiac, sizeof(info.szAnimalZodiac),
+              pk.ReadString(&l_len), _TRUNCATE);
+    strncpy_s(info.szBloodType, sizeof(info.szBloodType), pk.ReadString(&l_len),
+              _TRUNCATE);
+    info.iBirthday = pk.ReadLong();
+    strncpy_s(info.szState, sizeof(info.szState), pk.ReadString(&l_len),
+              _TRUNCATE);
+    strncpy_s(info.szCity, sizeof(info.szCity), pk.ReadString(&l_len),
+              _TRUNCATE);
+    strncpy_s(info.szConstellation, sizeof(info.szConstellation),
+              pk.ReadString(&l_len), _TRUNCATE);
+    strncpy_s(info.szCareer, sizeof(info.szCareer), pk.ReadString(&l_len),
+              _TRUNCATE);
+    info.iSize = pk.ReadLong();
 
-		if(info.iSize>0 && info.iSize<8*1024)
-		{
-			memcpy(info.pAvatar, pk.ReadSequence(l_len), info.iSize);
-		}
+    if (info.iSize > 0 && info.iSize < 8 * 1024) {
+      memcpy(info.pAvatar, pk.ReadSequence(l_len), info.iSize);
+    }
 
-		//info.bPprevent = pk.ReadChar();
-		info.bPprevent = (pk.ReadChar() == 1 ? true : false);
-		info.iSupport = pk.ReadLong();
-		info.iOppose = pk.ReadLong();
-		// End
+    // info.bPprevent = pk.ReadChar();
+    info.bPprevent = (pk.ReadChar() == 1 ? true : false);
+    info.iSupport = pk.ReadLong();
+    info.iOppose = pk.ReadLong();
+    // End
 
-	}
-	else
-	{
-		
-	}
+  } else {
+  }
 
-	// Modify by lark.li 20080808 begin
-	//NetFrndRefreshInfo(l_chaid,l_motto,l_icon,l_degr,l_job,l_guild);
-	NetFrndRefreshInfo(l_chaid,&info,l_motto,l_icon,l_degr,l_job,l_guild);
-	// End
+  // Modify by lark.li 20080808 begin
+  // NetFrndRefreshInfo(l_chaid,l_motto,l_icon,l_degr,l_job,l_guild);
+  NetFrndRefreshInfo(l_chaid, &info, l_motto, l_icon, l_degr, l_job, l_guild);
+  // End
 
-	return TRUE;
+  return TRUE;
 }
-// ∏¸∏ƒ◊‘º∫œ˚œ¢
-BOOL	PC_CHANGE_PERSONINFO(LPRPACKET pk)
-{
-	const char *l_motto	=pk.ReadString();
-	unsigned short	l_icon	=pk.ReadShort();
-	bool		l_refuse_sess =pk.ReadChar()?true:false;
-	NetChangePersonInfo(l_motto,l_icon,l_refuse_sess);
-	return TRUE;
+// Êõ¥ÊîπËá™Â∑±Ê∂àÊÅØ
+BOOL PC_CHANGE_PERSONINFO(LPRPACKET pk) {
+  const char *l_motto = pk.ReadString();
+  unsigned short l_icon = pk.ReadShort();
+  bool l_refuse_sess = pk.ReadChar() ? true : false;
+  NetChangePersonInfo(l_motto, l_icon, l_refuse_sess);
+  return TRUE;
 }
 
 // Add by lark.li 20080808 begin
-BOOL	PC_QUERY_PERSONINFO(LPRPACKET pk)
-{
-	//l_wpk.WriteShort(num);
-	//
-	//for(int i=0;i<num;i++)
-	//{
-	//	l_wpk.WriteString(result[i].sChaName);
-	//	l_wpk.WriteShort(result[i].nMinAge);
-	//	l_wpk.WriteString(result[i].cSex);
-	//	l_wpk.WriteString(result[i].szState);
-	//	l_wpk.WriteString(result[i].nCity);
-	//}
-	int	num	=pk.ReadShort();
-	int totalPage = pk.ReadLong();
-	int totalNum = pk.ReadLong();
+BOOL PC_QUERY_PERSONINFO(LPRPACKET pk) {
+  // l_wpk.WriteShort(num);
+  //
+  // for(int i=0;i<num;i++)
+  //{
+  //	l_wpk.WriteString(result[i].sChaName);
+  //	l_wpk.WriteShort(result[i].nMinAge);
+  //	l_wpk.WriteString(result[i].cSex);
+  //	l_wpk.WriteString(result[i].szState);
+  //	l_wpk.WriteString(result[i].nCity);
+  //}
+  int num = pk.ReadShort();
+  int totalPage = pk.ReadLong();
+  int totalNum = pk.ReadLong();
 
-	num = min(num, 10);
-	stQueryResoultPersonInfo info[10];
+  num = min(num, 10);
+  stQueryResoultPersonInfo info[10];
 
-	for(int i=0;i<num;i++)
-	{
-		/*strncpy(info[i].sChaName, pk.ReadString(), sizeof(info[i].sChaName));
-		info[i].nMinAge = pk.ReadShort();
-		strncpy(info[i].cSex, pk.ReadString(), sizeof(info[i].cSex));
-		strncpy(info[i].szState, pk.ReadString(), sizeof(info[i].szState));
-		strncpy(info[i].nCity, pk.ReadString(), sizeof(info[i].nCity));*/
-		strncpy_s(info[i].sChaName,sizeof(info[i].sChaName) ,pk.ReadString(),_TRUNCATE );
-		info[i].nMinAge = pk.ReadShort();
-		strncpy_s(info[i].cSex,sizeof(info[i].cSex), pk.ReadString(),_TRUNCATE );
-		strncpy_s(info[i].szState,  sizeof(info[i].szState),pk.ReadString(),_TRUNCATE);
-		strncpy_s(info[i].nCity,sizeof(info[i].nCity) ,pk.ReadString(), _TRUNCATE);
-	}
+  for (int i = 0; i < num; i++) {
+    /*strncpy(info[i].sChaName, pk.ReadString(), sizeof(info[i].sChaName));
+    info[i].nMinAge = pk.ReadShort();
+    strncpy(info[i].cSex, pk.ReadString(), sizeof(info[i].cSex));
+    strncpy(info[i].szState, pk.ReadString(), sizeof(info[i].szState));
+    strncpy(info[i].nCity, pk.ReadString(), sizeof(info[i].nCity));*/
+    strncpy_s(info[i].sChaName, sizeof(info[i].sChaName), pk.ReadString(),
+              _TRUNCATE);
+    info[i].nMinAge = pk.ReadShort();
+    strncpy_s(info[i].cSex, sizeof(info[i].cSex), pk.ReadString(), _TRUNCATE);
+    strncpy_s(info[i].szState, sizeof(info[i].szState), pk.ReadString(),
+              _TRUNCATE);
+    strncpy_s(info[i].nCity, sizeof(info[i].nCity), pk.ReadString(), _TRUNCATE);
+  }
 
-	NetQueryPersonInfo(info, num);
-	return TRUE;
+  NetQueryPersonInfo(info, num);
+  return TRUE;
 }
 // End

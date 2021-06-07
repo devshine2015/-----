@@ -12,7 +12,7 @@
 #include "FindPath.h"
 #include "SteadyFrame.h"
 
-const int	ITEM_FACE_MAX =	4;			// µÀ¾ßÇ°4¸ñ×Ó×÷ÎªÍâ¹Û¸üĞÂ
+const int	ITEM_FACE_MAX =	4;			// é“å…·å‰4æ ¼å­ä½œä¸ºå¤–è§‚æ›´æ–°
 
 class CShadeEff;
 class CEffectObj;
@@ -48,33 +48,33 @@ struct LoadChaInfo
 #define   ERROR_POSE_HEIGHT 9999
 #define   MAX_CANCELSTATE   3
 
-// Ö÷½ÇÀàĞÍ
+// ä¸»è§’ç±»å‹
 enum eMainChaType
 {
-	enumMainNone = 0,		// ·ÇÖ÷½Ç
-	enumMainPlayer,			// ÎªÖ÷½ÇµÄÍæ¼Ò
-	enumMainBoat,			// ÎªÖ÷½ÇµÄ´¬
+	enumMainNone = 0,		// éä¸»è§’
+	enumMainPlayer,			// ä¸ºä¸»è§’çš„ç©å®¶
+	enumMainBoat,			// ä¸ºä¸»è§’çš„èˆ¹
 };
 
 enum eChaState
 {
-	enumChaStateMove=1,		// ÊÇ·ñ¿ÉÒÆ¶¯
-	enumChaStateAttack,		// ÊÇ·ñ¿ÉÒÔÊ¹ÓÃÆÕÍ¨¹¥»÷
-	enumChaStateUseSkill,	// ÊÇ·ñ¿ÉÒÔÊ¹ÓÃ¼¼ÄÜ
-	enumChaStateTrade,		// ÊÇ·ñ¿ÉÒÔ½»Ò×
-	enumChaStateUseItem,	// ÊÇ·ñ¿ÉÒÔÊ¹ÓÃÎïÆ·
+	enumChaStateMove=1,		// æ˜¯å¦å¯ç§»åŠ¨
+	enumChaStateAttack,		// æ˜¯å¦å¯ä»¥ä½¿ç”¨æ™®é€šæ”»å‡»
+	enumChaStateUseSkill,	// æ˜¯å¦å¯ä»¥ä½¿ç”¨æŠ€èƒ½
+	enumChaStateTrade,		// æ˜¯å¦å¯ä»¥äº¤æ˜“
+	enumChaStateUseItem,	// æ˜¯å¦å¯ä»¥ä½¿ç”¨ç‰©å“
 
-	enumChaStateNoHide,		// Òş²Ø
-	enumChaStateNoDizzy,	// ÔÎÑ£
-	enumChaStateNoAni,		// ÊÇ·ñÓĞ¶¯»­Ğ§¹û
+	enumChaStateNoHide,		// éšè—
+	enumChaStateNoDizzy,	// æ™•çœ©
+	enumChaStateNoAni,		// æ˜¯å¦æœ‰åŠ¨ç”»æ•ˆæœ
 
-	enumChaStateNoShop,		// µ±Ç°²»´¦ÓÚ°ÚÌ¯×´Ì¬
+	enumChaStateNoShop,		// å½“å‰ä¸å¤„äºæ‘†æ‘ŠçŠ¶æ€
 };
 
 enum eChaPkState
 {
-	enumChaPkSelf=1,		// ×Ô¼ºµÄPK¿ª¹Ø
-	enumChaPkScene,			// ÊÇ·ñÎª¾º¼¼³¡,¼´ÊÇ·ñ¿ÉÒÔ²Ù×÷PK¿ª¹Ø
+	enumChaPkSelf=1,		// è‡ªå·±çš„PKå¼€å…³
+	enumChaPkScene,			// æ˜¯å¦ä¸ºç«æŠ€åœº,å³æ˜¯å¦å¯ä»¥æ“ä½œPKå¼€å…³
 };
 
 class CCharacter : public CSceneNode, public CCharacterModel
@@ -89,9 +89,9 @@ public:
 	virtual bool    GetRunTimeMatrix(LEMatrix44* mat, DWORD dummy_id);
 
 public:	
-	void			InitState();						// ½«×´Ì¬³õÊ¼»¯
+	void			InitState();						// å°†çŠ¶æ€åˆå§‹åŒ–
 
-    void            ForceMove(int nTargetX, int nTargetY);       // ²»¸Ä±ä·½ÏòµÄÒÆ¶¯
+    void            ForceMove(int nTargetX, int nTargetY);       // ä¸æ”¹å˜æ–¹å‘çš„ç§»åŠ¨
 	void			MoveTo( int x, int y );
 	int			    FaceTo( int yaw );
 	int 			FaceTo( int x, int y )	{ return FaceTo(_GetTargetAngle(x, y));	    }
@@ -103,14 +103,14 @@ public:
 	bool			GetIsArrive()						{ return _isArrive;		}
 	bool			GetIsFaceTo()						{ return !_nTurnCnt;	}
 
-	bool			UpdataItem( int nItem, DWORD nLink  );					// ¸üĞÂµÀ¾ß
+	bool			UpdataItem( int nItem, DWORD nLink  );					// æ›´æ–°é“å…·
     void            UpdataFace( stNetChangeChaPart& stPart );
 
 	bool			LoadBoat( stNetChangeChaPart& stPart );
 	static xShipInfo*	ConvertPartTo8DWORD( stNetChangeChaPart& stPart, DWORD* dwBuf );
 
-	bool			IsTeamLeader()				{ return _nLeaderID!=0 && _nLeaderID==getHumanID();		}	// ÊÇ·ñÊÇ¶Ó³¤
-	long			GetTeamLeaderID()			{ return _nLeaderID;	}	// ·µ»ØËùÊô¶ÓµÄ¶Ó³¤£É£Ä,Ã»ÓĞ¶ÓÎéÎª0
+	bool			IsTeamLeader()				{ return _nLeaderID!=0 && _nLeaderID==getHumanID();		}	// æ˜¯å¦æ˜¯é˜Ÿé•¿
+	long			GetTeamLeaderID()			{ return _nLeaderID;	}	// è¿”å›æ‰€å±é˜Ÿçš„é˜Ÿé•¿ï¼©ï¼¤,æ²¡æœ‰é˜Ÿä¼ä¸º0
 
 	void			SetTeamLeaderID( long v )	{ _nLeaderID=v;			}
 
@@ -118,7 +118,7 @@ public:
 	void			SetHide(BOOL bHide);
 
 	//void			SetHieght(float fhei);
-public: // ÓëÖ÷½ÇµÄ¼¼ÄÜÏà¹Ø
+public: // ä¸ä¸»è§’çš„æŠ€èƒ½ç›¸å…³
 	bool			ChangeReadySkill( int nSkillID );
 
 	static CSkillRecord*	GetReadySkillInfo()		{ return _pReadySkillInfo;		}
@@ -148,19 +148,19 @@ public:
 
 	void			OperatorEffect( char oper, int x, int y );
 
-	// ÊÍ·Å·ÉĞĞÌØĞ§:´Ó±¾ÉíDummy·É³ö,·ÉĞĞËÙ¶È,´ò»÷µ½Ä³Ä¿±êµãpTarget,×·×ÙÄ¿±êÍæ¼ÒnTargetChaID
+	// é‡Šæ”¾é£è¡Œç‰¹æ•ˆ:ä»æœ¬èº«Dummyé£å‡º,é£è¡Œé€Ÿåº¦,æ‰“å‡»åˆ°æŸç›®æ ‡ç‚¹pTarget,è¿½è¸ªç›®æ ‡ç©å®¶nTargetChaID
 	CEffectObj*		SkyEffect(int nEffectID, int nBeginDummy=2, int nItemDummy=0, int nSpeed=400, D3DXVECTOR3* pTarget=NULL, int nTargetChaID=-1, CSkillRecord* pSkill=NULL );	
 
-    // ÊÇ·ñÎª¿É²Ù×÷×´Ì¬,ÈçËÀÍö,Õâ¸ö×´Ì¬µ±·şÎñÆ÷·µ»ØËÀÍöÊ±,Á¢¼´ÖÃÉÏ
+    // æ˜¯å¦ä¸ºå¯æ“ä½œçŠ¶æ€,å¦‚æ­»äº¡,è¿™ä¸ªçŠ¶æ€å½“æœåŠ¡å™¨è¿”å›æ­»äº¡æ—¶,ç«‹å³ç½®ä¸Š
     bool			IsEnabled()             { return GetActor()->IsEnabled();   }
 
-    // ÊÇ·ñ¿ÉÒÔÏÔÊ¾ÔÚĞ¡µØÍ¼
+    // æ˜¯å¦å¯ä»¥æ˜¾ç¤ºåœ¨å°åœ°å›¾
     bool            IsInMiniMap()           { return IsValid() && GetActor()->IsEnabled() && !IsHide(); }			     
 
-	CSceneItem*		GetAttackItem();		// µÃµ½Íæ¼ÒÊÖÉÏµÄµÀ¾ß
+	CSceneItem*		GetAttackItem();		// å¾—åˆ°ç©å®¶æ‰‹ä¸Šçš„é“å…·
     
-    void            PlayAni( char* pAni, int nMax );	// ²¥·Å¶¯»­
-	void			StopAni();							// Í£Ö¹²¥·Å¶¯»­
+    void            PlayAni( char* pAni, int nMax );	// æ’­æ”¾åŠ¨ç”»
+	void			StopAni();							// åœæ­¢æ’­æ”¾åŠ¨ç”»
 
     int             GetPose( int pose );
 
@@ -187,10 +187,10 @@ public:
 	void			SetMainChaChangeItemCount( int nCount )		{	nMainChaChangeItemCount = nCount;	}
 #endif
 
-	bool			GetIsPet();	// ÊÇ·ñÊÇ³èÎï
-	bool			GetIsFly(); // ÊÇ·ñ·ÉĞĞ
+	bool			GetIsPet();	// æ˜¯å¦æ˜¯å® ç‰©
+	bool			GetIsFly(); // æ˜¯å¦é£è¡Œ
 
-private:		// ÒÆ¶¯
+private:		// ç§»åŠ¨
 	void			_CalPos(float fProgressRate);
 	int				_GetTargetAngle(int nTargetX, int nTargetY, BOOL bBack = FALSE);
     void            _DetachAllItem();
@@ -206,7 +206,7 @@ private:		// ÒÆ¶¯
 
 	bool			_isArrive;
     bool            _isStopMove;
-	float			_fMapHeight;	    // ÔÚµØÍ¼ÉÏµÄ×Ü¸ß¶È£¬µ¥Î»£ºÃ×
+	float			_fMapHeight;	    // åœ¨åœ°å›¾ä¸Šçš„æ€»é«˜åº¦ï¼Œå•ä½ï¼šç±³
 	CSceneHeight*	_pSceneHeight;
 
 	static			bool _IsShowName;
@@ -216,29 +216,29 @@ private:
 
 	static CSkillRecord*    _pDefaultSkillInfo;
 
-	static CSkillRecord*   _pReadySkillInfo;	// ¿Í»§¶Ë×¼±¸Ê¹ÓÃµÄ¼¼ÄÜ
+	static CSkillRecord*   _pReadySkillInfo;	// å®¢æˆ·ç«¯å‡†å¤‡ä½¿ç”¨çš„æŠ€èƒ½
 
 	CChaRecord*     _pDefaultChaInfo;
 	CActor*         _pActor;
 
 private:
 	
-    char			_szName[33];		// Ãû×Ö
-	char			_szHumanName[33];	// µÚÒ»¸ö½ÇÉ«µÄÃû×Ö
-	char			_szGuildName[33];	// ¹«»áÃû³Æ
-	char			_szGuildMotto[101];	// ¹«»á×ùÓÒÃú
-	int				_nGuildID;			// ¹«»áID
-	DWORD			_dwGuildColor;		// ¹«»áÏÔÊ¾³öÀ´µÄÑÕÉ«
-	DWORD			_dwNameColor;		// Ãû×ÖÑÕÉ«
-	char			_szShopName[33];	// ÉÌµêÃû×Ö
+    char			_szName[33];		// åå­—
+	char			_szHumanName[33];	// ç¬¬ä¸€ä¸ªè§’è‰²çš„åå­—
+	char			_szGuildName[33];	// å…¬ä¼šåç§°
+	char			_szGuildMotto[101];	// å…¬ä¼šåº§å³é“­
+	int				_nGuildID;			// å…¬ä¼šID
+	DWORD			_dwGuildColor;		// å…¬ä¼šæ˜¾ç¤ºå‡ºæ¥çš„é¢œè‰²
+	DWORD			_dwNameColor;		// åå­—é¢œè‰²
+	char			_szShopName[33];	// å•†åº—åå­—
 
-	char			_szPreName[20];		// Ç°×ºÃû×Ö£¬°üº¬À¨ºÅ
+	char			_szPreName[20];		// å‰ç¼€åå­—ï¼ŒåŒ…å«æ‹¬å·
 	DWORD			_szPreColor;
 
-	long			_lSideID;			// ËùÊôÄÇÒ»·½,ºì·½,ÂÌ·½,ÓÃÓÚÁ½·½×÷Õ½Ê±Ê¹ÓÃ
-	CShadeEff*		_pSideShade;		// ÓÃÓÚÏÔÊ¾ºì·½,ÂÌ·½
+	long			_lSideID;			// æ‰€å±é‚£ä¸€æ–¹,çº¢æ–¹,ç»¿æ–¹,ç”¨äºä¸¤æ–¹ä½œæˆ˜æ—¶ä½¿ç”¨
+	CShadeEff*		_pSideShade;		// ç”¨äºæ˜¾ç¤ºçº¢æ–¹,ç»¿æ–¹
 
-public:	// Ó¦ÓÃ²ã
+public:	// åº”ç”¨å±‚
 	void			setSideID( long v );
 	long			getSideID()							{ return _lSideID;					}
 
@@ -257,7 +257,7 @@ public:	// Ó¦ÓÃ²ã
 	void			setGuildMotto( const char* pszName ){ strncpy_s( _szGuildMotto, sizeof(_szGuildMotto), pszName, _TRUNCATE );	}
 	const char*		getGuildMotto()						{ return _szGuildMotto;				}
 	
-	//	ÒÔÏÂstrncpy(name1,name2,sizeof(name1)) Í³Ò»Ìæ»»Îª strncpy_s(name1,sizeof(name1),name2,_TRUNCATE)
+	//	ä»¥ä¸‹strncpy(name1,name2,sizeof(name1)) ç»Ÿä¸€æ›¿æ¢ä¸º strncpy_s(name1,sizeof(name1),name2,_TRUNCATE)
 	void			setHumanName(const char *pszName)	{ strncpy_s( _szHumanName, sizeof( _szHumanName ), pszName,_TRUNCATE );	}
 	const char*		getHumanName()						{ return _szHumanName;				}
 
@@ -352,9 +352,9 @@ public:
 	void			setHumanID( DWORD v )				  { _dwHumanID = v;					   }
 	DWORD			getHumanID()						  { return _dwHumanID;				   }
 
-    void            setNpcState( DWORD dwState );     // ¸ù¾İ±êÊ¶ÏÔÊ¾µ±Ç°×´Ì¬
+    void            setNpcState( DWORD dwState );     // æ ¹æ®æ ‡è¯†æ˜¾ç¤ºå½“å‰çŠ¶æ€
 
-	void			DieTime();						  // ËÀÍöÊ±µ÷ÓÃ£¬É¾³ıËùÓĞÌØĞ§£¬Çå¿Õ¿ÉÄÜµÄ×´Ì¬£¬ÈçÑ£ÔÎ
+	void			DieTime();						  // æ­»äº¡æ—¶è°ƒç”¨ï¼Œåˆ é™¤æ‰€æœ‰ç‰¹æ•ˆï¼Œæ¸…ç©ºå¯èƒ½çš„çŠ¶æ€ï¼Œå¦‚çœ©æ™•
 
     void            SetIsForUI( bool v )                { _IsForUI = v;                 }
     bool            GetIsForUI()                        { return _IsForUI;              }
@@ -384,7 +384,7 @@ public:
 	//add by ALLEN 2007-10-16
 	bool			IsReadingBook();
 
-public: // ¼¼ÄÜÔËĞĞ×´Ì¬    
+public: // æŠ€èƒ½è¿è¡ŒçŠ¶æ€    
 	CChaStateMgr*	GetStateMgr()						{ return _pChaState;			}
 
     void            SynchroSkillState( stSkillState* pState, int nCount );
@@ -394,7 +394,7 @@ public: // ¼¼ÄÜÔËĞĞ×´Ì¬
 
 private:
 	CChaStateMgr*	_pChaState;
-	CBoolSet		_ChaState;			// Íæ¼Ò×´Ì¬¼¯ºÏ
+	CBoolSet		_ChaState;			// ç©å®¶çŠ¶æ€é›†åˆ
 
 	struct stHit
 	{
@@ -420,15 +420,15 @@ protected:
 	DWORD			_dwLastAITick;
 
 	GUI::CHeadSay*	_pHeadSay;
-    int             _nUIScale;		// µ±×÷Îª½çÃæÏÔÊ¾Ê±, Ëõ·Å²ÎÊı
+    int             _nUIScale;		// å½“ä½œä¸ºç•Œé¢æ˜¾ç¤ºæ—¶, ç¼©æ”¾å‚æ•°
 
-private:			// ÌØĞ§
-	CBoolSet		_Special;		// ÌØĞ§±íÏÖ¼¯ºÏ
-	CBoolSet		_PK;			// PK¿ª¹Ø
+private:			// ç‰¹æ•ˆ
+	CBoolSet		_Special;		// ç‰¹æ•ˆè¡¨ç°é›†åˆ
+	CBoolSet		_PK;			// PKå¼€å…³
 
-	// ¹«×ªÊ±ÁÙÊ±±äÁ¿
+	// å…¬è½¬æ—¶ä¸´æ—¶å˜é‡
 	long			_nHelixCenterX, _nHelixCenterY;				
-	int				_nHelixAngle;	// ÂİĞı½Ç¶ÈÔöÁ¿
+	int				_nHelixAngle;	// èºæ—‹è§’åº¦å¢é‡
 	int				_nHelixRadii;
 
 #ifdef _LOG_NAME_
@@ -443,10 +443,10 @@ private:
 	float			_fMoveSpeed;
 	char*			_pszFootMusic;
 	char*			_pszWhoopMusic;
-    float           _fMaxOpacity;       // ¿Í»§¶ËÍ¸Ã÷¶È×î´óÖµ,1.0fÎªÊµĞÄ
+    float           _fMaxOpacity;       // å®¢æˆ·ç«¯é€æ˜åº¦æœ€å¤§å€¼,1.0fä¸ºå®å¿ƒ
 
     bool            _IsFightPose;
-    bool            _InFight;           // ÊÇ·ñÕı´¦ÔÚÕ½¶·Çø
+    bool            _InFight;           // æ˜¯å¦æ­£å¤„åœ¨æˆ˜æ–—åŒº
 
     CSceneItem*     _pHandItem[ enumEQUIP_NUM ];
 	stNetChangeChaPart	_stChaPart;
@@ -455,40 +455,40 @@ private:
 	CSceneItem*		_pShopItem;
 
 	int				_nNpcType;
-    bool            _IsForUI;           // Õâ¸ö½ÇÉ«ÊÇ»­ÔÚUIÉÏµÄ
+    bool            _IsForUI;           // è¿™ä¸ªè§’è‰²æ˜¯ç”»åœ¨UIä¸Šçš„
 
-	long			_nLeaderID;			// ËùÊô×é¶ÓµÄID
-	char			_szSecondName[41];	// µÚ¶ş¸öÃû×Ö,¼´×ùÓÒÃú
-	BOOL			_bShowSecondName;	// ÊÇ·ñÏÔÊ¾µÚ¶ş¸öÃû×Ö
-	short			_sPhotoID;			// Í·ÏñID
+	long			_nLeaderID;			// æ‰€å±ç»„é˜Ÿçš„ID
+	char			_szSecondName[41];	// ç¬¬äºŒä¸ªåå­—,å³åº§å³é“­
+	BOOL			_bShowSecondName;	// æ˜¯å¦æ˜¾ç¤ºç¬¬äºŒä¸ªåå­—
+	short			_sPhotoID;			// å¤´åƒID
 
-    EChaModalType   _eChaModalType;		// Ä£ĞÍÀàĞÍ
-	EChaCtrlType	_eChaCtrlType;		// ²Ù×÷ÀàĞÍ
-	eMainChaType	_eMainType;			// Ö÷½ÇÀàĞÍ
-	int				_nDanger;			// Î£ÏÕ³ÌĞò£¬ÓÃÓÚÍæ¼ÒÊó±êÑ¡ÔñÊ±£¬°´Î£ÏÕ³ÌĞòÅÅĞò
+    EChaModalType   _eChaModalType;		// æ¨¡å‹ç±»å‹
+	EChaCtrlType	_eChaCtrlType;		// æ“ä½œç±»å‹
+	eMainChaType	_eMainType;			// ä¸»è§’ç±»å‹
+	int				_nDanger;			// å±é™©ç¨‹åºï¼Œç”¨äºç©å®¶é¼ æ ‡é€‰æ‹©æ—¶ï¼ŒæŒ‰å±é™©ç¨‹åºæ’åº
 
-	DWORD			_dwHumanID;			// ÓÃÓÚÓëGroup ServerÍ¨ĞÅµÄID
+	DWORD			_dwHumanID;			// ç”¨äºä¸Group Serveré€šä¿¡çš„ID
 
 	char			_chGMLv;
 	CEvent*			_pEvent;
 
 	xShipInfo*		_pShipInfo;
 	bool			_bUpdate;
-	CEffectObj*		_pBoatFog;			// ´¬µÄÑÌÎí,ÓëÑªÓĞ¹Ø
+	CEffectObj*		_pBoatFog;			// èˆ¹çš„çƒŸé›¾,ä¸è¡€æœ‰å…³
 
 	CEffectObj*		_pItemFaceEff[ITEM_FACE_MAX];
 	int				_ItemFace[ITEM_FACE_MAX];
 
 private:
-	bool			_IsMoveTimeType;	// ÎªfalseÊÇÖ¡ÒÆ¶¯(ÓÃÓÚÖ÷½Ç),ÎªtrueÊÇÊ±¼äÒÆ¶¯
+	bool			_IsMoveTimeType;	// ä¸ºfalseæ˜¯å¸§ç§»åŠ¨(ç”¨äºä¸»è§’),ä¸ºtrueæ˜¯æ—¶é—´ç§»åŠ¨
 	D3DXVECTOR2		_vMoveStart, _vMoveEnd, _vMoveDir;
 	DWORD 			_dwStartTime;
 	float			_fMoveLen;
 	
-	// ¹ÖÎï°Ú·ÅËùĞèÒªµÄ²ÎÊı¼ÇÂ¼-----------------------------------
-	short			_sReliveTime; // ·Å¹ÖÊ±ÓÃÀ´¼ÇÂ¼ÖØÉúÊ±¼ä
-	int				_nPatrolX;	  // Ñ²Âßµãx
-	int				_nPatrolY;	  // Ñ²Âßµãy
+	// æ€ªç‰©æ‘†æ”¾æ‰€éœ€è¦çš„å‚æ•°è®°å½•-----------------------------------
+	short			_sReliveTime; // æ”¾æ€ªæ—¶ç”¨æ¥è®°å½•é‡ç”Ÿæ—¶é—´
+	int				_nPatrolX;	  // å·¡é€»ç‚¹x
+	int				_nPatrolY;	  // å·¡é€»ç‚¹y
 	// -----------------------------------------------------------
 
 	int				_nServerX, _nServerY;
@@ -554,7 +554,7 @@ inline void CCharacter::_UpdatePos()
 {
     _vPos.x = (float)_nCurX / 100.0f;
     _vPos.y = (float)_nCurY / 100.0f;
-    SetPos((float*)&_vPos); // ×ÓÀà¶ÔÉèÖÃ×ø±êµÄÊµÏÖ, _vPos.z±£³Ö²»±ä
+    SetPos((float*)&_vPos); // å­ç±»å¯¹è®¾ç½®åæ ‡çš„å®ç°, _vPos.zä¿æŒä¸å˜
     if( GetDrunkState() )
     {
         UpdateChaMatrix();

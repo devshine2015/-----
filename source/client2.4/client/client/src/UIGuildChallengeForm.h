@@ -6,7 +6,7 @@
 namespace GUI
 {
 
-	// µÀ¾ß¾«Á¶
+	// é“å…·ç²¾ç‚¼
 	class CGuildChallengeMgr : public CUIInterface
 	{
 	public:
@@ -45,11 +45,11 @@ namespace GUI
 		const static int FIRST_CHARGE_MONEY[NUM];
 
 		CForm		*frmGuildPK;
-		CLabel		*labChallenger[NUM];	//ÌôÕ½Õß
-		CLabel		*labMoney[NUM];			//¾º¼Û
-		CLabel		*labGuildName[NUM];		//ÀŞÖ÷¹¤»áÃû
-		CTextButton	*btnCharge[NUM];		//¾º¼Û°´Å¥
-		CList		*lstGuildPK;			//ÆäËûĞÅÏ¢
+		CLabel		*labChallenger[NUM];	//æŒ‘æˆ˜è€…
+		CLabel		*labMoney[NUM];			//ç«ä»·
+		CLabel		*labGuildName[NUM];		//æ“‚ä¸»å·¥ä¼šå
+		CTextButton	*btnCharge[NUM];		//ç«ä»·æŒ‰é’®
+		CList		*lstGuildPK;			//å…¶ä»–ä¿¡æ¯
 
 		int			m_iSelIndex;
 		int			m_iChangeMoney;

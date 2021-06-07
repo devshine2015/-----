@@ -50,7 +50,7 @@ private:
 	dstring			m_name;
 	DataSocket	*	m_datasock;
 	// Add by lark.li 20081119 begin
-	bool		m_bSync;		// GateServerºÍGroupServerµÄÍ¬²½±êÖ¾
+	bool		m_bSync;		// GateServerå’ŒGroupServerçš„åŒæ­¥æ ‡å¿—
 	// End
 };
 

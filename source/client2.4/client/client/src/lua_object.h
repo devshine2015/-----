@@ -1,9 +1,9 @@
 //-----------------
-// ÅĞ¶ÏÎïÌåÊÇ·ñÓĞĞ§
+// åˆ¤æ–­ç‰©ä½“æ˜¯å¦æœ‰æ•ˆ
 //-----------------
 inline int lua_objIsValid(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
     if(!bValid) 
     {
@@ -19,11 +19,11 @@ inline int lua_objIsValid(lua_State *L)
 }
 
 //-----------
-// È¡µÃÎïÌåID
+// å–å¾—ç‰©ä½“ID
 //-----------
 inline int lua_objGetID(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1)); 
     if(!bValid) 
     {
@@ -39,11 +39,11 @@ inline int lua_objGetID(lua_State *L)
 
 
 //--------------------
-// ÉèÖÃÎïÌå×ø±ê(ÀåÃ×)
+// è®¾ç½®ç‰©ä½“åæ ‡(å˜ç±³)
 //--------------------
 inline int lua_objSetPos (lua_State * L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==3 && lua_islightuserdata(L, 1) && lua_isnumber (L, 2) &&  lua_isnumber (L, 3));
     if(!bValid) 
     {
@@ -58,11 +58,11 @@ inline int lua_objSetPos (lua_State * L)
 }
 
 //-------------
-// »ñÈ¡½ÇÉ«×ø±ê
+// è·å–è§’è‰²åæ ‡
 //-------------
 inline int lua_objGetPos(lua_State *L)
 {
-   // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+   // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1); 
     if(!bValid) 
     {
@@ -77,11 +77,11 @@ inline int lua_objGetPos(lua_State *L)
 }
 
 //-------------
-// »ñÈ¡½ÇÉ«ÃæÏò
+// è·å–è§’è‰²é¢å‘
 //-------------
 inline int lua_objGetFaceAngle(lua_State *L)
 {
-   // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+   // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1)); 
     if(!bValid) 
     {
@@ -95,11 +95,11 @@ inline int lua_objGetFaceAngle(lua_State *L)
 }
 
 //-------------
-// ÉèÖÃ½ÇÉ«ÃæÏò
+// è®¾ç½®è§’è‰²é¢å‘
 //-------------
 inline int lua_objSetFaceAngle(lua_State *L)
 {
-   // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+   // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2)); 
     if(!bValid) 
     {
@@ -113,11 +113,11 @@ inline int lua_objSetFaceAngle(lua_State *L)
 }
 
 //---------
-// ÊôĞÔÈ¡Öµ
+// å±æ€§å–å€¼
 //---------
 inline int lua_objGetAttr(lua_State* L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2));
     if(!bValid) 
     {
@@ -134,11 +134,11 @@ inline int lua_objGetAttr(lua_State* L)
 }
 
 //---------
-// ÊôĞÔ¸³Öµ
+// å±æ€§èµ‹å€¼
 //---------
 inline int lua_objSetAttr(lua_State* L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==3 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2) && lua_isnumber(L, 3));
     if(!bValid) 
     {
@@ -157,11 +157,11 @@ inline int lua_objSetAttr(lua_State* L)
 }
 
 //--------------------
-// ½ÇÉ«Ëµ»°,Í·¶¥³öÎÄ×Ö
+// è§’è‰²è¯´è¯,å¤´é¡¶å‡ºæ–‡å­—
 //--------------------
 inline int lua_chaSay(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isstring(L, 2));
     if(!bValid) 
     {
@@ -174,7 +174,7 @@ inline int lua_chaSay(lua_State *L)
         SCENE_NULL_ERROR
         return 0;
     }
-    // Í·¶¥ÏÔÊ¾ÎÄ×Ö
+    // å¤´é¡¶æ˜¾ç¤ºæ–‡å­—
     CCharacter *pCha = (CCharacter*)lua_touserdata(L, 1);
     const char *pszText = lua_tostring(L, 2);
 	if( pCha )
@@ -187,11 +187,11 @@ inline int lua_chaSay(lua_State *L)
 }
 
 //-------------------------
-// ½ÇÉ«ÅÜ²½µ½Ö¸¶¨×ø±ê(ÀåÃ×)
+// è§’è‰²è·‘æ­¥åˆ°æŒ‡å®šåæ ‡(å˜ç±³)
 //-------------------------
 inline int lua_chaMoveTo(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==3 && lua_islightuserdata(L, 1) && lua_isnumber (L, 2) &&  lua_isnumber (L, 3));
     if(!bValid) 
     {
@@ -214,11 +214,11 @@ inline int lua_chaMoveTo(lua_State *L)
 }
 
 //-------------
-// ½ÇÉ«×´Ì¬Í£Ö¹
+// è§’è‰²çŠ¶æ€åœæ­¢
 //-------------
 inline int lua_chaStop(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
     if(!bValid) 
     {
@@ -235,11 +235,11 @@ inline int lua_chaStop(lua_State *L)
 
 
 //-----------------
-// ½ÇÉ«¸ü»»ÉíÌå²¿Î»
+// è§’è‰²æ›´æ¢èº«ä½“éƒ¨ä½
 //-----------------
 inline int lua_chaChangePart(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber (L, 2));
     if(!bValid) 
     {
@@ -257,11 +257,11 @@ inline int lua_chaChangePart(lua_State *L)
 }
 
 //-------------
-// ²¥·Å½ÇÉ«¶¯»­
+// æ’­æ”¾è§’è‰²åŠ¨ç”»
 //-------------
 inline int lua_chaPlayPose(lua_State *L)
 {
-    // ²ÎÊıºÏ·¨ĞÔÅĞ±ğ
+    // å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==3 && lua_islightuserdata(L, 1) && lua_isnumber (L, 2) && lua_isnumber(L,3));
     if(!bValid) 
     {

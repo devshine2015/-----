@@ -4,8 +4,8 @@
 #include "Script.h"
 #include "ChaAttrType.h"
 
-// ´«µİ¸øSetShadeShow(int iIdx, bool bShow)µÄiIdx
-#define SCENENODE_SHADOW  0  // Scene NodeµÄÒõÓ°
+// ä¼ é€’ç»™SetShadeShow(int iIdx, bool bShow)çš„iIdx
+#define SCENENODE_SHADOW  0  // Scene Nodeçš„é˜´å½±
 
 #define	EFFECT_RIPPLE1	  97
 #define	EFFECT_RIPPLE2	  98
@@ -147,8 +147,8 @@ protected:
     int         _nHeightOff;
 	int			_nPoseHeightOff;
     
-    BOOL        _bHide; // Òş²Ø (±ÈÈç±à¼­Æ÷Àï×öÁÙÊ±Òş²Ø, ·½±ã±à¼­)
-    int         _nSize; // Âß¼­ÉÏµÄ³ß´ç
+    BOOL        _bHide; // éšè— (æ¯”å¦‚ç¼–è¾‘å™¨é‡Œåšä¸´æ—¶éšè—, æ–¹ä¾¿ç¼–è¾‘)
+    int         _nSize; // é€»è¾‘ä¸Šçš„å°ºå¯¸
 
 	//lemon add@2004.9.27 for  bind effect;
 	int						_iEffNum;
@@ -158,7 +158,7 @@ protected:
 
     SGameAttr               _Attr;
 
-	D3DXVECTOR3		_vPos;				// ÓÃÓÚÍâ²¿¿ìËÙ·ÃÎÊ
+	D3DXVECTOR3		_vPos;				// ç”¨äºå¤–éƒ¨å¿«é€Ÿè®¿é—®
 
 protected:
 

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¾²Ì¬Í¼Æ¬
-// ×÷Õß:lh 2004-07-21
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:é™æ€å›¾ç‰‡
+// ä½œè€…:lh 2004-07-21
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -10,7 +10,7 @@
 namespace GUI
 {
 
-// Ò»ÕÅ¼òµ¥¾²Ì¬Í¼Æ¬
+// ä¸€å¼ ç®€å•é™æ€å›¾ç‰‡
 class CImage : public CCompent
 {
 public:
@@ -28,14 +28,14 @@ public:
 	CGuiPic*		GetImage() { return _pImage; }
 
 public:
-	GuiMouseEvent	evtMouseDown;		// Êó±ê°´ÏÂÊÂ¼ş
+	GuiMouseEvent	evtMouseDown;		// é¼ æ ‡æŒ‰ä¸‹äº‹ä»¶
 
 protected:
 	CGuiPic*		_pImage;
 
 };
 
-// ´ø±ß¿òµÄÍ¼Æ¬¿Ø¼ş
+// å¸¦è¾¹æ¡†çš„å›¾ç‰‡æ§ä»¶
 class CFrameImage : public CCompent
 {
 public:
@@ -53,23 +53,23 @@ public:
 	CFramePic*		GetFrameImage() { return _pImage; }
 
 public:
-	GuiMouseEvent	evtMouseDown;		// Êó±ê°´ÏÂÊÂ¼ş
+	GuiMouseEvent	evtMouseDown;		// é¼ æ ‡æŒ‰ä¸‹äº‹ä»¶
 
 protected:
 	CFramePic*		_pImage;
 
 };
 
-//´øĞ§¹ûµÄÍ¼Æ¬
+//å¸¦æ•ˆæœçš„å›¾ç‰‡
 class CFlashImage: public CCompent
 {
 public:
 	enum eStyle
 	{
-		enumNone,		// ¾²Ö¹Í¼Æ¬
-		enumFlash,		// ÉÁË¸
-		enumCartoon,	// ¶¯»­
-		enumRightMove,	// ´Ó×óÖÁÓÒÒÆ¶¯
+		enumNone,		// é™æ­¢å›¾ç‰‡
+		enumFlash,		// é—ªçƒ
+		enumCartoon,	// åŠ¨ç”»
+		enumRightMove,	// ä»å·¦è‡³å³ç§»åŠ¨
 	};
 
 	CFlashImage(CForm& frmOwn, unsigned int max=1 );

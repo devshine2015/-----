@@ -12,11 +12,11 @@ namespace GUI
 {
 	typedef void(* MouseFUN)(CGuiData *pSender, int x, int y, DWORD key);  
 
-	struct TeamProUnit //½ú¼¶¶ÓÎéĞÅÏ¢
+	struct TeamProUnit //æ™‹çº§é˜Ÿä¼ä¿¡æ¯
 	{
-		char PromCapName[50];//¶Ó³¤Ãû
-		int  PromID;		 //¶ÓÎéID
-		int  WinNum;		 //Ó®´ÎÊı
+		char PromCapName[50];//é˜Ÿé•¿å
+		int  PromID;		 //é˜Ÿä¼ID
+		int  WinNum;		 //èµ¢æ¬¡æ•°
 
 		TeamProUnit()
 		{
@@ -25,11 +25,11 @@ namespace GUI
 			WinNum = 0;
 		}
 	};
-	struct TeamRelUnit //¸´»î¶ÓÎéĞÅÏ¢
+	struct TeamRelUnit //å¤æ´»é˜Ÿä¼ä¿¡æ¯
 	{
-		char  RelCapName[50];//¶Ó³¤Ãû
-		int   Ballot;		 //¸´»îÆ±Êı
-		int	  RelID;		 //¶ÓÎéID
+		char  RelCapName[50];//é˜Ÿé•¿å
+		int   Ballot;		 //å¤æ´»ç¥¨æ•°
+		int	  RelID;		 //é˜Ÿä¼ID
 		TeamRelUnit()
 		{
 			memset(RelCapName,0,sizeof(RelCapName));
@@ -38,7 +38,7 @@ namespace GUI
 		}
 	};
 
-	//¾º¼¼³¡ÅÅĞĞ°ñÊı¾İ
+	//ç«æŠ€åœºæ’è¡Œæ¦œæ•°æ®
 	class AmphitheaterData 
 	{
 	public:
@@ -66,12 +66,12 @@ namespace GUI
 		void Update(){};
 
 	private:
-		std::vector<TeamProUnit> TeamProList;	// ½ú¼¶¶ÓÎéÊı¾İ±í
-		std::vector<TeamRelUnit> TeamRelList;	// ¸´»î¶ÓÎéÊı¾İ±í
+		std::vector<TeamProUnit> TeamProList;	// æ™‹çº§é˜Ÿä¼æ•°æ®è¡¨
+		std::vector<TeamRelUnit> TeamRelList;	// å¤æ´»é˜Ÿä¼æ•°æ®è¡¨
 
 	};
 
-	//¾º¼¼³¡ÅÅĞĞÁĞ±í
+	//ç«æŠ€åœºæ’è¡Œåˆ—è¡¨
 	class CAmphitheaterList:public CList
 	{
 	public:
@@ -99,10 +99,10 @@ namespace GUI
 		CTextButton*		_button[20];
 
 	protected:
-		int             _nSelectIndex;  // Ñ¡ÔñµÄĞĞÊı
+		int             _nSelectIndex;  // é€‰æ‹©çš„è¡Œæ•°
 		bool            _IsShowUpgrade;
 
-		int             _nUnitHeight, _nUnitWidth;   // µ¥ÔªÍ¼Æ¬¿í¸ß
+		int             _nUnitHeight, _nUnitWidth;   // å•å…ƒå›¾ç‰‡å®½é«˜
 	private:
 		int					_ButtonLen;
 		CTextButton*		_buttonPip;
@@ -112,7 +112,7 @@ namespace GUI
 
 	};
 
-	//¾º¼¼³¡ÅÅĞĞ°ñ¿ò¼Ü
+	//ç«æŠ€åœºæ’è¡Œæ¦œæ¡†æ¶
 	class CAmphitheaterForm : public CUIInterface
 	{
 	public:
@@ -120,8 +120,8 @@ namespace GUI
 
 
 	public:
-		void RefreshAmphitheaterData(int index);//ÇĞ»»Ò³ÃæË¢ĞÂÊı¾İ
-		void RefreshAmphitheaterData(AmphitheaterData& data);//Ğ´ÈëÊı¾İ
+		void RefreshAmphitheaterData(int index);//åˆ‡æ¢é¡µé¢åˆ·æ–°æ•°æ®
+		void RefreshAmphitheaterData(AmphitheaterData& data);//å†™å…¥æ•°æ®
 
 		static void ListMouseRun(CGuiData *pSender, int x, int y, DWORD key);
 
@@ -137,8 +137,8 @@ namespace GUI
 	private:
 		CForm       *frmNPCAmphitheater;
 
-		CAmphitheaterList*		m_pSecPromotionList;                // ½ú¼¶À¸
-		CAmphitheaterList*		m_pSecReliveList;					// ¸´»îÀ¸
+		CAmphitheaterList*		m_pSecPromotionList;                // æ™‹çº§æ 
+		CAmphitheaterList*		m_pSecReliveList;					// å¤æ´»æ 
 		AmphitheaterData        m_pAmphitheaterData;
 		CTextButton		*		m_pSecExListbt;
 

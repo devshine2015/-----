@@ -5,7 +5,7 @@
 class CCharacter;
 class CArcTrack;
 class CMonsterItem;
-class CReadyDieState : public CActionState		// ¼ñµÀ¾ß
+class CReadyDieState : public CActionState		// æ¡é“å…·
 {
 public:
 	CReadyDieState(CActor* p);
@@ -38,13 +38,13 @@ private:
 
     eDieState       _eDieState;
 	eActorState		_state;	
-	bool			_IsActionEnd;			// µ±Ç°¶¯×÷ÒÑ¾­²¥·ÅÍê±Ï£¬ÓÃÓÚÒ»´ÎĞÔ¶¯×÷
+	bool			_IsActionEnd;			// å½“å‰åŠ¨ä½œå·²ç»æ’­æ”¾å®Œæ¯•ï¼Œç”¨äºä¸€æ¬¡æ€§åŠ¨ä½œ
     CCharacter*     _pCha;
-    CCharacter*     _pAttack;               // ¹¥»÷·½
+    CCharacter*     _pAttack;               // æ”»å‡»æ–¹
     bool            _isFlyOff;
 
     int             _nFallDownTime;    
-    bool            _IsAlreadyEffect;       // ÒÑ¾­²¥·ÅÌØĞ§
+    bool            _IsAlreadyEffect;       // å·²ç»æ’­æ”¾ç‰¹æ•ˆ
     int             _nDelayTime;
 
     CArcTrack*		_pArcTrack;

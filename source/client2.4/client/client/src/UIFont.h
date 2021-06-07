@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÓÃÓÚ¸ôÀë×ÖÌåÏÔÊ¾µ×²ã
-// ×÷Õß:lh 2004-07-15
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-20
+// åç§°:ç”¨äºéš”ç¦»å­—ä½“æ˜¾ç¤ºåº•å±‚
+// ä½œè€…:lh 2004-07-15
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-20
 //----------------------------------------------------------------------
 #ifndef __UIFONT_H
 #define __UIFONT_H
@@ -32,16 +32,16 @@ public:
 	CGuiFont();
 	~CGuiFont();
 
-	// ²ÎÊınStyle: 0x0001-´ÖÌå,0x0002-Ğ±Ìå,0x0004-´øÏÂ»®Ïß
+	// å‚æ•°nStyle: 0x0001-ç²—ä½“,0x0002-æ–œä½“,0x0004-å¸¦ä¸‹åˆ’çº¿
 	int		CreateFont( char* font, int size800, int size1024, DWORD dwStyle=0 );
 	bool	Init()							{ return !_stfonts.empty();				}
 	bool	Clear();
 
 	void	SetScreen( int nScrWidth, int nScrHeight );
 	void	SetIndex( unsigned int n );
-	void	Render( const char* str, int x, int y, DWORD color );					// Õı³£ÏÔÊ¾		
-	void    RenderScale(const char *str, int x ,int y , DWORD color , float scale);  //±ÈÀıÏÔÊ¾
-	void	BRender( const char* str, int x, int y, DWORD color, DWORD shadow );	// ÒõÓ°ÏÔÊ¾
+	void	Render( const char* str, int x, int y, DWORD color );					// æ­£å¸¸æ˜¾ç¤º		
+	void    RenderScale(const char *str, int x ,int y , DWORD color , float scale);  //æ¯”ä¾‹æ˜¾ç¤º
+	void	BRender( const char* str, int x, int y, DWORD color, DWORD shadow );	// é˜´å½±æ˜¾ç¤º
 	void	Render3d( const char* str, D3DXVECTOR3& pos, DWORD color=COLOR_RED );
 
 	void    FrameRender( const char* str, int x, int y );
@@ -49,7 +49,7 @@ public:
 
 	int		GetWidth( const char* );
 	int		GetHeight( const char* );
-	void	GetSize( const char* str, int& w, int &h );					// ÒÑ¾­×Ô¶¯½øĞĞÁËÆÁÄ»×ª»»
+	void	GetSize( const char* str, int& w, int &h );					// å·²ç»è‡ªåŠ¨è¿›è¡Œäº†å±å¹•è½¬æ¢
 	bool	GetSize( unsigned int dwIndex, const char* str, int& w, int &h );
 
 	void	Begin();
@@ -59,7 +59,7 @@ public:
 public:
 	CLEFont*		GetFont( unsigned int index=0 );
 	void			Render( unsigned int nIndex, const char* str, int x, int y, DWORD color );
-	void			BRender( unsigned int nIndex, const char* str, int x, int y, DWORD color, DWORD shadow );	// ÒõÓ°ÏÔÊ¾
+	void			BRender( unsigned int nIndex, const char* str, int x, int y, DWORD color, DWORD shadow );	// é˜´å½±æ˜¾ç¤º
 
 public:		
 	static CGuiFont	s_Font;
@@ -86,12 +86,12 @@ private:
 };
 
 
-// ÏÔÊ¾¿É¾ÓÖĞµÄhint list
-// Ê¹ÓÃ·½·¨:
-// 1.ClearÇå³ıÔ­ÓĞµÄÎÄ×ÖÁĞ±í
-// 2.PushHint,AddHintHeight,Ìî¼ÓĞÂÁĞ±í
-// 3.ReadyForHint( x, y ) - ×¼±¸ÔÚÄÇ¶ùÏÔÊ¾
-// 4.Render - ÏÔÊ¾hint
+// æ˜¾ç¤ºå¯å±…ä¸­çš„hint list
+// ä½¿ç”¨æ–¹æ³•:
+// 1.Clearæ¸…é™¤åŸæœ‰çš„æ–‡å­—åˆ—è¡¨
+// 2.PushHint,AddHintHeight,å¡«åŠ æ–°åˆ—è¡¨
+// 3.ReadyForHint( x, y ) - å‡†å¤‡åœ¨é‚£å„¿æ˜¾ç¤º
+// 4.Render - æ˜¾ç¤ºhint
 class CTextHint
 {
 public:
@@ -100,14 +100,14 @@ public:
 	void	ReadyForHintGM(int x, int y);//Add by sunny.sun 20080912
 	void	Render();
 
-    void    PushHint( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0, int index = -1 ); // height:¿Û³ı×Ö¸ßºóµÄ¸ß¶È
+    void    PushHint( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0, int index = -1 ); // height:æ‰£é™¤å­—é«˜åçš„é«˜åº¦
 	void	PopFront();
-    void    AddHintHeight( int height=6, int index = -1 );													// Ìî¼ÓÒ»¸ö¿ÕĞĞ
+    void    AddHintHeight( int height=6, int index = -1 );													// å¡«åŠ ä¸€ä¸ªç©ºè¡Œ
 
-	void    PushHintR( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0 ); // height:¿Û³ı×Ö¸ßºóµÄ¸ß¶È
+	void    PushHintR( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0 ); // height:æ‰£é™¤å­—é«˜åçš„é«˜åº¦
 	void    AddHintHeightR( int height=6 );	
 
-	int		WriteText( const char* file );		// ½«µ±Ç°hintĞ´ÈëÎÄ±¾£¬·µ»ØĞ´ÈëµÄĞĞÊı
+	int		WriteText( const char* file );		// å°†å½“å‰hintå†™å…¥æ–‡æœ¬ï¼Œè¿”å›å†™å…¥çš„è¡Œæ•°
 
 public:
     struct stHint 
@@ -123,9 +123,9 @@ public:
     };
 
 	CTextHint();
-	~CTextHint(); //°²È«ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
+	~CTextHint(); //å®‰å…¨é‡Šæ”¾å†…å­˜ by Waiting 2009-06-18
 
-	// ÉèÖÃÕû¸öHintÊÇ·ñ¾ÓÖĞ
+	// è®¾ç½®æ•´ä¸ªHintæ˜¯å¦å±…ä¸­
     void    SetHintIsCenter( bool v )		{ _IsCenter = v;			}
 	bool	GetHintIsCenter()				{ return _IsCenter;			}
 
@@ -180,7 +180,7 @@ public:
 	void	ReadyForHint( int x, int y,int SetNum);
 	void	Render();
 
-    void    PushHint( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0 ); // height:¿Û³ı×Ö¸ßºóµÄ¸ß¶È
+    void    PushHint( const char* str, DWORD color=COLOR_WHITE, int height=5, int font=0 ); // height:æ‰£é™¤å­—é«˜åçš„é«˜åº¦
 	void	PopFront();
 public:
     struct stHint 
@@ -206,7 +206,7 @@ private:
 	string	CopyHints;
 	string	SpaceLength;
 
-//ĞŞÕı¹«¸æ¹ö¶¯¹ı¿ì by Waiting 2009-06-18
+//ä¿®æ­£å…¬å‘Šæ»šåŠ¨è¿‡å¿« by Waiting 2009-06-18
 	DWORD	index;
 	DWORD	m;
 	DWORD	dwInitTime;
@@ -344,7 +344,7 @@ inline void CTextHint::SetFixWidth( int w )
 		_eStyle = enumFixWidth;
 	}
 }
-// ÄÚÁªº¯Êı//Add by sunny.sun20080804
+// å†…è”å‡½æ•°//Add by sunny.sun20080804
 //Begin
 inline void CTextScrollHint::PushHint( const char* str, DWORD color, int height, int font )       
 { 

@@ -32,7 +32,7 @@ m_sGarnerWiner(0)
 	//m_CMapMask.AddMap("lonetower", defMAP_LONETOWER_WIDTH, defMAP_LONETOWER_HEIGHT);
 	m_lLightSize = g_lDeftMMaskLight;
 
-	//³õÊ¼»¯Ä¦¶¹ºÍ´ú±ÒÊıÁ¿
+	//åˆå§‹åŒ–æ‘©è±†å’Œä»£å¸æ•°é‡
 	m_lMoBean = 0;
 	m_lRplMoney = 0;
 	m_lVipID = 0;
@@ -114,7 +114,7 @@ void CPlayer::Finally()
 	m_pCtrlCha = 0;
 	m_pMainCha = NULL;
 
-	// ½¨ÔìÖĞµÄ´¬Ö»
+	// å»ºé€ ä¸­çš„èˆ¹åª
 	if( m_pMakingBoat )
 	{
 		m_pMakingBoat->Free();
@@ -196,7 +196,7 @@ void CPlayer::GetAllBerthBoat( USHORT sBerthID, BYTE& byNumBoat, BOAT_BERTH_DATA
 			strncpy( Data.szName[byIndex], m_Boat[i]->GetName(), BOAT_MAXSIZE_BOATNAME - 1 );
 			if( Data.byState[byIndex] != 0 )
 			{
-				//strcat( Data.szName[byIndex], "  [×´Ì¬£º³ÁÃ»]" );
+				//strcat( Data.szName[byIndex], "  [çŠ¶æ€ï¼šæ²‰æ²¡]" );
 				strcat( Data.szName[byIndex], RES_STRING(GM_PLAYER_CPP_00001) );
 				Data.byState[byIndex] = BS_DEAD;
 			}
@@ -204,19 +204,19 @@ void CPlayer::GetAllBerthBoat( USHORT sBerthID, BYTE& byNumBoat, BOAT_BERTH_DATA
 			{
 				if( m_Boat[i]->getAttr( ATTR_HP ) < (m_Boat[i]->getAttr( ATTR_MXHP )/2) )
 				{
-					//strcat( Data.szName[byIndex], "  [×´Ì¬£ºËğ»µÑÏÖØ]" );
+					//strcat( Data.szName[byIndex], "  [çŠ¶æ€ï¼šæŸåä¸¥é‡]" );
 					strcat( Data.szName[byIndex], RES_STRING(GM_PLAYER_CPP_00002) );
 					Data.byState[byIndex] = BS_NOHP;
 				}
 				else if( m_Boat[i]->getAttr( ATTR_SP ) < (m_Boat[i]->getAttr( ATTR_MXSP )/2) )
 				{
-					//strcat( Data.szName[byIndex], "  [×´Ì¬£º¸øÑø²»×ã]" );	
+					//strcat( Data.szName[byIndex], "  [çŠ¶æ€ï¼šç»™å…»ä¸è¶³]" );	
 					strcat( Data.szName[byIndex], RES_STRING(GM_PLAYER_CPP_00003) );	
 					Data.byState[byIndex] = BS_NOSP;
 				}
 				else
 				{					
-					//strcat( Data.szName[byIndex], "  [×´Ì¬£ºÁ¼ºÃ]" );
+					//strcat( Data.szName[byIndex], "  [çŠ¶æ€ï¼šè‰¯å¥½]" );
 					strcat( Data.szName[byIndex], RES_STRING(GM_PLAYER_CPP_00004) );
 					Data.byState[byIndex] = BS_GOOD;
 				}
@@ -367,22 +367,22 @@ void CPlayer::GetBerth( USHORT& sBerthID, USHORT& sxPos, USHORT& syPos, USHORT& 
 	sDir = m_sDir;
 }
 
-// ×é¶ÓÓĞ¹Ø²Ù×÷²ÎÊı
-// Ìí¼Óµ¥¸ö¶ÓÓÑ
+// ç»„é˜Ÿæœ‰å…³æ“ä½œå‚æ•°
+// æ·»åŠ å•ä¸ªé˜Ÿå‹
 void CPlayer::AddTeamMember(uplayer *pUPlayer)
 {T_B
-	//LG("team", "Îª[%s]Ìí¼Ó¶ÓÓÑ: [dbid = %d] [gate_addr=%d]\n", GetCtrlCha()->GetLogName(), pUPlayer->m_dwDBChaId, pUPlayer->m_ulGateAddr);
+	//LG("team", "ä¸º[%s]æ·»åŠ é˜Ÿå‹: [dbid = %d] [gate_addr=%d]\n", GetCtrlCha()->GetLogName(), pUPlayer->m_dwDBChaId, pUPlayer->m_ulGateAddr);
 	if(_nTeamMemberCnt>=MAX_TEAM_MEMBER)
 	{
-		//LG("team", "ÒªÇóÔö¼ÓTeam¶ÓÓÑÊ±´ïµ½ÉÏÏŞ[%d], ÎŞ·¨Ìí¼Ó\n", MAX_TEAM_MEMBER);
+		//LG("team", "è¦æ±‚å¢åŠ Teamé˜Ÿå‹æ—¶è¾¾åˆ°ä¸Šé™[%d], æ— æ³•æ·»åŠ \n", MAX_TEAM_MEMBER);
 		return;
 	}
 	_Team[_nTeamMemberCnt] = *pUPlayer;
 	_nTeamMemberCnt++;
-	//LG("team", "Ìí¼Ó³É¹¦ ¹²ÓĞ¶ÓÓÑÊıÁ¿ %d\n", _nTeamMemberCnt);
+	//LG("team", "æ·»åŠ æˆåŠŸ å…±æœ‰é˜Ÿå‹æ•°é‡ %d\n", _nTeamMemberCnt);
 T_E}
 
-// Çå³ıËùÓĞ¶ÓÓÑ¼ÇÂ¼
+// æ¸…é™¤æ‰€æœ‰é˜Ÿå‹è®°å½•
 void CPlayer::ClearTeamMember()
 {T_B
     _dwTeamLeaderID = 0;
@@ -400,7 +400,7 @@ void CPlayer::UpdateTeam()
 {
 }
 
-// Ğ­Òé : ½«Player×öÎª×é¶Ó³ÉÔ±µÄĞÅÏ¢·¢ËÍ¸ø¶ÓÓÑµÄ¿Í»§¶Ë
+// åè®® : å°†Playeråšä¸ºç»„é˜Ÿæˆå‘˜çš„ä¿¡æ¯å‘é€ç»™é˜Ÿå‹çš„å®¢æˆ·ç«¯
 void CPlayer::NoticeTeamMemberData()
 {T_B
 	int	nTMemberCnt = GetTeamMemberCnt();
@@ -410,18 +410,18 @@ void CPlayer::NoticeTeamMemberData()
 	CCharacter *pMainCha = pCha->GetPlayer()->GetMainCha();
 	
 	
-	//LG("team", "[%s]×öÎª¶ÓÔ±ÏòÆäËû³ÉÔ±µÄ¿Í»§¶Ë[%d¸ö]Í¨Öª×ÔÉíĞÅÏ¢\n", pCha->GetName(), nTMemberCnt);
+	//LG("team", "[%s]åšä¸ºé˜Ÿå‘˜å‘å…¶ä»–æˆå‘˜çš„å®¢æˆ·ç«¯[%dä¸ª]é€šçŸ¥è‡ªèº«ä¿¡æ¯\n", pCha->GetName(), nTMemberCnt);
 
     WPACKET	wpk = GETWPACKET();
 	WRITE_CMD(wpk, CMD_MC_TEAM);
-	WRITE_LONG(wpk, pMainCha->GetID()); // ·¢ËÍ¸ø¿Í»§¶Ë×Ô¼ºµÄ½ÇÉ«Î¨Ò»ID×÷Îª±êÊ¶
+	WRITE_LONG(wpk, pMainCha->GetID()); // å‘é€ç»™å®¢æˆ·ç«¯è‡ªå·±çš„è§’è‰²å”¯ä¸€IDä½œä¸ºæ ‡è¯†
 	WRITE_LONG(wpk, (long)pCha->getAttr(ATTR_HP));
 	WRITE_LONG(wpk, (long)pCha->getAttr(ATTR_MXHP));
 	WRITE_LONG(wpk, (long)pCha->getAttr(ATTR_SP));
 	WRITE_LONG(wpk, (long)pCha->getAttr(ATTR_MXSP));
 	
-	WRITE_LONG(wpk, pMainCha->getAttr(ATTR_LV)); // Ğ´ÈëÈËµÄ¼¶±ğĞÅÏ¢	
-	pMainCha->WriteLookData(wpk, LOOK_TEAM);	 // Ğ´ÈëÈËµÄÍâ¹ÛĞÅÏ¢, ×îÖÕÓ¦¸Ã´¦ÀíÎªÏÔÊ¾´¬µÄÍâ¹ÛºÍ¼¶±ğ
+	WRITE_LONG(wpk, pMainCha->getAttr(ATTR_LV)); // å†™å…¥äººçš„çº§åˆ«ä¿¡æ¯	
+	pMainCha->WriteLookData(wpk, LOOK_TEAM);	 // å†™å…¥äººçš„å¤–è§‚ä¿¡æ¯, æœ€ç»ˆåº”è¯¥å¤„ç†ä¸ºæ˜¾ç¤ºèˆ¹çš„å¤–è§‚å’Œçº§åˆ«
 
 	SENDTOCLIENT2(wpk, nTMemberCnt, _Team);
 T_E}
@@ -442,11 +442,11 @@ void CPlayer::NoticeTeamLeaderID(void)
 	pCha->NotiChgToEyeshot(pk);
 	//pCha->ReflectINFof(pCha, pk);
 
-	//pCha->m_CLog.Log("Í¬²½¶ÓÎé±àºÅ£º¶Ó³¤ %d£¬×Ô¼º %d.", getTeamLeaderID(), pCha->GetID());
+	//pCha->m_CLog.Log("åŒæ­¥é˜Ÿä¼ç¼–å·ï¼šé˜Ÿé•¿ %dï¼Œè‡ªå·± %d.", getTeamLeaderID(), pCha->GetID());
 	pCha->m_CLog.Log("in phase teamID:header  %d,oneself %d.", getTeamLeaderID(), pCha->GetID());
 }
 
-// »ñµÃÍæ¼ÒÍ¬¶ÓµÄ³ÉÔ±½ÇÉ«
+// è·å¾—ç©å®¶åŒé˜Ÿçš„æˆå‘˜è§’è‰²
 CCharacter* CPlayer::GetTeamMemberCha(int nNo)
 {
 	CPlayer *pOther = g_pGameApp->GetPlayerByDBID(_Team[nNo].m_dwDBChaId);
@@ -508,7 +508,7 @@ void CPlayer::ClearChallengeObj(bool bAll)
 	SetChallengeType(enumFIGHT_NONE);
 }
 
-// chPosType 1£¬×°±¸À¸.2£¬µÀ¾ßÀ¸
+// chPosType 1ï¼Œè£…å¤‡æ .2ï¼Œé“å…·æ 
 bool CPlayer::SetRepairPosInfo(dbc::Char chPosType, dbc::Char chPosID)
 {
 	m_chRepairPosType = chPosType;
@@ -547,7 +547,7 @@ bool CPlayer::OpenForge(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -560,7 +560,7 @@ bool CPlayer::OpenForge(CCharacter *pCNpc)
 // Add by lark.li 20080514 begin
 bool CPlayer::OpenLottery(CCharacter *pCNpc)
 {
-	//SystemNotice("Âò²ÊÆ±£¬ÕÒÀîÁé»Ô£¡");
+	//SystemNotice("ä¹°å½©ç¥¨ï¼Œæ‰¾æçµè¾‰ï¼");
 
 	m_pCLotteryman = pCNpc;
 	GetCtrlCha()->SynBeginItemLottery();
@@ -572,7 +572,7 @@ bool CPlayer::OpenUnite(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -586,7 +586,7 @@ bool CPlayer::OpenMilling(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -600,7 +600,7 @@ bool CPlayer::OpenFusion(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -614,7 +614,7 @@ bool CPlayer::OpenUpgrade(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -628,7 +628,7 @@ bool CPlayer::OpenEidolonMetempsychosis(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -642,7 +642,7 @@ bool CPlayer::OpenEidolonFusion(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -656,7 +656,7 @@ bool CPlayer::OpenPurify(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -670,7 +670,7 @@ bool CPlayer::OpenFix(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -684,7 +684,7 @@ bool CPlayer::OpenEnergy(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -710,7 +710,7 @@ bool CPlayer::OpenGetStone(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -724,7 +724,7 @@ bool CPlayer::OpenTiger(CCharacter *pCNpc)
 {
 	if (IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_PLAYER_CPP_00005));
 		return false;
 	}
@@ -874,7 +874,7 @@ bool CPlayer::SynBank(char chBankNO, char chType)
 	}
 
 	WPACKET WtPk = GETWPACKET();
-	WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	// Í¨¸æĞĞ¶¯
+	WRITE_CMD(WtPk, CMD_MC_NOTIACTION);	// é€šå‘Šè¡ŒåŠ¨
 	WRITE_LONG(WtPk, m_pCtrlCha->GetID());
 	WRITE_LONG(WtPk, m_pCtrlCha->m_ulPacketID);
 	WRITE_CHAR(WtPk, enumACTION_BANK);
@@ -897,38 +897,38 @@ bool CPlayer::BankCanOpen(CCharacter *pCNpc)
 	CCharacter	*pCCtrlCha = GetCtrlCha();
 	if (pCCtrlCha != GetMainCha())
 	{
-		//pCCtrlCha->SystemNotice("µ±Ç°½ÇÉ«²»ÄÜ½»»¥ÒøĞĞ");
+		//pCCtrlCha->SystemNotice("å½“å‰è§’è‰²ä¸èƒ½äº¤äº’é“¶è¡Œ");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00006));
 		return false;
 	}
 	if (m_pCBankNpc)
 	{
-		//pCCtrlCha->SystemNotice("ÒøĞĞÒÑ¾­ÔÚ´ò¿ª×´Ì¬");
+		//pCCtrlCha->SystemNotice("é“¶è¡Œå·²ç»åœ¨æ‰“å¼€çŠ¶æ€");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00007));
 		return false;
 	}
 	if (!pCNpc)
 	{
-		//pCCtrlCha->SystemNotice("ÒøĞĞNPC²»´æÔÚ");
+		//pCCtrlCha->SystemNotice("é“¶è¡ŒNPCä¸å­˜åœ¨");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00008));
 		return false;
 	}
 	if (pCCtrlCha->HasTradeAction())
 	{
-		//pCCtrlCha->SystemNotice("ÒÑ¾­ÔÚ½»Ò×ÖĞ");
+		//pCCtrlCha->SystemNotice("å·²ç»åœ¨äº¤æ˜“ä¸­");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00009));
 		return false;
 	}
-	// ¾àÀëÅĞ¶Ï£¬ÔÚNpc½»»¥Ê±ÒÑ¾­ÓĞÁË¼ì²â
+	// è·ç¦»åˆ¤æ–­ï¼Œåœ¨Npcäº¤äº’æ—¶å·²ç»æœ‰äº†æ£€æµ‹
 	if (!pCCtrlCha->IsRangePoint(pCNpc->GetPos(), defBANK_DISTANCE))
 	{
-		//pCCtrlCha->SystemNotice("¾àÀëÌ«Ô¶");
+		//pCCtrlCha->SystemNotice("è·ç¦»å¤ªè¿œ");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00010));
 		return false;
 	}
 	if (!pCCtrlCha->TradeAction(true))
 	{
-		//pCCtrlCha->SystemNotice("ÉèÖÃ½»Ò××´Ì¬Ê§°Ü");
+		//pCCtrlCha->SystemNotice("è®¾ç½®äº¤æ˜“çŠ¶æ€å¤±è´¥");
 		pCCtrlCha->SystemNotice(RES_STRING(GM_PLAYER_CPP_00011));
 		return false;
 	}
@@ -1056,7 +1056,7 @@ bool CPlayer::BankHasItem(USHORT sItemID, USHORT& sCount)
 	CItemRecord* pItem = GetItemRecordInfo( sItemID );
 	if( pItem == NULL )
 	{
-		//SystemNotice( "BankHasItem:´íÎóµÄÎïÆ·Êı¾İÀàĞÍ!ID = %d", sItemID );
+		//SystemNotice( "BankHasItem:é”™è¯¯çš„ç‰©å“æ•°æ®ç±»å‹!ID = %d", sItemID );
 		SystemNotice( RES_STRING(GM_PLAYER_CPP_00013), sItemID );
 		return FALSE;
 	}
@@ -1149,7 +1149,7 @@ bool CPlayer::Strin2BankDBIDData(std::string &strData)
 
 void CPlayer::CheckChaItemFinalData()
 {
-	// Íâ¹Û
+	// å¤–è§‚
 	cChar	*szScript = "check_item_final_data";
 	CCharacter	*pCMainCha = GetMainCha();
 	for (int i = 0; i < enumEQUIP_NUM; i++)
@@ -1161,7 +1161,7 @@ void CPlayer::CheckChaItemFinalData()
 		}
 	}
 
-	// ±³°ü
+	// èƒŒåŒ…
 	SItemGrid	*pGridCont;
 	Short	sUseNum = pCMainCha->m_CKitbag.GetUseGridNum();
 	for (int i = 0; i < sUseNum; i++)
@@ -1173,7 +1173,7 @@ void CPlayer::CheckChaItemFinalData()
 		g_CParser.DoString(szScript, enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pGridCont, DOSTRING_PARAM_END);
 	}
 
-	// ÒøĞĞ
+	// é“¶è¡Œ
 	for (int j = 0; j < MAX_BANK_NUM; j++)
 	{
 		sUseNum = m_CBank[j].GetUseGridNum();
@@ -1187,7 +1187,7 @@ void CPlayer::CheckChaItemFinalData()
 		}
 	}
 
-	// ´¬²Õ
+	// èˆ¹èˆ±
 	//for (int i = 0; i < m_byNumBoat; i++)
 	//{
 	//	if (m_Boat[i])
@@ -1218,7 +1218,7 @@ void CPlayer::Run(DWORD dwCurTime)
 	if (HasChallengeObj())
 		if (m_timerChallenge.IsOK(dwCurTime))
 		{
-			//SystemNotice("ÑûÇë³¬Ê±!");
+			//SystemNotice("é‚€è¯·è¶…æ—¶!");
 			SystemNotice(RES_STRING(GM_PLAYER_CPP_00014));
 			ClearChallengeObj(false);
 		}

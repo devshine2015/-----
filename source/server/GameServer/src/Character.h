@@ -24,12 +24,12 @@
 #define defPING_INTERVAL		20 * 1000
 #define defCHA_SCRIPT_PARAM_NUM	1
 
-extern CCharacter*		g_pCSystemCha;		// ÏµÍ³½ÇÉ«
+extern CCharacter*		g_pCSystemCha;		// ç³»ç»Ÿè§’è‰²
 
-struct SLean // ÒĞ¿¿
+struct SLean // å€šé 
 {
-	dbc::uLong	ulPacketID; // Êı¾İ°üµÄID
-	dbc::Char	chState;	// 0£¬ÒĞ¿¿ÖĞ.1£¬Í£Ö¹ÒÀ¿¿
+	dbc::uLong	ulPacketID; // æ•°æ®åŒ…çš„ID
+	dbc::Char	chState;	// 0ï¼Œå€šé ä¸­.1ï¼Œåœæ­¢ä¾é 
 	dbc::Long	lPose;
 	dbc::Long	lAngle;
 	dbc::Long	lPosX, lPosY;
@@ -51,48 +51,48 @@ struct STempChaPart
 
 struct SCheatX
 {
-	uInt Xtype;			//1:´ğÌâÍê³Éºó 2:ÌáÎÊºó
-	uInt Xerror;		//´íÎó´ÎÊı
-	uInt Xright;		//Á¬Ğø´ğ¶ÔµÄ´ÎÊı
-	uInt Xcount;		//´ğÌâµÄ´ÎÊı
+	uInt Xtype;			//1:ç­”é¢˜å®Œæˆå 2:æé—®å
+	uInt Xerror;		//é”™è¯¯æ¬¡æ•°
+	uInt Xright;		//è¿ç»­ç­”å¯¹çš„æ¬¡æ•°
+	uInt Xcount;		//ç­”é¢˜çš„æ¬¡æ•°
 	uInt Xn;
-	DWORD dwLastTime;	//ÉÏÒ»´ÎµÄÊ±¼ä
-	DWORD dwInterval;	//Ê±¼ä¼ä¸ô
+	DWORD dwLastTime;	//ä¸Šä¸€æ¬¡çš„æ—¶é—´
+	DWORD dwInterval;	//æ—¶é—´é—´éš”
 	string Xnum;		//X number
 };
 
 enum EActControl
 {
-	enumACTCONTROL_MOVE,		// ÒÆ¶¯Î»
-	enumACTCONTROL_USE_GSKILL,	// Ê¹ÓÃÆÕÍ¨¼¼ÄÜÎ»
-	enumACTCONTROL_USE_MSKILL,	// Ê¹ÓÃÄ§·¨¼¼ÄÜÎ»
-	enumACTCONTROL_BEUSE_SKILL,	// ±»Ê¹ÓÃ¼¼ÄÜÎ»
-	enumACTCONTROL_TRADE,		// ½»Ò×Î»
-	enumACTCONTROL_USE_ITEM,	// Ê¹ÓÃÎïÆ·Î»
-	enumACTCONTROL_BEUSE_ITEM,	// ±»Ê¹ÓÃÎïÆ·Î»
-	enumACTCONTROL_INVINCIBLE,	// ÎŞµĞÎ»
-	enumACTCONTROL_EYESHOT,		// ÊÓÒ°Î»£¨¿ÉÒÔ¿´µ½ÊÓÒ°ÄÚ¿É¼ûµÄÊµÌå£©
-	enumACTCONTROL_NOHIDE,		// ²»ÒşĞÎ£¨¿ÉÒÔ±»¿´¼û£©
-	enumACTCONTROL_NOSHOW,		// ²»±»Ç¿ÖÆÏÖĞÎ£¨Èç¹ûÓĞÇ¿ÖÆÏÖĞÎ£¬ÔòÒşĞÎ±»ÆÁ±Î£©
-	enumACTCONTROL_ITEM_OPT,	// µÀ¾ß²Ù×÷Î»
-	enumACTCONTROL_TALKTO_NPC,	// ºÍNPC¶Ô»°Î»
+	enumACTCONTROL_MOVE,		// ç§»åŠ¨ä½
+	enumACTCONTROL_USE_GSKILL,	// ä½¿ç”¨æ™®é€šæŠ€èƒ½ä½
+	enumACTCONTROL_USE_MSKILL,	// ä½¿ç”¨é­”æ³•æŠ€èƒ½ä½
+	enumACTCONTROL_BEUSE_SKILL,	// è¢«ä½¿ç”¨æŠ€èƒ½ä½
+	enumACTCONTROL_TRADE,		// äº¤æ˜“ä½
+	enumACTCONTROL_USE_ITEM,	// ä½¿ç”¨ç‰©å“ä½
+	enumACTCONTROL_BEUSE_ITEM,	// è¢«ä½¿ç”¨ç‰©å“ä½
+	enumACTCONTROL_INVINCIBLE,	// æ— æ•Œä½
+	enumACTCONTROL_EYESHOT,		// è§†é‡ä½ï¼ˆå¯ä»¥çœ‹åˆ°è§†é‡å†…å¯è§çš„å®ä½“ï¼‰
+	enumACTCONTROL_NOHIDE,		// ä¸éšå½¢ï¼ˆå¯ä»¥è¢«çœ‹è§ï¼‰
+	enumACTCONTROL_NOSHOW,		// ä¸è¢«å¼ºåˆ¶ç°å½¢ï¼ˆå¦‚æœæœ‰å¼ºåˆ¶ç°å½¢ï¼Œåˆ™éšå½¢è¢«å±è”½ï¼‰
+	enumACTCONTROL_ITEM_OPT,	// é“å…·æ“ä½œä½
+	enumACTCONTROL_TALKTO_NPC,	// å’ŒNPCå¯¹è¯ä½
 	enumACTCONTROL_MAX,
 };
 
 enum ESwitchMapType
 {
-	enumSWITCHMAP_CARRY,	// ´«ËÍ
-	enumSWITCHMAP_DIE,		// ËÀÍö
+	enumSWITCHMAP_CARRY,	// ä¼ é€
+	enumSWITCHMAP_DIE,		// æ­»äº¡
 };
 
-enum ELogAssetsType	// ´ËÃ¶¾ÙÖµ¶ÔÓ¦Êı×éÏÂ±ê
+enum ELogAssetsType	// æ­¤æšä¸¾å€¼å¯¹åº”æ•°ç»„ä¸‹æ ‡
 {
-	enumLASSETS_INIT,		// ³õÊ¼»¯
-	enumLASSETS_TRADE,		// ½»Ò×
-	enumLASSETS_BANK,		// ÒøĞĞ
-	enumLASSETS_PICKUP,		// Ê°È¡
-	enumLASSETS_THROW,		// ¶ªÆú
-	enumLASSETS_DELETE,		// É¾³ı
+	enumLASSETS_INIT,		// åˆå§‹åŒ–
+	enumLASSETS_TRADE,		// äº¤æ˜“
+	enumLASSETS_BANK,		// é“¶è¡Œ
+	enumLASSETS_PICKUP,		// æ‹¾å–
+	enumLASSETS_THROW,		// ä¸¢å¼ƒ
+	enumLASSETS_DELETE,		// åˆ é™¤
 };
 
 namespace mission
@@ -127,19 +127,19 @@ public:
 	void	Initially();
 	void	Finally();
 
-	bool	IsPlayerCha(void); // ÊÇ·ñÍæ¼Ò½ÇÉ«
-	bool	IsGMCha(); // GMµÈ¼¶ÔÚ0-10µÄGM½ÇÉ«
-	bool	IsGMCha2(); // GM½ÇÉ«
-	bool	IsPlayerCtrlCha(void); // Íæ¼Òµ±Ç°¿ØÖÆµÄ½ÇÉ«
-	bool	IsPlayerMainCha(void); // Íæ¼ÒµÄÈË½ÇÉ«
-	bool	IsPlayerFocusCha(void); // Íæ¼Òµ±Ç°¿ØÖÆµÄ½ÇÉ«£¬ Í¬IsPlayerCtrlChaÀı³Ì
-	bool	IsPlayerOwnCha(void); // Íæ¼Ò½ÇÉ«£¬ÇÒÆä¿ØÖÆÀàĞÍÊÇÍæ¼Ò
+	bool	IsPlayerCha(void); // æ˜¯å¦ç©å®¶è§’è‰²
+	bool	IsGMCha(); // GMç­‰çº§åœ¨0-10çš„GMè§’è‰²
+	bool	IsGMCha2(); // GMè§’è‰²
+	bool	IsPlayerCtrlCha(void); // ç©å®¶å½“å‰æ§åˆ¶çš„è§’è‰²
+	bool	IsPlayerMainCha(void); // ç©å®¶çš„äººè§’è‰²
+	bool	IsPlayerFocusCha(void); // ç©å®¶å½“å‰æ§åˆ¶çš„è§’è‰²ï¼Œ åŒIsPlayerCtrlChaä¾‹ç¨‹
+	bool	IsPlayerOwnCha(void); // ç©å®¶è§’è‰²ï¼Œä¸”å…¶æ§åˆ¶ç±»å‹æ˜¯ç©å®¶
 	CCharacter	*GetPlyCtrlCha(void);
 	CCharacter	*GetPlyMainCha(void);
 
-	void	WritePK(WPACKET& wpk);			//Ğ´ÈëÍæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)µÄËùÓĞÊı¾İ
+	void	WritePK(WPACKET& wpk);			//å†™å…¥ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)çš„æ‰€æœ‰æ•°æ®
 	void	WriteCharPartInfo(WPACKET& packet);
-	void	ReadPK(RPACKET& rpk);			//ÖØ¹¹Íæ¼Ò±¾Éí¼°ÆäËùÓĞ¸½¼Ó½á¹¹(ÈçÕÙ»½ÊŞµÈ)
+	void	ReadPK(RPACKET& rpk);			//é‡æ„ç©å®¶æœ¬èº«åŠå…¶æ‰€æœ‰é™„åŠ ç»“æ„(å¦‚å¬å”¤å…½ç­‰)
 	void	SwitchMap(SubMap *pCSrcMap, cChar *szTarMapName, Long lTarX, Long lTarY, bool bNeedOutSrcMap = true, Char chSwitchType = enumSWITCHMAP_CARRY, Long lTMapCpyNO = -1);
 
 	virtual void	ProcessPacket(uShort usCmd, RPACKET pk);
@@ -156,7 +156,7 @@ public:
 	void	InitCheatX();
 	DWORD	GetCheatInterval(int state);
 
-	// Ö¸Áîº¯Êı
+	// æŒ‡ä»¤å‡½æ•°
 	bool		Cmd_EnterMap(dbc::cChar* l_map, dbc::Long lMapCopyNO, dbc::uLong l_x, dbc::uLong l_y, dbc::Char chLogin = 1);
 	void		Cmd_BeginMove(dbc::Short sPing, Point *pPath, dbc::Char chPointNum, dbc::Char chStopState = enumEXISTS_WAITING);
 	void		Cmd_BeginMoveDirect(Entity *pTar);
@@ -177,7 +177,7 @@ public:
 	dbc::Short	Cmd_BagOfHoldingOper(dbc::Char chSrcType, dbc::Short sSrcGridID, dbc::Short sSrcNum, dbc::Char chTarType, dbc::Short sTarGridID);
 
 	
-    //ÍÏ·ÅÁÙÊ±±³°üµÄµÀ¾ß(sSrcGrid:ÁÙÊ±±³°üµÄÎ»ÖÃ   sSrcNum:ÊıÁ¿   sTarGrid:µÀ¾ßÀ¸Î»ÖÃ)
+    //æ‹–æ”¾ä¸´æ—¶èƒŒåŒ…çš„é“å…·(sSrcGrid:ä¸´æ—¶èƒŒåŒ…çš„ä½ç½®   sSrcNum:æ•°é‡   sTarGrid:é“å…·æ ä½ç½®)
     dbc::Short  Cmd_DragItem(dbc::Short sSrcGrid, dbc::Short sSrcNum, dbc::Short sTarGrid);
     
 	void		Cmd_SetInPK(bool bInPK = true) {if (m_chPKCtrl & 0x02) return; if (bInPK) m_chPKCtrl |= 0x01; else m_chPKCtrl &= 0xfe;}
@@ -185,9 +185,9 @@ public:
 	void		Cmd_ReassignAttr(RPACKET &pk);
 	dbc::Short	Cmd_RemoveItem(dbc::Long lItemID, dbc::Long lItemNum, dbc::Char chFromType, dbc::Short sFromID, dbc::Char chToType, dbc::Short sToID, bool bRefresh = true, bool bForcible = true);
 
-	void		Cmd_ChangeHair(RPACKET &pk);											// ´¦Àí¸ü»»·¢ĞÍ
-	void		Prl_ChangeHairResult(int nScriptID, const char* szReason, BOOL bNoticeAll = FALSE); // ¸ü»»·¢ĞÍµÄÏûÏ¢·´À¡
-	void		Prl_OpenHair();															// Í¨Öª¿Í»§¶Ë´ò¿ªÀí·¢½çÃæ	
+	void		Cmd_ChangeHair(RPACKET &pk);											// å¤„ç†æ›´æ¢å‘å‹
+	void		Prl_ChangeHairResult(int nScriptID, const char* szReason, BOOL bNoticeAll = FALSE); // æ›´æ¢å‘å‹çš„æ¶ˆæ¯åé¦ˆ
+	void		Prl_OpenHair();															// é€šçŸ¥å®¢æˆ·ç«¯æ‰“å¼€ç†å‘ç•Œé¢	
 
 	void		Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTarHandle);
 	void		Cmd_FightAnswer(bool bFight);
@@ -201,19 +201,19 @@ public:
 	void		Cmd_ItemLotteryAnswer(bool bForge);
 	// End
 	
-	//·´¶·°×Òø
+	//åæ–—ç™½é“¶
 	void		Cmd_Garner2_Reorder(short index);
 
-	//Éú»î¼¼ÄÜ
+	//ç”Ÿæ´»æŠ€èƒ½
 	void		Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem);
 	void		Cmd_LifeSkillItemAsR(long dwType,SLifeSkillItem *pSItem);
-    //±³°üËø¶¨
+    //èƒŒåŒ…é”å®š
     void        Cmd_LockKitbag();
     void        Cmd_UnlockKitbag(const char szPassword[]);
     void        Cmd_CheckKitbagState();
     void        Cmd_SetKitbagAutoLock(Char cAuto);
 
-	//ÀÏÊÖ´øĞÂÊÖ
+	//è€æ‰‹å¸¦æ–°æ‰‹
 	BOOL		Cmd_AddVolunteer();
 	BOOL		Cmd_DelVolunteer();
 	void		Cmd_ListVolunteer(short sPage, short sNum);
@@ -236,16 +236,16 @@ public:
 	void	ColourNotice( DWORD rgb, const char szData[], ... );
 	bool	IsPKSilver();
 
-	// ÉèÖÃ½»Ò×ĞÅÏ¢
+	// è®¾ç½®äº¤æ˜“ä¿¡æ¯
 	void	SetTradeData( mission::CTradeData* pData ) { m_pTradeData = pData; }
 	mission::CTradeData* GetTradeData() { return m_pTradeData; }
 	
-	// ´¬Ö»
+	// èˆ¹åª
 	void	SetBoat( CCharacter* pBoat );
 	CCharacter* GetBoat();
 	bool	IsBoat(void) {return m_pCChaRecord->chModalType == enumMODAL_BOAT;}
 	
-	// Óënpc½»Ò×
+	// ä¸npcäº¤æ˜“
 	BOOL	SafeSale( BYTE byIndex, BYTE byCount, WORD& wItemID, DWORD& dwMoney );
 	BOOL	SafeBuy( WORD wItemID, BYTE byCount, BYTE byIndex, DWORD& dwMoney );
 	BOOL	SafeSaleGoods( DWORD dwBoatID, BYTE byIndex, BYTE byCount, WORD& wItemID, DWORD& dwMoney );
@@ -262,8 +262,8 @@ public:
 	BOOL	SetTempData( DWORD dwNpcID, WORD wID, BYTE byState, BYTE byType );
 	BOOL	GetTempData( DWORD dwNpcID, WORD& wID, BYTE& byState, BYTE& byType );
 
-	// ÈÎÎñÏµÍ³½Ó¿Úº¯Êı
-	BOOL	SaveMissionData();	// ½ÇÉ«ÈÎÎñĞÅÏ¢´æÅÌ
+	// ä»»åŠ¡ç³»ç»Ÿæ¥å£å‡½æ•°
+	BOOL	SaveMissionData();	// è§’è‰²ä»»åŠ¡ä¿¡æ¯å­˜ç›˜
 
 	BOOL	AddMissionState( DWORD dwNpcID, BYTE byID, BYTE byState );
 	BOOL	ResetMissionState( mission::CTalkNpc& npc );
@@ -292,38 +292,38 @@ public:
 	BOOL	IsRecord( WORD wRec );
 	BOOL	IsValidRecord( WORD wRec );
 
-	// Ëæ»úÈÎÎñ½Ó¿Ú²Ù×÷ĞÅÏ¢
+	// éšæœºä»»åŠ¡æ¥å£æ“ä½œä¿¡æ¯
 	BOOL	HasRandMission( WORD wRoleID );
 	BOOL	AddRandMission( WORD wRoleID, WORD wScriptID, BYTE byType, BYTE byLevel, DWORD dwExp, DWORD dwMoney, USHORT sPrizeData, USHORT sPrizeType, BYTE byNumData );
 	BOOL	SetRandMissionData( WORD wRoleID, BYTE byIndex, const mission::MISSION_DATA& RandData );
 	BOOL	GetRandMission( WORD wRoleID, BYTE& byType, BYTE& byLevel, DWORD& dwExp, DWORD& dwMoney, USHORT& sPrizeData, USHORT& sPrizeType, BYTE& byNumData );
 	BOOL	GetRandMissionData( WORD wRoleID, BYTE byIndex, mission::MISSION_DATA& RandData );
 
-	// ¼ì²âËÍ¸ønpcµÄÎïÆ·(½ÓÊÜÎïÆ·µÄNPCÈ¡×ßÎïÆ·ºó£¬¼ÇÂ¼Ò»¸ö±ê¼Ç£¬ÊÇ·ñÈ¡×ßÓÃ¸Ã±ê¼Ç±êÊ¶)
+	// æ£€æµ‹é€ç»™npcçš„ç‰©å“(æ¥å—ç‰©å“çš„NPCå–èµ°ç‰©å“åï¼Œè®°å½•ä¸€ä¸ªæ ‡è®°ï¼Œæ˜¯å¦å–èµ°ç”¨è¯¥æ ‡è®°æ ‡è¯†)
 	BOOL	HasSendNpcItemFlag( WORD wRoleID, WORD wNpcID );
 	BOOL	NoSendNpcItemFlag( WORD wRoleID, WORD wNpcID );
 	BOOL	HasRandMissionNpc( WORD wRoleID, WORD wNpcID, WORD wAreaID );
 
-	// È¡×ßËæ»úÈÎÎñÎïÆ·
+	// å–èµ°éšæœºä»»åŠ¡ç‰©å“
 	BOOL	TakeRandNpcItem( WORD wRoleID, WORD wNpcID, const char szNpc[] );
 	BOOL	TakeAllRandItem( WORD wRoleID );
 
-	// ÊÇ·ñÈÎÎñĞèÒªµÄÎïÆ·
+	// æ˜¯å¦ä»»åŠ¡éœ€è¦çš„ç‰©å“
 	BOOL	IsMisNeedItem( USHORT sItemID );
 	BOOL	GetMisNeedItemCount( WORD wRoleID, USHORT sItemID, USHORT& sCount );
 	void	RefreshNeedItem( USHORT sItemID );
 
-	// ÈÎÎñÈÕÖ¾
+	// ä»»åŠ¡æ—¥å¿—
 	void	MisLog();
 	void	MisLogInfo( WORD wMisID );
 	void	MisLogClear( WORD wMisID );
 
-	// ÉèÖÃÈÎÎñÒÑ¾­´¦ÓÚÍê³É×´Ì¬
+	// è®¾ç½®ä»»åŠ¡å·²ç»å¤„äºå®ŒæˆçŠ¶æ€
 	BOOL	SetMissionComplete( WORD wRoleID );
 	BOOL	SetMissionFailure( WORD wRoleID );
 	BOOL	HasMissionFailure( WORD wRoleID );
 
-	// Ëæ»úÈÎÎñÍê³É¼ÆÊı½Ó¿Ú
+	// éšæœºä»»åŠ¡å®Œæˆè®¡æ•°æ¥å£
 	BOOL	CompleteRandMission( WORD wRoleID );
 	BOOL	FailureRandMission( WORD wRoleID );
 	BOOL	AddRandMissionNum( WORD wRoleID );
@@ -333,14 +333,14 @@ public:
 	BOOL	GetRandMissionCount( WORD wRoleID, WORD& wCount );
 	BOOL	GetRandMissionNum( WORD wRoleID, WORD& wNum );
 
-	// ÕÙ»½Ò»¸ö±»»¤ËÍNPC
+	// å¬å”¤ä¸€ä¸ªè¢«æŠ¤é€NPC
 	BOOL	ConvoyNpc( WORD wRoleID, BYTE byIndex, WORD wNpcCharID, BYTE byAiType );
 	BOOL	ClearConvoyNpc( WORD wRoleID, BYTE byIndex );
 	BOOL	ClearAllConvoyNpc( WORD wRoleID );
 	BOOL	HasConvoyNpc( WORD wRoleID, BYTE byIndex );
 	BOOL	IsConvoyNpc( WORD wRoleID, BYTE byIndex, WORD wNpcCharID );
 
-	// ½ÇÉ«½ğÇ®ºÍÎïÆ·²Ù×÷º¯Êı
+	// è§’è‰²é‡‘é’±å’Œç‰©å“æ“ä½œå‡½æ•°
 	void	AddMoney( const char szName[], DWORD dwMoney );
 	BOOL	TakeMoney( const char szName[], DWORD dwMoney );
 	BOOL	HasMoney( DWORD dwMoney );
@@ -355,26 +355,26 @@ public:
 	BOOL	HasItemBagTemp(USHORT sItemID, USHORT sCount);
 	BOOL	TakeItemBagTemp(USHORT sItemID, USHORT sCount, const char szName[]);
 
-	//Ìí¼ÓÎïÆ·µ½ÁÙÊ±±³°ü
+	//æ·»åŠ ç‰©å“åˆ°ä¸´æ—¶èƒŒåŒ…
 	BOOL	AddItem2KitbagTemp( USHORT sItemID, USHORT sCount, ItemInfo *pItemAttr, BYTE bySoundType = enumSYN_KITBAG_FROM_NPC );
 	BOOL	AddItem2KitbagTemp( USHORT sItemID, USHORT sCount, const char szName[], BYTE byAddType = enumITEM_INST_TASK, BYTE bySoundType = enumSYN_KITBAG_FROM_NPC );
 	BOOL	GiveItem2KitbagTemp( USHORT sItemID, USHORT sCount, ItemInfo *pItemAttr, BYTE bySoundType );
 	BOOL	GiveItem2KitbagTemp( USHORT sItemID, USHORT sCount, BYTE byAddType, BYTE bySoundType );
 
-	// ÖØÉè½ÇÉ«Ö°ÒµÊôĞÔ
+	// é‡è®¾è§’è‰²èŒä¸šå±æ€§
 	BOOL	SetProfession( BYTE byPf );
 
-	bool	LearnSkill(dbc::Short sSkillID, dbc::Char chLv, bool bSetLv = true, bool bUsePoint = true, bool bLimit = true); // Ñ§Ï°¼¼ÄÜ£¨Í¨¸æ£©
+	bool	LearnSkill(dbc::Short sSkillID, dbc::Char chLv, bool bSetLv = true, bool bUsePoint = true, bool bLimit = true); // å­¦ä¹ æŠ€èƒ½ï¼ˆé€šå‘Šï¼‰
 	bool	AddSkillState(dbc::uChar uchFightID, dbc::uLong ulSrcWorldID, dbc::Long lSrcHandle, dbc::Char chObjType, dbc::Char chObjHabitat, dbc::Char chEffType,
-			dbc::uChar uchStateID, dbc::uChar uchStateLv, dbc::Long lOnTick, dbc::Char chType = enumSSTATE_ADD_UNDEFINED, bool bNotice = true); // Ôö¼Ó¼¼ÄÜ×´Ì¬
-	bool	DelSkillState(dbc::uChar uchStateID, bool bNotice = true); // É¾³ı×´Ì¬
+			dbc::uChar uchStateID, dbc::uChar uchStateLv, dbc::Long lOnTick, dbc::Char chType = enumSSTATE_ADD_UNDEFINED, bool bNotice = true); // å¢åŠ æŠ€èƒ½çŠ¶æ€
+	bool	DelSkillState(dbc::uChar uchStateID, bool bNotice = true); // åˆ é™¤çŠ¶æ€
 
-	// ĞĞÎª¿ØÖÆ
+	// è¡Œä¸ºæ§åˆ¶
 	bool	GetActControl(dbc::Char chCtrlType) {return m_ActContrl[chCtrlType];}
 	void	Hide();
 	void	Show();
 
-	// »Ö¸´½ÇÉ«ÊôĞÔ
+	// æ¢å¤è§’è‰²å±æ€§
 	void	RestoreHp( BYTE byHpRate );
 	void	RestoreSp( BYTE bySpRate );
 	void	RestoreAllHp();
@@ -383,7 +383,7 @@ public:
 
 	BOOL	ViewItemInfo( RPACKET& pk );
 
-	BOOL	AddAttr( int nIndex, DWORD dwValue, dbc::Short sNotiType = enumATTRSYN_TASK ); // ÈôÒªÔö¼ÓATTR_CEXPÊôĞÔ£¬ÇëÊ¹ÓÃCFightAble::AddExp
+	BOOL	AddAttr( int nIndex, DWORD dwValue, dbc::Short sNotiType = enumATTRSYN_TASK ); // è‹¥è¦å¢åŠ ATTR_CEXPå±æ€§ï¼Œè¯·ä½¿ç”¨CFightAble::AddExp
 	BOOL	TakeAttr( int nIndex, DWORD dwValue, dbc::Short sNotiType = enumATTRSYN_TASK );
 
 	bool	IsInPK(void) {return m_chPKCtrl & 0x01 ? true : false;}
@@ -397,18 +397,18 @@ public:
 
 	virtual void BreakAction(RPACKET pk = NULL);
 	virtual void EndAction(RPACKET pk = NULL);
-	// ½ÇÉ«ÊÂ¼ş´¦Àíº¯Êı
+	// è§’è‰²äº‹ä»¶å¤„ç†å‡½æ•°
 	virtual void AfterObjDie(CCharacter *pCAtk, CCharacter *pCDead);
 	virtual void AfterPeekItem(dbc::Short sItemID, dbc::Short sNum);
 	virtual void AfterEquipItem(dbc::Short sItemID, dbc::uShort sTriID);
 	virtual void EntryMapUnit( BYTE byMapID, WORD wxPos, WORD wyPos );
-	virtual void OnMissionTime(); // ÈÎÎñÊ±¼ä´¥·¢Æ÷ÊÂ¼ş
+	virtual void OnMissionTime(); // ä»»åŠ¡æ—¶é—´è§¦å‘å™¨äº‹ä»¶
 	virtual void OnLevelUp( USHORT sLevel );
 	virtual void OnSailLvUp( USHORT sLevel );
 	virtual void OnLifeLvUp( USHORT sLevel );
 	virtual void OnCharBorn();
 
-	// ´¬Ö»´¦Àí½Ó¿Úº¯Êı
+	// èˆ¹åªå¤„ç†æ¥å£å‡½æ•°
 	BOOL	IsNeedRepair();
 	BOOL	IsNeedSupply();
 	void	RepairBoat();
@@ -420,7 +420,7 @@ public:
 	BOOL	BoatUpdate( BYTE byIndex, const BOAT_DATA& Data );
 	BOOL	BoatLoad( const BOAT_LOAD_INFO& Info );
 	
-	// ´¬Ö»»õÎïÃ³Ò×
+	// èˆ¹åªè´§ç‰©è´¸æ˜“
 	BOOL	AdjustTradeItemCess( USHORT sLowCess, USHORT sData );
 	BOOL	GetTradeItemData( BYTE& byLevel, USHORT& sCess );
 	BOOL	SetTradeItemLevel( BYTE byLevel );	
@@ -442,52 +442,52 @@ public:
 	BOOL	PackBag( CCharacter& boat, BYTE byType, BYTE byLevel );
 	BOOL	PackBag( CCharacter& Boat, USHORT sItemID, USHORT sCount, USHORT sPileID, USHORT& sNumPack );
 	void	SetBoatAttrChangeFlag(bool bSet = true);
-	void	SyncBoatAttr( dbc::Short sSynType, bool bAllBoat = true ); // Í¬²½½¨ÔìµÄ´¬Ö»ÊôĞÔ
+	void	SyncBoatAttr( dbc::Short sSynType, bool bAllBoat = true ); // åŒæ­¥å»ºé€ çš„èˆ¹åªå±æ€§
 
-	// ´¬Ö»Ìí¼ÓÉ¾³ı
+	// èˆ¹åªæ·»åŠ åˆ é™¤
 	BOOL	BoatAdd( CCharacter& Boat );
 	BOOL	BoatClear( CCharacter& Boat );
 	BOOL	BoatAdd( DWORD dwDBID );
 	BOOL	BoatClear( DWORD dwDBID );
 
-	// ÊÂ¼şÊµÌå½»»¥Ê±¼ä¼ÇÂ¼
+	// äº‹ä»¶å®ä½“äº¤äº’æ—¶é—´è®°å½•
 	BOOL	SetEntityState( DWORD dwEntityID, BYTE byState );
 	void	SetEntityTime( DWORD dwTime );
 	DWORD	GetEntityTime();
 
-	// ¹«»áÅĞ¶¨º¯Êı
+	// å…¬ä¼šåˆ¤å®šå‡½æ•°
 	BOOL	HasGuild();
 	BOOL	IsGuildType( BYTE byType );
 
-	// °ÚÌ¯
+	// æ‘†æ‘Š
 	void	SetStallData( mission::CStallData* pData );
 	mission::CStallData* GetStallData();
 	BYTE	GetStallNum();
 
 	//add by jilinlee 2007/4/20
-	//¶ÁÊé
+	//è¯»ä¹¦
 	BOOL IsReadBook();
 	void SetReadBookState(bool bIsReadBook = false);
 
 
 	// 
-	void	ChangeItem(bool bEquip, SItemGrid *pItemCont, dbc::Char chLinkID); // ¼ÆËãÓÉ×°±¸±ä»¯´øÀ´µÄ½ÇÉ«ÊôĞÔµÄ±ä»¯
-	void	SkillRefresh(); // µÀ¾ß¼¤»î¼¼ÄÜ
-	// ĞÂ½¨½ÇÉ«³õÊ¼»¯
+	void	ChangeItem(bool bEquip, SItemGrid *pItemCont, dbc::Char chLinkID); // è®¡ç®—ç”±è£…å¤‡å˜åŒ–å¸¦æ¥çš„è§’è‰²å±æ€§çš„å˜åŒ–
+	void	SkillRefresh(); // é“å…·æ¿€æ´»æŠ€èƒ½
+	// æ–°å»ºè§’è‰²åˆå§‹åŒ–
 	void	NewChaInit(void);
-	// ĞÂ½¨½ÇÉ«µÄ×°±¸³õÊ¼»¯
+	// æ–°å»ºè§’è‰²çš„è£…å¤‡åˆå§‹åŒ–
 	void	ChaInitEquip(void);
 	void	ResetBirthInfo(void);
 
-	// Í¬²½½ÇÉ«Êı¾İ
-	void	SynKitbagNew(dbc::Char chType); // Í¬²½µÀ¾ßÀ¸
-	void    SynKitbagTmpNew(dbc::Char chType); // Í¬²½ÁÙÊ±±³°ü
-	void	SynShortcut(); // Í¬²½¿ì½İÀ¸
-	void	SynLook(dbc::Char chSynType = enumSYN_LOOK_SWITCH); // Í¬²½½ÇÉ«Íâ¹Û
+	// åŒæ­¥è§’è‰²æ•°æ®
+	void	SynKitbagNew(dbc::Char chType); // åŒæ­¥é“å…·æ 
+	void    SynKitbagTmpNew(dbc::Char chType); // åŒæ­¥ä¸´æ—¶èƒŒåŒ…
+	void	SynShortcut(); // åŒæ­¥å¿«æ·æ 
+	void	SynLook(dbc::Char chSynType = enumSYN_LOOK_SWITCH); // åŒæ­¥è§’è‰²å¤–è§‚
 	void	SynLook(dbc::Char chLookType, bool verbose);
-	bool	ItemForge(SItemGrid *pItem, dbc::Char chAddLv = 1); // ¾«Á¶µÀ¾ß²¢Í¬²½
-	void	SynSkillBag(dbc::Char chType); // Í¬²½¼¼ÄÜÀ¸
-	void	SynPKCtrl(void); // Í¬²½PK×´Ì¬
+	bool	ItemForge(SItemGrid *pItem, dbc::Char chAddLv = 1); // ç²¾ç‚¼é“å…·å¹¶åŒæ­¥
+	void	SynSkillBag(dbc::Char chType); // åŒæ­¥æŠ€èƒ½æ 
+	void	SynPKCtrl(void); // åŒæ­¥PKçŠ¶æ€
 	void	SynAddItemCha(CCharacter *pCItemCha);
 	void	SynDelItemCha(CCharacter *pCItemCha);
 	void	CheckPing(void);
@@ -520,7 +520,7 @@ public:
 
 	//
 
-	// ½ÇÉ«Êı¾İ±¨×éÖ¯
+	// è§’è‰²æ•°æ®æŠ¥ç»„ç»‡
 	void	WriteBaseInfo(WPACKET &pk, dbc::Char chLookType = LOOK_SELF);
 	void	WritePKCtrl(WPACKET &pk);
 	void	WriteSkillbag(WPACKET &pk, int nSynType);
@@ -533,11 +533,11 @@ public:
 	void	WriteSideInfo(WPACKET &pk);
 	//
 
-	// ÇëÇóµÄĞĞ¶¯Ê§°Ü
+	// è¯·æ±‚çš„è¡ŒåŠ¨å¤±è´¥
 	void	FailedActionNoti(dbc::Char chType, dbc::Char chReason);
-	// ÖÕ¶ËÏÔÊ¾ĞÅÏ¢
+	// ç»ˆç«¯æ˜¾ç¤ºä¿¡æ¯
 	void	TerminalMessage(dbc::Long lMessageID);
-	// µÀ¾ß²Ù×÷Ê§°Ü
+	// é“å…·æ“ä½œå¤±è´¥
 	void	ItemOprateFailed(dbc::Short sFailedID);
 
 	void		SetMotto(dbc::cChar *szMotto) {if (szMotto) strncpy(m_szMotto, szMotto, defMOTTO_LEN - 1);}
@@ -570,8 +570,8 @@ public:
 	void			SetBlockCnt(BYTE cnt)				{   _btBlockCnt = cnt;				}
 
 	virtual void	AfterAttrChange(int nIdx, dbc::Long lOldVal, dbc::Long lNewVal);
-	virtual void	Die();	// ´¦ÀíÖØÉú
-	void			JustDie(CCharacter *pCSrcCha);	// ´¦Àí±¬ÁÏ£¬¾­Ñé·ÖÅäµÈ
+	virtual void	Die();	// å¤„ç†é‡ç”Ÿ
+	void			JustDie(CCharacter *pCSrcCha);	// å¤„ç†çˆ†æ–™ï¼Œç»éªŒåˆ†é…ç­‰
 	void			MoveCity(dbc::cChar *szCityName, Long lMapCpyNO = -1, Char chSwitchType = enumSWITCHMAP_CARRY);
 	void			BackToCity(bool Die = false, cChar *szCityName = 0, Long lMapCpyNO = -1, Char chSwitchType = enumSWITCHMAP_DIE);
 	void			BackToCityEx(bool Die = false, cChar *szCityName = 0, Long lMapCpyNO = -1, Char chSwitchType = enumSWITCHMAP_DIE);
@@ -620,7 +620,7 @@ public:
 	void	SetKitbagRecDBID(long lDBID) {m_lKbRecDBID = lDBID;}
 	long	GetKitbagRecDBID(void) {return m_lKbRecDBID;}
 
-    //ÁÙÊ±±³°üID
+    //ä¸´æ—¶èƒŒåŒ…ID
     void	SetKitbagTmpRecDBID(long lDBID) {m_lKbTmpRecDBID = lDBID;}
 	long	GetKitbagTmpRecDBID(void) {return m_lKbTmpRecDBID;}
 
@@ -636,23 +636,23 @@ public:
 
 	int		GetLotteryIssue();
 
-	DWORD				m_dwBoatCtrlTick; // ÊìÁ·¶È¼ÇÊ±ÓÃ
+	DWORD				m_dwBoatCtrlTick; // ç†Ÿç»ƒåº¦è®°æ—¶ç”¨
 
-	// AIÊ¹ÓÃµÄ±äÁ¿ºÍ½Ó¿Úº¯Êı----------------------------------------------------------------
-	// ×îºÃµÄ·½Ê½ÊÇ·â×°Ò»¸ö CAICharacter, ½»¸øCharacter¼Ì³Ğ
+	// AIä½¿ç”¨çš„å˜é‡å’Œæ¥å£å‡½æ•°----------------------------------------------------------------
+	// æœ€å¥½çš„æ–¹å¼æ˜¯å°è£…ä¸€ä¸ª CAICharacter, äº¤ç»™Characterç»§æ‰¿
 	BYTE				m_AIType;
 	CCharacter*			m_AITarget;		
-	CCharacter*			m_HostCha;		  // ³èÎïµÄÖ÷ÈË
-	int					m_nPatrolX;       // Ñ²Âßµã×ø±ê
+	CCharacter*			m_HostCha;		  // å® ç‰©çš„ä¸»äºº
+	int					m_nPatrolX;       // å·¡é€»ç‚¹åæ ‡
 	int					m_nPatrolY;
-	short				m_sChaseRange;    // ½ÇÉ«µÄ×·×Ù·¶Î§, ³¬¹ıÕâ¸ö·¶Î§½ÇÉ«¾Í»á»Ø³öÉúµãĞİÃß
-	BYTE				m_btPatrolState;  // Ñ²Âß×´Ì¬, 0 ±íÊ¾Í£ÁôÔÚµã1
-	                                      //           1 ±íÊ¾Í£ÁôÔÚµã2
-                                          //           2 ±íÊ¾Õı´Óµã1Ç°Íùµã2
-	                                      //           3 ±íÊ¾Õı´Óµã2Ç°Íùµã1
+	short				m_sChaseRange;    // è§’è‰²çš„è¿½è¸ªèŒƒå›´, è¶…è¿‡è¿™ä¸ªèŒƒå›´è§’è‰²å°±ä¼šå›å‡ºç”Ÿç‚¹ä¼‘çœ 
+	BYTE				m_btPatrolState;  // å·¡é€»çŠ¶æ€, 0 è¡¨ç¤ºåœç•™åœ¨ç‚¹1
+	                                      //           1 è¡¨ç¤ºåœç•™åœ¨ç‚¹2
+                                          //           2 è¡¨ç¤ºæ­£ä»ç‚¹1å‰å¾€ç‚¹2
+	                                      //           3 è¡¨ç¤ºæ­£ä»ç‚¹2å‰å¾€ç‚¹1
 public:
 
-	void	ResetAIState();				  // ÖØÖÃAI×´Ì¬, ÔÚ½ÇÉ«ÖØÉúµÄÊ±ºòµ÷ÓÃ
+	void	ResetAIState();				  // é‡ç½®AIçŠ¶æ€, åœ¨è§’è‰²é‡ç”Ÿçš„æ—¶å€™è°ƒç”¨
 
 	BOOL		GetChaRelive() { return m_bRelive; }
 	void		SetChaRelive() { m_bRelive = true; }
@@ -681,12 +681,12 @@ public:
 	bool			IsStoreEnable() { return m_bStoreEnable; }
 	void			SetStoreEnable(bool bStoreEnable) { m_bStoreEnable = bStoreEnable; }
 
-    //  ·À³ÁÃÔ
+    //  é˜²æ²‰è¿·
     bool IsScaleFlag(){return m_expFlag;}
     void SetScaleFlag(){m_expFlag = true;}
     void SetExpScale(DWORD scale){ m_ExpScale = scale; }
     DWORD GetExpScale(){ return m_ExpScale; }
-    int m_noticeState;//·À³ÁÃÔÊ±¼äÍ¨Öª×´Ì¬
+    int m_noticeState;//é˜²æ²‰è¿·æ—¶é—´é€šçŸ¥çŠ¶æ€
 	int m_retry3;
 	int m_retry4;
 	int m_retry5;
@@ -739,11 +739,11 @@ public:
 	dbc::Short	CanEquipItem(SItemGrid* pSEquipIt);
 
 public:
-	CKitbag				m_CKitbag;			// µÀ¾ßÀ¸
-	CKitbag				*m_pCKitbagTmp;       // ÁÙÊ±±³°ü
-	stNetShortCut		m_CShortcut;		// ¿ì½İÀ¸
-	long				m_lKbRecDBID;		// µÀ¾ßÀ¸ÔÚ×ÊÔ´±íÖĞµÄID
-	long				m_lKbTmpRecDBID;	// ÁÙÊ±±³°üÔÚ×ÊÔ´±íÖĞµÄID
+	CKitbag				m_CKitbag;			// é“å…·æ 
+	CKitbag				*m_pCKitbagTmp;       // ä¸´æ—¶èƒŒåŒ…
+	stNetShortCut		m_CShortcut;		// å¿«æ·æ 
+	long				m_lKbRecDBID;		// é“å…·æ åœ¨èµ„æºè¡¨ä¸­çš„ID
+	long				m_lKbTmpRecDBID;	// ä¸´æ—¶èƒŒåŒ…åœ¨èµ„æºè¡¨ä¸­çš„ID
 	long				m_lStoreItemID;
 	bool				m_bStoreBuy;
 	DWORD				m_dwStoreTime;
@@ -752,31 +752,31 @@ public:
 	int					m_nPetNum;
 	
 	stNetChangeChaPart	m_SChaPart;
-	bool				m_ActContrl[enumACTCONTROL_MAX];	// ½ÇÉ«µÄĞĞ¶¯¿ØÖÆ
-	CTimer				m_timerScripts;						// ÓÃÓÚHP£¬SPµÈµÄ»Ö¸´
+	bool				m_ActContrl[enumACTCONTROL_MAX];	// è§’è‰²çš„è¡ŒåŠ¨æ§åˆ¶
+	CTimer				m_timerScripts;						// ç”¨äºHPï¼ŒSPç­‰çš„æ¢å¤
 
-	CHateMgr*			m_pHate;							// ³ğºŞ¶È
+	CHateMgr*			m_pHate;							// ä»‡æ¨åº¦
 
-	BOOL				m_bRelive;							// ÊÇ·ñÕıÔÚ±»½ÓÊÜ¸´»î
+	BOOL				m_bRelive;							// æ˜¯å¦æ­£åœ¨è¢«æ¥å—å¤æ´»
 
-	BOOL				m_bVol;								// ÊÇ·ñÊÇÖ¾Ô¸Õß
-	BOOL				m_bInvited;							// ÊÇ·ñÕıÔÚ±»ÑûÇë
+	BOOL				m_bVol;								// æ˜¯å¦æ˜¯å¿—æ„¿è€…
+	BOOL				m_bInvited;							// æ˜¯å¦æ­£åœ¨è¢«é‚€è¯·
 
 	//SSkillGrid			*m_pSkillGridTemp;
 
-	// ¸´»îĞÅÏ¢
+	// å¤æ´»ä¿¡æ¯
 	struct
 	{
-		Char	m_chSelRelive;	// Ñ¡Ôñ¸´»î·½Ê½
-		Char	m_chReliveLv;	// ¸´»îµÈ¼¶£¬Èç¹û´óÓÚ0£¬Ôò±íÊ¾´æÔÚ·Ç×ÔÈ»¸´»îµÄ¿ÉÄÜ.
+		Char	m_chSelRelive;	// é€‰æ‹©å¤æ´»æ–¹å¼
+		Char	m_chReliveLv;	// å¤æ´»ç­‰çº§ï¼Œå¦‚æœå¤§äº0ï¼Œåˆ™è¡¨ç¤ºå­˜åœ¨éè‡ªç„¶å¤æ´»çš„å¯èƒ½.
 	};
 
 	CActionCache		m_CActCache;
 
 	DWORD	m_dwCellRunTime[16];
 
-	short	m_sTigerItemID[9];	// ÀÏ»¢»úµÄ9¸öµÀ¾ßID
-	short	m_sTigerSel[3];		// Í¶×¢±êÖ¾
+	short	m_sTigerItemID[9];	// è€è™æœºçš„9ä¸ªé“å…·ID
+	short	m_sTigerSel[3];		// æŠ•æ³¨æ ‡å¿—
 	
 private:
 	BOOL BoatEnterMap( CCharacter& Boat, DWORD dwxPos, DWORD dwyPos, USHORT sDir );
@@ -785,17 +785,17 @@ private:
 	dbc::uShort			m_usIcon;
 
     bool m_expFlag;
-    DWORD m_ExpScale;       //  ·À³ÁÃÔ£¬¾­Ñé±ÈÀı
+    DWORD m_ExpScale;       //  é˜²æ²‰è¿·ï¼Œç»éªŒæ¯”ä¾‹
 
 	struct
 	{
-		short m_sPoseState; // 0£¬Õ¾.1£¬ÒĞ¿¿
+		short m_sPoseState; // 0ï¼Œç«™.1ï¼Œå€šé 
 	};
 	//add by jilinlee 2007/4/20
 	struct SReadBook
 	{
-		bool bIsReadState;       //0,²»ÔÚ¶ÁÊé×´Ì¬.1£¬ÔÚ¶ÁÊé×´Ì¬.
-        DWORD dwLastReadCallTick; //ÉÏ´Îµ÷ÓÃReading_Book½Å±¾º¯ÊıµÄÊ±¼ä.
+		bool bIsReadState;       //0,ä¸åœ¨è¯»ä¹¦çŠ¶æ€.1ï¼Œåœ¨è¯»ä¹¦çŠ¶æ€.
+        DWORD dwLastReadCallTick; //ä¸Šæ¬¡è°ƒç”¨Reading_Bookè„šæœ¬å‡½æ•°çš„æ—¶é—´.
 	};
     
 	SReadBook m_SReadBook;
@@ -809,11 +809,11 @@ private:
 	BYTE				_btBlockCnt;
 	STempChaPart        m_STempChaPart;
 
-	// ½»Ò×ĞÅÏ¢
+	// äº¤æ˜“ä¿¡æ¯
 	mission::CTradeData*	m_pTradeData;
 
-	#define CHAEXIT_NONE				0		// ÎŞĞ§×´Ì¬£¨½ÇÉ«Õı³£Ê¹ÓÃÖĞ...£©
-	#define CHAEXIT_BEGIN				1<<0	// ÒÑ¾­¿ªÊ¼ÍË³ö×´Ì¬	
+	#define CHAEXIT_NONE				0		// æ— æ•ˆçŠ¶æ€ï¼ˆè§’è‰²æ­£å¸¸ä½¿ç”¨ä¸­...ï¼‰
+	#define CHAEXIT_BEGIN				1<<0	// å·²ç»å¼€å§‹é€€å‡ºçŠ¶æ€	
 
 	BYTE				m_byExit;
 	CTimer				m_timerExit;
@@ -821,18 +821,18 @@ private:
     CTimer              m_timerAreaCheck;
 	CTimer				m_timerDBUpdate;
 	CTimer				m_timerDie;
-	CTimer				m_timerMission;			// ÈÎÎñÏµÍ³·ÖÖÓ¼ÆÊ±´¥·¢Æ÷ÊÂ¼ş
-    CTimer				m_timerSkillState;		// ¼¼ÄÜ×´Ì¬¼ÆÊ±Æ÷
-	CTimer              m_timerTeam;			// TeamĞÅÏ¢¶¨Ê±Í¨Öª¿Í»§¶Ë
+	CTimer				m_timerMission;			// ä»»åŠ¡ç³»ç»Ÿåˆ†é’Ÿè®¡æ—¶è§¦å‘å™¨äº‹ä»¶
+    CTimer				m_timerSkillState;		// æŠ€èƒ½çŠ¶æ€è®¡æ—¶å™¨
+	CTimer              m_timerTeam;			// Teamä¿¡æ¯å®šæ—¶é€šçŸ¥å®¢æˆ·ç«¯
 	struct
 	{
 		CTimer			m_timerPing;
 		dbc::uLong		m_ulPingDataLen;
 	};
 
-	dbc::Char			m_chPKCtrl;				// ×î¸ßÎ»±íÊ¾ÊÇ·ñÔÚPKÇøÓò£¬×îµÍÎ»±íÊ¾PK¿ª¹ØÊÇ·ñ´ò¿ª.µ±´¦ÓÚPKÇøÊ±£¬ÏµÍ³ÈÏÎª¿ª¹ØÊÇ´ò¿ªµÄ£¬²¢½ûÖ¹ÉèÖÃ¿ª¹Ø.µ±¿ª¹Ø´ò¿ªÊ±£¬¾Í¿ÉÒÔ¹¥»÷±ğµÄÍæ¼Ò£¨¼º·½³ıÍâ£©£¬´ËÊ±£¬Èç¹ûÊÜ»÷·½µÄ¿ª¹ØÊÇ¹Ø±ÕµÄ£¬ÔòÒª¿Û¹¥»÷·½µÄ¡°ÉùÍû¡°Öµ
+	dbc::Char			m_chPKCtrl;				// æœ€é«˜ä½è¡¨ç¤ºæ˜¯å¦åœ¨PKåŒºåŸŸï¼Œæœ€ä½ä½è¡¨ç¤ºPKå¼€å…³æ˜¯å¦æ‰“å¼€.å½“å¤„äºPKåŒºæ—¶ï¼Œç³»ç»Ÿè®¤ä¸ºå¼€å…³æ˜¯æ‰“å¼€çš„ï¼Œå¹¶ç¦æ­¢è®¾ç½®å¼€å…³.å½“å¼€å…³æ‰“å¼€æ—¶ï¼Œå°±å¯ä»¥æ”»å‡»åˆ«çš„ç©å®¶ï¼ˆå·±æ–¹é™¤å¤–ï¼‰ï¼Œæ­¤æ—¶ï¼Œå¦‚æœå—å‡»æ–¹çš„å¼€å…³æ˜¯å…³é—­çš„ï¼Œåˆ™è¦æ‰£æ”»å‡»æ–¹çš„â€œå£°æœ›â€œå€¼
 
-	dbc::Long			m_lSideID;				// ·Ö±ß±àºÅ
+	dbc::Long			m_lSideID;				// åˆ†è¾¹ç¼–å·
 	bool				m_bInOutMapQueue;
 	struct // Ping
 	{
@@ -866,9 +866,9 @@ public:
 
 	BOOL	CheckLifeTime()
 	{
-		if(_dwLifeTime==0) return FALSE; // ²»ĞèÒªÉúÃüÊ±¼ä¼ÆÊ±
+		if(_dwLifeTime==0) return FALSE; // ä¸éœ€è¦ç”Ÿå‘½æ—¶é—´è®¡æ—¶
 		
-		if((GetTickCount() - _dwLifeTimeTick) > _dwLifeTime) // ÉúÃüÊ±¼äÒÑµ½
+		if((GetTickCount() - _dwLifeTimeTick) > _dwLifeTime) // ç”Ÿå‘½æ—¶é—´å·²åˆ°
 		{
 			return TRUE;
 		}
@@ -892,7 +892,7 @@ public:
 	}
 };
 
-// ÓÃÓÚÓë½Å±¾Ö®¼äµÄ½»»¥
+// ç”¨äºä¸è„šæœ¬ä¹‹é—´çš„äº¤äº’
 extern Point		g_SSkillPoint;
 extern bool			g_bBeatBack;
 extern unsigned char	g_uchFightID;
@@ -912,7 +912,7 @@ extern bool		Strin2SStateData(CCharacter *pCCha, std::string &strData);
 //Add by lark.li 20080723
 extern char*	ChaExtendAttr2String(CCharacter *pCCha, char *szAttrBuf, int nLen);
 extern bool		Strin2ChaExtendAttr(CCharacter *pCCha, std::string &strAttr);
- //½»Ò×ÈÕÖ¾¼ÇÂ¼½Ó¿Ú
+ //äº¤æ˜“æ—¥å¿—è®°å½•æ¥å£
 extern void TL(int nType, const char *pszCha1, const char *pszCha2, const char *pszTrade);
 
 #endif // CHARACTER_H

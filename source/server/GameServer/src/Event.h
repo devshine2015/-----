@@ -42,11 +42,11 @@ public:
 protected:
 
 private:
-	dbc::uShort	m_usID;			// 编号
-	dbc::uShort	m_usTouchType;	// 触发类型
-	dbc::uShort	m_usExecType;	// 执行类型
+	dbc::uShort	m_usID;			// 缂栧彿
+	dbc::uShort	m_usTouchType;	// 瑙﹀彂绫诲瀷
+	dbc::uShort	m_usExecType;	// 鎵ц绫诲瀷
 	void		*m_pTableRec;
-	dbc::Char	m_szName[defMAX_EVENT_NAME_LEN];		// 名称
+	dbc::Char	m_szName[defMAX_EVENT_NAME_LEN];		// 鍚嶇О
 
 };
 

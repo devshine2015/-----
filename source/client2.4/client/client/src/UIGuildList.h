@@ -31,12 +31,12 @@ private:
 	static CLabelEx*	m_pGuildNavyLab;
 	static CImage*	m_pGuildNavyImg;
 	//static CImage*	m_pGuildNavyImg1;
-	//static CImage*	m_pGuildNavyImg2;	// ĞŞ¸Ä³É Label ÁË
+	//static CImage*	m_pGuildNavyImg2;	// ä¿®æ”¹æˆ Label äº†
 	static CImage*	m_pGuildNavyImg3;
 	static CImage*	m_pGuildNavyImg4;
 	static CImage*	m_pGuildPirateImg;
 	//static CImage*	m_pGuildPirateImg1;
-	//static CImage*	m_pGuildPirateImg2;	// ĞŞ¸Ä³É Label ÁË
+	//static CImage*	m_pGuildPirateImg2;	// ä¿®æ”¹æˆ Label äº†
 	static CImage*	m_pGuildPirateImg3;
 	static CImage*	m_pGuildPirateImg4;
 

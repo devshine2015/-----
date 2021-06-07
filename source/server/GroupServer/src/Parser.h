@@ -18,12 +18,12 @@ extern "C" {
 	#include "lauxlib.h"
 }
 
-//#define PARAM_ERROR        { LG("lua_ai", "luaÀ©Õ¹º¯Êı[%s]²ÎÊı¸öÊı»òÕßÀàĞÍ´íÎó!",__FUNCTION__ ); }
+//#define PARAM_ERROR        { LG("lua_ai", "luaæ‰©å±•å‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»å‹é”™è¯¯!",__FUNCTION__ ); }
 #define PARAM_ERROR        { LG("lua_ai", "lua extend [%s] parameter type is wrong!",__FUNCTION__ ); }
-//#define MAP_NULL_ERROR     { LG("lua_ai", "luaÀ©Õ¹º¯Êı[%s]µ±Ç°µØÍ¼Îª¿Õ", __FUNCTION__);          }
+//#define MAP_NULL_ERROR     { LG("lua_ai", "luaæ‰©å±•å‡½æ•°[%s]å½“å‰åœ°å›¾ä¸ºç©º", __FUNCTION__);          }
 #define MAP_NULL_ERROR     { LG("lua_ai", "lua extend [%s] map is null", __FUNCTION__);          }
 #define CHECK_MAP          { if(g_pScriptMap==NULL) { MAP_NULL_ERROR return 0; }				    }
-//#define PARAM_LG_ERROR		 THROW_EXCP( excp, "luaº¯ÊıÃ»ÓĞÖ¸¶¨Êä³öÎÄ¼şÃû»òÕßÃ»ÓĞÊä³öĞÅÏ¢´íÎó!" );
+//#define PARAM_LG_ERROR		 THROW_EXCP( excp, "luaå‡½æ•°æ²¡æœ‰æŒ‡å®šè¾“å‡ºæ–‡ä»¶åæˆ–è€…æ²¡æœ‰è¾“å‡ºä¿¡æ¯é”™è¯¯!" );
 #define PARAM_LG_ERROR		 THROW_EXCP( excp, "lua has no filename!" );
 
 #define REGFN_INIT g_luaFNList.clear();
@@ -74,7 +74,7 @@ private:
 		return true;
 	}
 
-	lua_State	*m_pSLua; // lua½Å±¾½âÊÍÆ÷
+	lua_State	*m_pSLua; // luaè„šæœ¬è§£é‡Šå™¨
 
 	int			m_nDoStringRet[DOSTRING_RETURN_NUM];
 	char		m_szDoStringRet[DOSTRING_RETURN_NUM][DOSTRING_RETURN_STRING_LEN];

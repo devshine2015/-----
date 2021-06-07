@@ -197,19 +197,19 @@ public:
 	float   m_fLastAngle;
 
 	// add by rock.wang 090625 start
-	float	m_fChaHeight;			//½ÇÉ«¾àË®Æ½µØÃæ¸ß¶È
-	float	m_fChaHeightCur;		//µ±Ç°µİÔöµ½µÄÖµ
-	float	m_fChaHeightTarget;		//µİÔöTarget
+	float	m_fChaHeight;			//è§’è‰²è·æ°´å¹³åœ°é¢é«˜åº¦
+	float	m_fChaHeightCur;		//å½“å‰é€’å¢åˆ°çš„å€¼
+	float	m_fChaHeightTarget;		//é€’å¢Target
 	// end
 
-	float	m_fCameraTileHeight;	//ÉãÏñ»úËùÔÚ´¦µÄµØĞÎ¸ß¶È
+	float	m_fCameraTileHeight;	//æ‘„åƒæœºæ‰€åœ¨å¤„çš„åœ°å½¢é«˜åº¦
 
     CCamDither m_CamDither;
 
 	float	MAX_SCALE;
 	float	MIN_SCALE;
 public:
-	//»º³å¸úËæ
+	//ç¼“å†²è·Ÿéš
 	void	SetBufVel(DWORD	dwVel, int iCha)
 	{
 		//m_maxVel = ((float)dwVel ) / 100;
@@ -221,7 +221,7 @@ public:
 	void	BeginMove();
 	void	EndMove();
 
-	void	InitPos(float fX,float fY,float fZ,bool bRestoreCustom=true);	// bRestoreCustom²ÎÊıÎªtrue£¬±íÊ¾Çå³ıÓÃ»§¶Ô¾µÍ·µÄ¸Ä±ä
+	void	InitPos(float fX,float fY,float fZ,bool bRestoreCustom=true);	// bRestoreCustomå‚æ•°ä¸ºtrueï¼Œè¡¨ç¤ºæ¸…é™¤ç”¨æˆ·å¯¹é•œå¤´çš„æ”¹å˜
 	void	AddPoint(float fX,float fY,float fZ);
 	void	Update();
 

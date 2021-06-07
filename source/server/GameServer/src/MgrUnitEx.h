@@ -31,7 +31,7 @@ public:
 
 	char			m_chEntiType;
 	Entity			*m_pCEntity;
-	CMgrNode		*m_pCEntMgrNode; // £¨¶ÔÓ¦¸Ã¹ÜÀíµ¥Ôª£©ÊµÌåµ¥Ôª¹ÜÀíÁ´µÄÖ¸Õë
+	CMgrNode		*m_pCEntMgrNode; // ï¼ˆå¯¹åº”è¯¥ç®¡ç†å•å…ƒï¼‰å®ä½“å•å…ƒç®¡ç†é“¾çš„æŒ‡é’ˆ
 
 	CEntityListNode	*m_pCNext;
 	CEntityListNode	*m_pCLast;
@@ -93,21 +93,21 @@ public:
 
 	void				StateRun(unsigned long ulCurTick, SubMap *pCMap);
 
-	short			m_sPosX;		// Î»ÖÃ
-	short			m_sPosY;		// Î»ÖÃ
-	short			m_sAreaAttr;	// ÇøÓòÊôĞÔ
-	char			m_chIslandID;	// µºÓì±àºÅ
-	long			m_lActiveNum;	// ¼¤»î¼ÆÊı
-	long			m_lEntityNum;	// ÊµÌå×ÜÊı
+	short			m_sPosX;		// ä½ç½®
+	short			m_sPosY;		// ä½ç½®
+	short			m_sAreaAttr;	// åŒºåŸŸå±æ€§
+	char			m_chIslandID;	// å²›å±¿ç¼–å·
+	long			m_lActiveNum;	// æ¿€æ´»è®¡æ•°
+	long			m_lEntityNum;	// å®ä½“æ€»æ•°
 
-	CEntityListNode	*m_pCChaIn;		// ¼ÇÂ¼ÖĞĞÄµãÔÚ·¶Î§ÄÚµÄ½ÇÉ«
-	CEntityListNode	*m_pCChaCross;	// ¼ÇÂ¼ÖĞĞÄµã²»ÔÚ·¶Î§ÄÚ£¬µ«Óë·¶Î§Ïà½»µÄ½ÇÉ«
-	CEntityListNode	*m_pCItemIn;		// ¼ÇÂ¼ÖĞĞÄµãÔÚ·¶Î§ÄÚµÄÎïÆ·
-	CEntityListNode	*m_pCItemCross;	// ¼ÇÂ¼ÖĞĞÄµã²»ÔÚ·¶Î§ÄÚ£¬µ«Óë·¶Î§Ïà½»µÄÎïÆ·
+	CEntityListNode	*m_pCChaIn;		// è®°å½•ä¸­å¿ƒç‚¹åœ¨èŒƒå›´å†…çš„è§’è‰²
+	CEntityListNode	*m_pCChaCross;	// è®°å½•ä¸­å¿ƒç‚¹ä¸åœ¨èŒƒå›´å†…ï¼Œä½†ä¸èŒƒå›´ç›¸äº¤çš„è§’è‰²
+	CEntityListNode	*m_pCItemIn;		// è®°å½•ä¸­å¿ƒç‚¹åœ¨èŒƒå›´å†…çš„ç‰©å“
+	CEntityListNode	*m_pCItemCross;	// è®°å½•ä¸­å¿ƒç‚¹ä¸åœ¨èŒƒå›´å†…ï¼Œä½†ä¸èŒƒå›´ç›¸äº¤çš„ç‰©å“
 
-	CSkillState		m_CSkillState;	// µØ±íµÄ¼¼ÄÜ×´Ì¬
+	CSkillState		m_CSkillState;	// åœ°è¡¨çš„æŠ€èƒ½çŠ¶æ€
 
-	CMgrUnit		*m_pCNext;		// Ö¸Ïò¡°¼¤»îµÄ¹ÜÀíµ¥ÔªÁ´±í¡°µÄÖ¸Õë
+	CMgrUnit		*m_pCNext;		// æŒ‡å‘â€œæ¿€æ´»çš„ç®¡ç†å•å…ƒé“¾è¡¨â€œçš„æŒ‡é’ˆ
 	CMgrUnit		*m_pCLast;
 
 protected:
@@ -306,7 +306,7 @@ inline void CMgrUnit::StateBeginSeen(Entity *pCEnt)
 
 	if (!pCCha)
 		return;
-	if(!pCCha->IsPlayerFocusCha()) // ¸Ã½ÇÉ«²»ÊÇÍæ¼Òµ±Ç°µÄ¿ØÖÆ½¹µã
+	if(!pCCha->IsPlayerFocusCha()) // è¯¥è§’è‰²ä¸æ˜¯ç©å®¶å½“å‰çš„æ§åˆ¶ç„¦ç‚¹
 		return;
 
 	WPACKET pk	=GETWPACKET();
@@ -315,7 +315,7 @@ inline void CMgrUnit::StateBeginSeen(Entity *pCEnt)
 	WRITE_SHORT(pk, m_sPosY);
 	m_CSkillState.WriteState(pk);
 
-	pCCha->ReflectINFof(pCCha, pk);//Í¨¸æ
+	pCCha->ReflectINFof(pCCha, pk);//é€šå‘Š
 }
 
 inline void CMgrUnit::StateEndSeen(Entity *pCEnt)
@@ -324,7 +324,7 @@ inline void CMgrUnit::StateEndSeen(Entity *pCEnt)
 
 	if (!pCCha)
 		return;
-	if(!pCCha->IsPlayerFocusCha()) // ¸Ã½ÇÉ«²»ÊÇÍæ¼Òµ±Ç°µÄ¿ØÖÆ½¹µã
+	if(!pCCha->IsPlayerFocusCha()) // è¯¥è§’è‰²ä¸æ˜¯ç©å®¶å½“å‰çš„æ§åˆ¶ç„¦ç‚¹
 		return;
 
 	if (m_CSkillState.m_chStateNum <= 0)
@@ -335,7 +335,7 @@ inline void CMgrUnit::StateEndSeen(Entity *pCEnt)
 	WRITE_SHORT(pk, m_sPosX);
 	WRITE_SHORT(pk, m_sPosY);
 
-	pCCha->ReflectINFof(pCCha, pk);//Í¨¸æ
+	pCCha->ReflectINFof(pCCha, pk);//é€šå‘Š
 }
 
 inline void CMgrUnit::Initially()
@@ -356,7 +356,7 @@ inline void CMgrUnit::Finally()
 {
 }
 
-class CActiveMgrUnitL // ¼¤»îµÄ¹ÜÀíµ¥ÔªÁ´±í
+class CActiveMgrUnitL // æ¿€æ´»çš„ç®¡ç†å•å…ƒé“¾è¡¨
 {
 public:
 	CActiveMgrUnitL()

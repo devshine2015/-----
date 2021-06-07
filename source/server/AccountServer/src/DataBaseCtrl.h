@@ -4,7 +4,7 @@
 
 class CSQLDatabase;
 
-//此类只允许主线程调用
+//姝ょ被鍙厑璁镐富绾跨▼璋冪敤
 class CDataBaseCtrl
 {
 public:

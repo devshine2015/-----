@@ -44,19 +44,19 @@ void CCharacter::DoCommand(cChar *cszCommand, uLong ulLen)
 	}
 
 	
-	// ¼ì²éÖ´ĞĞGMÖ¸Áî
+	// æ£€æŸ¥æ‰§è¡ŒGMæŒ‡ä»¤
 	if(DoGMCommand(szComHead, szComParam))
-		LG("DoCommand", "[Ö´ĞĞ³É¹¦]%s£º%s\n", GetLogName(), strPrint.c_str());
-		//LG("DoCommand", "[operator succeed]%s£º%s\n", GetLogName(), strPrint.c_str());
+		LG("DoCommand", "[æ‰§è¡ŒæˆåŠŸ]%sï¼š%s\n", GetLogName(), strPrint.c_str());
+		//LG("DoCommand", "[operator succeed]%sï¼š%s\n", GetLogName(), strPrint.c_str());
 	else
-		LG("DoCommand", "[Ö´ĞĞÊ§°Ü]%s£º%s\n", GetLogName(), strPrint.c_str());
-		//LG("DoCommand", "[operator succeed]%s£º%s\n", GetLogName(), strPrint.c_str());
+		LG("DoCommand", "[æ‰§è¡Œå¤±è´¥]%sï¼š%s\n", GetLogName(), strPrint.c_str());
+		//LG("DoCommand", "[operator succeed]%sï¼š%s\n", GetLogName(), strPrint.c_str());
 	
 T_E}
 
 
 //--------------------------------------------------------------------------------
-// GM Ö¸ÁîÇø, »¹È±ÉÙÕÊºÅÈ¨ÏŞÅĞ¶Ï
+// GM æŒ‡ä»¤åŒº, è¿˜ç¼ºå°‘å¸å·æƒé™åˆ¤æ–­
 //--------------------------------------------------------------------------------
 BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 {T_B
@@ -66,7 +66,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	uChar uchGMLv = pPlayer->GetGMLev();
 	if (uchGMLv == 0)
 	{
-		//SystemNotice("È¨ÏŞ²»¹»!");
+		//SystemNotice("æƒé™ä¸å¤Ÿ!");
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00001));
 		return FALSE;
 	}
@@ -76,9 +76,9 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 
 	C_PRINT("%s: %s %s\n", GetName(), strCmd.c_str(), pszParam);
 	//-----------------------
-	// ËùÓĞGM¶¼¿ÉÒÔÖ´ĞĞµÄÖ¸Áî
+	// æ‰€æœ‰GMéƒ½å¯ä»¥æ‰§è¡Œçš„æŒ‡ä»¤
 	//-----------------------
-	if (strCmd==g_Command.m_cMove) // µØÍ¼Ìø×ª£¬¸ñÊ½£ºmove x,y,µØÍ¼Ãû
+	if (strCmd==g_Command.m_cMove) // åœ°å›¾è·³è½¬ï¼Œæ ¼å¼ï¼šmove x,y,åœ°å›¾å
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		Point l_aim;
@@ -99,25 +99,25 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		// End
 		return TRUE;
 	}
-	else if(strCmd==g_Command.m_cNotice) // ÏµÍ³Í¨¸æ
+	else if(strCmd==g_Command.m_cNotice) // ç³»ç»Ÿé€šå‘Š
 	{
 		g_pGameApp->WorldNotice(pszParam);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if(strCmd==g_Command.m_cHide) // ÒşÉí
+	else if(strCmd==g_Command.m_cHide) // éšèº«
 	{
 		AddSkillState(m_uchFightID, GetID(), GetHandle(), enumSKILL_TYPE_SELF, enumSKILL_TAR_LORS, enumSKILL_EFF_HELPFUL, SSTATE_HIDE, 1, -1, enumSSTATE_ADD);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if(strCmd==g_Command.m_cUnhide) // ÏÔĞÎ
+	else if(strCmd==g_Command.m_cUnhide) // æ˜¾å½¢
 	{
 		DelSkillState(SSTATE_HIDE);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if(strCmd==g_Command.m_cGoto) // ½«×Ô¼º´«µ½Ä³½ÇÉ«Éí±ß
+	else if(strCmd==g_Command.m_cGoto) // å°†è‡ªå·±ä¼ åˆ°æŸè§’è‰²èº«è¾¹
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		WPACKET WtPk	=GETWPACKET();
@@ -126,7 +126,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		WRITE_STRING(WtPk, strList[0].c_str());
 		WRITE_CHAR(WtPk, 1);
 		WRITE_STRING(WtPk, GetName());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
@@ -146,26 +146,26 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		WRITE_CHAR(WtPk, Str2Int(strList[1]));
 		WRITE_CHAR(WtPk, Str2Int(strList[2]));
 		WRITE_LONG(WtPk, GetPlayer()->GetGateAddr());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		return TRUE;
 	}
 	if(uchGMLv <= 1)
 	{
-		//SystemNotice("È¨ÏŞ²»¹»!");
+		//SystemNotice("æƒé™ä¸å¤Ÿ!");
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00001));
 		return FALSE;
 	}
 
 	//-----------------------
-	// 1¼¶ÒÔÉÏGM¶¼¿ÉÒÔÖ´ĞĞµÄÖ¸Áî
+	// 1çº§ä»¥ä¸ŠGMéƒ½å¯ä»¥æ‰§è¡Œçš„æŒ‡ä»¤
 	//-----------------------
 	
-	if (strCmd==g_Command.m_cKick) // ½«Íæ¼ÒÌßÏÂÏß
+	if (strCmd==g_Command.m_cKick) // å°†ç©å®¶è¸¢ä¸‹çº¿
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		if (n < 1)
 		{
-			SystemNotice("ÄãÃ»ÓĞÊäÈëÍæ¼ÒµÄÃû×Ö!");
+			SystemNotice("ä½ æ²¡æœ‰è¾“å…¥ç©å®¶çš„åå­—!");
 			return FALSE;
 		}
 		WPACKET WtPk = GETWPACKET();
@@ -206,7 +206,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 
 	if(uchGMLv != 99)
 	{
-		//SystemNotice("È¨ÏŞ²»¹»!");
+		//SystemNotice("æƒé™ä¸å¤Ÿ!");
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00001));
 		return FALSE;
 	}
@@ -216,9 +216,9 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	cChar	*szComHead = pszCmd;
 	cChar	*szComParam = pszParam;
 	//-----------------------
-	// 99¼¶GM¶¼¿ÉÒÔÖ´ĞĞµÄÖ¸Áî
+	// 99çº§GMéƒ½å¯ä»¥æ‰§è¡Œçš„æŒ‡ä»¤
 	//-----------------------
-	if (!strcmp(szComHead, g_Command.m_cReload)) // ÖØĞÂ¶Á±í
+	if (!strcmp(szComHead, g_Command.m_cReload)) // é‡æ–°è¯»è¡¨
 	{
 		cChar *pszChaInfo = "characterinfo";
 		cChar *pszSkillInfo = "skillinfo";
@@ -238,34 +238,34 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-    else if(!strcmp(szComHead, g_Command.m_cRelive)) // Ô­µØ¸´»î
+    else if(!strcmp(szComHead, g_Command.m_cRelive)) // åŸåœ°å¤æ´»
 	{	
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if(!strcmp(szComHead, g_Command.m_cQcha)) // ²éÑ¯½ÇÉ«ĞÅÏ¢(ËùÔÚµØÍ¼,×ø±ê,Î¨Ò»ID)
+	else if(!strcmp(szComHead, g_Command.m_cQcha)) // æŸ¥è¯¢è§’è‰²ä¿¡æ¯(æ‰€åœ¨åœ°å›¾,åæ ‡,å”¯ä¸€ID)
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		WPACKET WtPk	=GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MM_QUERY_CHA);
 		WRITE_LONG(WtPk, GetID());
 		WRITE_STRING(WtPk, strList[0].c_str());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if(!strcmp(szComHead, g_Command.m_cQitem)) // ²éÑ¯½ÇÉ«µÀ¾ß
+	else if(!strcmp(szComHead, g_Command.m_cQitem)) // æŸ¥è¯¢è§’è‰²é“å…·
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		WPACKET WtPk	=GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MM_QUERY_CHAITEM);
 		WRITE_LONG(WtPk, GetID());
 		WRITE_STRING(WtPk, strList[0].c_str());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-    if(!strcmp(szComHead, g_Command.m_cCall)) // ½«µ¥Ò»½ÇÉ«´«µ½Éí±ß
+    if(!strcmp(szComHead, g_Command.m_cCall)) // å°†å•ä¸€è§’è‰²ä¼ åˆ°èº«è¾¹
 	{
 		int n = Util_ResolveTextLine(pszParam, strList, 10, ',');
 		WPACKET WtPk	=GETWPACKET();
@@ -280,23 +280,23 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		WRITE_LONG(WtPk, GetPos().x);
 		WRITE_LONG(WtPk, GetPos().y);
 		WRITE_LONG(WtPk, GetSubMap()->GetCopyNO());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cGamesvrstop)) // ½áÊøÓÎÏ··şÎñÆ÷½ø³Ì
+	else if (!strcmp(szComHead, g_Command.m_cGamesvrstop)) // ç»“æŸæ¸¸æˆæœåŠ¡å™¨è¿›ç¨‹
 	{
 		g_pGameApp->m_CTimerReset.Begin(1000);
 		g_pGameApp->m_ulLeftSec = atol(szComParam);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, g_Command.m_cUpdateall) ) // ½Å±¾lua¸üĞÂ
+	else if( !strcmp(szComHead, g_Command.m_cUpdateall) ) // è„šæœ¬luaæ›´æ–°
 	{
 		LoadScript();
 		if ( g_pGameApp->ReloadNpcInfo( *this ) )
 		{
-			//SystemNotice( "NPC¶Ô»°ºÍÈÎÎñlua½Å±¾¸üĞÂ³É¹¦!" );
+			//SystemNotice( "NPCå¯¹è¯å’Œä»»åŠ¡luaè„šæœ¬æ›´æ–°æˆåŠŸ!" );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00002) );
 		}
 		else
@@ -318,24 +318,24 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "harmlog=1") ) // ÉËº¦ÀÛ¼Æ¼ÆËãLog¿ª¹Ø
+	else if( !strcmp(szComHead, "harmlog=1") ) // ä¼¤å®³ç´¯è®¡è®¡ç®—Logå¼€å…³
 	{
 		g_bLogHarmRec = TRUE;
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "harmlog=0") ) // ÉËº¦ÀÛ¼Æ¼ÆËãLog¿ª¹Ø
+	else if( !strcmp(szComHead, "harmlog=0") ) // ä¼¤å®³ç´¯è®¡è®¡ç®—Logå¼€å…³
 	{
 		g_bLogHarmRec = FALSE;
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, g_Command.m_cMisreload) ) // ÈÎÎñ½Å±¾¸üĞÂ
+	else if( !strcmp(szComHead, g_Command.m_cMisreload) ) // ä»»åŠ¡è„šæœ¬æ›´æ–°
 	{
 		LoadScript();
 		if( g_pGameApp->ReloadNpcInfo( *this ) )
 		{
-			//SystemNotice( "NPC¶Ô»°ºÍÈÎÎñlua½Å±¾¸üĞÂ³É¹¦!" );
+			//SystemNotice( "NPCå¯¹è¯å’Œä»»åŠ¡luaè„šæœ¬æ›´æ–°æˆåŠŸ!" );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00002) );
 		}
 		else
@@ -351,169 +351,169 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "setrecord" ) ) // ÉèÖÃ½ÇÉ«ÈÎÎñÀúÊ·±ê¼Ç
+	else if( !strcmp(szComHead, "setrecord" ) ) // è®¾ç½®è§’è‰²ä»»åŠ¡å†å²æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');		
 		USHORT sID   = Str2Int(strList[0]);
 		if( GetPlayer()->MisSetRecord( sID ) )
 		{
-			//SystemNotice( "ÉèÖÃÈÎÎñÀúÊ·±ê¼Ç³É¹¦!ID[%d]", sID );
+			//SystemNotice( "è®¾ç½®ä»»åŠ¡å†å²æ ‡è®°æˆåŠŸ!ID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00003), sID );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "ÉèÖÃÈÎÎñÀúÊ·±ê¼ÇÊ§°Ü!ID[%d]", sID );
+			//SystemNotice( "è®¾ç½®ä»»åŠ¡å†å²æ ‡è®°å¤±è´¥!ID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00003), sID );
 			return FALSE;
 		}
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "clearrecord" ) ) // ÉèÖÃ½ÇÉ«ÈÎÎñÀúÊ·±ê¼Ç
+	else if( !strcmp(szComHead, "clearrecord" ) ) // è®¾ç½®è§’è‰²ä»»åŠ¡å†å²æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');		
 		USHORT sID   = Str2Int(strList[0]);
 		if( GetPlayer()->MisClearRecord( sID ) )
 		{
-			//SystemNotice( "Çå³ıÈÎÎñÀúÊ·±ê¼Ç³É¹¦!ID[%d]", sID );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡å†å²æ ‡è®°æˆåŠŸ!ID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00004), sID );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "Çå³ıÈÎÎñÀúÊ·±ê¼ÇÊ§°Ü!ID[%d]", sID );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡å†å²æ ‡è®°å¤±è´¥!ID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00005), sID );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "setflag" ) ) // ÉèÖÃÈÎÎñ±ê¼Ç
+	else if( !strcmp(szComHead, "setflag" ) ) // è®¾ç½®ä»»åŠ¡æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');		
 		USHORT sID   = Str2Int(strList[0]);
 		USHORT sFlag = Str2Int(strList[1]);
 		if( GetPlayer()->MisSetFlag( sID, sFlag ) )
 		{
-			//SystemNotice( "ÉèÖÃÈÎÎñ±ê¼Ç³É¹¦!ID[%d], FLAG[%d]", sID, sFlag );
+			//SystemNotice( "è®¾ç½®ä»»åŠ¡æ ‡è®°æˆåŠŸ!ID[%d], FLAG[%d]", sID, sFlag );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00006), sID, sFlag );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "ÉèÖÃÈÎÎñ±ê¼ÇÊ§°Ü!ID[%d], FLAG[%d]", sID, sFlag );
+			//SystemNotice( "è®¾ç½®ä»»åŠ¡æ ‡è®°å¤±è´¥!ID[%d], FLAG[%d]", sID, sFlag );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00007), sID, sFlag );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "clearflag" ) ) // Çå³ıÈÎÎñ±ê¼Ç
+	else if( !strcmp(szComHead, "clearflag" ) ) // æ¸…é™¤ä»»åŠ¡æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');		
 		USHORT sID   = Str2Int(strList[0]);
 		USHORT sFlag = Str2Int(strList[1]);
 		if( GetPlayer()->MisClearFlag( sID, sFlag ) )
 		{
-			//SystemNotice( "Çå³ıÈÎÎñ±ê¼Ç³É¹¦!ID[%d], FLAG[%d]", sID, sFlag );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡æ ‡è®°æˆåŠŸ!ID[%d], FLAG[%d]", sID, sFlag );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00008), sID, sFlag );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "Çå³ıÈÎÎñ±ê¼ÇÊ§°Ü!ID[%d], FLAG[%d]", sID, sFlag );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡æ ‡è®°å¤±è´¥!ID[%d], FLAG[%d]", sID, sFlag );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00009), sID, sFlag );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "addmission" ) ) // ÉèÖÃÈÎÎñ±ê¼Ç
+	else if( !strcmp(szComHead, "addmission" ) ) // è®¾ç½®ä»»åŠ¡æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');		
 		USHORT sMID   = Str2Int(strList[0]);
 		USHORT sSID   = Str2Int(strList[1]);
 		if( GetPlayer()->MisAddRole( sMID, sSID ) )
 		{
-			//SystemNotice( "Ìí¼ÓÈÎÎñ³É¹¦!MID[%d], SID[%d]", sMID, sSID );
+			//SystemNotice( "æ·»åŠ ä»»åŠ¡æˆåŠŸ!MID[%d], SID[%d]", sMID, sSID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00010), sMID, sSID );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "Ìí¼ÓÈÎÎñÊ§°Ü!MID[%d], SID[%d]", sMID, sSID );
+			//SystemNotice( "æ·»åŠ ä»»åŠ¡å¤±è´¥!MID[%d], SID[%d]", sMID, sSID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00011), sMID, sSID );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "clearmission" ) ) // Çå³ıÈÎÎñ±ê¼Ç
+	else if( !strcmp(szComHead, "clearmission" ) ) // æ¸…é™¤ä»»åŠ¡æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		USHORT sID   = Str2Int(strList[0]);
 		if( GetPlayer()->MisCancelRole( sID ) )
 		{
-			//SystemNotice( "Çå³ıÈÎÎñ³É¹¦!MID[%d]", sID );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡æˆåŠŸ!MID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00012), sID );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "Çå³ıÈÎÎñÊ§°Ü!MID[%d]", sID );
+			//SystemNotice( "æ¸…é™¤ä»»åŠ¡å¤±è´¥!MID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00013), sID );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "delmission" ) ) // Çå³ıÈÎÎñ±ê¼Ç
+	else if( !strcmp(szComHead, "delmission" ) ) // æ¸…é™¤ä»»åŠ¡æ ‡è®°
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		USHORT sID   = Str2Int(strList[0]);
 		if( GetPlayer()->MisClearRole( sID ) )
 		{
-			//SystemNotice( "É¾³ıÈÎÎñ³É¹¦!MID[%d]", sID );
+			//SystemNotice( "åˆ é™¤ä»»åŠ¡æˆåŠŸ!MID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00014), sID );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 		else
 		{
-			//SystemNotice( "É¾³ıÈÎÎñÊ§°Ü!MID[%d]", sID );
+			//SystemNotice( "åˆ é™¤ä»»åŠ¡å¤±è´¥!MID[%d]", sID );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00015), sID );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if( !strcmp(szComHead, "missdk" ) )	 // ÈÎÎñ½Å±¾¸üĞÂ
+	else if( !strcmp(szComHead, "missdk" ) )	 // ä»»åŠ¡è„šæœ¬æ›´æ–°
 	{
 		ReloadLuaSdk();
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if( !strcmp( szComHead, "misclear") ) // Çå³ı½ÇÉ«ÈÎÎñ±êÇ©ĞÅÏ¢ºÍ´¥·¢Æ÷ĞÅÏ¢
+	else if( !strcmp( szComHead, "misclear") ) // æ¸…é™¤è§’è‰²ä»»åŠ¡æ ‡ç­¾ä¿¡æ¯å’Œè§¦å‘å™¨ä¿¡æ¯
 	{
 		GetPlayer()->MisClear();
-		//SystemNotice( "Çå³ı½ÇÉ«ÈÎÎñ±êÇ©ĞÅÏ¢ºÍ´¥·¢Æ÷ĞÅÏ¢³É¹¦!" );
+		//SystemNotice( "æ¸…é™¤è§’è‰²ä»»åŠ¡æ ‡ç­¾ä¿¡æ¯å’Œè§¦å‘å™¨ä¿¡æ¯æˆåŠŸ!" );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00016) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, "isblock")) // ÊÇ·ñ´¦ÓÚÕÏ°­Çø
+	else if (!strcmp(szComHead, "isblock")) // æ˜¯å¦å¤„äºéšœç¢åŒº
 	{
 		if (m_submap->IsBlock(GetPos().x / m_submap->GetBlockCellWidth(), GetPos().y / m_submap->GetBlockCellHeight()))
-			//SystemNotice("ÕÏ°­");
+			//SystemNotice("éšœç¢");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00017));
 		else
-			//SystemNotice("·ÇÕÏ°­");
+			//SystemNotice("ééšœç¢");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00018));
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, "pet")) // ÕÙ»½³èÎï
+	else if (!strcmp(szComHead, "pet")) // å¬å”¤å® ç‰©
 	{
 		Long	lChaInfoID = Str2Int(strList[0]);
 		Point	Pos = GetPos();
@@ -529,13 +529,13 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		else
 		{
-			//SystemNotice( "ÕÙ»½³èÎïÊ§°Ü" );
+			//SystemNotice( "å¬å”¤å® ç‰©å¤±è´¥" );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00019) );
 			return FALSE;
 		}
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cSummon)) // ÕÙ»½¹ÖÎï
+	else if (!strcmp(szComHead, g_Command.m_cSummon)) // å¬å”¤æ€ªç‰©
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n >= 1)
@@ -554,12 +554,12 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 				if( n==3 )
 				{
 					int nAIType = Str2Int(strList[2]);
-					pCha->m_AIType  = (BYTE)nAIType; // ÉèÖÃ¹ÖÎïµÄAIÀàĞÍ
+					pCha->m_AIType  = (BYTE)nAIType; // è®¾ç½®æ€ªç‰©çš„AIç±»å‹
 				}
 			}
 			else
 			{
-				//SystemNotice( "´´½¨¹ÖÎïÊ§°Ü!" );
+				//SystemNotice( "åˆ›å»ºæ€ªç‰©å¤±è´¥!" );
 				SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00020) );
 				return FALSE;
 			}
@@ -568,7 +568,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		return FALSE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cSummonex)) // ÕÙ»½¹ÖÎïÀ©Õ¹Ö¸Áî£¬¸ñÊ½£º½ÇÉ«±àºÅ£¬¸öÊı£¬ÊÇ·ñ¼¤»îÊÓÒ°£¬£Á£ÉÀàĞÍ
+	else if (!strcmp(szComHead, g_Command.m_cSummonex)) // å¬å”¤æ€ªç‰©æ‰©å±•æŒ‡ä»¤ï¼Œæ ¼å¼ï¼šè§’è‰²ç¼–å·ï¼Œä¸ªæ•°ï¼Œæ˜¯å¦æ¿€æ´»è§†é‡ï¼Œï¼¡ï¼©ç±»å‹
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n >= 1)
@@ -593,11 +593,11 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 				if (pCha)
 				{
 					if( n > 3 )
-						pCha->m_AIType = (BYTE)nAIType; // ÉèÖÃ¹ÖÎïµÄAIÀàĞÍ
+						pCha->m_AIType = (BYTE)nAIType; // è®¾ç½®æ€ªç‰©çš„AIç±»å‹
 				}
 				else
 				{
-					//SystemNotice( "´´½¨½ÇÉ«Ê§°Ü!" );
+					//SystemNotice( "åˆ›å»ºè§’è‰²å¤±è´¥!" );
 					SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00021 ));
 				}
 			}
@@ -606,7 +606,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		return FALSE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cKill)) // É±ËÀÕÙ»½¹ÖÎï£¬Ö¸Áî¸ñÊ½£º¹ÖÎïÃû³Æ£¬·¶Î§£¨Ã×£¬Ä¬ÈÏÖµ8Ã×£©£¬¸öÊı£¨Ä¬ÈÏÎª·¶Î§ÄÚµÄËùÓĞ¹ÖÎï£©
+	else if (!strcmp(szComHead, g_Command.m_cKill)) // æ€æ­»å¬å”¤æ€ªç‰©ï¼ŒæŒ‡ä»¤æ ¼å¼ï¼šæ€ªç‰©åç§°ï¼ŒèŒƒå›´ï¼ˆç±³ï¼Œé»˜è®¤å€¼8ç±³ï¼‰ï¼Œä¸ªæ•°ï¼ˆé»˜è®¤ä¸ºèŒƒå›´å†…çš„æ‰€æœ‰æ€ªç‰©ï¼‰
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n >= 1)
@@ -645,7 +645,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 			if (pCFreeCha)
 				pCFreeCha->Free();
 
-			//SystemNotice( "É¾³ı¹ÖÎïÊıÄ¿£º%u.!", lKillNum );
+			//SystemNotice( "åˆ é™¤æ€ªç‰©æ•°ç›®ï¼š%u.!", lKillNum );
 			SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00022), lKillNum );
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
@@ -655,17 +655,17 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	
 	if(g_Config.m_bSuperCmd==FALSE)
 	{
-		//SystemNotice("È¨ÏŞ²»¹»!");
+		//SystemNotice("æƒé™ä¸å¤Ÿ!");
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00001));
 		return FALSE;
 	}
 	
 	//-----------------------------------
-	// ³¬¼¶µ÷ÊÔÖ¸Áî, ÓëGMÖ¸ÁîÒªÑÏ¸ñÇø·Ö¿ª
+	// è¶…çº§è°ƒè¯•æŒ‡ä»¤, ä¸GMæŒ‡ä»¤è¦ä¸¥æ ¼åŒºåˆ†å¼€
 	//-----------------------------------
 	if( !strcmp( szComHead, g_Command.m_cAddmoney ) )
 	{
-		//AddMoney( "ÏµÍ³", atol(szComParam) );
+		//AddMoney( "ç³»ç»Ÿ", atol(szComParam) );
 		AddMoney( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00023), atol(szComParam) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -694,7 +694,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	else if( !strcmp( szComHead, "addlifeexp" ) )
 	{
 		AddAttr( ATTR_CLIFEEXP, atol(szComParam) );
-		//SystemNotice( "ÏµÍ³¸øÁËÄã%ldÉú»î¾­Ñé!", atol(szComParam) );
+		//SystemNotice( "ç³»ç»Ÿç»™äº†ä½ %ldç”Ÿæ´»ç»éªŒ!", atol(szComParam) );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00024), atol(szComParam) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -702,7 +702,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	else if( !strcmp( szComHead, "addsailexp" ) )
 	{
 		AddAttr( ATTR_CSAILEXP, atol(szComParam) );
-		//SystemNotice( "ÏµÍ³¸øÁËÄã%ld×ªÉú¾­Ñé!", atol(szComParam) );
+		//SystemNotice( "ç³»ç»Ÿç»™äº†ä½ %ldè½¬ç”Ÿç»éªŒ!", atol(szComParam) );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00025), atol(szComParam) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -710,7 +710,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	else if( !strcmp( szComHead, "addcess" ) )
 	{
 		AdjustTradeItemCess( 60000, (USHORT)atol(szComParam) );
-		//SystemNotice( "Ìí¼Ó%ldÃ³Ò×Ë°µã!", atol(szComParam) );
+		//SystemNotice( "æ·»åŠ %ldè´¸æ˜“ç¨ç‚¹!", atol(szComParam) );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00026), atol(szComParam) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -718,12 +718,12 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	else if( !strcmp( szComHead, "setcesslevel" ) )
 	{
 		SetTradeItemLevel( (BYTE)atol(szComParam) );
-		//SystemNotice( "ÉèÖÃÃ³Ò×µÈ¼¶%ld!", atol(szComParam) );
+		//SystemNotice( "è®¾ç½®è´¸æ˜“ç­‰çº§%ld!", atol(szComParam) );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00027), atol(szComParam) );
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cMake)) // ÕÙ»½µÀ¾ß£¬¸ñÊ½£ºµÀ¾ß±àºÅ£¬¸öÊı[£¬ÊµÀı»¯ÀàĞÍ][£¬·½Ïò£¨1£¬µÀ¾ßÀ¸.ÆäËûÎªµØÃæ£©]
+	else if (!strcmp(szComHead, g_Command.m_cMake)) // å¬å”¤é“å…·ï¼Œæ ¼å¼ï¼šé“å…·ç¼–å·ï¼Œä¸ªæ•°[ï¼Œå®ä¾‹åŒ–ç±»å‹][ï¼Œæ–¹å‘ï¼ˆ1ï¼Œé“å…·æ .å…¶ä»–ä¸ºåœ°é¢ï¼‰]
 	{
 		LG("GMmakeLog", "begin make\n");
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
@@ -731,7 +731,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		{
 			short	sID = Str2Int(strList[0]);
 			short	sNum = Str2Int(strList[1]);
-			short	sTo = 1; // ·ÅÈëµÀ¾ßÀ¸
+			short	sTo = 1; // æ”¾å…¥é“å…·æ 
 			char	chSpawnType = enumITEM_INST_MONS;
 			if (sNum < 0 || sNum > 100)
 				sNum = 10;
@@ -770,7 +770,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("GMmakeLog", "make failed! because the param is less than 2!\n");
 		return FALSE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cAttr)) // ½ÇÉ«ÊôĞÔ£¬¸ñÊ½£ºÊôĞÔ±àºÅ£¬ÊôĞÔÖµ.
+	else if (!strcmp(szComHead, g_Command.m_cAttr)) // è§’è‰²å±æ€§ï¼Œæ ¼å¼ï¼šå±æ€§ç¼–å·ï¼Œå±æ€§å€¼.
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n < 2)
@@ -787,7 +787,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 			pCCha = g_pGameApp->FindChaByID(Str2Int(strList[2]));
 		if (!pCCha)
 		{
-			//SystemNotice("Ã»ÓĞËÑË÷µ½Ä¿±ê»òÄ¿±ê²»ÊÇ½ÇÉ«Àà¶ÔÏó!");
+			//SystemNotice("æ²¡æœ‰æœç´¢åˆ°ç›®æ ‡æˆ–ç›®æ ‡ä¸æ˜¯è§’è‰²ç±»å¯¹è±¡!");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00028));
 			return FALSE;
 		}
@@ -814,7 +814,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cItemattr)) // ½ÇÉ«µÀ¾ßÊôĞÔ£¬¸ñÊ½£ºÎ»ÖÃÀàĞÍ£¨1£¬×°±¸À¸.2£¬µÀ¾ßÀ¸£©£¬Î»ÖÃ±àºÅ£¬ÊôĞÔ±àºÅ£¬ÊôĞÔÖµ.
+	else if (!strcmp(szComHead, g_Command.m_cItemattr)) // è§’è‰²é“å…·å±æ€§ï¼Œæ ¼å¼ï¼šä½ç½®ç±»å‹ï¼ˆ1ï¼Œè£…å¤‡æ .2ï¼Œé“å…·æ ï¼‰ï¼Œä½ç½®ç¼–å·ï¼Œå±æ€§ç¼–å·ï¼Œå±æ€§å€¼.
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 4)
@@ -832,7 +832,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, "light")) // ½ÇÉ«´óµØÍ¼µÆ¹â·¶Î§£¬¸ñÊ½£º·¶Î§£¨Ã×£©.
+	else if (!strcmp(szComHead, "light")) // è§’è‰²å¤§åœ°å›¾ç¯å…‰èŒƒå›´ï¼Œæ ¼å¼ï¼šèŒƒå›´ï¼ˆç±³ï¼‰.
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 1)
@@ -845,7 +845,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, "seeattr")) // ²é¿´½ÇÉ«ÊôĞÔ£¬¸ñÊ½£ºWorldID£¬ÊôĞÔ±àºÅ.
+	else if (!strcmp(szComHead, "seeattr")) // æŸ¥çœ‹è§’è‰²å±æ€§ï¼Œæ ¼å¼ï¼šWorldIDï¼Œå±æ€§ç¼–å·.
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 2)
@@ -856,16 +856,16 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		CCharacter	*pCCha = g_pGameApp->FindChaByID(ulWorldID);
 		if (!pCCha)
 		{
-			//SystemNotice("Ã»ÓĞËÑË÷µ½Ä¿±ê»òÄ¿±ê²»ÊÇ½ÇÉ«Àà¶ÔÏó!");
+			//SystemNotice("æ²¡æœ‰æœç´¢åˆ°ç›®æ ‡æˆ–ç›®æ ‡ä¸æ˜¯è§’è‰²ç±»å¯¹è±¡!");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00028));
 			return FALSE;
 		}
-		//SystemNotice("Ä¿±ê[%s]µÄÊôĞÔÎª%dµÄÖµÊÇ%d!", pCCha->m_CLog.GetLogName(), sAttrID, pCCha->getAttr(sAttrID));
+		//SystemNotice("ç›®æ ‡[%s]çš„å±æ€§ä¸º%dçš„å€¼æ˜¯%d!", pCCha->m_CLog.GetLogName(), sAttrID, pCCha->getAttr(sAttrID));
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00029), pCCha->m_CLog.GetLogName(), sAttrID, pCCha->getAttr(sAttrID));
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, "forge")) // µÀ¾ß¾«Á¶£¬¸ñÊ½£º¾«Á¶µÈ¼¶Ôö¼ÓÖµ£¬µÀ¾ßÀ¸Î»ÖÃ
+	else if (!strcmp(szComHead, "forge")) // é“å…·ç²¾ç‚¼ï¼Œæ ¼å¼ï¼šç²¾ç‚¼ç­‰çº§å¢åŠ å€¼ï¼Œé“å…·æ ä½ç½®
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		char	chAddLv = Str2Int(strList[0]);
@@ -889,7 +889,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		return FALSE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cSkill)) // Ôö¼Ó¼¼ÄÜ£¬¸ñÊ½£º±àºÅ£¬µÈ¼¶
+	else if (!strcmp(szComHead, g_Command.m_cSkill)) // å¢åŠ æŠ€èƒ½ï¼Œæ ¼å¼ï¼šç¼–å·ï¼Œç­‰çº§
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		short	sID = Str2Int(strList[0]);
@@ -900,7 +900,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 
 		if (!GetPlayer()->GetMainCha()->LearnSkill(sID, chLv, true, false, bLimit))
 		{
-			//SystemNotice("Ñ§Ï°¼¼ÄÜÊ§°Ü£¨Çë¼ì²éÑ§Ï°µÈ¼¶£¬Ö°ÒµÏŞÖÆ£¬Ç°ÖÃ¼¼ÄÜÏŞÖÆµÈ£©£º±àºÅ %d£¬µÈ¼¶ %d.!", sID, chLv);
+			//SystemNotice("å­¦ä¹ æŠ€èƒ½å¤±è´¥ï¼ˆè¯·æ£€æŸ¥å­¦ä¹ ç­‰çº§ï¼ŒèŒä¸šé™åˆ¶ï¼Œå‰ç½®æŠ€èƒ½é™åˆ¶ç­‰ï¼‰ï¼šç¼–å· %dï¼Œç­‰çº§ %d.!", sID, chLv);
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00030), sID, chLv);
 			return FALSE;
 		}
@@ -920,7 +920,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 			char	chForcible = Str2Int(strList[5]);
 			if (Cmd_RemoveItem(lItemID, lItemNum, chFromType, sFromID, chToType, 0, true, chForcible) != enumITEMOPT_SUCCESS)
 			{
-				//SystemNotice("É¾³ıµÀ¾ßÊ§°Ü!");
+				//SystemNotice("åˆ é™¤é“å…·å¤±è´¥!");
 				SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00031));
 				return FALSE;
 			}
@@ -929,20 +929,20 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		}
 		return FALSE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cLua)) // ±¾GameServerÖ´ĞĞ½Å±¾
+	else if (!strcmp(szComHead, g_Command.m_cLua)) // æœ¬GameServeræ‰§è¡Œè„šæœ¬
 	{
 		luaL_dostring(g_pLuaState, szComParam);
 		//C_PRINT("%s: lua %s\n", GetName(), pszParam);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cLuaall)) // ±¾×éGameServerÖ´ĞĞ½Å±¾
+	else if (!strcmp(szComHead, g_Command.m_cLuaall)) // æœ¬ç»„GameServeræ‰§è¡Œè„šæœ¬
 	{
 		WPACKET WtPk	=GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MM_DO_STRING);
 		WRITE_LONG(WtPk, GetID());
 		WRITE_STRING(WtPk, szComParam);
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 		C_PRINT("%s: lua_all %s\n", GetName(), pszParam);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -952,7 +952,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 1)
 		{
-			//SystemNotice("²ÎÊı´íÎó");
+			//SystemNotice("å‚æ•°é”™è¯¯");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00032));
 			return FALSE;
 		}
@@ -964,7 +964,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	}
 	else if (!strcmp(szComHead, "getping"))
 	{
-		//SystemNotice("µ±Ç°ping£º%d", m_SMoveInit.usPing);
+		//SystemNotice("å½“å‰pingï¼š%d", m_SMoveInit.usPing);
 		SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00033), m_SMoveInit.usPing);
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
@@ -974,7 +974,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 2)
 		{
-			//SystemNotice("²ÎÊı´íÎó");
+			//SystemNotice("å‚æ•°é”™è¯¯");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00032));
 			return FALSE;
 		}
@@ -989,7 +989,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 2)
 		{
-			//SystemNotice("²ÎÊı´íÎó");
+			//SystemNotice("å‚æ•°é”™è¯¯");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00032));
 			return FALSE;
 		}
@@ -999,7 +999,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 		LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 		return TRUE;
 	}
-	else if (!strcmp(szComHead, g_Command.m_cAddkb)) // Ôö¼Ó±³°üÈİÁ¿£¬¸ñÊ½£ºÈİÁ¿µÄÔöÁ¿[,WorldID]
+	else if (!strcmp(szComHead, g_Command.m_cAddkb)) // å¢åŠ èƒŒåŒ…å®¹é‡ï¼Œæ ¼å¼ï¼šå®¹é‡çš„å¢é‡[,WorldID]
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		short	sAddCap = Str2Int(strList[0]);
@@ -1008,34 +1008,34 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 			pCCha = g_pGameApp->FindChaByID(Str2Int(strList[1]));
 		if (!pCCha)
 		{
-			//SystemNotice("Ôö¼Ó±³°üÈİÁ¿Ê§°Ü£¨ÕÒ²»µ½¸Ã½ÇÉ«£©.!");
+			//SystemNotice("å¢åŠ èƒŒåŒ…å®¹é‡å¤±è´¥ï¼ˆæ‰¾ä¸åˆ°è¯¥è§’è‰²ï¼‰.!");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00034));
 			return FALSE;
 		}
 
 		if (!pCCha->AddKitbagCapacity(sAddCap))
 		{
-			//SystemNotice("Ôö¼Ó %s µÄ±³°üÈİÁ¿Ê§°Ü£¨ÈİÁ¿·Ç·¨£©.!", pCCha->GetName());
+			//SystemNotice("å¢åŠ  %s çš„èƒŒåŒ…å®¹é‡å¤±è´¥ï¼ˆå®¹é‡éæ³•ï¼‰.!", pCCha->GetName());
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00035), pCCha->GetName());
 			return FALSE;
 		}
 		else
 		{
-			//pCCha->SystemNotice("Ôö¼Ó±³°üÈİÁ¿³É¹¦£¬µ±Ç°ÈİÁ¿ %d.!", pCCha->m_CKitbag.GetCapacity());
+			//pCCha->SystemNotice("å¢åŠ èƒŒåŒ…å®¹é‡æˆåŠŸï¼Œå½“å‰å®¹é‡ %d.!", pCCha->m_CKitbag.GetCapacity());
 			pCCha->SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00036), pCCha->m_CKitbag.GetCapacity());
 			if (pCCha != this)
-				//SystemNotice("Ôö¼Ó %s µÄ±³°üÈİÁ¿³É¹¦£¬µ±Ç°ÈİÁ¿ %d.!", pCCha->GetName(), pCCha->m_CKitbag.GetCapacity());
+				//SystemNotice("å¢åŠ  %s çš„èƒŒåŒ…å®¹é‡æˆåŠŸï¼Œå½“å‰å®¹é‡ %d.!", pCCha->GetName(), pCCha->m_CKitbag.GetCapacity());
 				SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00037), pCCha->GetName(), pCCha->m_CKitbag.GetCapacity());
 			LG("ServerRunLog", "ChaID: %i, ChaName: %s, CMD: %s, Param: %s\n", GetPlayer()->GetID(), GetName(), pszCmd, pszParam);
 			return TRUE;
 		}
 	}
-	else if (!strcmp(szComHead, "itemvalid")) // ÉèÖÃ±³°üµÀ¾ßÓĞĞ§ĞÔ
+	else if (!strcmp(szComHead, "itemvalid")) // è®¾ç½®èƒŒåŒ…é“å…·æœ‰æ•ˆæ€§
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		if (n != 2)
 		{
-			//SystemNotice("¸ñÊ½´íÎó!");
+			//SystemNotice("æ ¼å¼é”™è¯¯!");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00038));
 			return FALSE;
 		}
@@ -1044,7 +1044,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 
 		if (!SetKitbagItemValid(sPosID, bValid))
 		{
-			//SystemNotice("ÉèÖÃ±³°üµÀ¾ßÓĞĞ§ĞÔÊ§°Ü!");
+			//SystemNotice("è®¾ç½®èƒŒåŒ…é“å…·æœ‰æ•ˆæ€§å¤±è´¥!");
 			SystemNotice(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00039));
 			return FALSE;
 		}
@@ -1057,7 +1057,7 @@ BOOL CCharacter::DoGMCommand(const char *pszCmd, const char *pszParam)
 	return FALSE;
 T_E}
 
-// ²éÑ¯·şÎñÆ÷×´Ì¬
+// æŸ¥è¯¢æœåŠ¡å™¨çŠ¶æ€
 void CCharacter::DoCommand_CheckStatus(cChar *pszCommand, uLong ulLen)
 {T_B
 	Char szComHead[256], szComParam[256];
@@ -1070,7 +1070,7 @@ void CCharacter::DoCommand_CheckStatus(cChar *pszCommand, uLong ulLen)
 	string strCmd   = szComHead;
 	string strParam = szComParam;
 
-	if(strCmd=="game_status")	 // ·µ»ØgameserverµÄ×´Ì¬
+	if(strCmd=="game_status")	 // è¿”å›gameserverçš„çŠ¶æ€
 	{
 		char szInfo[255];
 		sprintf(szInfo, "fps:%d tick:%d player:%d mgr:%d\n", g_pGameApp->m_dwFPS, 
@@ -1078,19 +1078,19 @@ void CCharacter::DoCommand_CheckStatus(cChar *pszCommand, uLong ulLen)
 								 g_pGameApp->m_dwActiveMgrUnit);
 		SystemNotice(szInfo);
 	}
-	else if (strCmd=="ping_game") // ²éÑ¯½ÇÉ«µ½GameServerÂß¼­²ãµÄpingÖµ
+	else if (strCmd=="ping_game") // æŸ¥è¯¢è§’è‰²åˆ°GameServeré€»è¾‘å±‚çš„pingå€¼
 	{
 		int n = Util_ResolveTextLine(szComParam, strList, 10, ',');
 		WPACKET WtPk  = GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MM_QUERY_CHAPING);
 		WRITE_LONG(WtPk, GetID());
 		WRITE_STRING(WtPk, strList[0].c_str());
-		ReflectINFof(this, WtPk);//Í¨¸æ
+		ReflectINFof(this, WtPk);//é€šå‘Š
 	}
 T_E}
 
 	
-// NPC¶ÔÍæ¼Ò×Ô¼ºË½ÈËµÄËµ»°£¬ ±ğÈËÎŞ·¨¿´¼ûµÄ
+// NPCå¯¹ç©å®¶è‡ªå·±ç§äººçš„è¯´è¯ï¼Œ åˆ«äººæ— æ³•çœ‹è§çš„
 void NPC_PrivateTalk(CCharacter *pCha, CCharacter *pNPC, const char *pszText)
 {
 	WPACKET wpk	= GETWPACKET();
@@ -1100,19 +1100,19 @@ void NPC_PrivateTalk(CCharacter *pCha, CCharacter *pNPC, const char *pszText)
 	pCha->ReflectINFof(pCha, wpk);
 }		
 
-// Íæ¼ÒÇëÇó°ïÖú²éÑ¯
+// ç©å®¶è¯·æ±‚å¸®åŠ©æŸ¥è¯¢
 void CCharacter::HandleHelp(cChar *pszCommand, uLong ulLen)
 {T_B
 	if(!pszCommand)           return;
 	
 	if(ulLen==0 || strlen(pszCommand)==0) 
 	{
-		//SystemNotice( "ÄãÏë´òÌıÊ²Ã´?" );
+		//SystemNotice( "ä½ æƒ³æ‰“å¬ä»€ä¹ˆ?" );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00040) );
 		return;
 	}
 
-	// Èç¹ûÍæ¼Ò¾àÀënpcÌ«Ô¶, Ò²²»¿¼ÂÇ
+	// å¦‚æœç©å®¶è·ç¦»npcå¤ªè¿œ, ä¹Ÿä¸è€ƒè™‘
 	if(GetSubMap()==NULL) return;
 	if(strcmp(GetSubMap()->GetName(), "garner")!=0) return;
 
@@ -1124,14 +1124,14 @@ void CCharacter::HandleHelp(cChar *pszCommand, uLong ulLen)
 	CCharacter *pNPC1 = g_HelpNPCList.front();
 	if(pNPC1==NULL)
 	{
-		//LG("error", "²éÑ¯NPCÎª¿Õ\n");
+		//LG("error", "æŸ¥è¯¢NPCä¸ºç©º\n");
 		LG("error", "inquire NPC is empty\n");
 		return;
 	}
 
 	if(! ( abs(x - 2222) < 4 && abs(y - 2888) < 4) )
 	{
-		//SystemNotice( "¸½½üÃ»ÓĞ¿ÉÒÔ»Ø´ğÎÊÌâµÄÈË!" );
+		//SystemNotice( "é™„è¿‘æ²¡æœ‰å¯ä»¥å›ç­”é—®é¢˜çš„äºº!" );
 		SystemNotice( RES_STRING(GM_CHARACTERSUPERCMD_CPP_00041) );
 		return;
 	}
@@ -1143,15 +1143,15 @@ void CCharacter::HandleHelp(cChar *pszCommand, uLong ulLen)
 	
 	
 	char szTip[128]; 
-	//sprintf(szTip, "´òÌıÓĞ¹Ø'%s':\n", strList[0].c_str()); 
+	//sprintf(szTip, "æ‰“å¬æœ‰å…³'%s':\n", strList[0].c_str()); 
 	sprintf(szTip, RES_STRING(GM_CHARACTERSUPERCMD_CPP_00042), strList[0].c_str()); 
-	if(strList[0]=="time")	// µ±Ç°Ê±¼ä²éÑ¯
+	if(strList[0]=="time")	// å½“å‰æ—¶é—´æŸ¥è¯¢
 	{
 		//SystemNotice( szTip );
 		//GetCurrentTime()
 		//SystemNotice( "force is strong with this one!");
 	}
-	//else if(strList[0]=="ryan" || strList[0]=="ĞÂÒ»´ú±¬Í·×¨¼Ò")
+	//else if(strList[0]=="ryan" || strList[0]=="æ–°ä¸€ä»£çˆ†å¤´ä¸“å®¶")
 	else if(strList[0]=="ryan" || strList[0]==RES_STRING(GM_CHARACTERSUPERCMD_CPP_00043))
 	{
 		SystemNotice( szTip );
@@ -1162,18 +1162,18 @@ void CCharacter::HandleHelp(cChar *pszCommand, uLong ulLen)
 	if(pszHelp==NULL)
 	{
 		SystemNotice( szTip );
-		//NPC_PrivateTalk(this, pNPC1, "ÕæÔã¸â,¿´À´ÎÒÄê¼Í´óÁË,ÄãÎÊµ¹ÎÒÁË!");
+		//NPC_PrivateTalk(this, pNPC1, "çœŸç³Ÿç³•,çœ‹æ¥æˆ‘å¹´çºªå¤§äº†,ä½ é—®å€’æˆ‘äº†!");
 		NPC_PrivateTalk(this, pNPC1, RES_STRING(GM_CHARACTERSUPERCMD_CPP_00044));
 	}
 	else
 	{
-		//if(strcmp(GetName(), "ĞÂÒ»´ú±¬Í·×¨¼Ò")==0) // ´Ë½ÇÉ«´òÌıĞÅÏ¢²»ÊÕÇ®,²»Ó°ÏìÓÎÏ·Æ½ºâ
-		if(strcmp(GetName(), RES_STRING(GM_CHARACTERSUPERCMD_CPP_00043))==0) // ´Ë½ÇÉ«´òÌıĞÅÏ¢²»ÊÕÇ®,²»Ó°ÏìÓÎÏ·Æ½ºâ
+		//if(strcmp(GetName(), "æ–°ä¸€ä»£çˆ†å¤´ä¸“å®¶")==0) // æ­¤è§’è‰²æ‰“å¬ä¿¡æ¯ä¸æ”¶é’±,ä¸å½±å“æ¸¸æˆå¹³è¡¡
+		if(strcmp(GetName(), RES_STRING(GM_CHARACTERSUPERCMD_CPP_00043))==0) // æ­¤è§’è‰²æ‰“å¬ä¿¡æ¯ä¸æ”¶é’±,ä¸å½±å“æ¸¸æˆå¹³è¡¡
 		{
 			SystemNotice( szTip );
 			NPC_PrivateTalk(this, pNPC1, pszHelp);
 		}
-		//else if(TakeMoney("ÍòÊÂÍ¨", 100))
+		//else if(TakeMoney("ä¸‡äº‹é€š", 100))
 		else if(TakeMoney(RES_STRING(GM_CHARACTERSUPERCMD_CPP_00045), 100))
 		{
 			SystemNotice( szTip );
@@ -1182,7 +1182,7 @@ void CCharacter::HandleHelp(cChar *pszCommand, uLong ulLen)
 		else
 		{
 			SystemNotice( szTip );
-			//NPC_PrivateTalk(this, pNPC1, "¶Ô²»Æğ, Money Talk!" );
+			//NPC_PrivateTalk(this, pNPC1, "å¯¹ä¸èµ·, Money Talk!" );
 			NPC_PrivateTalk(this, pNPC1, RES_STRING(GM_CHARACTERSUPERCMD_CPP_00046) );
 		}
 	}

@@ -3,7 +3,7 @@
 
 namespace GUI
 {
-// Íæ¼ÒÊôĞÔ
+// ç©å®¶å±æ€§
 class CStateMgr : public CUIInterface
 {
 public:
@@ -20,17 +20,17 @@ private:
 	static void MainMouseDown(CGuiData *pSender, int x, int y, DWORD key);
 
 private:
-	//frmState½çÃæµÄ¿Ø¼ş
+	//frmStateç•Œé¢çš„æ§ä»¶
 	CForm*			frmState;
-	CLabelEx*		labName;                    //´´½¨½ÇÉ«Ãû³Æ
-	CLabelEx*		labGuildName;               //´´½¨¹«»áÃû³Æ
-	CLabelEx*		labStateLevel;              //´´½¨µÈ¼¶
-	CLabelEx*		labStatePoint;              //´´½¨ÊôĞÔµãÊı 
-	CLabelEx*  		labSkillPoint;              //´´½¨¼¼ÄÜµãÊı
-	CLabelEx*		labJobShow;					//Ö°Òµ
-	CLabelEx *      labFameShow;				//´´½¨ÃûÉù
+	CLabelEx*		labName;                    //åˆ›å»ºè§’è‰²åç§°
+	CLabelEx*		labGuildName;               //åˆ›å»ºå…¬ä¼šåç§°
+	CLabelEx*		labStateLevel;              //åˆ›å»ºç­‰çº§
+	CLabelEx*		labStatePoint;              //åˆ›å»ºå±æ€§ç‚¹æ•° 
+	CLabelEx*  		labSkillPoint;              //åˆ›å»ºæŠ€èƒ½ç‚¹æ•°
+	CLabelEx*		labJobShow;					//èŒä¸š
+	CLabelEx *      labFameShow;				//åˆ›å»ºåå£°
 
-	//6¸ö»ù±¾ÊôĞÔ
+	//6ä¸ªåŸºæœ¬å±æ€§
 	CLabelEx*		labStrshow;
 	CLabelEx*		labDexshow;
 	CLabelEx*		labAgishow;
@@ -40,7 +40,7 @@ private:
 	CLabelEx*		labSailLevel;
 	CLabelEx*		labSailEXP;
 
-	//8¸ö¸½¼ÓÊôĞÔ
+	//8ä¸ªé™„åŠ å±æ€§
 	CLabelEx*		labMinAtackShow;
 	CLabelEx*		labMaxAtackShow;
 	CLabelEx*		labFleeShow;
@@ -51,19 +51,19 @@ private:
 	//CLabelEx*		labMfShow;
 	CLabelEx*		labPhysDefineShow;
 
-	//6 ¸ö»ù±¾ÊôĞÔ°´Å¥
-	CTextButton*   btnStr;						//´´½¨Á¦Á¿À¸
-	CTextButton*   btnAgi;						//´´½¨Ãô½İÀ¸
-	CTextButton*   btnCon;						//´´½¨ÌåÖÊÀ¸
-	CTextButton*   btnSta;						//´´½¨¾«ÉñÀ¸
-	//CTextButton*   btnLuk;						//´´½¨ĞÒÔËÀ¸
-	CTextButton*   btnDex;						//´´½¨×¨×¢À¸     
+	//6 ä¸ªåŸºæœ¬å±æ€§æŒ‰é’®
+	CTextButton*   btnStr;						//åˆ›å»ºåŠ›é‡æ 
+	CTextButton*   btnAgi;						//åˆ›å»ºæ•æ·æ 
+	CTextButton*   btnCon;						//åˆ›å»ºä½“è´¨æ 
+	CTextButton*   btnSta;						//åˆ›å»ºç²¾ç¥æ 
+	//CTextButton*   btnLuk;						//åˆ›å»ºå¹¸è¿æ 
+	CTextButton*   btnDex;						//åˆ›å»ºä¸“æ³¨æ      
 
 	CLabelEx*		labStateEXP;
 	CLabelEx*		labStateHP;
 	CLabelEx*		labStateSP;
 
-	CLabelEx*		labFameSho;              //´´½¨ÃûÉù
+	CLabelEx*		labFameSho;              //åˆ›å»ºåå£°
 	CLabelEx*		labStateName;
 	CLabelEx*		labStateJob;
 

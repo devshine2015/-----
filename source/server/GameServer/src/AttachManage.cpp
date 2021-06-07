@@ -33,7 +33,7 @@ void CConjureMgr::Add(CAttachable *pCAttach)
 		m_pCLstTail->m_pCConjureNext = pCAttach;
 		m_pCLstTail = pCAttach;
 	}
-	else // ¿ÕÁ´
+	else // ç©ºé“¾
 	{
 		pCAttach->m_pCConjureLast = 0;
 		pCAttach->m_pCConjureNext = 0;
@@ -190,7 +190,7 @@ void CPassengerMgr::Add(CAttachable *pCAttach)
 		m_pCLstTail->m_pCPassengerNext = pCAttach;
 		m_pCLstTail = pCAttach;
 	}
-	else // ¿ÕÁ´
+	else // ç©ºé“¾
 	{
 		pCAttach->m_pCPassengerLast = 0;
 		pCAttach->m_pCPassengerNext = 0;

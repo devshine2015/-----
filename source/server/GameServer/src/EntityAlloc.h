@@ -22,10 +22,10 @@
 
 #define defENTI_ENTEVENT 0x06000000
 #define defENTI_ENTBASE(n) (defENTI_ENTEVENT + (n<<24))
-#define defENTI_ALLOC_TYPE_ENTBASE			defENTI_ENTBASE(1)	// »ù±¾ÀàĞÍÊÂ¼şÊµÌå
-#define defENTI_ALLOC_TYPE_ENTRESOURCE		defENTI_ENTBASE(2)	// ×ÊÔ´ÀàĞÍÊÂ¼şÊµÌå
-#define defENTI_ALLOC_TYPE_ENTTRANSIT		defENTI_ENTBASE(3)	// ´«ËÍÀàĞÍÊÂ¼şÊµÌå
-#define defENTI_ALLOC_TYPE_ENTBERTH			defENTI_ENTBASE(4)	// Í£²´ÀàĞÍÊÂ¼şÊµÌå
+#define defENTI_ALLOC_TYPE_ENTBASE			defENTI_ENTBASE(1)	// åŸºæœ¬ç±»å‹äº‹ä»¶å®ä½“
+#define defENTI_ALLOC_TYPE_ENTRESOURCE		defENTI_ENTBASE(2)	// èµ„æºç±»å‹äº‹ä»¶å®ä½“
+#define defENTI_ALLOC_TYPE_ENTTRANSIT		defENTI_ENTBASE(3)	// ä¼ é€ç±»å‹äº‹ä»¶å®ä½“
+#define defENTI_ALLOC_TYPE_ENTBERTH			defENTI_ENTBASE(4)	// åœæ³Šç±»å‹äº‹ä»¶å®ä½“
 
 template <class T>
 class CAlloc
@@ -36,18 +36,18 @@ public:
 
 	void  clear();
 
-	// »ñÈ¡·ÖÅä¼ÆÊı
+	// è·å–åˆ†é…è®¡æ•°
 	LONG getHoldSize()  { return m_lHoldSize; }
 	LONG getMaxHoldSize()  { return m_lMaxHoldSize; }
 	LONG getAllocSize() { return m_lAllocSize; }
 	
-	// ·ÖÅäÖ¸¶¨ÀàĞÍÊı¾İ
+	// åˆ†é…æŒ‡å®šç±»å‹æ•°æ®
 	BOOL  create( LONG lSize, LONG lFlag = 0 );
 	T*	  alloc();
 	void  destroy( T* pData );
 	void  destroy( LONG lID );
 
-	// Ñ­»·ËÑË÷·ÖÅäÊı¾İĞÅÏ¢
+	// å¾ªç¯æœç´¢åˆ†é…æ•°æ®ä¿¡æ¯
 	void  begin();
 	T*	  end();
 	T*    next();
@@ -144,7 +144,7 @@ T* CAlloc< T >::alloc()
 template<class T>
 void CAlloc< T >::destroy( T* pData )
 {
-	// ÔİÎ´ÊµÏÖ£¬»úÖÆÔ­ÒòÄ¿Ç°Ö§³ÖÏÂÃæµÄ½Ó¿Ú
+	// æš‚æœªå®ç°ï¼Œæœºåˆ¶åŸå› ç›®å‰æ”¯æŒä¸‹é¢çš„æ¥å£
 }
 
 template<class T>

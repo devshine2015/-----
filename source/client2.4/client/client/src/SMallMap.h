@@ -268,19 +268,19 @@ public:
 			}
 #else
 			D3DXCreateTextureFromFileEx(m_pDev,
-				pszName[n], //ÎÄ¼şÃû
+				pszName[n], //æ–‡ä»¶å
 				0, 
 				0, 
-				1, //ĞèÒª¶àÉÙ¼¶mipmap£¬ÕâÀïÉèÎª1  
-				0, //´ËÎÆÀíµÄÓÃÍ¾
-				D3DFMT_UNKNOWN, //×Ô¶¯¼ì²âÎÄ¼ş¸ñÊ½
-				D3DPOOL_MANAGED, //ÓÉDXGraphics¹ÜÀí
-				D3DX_FILTER_LINEAR, //ÎÆÀí¹ıÂË·½·¨
-				D3DX_FILTER_NONE, //mipmapÎÆÀí¹ıÂË·½·¨
-				0x00000000, //Í¸Ã÷É«ÑÕÉ«
-				NULL, //¶Á³öµÄÍ¼Ïñ¸ñÊ½´æ´¢ÔÚºÎ±äÁ¿ÖĞ
-				NULL, //¶Á³öµÄµ÷É«°å´æ´¢ÔÚºÎ±äÁ¿ÖĞ
-				&_pTex[n]);//Òª´´½¨µÄÎÆÀí
+				1, //éœ€è¦å¤šå°‘çº§mipmapï¼Œè¿™é‡Œè®¾ä¸º1  
+				0, //æ­¤çº¹ç†çš„ç”¨é€”
+				D3DFMT_UNKNOWN, //è‡ªåŠ¨æ£€æµ‹æ–‡ä»¶æ ¼å¼
+				D3DPOOL_MANAGED, //ç”±DXGraphicsç®¡ç†
+				D3DX_FILTER_LINEAR, //çº¹ç†è¿‡æ»¤æ–¹æ³•
+				D3DX_FILTER_NONE, //mipmapçº¹ç†è¿‡æ»¤æ–¹æ³•
+				0x00000000, //é€æ˜è‰²é¢œè‰²
+				NULL, //è¯»å‡ºçš„å›¾åƒæ ¼å¼å­˜å‚¨åœ¨ä½•å˜é‡ä¸­
+				NULL, //è¯»å‡ºçš„è°ƒè‰²æ¿å­˜å‚¨åœ¨ä½•å˜é‡ä¸­
+				&_pTex[n]);//è¦åˆ›å»ºçš„çº¹ç†
 			if(!_pTex[n])
 			{
 				LG("ERROR","msgCSMCha::no found file :texture\\minimap\\arraw.tga");
@@ -428,7 +428,7 @@ public:
 		//g_Render.SetTextureStageState( 0, D3DTSS_MAGFILTER, D3DTEXF_POINT );
 		//g_Render.SetTextureStageState( 0, D3DTSS_MINFILTER, D3DTEXF_POINT );
 		//g_Render.SetRenderState(D3DRS_TEXTUREFACTOR, 0xffffffff );
-		g_Render.SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); // µ¥ÃæäÖÈ¾
+		g_Render.SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW); // å•é¢æ¸²æŸ“
 		//g_Render.SetTextureStageState( 0, D3DTSS_ADDRESSU , D3DTADDRESS_CLAMP);		
 		//g_Render.SetTextureStageState( 0, D3DTSS_ADDRESSV , D3DTADDRESS_CLAMP);
 		g_Render.SetVertexShader(D3DFVF_M2DWA);
@@ -553,7 +553,7 @@ private:
 
 
 /************************************************************************/
-/*¶¯»­´°¿Ú£¬¿ÉÒÔÏÔÊ¾½çÃæÉ³Â©Ê²Ã´µÄ*/
+/*åŠ¨ç”»çª—å£ï¼Œå¯ä»¥æ˜¾ç¤ºç•Œé¢æ²™æ¼ä»€ä¹ˆçš„*/
 /************************************************************************/
 class CAniWnd: public CSMallWnd
 {
@@ -600,7 +600,7 @@ private:
 };
 
 /************************************************************************/
-/*¶¯»­´°¿Ú£¬¿ÉÒÔÏÔÊ¾½çÃæÉ³Â©Ê²Ã´µÄ*/
+/*åŠ¨ç”»çª—å£ï¼Œå¯ä»¥æ˜¾ç¤ºç•Œé¢æ²™æ¼ä»€ä¹ˆçš„*/
 /************************************************************************/
 #define D3DFVF_CLOCK2 (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
 
@@ -654,8 +654,8 @@ class CCharacterModel;
 
 //struct SClientAttr
 //{
-//	short sTeamAngle; // ×é¶ÓÊ±µÄÍ·Ïñ½Ç¶È
-//	float fTeamDis;   // ×é¶ÓÊ±µÄÍ·Ïñ¾àÀë
+//	short sTeamAngle; // ç»„é˜Ÿæ—¶çš„å¤´åƒè§’åº¦
+//	float fTeamDis;   // ç»„é˜Ÿæ—¶çš„å¤´åƒè·ç¦»
 //	SClientAttr()
 //		:sTeamAngle(0),
 //		fTeamDis(0)
@@ -663,10 +663,10 @@ class CCharacterModel;
 //	}
 //};
 //
-//inline SClientAttr* GetClientAttr(int nScriptID)£»
-//ÓÃ·¨¸úÈ¡characterinfoÒ»Ñù
+//inline SClientAttr* GetClientAttr(int nScriptID)ï¼›
+//ç”¨æ³•è·Ÿå–characterinfoä¸€æ ·
 
-//¿ØÖÆÌ¨ÏÂ ÊäÈë>dofile("scripts/cameraconf.clu")¾Í¿ÉÒÔ¶¯Ì¬reload
+//æ§åˆ¶å°ä¸‹ è¾“å…¥>dofile("scripts/cameraconf.clu")å°±å¯ä»¥åŠ¨æ€reload
 
 class CCharacter2D//: public CSMallWnd
 {
@@ -991,7 +991,7 @@ public:
 		if(p[potion] & (1 << pos))
 			return true;
 		//Add by sunny.sun 20080903
-        return true;    // ´óµØÍ¼È¡ÏûÃÔÎí
+        return true;    // å¤§åœ°å›¾å–æ¶ˆè¿·é›¾
 		//return false;
 	}
 	//void	SetMask(int x, int y)

@@ -28,6 +28,9 @@ bin-release/
 #for only source
 source/client2.4/Common
 source/client2.4/Engine
+source/server/Common
+client/
+server/
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important

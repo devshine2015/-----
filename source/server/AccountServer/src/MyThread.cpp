@@ -24,11 +24,11 @@ bool MyThread::Launch()
 	m_hThread = CreateThread(NULL, 0, MyThread::ThreadProc, this, CREATE_SUSPENDED, &m_dwThreadId);
 	if (m_hThread == NULL) return false;
 
-	// ÖÃĞÅºÅÁ¿×´Ì¬
+	// ç½®ä¿¡å·é‡çŠ¶æ€
 	m_bExitFlag = false;
 	m_bExitThrd = false;
 
-	// Æô¶¯Ïß³Ì
+	// å¯åŠ¨çº¿ç¨‹
 	ResumeThread(m_hThread);
 	return true;
 }
@@ -44,7 +44,7 @@ int MyThread::WaitForExit(int ms)
 		Sleep(1000);
 	}
 
-	// µÃµ½Ïß³ÌÍË³öÂë
+	// å¾—åˆ°çº¿ç¨‹é€€å‡ºç 
 	Sleep(5);
 	DWORD dwThreadExitCode = 0;
 	GetExitCodeThread(m_hThread, &dwThreadExitCode);

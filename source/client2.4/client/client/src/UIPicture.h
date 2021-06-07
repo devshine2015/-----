@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÓÃÓÚ¸ôÀëÍ¼Æ¬ÏÔÊ¾µ×²ã
-// ×÷Õß:lh 2004-07-15
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-20
+// åç§°:ç”¨äºéš”ç¦»å›¾ç‰‡æ˜¾ç¤ºåº•å±‚
+// ä½œè€…:lh 2004-07-15
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-20
 //----------------------------------------------------------------------
 #pragma once
 #include "UIRender.h"
@@ -13,11 +13,11 @@ namespace GUI
 class CGuiData;
 class CGuiPic
 {
-public:	// ÒÔÏÂ×ø±êÎªÆÁÄ»ÉÏµÄ×ø±ê
+public:	// ä»¥ä¸‹åæ ‡ä¸ºå±å¹•ä¸Šçš„åæ ‡
 	CGuiPic( CGuiData* pParent=NULL, unsigned int max=1 );
 	CGuiPic( const CGuiPic& rhs );
-	CGuiPic& operator=( const CGuiPic& rhs );		// ¸³Öµ²»¸Ä±ä_pOwn
-	~CGuiPic() { SAFE_DELETE_ARRAY(_pImage); } // UIµ±»ú´¦Àí //delete [] _pImage; }
+	CGuiPic& operator=( const CGuiPic& rhs );		// èµ‹å€¼ä¸æ”¹å˜_pOwn
+	~CGuiPic() { SAFE_DELETE_ARRAY(_pImage); } // UIå½“æœºå¤„ç† //delete [] _pImage; }
 
 	void	SetMax( int v );
 
@@ -30,11 +30,11 @@ public:	// ÒÔÏÂ×ø±êÎªÆÁÄ»ÉÏµÄ×ø±ê
 	void	RenderAll( int x, int y , BYTE bAlpha);	
 	void	RenderAll( int x, int y , DWORD dwColor );	
 
-	void		SetFrame( unsigned int num )	{ if( num < _max ) _frame = num; }	// ÉèÖÃµ±Ç°ÏÔÊ¾µÄÖ¡Êı
+	void		SetFrame( unsigned int num )	{ if( num < _max ) _frame = num; }	// è®¾ç½®å½“å‰æ˜¾ç¤ºçš„å¸§æ•°
 	LETexRect*	GetImage( unsigned int v=0 )	{ 	if( v < _max ) return &_pImage[v]; return NULL;	}
 
-	void	Next()		{ _frame++; if( _frame >= _max ) _frame=0;			}	// ÏÂÒ»ÕÅ
-	void	Prior()		{ _frame--; if( _frame >= _max ) _frame=_max-1;		}	// ÉÏÒ»ÕÅ
+	void	Next()		{ _frame++; if( _frame >= _max ) _frame=0;			}	// ä¸‹ä¸€å¼ 
+	void	Prior()		{ _frame--; if( _frame >= _max ) _frame=_max-1;		}	// ä¸Šä¸€å¼ 
 
 	void	SetScale(int w, int h);
 	void	SetScale(unsigned int frame, int w, int h);
@@ -76,36 +76,36 @@ private:
 	unsigned int	_frame;
 	unsigned int	_max;
 	CGuiData*		_pParent;
-	bool			_bIsScale;		// Ëõ·Åµ½´°¿ÚÍ¬Ñù´óĞ¡
+	bool			_bIsScale;		// ç¼©æ”¾åˆ°çª—å£åŒæ ·å¤§å°
 
 };
 
-// ´ø±ß¿òµÄÍ¼Æ¬
+// å¸¦è¾¹æ¡†çš„å›¾ç‰‡
 class CFramePic
 {
 public:
 	enum ePicPos
 	{
-		ppLeft=0,			// ·ÅÖÃÔÚ×ó±ß
+		ppLeft=0,			// æ”¾ç½®åœ¨å·¦è¾¹
 		ppUp,
 		ppRight,
 		ppBottom,
 		ppRightBottom,
 		ppLeftBottom,	
 		ppRightUp,
-		ppLeftUp,			// ·ÅÖÃÔÚ×î×óÉÏ½Ç
-		ppClient,			// ÖĞ¼äµÄÍ¼Æ¬£¬À­Éì³äÂúÈ«²¿
+		ppLeftUp,			// æ”¾ç½®åœ¨æœ€å·¦ä¸Šè§’
+		ppClient,			// ä¸­é—´çš„å›¾ç‰‡ï¼Œæ‹‰ä¼¸å……æ»¡å…¨éƒ¨
 		ppEnd,
 	};
 
-	// Æ½ÆÌÎ´Íê³É
+	// å¹³é“ºæœªå®Œæˆ
 
 public:
 	CFramePic( CGuiData *pOwn );
 	CFramePic( const CFramePic& rhs );
 	CFramePic& operator=( const CFramePic& rhs );
 
-	~CFramePic() { SAFE_DELETE_ARRAY(_pImage); } // UIµ±»ú´¦Àí //delete [] _pImage; }
+	~CFramePic() { SAFE_DELETE_ARRAY(_pImage); } // UIå½“æœºå¤„ç† //delete [] _pImage; }
 
 	void		Render();
 	void		Render( BYTE bAplha );
@@ -115,7 +115,7 @@ public:
 	void		SetAlpha( BYTE alpha );
 	bool		LoadImage( ePicPos p, int nTextureID, int tx, int ty, int tw, int th );
 
-	// w,hÊÇÖ¸±ß¿òµ¥ÔªµÄ¿í¸ß£¬clientÊÇÆ½ÆÌµ¥ÔªÎÄ¼ş£¬cw,chÊÇÆ½ÆÌµ¥Ôª¿í¸ß£¬µ¥Î»£ºÏñËØ
+	// w,hæ˜¯æŒ‡è¾¹æ¡†å•å…ƒçš„å®½é«˜ï¼Œclientæ˜¯å¹³é“ºå•å…ƒæ–‡ä»¶ï¼Œcw,chæ˜¯å¹³é“ºå•å…ƒå®½é«˜ï¼Œå•ä½ï¼šåƒç´ 
 	bool		LoadImage( const char* client, int cw, int ch, int tx, int ty, const char * file, int w, int h );	
 
 	void		SetIsTitle( bool v )		{ _bIsTitle = v;	}
@@ -130,18 +130,18 @@ public:
 	}
 
 private:
-	void			_ClientShow( int x, int y, DWORD color);	// ÏÔÊ¾ÖĞ¼äµÄÍ¼Æ¬
+	void			_ClientShow( int x, int y, DWORD color);	// æ˜¾ç¤ºä¸­é—´çš„å›¾ç‰‡
 
 private:
 	LETexRect*		_pImage;
 	CGuiData*		_pOwn;
 	int				_nX[ppEnd], _nY[ppEnd];
-	bool			_bIsTitle;			// ppClientÊÇ·ñÆ½ÆÌ
-	bool			_bIsShowFrame;		// ÊÇ·ñÏÔÊ¾±ßÏß
+	bool			_bIsTitle;			// ppClientæ˜¯å¦å¹³é“º
+	bool			_bIsShowFrame;		// æ˜¯å¦æ˜¾ç¤ºè¾¹çº¿
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void CGuiPic::SetScale(unsigned int frame, int w, int h) 
 {
 	if( frame < _max )

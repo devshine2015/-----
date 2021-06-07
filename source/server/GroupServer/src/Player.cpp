@@ -140,7 +140,7 @@ void Player::EndPlay(DataSocket *datasock)
 			g_gpsvr->m_tblcharaters->SetAddr(m_chaid[m_currcha],0);
 			--(g_gpsvr->m_curChaNum);
 
-			//ºÃÓÑÏÂÏßÍ¨Öª
+			//å¥½å‹ä¸‹çº¿é€šçŸ¥
 			{
 				friend_dat l_farray[200];
 				int l_num = 200;
@@ -169,7 +169,7 @@ void Player::EndPlay(DataSocket *datasock)
 				g_gpsvr->SendToClient(l_plylst,l_plynum,l_toFrnd);
 			}
 
-			//Ñ§Í½ÏÂÏßÍ¨Öª
+			//å­¦å¾’ä¸‹çº¿é€šçŸ¥
 			{
 				TBLMaster::master_dat l_farray[200];
 				int l_num = 200;
@@ -199,7 +199,7 @@ void Player::EndPlay(DataSocket *datasock)
 				m_CurrMasterNum = 0;
 			}
 			
-			//µ¼Ê¦ÏÂÏßÍ¨Öª
+			//å¯¼å¸ˆä¸‹çº¿é€šçŸ¥
 			{
 				TBLMaster::master_dat l_farray[200];
 				int l_num = 200;
@@ -307,7 +307,7 @@ void Player::DoCommand(cChar *cmd)
 			strcpy(m_lastleavetime,g_gpsvr->m_tblaccounts->GetLast_Leave());
 		}
 		l_lockDB.unlock();
-		//SendSysInfo(dstring("ÉÏ´ÎµÇÂ¼IP:")<<m_lastip<<";ÉÏ´Î¶Ï¿ªÁ¬½ÓµÄÊ±¼ä/Ô­Òò:"<<m_lastleavetime<<"/"<<m_lastreason);
+		//SendSysInfo(dstring("ä¸Šæ¬¡ç™»å½•IP:")<<m_lastip<<";ä¸Šæ¬¡æ–­å¼€è¿æ¥çš„æ—¶é—´/åŸå› :"<<m_lastleavetime<<"/"<<m_lastreason);
 		char l_buf[512];
 		sprintf(l_buf,RES_STRING(GP_PLAYER_CPP_00001),m_lastip,m_lastleavetime,m_lastreason);
 		SendSysInfo(l_buf);
@@ -316,7 +316,7 @@ void Player::DoCommand(cChar *cmd)
 		Player	*l_ply	=g_gpsvr->FindPlayerByChaName(cmd +strlen("getuserconnection "));
 		if(!l_ply)
 		{
-			//SendSysInfo(dstring("Íæ¼Ò¡¾")<<cmd +strlen("getuserconnection ") <<"¡¿µ±Ç°²»ÔÚÏßÉÏ");
+			//SendSysInfo(dstring("ç©å®¶ã€")<<cmd +strlen("getuserconnection ") <<"ã€‘å½“å‰ä¸åœ¨çº¿ä¸Š");
 			char l_buf[512];
 			sprintf(l_buf,RES_STRING(GP_PLAYER_CPP_00002),cmd +strlen("getuserconnection "));
 			SendSysInfo(l_buf);
@@ -331,7 +331,7 @@ void Player::DoCommand(cChar *cmd)
 				strcpy(l_ply->m_lastleavetime,g_gpsvr->m_tblaccounts->GetLast_Leave());
 			}
 			l_lockDB.unlock();
-			//SendSysInfo(dstring("¡¾")<<cmd +strlen("getuserconnection ")<<"¡¿ÉÏ´ÎµÇÂ¼IP:"<<l_ply->m_lastip<<";ÉÏ´Î¶Ï¿ªÁ¬½ÓµÄÊ±¼ä/Ô­Òò:"<<l_ply->m_lastleavetime<<"/"<<l_ply->m_lastreason);
+			//SendSysInfo(dstring("ã€")<<cmd +strlen("getuserconnection ")<<"ã€‘ä¸Šæ¬¡ç™»å½•IP:"<<l_ply->m_lastip<<";ä¸Šæ¬¡æ–­å¼€è¿æ¥çš„æ—¶é—´/åŸå› :"<<l_ply->m_lastleavetime<<"/"<<l_ply->m_lastreason);
 			char l_buf[512];
 			sprintf(l_buf,RES_STRING(GP_PLAYER_CPP_00003),cmd +strlen("getuserconnection "), l_ply->m_lastip,l_ply->m_lastleavetime,l_ply->m_lastreason);
 			SendSysInfo(l_buf);
@@ -349,7 +349,7 @@ void Player::DoCommand(cChar *cmd)
 				DWORD dwPlayerNum  = DWORD(g_gpsvr->m_curChaNum);
 				if( GetOnlineCount( dwLoginNum, dwPlayerNum ) )
 				{
-					//SendSysInfo(dstring("µ±Ç°µÇÂ¼/ÓÎÏ·Íæ¼ÒÊı£º")<<dwLoginNum<<"/"<<dwPlayerNum);
+					//SendSysInfo(dstring("å½“å‰ç™»å½•/æ¸¸æˆç©å®¶æ•°ï¼š")<<dwLoginNum<<"/"<<dwPlayerNum);
 					char l_buf[512];
 					sprintf(l_buf,RES_STRING(GP_PLAYER_CPP_00004),dwLoginNum,dwPlayerNum);
 					SendSysInfo(l_buf);
@@ -361,7 +361,7 @@ void Player::DoCommand(cChar *cmd)
 		Player	*l_ply	=g_gpsvr->FindPlayerByChaName(cmd +strlen("ping "));
 		if(!l_ply)
 		{
-			//SendSysInfo(dstring("Íæ¼Ò¡¾")<<cmd +strlen("ping ") <<"¡¿µ±Ç°²»ÔÚÏßÉÏ");
+			//SendSysInfo(dstring("ç©å®¶ã€")<<cmd +strlen("ping ") <<"ã€‘å½“å‰ä¸åœ¨çº¿ä¸Š");
 			char l_buf[512];
 			sprintf(l_buf,RES_STRING(GP_PLAYER_CPP_00005),cmd +strlen("ping "));
 			SendSysInfo(l_buf);
@@ -380,47 +380,47 @@ void Player::DoCommand(cChar *cmd)
 			char	*	l_dim;
 			cChar	*	l_cmd	=cmd+strlen("bbs ");
 			l_dim	= (char*)strchr(l_cmd,',');
-			//if(!l_dim)SendSysInfo("bbs¸ñÊ½:@@ bbs [¼ä¸ô¡Á10Ãë],[´ÎÊı],[ÄÚÈİ]");
+			//if(!l_dim)SendSysInfo("bbsæ ¼å¼:@@ bbs [é—´éš”Ã—10ç§’],[æ¬¡æ•°],[å†…å®¹]");
 			if(!l_dim)SendSysInfo(RES_STRING(GP_PLAYER_CPP_00006));
 			*l_dim=0;
 			uLong	l_inter	=atoi(l_cmd);
-			//if(!l_inter)SendSysInfo("¼ä¸ô±ØĞë>1");
+			//if(!l_inter)SendSysInfo("é—´éš”å¿…é¡»>1");
 			if(!l_inter)SendSysInfo(RES_STRING(GP_PLAYER_CPP_00007));
 			l_cmd	=l_dim+1;
 			l_dim	= (char*)strchr(l_cmd,',');
-			//if(!l_dim)SendSysInfo("bbs¸ñÊ½:@@ bbs [¼ä¸ô¡Á10Ãë],[´ÎÊı],[ÄÚÈİ]");
+			//if(!l_dim)SendSysInfo("bbsæ ¼å¼:@@ bbs [é—´éš”Ã—10ç§’],[æ¬¡æ•°],[å†…å®¹]");
 			if(!l_dim)SendSysInfo(RES_STRING(GP_PLAYER_CPP_00006));
 			*l_dim=0;
 			uLong	l_times	=atoi(l_cmd);
-			//if(!l_times)SendSysInfo("´ÎÊı±ØĞë>1");
+			//if(!l_times)SendSysInfo("æ¬¡æ•°å¿…é¡»>1");
 			if(!l_times)SendSysInfo(RES_STRING(GP_PLAYER_CPP_00008));
 			l_cmd	=l_dim+1;
-			//if(!strlen(l_cmd))SendSysInfo("ÄÚÈİ³¤¶È±ØĞë>0");
+			//if(!strlen(l_cmd))SendSysInfo("å†…å®¹é•¿åº¦å¿…é¡»>0");
 			if(!strlen(l_cmd))SendSysInfo(RES_STRING(GP_PLAYER_CPP_00009));
 
 			g_gmbbs->AddBBS(l_inter,l_times,l_cmd);
 		}else
 		{
-			//SendSysInfo("È¨ÏŞ²»×ã¡£");
+			//SendSysInfo("æƒé™ä¸è¶³ã€‚");
 			SendSysInfo(RES_STRING(GP_PLAYER_CPP_00010));
 		}
 	}else if( !strncmp( cmd, "estop", strlen("estop") ) )
 	{
-		// ½ûÑÔÍæ¼Ò
+		// ç¦è¨€ç©å®¶
 		if( !this->m_gm ) 
 		{
-			//SendSysInfo( "ÄãÃ»ÓĞÈ¨ÏŞ£¡" );
+			//SendSysInfo( "ä½ æ²¡æœ‰æƒé™ï¼" );
 			SendSysInfo( RES_STRING(GP_PLAYER_CPP_00011) );
 			return;
 		}
 
 		cChar* l_cmd = cmd + strlen( "estop" );
 		l_cmd = strchr( l_cmd, ' ' );
-		//if( !l_cmd ) SendSysInfo( "½ûÑÔ¸ñÊ½£º@@ estop [±»½ûÑÔ½ÇÉ«Ãû³Æ],[½ûÑÔÊ±¼ä£¨µ¥Î»·ÖÖÓ£©]" );
+		//if( !l_cmd ) SendSysInfo( "ç¦è¨€æ ¼å¼ï¼š@@ estop [è¢«ç¦è¨€è§’è‰²åç§°],[ç¦è¨€æ—¶é—´ï¼ˆå•ä½åˆ†é’Ÿï¼‰]" );
 		if( !l_cmd ) SendSysInfo( RES_STRING(GP_PLAYER_CPP_00012) );
 		cChar* l_plyname = ++l_cmd;
 		l_cmd = strchr( l_cmd, ',' );
-		//if( !l_cmd ) SendSysInfo( "½ûÑÔ¸ñÊ½£º@@ estop [±»½ûÑÔ½ÇÉ«Ãû³Æ],[½ûÑÔÊ±¼ä£¨µ¥Î»·ÖÖÓ£©]" );
+		//if( !l_cmd ) SendSysInfo( "ç¦è¨€æ ¼å¼ï¼š@@ estop [è¢«ç¦è¨€è§’è‰²åç§°],[ç¦è¨€æ—¶é—´ï¼ˆå•ä½åˆ†é’Ÿï¼‰]" );
 		if( !l_cmd ) SendSysInfo( RES_STRING(GP_PLAYER_CPP_00012)  );
 		*const_cast<char*>(l_cmd) = 0;
 		uLong lTimes = atoi( ++l_cmd );
@@ -428,17 +428,17 @@ void Player::DoCommand(cChar *cmd)
 		
 	}else if( !strncmp( cmd, "delestop", strlen( "delestop" ) ) )
 	{		
-		// ½ûÑÔÍæ¼Ò
+		// ç¦è¨€ç©å®¶
 		if( !this->m_gm ) 
 		{
-			//SendSysInfo( "ÄãÃ»ÓĞÈ¨ÏŞ£¡" );
+			//SendSysInfo( "ä½ æ²¡æœ‰æƒé™ï¼" );
 			SendSysInfo(RES_STRING(GP_PLAYER_CPP_00011) );
 			return;
 		}
 
 		cChar* l_cmd = cmd + strlen( "estop" );
 		l_cmd = strchr( l_cmd, ' ' );
-		//if( !l_cmd ) SendSysInfo( "½â³ı½ûÑÔ¸ñÊ½£º@@ delestop [±»½ûÑÔ½ÇÉ«Ãû³Æ]" );
+		//if( !l_cmd ) SendSysInfo( "è§£é™¤ç¦è¨€æ ¼å¼ï¼š@@ delestop [è¢«ç¦è¨€è§’è‰²åç§°]" );
 		if( !l_cmd ) SendSysInfo( RES_STRING(GP_PLAYER_CPP_00013) );
 		cChar* l_plyname = ++l_cmd;
 		DelEstopPlayer( l_plyname );
@@ -447,19 +447,19 @@ void Player::DoCommand(cChar *cmd)
 	{
 		if( !this->m_gm ) 
 		{
-			//SendSysInfo( "ÄãÃ»ÓĞÈ¨ÏŞ£¡" );
+			//SendSysInfo( "ä½ æ²¡æœ‰æƒé™ï¼" );
 			SendSysInfo(RES_STRING(GP_PLAYER_CPP_00011));
 			return;
 		}
 
-		// ÆÁ±Î¸Ã½ÇÉ«ÕÊºÅ
+		// å±è”½è¯¥è§’è‰²å¸å·
 		cChar* l_cmd = cmd + strlen( "estop" );
 		l_cmd = strchr( l_cmd, ' ' );
-		//if( !l_cmd ) SendSysInfo( "ÆÁ±Î½ÇÉ«ÕÊºÅ¸ñÊ½£º@@ disable [±»ÆÁ±Î½ÇÉ«Ãû³Æ]" );
+		//if( !l_cmd ) SendSysInfo( "å±è”½è§’è‰²å¸å·æ ¼å¼ï¼š@@ disable [è¢«å±è”½è§’è‰²åç§°]" );
 		if( !l_cmd ) SendSysInfo( RES_STRING(GP_PLAYER_CPP_00014) );
 		cChar* l_plyname = ++l_cmd;
 		l_cmd = strchr( l_cmd, ',' );
-		//if( !l_cmd ) SendSysInfo( "ÆÁ±Î½ÇÉ«ÕÊºÅ¸ñÊ½£º@@ disable [±»ÆÁ±Î½ÇÉ«Ãû³Æ]" );
+		//if( !l_cmd ) SendSysInfo( "å±è”½è§’è‰²å¸å·æ ¼å¼ï¼š@@ disable [è¢«å±è”½è§’è‰²åç§°]" );
 		if( !l_cmd ) SendSysInfo( RES_STRING(GP_PLAYER_CPP_00014) );
 		*const_cast<char*>(l_cmd) = 0;
 		uLong lTimes = atoi( ++l_cmd );
@@ -467,7 +467,7 @@ void Player::DoCommand(cChar *cmd)
 		
 	}else
 	{
-		//SendSysInfo("²»Ö§³ÖµÄÃüÁî¡£");
+		//SendSysInfo("ä¸æ”¯æŒçš„å‘½ä»¤ã€‚");
 		SendSysInfo(RES_STRING(GP_PLAYER_CPP_00015));
 	}
 }
@@ -481,12 +481,12 @@ bool Player::IsEstop()
 		MutexArmor l_lockDB(g_gpsvr->m_mtxDB);
 		if( !g_gpsvr->m_tblcharaters->IsEstop( m_chaid[m_currcha] ) )
 		{
-			// ·¢ËÍ½â³ıÃüÁî
+			// å‘é€è§£é™¤å‘½ä»¤
 			WPacket l_wpk	=g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_PT_DEL_ESTOPUSER);
 			g_gpsvr->SendToClient(this,l_wpk);
 
-			//SendSysInfo( "½ûÑÔÒÑ±»½â³ı£¡" );
+			//SendSysInfo( "ç¦è¨€å·²è¢«è§£é™¤ï¼" );
 			SendSysInfo( RES_STRING(GP_PLAYER_CPP_00016) );
 
 			CountEstopTime();
@@ -508,12 +508,12 @@ void Player::CheckEstop()
 	g_gpsvr->m_tblcharaters->StartEstopTime( m_chaid[m_currcha] );
 	if( g_gpsvr->m_tblcharaters->IsEstop( m_chaid[m_currcha] ) )
 	{
-		// ·¢ËÍ½ûÑÔÏûÏ¢ºÍÃüÁî
+		// å‘é€ç¦è¨€æ¶ˆæ¯å’Œå‘½ä»¤
 		WPacket l_wpk	=g_gpsvr->GetWPacket();
 		l_wpk.WriteCmd(CMD_PT_ESTOPUSER);
 		g_gpsvr->SendToClient(this,l_wpk);
 
-		//SendSysInfo( "ÄãÒÑ¾­±»ÏµÍ³½ûÑÔ£¡" );
+		//SendSysInfo( "ä½ å·²ç»è¢«ç³»ç»Ÿç¦è¨€ï¼" );
 		SendSysInfo( RES_STRING(GP_PLAYER_CPP_00017) );
 
 		m_estop[m_currcha] = true;
@@ -535,16 +535,16 @@ void Player::DelEstopPlayer( cChar* plyname )
 	Player* ply = g_gpsvr->FindPlayerByChaName( plyname );
 	if( ply )
 	{
-		// ½ÇÉ«ÔÚÏß½ûÑÔ
+		// è§’è‰²åœ¨çº¿ç¦è¨€
 		ply->m_estop[ply->m_currcha] = false;
 	}
 
-	// Êı¾İ¿â²Ù×÷
+	// æ•°æ®åº“æ“ä½œ
 	MutexArmor l_lockDB(g_gpsvr->m_mtxDB);
 	if( !g_gpsvr->m_tblcharaters->DelEstop( plyname ) )
 	{
 		char szData[128];
-		//sprintf( szData, "½â³ı½ûÑÔ½ÇÉ«¡¶%s¡·²»´æÔÚ£¡", plyname );
+		//sprintf( szData, "è§£é™¤ç¦è¨€è§’è‰²ã€Š%sã€‹ä¸å­˜åœ¨ï¼", plyname );
 		sprintf( szData, RES_STRING(GP_PLAYER_CPP_00018), plyname );
 		SendSysInfo( szData );
 		return;
@@ -552,22 +552,22 @@ void Player::DelEstopPlayer( cChar* plyname )
 	else
 	{
 		char szData[128];
-		//sprintf( szData, "½â³ı½ÇÉ«¡¶%s¡·½ûÑÔ²Ù×÷³É¹¦£¡", plyname );
+		//sprintf( szData, "è§£é™¤è§’è‰²ã€Š%sã€‹ç¦è¨€æ“ä½œæˆåŠŸï¼", plyname );
 		sprintf( szData, RES_STRING(GP_PLAYER_CPP_00019), plyname );
 		SendSysInfo( szData );
 
 		char szTemp[128];
-		//sprintf( szTemp, "ÄãÒÑ¾­±»GM¡¶%s¡·½â³ı½ûÑÔ£¡", m_chaname[m_currcha].c_str() );
+		//sprintf( szTemp, "ä½ å·²ç»è¢«GMã€Š%sã€‹è§£é™¤ç¦è¨€ï¼", m_chaname[m_currcha].c_str() );
 		sprintf( szTemp, RES_STRING(GP_PLAYER_CPP_00020), m_chaname[m_currcha].c_str() );
 		ply->SendSysInfo( szTemp );
 
-		// ·¢ËÍ½ûÑÔÃüÁî
+		// å‘é€ç¦è¨€å‘½ä»¤
 		WPacket l_wpk	=g_gpsvr->GetWPacket();
 		l_wpk.WriteCmd(CMD_PT_DEL_ESTOPUSER);
 		g_gpsvr->SendToClient(ply,l_wpk);
 
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"½ÇÉ«["<<m_chaname[m_currcha]<<"]½â³ı½ûÑÔplyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<endln;
+		l_line<<newln<<"è§’è‰²["<<m_chaname[m_currcha]<<"]è§£é™¤ç¦è¨€plyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<endln;
 		//l_line<<newln<<"char["<<m_chaname[m_currcha]<<"]may speak plyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<endln;
 	}
 }
@@ -580,16 +580,16 @@ void Player::EstopPlayer( cChar* plyname, uLong lTimes )
 	Player* ply = g_gpsvr->FindPlayerByChaName( plyname );
 	if( ply )
 	{
-		// ½ÇÉ«ÔÚÏß½ûÑÔ
+		// è§’è‰²åœ¨çº¿ç¦è¨€
 		ply->m_estop[ply->m_currcha] = true;
 	}
 	
-	// Êı¾İ¿â²Ù×÷
+	// æ•°æ®åº“æ“ä½œ
 	MutexArmor l_lockDB(g_gpsvr->m_mtxDB);
 	if( !g_gpsvr->m_tblcharaters->Estop( plyname, lTimes ) )
 	{
 		char szData[128];
-		//sprintf( szData, "½ûÑÔ½ÇÉ«¡¶%s¡·²»´æÔÚ£¡", plyname );
+		//sprintf( szData, "ç¦è¨€è§’è‰²ã€Š%sã€‹ä¸å­˜åœ¨ï¼", plyname );
 		sprintf( szData, RES_STRING(GP_PLAYER_CPP_00023), plyname );
 		SendSysInfo( szData );
 		return;
@@ -597,61 +597,61 @@ void Player::EstopPlayer( cChar* plyname, uLong lTimes )
 	else
 	{
 		char szData[128];
-		//sprintf( szData, "½ûÑÔ½ÇÉ«¡¶%s¡·%d·ÖÖÓ²Ù×÷³É¹¦£¡", plyname, lTimes );
+		//sprintf( szData, "ç¦è¨€è§’è‰²ã€Š%sã€‹%dåˆ†é’Ÿæ“ä½œæˆåŠŸï¼", plyname, lTimes );
 		sprintf( szData, RES_STRING(GP_PLAYER_CPP_00024), plyname, lTimes );
 		SendSysInfo( szData );
 
 		char szTemp[128];
-		//sprintf( szTemp, "Äã±»GM½ÇÉ«¡¶%s¡·½ûÑÔ%d·ÖÖÓ£¡", m_chaname[m_currcha].c_str(), lTimes );
+		//sprintf( szTemp, "ä½ è¢«GMè§’è‰²ã€Š%sã€‹ç¦è¨€%dåˆ†é’Ÿï¼", m_chaname[m_currcha].c_str(), lTimes );
 		sprintf( szTemp, RES_STRING(GP_PLAYER_CPP_00025), m_chaname[m_currcha].c_str(), lTimes );
 		ply->SendSysInfo( szTemp );
 
-		// ·¢ËÍ½ûÑÔÃüÁî
+		// å‘é€ç¦è¨€å‘½ä»¤
 		WPacket l_wpk	=g_gpsvr->GetWPacket();
 		l_wpk.WriteCmd(CMD_PT_ESTOPUSER);
 		g_gpsvr->SendToClient(ply,l_wpk);
 
 		LogLine l_line(g_LogGrpServer);
-		l_line<<newln<<"½ÇÉ«["<<m_chaname[m_currcha]<<"]½ûÑÔplyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<lTimes<<"·ÖÖÓ"<<endln;
+		l_line<<newln<<"è§’è‰²["<<m_chaname[m_currcha]<<"]ç¦è¨€plyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<lTimes<<"åˆ†é’Ÿ"<<endln;
 		//l_line<<newln<<"char ["<<m_chaname[m_currcha]<<"] can't speack plyname:["<<ply->m_chaname[ply->m_currcha]<<"]"<<lTimes<<"minute"<<endln;
 	}
 }
 
 void Player::DisablePlayer( cChar* plyname, uLong lTimes )
 {
-	// ÆÁ±Î½ÇÉ«
+	// å±è”½è§’è‰²
 	Player* ply = g_gpsvr->FindPlayerByChaName( plyname );
 	if( ply )
 	{
 		ply->EndPlay(m_gate->GetDataSock());
 		if(ply->EndRun())
 		{
-			//ÏòAccountServer·¢ËÍ½áÊø¼Æ·ÑÃüÁî
+			//å‘AccountServerå‘é€ç»“æŸè®¡è´¹å‘½ä»¤
 			WPacket l_wpk = g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_PA_USER_BILLEND);
 			l_wpk.WriteString(ply->m_acctname.c_str());
 			g_gpsvr->SendData(g_gpsvr->m_acctsock,l_wpk);
 
-			//ÏòAccountServer·¢ËÍDisableÃüÁî
+			//å‘AccountServerå‘é€Disableå‘½ä»¤
 			l_wpk	=g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_PA_USER_DISABLE);
 			l_wpk.WriteLong(ply->m_acctLoginID);
 			l_wpk.WriteLong(lTimes);
 			g_gpsvr->SendData(g_gpsvr->m_acctsock,l_wpk);
 			
-			//ÏòGateServer·¢ËÍÌßÈËÃüÁî
+			//å‘GateServerå‘é€è¸¢äººå‘½ä»¤
 			l_wpk	=g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_AP_KICKUSER);
 			g_gpsvr->SendToClient(ply,l_wpk);
 
 			char szData[128];
-			//sprintf( szData, "ÆÁ±Î½ÇÉ«¡¶%s¡·ÕÊºÅ²Ù×÷³É¹¦£¡", plyname );
+			//sprintf( szData, "å±è”½è§’è‰²ã€Š%sã€‹å¸å·æ“ä½œæˆåŠŸï¼", plyname );
 			sprintf( szData, RES_STRING(GP_PLAYER_CPP_00028), plyname );
 			SendSysInfo( szData );
 
-			//ÌßÈË³É¹¦
+			//è¸¢äººæˆåŠŸ
 			LogLine l_line(g_LogGrpServer);
-			l_line<<newln<<"ÆÁ±Îµôacctid/acctname:["<<ply->m_acctid<<"]/["<<ply->m_acctname<<"],²¢ÇÒ½«Íæ¼Ò½ÇÉ«ÌßÏÂÏß!"<<endln;
+			l_line<<newln<<"å±è”½æ‰acctid/acctname:["<<ply->m_acctid<<"]/["<<ply->m_acctname<<"],å¹¶ä¸”å°†ç©å®¶è§’è‰²è¸¢ä¸‹çº¿!"<<endln;
 			//l_line<<newln<<"screen acctid/acctname:["<<ply->m_acctid<<"]/["<<ply->m_acctname<<"],kill the player!"<<endln;
 		}
 		ply->Free();
@@ -662,14 +662,14 @@ void Player::DisablePlayer( cChar* plyname, uLong lTimes )
 		if( !g_gpsvr->m_tblcharaters->FetchAccidByChaName( plyname, cha_accid ) )
 		{
 			char szData[128];
-			//sprintf( szData, "ÆÁ±Î½ÇÉ«¡¶%s¡·²»´æÔÚ£¡", plyname );
+			//sprintf( szData, "å±è”½è§’è‰²ã€Š%sã€‹ä¸å­˜åœ¨ï¼", plyname );
 			sprintf( szData, RES_STRING(GP_PLAYER_CPP_00031), plyname );
 			SendSysInfo( szData );
 			return;
 		}
 		else
 		{
-			//ÏòAccountServer·¢ËÍDisableÃüÁî
+			//å‘AccountServerå‘é€Disableå‘½ä»¤
 			WPacket l_wpk	=g_gpsvr->GetWPacket();
 			l_wpk.WriteCmd(CMD_PA_USER_DISABLE);
 			l_wpk.WriteLong(m_acctLoginID);			
@@ -677,13 +677,13 @@ void Player::DisablePlayer( cChar* plyname, uLong lTimes )
 			g_gpsvr->SendData(g_gpsvr->m_acctsock,l_wpk);
 
 			char szData[128];
-			//sprintf( szData, "ÆÁ±Î½ÇÉ«¡¶%s¡·ÕÊºÅ²Ù×÷³É¹¦£¡", plyname );
+			//sprintf( szData, "å±è”½è§’è‰²ã€Š%sã€‹å¸å·æ“ä½œæˆåŠŸï¼", plyname );
 			sprintf( szData, RES_STRING(GP_PLAYER_CPP_00032), plyname );
 			SendSysInfo( szData );
 
-			//ÌßÈË³É¹¦
+			//è¸¢äººæˆåŠŸ
 			LogLine l_line(g_LogGrpServer);
-			l_line<<newln<<"ÊÕµ½Ò»¸öÆÁ±Îµôacctid/plyname:["<<cha_accid<<"]/["<<plyname<<"]µÄÃüÁî!"<<endln;
+			l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªå±è”½æ‰acctid/plyname:["<<cha_accid<<"]/["<<plyname<<"]çš„å‘½ä»¤!"<<endln;
 			//l_line<<newln<<"recieve screen acctid/plyname:["<<cha_accid<<"]/["<<plyname<<"]command!"<<endln;
 		}
 	}	

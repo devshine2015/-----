@@ -10,7 +10,7 @@ using namespace std;
 void cfl_printf(char const* fmt, ...)
     {
     char buf[2048];
-    int len; // len Òª·ÅÔÚ buf ºóÃæ¶¨Òå
+    int len; // len è¦æ”¾åœ¨ buf åé¢å®šä¹‰
 
     va_list args;
     va_start(args, fmt);

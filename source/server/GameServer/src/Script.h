@@ -45,17 +45,17 @@ extern void ReloadLuaInit();
 extern void ReloadEntity( const char szFileName[] );
 
 
-//#define E_LUAPARAM		LG( "luamis_error", "luaº¯Êý[%s]²ÎÊý¸öÊý»òÕßÀàÐÍ´íÎó!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êý[%s]²ÎÊý¸öÊý»òÕßÀàÐÍ´íÎó!", __FUNCTION__ );
-//#define E_LUANULL		LG( "luamis_error", "luaº¯Êý[%s]´«µÝ²ÎÊýÖ¸ÕëÎª¿Õ´íÎó!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êý[%s]´«µÝ²ÎÊýÖ¸ÕëÎª¿Õ´íÎó!", __FUNCTION__ );
-//#define E_LUACOMPARE	LG( "luamis_error", "luaº¯Êý[%s]²ÎÊý´íÎóÎªÎ´ÖªµÄ±È½Ï×Ö·û!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaº¯Êý[%s]²ÎÊý´íÎóÎªÎ´ÖªµÄ±È½Ï×Ö·û!", __FUNCTION__ );
+//#define E_LUAPARAM		LG( "luamis_error", "luaå‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»åž‹é”™è¯¯!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°ä¸ªæ•°æˆ–è€…ç±»åž‹é”™è¯¯!", __FUNCTION__ );
+//#define E_LUANULL		LG( "luamis_error", "luaå‡½æ•°[%s]ä¼ é€’å‚æ•°æŒ‡é’ˆä¸ºç©ºé”™è¯¯!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]ä¼ é€’å‚æ•°æŒ‡é’ˆä¸ºç©ºé”™è¯¯!", __FUNCTION__ );
+//#define E_LUACOMPARE	LG( "luamis_error", "luaå‡½æ•°[%s]å‚æ•°é”™è¯¯ä¸ºæœªçŸ¥çš„æ¯”è¾ƒå­—ç¬¦!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "luaå‡½æ•°[%s]å‚æ•°é”™è¯¯ä¸ºæœªçŸ¥çš„æ¯”è¾ƒå­—ç¬¦!", __FUNCTION__ );
 #define E_LUAPARAM		LG( "luamis_error", "lua function[%s]param number or type error!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "lua function[%s]param number or type error!", __FUNCTION__ );
 #define E_LUANULL		LG( "luamis_error", "lua function[%s]pass param pointer is null and error!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "lua function[%s]pass param pointer is null and error!", __FUNCTION__ );
 #define E_LUACOMPARE	LG( "luamis_error", "lua function[%s]param error is unknown of compara character!\n", __FUNCTION__ ); if( g_pNoticeChar ) g_pNoticeChar->SystemNotice( "lua function[%s]param error is unknow of compara character!", __FUNCTION__ );
 
 
-#define LUA_TRUE		1	// ÕýÈ·
+#define LUA_TRUE		1	// æ­£ç¡®
 #define LUA_FALSE		0	// 
-#define LUA_ERROR		-1	// ´íÎó
+#define LUA_ERROR		-1	// é”™è¯¯
 
 #endif // _SCRIPT_H_
 

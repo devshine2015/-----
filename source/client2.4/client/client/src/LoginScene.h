@@ -45,11 +45,11 @@ class CCharacter;
 		bool	bEnable;
 	};
 
-//  ºÏ×÷ÉÌ±àºÅ
+//  åˆä½œå•†ç¼–å·
 //  By Jampe
-#define COP_OURGAME                 1001        //  ÁªÖÚ
-#define COP_SINA                    1002        //  ĞÂÀË
-#define COP_CGA                     1003        //  ºÆ·½
+#define COP_OURGAME                 1001        //  è”ä¼—
+#define COP_SINA                    1002        //  æ–°æµª
+#define COP_CGA                     1003        //  æµ©æ–¹
 
 #define NUM_REGIN_LIST				6
 
@@ -83,8 +83,8 @@ public:
 
     static void BeginPlay();
 
-	static int nSelectChaType;      // ±£´æÑ¡ÖĞ½ÇÉ«µÄĞÅÏ¢
-    static int nSelectChaPart[5];   // ÉíÌåµÄ5¸ö²¿Î»
+	static int nSelectChaType;      // ä¿å­˜é€‰ä¸­è§’è‰²çš„ä¿¡æ¯
+    static int nSelectChaPart[5];   // èº«ä½“çš„5ä¸ªéƒ¨ä½
 
 
 	static void ShowPathLogo(int isShow);
@@ -143,8 +143,8 @@ private:
 	static CForm*			frmAccount;
 	static CForm*           frmLOGO;
 	static CForm*           frmAnnounce;
-	static CForm*           frmKeyboard;	// add by Philip.Wu  Èí¼üÅÌ½çÃæ  2006-06-05
-	static CForm*			frmPathLogo;	// ×óÏÂ½Ç×ÊÁÏÆ¬ LOGO
+	static CForm*           frmKeyboard;	// add by Philip.Wu  è½¯é”®ç›˜ç•Œé¢  2006-06-05
+	static CForm*			frmPathLogo;	// å·¦ä¸‹è§’èµ„æ–™ç‰‡ LOGO
 	static CForm*			frmArea;		
 
 	static CList*			lstRegion[NUM_REGIN_LIST];
@@ -152,11 +152,11 @@ private:
 	static CEdit*			edtID;
 	static CEdit*           edtPassword;
 	static CCheckBox*		chkID;
-	static CEdit*			edtFocus;		// add by Philip.Wu  ¹â±ê¼¤»îµÄ±à¼­¿ò  2006-06-07
-	static CCheckBox*       chkShift;		// add by Philip.Wu  Èí¼üÅÌÉÏµÄ Shift  2006-06-09
+	static CEdit*			edtFocus;		// add by Philip.Wu  å…‰æ ‡æ¿€æ´»çš„ç¼–è¾‘æ¡†  2006-06-07
+	static CCheckBox*       chkShift;		// add by Philip.Wu  è½¯é”®ç›˜ä¸Šçš„ Shift  2006-06-09
 
-	static CImage*          imgLogo1;		// add by Philip.Wu  ÄÇ¸öÉ¶LOGOÍ¼1     2006-06-20
-	static CImage*          imgLogo2;		// add by Philip.Wu  ÄÇ¸öÉ¶LOGOÍ¼2     2006-06-20
+	static CImage*          imgLogo1;		// add by Philip.Wu  é‚£ä¸ªå•¥LOGOå›¾1     2006-06-20
+	static CImage*          imgLogo2;		// add by Philip.Wu  é‚£ä¸ªå•¥LOGOå›¾2     2006-06-20
 
 	static const int		ServIconNum = 4;
 	CImage*					imgServerIcons;
@@ -184,10 +184,10 @@ private:
 	static void  CallbackUIEvent_LoginScene( CCompent *pSender, int state, int x, int y, DWORD key);
 
 	// add by Philip.Wu  2006-06-05
-	// Èí¼üÅÌ½çÃæµÄÊó±êÊÂ¼ş
+	// è½¯é”®ç›˜ç•Œé¢çš„é¼ æ ‡äº‹ä»¶
 	static void _evtKeyboardFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	// ±à¼­¿ò¼¤»îÊÂ¼ş£¨±£´æÏÂ¼¤»îµÄ±à¼­¿ò£©
+	// ç¼–è¾‘æ¡†æ¿€æ´»äº‹ä»¶ï¼ˆä¿å­˜ä¸‹æ¿€æ´»çš„ç¼–è¾‘æ¡†ï¼‰
 	static void _evtAccountFocus(CGuiData* pSender);
 
 
@@ -197,7 +197,7 @@ private:
     BYTE            _loadtex_flag;
     BYTE            _loadmesh_flag;
 
-	bool			m_bPasswordError;	//ÅĞ¶ÏÃÜÂëÊÇ·ñ´íÎó
+	bool			m_bPasswordError;	//åˆ¤æ–­å¯†ç æ˜¯å¦é”™è¯¯
 
 	static const int IMAGE_INDEX = 0;
 	static const int TEXT_INDEX = 1;

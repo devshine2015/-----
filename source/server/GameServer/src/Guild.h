@@ -8,12 +8,12 @@
 class Guild
 {
 public:
-	static BOOL lua_CreateGuild(CCharacter* pCha, char guildtype);	//´´½¨¹«»á,0-º£¾ü,1-º£µÁ
-	static BOOL lua_ListAllGuild(CCharacter* pCha, char guildtype);	//¿ªÊ¼¸ø¿Í»§¶Ë´«µİÁĞ±í£¬Ïò¿Í»§¶Ë·¢ÉúÒ»¸ö¿ªÊ¼ÁĞ±íÃüÁî£¬ÓÉNPC¶Ô»°´¥·¢Ò»´Î
+	static BOOL lua_CreateGuild(CCharacter* pCha, char guildtype);	//åˆ›å»ºå…¬ä¼š,0-æµ·å†›,1-æµ·ç›—
+	static BOOL lua_ListAllGuild(CCharacter* pCha, char guildtype);	//å¼€å§‹ç»™å®¢æˆ·ç«¯ä¼ é€’åˆ—è¡¨ï¼Œå‘å®¢æˆ·ç«¯å‘ç”Ÿä¸€ä¸ªå¼€å§‹åˆ—è¡¨å‘½ä»¤ï¼Œç”±NPCå¯¹è¯è§¦å‘ä¸€æ¬¡
 
 	static void cmd_CreateGuild(CCharacter* pCha, bool confirm, cChar *guildname, cChar *passwd);
-	static void cmd_ListAllGuild(CCharacter* pCha, char guildtype);	//µ÷ÓÃÒ»´Î·µ»Ø20ĞĞ£¬ÓÉ¿Í»§¶ËÃüÁî·Ö´Îµ÷ÓÃ£¬Ö±µ½·µ»ØËùÓĞĞĞ
-	static void cmd_GuildTryFor(CCharacter* pCha, uLong guildid);	//ÉêÇë¼ÓÈë¹«»á£¬ÓÉNPC¶Ô»°´¥·¢
+	static void cmd_ListAllGuild(CCharacter* pCha, char guildtype);	//è°ƒç”¨ä¸€æ¬¡è¿”å›20è¡Œï¼Œç”±å®¢æˆ·ç«¯å‘½ä»¤åˆ†æ¬¡è°ƒç”¨ï¼Œç›´åˆ°è¿”å›æ‰€æœ‰è¡Œ
+	static void cmd_GuildTryFor(CCharacter* pCha, uLong guildid);	//ç”³è¯·åŠ å…¥å…¬ä¼šï¼Œç”±NPCå¯¹è¯è§¦å‘
 	static void cmd_GuildTryForComfirm(CCharacter* pCha, char IsReplace);
 	static void cmd_GuildListTryPlayer(CCharacter* pCha);
 	static void cmd_GuildApprove(CCharacter* pCha,uLong chaid);
@@ -36,7 +36,7 @@ public:
 				return false;
 			}else if(l_ishan)
 			{
-				if(l_name[i-1] ==0xA1 && l_name[i] ==0xA1)	//¹ıÂËÈ«½Ç¿Õ¸ñ
+				if(l_name[i-1] ==0xA1 && l_name[i] ==0xA1)	//è¿‡æ»¤å…¨è§’ç©ºæ ¼
 				{
 					return false;
 				}

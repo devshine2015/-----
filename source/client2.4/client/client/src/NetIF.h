@@ -9,7 +9,7 @@ class CProCirculate;
 
 _DBC_USING
 
-// ÍøÂçĞ­Òé (Êı¾İ°ü->ÓÎÏ·¿ØÖÆ)
+// ç½‘ç»œåè®® (æ•°æ®åŒ…->æ¸¸æˆæ§åˆ¶)
 typedef RPacket&	LPRPACKET;
 typedef WPacket&	LPWPACKET;
 
@@ -20,16 +20,16 @@ extern inline int lua_encryptNoise( lua_State* L );
 extern inline int lua_decryptNoise( lua_State* L );
 extern inline int lua_HandleNetMessage( lua_State* L );
 
-// ÓÃÓÚ¼ÇÂ¼Log
+// ç”¨äºè®°å½•Log
 // class CLogName
 // {
 // public:
 // 	CLogName();
 // 	void	Init();
 // 
-// 	char*	SetLogName( DWORD dwWorlID, const char* szName );	// ÉèÖÃLogÃû³Æ
-// 	char*	GetLogName( DWORD dwWorlID );		// Òª°ÑIDµÃµ½logÃû³Æ
-// 	char*	GetMainLogName();					// µÃµ½Ö÷½ÇµÄlogÃû³Æ
+// 	char*	SetLogName( DWORD dwWorlID, const char* szName );	// è®¾ç½®Logåç§°
+// 	char*	GetLogName( DWORD dwWorlID );		// è¦æŠŠIDå¾—åˆ°logåç§°
+// 	char*	GetMainLogName();					// å¾—åˆ°ä¸»è§’çš„logåç§°
 // 
 // 	bool	IsMainCha( DWORD dwWorlID );
 // 
@@ -47,9 +47,9 @@ extern inline int lua_HandleNetMessage( lua_State* L );
 
 class NetIF : public TcpClientApp, public RPCMGR,public PKQueue{
 public:
-	// PacketÏûÏ¢´¦Àíº¯Êı Server -> Client ÏûÏ¢Èë¿Ú×Ü¿Ø
+	// Packetæ¶ˆæ¯å¤„ç†å‡½æ•° Server -> Client æ¶ˆæ¯å…¥å£æ€»æ§
 	BOOL HandlePacketMessage(dbc::DataSocket *datasock,LPRPACKET pk);
-	// Packet·¢ËÍº¯Êı     Client -> Server ÏûÏ¢·¢³ö×Ü¿Ø
+	// Packetå‘é€å‡½æ•°     Client -> Server æ¶ˆæ¯å‘å‡ºæ€»æ§
 	void SendPacketMessage(LPWPACKET pk);
 	dbc::RPacket NetIF::SyncSendPacketMessage(LPWPACKET pk,unsigned long timeout =30*1000);
 
@@ -57,8 +57,8 @@ public:
 	NetIF(dbc::ThreadPool *comm =0);
 	virtual ~NetIF();
 	virtual void	OnProcessData(dbc::DataSocket *datasock,dbc::RPacket& recvbuf);
-	virtual bool	OnConnect(dbc::DataSocket *datasock);					//·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
-	virtual void	OnDisconnect(dbc::DataSocket *datasock,int reason);		//reasonÖµ:0-±¾µØ³ÌĞòÕı³£ÍË³ö£»-1-Socket´íÎó£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-5-°ü³¤¶È³¬¹ıÏŞÖÆ¡£
+	virtual bool	OnConnect(dbc::DataSocket *datasock);					//è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
+	virtual void	OnDisconnect(dbc::DataSocket *datasock,int reason);		//reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-1-Socketé”™è¯¯ï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶ã€‚
 
 	bool IsConnected(){return m_connect.IsConnected();}
 	int	 GetConnStat(){return m_connect.GetConnStat();}
@@ -75,13 +75,13 @@ public:
 		dbc::uLong	m_maxdelay,m_curdelay,m_mindelay;
 		DWORD dwLatencyTime[20];
 
-		// È¡×î½üµÄ¼¸´ÎÆ½¾ùpingÖµ£¬ÓÃÓÚclient,server µÄÔ¤ÒÆ¶¯ xuedong 2004.09.01
+		// å–æœ€è¿‘çš„å‡ æ¬¡å¹³å‡pingå€¼ï¼Œç”¨äºclient,server çš„é¢„ç§»åŠ¨ xuedong 2004.09.01
 		dbc::uLong	m_ulCurStatistic;
 		dbc::uLong	m_ulDelayTime[4];
 		// end
 	};
-	unsigned long   m_ulPacketCount; // ¼ÇÂ¼°üµÄ¸öÊı£¬ÓÃÓÚ²âÊÔ¡£xuedong 2004.09.10
-	long			m_framedelay; // Ö¡ÑÓ³Ù
+	unsigned long   m_ulPacketCount; // è®°å½•åŒ…çš„ä¸ªæ•°ï¼Œç”¨äºæµ‹è¯•ã€‚xuedong 2004.09.10
+	long			m_framedelay; // å¸§å»¶è¿Ÿ
 
 	CProCirculate	*m_pCProCir;
 	dbc::Mutex		m_mutmov;
@@ -89,8 +89,8 @@ public:
 	char			m_accounts[100];
 	char			m_passwd[100];
 
-	bool _enc; // ÊÇ·ñ¼ÓÃÜ
-	int _comm_enc; // ¼ÓÃÜËã·¨Ë÷Òı
+	bool _enc; // æ˜¯å¦åŠ å¯†
+	int _comm_enc; // åŠ å¯†ç®—æ³•ç´¢å¼•
 	char _key[12];
 	int _key_len;
 	virtual void OnEncrypt(dbc::DataSocket *datasock,char *ciphertext,const char *text,unsigned long &len);

@@ -10,7 +10,7 @@
 #include "GameDB.h"
 
 
-// #pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"" ) // ÉèÖÃÈë¿ÚµØÖ· 
+// #pragma comment( linker, "/subsystem:\"windows\" /entry:\"mainCRTStartup\"" ) // è®¾ç½®å…¥å£åœ°å€ 
 
 extern BOOL GameServer_Begin();
 extern void GameServer_End();
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	C_PRINT("GameServer 1.38 (by: Sheep Squad)\n");
 	C_PRINT("GameServer 1.38 Fixed Version (by: Mothannakh)\n");
-	C_PRINT("GameServer 1.38 ÓÅ»¯ (By:ÉÏ¹Ùè¤è¤)\n");
+	C_PRINT("GameServer 1.38 ä¼˜åŒ– (By:ä¸Šå®˜ç‘œç‘œ)\n");
 	C_TITLE("GameServer.exe")
 	DisableCloseButton();
 
@@ -123,13 +123,13 @@ BOOL GameServer_Begin()
 {T_B
 	_setmaxstdio(2048);
 
-	//LG("init", "ÓÎÏ·µØÍ¼·şÎñÆ÷[%s]Æô¶¯...\n", g_Config.m_szName);
+	//LG("init", "æ¸¸æˆåœ°å›¾æœåŠ¡å™¨[%s]å¯åŠ¨...\n", g_Config.m_szName);
 LG("init", "game map server [%s] startup...\n", g_Config.m_szName);
 
 	g_pGameApp = new CGameApp();
 	if(!g_pGameApp->Init())
 	{
-		//LG("init", "GameApp ³õÊ¼»¯Ê§°Ü, ÍË³ö!\n");
+		//LG("init", "GameApp åˆå§‹åŒ–å¤±è´¥, é€€å‡º!\n");
 		LG("init", "GameApp initialization failed, exit!\n");
 		return FALSE;
 	}
@@ -147,31 +147,31 @@ LG("init", "game map server [%s] startup...\n", g_Config.m_szName);
 
 	g_gmsvr	= new GameServerApp(0, l_comm);
 
-    // Æô¶¯ GateServer Á¬½ÓÏß³Ì
-   // LG("init", "Æô¶¯Gate·şÎñÆ÷Á¬½ÓÏß³Ì...\n");
+    // å¯åŠ¨ GateServer è¿æ¥çº¿ç¨‹
+   // LG("init", "å¯åŠ¨GateæœåŠ¡å™¨è¿æ¥çº¿ç¨‹...\n");
 	 LG("init", "startup Gate server connect thread...\n");
     l_comm->AddTask(new ConnectGateServer(g_gmsvr));
 #endif
 
-    //Á¬½Ó²¢¼àÌıInfoServer
-	//LG("init", "Æô¶¯ĞÅÏ¢·şÎñÆ÷Á¬½ÓÏß³Ì...\n");
+    //è¿æ¥å¹¶ç›‘å¬InfoServer
+	//LG("init", "å¯åŠ¨ä¿¡æ¯æœåŠ¡å™¨è¿æ¥çº¿ç¨‹...\n");
 	LG("init", "startup information server connect thread...\n");
     l_comm->AddTask(new ToInfoServer(g_gmsvr));
 	
-	// ´´½¨ÓÎÏ·Ïß³Ì
-	//LG("init", "Æô¶¯ÓÎÏ·Ïß³Ì...\n");
+	// åˆ›å»ºæ¸¸æˆçº¿ç¨‹
+	//LG("init", "å¯åŠ¨æ¸¸æˆçº¿ç¨‹...\n");
 	LG("init", "startup game thread...\n");
 	DWORD	dwThreadID;
 	hGameT = CreateThread(NULL, 0, g_GameLogicProcess, 0, 0, &dwThreadID);
 	LG("init", "Game Thread ID = %d\n", dwThreadID);
 	//
 
-	//LG("init",  "¿ªÊ¼´´½¨Win32 ¿ØÖÆ¶Ô»°¿ò\n");
+	//LG("init",  "å¼€å§‹åˆ›å»ºWin32 æ§åˆ¶å¯¹è¯æ¡†\n");
 	LG("init",  "start create Win32 control dialog box\n");
 	HINSTANCE hInst = GetModuleHandle(0);
 	CreateMainDialog(hInst, NULL);
 
-	//Log("ÖØÆô", "GameServerÖØÆô", g_Config.m_szMapList[0], "", "", "");
+	//Log("é‡å¯", "GameServeré‡å¯", g_Config.m_szMapList[0], "", "", "");
 	Log("restart", "GameServer restart", g_Config.m_szMapList[0], "", "", "");
 	
 	return TRUE;
@@ -180,7 +180,7 @@ T_E}
 
 void GameServer_End()
 {T_B
-	//LG("init", "¿ªÊ¼½áÊøÓÎÏ·µØÍ¼·şÎñÆ÷\n");
+	//LG("init", "å¼€å§‹ç»“æŸæ¸¸æˆåœ°å›¾æœåŠ¡å™¨\n");
 	LG("init", "start to exit game map server\n");
 	CloseHandle(hGameT);
 
@@ -239,46 +239,46 @@ void AppExit(void)
 }
 
 /*
- GameServerÉè¼Æ
+ GameServerè®¾è®¡
 
- GameServer¸ºÔğÓÎÏ·Âß¼­µÄ´¦Àí
+ GameServerè´Ÿè´£æ¸¸æˆé€»è¾‘çš„å¤„ç†
 
- °üº¬µÄÖ÷ÒªÄ£¿éÓĞ 
+ åŒ…å«çš„ä¸»è¦æ¨¡å—æœ‰ 
  
 [GameData]
-×ÓÊı¾İÀàĞÍÓĞ 
-Map        µØÍ¼ 
-MgrUnit    µØÍ¼¹ÜÀíµ¥Ôª
-Player     Íæ¼Ò
-Character  ½ÇÉ«
-Item       µÀ¾ß
-Skill      ¼¼ÄÜ
-SkillState ¼¼ÄÜ×´Ì¬
-Mission    ÈÎÎñ
+å­æ•°æ®ç±»å‹æœ‰ 
+Map        åœ°å›¾ 
+MgrUnit    åœ°å›¾ç®¡ç†å•å…ƒ
+Player     ç©å®¶
+Character  è§’è‰²
+Item       é“å…·
+Skill      æŠ€èƒ½
+SkillState æŠ€èƒ½çŠ¶æ€
+Mission    ä»»åŠ¡
 
  
-GameDataÓ¦¸Ãµ¥´¿µÄ×öÎªÊı¾İÈİÆ÷
+GameDataåº”è¯¥å•çº¯çš„åšä¸ºæ•°æ®å®¹å™¨
 
 [GameControl]
-App       Ó¦ÓÃ³ÌĞò¿ò¼Ü 
-TimerMgr  ¶¨Ê±Æ÷¹ÜÀí
-AI        AI¿ØÖÆ
+App       åº”ç”¨ç¨‹åºæ¡†æ¶ 
+TimerMgr  å®šæ—¶å™¨ç®¡ç†
+AI        AIæ§åˆ¶
 
-[EventHandler] ÊÂ¼ş´¦ÀíÆ÷
+[EventHandler] äº‹ä»¶å¤„ç†å™¨
 
-GameServerµÄÔË×÷·½Ê½Îª 
+GameServerçš„è¿ä½œæ–¹å¼ä¸º 
 
-ÓÉGameControlÆô¶¯Ó¦ÓÃ³ÌĞò, Æô¶¯AI¶¨Ê±Æ÷, Æô¶¯Åö×²¼ì²â¶¨Ê±Æ÷
+ç”±GameControlå¯åŠ¨åº”ç”¨ç¨‹åº, å¯åŠ¨AIå®šæ—¶å™¨, å¯åŠ¨ç¢°æ’æ£€æµ‹å®šæ—¶å™¨
 
-GameControl Ïò EventHandler ²úÉúEvent, ±ÈÈçAIÊÂ¼ş, ÓëÌø×ªµãÅö×²
-¿Í»§¶Ë Ïò EventHandler ²úÉúEvent, ±ÈÈçÇëÇóĞĞ×ß, ÇëÇóÊ¹ÓÃ¼¼ÄÜ, ÇëÇóÊ¹ÓÃµÀ¾ß
+GameControl å‘ EventHandler äº§ç”ŸEvent, æ¯”å¦‚AIäº‹ä»¶, ä¸è·³è½¬ç‚¹ç¢°æ’
+å®¢æˆ·ç«¯ å‘ EventHandler äº§ç”ŸEvent, æ¯”å¦‚è¯·æ±‚è¡Œèµ°, è¯·æ±‚ä½¿ç”¨æŠ€èƒ½, è¯·æ±‚ä½¿ç”¨é“å…·
 
-EventHandler¶ÔEventµÄ´¦ÀíÎªÓ¦´ğÊ½, ¼´µ±Ê±·µ»Ø½á¹û, ÎŞÈÎºÎÖĞ¼ä×´Ì¬
+EventHandlerå¯¹Eventçš„å¤„ç†ä¸ºåº”ç­”å¼, å³å½“æ—¶è¿”å›ç»“æœ, æ— ä»»ä½•ä¸­é—´çŠ¶æ€
 
-EventHandlerÔÚ¶ÔEventµÄ´¦Àí¹ı³ÌÖĞ, ²úÉúModify GameDataµÄ²Ù×÷
+EventHandleråœ¨å¯¹Eventçš„å¤„ç†è¿‡ç¨‹ä¸­, äº§ç”ŸModify GameDataçš„æ“ä½œ
 
-´ËÊ±EventHandler¶ÔÓÚ·şÎñÆ÷ÄÚ²¿Âß¼­ºÍÀ´×Ô¿Í»§¶ËµÄÇëÇó£¬ ±íÏÖÎªÒ»¸öË«Ïò²åÍ·, ²¢²úÉú
-Î¨Ò»µÄ½á¹ûModify GameData
+æ­¤æ—¶EventHandlerå¯¹äºæœåŠ¡å™¨å†…éƒ¨é€»è¾‘å’Œæ¥è‡ªå®¢æˆ·ç«¯çš„è¯·æ±‚ï¼Œ è¡¨ç°ä¸ºä¸€ä¸ªåŒå‘æ’å¤´, å¹¶äº§ç”Ÿ
+å”¯ä¸€çš„ç»“æœModify GameData
 
 
 Control -> Event 

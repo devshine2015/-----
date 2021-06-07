@@ -17,7 +17,7 @@ public:
 	int		nSmallX;
 	int		nSmallY;
 
-    char	szSmallOff[16];		// ÀëÏßÊ±µÄÍ¼±ê
+    char	szSmallOff[16];		// ç¦»çº¿æ—¶çš„å›¾æ ‡
 	int		nSmallOffX;
 	int		nSmallOffY;
 
@@ -43,7 +43,7 @@ public:
     }
 
 protected:
-    static CChatIconSet* _Instance; // Ïàµ±ÓÚµ¥¼ü, °Ñ×Ô¼º¼Ç×¡
+    static CChatIconSet* _Instance; // ç›¸å½“äºå•é”®, æŠŠè‡ªå·±è®°ä½
 
     virtual CRawDataInfo* _CreateRawDataArray(int nCnt)
     {

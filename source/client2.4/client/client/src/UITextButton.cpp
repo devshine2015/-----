@@ -1,227 +1,203 @@
-#include "StdAfx.h"
 #include "uitextbutton.h"
 #include "GameApp.h"
-#include "eventsoundset.h"
+#include "StdAfx.h"
 #include "UIFont.h"
+#include "eventsoundset.h"
 using namespace GUI;
 
-CTextButton* CTextButton::m_pCurButton = NULL;	// µ±Ç°¼¤»îµÄButton
+CTextButton *CTextButton::m_pCurButton = NULL; // å½“å‰æ¿€æ´»çš„Button
 
-CTextButton::CTextButton(CForm& frmOwn)
-: CCompent(frmOwn), _isDown(false), _textColor( 0xffff0000), _eFormModal(CForm::mrNone)
-, evtMouseClick(NULL), evtMouseDownContinue(NULL), _dwFlashCycle(0), _dwLastClick(0)
-, evtMouseRClick(NULL), evtMouseDBClick(NULL)
-{
-	_pImage = new CGuiPic( this, csEnd );
+CTextButton::CTextButton(CForm &frmOwn)
+    : CCompent(frmOwn), _isDown(false), _textColor(0xffff0000),
+      _eFormModal(CForm::mrNone), evtMouseClick(NULL),
+      evtMouseDownContinue(NULL), _dwFlashCycle(0), _dwLastClick(0),
+      evtMouseRClick(NULL), evtMouseDBClick(NULL) {
+  _pImage = new CGuiPic(this, csEnd);
 }
 
-CTextButton::CTextButton(const CTextButton& rhs)
-: CCompent( rhs ), _pImage( new CGuiPic(*rhs._pImage) ), _strCaption(rhs._strCaption)
-, _textColor(rhs._textColor), _isDown(rhs._isDown), _eFormModal(rhs._eFormModal)
-, evtMouseClick(rhs.evtMouseClick), evtMouseDownContinue(rhs.evtMouseDownContinue), _dwFlashCycle(0), _dwLastClick(0)
-, evtMouseRClick(NULL), evtMouseDBClick(NULL)
-{
-	_pImage->SetParent( this );
+CTextButton::CTextButton(const CTextButton &rhs)
+    : CCompent(rhs), _pImage(new CGuiPic(*rhs._pImage)),
+      _strCaption(rhs._strCaption), _textColor(rhs._textColor),
+      _isDown(rhs._isDown), _eFormModal(rhs._eFormModal),
+      evtMouseClick(rhs.evtMouseClick),
+      evtMouseDownContinue(rhs.evtMouseDownContinue), _dwFlashCycle(0),
+      _dwLastClick(0), evtMouseRClick(NULL), evtMouseDBClick(NULL) {
+  _pImage->SetParent(this);
 }
 
-CTextButton& CTextButton::operator=(const CTextButton& rhs)
-{
-	CCompent::operator =( rhs );
+CTextButton &CTextButton::operator=(const CTextButton &rhs) {
+  CCompent::operator=(rhs);
 
-	evtMouseClick = rhs.evtMouseClick;
-	evtMouseDownContinue = rhs.evtMouseDownContinue;
+  evtMouseClick = rhs.evtMouseClick;
+  evtMouseDownContinue = rhs.evtMouseDownContinue;
 
-	_strCaption = rhs._strCaption;
-	_textColor = rhs._textColor;
+  _strCaption = rhs._strCaption;
+  _textColor = rhs._textColor;
 
-	*_pImage = *(rhs._pImage);
-	_isDown = rhs._isDown;
-    _eFormModal = rhs._eFormModal;
+  *_pImage = *(rhs._pImage);
+  _isDown = rhs._isDown;
+  _eFormModal = rhs._eFormModal;
 
-	_pImage->SetParent( this );
-	return *this;
+  _pImage->SetParent(this);
+  return *this;
 }
 
-CTextButton::~CTextButton(void)
-{
-	//delete _pImage;
-	SAFE_DELETE(_pImage); // UIµ±»ú´¦Àí
+CTextButton::~CTextButton(void) {
+  // delete _pImage;
+  SAFE_DELETE(_pImage); // UIå½“æœºå¤„ç†
 }
 
-void CTextButton::SetAlpha( BYTE alpha )  
-{ 
-	_pImage->SetAlpha(alpha); 
+void CTextButton::SetAlpha(BYTE alpha) { _pImage->SetAlpha(alpha); }
+
+void CTextButton::Render() {
+  // modify by Philip.Wu  2006-08-09  æ”¯æŒæŒ‰é’®é—ªçƒ
+  if (_dwFlashCycle > 0 && GetIsEnabled() &&
+      (g_pGameApp->GetCurTick() % _dwFlashCycle < _dwFlashCycle / 2))
+    _pImage->Render(GetX(), GetY(), BYTE(128));
+  else
+    _pImage->Render(GetX(), GetY());
+  // modify end
+
+  //_pImage->Render( GetX(), GetY() );
+
+  if (!_strCaption.empty())
+    CGuiFont::s_Font.Render(_strCaption.c_str(), GetX(), GetY(), _textColor);
 }
 
-void CTextButton::Render()
-{
-	// modify by Philip.Wu  2006-08-09  Ö§³Ö°´Å¥ÉÁË¸
-	if( _dwFlashCycle > 0 && GetIsEnabled() && (g_pGameApp->GetCurTick() % _dwFlashCycle < _dwFlashCycle / 2))
-		_pImage->Render( GetX(), GetY(), BYTE(128) );
-	else
-		_pImage->Render( GetX(), GetY() );
-	// modify end
+bool CTextButton::MouseRun(int x, int y, DWORD key) {
+  if (!IsNormal())
+    return false;
 
-	//_pImage->Render( GetX(), GetY() );
+  if (IsNoDrag(x, y, key)) {
+    if (key & Mouse_LUp) {
+      if (_isDown) {
+        _isDown = false;
+        _SetState(csNormal);
 
-	if( !_strCaption.empty() )	CGuiFont::s_Font.Render( _strCaption.c_str(), GetX(), GetY(), _textColor );
-}
-
-bool CTextButton::MouseRun( int x, int y, DWORD key )
-{
-	if( !IsNormal() ) return false;
-
-	if( IsNoDrag( x, y, key ) )
-	{
-        if(key & Mouse_LUp)
+        if (evtMouseDBClick &&
+            GetTickCount() - _dwLastClick <
+                500) // ä¸¤æ¬¡ç‚¹å‡»æ—¶é—´å°‘äºŽ 500 æ¯«ç§’ï¼Œåˆ™è®¤å®šä¸ºåŒå‡»
         {
-            if( _isDown )
-            {
-                _isDown = false;
-                _SetState( csNormal );
-
-				if(evtMouseDBClick && GetTickCount() - _dwLastClick < 500) // Á½´Îµã»÷Ê±¼äÉÙÓÚ 500 ºÁÃë£¬ÔòÈÏ¶¨ÎªË«»÷
-				{
-					_dwLastClick = 0;	// Ë«»÷ºóÖØÖÃ
-					DoClick(Mouse_LDB);
-				}
-				else
-				{
-					_dwLastClick = GetTickCount();	// ¼ÇÂ¼ÏÂµ±Ç°µã»÷Ê±¼ä£¬ÓÃÓÚÅÐ¶ÏÏÂÒ»´Îµã»÷¼ä¸ô
-					DoClick();
-				}
-
-                return true;
-            }
-            _isDown = false;
+          _dwLastClick = 0; // åŒå‡»åŽé‡ç½®
+          DoClick(Mouse_LDB);
+        } else {
+          _dwLastClick =
+              GetTickCount(); // è®°å½•ä¸‹å½“å‰ç‚¹å‡»æ—¶é—´ï¼Œç”¨äºŽåˆ¤æ–­ä¸‹ä¸€æ¬¡ç‚¹å‡»é—´éš”
+          DoClick();
         }
 
-		if(  key & Mouse_LDown )
-		{
-			_isDown = true;			
-			_SetState( csDown );
-			return true;
-		}
-
-		if( key & Mouse_RUp)
-		{
-			DoClick(Mouse_RUp);
-			return true;
-		}
-
-		//if( key & Mouse_LDB)	// Ã²ËÆ²»Æð×÷ÓÃ
-		//{
-		//	DoClick(Mouse_LDB);
-		//	return true;
-		//}
-
-		_SetState( _isDown ? csDown : csHover );
-		return true;
-	}
-	else
-	{
-		_SetState( csNormal );
-	}
-
-	return _IsMouseIn;
-}
-
-void CTextButton::DoClick(eMouseState state)
-{
-	g_pGameApp->PlaySound( 26 );
-
-	// modify by Philip.Wu  2007/01/23  À©Õ¹°´Å¥¹¦ÄÜ£¬Ö§³ÖÓÒ¼üºÍË«»÷
-	switch(state)
-	{
-	case Mouse_LUp:
-		{
-			if( evtMouseClick ) evtMouseClick(this, GetX(), GetY(), Mouse_LUp );
-			else if( _frmOwn->evtEntrustMouseEvent ) _frmOwn->evtEntrustMouseEvent( this, _eFormModal, GetX(), GetY(), Mouse_LUp );
-		}
-		break;
-
-	case Mouse_RUp:
-		{
-			if(evtMouseRClick) evtMouseRClick(this, GetX(), GetY(), Mouse_RUp );
-		}
-		break;
-
-	case Mouse_LDB:
-		{
-			if(evtMouseDBClick) evtMouseDBClick(this, GetX(), GetY(), Mouse_LDB );
-		}
-		break;
-	}
-
-
-    if( !_isChild && GetForm() )
-    {
-        GetForm()->SetModalResult( _eFormModal );
-		if( _eFormModal!=CForm::mrNone )
-		{
-			GetForm()->Close();
-			return;
-		}
+        return true;
+      }
+      _isDown = false;
     }
+
+    if (key & Mouse_LDown) {
+      _isDown = true;
+      _SetState(csDown);
+      return true;
+    }
+
+    if (key & Mouse_RUp) {
+      DoClick(Mouse_RUp);
+      return true;
+    }
+
+    // if( key & Mouse_LDB)	// è²Œä¼¼ä¸èµ·ä½œç”¨
+    //{
+    //	DoClick(Mouse_LDB);
+    //	return true;
+    //}
+
+    _SetState(_isDown ? csDown : csHover);
+    return true;
+  } else {
+    _SetState(csNormal);
+  }
+
+  return _IsMouseIn;
 }
 
-void CTextButton::Refresh()
-{
-	CCompent::Refresh();
+void CTextButton::DoClick(eMouseState state) {
+  g_pGameApp->PlaySound(26);
 
-	_pImage->Refresh();
+  // modify by Philip.Wu  2007/01/23  æ‰©å±•æŒ‰é’®åŠŸèƒ½ï¼Œæ”¯æŒå³é”®å’ŒåŒå‡»
+  switch (state) {
+  case Mouse_LUp: {
+    if (evtMouseClick)
+      evtMouseClick(this, GetX(), GetY(), Mouse_LUp);
+    else if (_frmOwn->evtEntrustMouseEvent)
+      _frmOwn->evtEntrustMouseEvent(this, _eFormModal, GetX(), GetY(),
+                                    Mouse_LUp);
+  } break;
+
+  case Mouse_RUp: {
+    if (evtMouseRClick)
+      evtMouseRClick(this, GetX(), GetY(), Mouse_RUp);
+  } break;
+
+  case Mouse_LDB: {
+    if (evtMouseDBClick)
+      evtMouseDBClick(this, GetX(), GetY(), Mouse_LDB);
+  } break;
+  }
+
+  if (!_isChild && GetForm()) {
+    GetForm()->SetModalResult(_eFormModal);
+    if (_eFormModal != CForm::mrNone) {
+      GetForm()->Close();
+      return;
+    }
+  }
 }
 
-void CTextButton::_SetState( eButtonState v ) 
-{ 
-	if( _pImage->GetFrame() == v )	return;
+void CTextButton::Refresh() {
+  CCompent::Refresh();
 
-	switch( v )
-	{
-	case csNormal:
-	break;
-	case csHover:
-		_ClearOldState();
-	break;
-	case csDown:
-		_ClearOldState();
-	break;
-	case csDisable:
-	break;
-	}
-
-	_pImage->SetFrame( v );
+  _pImage->Refresh();
 }
 
-void CTextButton::_ClearOldState()
-{
-	if( m_pCurButton && m_pCurButton->GetIsEnabled() )
-	{
-		if( m_pCurButton!=this )
-		{
-			m_pCurButton->_isDown = false;
-			m_pCurButton->_SetState( csNormal );
-			m_pCurButton = this;
-		}
-	}
-	else
-	{
-		m_pCurButton = this;
-	}
+void CTextButton::_SetState(eButtonState v) {
+  if (_pImage->GetFrame() == v)
+    return;
+
+  switch (v) {
+  case csNormal:
+    break;
+  case csHover:
+    _ClearOldState();
+    break;
+  case csDown:
+    _ClearOldState();
+    break;
+  case csDisable:
+    break;
+  }
+
+  _pImage->SetFrame(v);
 }
 
-void CTextButton::SetIsEnabled( bool v ) 
-{ 
-	_bEnabled = v; 
-	_SetState( _bEnabled ? csNormal : csDisable );
+void CTextButton::_ClearOldState() {
+  if (m_pCurButton && m_pCurButton->GetIsEnabled()) {
+    if (m_pCurButton != this) {
+      m_pCurButton->_isDown = false;
+      m_pCurButton->_SetState(csNormal);
+      m_pCurButton = this;
+    }
+  } else {
+    m_pCurButton = this;
+  }
 }
 
-void CTextButton::FrameMove( DWORD dwTime )
-{
-	if( !GetIsEnabled() ) return;
+void CTextButton::SetIsEnabled(bool v) {
+  _bEnabled = v;
+  _SetState(_bEnabled ? csNormal : csDisable);
+}
 
-	if( evtMouseDownContinue && CGameApp::IsMouseContinue( 0 ) && _IsMouseIn )
-	{
-		evtMouseDownContinue( this );
-	}
+void CTextButton::FrameMove(DWORD dwTime) {
+  if (!GetIsEnabled())
+    return;
+
+  if (evtMouseDownContinue && CGameApp::IsMouseContinue(0) && _IsMouseIn) {
+    evtMouseDownContinue(this);
+  }
 }

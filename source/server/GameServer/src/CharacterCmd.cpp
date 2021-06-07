@@ -23,7 +23,7 @@ char	g_chUseItemGiveMission[2];
 
 _DBC_USING
 
-// ÒÔmainchaµ÷ÓÃ¸ÃÀı³Ì
+// ä»¥mainchaè°ƒç”¨è¯¥ä¾‹ç¨‹
 bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_y, Char chLogin)
 {T_B
 	Short	sErrCode = ERR_MC_ENTER_ERROR;
@@ -56,12 +56,12 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	setAttr(ATTR_CHATYPE, enumCHACTRL_PLAYER);
 	ResetPosState();
 	
-	if (pCPlayer->GetLoginChaType() == enumLOGIN_CHA_BOAT) // ÒÔ´¬µÄĞÎÌ¬µÇÂ½
+	if (pCPlayer->GetLoginChaType() == enumLOGIN_CHA_BOAT) // ä»¥èˆ¹çš„å½¢æ€ç™»é™†
 	{
 		CCharacter	*pBoat = pCPlayer->GetBoat(pCPlayer->GetLoginChaID());
 		if (!pBoat)
 		{
-			LG("enter_map", "Íæ¼Ò %sÒÔ´¬Ö»£¨ID %u£©ĞÎÌ¬µÇÂ½Ê±Ê§°Ü£¨´¬Ö»²»´æÔÚ£©£¬±»ÇĞ¶ÏÁ¬½Ó!\n", GetLogName(), pCPlayer->GetLoginChaID());
+			LG("enter_map", "ç©å®¶ %sä»¥èˆ¹åªï¼ˆID %uï¼‰å½¢æ€ç™»é™†æ—¶å¤±è´¥ï¼ˆèˆ¹åªä¸å­˜åœ¨ï¼‰ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n", GetLogName(), pCPlayer->GetLoginChaID());
 			//LG("enter_map", "character %s use boat(ID %u)form logging failed(boat is inexistence),be cut off connect!\n", GetLogName(), pCPlayer->GetLoginChaID());
 			sErrCode = ERR_MC_ENTER_POS;
 			goto Error;
@@ -69,7 +69,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 		if (!BoatEnterMap(*pBoat, 0, 0, 0))
 		{
 			pBoat->SetToMainCha();
-			LG("enter_map", "Íæ¼Ò %sÒÔ´¬Ö»£¨ID %u£©ĞÎÌ¬µÇÂ½Ê±Ê§°Ü£¨·Å´¬Ê§°Ü£©£¬±»ÇĞ¶ÏÁ¬½Ó!\n", GetLogName(), pCPlayer->GetLoginChaID());
+			LG("enter_map", "ç©å®¶ %sä»¥èˆ¹åªï¼ˆID %uï¼‰å½¢æ€ç™»é™†æ—¶å¤±è´¥ï¼ˆæ”¾èˆ¹å¤±è´¥ï¼‰ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n", GetLogName(), pCPlayer->GetLoginChaID());
 			//LG("enter_map", "character %suse boat(ID %u)form logging failed(put boat failed),be cut off connect!\n", GetLogName(), pCPlayer->GetLoginChaID());
 			sErrCode = ERR_MC_ENTER_POS;
 			goto Error;
@@ -79,7 +79,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 
 	CMapRes	*pCMapRes = 0;
 	SubMap	*pCMap = 0;
-	if (bNewCha) // ĞÂ½ÇÉ«
+	if (bNewCha) // æ–°è§’è‰²
 	{
 		SBirthPoint	*pSBirthP = GetRandBirthPoint(GetLogName(), GetBirthCity());
 		if (pSBirthP)
@@ -92,12 +92,12 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	}
 	else
 	{
-		if (chLogin == 0) // ½ÇÉ«ÉÏÏß
+		if (chLogin == 0) // è§’è‰²ä¸Šçº¿
 		{
 			if (strcmp(l_map, pCCtrlCha->GetBirthMap()))
 			{
-				LG("enter_map", "Íæ¼Ò %s(%s) µÄÄ¿±êµØÍ¼Ãû %s ºÍ½¹µã½ÇÉ«µÄµØÍ¼ %s Ãû²»Æ¥Åä£¬±»ÇĞ¶ÏÁ¬½Ó!\n",
-				//LG("enter_map", "character %s(%s)'s aim map %s is not matched to focus character %s£¬be cut off connect!\n",
+				LG("enter_map", "ç©å®¶ %s(%s) çš„ç›®æ ‡åœ°å›¾å %s å’Œç„¦ç‚¹è§’è‰²çš„åœ°å›¾ %s åä¸åŒ¹é…ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n",
+				//LG("enter_map", "character %s(%s)'s aim map %s is not matched to focus character %sï¼Œbe cut off connect!\n",
 					GetLogName(), pCCtrlCha->GetLogName(), l_map, pCCtrlCha->GetBirthMap());
 				sErrCode = ERR_MC_ENTER_POS;
 				goto Error;
@@ -107,7 +107,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 			l_x = pCCtrlCha->GetPos().x;
 			l_y = pCCtrlCha->GetPos().y;
 		}
-		else // µØÍ¼ÇĞ»»
+		else // åœ°å›¾åˆ‡æ¢
 		{
 			chEnterType = enumENTER_MAP_EDGE;
 			pCMapRes = g_pGameApp->FindMapByName(l_map);
@@ -121,16 +121,16 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 
 	if (!pCMapRes)
 	{
-		LG("enter_map", "Íæ¼Ò %s(%s) µÄµØÍ¼Ãû»ò³ÇÊĞÃû·Ç·¨£¬±»ÇĞ¶ÏÁ¬½Ó!\n", GetLogName(), pCCtrlCha->GetLogName());
-		//LG("enter_map", "player %s(%s)'s map name or city name is unlawful£¬be cut off connect!\n", GetLogName(), pCCtrlCha->GetLogName());
+		LG("enter_map", "ç©å®¶ %s(%s) çš„åœ°å›¾åæˆ–åŸå¸‚åéæ³•ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n", GetLogName(), pCCtrlCha->GetLogName());
+		//LG("enter_map", "player %s(%s)'s map name or city name is unlawfulï¼Œbe cut off connect!\n", GetLogName(), pCCtrlCha->GetLogName());
 		sErrCode = ERR_MC_ENTER_POS;
 		goto Error;
 	}
 	pCMap = pCMapRes->GetCopy((Short)lMapCopyNO);
 	if (!pCMap)
 	{
-		LG("enter_map", "Íæ¼Ò %s(%s) µÄµØÍ¼¸±±¾ºÅ·Ç·¨£¬±»ÇĞ¶ÏÁ¬½Ó!\n", GetLogName(), pCCtrlCha->GetLogName());
-		//LG("enter_map", "character %s(%s) copy map ID is unlawful£¬be cut off connect!\n", GetLogName(), pCCtrlCha->GetLogName());
+		LG("enter_map", "ç©å®¶ %s(%s) çš„åœ°å›¾å‰¯æœ¬å·éæ³•ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n", GetLogName(), pCCtrlCha->GetLogName());
+		//LG("enter_map", "character %s(%s) copy map ID is unlawfulï¼Œbe cut off connect!\n", GetLogName(), pCCtrlCha->GetLogName());
 		sErrCode = ERR_MC_ENTER_POS;
 		goto Error;
 	}
@@ -141,9 +141,9 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	l_shape.centre.x = l_x;
 	l_shape.centre.y = l_y;
 	l_shape.radius = m_pCChaRecord->sRadii;
-	if (!pCMap->EnsurePos(&l_shape, pCCtrlCha)) // ½øÈëÊ§°Ü, ÇĞ¶ÏÁ¬½Ó
+	if (!pCMap->EnsurePos(&l_shape, pCCtrlCha)) // è¿›å…¥å¤±è´¥, åˆ‡æ–­è¿æ¥
 	{
-		LG("enter_map", "Íæ¼Ò %s(%s) µÄµØÍ¼×ø±ê[%d, %d]·Ç·¨£¬±»ÇĞ¶ÏÁ¬½Ó!\n", GetLogName(), pCCtrlCha->GetLogName(), l_x, l_y);
+		LG("enter_map", "ç©å®¶ %s(%s) çš„åœ°å›¾åæ ‡[%d, %d]éæ³•ï¼Œè¢«åˆ‡æ–­è¿æ¥!\n", GetLogName(), pCCtrlCha->GetLogName(), l_x, l_y);
 		//LG("enter_map", "character %s(%s) 's map coordinate[%d, %d]is unlawful,be cut off connect!\n", GetLogName(), pCCtrlCha->GetLogName(), l_x, l_y);
 		sErrCode = ERR_MC_ENTER_POS;
 		goto Error;
@@ -157,7 +157,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	pCCtrlCha->SkillRefresh();
 	pCPlayer->CloseBank();
 
-	// ¼ÓÔØ×°±¸
+	// åŠ è½½è£…å¤‡
 	//bodyCheck = false;
 	//gloveCheck = false;
 	//shoeCheck = false;
@@ -171,7 +171,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	//gloveCheck = true;
 	//shoeCheck = true;
 	//headCheck = true;
-	// ¼ÓÔØÌØÊâµÀ¾ß
+	// åŠ è½½ç‰¹æ®Šé“å…·
 	//disabled pet slot
 	//CheckEspeItemGrid();
 
@@ -198,12 +198,12 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	WRITE_STRING(pkret, l_map);
 	WRITE_CHAR(pkret, pCMapRes->CanTeam() ? 1 : 0);
 	WRITE_LONG(pkret, pCPlayer->GetIMP());
-	WriteBaseInfo(pkret); // »ù±¾Êı¾İ
+	WriteBaseInfo(pkret); // åŸºæœ¬æ•°æ®
 	m_CSkillBag.SetChangeFlag();
 	WriteSkillbag(pkret, enumSYN_SKILLBAG_INIT);
 	WriteSkillState(pkret);
 
-	// Í¬²½½ÇÉ«ÊôĞÔ
+	// åŒæ­¥è§’è‰²å±æ€§
 	if (bNewCha)
 		g_CParser.DoString("CreatCha", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 	else
@@ -221,7 +221,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 				setAttr(ATTR_NLEXP, pCLvRec->ulExp);
 		}
 	}
-	// º½º£
+	// èˆªæµ·
 	{
 		CSailLvRecord	*pCLvRec = 0, *pNLvRec = 0;
 		pCLvRec = GetSailLvRecordInfo((long)m_CChaAttr.GetAttr(ATTR_SAILLV));
@@ -235,7 +235,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 				setAttr(ATTR_NLV_SAILEXP, pCLvRec->ulExp);
 		}
 	}
-	// Éú»î
+	// ç”Ÿæ´»
 	{
 		CLifeLvRecord	*pCLvRec = 0, *pNLvRec = 0;
 		pCLvRec = GetLifeLvRecordInfo((long)m_CChaAttr.GetAttr(ATTR_LIFELV));
@@ -253,28 +253,28 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 	WriteAttr(pkret, enumATTRSYN_INIT);
 
 	m_CKitbag.SetChangeFlag(true);
-	WriteKitbag(m_CKitbag, pkret, enumSYN_KITBAG_INIT); // µÀ¾ßÀ¸
+	WriteKitbag(m_CKitbag, pkret, enumSYN_KITBAG_INIT); // é“å…·æ 
 	//WriteKitbag(*m_pCKitbagTmp, pkret, enumSYN_KITBAG_INIT);
-	WriteShortcut(pkret); // ¿ì½İÀ¸
+	WriteShortcut(pkret); // å¿«æ·æ 
 
 	SetBoatAttrChangeFlag();
 	pCPlayer->RefreshBoatAttr();
-	WriteBoat(pkret); // ´¬Ö»ĞÅÏ¢
+	WriteBoat(pkret); // èˆ¹åªä¿¡æ¯
 
 	WRITE_LONG(pkret, pCCtrlCha->GetID());
 
-	//WriteKitbag(*m_pCKitbagTmp, pkret, enumSYN_KITBAG_INIT); // ÁÙÊ±±³°ü!!!²»Òª·ÅÔÚentermapÀï
+	//WriteKitbag(*m_pCKitbagTmp, pkret, enumSYN_KITBAG_INIT); // ä¸´æ—¶èƒŒåŒ…!!!ä¸è¦æ”¾åœ¨entermapé‡Œ
 
 	WRITE_CHAR(pkret, chLogin);
 	WRITE_LONG(pkret, g_pGameApp->m_dwPlayerCnt);
-	WRITE_LONG(pkret, MakeULong(pCPlayer));	//¸æËßGateServer×Ô¼ºµÄPlayerÃèÊö½á¹¹µØÖ·
+	WRITE_LONG(pkret, MakeULong(pCPlayer));	//å‘Šè¯‰GateServerè‡ªå·±çš„Playeræè¿°ç»“æ„åœ°å€
 	ReflectINFof(this, pkret);
 
 	if (bNewCha)
-		// ½ÇÉ«µÚÒ»´Î³öÏÖÔÚµØÍ¼ÉÏ
+		// è§’è‰²ç¬¬ä¸€æ¬¡å‡ºç°åœ¨åœ°å›¾ä¸Š
 		OnCharBorn();
 
-	pCMap->Enter(&l_shape, pCCtrlCha); // ½øÈëµØÍ¼£¬´Ë´¦±Ø¶¨³É¹¦
+	pCMap->Enter(&l_shape, pCCtrlCha); // è¿›å…¥åœ°å›¾ï¼Œæ­¤å¤„å¿…å®šæˆåŠŸ
 	pCMap->AfterPlyEnterMap(pCCtrlCha);
 	pCCtrlCha->SynPKCtrl();
 
@@ -283,7 +283,7 @@ bool CCharacter::Cmd_EnterMap(cChar* l_map, Long lMapCopyNO, uLong l_x, uLong l_
 
 	ResetStoreTime();
 
-	LG("enter_map", "½áÊø½øÈëÓÎÏ·³¡¾° %s(%s)\n", GetLogName(), pCCtrlCha->GetLogName());
+	LG("enter_map", "ç»“æŸè¿›å…¥æ¸¸æˆåœºæ™¯ %s(%s)\n", GetLogName(), pCCtrlCha->GetLogName());
 	//LG("enter_map", "finish enter game scene %s(%s)\n", GetLogName(), pCCtrlCha->GetLogName());
 	return true;
 
@@ -296,15 +296,15 @@ Error:
 	game_db.SavePlayerPos(pCPlayer);
 	g_pGameApp->GoOutGame(pCPlayer, true);
 
-	LG("enter_map", "½øÈëÓÎÏ·³¡¾°Ê§°Ü %s(%s)\n", GetLogName(), GetPlyCtrlCha()->GetLogName());
+	LG("enter_map", "è¿›å…¥æ¸¸æˆåœºæ™¯å¤±è´¥ %s(%s)\n", GetLogName(), GetPlyCtrlCha()->GetLogName());
 	//LG("enter_map", "enter game scene failed %s(%s)\n", GetLogName(), GetPlyCtrlCha()->GetLogName());
 	return false;
 T_E}
 
 //=============================================================================
-// ²ÎÊı£ºsPing Ô¤ÒÆ¶¯Ê±¼ä£¨ºÁÃë£©£»
-//       pPath µ½´ïÄ¿±êµÄÂ·¾¶¹Õµã£»
-//       chPointNum Â·¾¶¹Õµã¸öÊı£¬×î´óÖµdefMOVE_INFLEXION_NUM£»
+// å‚æ•°ï¼šsPing é¢„ç§»åŠ¨æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ï¼›
+//       pPath åˆ°è¾¾ç›®æ ‡çš„è·¯å¾„æ‹ç‚¹ï¼›
+//       chPointNum è·¯å¾„æ‹ç‚¹ä¸ªæ•°ï¼Œæœ€å¤§å€¼defMOVE_INFLEXION_NUMï¼›
 //=============================================================================
 void CCharacter::Cmd_BeginMove(Short sPing, Point *pPath, Char chPointNum, Char chStopState)
 {T_B
@@ -314,22 +314,22 @@ void CCharacter::Cmd_BeginMove(Short sPing, Point *pPath, Char chPointNum, Char 
 	if (!GetActControl(enumACTCONTROL_MOVE))
 	{
 		FailedActionNoti(enumACTION_MOVE, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄÒÆ¶¯¶¯ÇëÇó£¨´æÔÚ²»ÄÜÒÆ¶¯µÄ×´Ì¬£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„ç§»åŠ¨åŠ¨è¯·æ±‚ï¼ˆå­˜åœ¨ä¸èƒ½ç§»åŠ¨çš„çŠ¶æ€ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful move request(being can't move state)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
 
-	if (GetMoveState() == enumMSTATE_ON && GetMoveStopState() == enumEXISTS_SLEEPING) // ½«ÒªĞİÃß
+	if (GetMoveState() == enumMSTATE_ON && GetMoveStopState() == enumEXISTS_SLEEPING) // å°†è¦ä¼‘çœ 
 	{
 		FailedActionNoti(enumACTION_MOVE, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄÒÆ¶¯¶¯ÇëÇó£¨½ÇÉ«Õı×¼±¸ĞİÃß£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„ç§»åŠ¨åŠ¨è¯·æ±‚ï¼ˆè§’è‰²æ­£å‡†å¤‡ä¼‘çœ ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful move request(character is prepare dormancy)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
 
-	if (GetMoveState() == enumMSTATE_ON && GetMoveEndPos() == pPath[chPointNum - 1]) // ÕıÔÚÒÆ¶¯£¬ÇÒÖÕµãÏàÍ¬
+	if (GetMoveState() == enumMSTATE_ON && GetMoveEndPos() == pPath[chPointNum - 1]) // æ­£åœ¨ç§»åŠ¨ï¼Œä¸”ç»ˆç‚¹ç›¸åŒ
 	{
-		m_CLog.Log("ÒÆ¶¯µÄÄ¿±êµãÓëµ±Ç°ÒÆ¶¯ÏàÍ¬£¬ÇëÇó±»ºöÂÔ[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ç§»åŠ¨çš„ç›®æ ‡ç‚¹ä¸å½“å‰ç§»åŠ¨ç›¸åŒï¼Œè¯·æ±‚è¢«å¿½ç•¥[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("the aim point of move is currently move point,request be ignore [PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
@@ -337,7 +337,7 @@ void CCharacter::Cmd_BeginMove(Short sPing, Point *pPath, Char chPointNum, Char 
 	if (m_CChaAttr.GetAttr(ATTR_MSPD) == 0)
 	{
 		FailedActionNoti(enumACTION_MOVE, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄÒÆ¶¯¶¯ÇëÇó£¨ÒÆ¶¯ËÙ¶ÈÎª0£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„ç§»åŠ¨åŠ¨è¯·æ±‚ï¼ˆç§»åŠ¨é€Ÿåº¦ä¸º0ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful move request(move speed is zero)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
@@ -346,8 +346,8 @@ void CCharacter::Cmd_BeginMove(Short sPing, Point *pPath, Char chPointNum, Char 
 		if (!m_submap->IsValidPos(pPath[chPCount].x, pPath[chPCount].y))
 		{
 			FailedActionNoti(enumACTION_MOVE, enumFACTION_MOVEPATH);
-			m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¬Â·¾¶ĞòÁĞ·Ç·¨\n");
-			//m_CLog.Log("move path error£¬pathID is unlawful\n");
+			m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œè·¯å¾„åºåˆ—éæ³•\n");
+			//m_CLog.Log("move path errorï¼ŒpathID is unlawful\n");
 			return;
 		}
 
@@ -376,13 +376,13 @@ void CCharacter::Cmd_BeginMove(Short sPing, Point *pPath, Char chPointNum, Char 
 T_E}
 
 //=============================================================================
-// ²ÎÊı£ºÄ¿±êÊµÌå
+// å‚æ•°ï¼šç›®æ ‡å®ä½“
 //=============================================================================
 void CCharacter::Cmd_BeginMoveDirect(Entity *pTar)
 {T_B
-	if (!pTar || !g_pGameApp->IsLiveingEntity(pTar->GetID(), pTar->GetHandle())) // ¶ÔÏóÎŞĞ§
+	if (!pTar || !g_pGameApp->IsLiveingEntity(pTar->GetID(), pTar->GetHandle())) // å¯¹è±¡æ— æ•ˆ
 	{
-		m_CLog.Log("ÊµÌå²»´æÔÚ\n");
+		m_CLog.Log("å®ä½“ä¸å­˜åœ¨\n");
 		//m_CLog.Log("entity is inexistence\n");
 		return;
 	}
@@ -391,15 +391,15 @@ void CCharacter::Cmd_BeginMoveDirect(Entity *pTar)
 T_E}
 
 //=============================================================================
-// ²ÎÊı£ºsPing Ô¤ÒÆ¶¯Ê±¼ä£¨ºÁÃë£©£»
-//       chFightID ¹¥»÷±àºÅ£¬½öÓÃÓÚ¿Í»§¶ËµÄ±íÏÖÆ¥Åä
-//       pPath µ½´ïÄ¿±êµÄÂ·¾¶¹Õµã£»
-//       chPointNum Â·¾¶¹Õµã¸öÊı£¬×î´óÖµdefMOVE_INFLEXION_NUM£»
-//       pSkill ¼¼ÄÜ¼ÇÂ¼£»
-//       lSkillLv ¼¼ÄÜµÈ¼¶£¬¸Ã²ÎÊı¶ÔÓÚ·ÇÍæ¼Ò½ÇÉ«ÓĞÒâÒå£¬¶ÔÓÚÍæ¼Ò½ÇÉ«£¬ÔòÈ¡Æä¼¼ÄÜ°üÖĞµÄ¶ÔÓ¦µÈ¼¶
-//       lTarInfo1 lTarInfo2 Ä¿±êĞÅÏ¢£¬
-//             Èç¹û¼¼ÄÜpSkillµÄ×÷ÓÃĞÎÊ½ÊÇÊµÌå£¬Ôò·Ö±ğ±íÊ¾ID(GetID()), Handle(GetHandle())
-//             Èç¹û¼¼ÄÜlSkillNoµÄ×÷ÓÃĞÎÊ½ÊÇ×ø±ê£¬Ôò·Ö±ğ±íÊ¾×ø±êµÄx,y
+// å‚æ•°ï¼šsPing é¢„ç§»åŠ¨æ—¶é—´ï¼ˆæ¯«ç§’ï¼‰ï¼›
+//       chFightID æ”»å‡»ç¼–å·ï¼Œä»…ç”¨äºå®¢æˆ·ç«¯çš„è¡¨ç°åŒ¹é…
+//       pPath åˆ°è¾¾ç›®æ ‡çš„è·¯å¾„æ‹ç‚¹ï¼›
+//       chPointNum è·¯å¾„æ‹ç‚¹ä¸ªæ•°ï¼Œæœ€å¤§å€¼defMOVE_INFLEXION_NUMï¼›
+//       pSkill æŠ€èƒ½è®°å½•ï¼›
+//       lSkillLv æŠ€èƒ½ç­‰çº§ï¼Œè¯¥å‚æ•°å¯¹äºéç©å®¶è§’è‰²æœ‰æ„ä¹‰ï¼Œå¯¹äºç©å®¶è§’è‰²ï¼Œåˆ™å–å…¶æŠ€èƒ½åŒ…ä¸­çš„å¯¹åº”ç­‰çº§
+//       lTarInfo1 lTarInfo2 ç›®æ ‡ä¿¡æ¯ï¼Œ
+//             å¦‚æœæŠ€èƒ½pSkillçš„ä½œç”¨å½¢å¼æ˜¯å®ä½“ï¼Œåˆ™åˆ†åˆ«è¡¨ç¤ºID(GetID()), Handle(GetHandle())
+//             å¦‚æœæŠ€èƒ½lSkillNoçš„ä½œç”¨å½¢å¼æ˜¯åæ ‡ï¼Œåˆ™åˆ†åˆ«è¡¨ç¤ºåæ ‡çš„x,y
 //=============================================================================
 void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 								CSkillRecord *pSkill, Long lSkillLv, Long lTarInfo1, Long lTarInfo2, Char chStopState)
@@ -407,10 +407,10 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	if (!IsLiveing() || !pSkill || !pPath )
 		return;
 
-	if (GetMoveState() == enumMSTATE_ON && GetMoveStopState() == enumEXISTS_SLEEPING) // ½«ÒªĞİÃß
+	if (GetMoveState() == enumMSTATE_ON && GetMoveStopState() == enumEXISTS_SLEEPING) // å°†è¦ä¼‘çœ 
 	{
 		FailedActionNoti(enumACTION_MOVE, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄÒÆ¶¯¶¯ÇëÇó£¨½ÇÉ«Õı×¼±¸ĞİÃß£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„ç§»åŠ¨åŠ¨è¯·æ±‚ï¼ˆè§’è‰²æ­£å‡†å¤‡ä¼‘çœ ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful move request(character is prepare dormancy)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
@@ -418,7 +418,7 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	if (!GetActControl(enumACTCONTROL_MOVE) && pPath[0] != pPath[1])
 	{
 		FailedActionNoti(enumACTION_MOVE, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄ¼¼ÄÜÇëÇó£¨´æÔÚ²»ÄÜÒÆ¶¯µÄ×´Ì¬£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„æŠ€èƒ½è¯·æ±‚ï¼ˆå­˜åœ¨ä¸èƒ½ç§»åŠ¨çš„çŠ¶æ€ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful skill request(being can't move state)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
@@ -426,7 +426,7 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	if (!IsRightSkill(pSkill))
 	{
 		FailedActionNoti(enumACTION_SKILL, enumFACTION_SKILL_NOTMATCH);
-		m_CLog.Log("²»ºÏ·¨µÄ¼¼ÄÜÇëÇó£¨¼¼ÄÜÊ©·ÅÕß²»Æ¥Åä£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„æŠ€èƒ½è¯·æ±‚ï¼ˆæŠ€èƒ½æ–½æ”¾è€…ä¸åŒ¹é…ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful skill request(skill discharge is not matching)[PacketID: %u]\n", m_ulPacketID);
 		return;
 	}
@@ -448,7 +448,7 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 					if(pSkillRec && !pSkillRec->IsShow())
 					{
 						BOOL bRet = GetPlayer()->GetMainCha()->LearnSkill( pSkill->sID, 1, true, false, true );
-						LG("µÀ¾ß¼¼ÄÜ", "½ÇÉ«£º%s\tÑ§Ï°ÁËµÀ¾ß¼¼ÄÜ(SkillID: %u)\n", GetLogName(), pSkill->sID);
+						LG("é“å…·æŠ€èƒ½", "è§’è‰²ï¼š%s\tå­¦ä¹ äº†é“å…·æŠ€èƒ½(SkillID: %u)\n", GetLogName(), pSkill->sID);
 						//LG("Item skill", "character:%s\tstudy Item skill(SkillID: %u)\n", GetLogName(), pSkill->sID);
 						if(bRet)
 						{
@@ -469,10 +469,10 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 			pSSkillCont = GetPlayer()->GetMainCha()->m_CSkillBag.GetSkillContByID(pSkill->sID);
 		if (!pSSkillCont)
 		{
-			LG("¼¼ÄÜ´íÎó", "½ÇÉ«£º%s\tÃ»ÓĞ¸Ã¼¼ÄÜ(SkillID: %u)\n", GetLogName(), pSkill->sID);
+			LG("æŠ€èƒ½é”™è¯¯", "è§’è‰²ï¼š%s\tæ²¡æœ‰è¯¥æŠ€èƒ½(SkillID: %u)\n", GetLogName(), pSkill->sID);
 			//LG("skill error", "character:%s\t hasn't the skill(SkillID: %u)\n", GetLogName(), pSkill->sID);
 			FailedActionNoti(enumACTION_SKILL, enumFACTION_NOSKILL);
-			m_CLog.Log("½ÇÉ«Ã»ÓĞ¸Ã¼¼ÄÜ[SkillID: %u] [PacketID: %u]\n", pSkill->sID, m_ulPacketID);
+			m_CLog.Log("è§’è‰²æ²¡æœ‰è¯¥æŠ€èƒ½[SkillID: %u] [PacketID: %u]\n", pSkill->sID, m_ulPacketID);
 			//m_CLog.Log("character hasn't the skill[SkillID: %u] [PacketID: %u]\n", pSkill->sID, m_ulPacketID);
 			return;
 		}
@@ -480,21 +480,21 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	CSkillTempData	*pCSkillTData = g_pGameApp->GetSkillTData(pSSkillCont->sID, pSSkillCont->chLv);
 	if (!pCSkillTData)
 	{
-		LG("¼¼ÄÜ´íÎó", "½ÇÉ«£º%s\tÃ»ÓĞÈ¡µÀ¸Ã¼¼ÄÜ(SkillID: %u, SkillLv: %u)µÄÁÙÊ±Êı¾İ\n", GetLogName(), pSSkillCont->sID, pSSkillCont->chLv);
+		LG("æŠ€èƒ½é”™è¯¯", "è§’è‰²ï¼š%s\tæ²¡æœ‰å–é“è¯¥æŠ€èƒ½(SkillID: %u, SkillLv: %u)çš„ä¸´æ—¶æ•°æ®\n", GetLogName(), pSSkillCont->sID, pSSkillCont->chLv);
 		//LG("skill error", "character:%s\t hasn't get the skill(SkillID: %u, SkillLv: %u)'s temp data\n", GetLogName(), pSSkillCont->sID, pSSkillCont->chLv);
 		FailedActionNoti(enumACTION_SKILL, enumFACTION_NOSKILL);
-		m_CLog.Log("½ÇÉ«Ã»ÓĞÈ¡µÀ¸Ã¼¼ÄÜµÄÁÙÊ±Êı¾İ[SkillID: %u, SkillLv: %u] [PacketID: %u]\n", pSSkillCont->sID, pSSkillCont->chLv, m_ulPacketID);
+		m_CLog.Log("è§’è‰²æ²¡æœ‰å–é“è¯¥æŠ€èƒ½çš„ä¸´æ—¶æ•°æ®[SkillID: %u, SkillLv: %u] [PacketID: %u]\n", pSSkillCont->sID, pSSkillCont->chLv, m_ulPacketID);
 		//m_CLog.Log("character hasn't get the skill temp data[SkillID: %u, SkillLv: %u] [PacketID: %u]\n", pSSkillCont->sID, pSSkillCont->chLv, m_ulPacketID);
 
 		return;
 	}
 
-	if (pSSkillCont->chState != enumSUSTATE_ACTIVE // Î´¼¤»î
-		|| (pCSkillTData->lResumeTime == 0 && !GetActControl(enumACTCONTROL_USE_GSKILL)) // ²»ÄÜÊ¹ÓÃÎïÀí¼¼ÄÜ
-		|| (pCSkillTData->lResumeTime > 0 && !GetActControl(enumACTCONTROL_USE_MSKILL))) // ²»ÄÜÊ¹ÓÃÄ§·¨¼¼ÄÜ
+	if (pSSkillCont->chState != enumSUSTATE_ACTIVE // æœªæ¿€æ´»
+		|| (pCSkillTData->lResumeTime == 0 && !GetActControl(enumACTCONTROL_USE_GSKILL)) // ä¸èƒ½ä½¿ç”¨ç‰©ç†æŠ€èƒ½
+		|| (pCSkillTData->lResumeTime > 0 && !GetActControl(enumACTCONTROL_USE_MSKILL))) // ä¸èƒ½ä½¿ç”¨é­”æ³•æŠ€èƒ½
 	{
 		FailedActionNoti(enumACTION_SKILL, enumFACTION_ACTFORBID);
-		m_CLog.Log("²»ºÏ·¨µÄ¼¼ÄÜÇëÇó£¨´æÔÚ²»ÄÜÊ¹ÓÃ¼¼ÄÜµÄ×´Ì¬£©[PacketID: %u]\n", m_ulPacketID);
+		m_CLog.Log("ä¸åˆæ³•çš„æŠ€èƒ½è¯·æ±‚ï¼ˆå­˜åœ¨ä¸èƒ½ä½¿ç”¨æŠ€èƒ½çš„çŠ¶æ€ï¼‰[PacketID: %u]\n", m_ulPacketID);
 		//m_CLog.Log("unlawful skill request(being can't use skill state)[PacketID: %u]\n", m_ulPacketID);
 
 		return;
@@ -504,8 +504,8 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 		if (!m_submap->IsValidPos(pPath[chPCount].x, pPath[chPCount].y))
 		{
 			FailedActionNoti(enumACTION_MOVE, enumFACTION_MOVEPATH);
-			m_CLog.Log("ÒÆ¶¯Â·¾¶´íÎó£¬Â·¾¶ĞòÁĞ·Ç·¨\n");
-			//m_CLog.Log("move path error£¬path ID is unlawful\n");
+			m_CLog.Log("ç§»åŠ¨è·¯å¾„é”™è¯¯ï¼Œè·¯å¾„åºåˆ—éæ³•\n");
+			//m_CLog.Log("move path errorï¼Œpath ID is unlawful\n");
 
 			return;
 		}
@@ -513,10 +513,10 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	SMoveInit	MoveInit;
 	SFightInit	FightInit;
 
-	if (SkillTarIsEntity(pSkill)) // ×÷ÓÃ¶ÔÏóÊÇID
+	if (SkillTarIsEntity(pSkill)) // ä½œç”¨å¯¹è±¡æ˜¯ID
 	{
 		Entity *pTarEnt = g_pGameApp->IsMapEntity(lTarInfo1, lTarInfo2);
-		if (!pTarEnt) // ¶ÔÏó²»´æÔÚ
+		if (!pTarEnt) // å¯¹è±¡ä¸å­˜åœ¨
 		{
 			FailedActionNoti(enumACTION_SKILL, enumFACTION_NOOBJECT);
 
@@ -527,10 +527,10 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 
 		if (pSkill == m_SFightInit.pCSkillRecord
 			&& GetFightState() == enumFSTATE_ON
-			&& IsRangePoint(pTarEnt->GetPos(), MoveInit.STargetInfo.ulDist)) // ÏàÍ¬µÄ¼¼ÄÜ
+			&& IsRangePoint(pTarEnt->GetPos(), MoveInit.STargetInfo.ulDist)) // ç›¸åŒçš„æŠ€èƒ½
 		{
-			m_CLog.Log("ÏàÍ¬µÄ¼¼ÄÜÇëÇó£¬±»ºöÂÔ[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
-			//m_CLog.Log("the same skill request£¬be ignore [PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			m_CLog.Log("ç›¸åŒçš„æŠ€èƒ½è¯·æ±‚ï¼Œè¢«å¿½ç•¥[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			//m_CLog.Log("the same skill requestï¼Œbe ignore [PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
 
 			return;
 		}
@@ -542,10 +542,10 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 
 		if (pSkill == m_SFightInit.pCSkillRecord
 			&& GetFightState() == enumFSTATE_ON
-			&& IsRangePoint(lTarInfo1, lTarInfo2, MoveInit.STargetInfo.ulDist)) // ÏàÍ¬µÄ¼¼ÄÜ
+			&& IsRangePoint(lTarInfo1, lTarInfo2, MoveInit.STargetInfo.ulDist)) // ç›¸åŒçš„æŠ€èƒ½
 		{
-			m_CLog.Log("ÏàÍ¬µÄ¼¼ÄÜÇëÇó£¬±»ºöÂÔ[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
-			//m_CLog.Log("the same skill request£¬be ignore [PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			m_CLog.Log("ç›¸åŒçš„æŠ€èƒ½è¯·æ±‚ï¼Œè¢«å¿½ç•¥[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			//m_CLog.Log("the same skill requestï¼Œbe ignore [PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
 
 			return;
 		}
@@ -571,13 +571,13 @@ void CCharacter::Cmd_BeginSkill(Short sPing, Point *pPath, Char chPointNum,
 	{
 		if (SetMoveOnInfo(&MoveInit))
 		{
-			m_CLog.Log("ÏàÍ¬µÄ¼¼ÄÜºÍÄ¿±ê£¬ÖØÖÃÒÆ¶¯Â·¾¶[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
-			//m_CLog.Log("the same skill and aim£¬reset move path[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			m_CLog.Log("ç›¸åŒçš„æŠ€èƒ½å’Œç›®æ ‡ï¼Œé‡ç½®ç§»åŠ¨è·¯å¾„[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
+			//m_CLog.Log("the same skill and aimï¼Œreset move path[PacketID: %u]\tTick %u\n", m_ulPacketID, GetTickCount());
 			return;
 		}
 	}
 
-	Show(); // Èç¹ûÓĞÒşÉí×´Ì¬£¬ÔòÇå³ı
+	Show(); // å¦‚æœæœ‰éšèº«çŠ¶æ€ï¼Œåˆ™æ¸…é™¤
 
 	m_CLog.Log("Add action(Move&Skill) ActionData[%d, %d]\n", m_CAction.GetCurActionNo(), m_CAction.GetActionNum());
 	if (m_CAction.GetCurActionNo() >= 0)
@@ -600,9 +600,9 @@ T_E}
 
 void CCharacter::Cmd_BeginSkillDirect(Long lSkillNo, Entity *pTar, bool bIntelligent)
 {T_B
-	if (!pTar || !g_pGameApp->IsMapEntity(pTar->GetID(), pTar->GetHandle())) // ¶ÔÏóÎŞĞ§
+	if (!pTar || !g_pGameApp->IsMapEntity(pTar->GetID(), pTar->GetHandle())) // å¯¹è±¡æ— æ•ˆ
 	{
-		m_CLog.Log("ÊµÌå²»´æÔÚ\n");
+		m_CLog.Log("å®ä½“ä¸å­˜åœ¨\n");
 		//m_CLog.Log("entity is inexistence\n");
 		return;
 	}
@@ -610,8 +610,8 @@ void CCharacter::Cmd_BeginSkillDirect(Long lSkillNo, Entity *pTar, bool bIntelli
 	CSkillRecord *pSkill = GetSkillRecordInfo(lSkillNo);
 	if (pSkill == NULL)
 	{
-		m_CLog.Log("¼¼ÄÜ£¨ID: %u£©²»´æÔÚ\n", lSkillNo);
-		//m_CLog.Log("skill£¨ID: %u£©is inexistence\n", lSkillNo);
+		m_CLog.Log("æŠ€èƒ½ï¼ˆID: %uï¼‰ä¸å­˜åœ¨\n", lSkillNo);
+		//m_CLog.Log("skillï¼ˆID: %uï¼‰is inexistence\n", lSkillNo);
 		return;
 	}
 
@@ -623,7 +623,7 @@ void CCharacter::Cmd_BeginSkillDirect(Long lSkillNo, Entity *pTar, bool bIntelli
 		if (pCTarCha && pCTarCha->GetMoveState() == enumMSTATE_ON)
 			Path[1].move(pCTarCha->GetAngle(), 400);
 	}
-	if (SkillTarIsEntity(pSkill)) // ×÷ÓÃ¶ÔÏóÊÇID
+	if (SkillTarIsEntity(pSkill)) // ä½œç”¨å¯¹è±¡æ˜¯ID
 	{
 		lTarInfo1 = pTar->GetID();
 		lTarInfo2 = pTar->GetHandle();
@@ -641,7 +641,7 @@ void CCharacter::Cmd_BeginSkillDirect2(Long lSkillNo, Long lSkillLv, Long lPosX,
 	CSkillRecord *pSkill = GetSkillRecordInfo(lSkillNo);
 	if (pSkill == NULL)
 	{
-		m_CLog.Log("¼¼ÄÜ£¨ID: %u£©²»´æÔÚ\n", lSkillNo);
+		m_CLog.Log("æŠ€èƒ½ï¼ˆID: %uï¼‰ä¸å­˜åœ¨\n", lSkillNo);
 		//m_CLog.Log("skill(ID: %u)is inexistence\n", lSkillNo);
 		return;
 	}
@@ -650,10 +650,10 @@ void CCharacter::Cmd_BeginSkillDirect2(Long lSkillNo, Long lSkillLv, Long lPosX,
 	Path[0] = GetPos();
 	Path[1].x = lPosX;
 	Path[1].y = lPosY;
-	if (SkillTarIsEntity(pSkill)) // ×÷ÓÃ¶ÔÏóÊÇID
+	if (SkillTarIsEntity(pSkill)) // ä½œç”¨å¯¹è±¡æ˜¯ID
 	{
-		m_CLog.Log("¼¼ÄÜ£¨ID: %u£©µÄ¶ÔÏó²»ÊÇ×ø±êµã\n", lSkillNo);
-		//m_CLog.Log("skill£¨ID: %u£©'s object isn't the coordinate point\n", lSkillNo);
+		m_CLog.Log("æŠ€èƒ½ï¼ˆID: %uï¼‰çš„å¯¹è±¡ä¸æ˜¯åæ ‡ç‚¹\n", lSkillNo);
+		//m_CLog.Log("skillï¼ˆID: %uï¼‰'s object isn't the coordinate point\n", lSkillNo);
 		return;
 	}
 
@@ -661,19 +661,19 @@ void CCharacter::Cmd_BeginSkillDirect2(Long lSkillNo, Long lSkillLv, Long lPosX,
 T_E}
 
 //=============================================================================
-// Ê¹ÓÃµÀ¾ß
+// ä½¿ç”¨é“å…·
 //=============================================================================
 Short CCharacter::Cmd_UseItem(Short sSrcKbPage, Short sSrcKbGrid, Short sTarKbPage, Short sTarKbGrid)
 {T_B
-	if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+	if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 		return enumITEMOPT_ERROR_KBLOCK;
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 	//add by ALLEN 2007-10-16
-    if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+    if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
    
-    if(GetPlyMainCha()->GetStallData())     //  ¸´ÖÆBUG, °ÚÌ¯×´Ì¬
+    if(GetPlyMainCha()->GetStallData())     //  å¤åˆ¶BUG, æ‘†æ‘ŠçŠ¶æ€
     {
         return enumITEMOPT_ERROR_KBLOCK;
     }
@@ -685,7 +685,7 @@ Short CCharacter::Cmd_UseItem(Short sSrcKbPage, Short sSrcKbGrid, Short sTarKbPa
     if(GetPlyMainCha()->GetPlayer()->GetBankNpc() && pSGridCont->sID != 15044){
         return enumITEMOPT_ERROR_KBLOCK;
     }
-	if (GetPlyMainCha()->HasTradeAction() && pSGridCont->sID != 15044)   //  ¸´ÖÆBUG, ½»Ò××´Ì¬
+	if (GetPlyMainCha()->HasTradeAction() && pSGridCont->sID != 15044)   //  å¤åˆ¶BUG, äº¤æ˜“çŠ¶æ€
 	{
 		return enumITEMOPT_ERROR_KBLOCK;
 	}
@@ -702,9 +702,9 @@ Short CCharacter::Cmd_UseItem(Short sSrcKbPage, Short sSrcKbGrid, Short sTarKbPa
 	}*/
 
 	Short	sUseRet;
-	if (pCItemRec->szAbleLink[0] == -1) // ÏûºÄÀà
+	if (pCItemRec->szAbleLink[0] == -1) // æ¶ˆè€—ç±»
 		sUseRet = Cmd_UseExpendItem(sSrcKbPage, sSrcKbGrid, sTarKbPage, sTarKbGrid);
-	else // ×°±¸Àà
+	else // è£…å¤‡ç±»
 		sUseRet = Cmd_UseEquipItem(sSrcKbPage, sSrcKbGrid, true, sTarKbGrid==-2);
 
 	if (sUseRet == enumITEMOPT_SUCCESS && pCItemRec->IsSendUseItem())
@@ -714,7 +714,7 @@ Short CCharacter::Cmd_UseItem(Short sSrcKbPage, Short sSrcKbGrid, Short sTarKbPa
 T_E}
 
 //=============================================================================
-// Ê¹ÓÃ×°±¸ÀàµÀ¾ß
+// ä½¿ç”¨è£…å¤‡ç±»é“å…·
 //=============================================================================
 Short CCharacter::Cmd_UseEquipItem(Short sKbPage, Short sKbGrid, bool bRefresh, bool rightHand)
 {T_B
@@ -772,13 +772,13 @@ Short CCharacter::Cmd_UseEquipItem(Short sKbPage, Short sKbGrid, bool bRefresh, 
 	{
 		if (pCItemRec->szAbleLink[i] == cchItemRecordKeyValue)
 			break;
-		if (m_SChaPart.SLink[pCItemRec->szAbleLink[i]].sID == 0) // ÕÒµ½×°±¸µÄÎ»ÖÃ
+		if (m_SChaPart.SLink[pCItemRec->szAbleLink[i]].sID == 0) // æ‰¾åˆ°è£…å¤‡çš„ä½ç½®
 		{
 			chEquipPos = pCItemRec->szAbleLink[i];
 			break;
 		}
 	}
-	if (chEquipPos == -1) // Ã»ÓĞÕÒµ½×°±¸Î»ÖÃ£¬Ôò×°±¸µ½ÓÅÏÈÎ»ÖÃ
+	if (chEquipPos == -1) // æ²¡æœ‰æ‰¾åˆ°è£…å¤‡ä½ç½®ï¼Œåˆ™è£…å¤‡åˆ°ä¼˜å…ˆä½ç½®
 		chEquipPos = pCItemRec->szAbleLink[0];
 
 	Short	sUnfixRet = enumITEMOPT_ERROR_NONE;
@@ -854,22 +854,22 @@ Short CCharacter::Cmd_UseEquipItem(Short sKbPage, Short sKbGrid, bool bRefresh, 
 	if (bRefresh)
 	{
 		GetPlyMainCha()->m_CSkillBag.SetChangeFlag(false);
-		GetPlyCtrlCha()->SkillRefresh(); // ¼¼ÄÜ¼ì²â
+		GetPlyCtrlCha()->SkillRefresh(); // æŠ€èƒ½æ£€æµ‹
 		GetPlyMainCha()->SynSkillBag(enumSYN_SKILLBAG_MODI);
 
-		// Í¬²½×´Ì¬
+		// åŒæ­¥çŠ¶æ€
 		SynSkillStateToEyeshot();
 
-		// Í¨ÖªÊÓÒ°£¬¸üĞÂÍâ¹Û
+		// é€šçŸ¥è§†é‡ï¼Œæ›´æ–°å¤–è§‚
 		if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
 			SynLook(LOOK_SELF, true); // sync to self
 		else
 			SynLook();
 
-		// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+		// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 		SynKitbagNew(enumSYN_KITBAG_EQUIP);
 
-		// ÖØĞÂ¼ÆËãÊôĞÔ
+		// é‡æ–°è®¡ç®—å±æ€§
 		g_CParser.DoString("AttrRecheck", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 		if (GetPlayer())
 		{
@@ -885,7 +885,7 @@ Short CCharacter::Cmd_UseEquipItem(Short sKbPage, Short sKbGrid, bool bRefresh, 
 T_E}
 
 //=============================================================================
-// Ê¹ÓÃÏûºÄÀàµÀ¾ß
+// ä½¿ç”¨æ¶ˆè€—ç±»é“å…·
 //=============================================================================
 Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPage, Short sTarKbGrid, bool bRefresh)
 {T_B
@@ -917,7 +917,7 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 	SItemGrid	*pSTarGridCont = m_CKitbag.GetGridContByID(sTarKbGrid, sTarKbPage);
 
 	if (pSTarGridCont && pSTarGridCont->dwDBID != 0){
-		SystemNotice("Ä¿±êËø¶¨.");
+		SystemNotice("ç›®æ ‡é”å®š.");
 		return enumITEMOPT_ERROR_NONE;
 	}
 
@@ -925,20 +925,20 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 	if (!pCItemRec)
 		return enumITEMOPT_ERROR_NONE;
 	if (pCItemRec->sType == enumItemTypeScroll)
-		if (GetPlyCtrlCha()->IsBoat()) // ´¬ĞÎÌ¬²»ÄÜÊ¹ÓÃ»Ø³Ç¾í
+		if (GetPlyCtrlCha()->IsBoat()) // èˆ¹å½¢æ€ä¸èƒ½ä½¿ç”¨å›åŸå·
 			return enumITEMOPT_ERROR_UNUSE;
 
-	//	ÑîÓ¡Óî2007-11-22 add begin!
-	//	Ë®ÉÏ²»ÄÜÊ¹ÓÃÂ½µØµÀ¾ß£¬ÓÈÆäÊÇ²¹ÑªµÀ¾ß.
+	//	æ¨å°å®‡2007-11-22 add begin!
+	//	æ°´ä¸Šä¸èƒ½ä½¿ç”¨é™†åœ°é“å…·ï¼Œå°¤å…¶æ˜¯è¡¥è¡€é“å…·.
 	//if(	pCItemRec
 	//	&&	pCItemRec->chPickTo
 	//	&&	GetPlyCtrlCha()->IsBoat()
 	//	)
 	//	return	enumITEMOPT_ERROR_UNUSE;
-	//	ÑîÓ¡Óî2007-11-22 add end!
+	//	æ¨å°å®‡2007-11-22 add end!
 
 
-	// Ğ§¹û¼ÆËã
+	// æ•ˆæœè®¡ç®—
 	bool	bUseSuccess;
 	if (strcmp(pCItemRec->szAttrEffect, "0") == 0)
 	{
@@ -962,13 +962,13 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 
 		g_CParser.DoString(pCItemRec->szAttrEffect, enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 3, this, pSGridCont, pSTarGridCont, DOSTRING_PARAM_END);
 		
-		if (g_chUseItemFailed[0] == 1) // Ê¹ÓÃµÀ¾ßÊ§°Ü
+		if (g_chUseItemFailed[0] == 1) // ä½¿ç”¨é“å…·å¤±è´¥
 			bUseSuccess = false;
 		else
 			bUseSuccess = true;
 
 		// Add by lark.li 20080721 begin
-		// µÀ¾ß¸øÈÎÎñ³É¹¦
+		// é“å…·ç»™ä»»åŠ¡æˆåŠŸ
 		if (g_chUseItemGiveMission[0] == 1)
 		{
 			return enumITEMOPT_SUCCESS;
@@ -987,10 +987,10 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 
 	SItemGrid	SGridCont;
 	SGridCont.sNum = 1;
-	if (KbPopItem(false, false, &SGridCont, sKbGrid, sKbPage) != enumKBACT_SUCCESS) // ÕâÖÖÇé¿ö²»Ó¦¸Ã³öÏÖ
+	if (KbPopItem(false, false, &SGridCont, sKbGrid, sKbPage) != enumKBACT_SUCCESS) // è¿™ç§æƒ…å†µä¸åº”è¯¥å‡ºç°
 		return enumITEMOPT_ERROR_NONE;
 
-	// Ë¢ĞÂÈÎÎñµÀ¾ß¼ÆÊı
+	// åˆ·æ–°ä»»åŠ¡é“å…·è®¡æ•°
 	RefreshNeedItem( SGridCont.sID );
 
 	char	szPlyName[100];
@@ -999,19 +999,19 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 	else
 		sprintf(szPlyName, "%s", GetName());
 	char	szMsg[128];
-	//sprintf(szMsg, "ÏûºÄµÀ¾ß£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", pCItemRec->szName, SGridCont.sID, SGridCont.sNum);
+	//sprintf(szMsg, "æ¶ˆè€—é“å…·ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", pCItemRec->szName, SGridCont.sID, SGridCont.sNum);
 	sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00001), pCItemRec->szName, SGridCont.sID, SGridCont.sNum);
 	TL(CHA_EXPEND, szPlyName, "", szMsg);
 
 	if (bRefresh)
 	{
-		// Í¬²½×´Ì¬
+		// åŒæ­¥çŠ¶æ€
 		SynSkillStateToEyeshot();
 
-		// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+		// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 		SynKitbagNew(enumSYN_KITBAG_EQUIP);
 
-		// ÖØĞÂ¼ÆËãÊôĞÔ
+		// é‡æ–°è®¡ç®—å±æ€§
 		g_CParser.DoString("AttrRecheck", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 		if (GetPlayer())
 		{
@@ -1025,12 +1025,12 @@ Short CCharacter::Cmd_UseExpendItem(Short sKbPage, Short sKbGrid, Short sTarKbPa
 T_E}
 
 //=============================================================================
-// Ğ¶³ı×°±¸
-// chLinkID ×°±¸²¿Î»
-// psItemNum Ğ¶³ıµÀ¾ßÊıÄ¿£¬0±íÊ¾È«²¿Ğ¶³ı.³É¹¦²Ù×÷ºó·µ»ØÊµ¼ÊÍê³ÉÊıÄ¿
-// chDir Ğ¶×°·½Ïò£¨0 µØÃæ£¬´ËÊ±[lParam1£¬lParam2]±íÊ¾×ø±êxy£»
-// 1 µÀ¾ßÀ¸£¬´ËÊ±[lParam1£¬lParam2]±íÊ¾µÀ¾ßÀ¸Ò³ºÅºÍÎ»ºÅ£¬Èç¹ûµÀ¾ßÀ¸ÒÑÂú£¬ÔòÊ§°Ü£»
-// 2 É¾³ıµÀ¾ß£©
+// å¸é™¤è£…å¤‡
+// chLinkID è£…å¤‡éƒ¨ä½
+// psItemNum å¸é™¤é“å…·æ•°ç›®ï¼Œ0è¡¨ç¤ºå…¨éƒ¨å¸é™¤.æˆåŠŸæ“ä½œåè¿”å›å®é™…å®Œæˆæ•°ç›®
+// chDir å¸è£…æ–¹å‘ï¼ˆ0 åœ°é¢ï¼Œæ­¤æ—¶[lParam1ï¼ŒlParam2]è¡¨ç¤ºåæ ‡xyï¼›
+// 1 é“å…·æ ï¼Œæ­¤æ—¶[lParam1ï¼ŒlParam2]è¡¨ç¤ºé“å…·æ é¡µå·å’Œä½å·ï¼Œå¦‚æœé“å…·æ å·²æ»¡ï¼Œåˆ™å¤±è´¥ï¼›
+// 2 åˆ é™¤é“å…·ï¼‰
 //=============================================================================
 Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Long lParam1, Long lParam2, bool bPriority, bool bRefresh, bool bForcible)
 {T_B
@@ -1038,7 +1038,7 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 	{
 		if (!GetActControl(enumACTCONTROL_ITEM_OPT))
 			return enumITEMOPT_ERROR_STATE;
-		if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+		if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 			return enumITEMOPT_ERROR_KBLOCK;
 	}
 	if (chLinkID < 0 || chLinkID >= enumEQUIP_NUM)
@@ -1046,14 +1046,14 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 
 	if (m_SChaPart.SLink[chLinkID].sID == 0)
 		return enumITEMOPT_SUCCESS;
-	else if (m_SChaPart.SLink[chLinkID].sID == enumEQUIP_BOTH_HAND) // Ë«ÊÖµÀ¾ß
+	else if (m_SChaPart.SLink[chLinkID].sID == enumEQUIP_BOTH_HAND) // åŒæ‰‹é“å…·
 	{
-		if (chLinkID == enumEQUIP_LHAND) // Ö÷ÌåÔÚÓÒÊÖ
+		if (chLinkID == enumEQUIP_LHAND) // ä¸»ä½“åœ¨å³æ‰‹
 			chLinkID = enumEQUIP_RHAND;
-		else // Ö÷ÌåÔÚ×óÊÖ
+		else // ä¸»ä½“åœ¨å·¦æ‰‹
 			chLinkID = enumEQUIP_LHAND;
 	}
-	else if (m_SChaPart.SLink[chLinkID].sID == enumEQUIP_TOTEM) // Í¼ÌÚµÀ¾ß
+	else if (m_SChaPart.SLink[chLinkID].sID == enumEQUIP_TOTEM) // å›¾è…¾é“å…·
 	{
 		chLinkID = enumEQUIP_BODY;
 	}
@@ -1063,7 +1063,7 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 	if (!pCItemRec)
 		return enumITEMOPT_ERROR_NONE;
 
-	if (bPriority)// ÏÈĞ¶µÍÓÅÏÈ¼¶µÄÎ»ÖÃ
+	if (bPriority)// å…ˆå¸ä½ä¼˜å…ˆçº§çš„ä½ç½®
 	{
 		char	chAbleL;
 		for (int i = 0; i < enumEQUIP_NUM; i++)
@@ -1093,15 +1093,15 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 	SUnfixCont.sNum = *psItemNum;
 
 	CCharacter	*pCCtrlCha = GetPlyCtrlCha(), *pCMainCha = GetPlyMainCha();
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨,²»ÄÜĞ¶ÔØµ½µÀ¾ßÀ¸
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š,ä¸èƒ½å¸è½½åˆ°é“å…·æ 
         return enumITEMOPT_ERROR_KBLOCK;
 	//add by ALLEN 2007-10-16
-		if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé,²»ÄÜĞ¶ÔØµ½µÀ¾ßÀ¸
+		if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦,ä¸èƒ½å¸è½½åˆ°é“å…·æ 
         return enumITEMOPT_ERROR_KBLOCK;
-	if (chDir == 1) // Èç¹ûÊÇĞ¶×°µ½µÀ¾ßÀ¸£¬Ôò¼ì²âÊÇ·ñ¿ÉÒÔ·ÅÏÂ
+	if (chDir == 1) // å¦‚æœæ˜¯å¸è£…åˆ°é“å…·æ ï¼Œåˆ™æ£€æµ‹æ˜¯å¦å¯ä»¥æ”¾ä¸‹
 	{
 		Short sKbPushRet = KbPushItem(false, false, &SUnfixCont, (Short&)lParam2, (Short)lParam1);
-		if (sKbPushRet == enumKBACT_ERROR_FULL) // ±³°üÒÑÂú£¬Ôò²»ÄÜ²Ù×÷
+		if (sKbPushRet == enumKBACT_ERROR_FULL) // èƒŒåŒ…å·²æ»¡ï¼Œåˆ™ä¸èƒ½æ“ä½œ
 		{
 			return enumITEMOPT_ERROR_KBFULL;
 			//chDir = 0;
@@ -1110,12 +1110,12 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 		else if (sKbPushRet != enumKBACT_SUCCESS)
 			return enumITEMOPT_ERROR_NONE;
 	}
-	if (chDir == 0) // Ğ¶×°µ½µØÃæ
+	if (chDir == 0) // å¸è£…åˆ°åœ°é¢
 	{
 		pCItemRec = GetItemRecordInfo(SUnfixCont.sID);
 		if (!pCItemRec)
 			return enumITEMOPT_ERROR_NONE;
-		if(pCItemRec->chIsThrow != 1) // ²»¿É¶ªÆú
+		if(pCItemRec->chIsThrow != 1) // ä¸å¯ä¸¢å¼ƒ
 			return enumITEMOPT_ERROR_UNTHROW;
 
 		if(	SUnfixCont.dwDBID	)
@@ -1134,19 +1134,19 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 		else
 			sprintf(szPlyName, "%s", GetName());
 		char	szMsg[128];
-		//sprintf(szMsg, "ÈÓµÀ¾ß£¨Ğ¶µ½µØÃæ£©£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", pCItemRec->szName, SUnfixCont.sID, *psItemNum);
+		//sprintf(szMsg, "æ‰”é“å…·ï¼ˆå¸åˆ°åœ°é¢ï¼‰ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", pCItemRec->szName, SUnfixCont.sID, *psItemNum);
 		sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00002), pCItemRec->szName, SUnfixCont.sID, *psItemNum);
 		TL(CHA_SYS, szPlyName, "", szMsg);
 	}
-	else // É¾³ıµÀ¾ß
+	else // åˆ é™¤é“å…·
 	{
 	}
 
-	if (*psItemNum == m_SChaPart.SLink[chLinkID].sNum) // È«²¿Ğ¶³ı
+	if (*psItemNum == m_SChaPart.SLink[chLinkID].sNum) // å…¨éƒ¨å¸é™¤
 	{
 		ChangeItem(0, m_SChaPart.SLink + chLinkID, chLinkID);
 
-		// ÖØÖÃ¸ÃµÀ¾ßËùÕ¼µÄLinkµã
+		// é‡ç½®è¯¥é“å…·æ‰€å çš„Linkç‚¹
 		if (pCItemRec->szNeedLink[0] == -1)
 		{
 			m_SChaPart.SLink[chLinkID].sID = 0;
@@ -1174,19 +1174,19 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 	if (bRefresh)
 	{
 		GetPlyMainCha()->m_CSkillBag.SetChangeFlag(false);
-		GetPlyCtrlCha()->SkillRefresh(); // ¼¼ÄÜ¼ì²â
+		GetPlyCtrlCha()->SkillRefresh(); // æŠ€èƒ½æ£€æµ‹
 		GetPlyMainCha()->SynSkillBag(enumSYN_SKILLBAG_MODI);
 
-		// Í¬²½×´Ì¬
+		// åŒæ­¥çŠ¶æ€
 		SynSkillStateToEyeshot();
 
-		// Í¨ÖªÊÓÒ°£¬¸üĞÂÍâ¹Û
+		// é€šçŸ¥è§†é‡ï¼Œæ›´æ–°å¤–è§‚
 		if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
 			SynLook(LOOK_SELF, true); // sync to self
 		else
 			SynLook();
 
-		// ÖØĞÂ¼ÆËãÊôĞÔ
+		// é‡æ–°è®¡ç®—å±æ€§
 		g_CParser.DoString("AttrRecheck", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 		if (GetPlayer())
 		{
@@ -1195,7 +1195,7 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 		}
 		SynAttrToSelf(enumATTRSYN_ITEM_EQUIP);
 
-		// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+		// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 		if (bOptKb)
 			SynKitbagNew(enumSYN_KITBAG_UNFIX);
 	}
@@ -1204,8 +1204,8 @@ Short CCharacter::Cmd_UnfixItem(Char chLinkID, Short *psItemNum, Char chDir, Lon
 T_E}
 
 //=================================================================================================
-// ¼ñµÀ¾ß
-// µÀ¾ßµÄWorldID£¬Handle
+// æ¡é“å…·
+// é“å…·çš„WorldIDï¼ŒHandle
 #include "item.h"
 //=================================================================================================
 Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
@@ -1223,25 +1223,25 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 	if( pItem == NULL )
 		return enumITEMOPT_ERROR_NONE;
 
-	if(pItem->chIsPick != 1) // ²»¿ÉÊ°È¡
+	if(pItem->chIsPick != 1) // ä¸å¯æ‹¾å–
 		return enumITEMOPT_ERROR_UNPICKUP;
 
 	CCharacter	*pCCtrlCha = GetPlyCtrlCha(), *pCMainCha = GetPlyMainCha();
-	// ÅĞ¶ÏÊ°È¡Àà±ğ
+	// åˆ¤æ–­æ‹¾å–ç±»åˆ«
 	SubMap	*pCMap = pCCtrlCha->GetSubMapFar();
 	if (!pCMap)
 		return enumITEMOPT_ERROR_KBLOCK;
 	uShort	usAreaAttr = pCMap->GetAreaAttr(pCEnt->GetPos());
-	if ((g_IsLand(usAreaAttr) != g_IsLand(GetAreaAttr())) && (g_IsLand(usAreaAttr))) //½ÇÉ«ËùÔÚµÄÇøÓò²»Í¬ÓÚµÀ¾ß
+	if ((g_IsLand(usAreaAttr) != g_IsLand(GetAreaAttr())) && (g_IsLand(usAreaAttr))) //è§’è‰²æ‰€åœ¨çš„åŒºåŸŸä¸åŒäºé“å…·
 		return enumITEMOPT_ERROR_AREA;
 
 	CCharacter	*pKitbagCha = this;
 	CKitbag	*pCKitbag = &m_CKitbag;
-	if (!g_IsLand(usAreaAttr)) // º£Ãæ
+	if (!g_IsLand(usAreaAttr)) // æµ·é¢
 	{
 		if (!IsBoat())
 			return enumITEMOPT_ERROR_DISTANCE;
-		if (pItem->chPickTo == enumITEM_PICKTO_KITBAG) // µÀ¾ß·ÅÈë±³°ü
+		if (pItem->chPickTo == enumITEM_PICKTO_KITBAG) // é“å…·æ”¾å…¥èƒŒåŒ…
 		{
 			pKitbagCha = GetPlayer()->GetMainCha();
 			pCKitbag = &pKitbagCha->m_CKitbag;
@@ -1251,14 +1251,14 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 	if (pCKitbag->IsLock())
 		return enumITEMOPT_ERROR_KBLOCK;
 
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 
 	//add by ALLEN 2007-10-16
-	if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+	if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
-	if (pCItem->GetProtChaID() != 0) // µÀ¾ß±£»¤ÖĞ
+	if (pCItem->GetProtChaID() != 0) // é“å…·ä¿æŠ¤ä¸­
 	{
 		if (pCItem->GetProtChaID() != pCMainCha->GetID())
 		{
@@ -1277,12 +1277,12 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 		}
 	}
 
-	// ÅĞ¶ÏÊ°È¡´¬³¤Ö¤Ã÷
+	// åˆ¤æ–­æ‹¾å–èˆ¹é•¿è¯æ˜
 	if( pItem->sType == enumItemTypeBoat )
 	{
 		if( GetPlayer()->IsBoatFull() )
 		{
-			//SystemNotice( "ÄãÉíÉÏĞ¯´øµÄ´¬Ö»ÊıÁ¿ÒÑÂú£¬²»¿ÉÒÔÔÙÊ°È¡ÎïÆ·¡¶%s¡·!", pItem->szName );
+			//SystemNotice( "ä½ èº«ä¸Šæºå¸¦çš„èˆ¹åªæ•°é‡å·²æ»¡ï¼Œä¸å¯ä»¥å†æ‹¾å–ç‰©å“ã€Š%sã€‹!", pItem->szName );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00003), pItem->szName );
 			return enumITEMOPT_ERROR_UNUSE;
 		}
@@ -1311,33 +1311,33 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 			return enumITEMOPT_ERROR_NONE;
 	}
 
-	// ¸ø½ÇÉ«Ìí¼ÓÎïÆ·Ğ¯´øµÄ´¬Ö»
+	// ç»™è§’è‰²æ·»åŠ ç‰©å“æºå¸¦çš„èˆ¹åª
 	if( pItem->sType == enumItemTypeBoat )
 	{
 		DWORD dwBoatID = pCItem->m_SGridContent.GetDBParam( enumITEMDBP_INST_ID );
-		// ±£´æÊı¾İ¿â²Ù×÷
+		// ä¿å­˜æ•°æ®åº“æ“ä½œ
 		if (SaveAssets())
 		{
 			if( !game_db.SaveBoatTempData( dwBoatID, this->GetPlayer()->GetDBChaId() ) )
 			{
-				LG( "Ê°È¡ÎïÆ·´íÎó", "½ÇÉ«¡¶%s¡·ID[0x%X]Ê°È¡ÁË´¬³¤Ö¤Ã÷£¬µ«ÊÇ´¬Ö»Êı¾İ´æ´¢Ê§°Ü!´¬Ö»Êı¾İID[0x%X]", 
-				//LG( "pick up goods error", "character¡¶%s¡·ID[0x%X]pick up captain prove£¬but boat data storage failed!boat data ID[0x%X]", 
+				LG( "æ‹¾å–ç‰©å“é”™è¯¯", "è§’è‰²ã€Š%sã€‹ID[0x%X]æ‹¾å–äº†èˆ¹é•¿è¯æ˜ï¼Œä½†æ˜¯èˆ¹åªæ•°æ®å­˜å‚¨å¤±è´¥!èˆ¹åªæ•°æ®ID[0x%X]", 
+				//LG( "pick up goods error", "characterã€Š%sã€‹ID[0x%X]pick up captain proveï¼Œbut boat data storage failed!boat data ID[0x%X]", 
 					this->GetName(), this->GetPlayer()->GetDBChaId(), dwBoatID );
 			}
 		}
 		else
 		{
-			LG( "Ê°È¡ÎïÆ·´íÎó", "½ÇÉ«¡¶%s¡·ID[0x%X]Ê°È¡ÁË´¬³¤Ö¤Ã÷£¬µ«ÊÇ±³°üÊı¾İ´æ´¢Ê§°Ü!´¬Ö»Êı¾İID[0x%X]", 
-			//LG( "pick up goods error", "character¡¶%s¡·ID[0x%X]pick up captain prove£¬but kitbag data storage failed!boat data ID[0x%X]", 
+			LG( "æ‹¾å–ç‰©å“é”™è¯¯", "è§’è‰²ã€Š%sã€‹ID[0x%X]æ‹¾å–äº†èˆ¹é•¿è¯æ˜ï¼Œä½†æ˜¯èƒŒåŒ…æ•°æ®å­˜å‚¨å¤±è´¥!èˆ¹åªæ•°æ®ID[0x%X]", 
+			//LG( "pick up goods error", "characterã€Š%sã€‹ID[0x%X]pick up captain proveï¼Œbut kitbag data storage failed!boat data ID[0x%X]", 
 				this->GetName(), this->GetPlayer()->GetDBChaId(), dwBoatID );
 		}
 
 		if( !BoatAdd( dwBoatID ) )
 		{
-			//SystemNotice( "Ê°È¡´¬³¤Ö¤Ã÷ºó£¬Ìí¼Ó´¬Ö»Ê§°Ü!ID[0x%X]", dwBoatID );
+			//SystemNotice( "æ‹¾å–èˆ¹é•¿è¯æ˜åï¼Œæ·»åŠ èˆ¹åªå¤±è´¥!ID[0x%X]", dwBoatID );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00004), dwBoatID );
-			LG( "Ê°È¡ÎïÆ·´íÎó", "½ÇÉ«¡¶%s¡·ID[0x%X]Ê°È¡ÁË´¬³¤Ö¤Ã÷£¬Ìí¼Ó´¬Ö»Ê§°Ü!´¬Ö»Êı¾İID[0x%X]", 
-			//LG( "pick up goods error", "character¡¶%s¡·ID[0x%X]pick up captain prove£¬add boat failed!boat dataID[0x%X]", 
+			LG( "æ‹¾å–ç‰©å“é”™è¯¯", "è§’è‰²ã€Š%sã€‹ID[0x%X]æ‹¾å–äº†èˆ¹é•¿è¯æ˜ï¼Œæ·»åŠ èˆ¹åªå¤±è´¥!èˆ¹åªæ•°æ®ID[0x%X]", 
+			//LG( "pick up goods error", "characterã€Š%sã€‹ID[0x%X]pick up captain proveï¼Œadd boat failed!boat dataID[0x%X]", 
 				this->GetName(), this->GetPlayer()->GetDBChaId(), dwBoatID );
 		}
 	}
@@ -1351,15 +1351,15 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 	else
 		sprintf(szPlyName, "%s", GetName());
 	char	szMsg[128];
-	//sprintf(szMsg, "¼ñµÀ¾ß£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", pItem->szName, pCItem->m_SGridContent.sID, sPickupNum);
+	//sprintf(szMsg, "æ¡é“å…·ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", pItem->szName, pCItem->m_SGridContent.sID, sPickupNum);
 	sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00005), pItem->szName, pCItem->m_SGridContent.sID, sPickupNum);
 	TL(SYS_CHA, szPlyName, "", szMsg);
 
 	//ColourNotice(0xb5eb8e, "Picked up x%d %s", sPickupNum, pItem->szName);
 
-	//¼ñÈ¡ÎïÆ·ºóÍ¨Öª¶ÓÓÑ
+	//æ¡å–ç‰©å“åé€šçŸ¥é˜Ÿå‹
 	char szTeamMsg[128];
-	//sprintf(szTeamMsg, "ÄúµÄ¶ÓÓÑ%s¼ñµ½%u¸ö%s", szPlyName, sPickupNum, pItem->szName);
+	//sprintf(szTeamMsg, "æ‚¨çš„é˜Ÿå‹%sæ¡åˆ°%uä¸ª%s", szPlyName, sPickupNum, pItem->szName);
 
 	CFormatParameter param(3);
 	param.setString(0, szPlyName);
@@ -1385,14 +1385,14 @@ Short CCharacter::Cmd_PickupItem(uLong ulID, Long lHandle)
 	return enumITEMOPT_SUCCESS;
 T_E}
 
-//ÍÏ·ÅÁÙÊ±±³°üµÄµÀ¾ß(sSrcGrid:ÁÙÊ±±³°üµÄÎ»ÖÃ   sSrcNum:ÊıÁ¿   sTarGrid:µÀ¾ßÀ¸Î»ÖÃ)
+//æ‹–æ”¾ä¸´æ—¶èƒŒåŒ…çš„é“å…·(sSrcGrid:ä¸´æ—¶èƒŒåŒ…çš„ä½ç½®   sSrcNum:æ•°é‡   sTarGrid:é“å…·æ ä½ç½®)
 Short CCharacter::Cmd_DragItem(Short sSrcGrid, Short sSrcNum, Short sTarGrid)
 {
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 
 	//add by ALLEN 2007-10-16
-	if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+	if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
     USHORT sItemID = m_pCKitbagTmp->GetID(sSrcGrid, 0);
@@ -1410,7 +1410,7 @@ Short CCharacter::Cmd_DragItem(Short sSrcGrid, Short sSrcNum, Short sTarGrid)
     SynKitbagNew(enumSYN_KITBAG_SWITCH);
     if(Grid.sNum > 0)
     {
-       // SystemNotice("µÀ¾ßÀ¸ÒÑÂú!");
+       // SystemNotice("é“å…·æ å·²æ»¡!");
 		 SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00007));
         m_pCKitbagTmp->Push(&Grid, sSrcGrid);
         SynKitbagTmpNew(enumSYN_KITBAG_SWITCH);
@@ -1422,22 +1422,22 @@ Short CCharacter::Cmd_DragItem(Short sSrcGrid, Short sSrcNum, Short sTarGrid)
     return enumITEMOPT_SUCCESS;
 }
 
-// ÈÓµÀ¾ß
-// psThrowNum ÈÓ³öÊıÄ¿£¬0ÎªÈ«²¿ÈÓ³ö£¬³É¹¦²Ù×÷ºó·µ»ØÊµ¼ÊÍê³ÉÊı
+// æ‰”é“å…·
+// psThrowNum æ‰”å‡ºæ•°ç›®ï¼Œ0ä¸ºå…¨éƒ¨æ‰”å‡ºï¼ŒæˆåŠŸæ“ä½œåè¿”å›å®é™…å®Œæˆæ•°
 Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum, Long lPosX, Long lPosY, bool bRefresh, bool bForcible)
 {T_B
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 
 	//add by ALLEN 2007-10-16
-    if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+    if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
 	if (!bForcible)
 	{
 		if (!GetActControl(enumACTCONTROL_ITEM_OPT))
 			return enumITEMOPT_ERROR_STATE;
-		if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+		if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 			return enumITEMOPT_ERROR_KBLOCK;
 	}
 
@@ -1450,7 +1450,7 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 	if( pItem == NULL )
 		return enumITEMOPT_ERROR_NONE;
 
-    //  ´¬ÉÏ²»ÔÊĞí¶ªÆúµØÃæµÀ¾ß
+    //  èˆ¹ä¸Šä¸å…è®¸ä¸¢å¼ƒåœ°é¢é“å…·
     if(IsBoat())
     {
         if(enumITEM_PICKTO_KITBAG == pItem->chPickTo)
@@ -1459,7 +1459,7 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
         }
     }
 
-	if(pItem->chIsThrow != 1) // ²»¿É¶ªÆú
+	if(pItem->chIsThrow != 1) // ä¸å¯ä¸¢å¼ƒ
 		return enumITEMOPT_ERROR_UNTHROW;
 
 	SItemGrid*	grid	=	m_CKitbag.GetGridContByID(	sKbGrid		);
@@ -1468,7 +1468,7 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 		return	enumITEMOPT_ERROR_UNTHROW;
 	};
 
-	// ÅĞ¶Ï¶ªÆú´¬³¤Ö¤Ã÷
+	// åˆ¤æ–­ä¸¢å¼ƒèˆ¹é•¿è¯æ˜
 	if( pItem->sType == enumItemTypeBoat )
 	{
 		DWORD dwBoatID = m_CKitbag.GetDBParam( enumITEMDBP_INST_ID, sKbGrid ); 
@@ -1480,7 +1480,7 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 
 		if( !BoatClear( dwBoatID ) )
 		{
-			//SystemNotice( "¶ªÆú¡¶%s¡·Ê§°Ü£¬ÄãÕıÔÚÊ¹ÓÃ¸Ã´¬!", pItem->szName );
+			//SystemNotice( "ä¸¢å¼ƒã€Š%sã€‹å¤±è´¥ï¼Œä½ æ­£åœ¨ä½¿ç”¨è¯¥èˆ¹!", pItem->szName );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00008), pItem->szName );
 			return enumITEMOPT_ERROR_UNUSE;
 		}
@@ -1491,7 +1491,7 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 	if (!pCMap)
 		return enumITEMOPT_ERROR_KBLOCK;
 	uShort	usAreaAttr = pCMap->GetAreaAttr(lPosX, lPosY);
-	if (g_IsLand(usAreaAttr) != g_IsLand(GetAreaAttr())) //½ÇÉ«ËùÔÚµÄÇøÓò²»Í¬ÓÚµÀ¾ß
+	if (g_IsLand(usAreaAttr) != g_IsLand(GetAreaAttr())) //è§’è‰²æ‰€åœ¨çš„åŒºåŸŸä¸åŒäºé“å…·
 		return enumITEMOPT_ERROR_AREA;
 
 	if (*psThrowNum != 0)
@@ -1507,15 +1507,15 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 		m_CKitbag.SetChangeFlag(false, sKbPage);
 	SItemGrid GridCont;
 	GridCont.sNum = *psThrowNum;
-	Short sRet = KbPopItem(bRefresh, bRefresh, &GridCont, sKbGrid, sKbPage); // µ¯³ö²Ù×÷²»³É¹¦
+	Short sRet = KbPopItem(bRefresh, bRefresh, &GridCont, sKbGrid, sKbPage); // å¼¹å‡ºæ“ä½œä¸æˆåŠŸ
 	if( sRet != enumKBACT_SUCCESS )
 		return enumITEMOPT_ERROR_NONE;
 	*psThrowNum = GridCont.sNum;
 
-	// Ë¢ĞÂÈÎÎñµÀ¾ß¼ÆÊı
+	// åˆ·æ–°ä»»åŠ¡é“å…·è®¡æ•°
 	RefreshNeedItem( sItemID );
 
-	// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+	// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 	if (bRefresh)
 		SynKitbagNew(enumSYN_KITBAG_THROW);
 
@@ -1525,36 +1525,36 @@ Short CCharacter::Cmd_ThrowItem(Short sKbPage, Short sKbGrid, Short *psThrowNum,
 	else
 		sprintf(szPlyName, "%s", GetName());
 	char	szMsg[128];
-	//sprintf(szMsg, "ÈÓµÀ¾ß£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", pItem->szName, GridCont.sID, GridCont.sNum);
+	//sprintf(szMsg, "æ‰”é“å…·ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", pItem->szName, GridCont.sID, GridCont.sNum);
 	sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00009), pItem->szName, GridCont.sID, GridCont.sNum);
 	TL(CHA_SYS, szPlyName, "", szMsg);
 
-	pCMap->ItemSpawn(&GridCont, lPosX, lPosY, enumITEM_APPE_THROW, pCCtrlCha->GetID(), pCMainCha->GetID(), pCMainCha->GetHandle(), 10 * 1000); // ÈÓ³öµÄµÀ¾ß½ö×ö10ÃëÊ±¼ä±£»¤
+	pCMap->ItemSpawn(&GridCont, lPosX, lPosY, enumITEM_APPE_THROW, pCCtrlCha->GetID(), pCMainCha->GetID(), pCMainCha->GetHandle(), 10 * 1000); // æ‰”å‡ºçš„é“å…·ä»…åš10ç§’æ—¶é—´ä¿æŠ¤
 
 	LogAssets(enumLASSETS_THROW);
 
 	return enumITEMOPT_SUCCESS;
 T_E}
 
-// µÀ¾ßµÄ»»Î»£¬ºÏ²¢£¬²ğ·Ö.
+// é“å…·çš„æ¢ä½ï¼Œåˆå¹¶ï¼Œæ‹†åˆ†.
 Short CCharacter::Cmd_ItemSwitchPos(Short sKbPage, Short sSrcGrid, Short sSrcNum, Short sTarGrid)
 {T_B
 	if (!GetActControl(enumACTCONTROL_ITEM_OPT))
 		return enumITEMOPT_ERROR_STATE;
 
-	if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+	if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 		return enumITEMOPT_ERROR_KBLOCK;
 
-    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 
 	//add by ALLEN 2007-10-16
-	if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+	if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
 	m_CKitbag.SetChangeFlag(false, sKbPage);
 	Short	sKbOptRet = KbRegroupItem(true, true, sSrcGrid, sSrcNum, sTarGrid);
-	if (sKbOptRet == enumKBACT_SUCCESS || sKbOptRet == enumKBACT_ERROR_FULL) // »»Î»³É¹¦£¬Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+	if (sKbOptRet == enumKBACT_SUCCESS || sKbOptRet == enumKBACT_ERROR_FULL) // æ¢ä½æˆåŠŸï¼Œé€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 		SynKitbagNew(enumSYN_KITBAG_SWITCH);
 	else if (sKbOptRet == enumKBACT_ERROR_RANGE)
 		return enumITEMOPT_ERROR_KBRANGE;
@@ -1564,43 +1564,43 @@ Short CCharacter::Cmd_ItemSwitchPos(Short sKbPage, Short sSrcGrid, Short sSrcNum
 	return enumITEMOPT_SUCCESS;
 T_E}
 
-// É¾³ıµÀ¾ß
-// psThrowNum É¾³ıÊıÄ¿£¬0ÎªÈ«²¿É¾³ı£¬³É¹¦²Ù×÷ºó·µ»ØÊµ¼ÊÍê³ÉÊı
+// åˆ é™¤é“å…·
+// psThrowNum åˆ é™¤æ•°ç›®ï¼Œ0ä¸ºå…¨éƒ¨åˆ é™¤ï¼ŒæˆåŠŸæ“ä½œåè¿”å›å®é™…å®Œæˆæ•°
 Short CCharacter::Cmd_DelItem(Short sKbPage, Short sKbGrid, dbc::Short *psThrowNum, bool bRefresh, bool bForcible)
 {T_B
 	if (!bForcible)
 	{	
 		//	2008-9-8	yangyinyu	add	begin!
-		//	Õë¶Ô	<´ò¿ªÒøĞĞºóÍæ¼ÒµÄ±³°üÊµ¼ÊÊÇËø¶¨µÄ£¬ÎŞ·¨½øĞĞÈÎºÎµÄ²Ù×÷£¬ÏÖÔÚ¸Ã¹¦ÄÜÎŞĞ§¹û£¬Íæ¼Ò¿ÉÒÔ¶ªÆúºÍÉ¾³ıÎïÆ·>	½øĞĞµÄĞŞ¸Ä¡£
+		//	é’ˆå¯¹	<æ‰“å¼€é“¶è¡Œåç©å®¶çš„èƒŒåŒ…å®é™…æ˜¯é”å®šçš„ï¼Œæ— æ³•è¿›è¡Œä»»ä½•çš„æ“ä½œï¼Œç°åœ¨è¯¥åŠŸèƒ½æ— æ•ˆæœï¼Œç©å®¶å¯ä»¥ä¸¢å¼ƒå’Œåˆ é™¤ç‰©å“>	è¿›è¡Œçš„ä¿®æ”¹ã€‚
 		if(	GetPlyMainCha()->m_CKitbag.IsLock()	)
 			return	enumITEMOPT_ERROR_KBLOCK;
 		//	2008-9-8	yangyinyu	add	end!
 
-		if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+		if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
 			return enumITEMOPT_ERROR_KBLOCK;
 
 		if (!GetActControl(enumACTCONTROL_ITEM_OPT))
 			return enumITEMOPT_ERROR_STATE;
 		//add by ALLEN 2007-10-16
-		if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+		if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
 			return enumITEMOPT_ERROR_KBLOCK;
-		if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+		if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 			return enumITEMOPT_ERROR_KBLOCK;
 	}
 
 	USHORT sItemID = m_CKitbag.GetID(sKbGrid, sKbPage);
 	USHORT sItemNum = m_CKitbag.GetNum(sKbGrid, sKbPage);
-	// ÅĞ¶ÏÊÇ·ñ´¬³¤Ö¤Ã÷µÀ¾ß
+	// åˆ¤æ–­æ˜¯å¦èˆ¹é•¿è¯æ˜é“å…·
 	CItemRecord* pItem = GetItemRecordInfo( sItemID );
 	if( pItem == NULL )
 		return enumITEMOPT_ERROR_NONE;
 
-	if(pItem->chIsDel != 1) // ²»¿ÉÏú»Ù
+	if(pItem->chIsDel != 1) // ä¸å¯é”€æ¯
 		return enumITEMOPT_ERROR_UNDEL;
 
-	/*	2008-8-13	¸ß³¬Í¨Öª¿ÉÒÔÏú»Ù¡£
+	/*	2008-8-13	é«˜è¶…é€šçŸ¥å¯ä»¥é”€æ¯ã€‚
 	//	2008-8-1	yangyinyu	add	begin!
-	//	Ëø¶¨µÀ¾ß²»¿ÉÏú»Ù¡£
+	//	é”å®šé“å…·ä¸å¯é”€æ¯ã€‚
 	if(	m_CKitbag.GetGridContByID( sKbGrid )->dwDBID )
 	{
 		return	enumITEMOPT_ERROR_UNDEL;
@@ -1611,13 +1611,13 @@ Short CCharacter::Cmd_DelItem(Short sKbPage, Short sKbGrid, dbc::Short *psThrowN
 	//	return enumITEMOPT_ERROR_UNTHROW;
 
 	DWORD dwBoatID;
-	// ÅĞ¶Ï¶ªÆú´¬³¤Ö¤Ã÷
+	// åˆ¤æ–­ä¸¢å¼ƒèˆ¹é•¿è¯æ˜
 	if( pItem->sType == enumItemTypeBoat )
 	{
 		dwBoatID = m_CKitbag.GetDBParam( enumITEMDBP_INST_ID, sKbGrid );
 		if( !BoatClear( dwBoatID ) )
 		{
-			//SystemNotice( "Ïú»Ù¡¶%s¡·Ê§°Ü£¬ÄãÕıÔÚÊ¹ÓÃ¸Ã´¬!", pItem->szName );
+			//SystemNotice( "é”€æ¯ã€Š%sã€‹å¤±è´¥ï¼Œä½ æ­£åœ¨ä½¿ç”¨è¯¥èˆ¹!", pItem->szName );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00010), pItem->szName );
 			return enumITEMOPT_ERROR_UNUSE;
 		}
@@ -1645,12 +1645,12 @@ Short CCharacter::Cmd_DelItem(Short sKbPage, Short sKbGrid, dbc::Short *psThrowN
 
 	SItemGrid GridCont;
 	GridCont.sNum = *psThrowNum;
-	Short sRet = KbPopItem(bRefresh, bRefresh, &GridCont, sKbGrid, sKbPage); // µ¯³ö²Ù×÷²»³É¹¦
+	Short sRet = KbPopItem(bRefresh, bRefresh, &GridCont, sKbGrid, sKbPage); // å¼¹å‡ºæ“ä½œä¸æˆåŠŸ
 	if( sRet != enumKBACT_SUCCESS )
 		return enumITEMOPT_ERROR_NONE;
 	*psThrowNum = GridCont.sNum;
 
-	// Ë¢ĞÂÈÎÎñµÀ¾ß¼ÆÊı
+	// åˆ·æ–°ä»»åŠ¡é“å…·è®¡æ•°
 	RefreshNeedItem( sItemID );
 
 	if (bRefresh)
@@ -1658,7 +1658,7 @@ Short CCharacter::Cmd_DelItem(Short sKbPage, Short sKbGrid, dbc::Short *psThrowN
 
 	if( pItem->sType == enumItemTypeBoat )
 	{
-		// ±£´æÊı¾İ¿â²Ù×÷
+		// ä¿å­˜æ•°æ®åº“æ“ä½œ
 		if (SaveAssets())
 		{
 			game_db.SaveBoatTempData( dwBoatID, this->GetPlayer()->GetDBChaId(), 1 );
@@ -1671,7 +1671,7 @@ Short CCharacter::Cmd_DelItem(Short sKbPage, Short sKbGrid, dbc::Short *psThrowN
 	else
 		sprintf(szPlyName, "%s", GetName());
 	char	szMsg[128];
-	//sprintf(szMsg, "É¾³ıµÀ¾ß£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", pItem->szName, sItemID, GridCont.sNum);
+	//sprintf(szMsg, "åˆ é™¤é“å…·ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", pItem->szName, sItemID, GridCont.sNum);
 	sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00011), pItem->szName, sItemID, GridCont.sNum);
 	TL(CHA_DELETE, szPlyName, "", szMsg);
 
@@ -1688,12 +1688,12 @@ Short CCharacter::Cmd_BagOfHoldingOper(Char chSrcType, Short sSrcGridID, Short s
 	bool validBag = false;
 
 	if (bagID == 0){
-		SystemNotice("Ã»ÓĞÑ¡Ôñ×°À©Õ¹´ü×Ó.");
+		SystemNotice("æ²¡æœ‰é€‰æ‹©è£…æ‰©å±•è¢‹å­.");
 		return enumITEMOPT_ERROR_KBLOCK;
 	}
 
 	if (pCMainCha->m_CKitbag.IsLock() || pCMainCha->m_CKitbag.IsPwdLocked()){
-		SystemNotice("Ä¿Ç°°üÒÑËø¶¨.");
+		SystemNotice("ç›®å‰åŒ…å·²é”å®š.");
 		return enumITEMOPT_ERROR_KBLOCK;
 	}
 
@@ -1706,7 +1706,7 @@ Short CCharacter::Cmd_BagOfHoldingOper(Char chSrcType, Short sSrcGridID, Short s
 	}
 
 	if (!validBag){
-		SystemNotice("ÄãÃ»ÓĞÀ©Õ¹´ü×Ó");
+		SystemNotice("ä½ æ²¡æœ‰æ‰©å±•è¢‹å­");
 		return enumITEMOPT_ERROR_KBLOCK;
 	}
 
@@ -1715,7 +1715,7 @@ Short CCharacter::Cmd_BagOfHoldingOper(Char chSrcType, Short sSrcGridID, Short s
 		pCSrcBag = pCMainCha->m_CKitbag;
 	}else{
 		if (!game_db.GetBagOfHolding(bagID, &pCSrcBag)){
-			SystemNotice("À©Õ¹´ü×ÓÃ»ÓĞÕÒµ½");
+			SystemNotice("æ‰©å±•è¢‹å­æ²¡æœ‰æ‰¾åˆ°");
 			return enumITEMOPT_ERROR_KBLOCK;
 		}
 	}
@@ -1726,7 +1726,7 @@ Short CCharacter::Cmd_BagOfHoldingOper(Char chSrcType, Short sSrcGridID, Short s
 			pCTarBag = pCMainCha->m_CKitbag;
 		}else{
 			if (!game_db.GetBagOfHolding(bagID, &pCTarBag)){
-				SystemNotice("À©Õ¹´ü×ÓÃ»ÓĞÕÒµ½");
+				SystemNotice("æ‰©å±•è¢‹å­æ²¡æœ‰æ‰¾åˆ°");
 				return enumITEMOPT_ERROR_KBLOCK;
 			}
 		}
@@ -1998,7 +1998,7 @@ Short CCharacter::Cmd_GuildBankOper(Char chSrcType, Short sSrcGridID, Short sSrc
 	return enumITEMOPT_SUCCESS;
 }
 
-// ÒøĞĞÏà¹Ø²Ù×÷£¨°üÀ¨£ºÒøĞĞÄÚµÀ¾ßµÄ»»Î»£¬ºÏ²¢£¬²ğ·Ö.µÀ¾ßÀ¸ÄÚµÀ¾ßµÄ»»Î»£¬ºÏ²¢£¬²ğ·Ö.ÒÔ¼°µÀ¾ßÀ¸ºÍÒøĞĞ¼äµÀ¾ßµÄ½»»»£©
+// é“¶è¡Œç›¸å…³æ“ä½œï¼ˆåŒ…æ‹¬ï¼šé“¶è¡Œå†…é“å…·çš„æ¢ä½ï¼Œåˆå¹¶ï¼Œæ‹†åˆ†.é“å…·æ å†…é“å…·çš„æ¢ä½ï¼Œåˆå¹¶ï¼Œæ‹†åˆ†.ä»¥åŠé“å…·æ å’Œé“¶è¡Œé—´é“å…·çš„äº¤æ¢ï¼‰
 Short CCharacter::Cmd_BankOper(Char chSrcType, Short sSrcGridID, Short sSrcNum, Char chTarType, Short sTarGridID)
 {T_B
 	CKitbag	*pCSrcBag, *pCTarBag;
@@ -2016,32 +2016,32 @@ Short CCharacter::Cmd_BankOper(Char chSrcType, Short sSrcGridID, Short sSrcNum, 
 		else
 			pCTarBag = GetPlayer()->GetBank();
 	}
-	if (pCSrcBag->IsLock() || pCTarBag->IsLock()) // µÀ¾ßÀ¸±»Ëø
+	if (pCSrcBag->IsLock() || pCTarBag->IsLock()) // é“å…·æ è¢«é”
 		return enumITEMOPT_ERROR_KBLOCK;
 
-    if (pCSrcBag->IsPwdLocked()) //ÃÜÂëËø¶¨
+    if (pCSrcBag->IsPwdLocked()) //å¯†ç é”å®š
         return enumITEMOPT_ERROR_KBLOCK;
 	//add by ALLEN 2007-10-16
-	if (pCMainCha->IsReadBook()) //¶ÁÊé×´Ì¬
+	if (pCMainCha->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
-	// ÔÚ´ò¿ªÒøĞĞÊ±ÒÑÓĞ¾àÀë¼ì²é
+	// åœ¨æ‰“å¼€é“¶è¡Œæ—¶å·²æœ‰è·ç¦»æ£€æŸ¥
 	if (!GetPlayer()->GetBankNpc())
 		return enumITEMOPT_ERROR_DISTANCE;
 
 	pCSrcBag->SetChangeFlag(false);
 	pCTarBag->SetChangeFlag(false);
 
-	if (pCSrcBag == pCTarBag) // ½»»»Î»ÖÃ
+	if (pCSrcBag == pCTarBag) // äº¤æ¢ä½ç½®
 	{
 		if (pCSrcBag == &pCMainCha->m_CKitbag)
 		{
-			if (!pCMainCha->KbRegroupItem(true, true, sSrcGridID, sSrcNum, sTarGridID) == enumKBACT_SUCCESS) // »»Î»³É¹¦£¬Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+			if (!pCMainCha->KbRegroupItem(true, true, sSrcGridID, sSrcNum, sTarGridID) == enumKBACT_SUCCESS) // æ¢ä½æˆåŠŸï¼Œé€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 				return enumITEMOPT_ERROR_NONE;
 		}
 		else
 		{
-			if (!pCSrcBag->Regroup(sSrcGridID, sSrcNum, sTarGridID) == enumKBACT_SUCCESS) // »»Î»³É¹¦£¬Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+			if (!pCSrcBag->Regroup(sSrcGridID, sSrcNum, sTarGridID) == enumKBACT_SUCCESS) // æ¢ä½æˆåŠŸï¼Œé€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 				return enumITEMOPT_ERROR_NONE;
 		}
 	}
@@ -2052,9 +2052,9 @@ Short CCharacter::Cmd_BankOper(Char chSrcType, Short sSrcGridID, Short sSrcNum, 
 		CItemRecord* pItem = GetItemRecordInfo(sSrcItemID);
 		if(pItem == NULL)
 			return enumITEMOPT_ERROR_NONE;
-		if (chSrcType == 0 && chTarType == 1) // ´ÓµÀ¾ßÀ¸µ½ÒøĞĞ
+		if (chSrcType == 0 && chTarType == 1) // ä»é“å…·æ åˆ°é“¶è¡Œ
 		{
-			//if(pItem->sType == enumItemTypeBoat || pItem->sType == enumItemTypeTrade || pItem->sType == enumItemTypeBravery) // d?3h?hj??3È°A?hj?È®??????h
+			//if(pItem->sType == enumItemTypeBoat || pItem->sType == enumItemTypeTrade || pItem->sType == enumItemTypeBravery) // d?3h?hj??3åŠA?hj?çŠ¬??????h
 				//return enumITEMOPT_ERROR_TYPE;
 
 			// kong@pkodev.net 09.22.2017
@@ -2106,7 +2106,7 @@ Short CCharacter::Cmd_BankOper(Char chSrcType, Short sSrcGridID, Short sSrcNum, 
 		else
 			sprintf(szPlyName, "%s", GetName());
 		char	szMsg[128];
-		//sprintf(szMsg, "ÒøĞĞ²Ù×÷[%s-->%s]£¬Ãû³Æ %s[%u]£¬¸öÊı %u.", chSrcType == 0 ? "µÀ¾ßÀ¸" : "ÒøĞĞ", chTarType == 0 ? "µÀ¾ßÀ¸" : "ÒøĞĞ", pItem->szName, sSrcItemID, sLeftNum);
+		//sprintf(szMsg, "é“¶è¡Œæ“ä½œ[%s-->%s]ï¼Œåç§° %s[%u]ï¼Œä¸ªæ•° %u.", chSrcType == 0 ? "é“å…·æ " : "é“¶è¡Œ", chTarType == 0 ? "é“å…·æ " : "é“¶è¡Œ", pItem->szName, sSrcItemID, sLeftNum);
 		sprintf(szMsg, RES_STRING(GM_CHARACTERCMD_CPP_00012), chSrcType == 0 ? RES_STRING(GM_CHARACTERCMD_CPP_00013) : RES_STRING(GM_CHARACTERCMD_CPP_00014), chTarType == 0 ? RES_STRING(GM_CHARACTERCMD_CPP_00013) : RES_STRING(GM_CHARACTERCMD_CPP_00014), pItem->szName, sSrcItemID, sLeftNum);
 		TL(CHA_BANK, szPlyName, "", szMsg);
 	}
@@ -2140,7 +2140,7 @@ void CCharacter::Cmd_ReassignAttr(RPACKET &pk)
 	Char	chAttrNum = READ_CHAR(pk);
 	if (chAttrNum <= 0 || chAttrNum > 6)
 	{
-		//SystemNotice("ÔÙ·ÖÅäÊôĞÔµÄ¸öÊı´íÎó");
+		//SystemNotice("å†åˆ†é…å±æ€§çš„ä¸ªæ•°é”™è¯¯");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00015));
 		return;
 	}
@@ -2165,19 +2165,19 @@ void CCharacter::Cmd_ReassignAttr(RPACKET &pk)
 			continue;
 		sAttrOppID = sAttrID - ATTR_STR;
 		lBaseAttr[sAttrOppID] = READ_LONG(pk);
-		if (lBaseAttr[sAttrOppID] < 0) // ÒªÉèÖÃµÄÖµĞ¡ÓÚ0
+		if (lBaseAttr[sAttrOppID] < 0) // è¦è®¾ç½®çš„å€¼å°äº0
 		{
 			bSetCorrect = false;
 			break;
 		}
-		if (lBaseAttr[sAttrOppID] > lBaseAttrBalanceVal[sAttrOppID]) // ³¬¹ı×î´óÖµ
+		if (lBaseAttr[sAttrOppID] > lBaseAttrBalanceVal[sAttrOppID]) // è¶…è¿‡æœ€å¤§å€¼
 			lBaseAttr[sAttrOppID] = lBaseAttrBalanceVal[sAttrOppID];
 
 		lAttrPoint += lBaseAttr[sAttrOppID];
 	}
 	if (!bSetCorrect || lAttrPoint > m_CChaAttr.GetAttr(ATTR_AP))
 	{
-		//SystemNotice("´íÎóµÄÊôĞÔ·ÖÅä·½°¸");
+		//SystemNotice("é”™è¯¯çš„å±æ€§åˆ†é…æ–¹æ¡ˆ");
 		return;
 	}
 
@@ -2199,12 +2199,12 @@ void CCharacter::Cmd_ReassignAttr(RPACKET &pk)
 	SynAttr(enumATTRSYN_REASSIGN);
 T_E}
 
-// ÒÆ³ıµÀ¾ß
-// lItemNum ÒÆ³ıÊı 0Îª¶ÔÓ¦Ë÷Òı£¨sFromID£©µÄÈ«²¿ÊıÄ¿
-// chFromType ÒÆ³ı²¿Î» 1£¬´Ó×°±¸À¸ÒÆ³ı.2£¬´ÓµÀ¾ßÀ¸ÒÆ³ı.0£¬´Ó×°±¸À¸ºÍµÀ¾ßÀ¸ÒÆ³ı
-// sFromID ÒÆ³ıË÷Òı -1Îª¶ÔÓ¦²¿Î»£¨chFromType£©µÄÈ«²¿Ë÷Òı
-// chToType Ä¿±ê²¿Î» 0£¬ÒÆ³ıµ½µØÃæ.1£¬µ½µÀ¾ßÀ¸.2£¬É¾³ı£¨Æäº¬ÒåÍ¬Cmd_UnfixItemº¯ÊıµÄchDir²ÎÊı£©
-// bForcible£¬ÊÇ·ñÇ¿ĞĞÒÆ³ı£¬µ±µÀ¾ßÀ¸±»Ëø»ò´æÔÚ²»ÄÜ²Ù×÷µÀ¾ßµÄ×´Ì¬Ê±£¬Ê¹ÓÃ´Ë²ÎÊı¿ÉºöÂÔÕâĞ©ÒòÊı
+// ç§»é™¤é“å…·
+// lItemNum ç§»é™¤æ•° 0ä¸ºå¯¹åº”ç´¢å¼•ï¼ˆsFromIDï¼‰çš„å…¨éƒ¨æ•°ç›®
+// chFromType ç§»é™¤éƒ¨ä½ 1ï¼Œä»è£…å¤‡æ ç§»é™¤.2ï¼Œä»é“å…·æ ç§»é™¤.0ï¼Œä»è£…å¤‡æ å’Œé“å…·æ ç§»é™¤
+// sFromID ç§»é™¤ç´¢å¼• -1ä¸ºå¯¹åº”éƒ¨ä½ï¼ˆchFromTypeï¼‰çš„å…¨éƒ¨ç´¢å¼•
+// chToType ç›®æ ‡éƒ¨ä½ 0ï¼Œç§»é™¤åˆ°åœ°é¢.1ï¼Œåˆ°é“å…·æ .2ï¼Œåˆ é™¤ï¼ˆå…¶å«ä¹‰åŒCmd_UnfixItemå‡½æ•°çš„chDirå‚æ•°ï¼‰
+// bForcibleï¼Œæ˜¯å¦å¼ºè¡Œç§»é™¤ï¼Œå½“é“å…·æ è¢«é”æˆ–å­˜åœ¨ä¸èƒ½æ“ä½œé“å…·çš„çŠ¶æ€æ—¶ï¼Œä½¿ç”¨æ­¤å‚æ•°å¯å¿½ç•¥è¿™äº›å› æ•°
 Short CCharacter::Cmd_RemoveItem(Long lItemID, Long lItemNum, Char chFromType, Short sFromID, Char chToType, Short sToID, bool bRefresh, bool bForcible)
 {T_B
     
@@ -2212,21 +2212,21 @@ Short CCharacter::Cmd_RemoveItem(Long lItemID, Long lItemNum, Char chFromType, S
 	if (!bForcible)
 	{	
 		//	2008-9-8	yangyinyu	add	begin!
-		//	Õë¶Ô	<´ò¿ªÒøĞĞºóÍæ¼ÒµÄ±³°üÊµ¼ÊÊÇËø¶¨µÄ£¬ÎŞ·¨½øĞĞÈÎºÎµÄ²Ù×÷£¬ÏÖÔÚ¸Ã¹¦ÄÜÎŞĞ§¹û£¬Íæ¼Ò¿ÉÒÔ¶ªÆúºÍÉ¾³ıÎïÆ·>	½øĞĞµÄĞŞ¸Ä¡£
+		//	é’ˆå¯¹	<æ‰“å¼€é“¶è¡Œåç©å®¶çš„èƒŒåŒ…å®é™…æ˜¯é”å®šçš„ï¼Œæ— æ³•è¿›è¡Œä»»ä½•çš„æ“ä½œï¼Œç°åœ¨è¯¥åŠŸèƒ½æ— æ•ˆæœï¼Œç©å®¶å¯ä»¥ä¸¢å¼ƒå’Œåˆ é™¤ç‰©å“>	è¿›è¡Œçš„ä¿®æ”¹ã€‚
 		if(	GetPlyMainCha()->m_CKitbag.IsLock()	)
 			return	enumITEMOPT_ERROR_KBLOCK;
 		//	2008-9-8	yangyinyu	add	end!
 
-		if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //ÃÜÂëËø¶¨
+		if (GetPlyMainCha()->m_CKitbag.IsPwdLocked()) //å¯†ç é”å®š
 			 return enumITEMOPT_ERROR_KBLOCK;
 
 		//add by ALLEN 2007-10-16
-		if (GetPlyMainCha()->IsReadBook()) //¶ÁÊé×´Ì¬
+		if (GetPlyMainCha()->IsReadBook()) //è¯»ä¹¦çŠ¶æ€
         return enumITEMOPT_ERROR_KBLOCK;
 
 		if (!GetActControl(enumACTCONTROL_ITEM_OPT))
 			return enumITEMOPT_ERROR_STATE;
-		if (m_CKitbag.IsLock()) // µÀ¾ßÀ¸±»Ëø
+		if (m_CKitbag.IsLock()) // é“å…·æ è¢«é”
 			return enumITEMOPT_ERROR_KBLOCK;
 	}
 
@@ -2242,19 +2242,19 @@ Short CCharacter::Cmd_RemoveItem(Long lItemID, Long lItemNum, Char chFromType, S
 	}
 
 	Short	sOptRet = enumITEMOPT_ERROR_NONE;
-	if (chFromType == 1 || chFromType == 0) // ´Ó×°±¸À¸ÒÆ³ı
+	if (chFromType == 1 || chFromType == 0) // ä»è£…å¤‡æ ç§»é™¤
 	{
 		Long	lParam1, lParam2;
-		if (chToType == 0) // ÒÆµ½µØÃæ
+		if (chToType == 0) // ç§»åˆ°åœ°é¢
 		{
 			GetTrowItemPos(&lParam1, &lParam2);
 		}
-		else if (chToType == 1) // ÒÆµ½µÀ¾ßÀ¸
+		else if (chToType == 1) // ç§»åˆ°é“å…·æ 
 		{
 			lParam1 = 0;
 			lParam2 = -1;
 		}
-		else if (chToType == 2) // É¾³ı
+		else if (chToType == 2) // åˆ é™¤
 		{
 		}
 
@@ -2298,18 +2298,18 @@ Short CCharacter::Cmd_RemoveItem(Long lItemID, Long lItemNum, Char chFromType, S
 			}
 		}
 	}
-	if (chFromType == 2 || chFromType == 0) // ´ÓµÀ¾ßÀ¸ÒÆ³ı
+	if (chFromType == 2 || chFromType == 0) // ä»é“å…·æ ç§»é™¤
 	{
 		Long	lParam1, lParam2;
 		if (sFromID >= 0 && sFromID < m_CKitbag.GetCapacity())
 		{
 			Short	sOptNum = (Short)lItemNum;
-			if (chToType == 0) // ÒÆµ½µØÃæ
+			if (chToType == 0) // ç§»åˆ°åœ°é¢
 			{
 				GetTrowItemPos(&lParam1, &lParam2);
 				sOptRet = Cmd_ThrowItem(0, sFromID, &sOptNum, lParam1, lParam2, false, bForcible);
 			}
-			else if (chToType == 2) // É¾³ı
+			else if (chToType == 2) // åˆ é™¤
 				sOptRet = Cmd_DelItem(0, sFromID, &sOptNum, false, bForcible);
 			if (sOptRet == enumITEMOPT_SUCCESS)
 			{
@@ -2335,12 +2335,12 @@ Short CCharacter::Cmd_RemoveItem(Long lItemID, Long lItemNum, Char chFromType, S
 					if (m_CKitbag.GetID(sPosID) == (Short)lItemID)
 					{
 						sOptNum = (Short)lItemNum;
-						if (chToType == 0) // ÒÆµ½µØÃæ
+						if (chToType == 0) // ç§»åˆ°åœ°é¢
 						{
 							GetTrowItemPos(&lParam1, &lParam2);
 							sOptRet = Cmd_ThrowItem(0, sPosID, &sOptNum, lParam1, lParam2, false, bForcible);
 						}
-						else if (chToType == 2) // É¾³ı
+						else if (chToType == 2) // åˆ é™¤
 							sOptRet = Cmd_DelItem(0, sPosID, &sOptNum, false, bForcible);
 						if (sOptRet == enumITEMOPT_SUCCESS)
 						{
@@ -2364,19 +2364,19 @@ ItemRemoveEnd:
 		if (bEquipChange)
 		{
 			GetPlyMainCha()->m_CSkillBag.SetChangeFlag(false);
-			GetPlyCtrlCha()->SkillRefresh(); // ¼¼ÄÜ¼ì²â
+			GetPlyCtrlCha()->SkillRefresh(); // æŠ€èƒ½æ£€æµ‹
 			GetPlyMainCha()->SynSkillBag(enumSYN_SKILLBAG_MODI);
 
-			// Í¬²½×´Ì¬
+			// åŒæ­¥çŠ¶æ€
 			SynSkillStateToEyeshot();
 
-			// Í¨ÖªÊÓÒ°£¬¸üĞÂÍâ¹Û
+			// é€šçŸ¥è§†é‡ï¼Œæ›´æ–°å¤–è§‚
 			if (g_Config.m_bBlindChaos && IsPlayerCha() && IsPKSilver())
 				SynLook(LOOK_SELF, true); // sync to self (item removed from inventory)
 			else
 				SynLook();
 
-			// ÖØĞÂ¼ÆËãÊôĞÔ
+			// é‡æ–°è®¡ç®—å±æ€§
 			g_CParser.DoString("AttrRecheck", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 			if (GetPlayer())
 			{
@@ -2385,20 +2385,20 @@ ItemRemoveEnd:
 			}
 			SynAttrToSelf(enumATTRSYN_ITEM_EQUIP);
 		}
-		// Í¨ÖªÖ÷½ÇµÀ¾ßÀ¸¸üĞÂ
+		// é€šçŸ¥ä¸»è§’é“å…·æ æ›´æ–°
 		SynKitbagNew(enumSYN_KITBAG_EQUIP);
 	}
 
 	return enumITEMOPT_SUCCESS;
 T_E}
 
-// ÌôÕ½ÇëÇó£¨µ¥Ìõ£¬¶ÓÎéÌôÕ½£©
+// æŒ‘æˆ˜è¯·æ±‚ï¼ˆå•æ¡ï¼Œé˜Ÿä¼æŒ‘æˆ˜ï¼‰
 void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTarHandle)
 {T_B
 	CDynMapEntryCell	*pCTeamFightEntry = g_CDMapEntry.GetEntry(g_szTFightMapName);
-	if (!pCTeamFightEntry) // Ã»ÓĞÈë¿Ú
+	if (!pCTeamFightEntry) // æ²¡æœ‰å…¥å£
 	{
-		//SystemNotice("±¾µØÍ¼²»´¦ÀíPKÇëÇó£¬»ò¶ÔÓ¦µØÍ¼Ã»ÓĞÆô¶¯!");
+		//SystemNotice("æœ¬åœ°å›¾ä¸å¤„ç†PKè¯·æ±‚ï¼Œæˆ–å¯¹åº”åœ°å›¾æ²¡æœ‰å¯åŠ¨!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00016));
 		return;
 	}
@@ -2407,26 +2407,26 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	CCharacter	*pCTarCha;
 	if (!pCTarEnti || !(pCTarCha = pCTarEnti->IsCharacter()))
 	{
-		//SystemNotice("¶ÔÏóÎŞĞ§!");
+		//SystemNotice("å¯¹è±¡æ— æ•ˆ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00017));
 		return;
 	}
 	if (!IsLiveing() || !pCTarCha->IsLiveing())
 	{
-		//SystemNotice("ËÀÍö×´Ì¬£¬²»ÄÜ½øĞĞ²Ù×÷!");
+		//SystemNotice("æ­»äº¡çŠ¶æ€ï¼Œä¸èƒ½è¿›è¡Œæ“ä½œ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00018));
 		return;
 	}
 	SubMap	*pCMap = GetSubMap(), *pCTarMap = pCTarCha->GetSubMap();
 	if (!pCMap || !(pCMap->GetAreaAttr(GetPos()) & enumAREA_TYPE_FIGHT_ASK))
 	{
-		//SystemNotice("Çëµ½Ö¸¶¨ÇøÓòÄÚÑûÇë!");
+		//SystemNotice("è¯·åˆ°æŒ‡å®šåŒºåŸŸå†…é‚€è¯·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00019));
 		return;
 	}
 	if (!pCTarMap || !(pCTarMap->GetAreaAttr(pCTarCha->GetPos()) & enumAREA_TYPE_FIGHT_ASK))
 	{
-		//SystemNotice("¶Ô·½²»ÔÚÑûÇëÇøÓòÄÚ!");
+		//SystemNotice("å¯¹æ–¹ä¸åœ¨é‚€è¯·åŒºåŸŸå†…!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00020));
 		return;
 	}
@@ -2434,26 +2434,26 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	CPlayer	*pCPly = GetPlayer(), *pCTarPly = pCTarCha->GetPlayer();
 	if (!pCPly || !pCTarPly)
 	{
-		//SystemNotice("·ÇÍæ¼Ò½ÇÉ«!");
+		//SystemNotice("éç©å®¶è§’è‰²!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00021));
 		return;
 	}
 
 	if (!IsRangePoint(pCTarCha->GetPos(), 6 * 100))
 	{
-		//SystemNotice("³¬³öÑûÇë·¶Î§!");
+		//SystemNotice("è¶…å‡ºé‚€è¯·èŒƒå›´!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00022));
 		return;
 	}
 	if (pCPly->HasChallengeObj())
 	{
-		//SystemNotice("ÄúÒÑ¾­ÓĞÆäËûµÄÑûÇë!");
+		//SystemNotice("æ‚¨å·²ç»æœ‰å…¶ä»–çš„é‚€è¯·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00023));
 		return;
 	}
 	if (pCTarPly->HasChallengeObj())
 	{
-		//SystemNotice("¶Ô·½ÒÑ¾­ÓĞÆäËûµÄÑûÇë!");
+		//SystemNotice("å¯¹æ–¹å·²ç»æœ‰å…¶ä»–çš„é‚€è¯·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00024));
 		return;
 	}
@@ -2461,13 +2461,13 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	{
 		if (pCPly->getTeamLeaderID() == 0)
 		{
-			//SystemNotice("²»ÔÚ×é¶ÓÄ£Ê½!");
+			//SystemNotice("ä¸åœ¨ç»„é˜Ÿæ¨¡å¼!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00025));
 			return;
 		}
 		if (pCTarPly->getTeamLeaderID() == 0)
 		{
-			//SystemNotice("¶Ô·½²»ÔÚ×é¶ÓÄ£Ê½!");
+			//SystemNotice("å¯¹æ–¹ä¸åœ¨ç»„é˜Ÿæ¨¡å¼!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00026));
 			return;
 		}
@@ -2476,7 +2476,7 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	{
 		if (pCTarPly->getTeamLeaderID() != 0 && pCTarPly->getTeamLeaderID() == pCPly->getTeamLeaderID())
 		{
-			//SystemNotice("Í¬Ò»¶ÓÎé²»ÄÜµ¥ÈËPK!");
+			//SystemNotice("åŒä¸€é˜Ÿä¼ä¸èƒ½å•äººPK!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00027));
 			return;
 		}
@@ -2493,7 +2493,7 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	{
 		if (!g_CParser.GetReturnNumber(0))
 		{
-			//SystemNotice("¶Ô·½²»ÄÜ½ÓÊÜÑûÇë!");
+			//SystemNotice("å¯¹æ–¹ä¸èƒ½æ¥å—é‚€è¯·!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00028));
 			return;
 		}
@@ -2503,7 +2503,7 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	WRITE_CMD(WtPk, CMD_MC_TEAM_FIGHT_ASK);
 
 	Char	chObjStart = 2;
-	// ¼º·½´¦Àí
+	// å·±æ–¹å¤„ç†
 	Char	chSrcObjNum = 0;
 	pCPly->SetChallengeType(chType);
 	pCPly->SetChallengeParam(chObjStart++, pCPly->GetID());
@@ -2531,13 +2531,13 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 			pCTeamCha = pCTeamMem->GetCtrlCha();
 			if (pCTeamMem->HasChallengeObj())
 			{
-				//pCTeamCha->SystemNotice("ÄúÒÑ¾­ÓĞÆäËûµÄÑûÇë!");
+				//pCTeamCha->SystemNotice("æ‚¨å·²ç»æœ‰å…¶ä»–çš„é‚€è¯·!");
 				pCTeamCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00023));
 				continue;
 			}
 			if (!pCTeamCha->GetSubMap() || !(pCTeamCha->GetSubMap()->GetAreaAttr(pCTeamCha->GetPos()) & enumAREA_TYPE_FIGHT_ASK))
 			{
-				//pCTeamCha->SystemNotice("Äú²»ÔÚÖ¸¶¨ÇøÓòÄÚ£¬½«²»ÄÜ½ÓÊÜÑûÇë!");
+				//pCTeamCha->SystemNotice("æ‚¨ä¸åœ¨æŒ‡å®šåŒºåŸŸå†…ï¼Œå°†ä¸èƒ½æ¥å—é‚€è¯·!");
 				pCTeamCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00029));
 				continue;
 			}
@@ -2570,7 +2570,7 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 		}
 	}
 
-	// ¶Ô·½´¦Àí
+	// å¯¹æ–¹å¤„ç†
 	Char	chTarObjNum = 0;
 	pCTarPly->SetChallengeType(chType);
 	pCTarPly->SetChallengeParam(0, 1);
@@ -2599,13 +2599,13 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 			pCTeamCha = pCTeamMem->GetCtrlCha();
 			if (pCTeamMem->HasChallengeObj())
 			{
-				//pCTeamCha->SystemNotice("ÄúÒÑ¾­ÓĞÆäËûµÄÑûÇë!");
+				//pCTeamCha->SystemNotice("æ‚¨å·²ç»æœ‰å…¶ä»–çš„é‚€è¯·!");
 				pCTeamCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00023));
 				continue;
 			}
 			if (!pCTeamCha->GetSubMap() || !(pCTeamCha->GetSubMap()->GetAreaAttr(pCTeamCha->GetPos()) & enumAREA_TYPE_FIGHT_ASK))
 			{
-				//pCTeamCha->SystemNotice("Çëµ½Ö¸¶¨ÇøÓòÄÚÑûÇë!");
+				//pCTeamCha->SystemNotice("è¯·åˆ°æŒ‡å®šåŒºåŸŸå†…é‚€è¯·!");
 				pCTeamCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00019));
 				continue;
 			}
@@ -2654,13 +2654,13 @@ void CCharacter::Cmd_FightAsk(dbc::Char chType, dbc::Long lTarID, dbc::Long lTar
 	pCPly->SetChallengeParam(1, 0);
 T_E}
 
-// ÌôÕ½Ó¦´ğ
+// æŒ‘æˆ˜åº”ç­”
 void CCharacter::Cmd_FightAnswer(bool bFight)
 {T_B
 	CPlayer	*pCPly = GetPlayer();
 	if (!pCPly->HasChallengeObj())
 	{
-		//SystemNotice("Ã»ÓĞÊÜ¹ıÑûÇë!");
+		//SystemNotice("æ²¡æœ‰å—è¿‡é‚€è¯·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00030));
 		return;
 	}
@@ -2674,7 +2674,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	pCSrcPly = g_pGameApp->IsValidPlayer(lID, lHandle);
 	if (!pCSrcPly || !pCSrcPly->HasChallengeObj())
 	{
-		//SystemNotice("¸ÃÑûÇëÒÑ¾­ÎŞĞ§!");
+		//SystemNotice("è¯¥é‚€è¯·å·²ç»æ— æ•ˆ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00031));
 		return;
 	}
@@ -2682,12 +2682,12 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	pCTarPly = g_pGameApp->IsValidPlayer(pCSrcPly->GetChallengeParam(2 + (chObjNum -1) * 2), pCSrcPly->GetChallengeParam(2 + (chObjNum -1) * 2 + 1));
 	if (!pCTarPly || !pCTarPly->HasChallengeObj())
 	{
-		//SystemNotice("¸ÃÑûÇëÒÑ¾­ÎŞĞ§!");
+		//SystemNotice("è¯¥é‚€è¯·å·²ç»æ— æ•ˆ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00031));
 		return;
 	}
 
-	// È·ÈÏÉí·İ
+	// ç¡®è®¤èº«ä»½
 	bool	bHasPly = false;
 	Char	chLoop = (Char)pCSrcPly->GetChallengeParam(0);
 	if (chLoop > MAX_TEAM_MEMBER * 2)
@@ -2697,9 +2697,9 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		if (pCSrcPly->GetChallengeParam(i * 2 + 2) == pCPly->GetID() && pCSrcPly->GetChallengeParam(i * 2 + 2 + 1) == pCPly->GetHandle())
 			bHasPly = true;
 	}
-	if (!bHasPly) // PKĞÅÏ¢ÖĞÕÒ²»µ½¸ÃÍæ¼Ò
+	if (!bHasPly) // PKä¿¡æ¯ä¸­æ‰¾ä¸åˆ°è¯¥ç©å®¶
 	{
-		//SystemNotice("²»ÔÚÊÜÑûÇëÖ®ÁĞ!");
+		//SystemNotice("ä¸åœ¨å—é‚€è¯·ä¹‹åˆ—!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00032));
 		return;
 	}
@@ -2707,7 +2707,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	if (!bFight)
 	{
 		std::string	strNoti = GetName();
-		//strNoti += " È¡ÏûÁËPKÇëÇó!";
+		//strNoti += " å–æ¶ˆäº†PKè¯·æ±‚!";
 		strNoti += RES_STRING(GM_CHARACTERCMD_CPP_00033);
 		WPACKET WtPk	= GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MC_SYSINFO);
@@ -2723,13 +2723,13 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		return;
 	}
 	pCSrcPly->SetChallengeParam(1, pCSrcPly->GetChallengeParam(1) + 1);
-	if (pCSrcPly->GetChallengeParam(0) != pCSrcPly->GetChallengeParam(1)) // ´æÔÚÃ»ÓĞÍ¬ÒâPKµÄÑûÇë¶ÔÏó
+	if (pCSrcPly->GetChallengeParam(0) != pCSrcPly->GetChallengeParam(1)) // å­˜åœ¨æ²¡æœ‰åŒæ„PKçš„é‚€è¯·å¯¹è±¡
 		return;
 
 	CDynMapEntryCell	*pCTeamFightEntry = g_CDMapEntry.GetEntry(g_szTFightMapName);
-	if (!pCTeamFightEntry) // Ã»ÓĞ¶ÓÎéPKµØÍ¼
+	if (!pCTeamFightEntry) // æ²¡æœ‰é˜Ÿä¼PKåœ°å›¾
 	{
-		//std::string	strNoti = "±¾µØÍ¼²»´¦ÀíPKÇëÇó£¬»ò¶ÔÓ¦µØÍ¼Ã»ÓĞÆô¶¯!";
+		//std::string	strNoti = "æœ¬åœ°å›¾ä¸å¤„ç†PKè¯·æ±‚ï¼Œæˆ–å¯¹åº”åœ°å›¾æ²¡æœ‰å¯åŠ¨!";
 		std::string	strNoti = RES_STRING(GM_CHARACTERCMD_CPP_00034);
 		WPACKET WtPk	= GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MC_SYSINFO);
@@ -2745,12 +2745,12 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		return;
 	}
 
-	// È¡µÃ¸±±¾ºó£¬Èç¹ûÔÙÓĞÊ§°ÜÇé¿öÓ¦¸Ã·µ»¹¸±±¾
+	// å–å¾—å‰¯æœ¬åï¼Œå¦‚æœå†æœ‰å¤±è´¥æƒ…å†µåº”è¯¥è¿”è¿˜å‰¯æœ¬
 	CMapEntryCopyCell	CMCpyCell(20, 0);
 	CMapEntryCopyCell	*pCMCpyCell;
 	if (!(pCMCpyCell = pCTeamFightEntry->AddCopy(&CMCpyCell)))
 	{
-		//std::string	strNoti = "µ±Ç°Ã»ÓĞ¿ÕÏĞ³¡µØ£¬ÇëÉÔºó²Ù×÷!";
+		//std::string	strNoti = "å½“å‰æ²¡æœ‰ç©ºé—²åœºåœ°ï¼Œè¯·ç¨åæ“ä½œ!";
 		std::string	strNoti = RES_STRING(GM_CHARACTERCMD_CPP_00035);
 		WPACKET WtPk	= GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MC_SYSINFO);
@@ -2766,9 +2766,9 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		pCSrcPly->ClearChallengeObj();
 		return;
 	}
-	if (!pCMCpyCell->HasFreePlyCount((Short)pCSrcPly->GetChallengeParam(0))) // ÊıÁ¿²»×ã
+	if (!pCMCpyCell->HasFreePlyCount((Short)pCSrcPly->GetChallengeParam(0))) // æ•°é‡ä¸è¶³
 	{
-		//std::string	strNoti = "ÇëÇó³¡µØÈËÊıÒÑÂú£¬ÇëÉÔºó²Ù×÷!";
+		//std::string	strNoti = "è¯·æ±‚åœºåœ°äººæ•°å·²æ»¡ï¼Œè¯·ç¨åæ“ä½œ!";
 		std::string	strNoti = RES_STRING(GM_CHARACTERCMD_CPP_00036);
 		WPACKET WtPk	= GETWPACKET();
 		WRITE_CMD(WtPk, CMD_MC_SYSINFO);
@@ -2790,7 +2790,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	strScript1 += pCTeamFightEntry->GetTMapName();
 	g_CParser.DoString(strScript1.c_str(), enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 3, pCMCpyCell, pCSrcPly, pCTarPly, enumSCRIPT_PARAM_NUMBER, 1, lFightType, DOSTRING_PARAM_END);
 	pCTeamFightEntry->SynCopyParam((Short)pCMCpyCell->GetPosID());
-	// ¿ªÊ¼½øÈëPKµØÍ¼
+	// å¼€å§‹è¿›å…¥PKåœ°å›¾
 	CPlayer	*pCFightMem;
 	CCharacter	*pCFightCha;
 
@@ -2811,13 +2811,13 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		pCFightCha = pCFightMem->GetCtrlCha();
 		if (!pCFightCha->IsLiveing())
 		{
-			//pCFightCha->SystemNotice("Äú´¦ÓÚËÀÍö×´Ì¬£¬½«²»ÄÜ½øÈëPK");
+			//pCFightCha->SystemNotice("æ‚¨å¤„äºæ­»äº¡çŠ¶æ€ï¼Œå°†ä¸èƒ½è¿›å…¥PK");
 			pCFightCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00037));
 			continue;
 		}
 		if (!pCFightCha->GetSubMap() || !(pCFightCha->GetSubMap()->GetAreaAttr(pCFightCha->GetPos()) & enumAREA_TYPE_FIGHT_ASK))
 		{
-			//pCFightCha->SystemNotice("Äú²»ÔÚPKÑûÇëÇøÄÚ£¬½«²»ÄÜ½øÈëPK");
+			//pCFightCha->SystemNotice("æ‚¨ä¸åœ¨PKé‚€è¯·åŒºå†…ï¼Œå°†ä¸èƒ½è¿›å…¥PK");
 			pCFightCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00038));
 			continue;
 		}
@@ -2834,7 +2834,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 				bSide2 = true;
 			else
 			{
-				//pCFightCha->SystemNotice("ÄúÒÑ¾­²»ÔÚÏÈÇ°µÄÑûÇë¶ÓÎé£¬½«²»ÄÜ½øÈëPK");
+				//pCFightCha->SystemNotice("æ‚¨å·²ç»ä¸åœ¨å…ˆå‰çš„é‚€è¯·é˜Ÿä¼ï¼Œå°†ä¸èƒ½è¿›å…¥PK");
 				pCFightCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00039));
 				continue;
 			}
@@ -2847,7 +2847,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 				bSide2 = true;
 			else
 			{
-				//pCFightCha->SystemNotice("ÄúÒÑ¾­²»ÔÚÏÈÇ°µÄÑûÇëÖ®ÁĞ£¬½«²»ÄÜ½øÈëPK");
+				//pCFightCha->SystemNotice("æ‚¨å·²ç»ä¸åœ¨å…ˆå‰çš„é‚€è¯·ä¹‹åˆ—ï¼Œå°†ä¸èƒ½è¿›å…¥PK");
 				pCFightCha->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00040));
 				continue;
 			}
@@ -2857,10 +2857,10 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 		lEnterChaNum++;
 	}
 
-	if (!(bSide1 & bSide2)) // Ò»·½ÒÑ¾­ÎŞĞ§
+	if (!(bSide1 & bSide2)) // ä¸€æ–¹å·²ç»æ— æ•ˆ
 	{
 		for (Long i = 0; i < lEnterChaNum; i++)
-			//pCEnterCha[i]->SystemNotice("¶Ô·½ÒÑ¾­Ã»ÓĞÈËÔ±¿É½øÈëPK!");
+			//pCEnterCha[i]->SystemNotice("å¯¹æ–¹å·²ç»æ²¡æœ‰äººå‘˜å¯è¿›å…¥PK!");
 			pCEnterCha[i]->SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00041));
 		pCTeamFightEntry->ReleaseCopy(pCMCpyCell);
 		return;
@@ -2870,18 +2870,18 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	pCMCpyCell->AddCurPlyNum((Short)lEnterChaNum);
 
 	// temp for test
-	//std::string	strPrint = "¸±±¾±àºÅ£º";
+	//std::string	strPrint = "å‰¯æœ¬ç¼–å·ï¼š";
 	std::string	strPrint = RES_STRING(GM_CHARACTERCMD_CPP_00042);
 	Char	szPrint[10];
 	itoa(pCMCpyCell->GetPosID(), szPrint, 10);
 	strPrint += szPrint;
 	strPrint += ".";
-	//strPrint += "½øÈëÈËÊı£º";
+	//strPrint += "è¿›å…¥äººæ•°ï¼š";
 	strPrint += RES_STRING(GM_CHARACTERCMD_CPP_00043);
 	itoa(lEnterChaNum, szPrint, 10);
 	strPrint += szPrint;
 	strPrint += ".";
-	LG("Èë¿Ú¸±±¾¿ØÖÆ", "%s\n", strPrint.c_str());
+	LG("å…¥å£å‰¯æœ¬æ§åˆ¶", "%s\n", strPrint.c_str());
 	//LG("entrance copy control", "%s\n", strPrint.c_str());
 	//
 	pCTeamFightEntry->SynCopyRun((Short)pCMCpyCell->GetPosID(), enumMAPCOPY_START_CDT_PLYNUM, lEnterChaNum);
@@ -2889,7 +2889,7 @@ void CCharacter::Cmd_FightAnswer(bool bFight)
 	return;
 T_E}
 
-// µÀ¾ßĞŞÀíÇëÇó
+// é“å…·ä¿®ç†è¯·æ±‚
 void CCharacter::Cmd_ItemRepairAsk(dbc::Char chPosType, dbc::Char chPosID)
 {T_B
 	CPlayer	*pCPly = GetPlayer();
@@ -2897,7 +2897,7 @@ void CCharacter::Cmd_ItemRepairAsk(dbc::Char chPosType, dbc::Char chPosID)
 		return;
 	if (pCPly->IsInRepair())
 	{
-		//SystemNotice("ÒÑ¾­ÔÚĞŞÀíÖĞ!");
+		//SystemNotice("å·²ç»åœ¨ä¿®ç†ä¸­!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00044));
 		return;
 	}
@@ -2907,20 +2907,20 @@ void CCharacter::Cmd_ItemRepairAsk(dbc::Char chPosType, dbc::Char chPosID)
 		return;
 	if (!IsRangePoint(pCRepairman->GetPos(), 6 * 100))
 	{
-		//SystemNotice("¾àÀëÌ«Ô¶!");
+		//SystemNotice("è·ç¦»å¤ªè¿œ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00045));
 		return;
 	}
 	if (!pCPly->SetRepairPosInfo(chPosType, chPosID))
 	{
-		//SystemNotice("ÎŞĞ§µÄµÀ¾ß!");
+		//SystemNotice("æ— æ•ˆçš„é“å…·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00046));
 		return;
 	}
 	CItemRecord	*pCItemRec = GetItemRecordInfo(pCPly->GetRepairItem()->sID);
 	if (!pCItemRec)
 	{
-		//SystemNotice("ÎŞĞ§µÄµÀ¾ß!");
+		//SystemNotice("æ— æ•ˆçš„é“å…·!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00046));
 		return;
 	}
@@ -2932,7 +2932,7 @@ void CCharacter::Cmd_ItemRepairAsk(dbc::Char chPosType, dbc::Char chPosID)
 	}
 	if (!g_CParser.StringIsFunction("get_item_repair_money"))
 	{
-		//SystemNotice("Î´ÖªµÄĞŞÀí·ÑÓÃ!");
+		//SystemNotice("æœªçŸ¥çš„ä¿®ç†è´¹ç”¨!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00047));
 		return;
 	}
@@ -2947,7 +2947,7 @@ void CCharacter::Cmd_ItemRepairAsk(dbc::Char chPosType, dbc::Char chPosID)
 	pCPly->SetInRepair();
 T_E}
 
-// µÀ¾ßĞŞÀíÓ¦´ğ
+// é“å…·ä¿®ç†åº”ç­”
 void CCharacter::Cmd_ItemRepairAnswer(bool bRepair)
 {T_B
 	CPlayer	*pCPly = GetPlayer();
@@ -2955,7 +2955,7 @@ void CCharacter::Cmd_ItemRepairAnswer(bool bRepair)
 		return;
 	if (!pCPly->IsInRepair())
 	{
-		//SystemNotice("Ã»ÓĞÈÎºÎĞŞÀí!");
+		//SystemNotice("æ²¡æœ‰ä»»ä½•ä¿®ç†!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00048));
 		return;
 	}
@@ -2967,13 +2967,13 @@ void CCharacter::Cmd_ItemRepairAnswer(bool bRepair)
 			goto EndItemRepair;
 		if (!IsRangePoint(pCRepairman->GetPos(), 6 * 100))
 		{
-			//SystemNotice("¾àÀëÌ«Ô¶!");
+			//SystemNotice("è·ç¦»å¤ªè¿œ!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00045));
 			goto EndItemRepair;
 		}
 		if (!pCPly->CheckRepairItem())
 		{
-			//SystemNotice("µÀ¾ßÒÑ¾­±ä¶¯£¬²»ÄÜ¼ÌĞøĞŞÀí!");
+			//SystemNotice("é“å…·å·²ç»å˜åŠ¨ï¼Œä¸èƒ½ç»§ç»­ä¿®ç†!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00049));
 			goto EndItemRepair;
 		}
@@ -3030,14 +3030,14 @@ EndItemRepair:
 	pCPly->SetInRepair(false);
 T_E}
 
-// µÀ¾ß¾«Á¶ÇëÇó
+// é“å…·ç²¾ç‚¼è¯·æ±‚
 void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 {T_B
 	CPlayer	*pCPly = GetPlayer();
 
     if(m_CKitbag.IsPwdLocked())
     {
-        //SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨!");
+        //SystemNotice("é“å…·æ å·²é”å®š!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00050));
 		goto EndItemForgeAsk;
     }
@@ -3045,7 +3045,7 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 	//add by ALLEN 2007-10-16
 	if(IsReadBook())
     {
-       // SystemNotice("¶ÁÊé×´Ì¬£¬²»ÄÜ¾«Á¶!");
+       // SystemNotice("è¯»ä¹¦çŠ¶æ€ï¼Œä¸èƒ½ç²¾ç‚¼!");
 		 SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00051));
 		goto EndItemForgeAsk;
     }
@@ -3055,14 +3055,14 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 
 	if (pCPly->IsInForge())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00052));
 		goto EndItemForgeAsk;
 	}
 
 	if( pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData() )
 	{
-		//SystemNotice("ÇëÇóÊ§°Ü!");
+		//SystemNotice("è¯·æ±‚å¤±è´¥!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00053));
 		return;
 	}
@@ -3072,14 +3072,14 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 		goto EndItemForgeAsk;
 	if (!IsRangePoint(pCForgeman->GetPos(), 6 * 100))
 	{
-		//SystemNotice("¾àÀëÌ«Ô¶!");
+		//SystemNotice("è·ç¦»å¤ªè¿œ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00045));
 		goto EndItemForgeAsk;
 	}
 
 	if (!CheckForgeItem(pSItem))
 	{
-		//SystemNotice("Ìá½»µÀ¾ßÓëËùÓµÓĞµÀ¾ß²»·ûºÏ£¬ÇëÇó±»¾Ü¾ø!");
+		//SystemNotice("æäº¤é“å…·ä¸æ‰€æ‹¥æœ‰é“å…·ä¸ç¬¦åˆï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00054));
 		goto EndItemForgeAsk;
 	}
@@ -3095,66 +3095,66 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 		};
 		if(	sig_	&& sig_->dwDBID )
 		{
-			SystemNotice("ÎïÆ·ÒÑ¾­Ëø¶¨,²Ù×÷Ê§°Ü!");
+			SystemNotice("ç‰©å“å·²ç»é”å®š,æ“ä½œå¤±è´¥!");
 			goto	EndItemForgeAsk;
 		};
 	};
 
 	Char	*szCheckCanScript;
 	Char	*szGetMoneyScript;
-	if (chType == 1) // ¾«Á¶
+	if (chType == 1) // ç²¾ç‚¼
 	{
 		szCheckCanScript = "can_forge_item";
 		szGetMoneyScript = "get_item_forge_money";
 	}
-	else if (chType == 2) // ºÏ³É
+	else if (chType == 2) // åˆæˆ
 	{
 		szCheckCanScript = "can_unite_item";
 		szGetMoneyScript = "get_item_unite_money";
 	}
-	else if (chType == 3) // ´òÄ¥
+	else if (chType == 3) // æ‰“ç£¨
 	{
 		szCheckCanScript = "can_milling_item";
 		szGetMoneyScript = "get_item_milling_money";
 	}
-	else if( chType == 4 ) // ÈÛºÏ
+	else if( chType == 4 ) // ç†”åˆ
 	{
 		szCheckCanScript = "can_fusion_item";
 		szGetMoneyScript = "get_item_fusion_money";
 	}
-	else if( chType == 5 ) // ×°±¸Éı¼¶
+	else if( chType == 5 ) // è£…å¤‡å‡çº§
 	{
 		szCheckCanScript = "can_upgrade_item";
 		szGetMoneyScript = "get_item_upgrade_money";
 	}
-	else if( chType == 6 ) // ¾«Áé×ªÉú
+	else if( chType == 6 ) // ç²¾çµè½¬ç”Ÿ
 	{
 		szCheckCanScript = "can_jlborn_item";
 		szGetMoneyScript = "get_item_jlborn_money";
 	}
-	else if( chType == 7 ) // ×°±¸Ìá´¿
+	else if( chType == 7 ) // è£…å¤‡æçº¯
 	{
 		szCheckCanScript = "can_tichun_item";
 		szGetMoneyScript = "get_item_tichun_money";
 	}
-	else if( chType == 8 ) // ±´¿Ç³äµç
+	else if( chType == 8 ) // è´å£³å……ç”µ
 	{
 		szCheckCanScript = "can_energy_item";
 		szGetMoneyScript = "get_item_energy_money";
 	}
-	else if( chType == 9 ) // ÌáÈ¡±¦Ê¯
+	else if( chType == 9 ) // æå–å®çŸ³
 	{
 		szCheckCanScript = "can_getstone_item";
 		szGetMoneyScript = "get_item_getstone_money";
 	}
-	else if( chType == 10 ) // ĞŞÀíÆÆ¹ø
+	else if( chType == 10 ) // ä¿®ç†ç ´é”…
 	{
 		szCheckCanScript = "can_shtool_item";
 		szGetMoneyScript = "get_item_shtool_money";
 	}
 	else
 	{
-		//SystemNotice( "²Ù×÷ÀàĞÍ´íÎó!%d", chType );
+		//SystemNotice( "æ“ä½œç±»å‹é”™è¯¯!%d", chType );
 		SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00055), chType );
 		return;
 	}
@@ -3162,7 +3162,7 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 	Long	lCheckCan;
 	if (!DoForgeLikeScript(szCheckCanScript, lCheckCan))
 	{
-		//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+		//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 		goto EndItemForgeAsk;
 	}
@@ -3172,7 +3172,7 @@ void CCharacter::Cmd_ItemForgeAsk(dbc::Char chType, SForgeItem *pSItem)
 	Long	lOptMoney;
 	if (!DoForgeLikeScript(szGetMoneyScript, lOptMoney))
 	{
-		//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+		//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 		goto EndItemForgeAsk;
 	}
@@ -3245,20 +3245,20 @@ void CCharacter::Cmd_ItemLotteryAsk(SLotteryItem *pSItem)
 		int issue = this->GetLotteryIssue();
 
 		pItemLottery->sInstAttr[0][0] = ITEMATTR_VAL_STR;
-		pItemLottery->sInstAttr[0][1] = 10000 + issue;	// Î»4£¨Íê³É£© Î»1-Î»3£¨ÆÚºÅ£©
+		pItemLottery->sInstAttr[0][1] = 10000 + issue;	// ä½4ï¼ˆå®Œæˆï¼‰ ä½1-ä½3ï¼ˆæœŸå·ï¼‰
 		time_t t = time(0);
         tm* nowTm = localtime(&t);
 
 		pItemLottery->sInstAttr[1][0] = ITEMATTR_VAL_AGI;
-		pItemLottery->sInstAttr[1][1] = nowTm->tm_mday * 100 + nowTm->tm_hour;	// Î»1Î»2£¨Ê±¼ä£© Î»3Î»4£¨ÈÕÆÚ£©		22ºÅ10µã
+		pItemLottery->sInstAttr[1][1] = nowTm->tm_mday * 100 + nowTm->tm_hour;	// ä½1ä½2ï¼ˆæ—¶é—´ï¼‰ ä½3ä½4ï¼ˆæ—¥æœŸï¼‰		22å·10ç‚¹
 		
-		// ²ÊÇò0±£´æÎª1£¬²ÊÇò1±£´æÎª2£¬ÒÔ´ËÀàÍÆ ²ÊÇòX±£´æÎª11
+		// å½©çƒ0ä¿å­˜ä¸º1ï¼Œå½©çƒ1ä¿å­˜ä¸º2ï¼Œä»¥æ­¤ç±»æ¨ å½©çƒXä¿å­˜ä¸º11
 		pItemLottery->sInstAttr[2][0] = ITEMATTR_VAL_DEX;
-		pItemLottery->sInstAttr[2][1] = buffer[0][0]*100 + buffer[1][0];	// Î»1Î»2£¨ºÅ1£© Î»3Î»4£¨ºÅ2£©	
+		pItemLottery->sInstAttr[2][1] = buffer[0][0]*100 + buffer[1][0];	// ä½1ä½2ï¼ˆå·1ï¼‰ ä½3ä½4ï¼ˆå·2ï¼‰	
 		pItemLottery->sInstAttr[3][0] = ITEMATTR_VAL_CON;
-		pItemLottery->sInstAttr[3][1] = buffer[2][0]*100 + buffer[3][0];	// Î»1Î»2£¨ºÅ3£© Î»3Î»4£¨ºÅ4£©	
+		pItemLottery->sInstAttr[3][1] = buffer[2][0]*100 + buffer[3][0];	// ä½1ä½2ï¼ˆå·3ï¼‰ ä½3ä½4ï¼ˆå·4ï¼‰	
 		pItemLottery->sInstAttr[4][0] = ITEMATTR_VAL_STA;
-		pItemLottery->sInstAttr[4][1] = buffer[4][0]*100 + buffer[5][0];	// Î»1Î»2£¨ºÅ5£© Î»3Î»4£¨ºÅ6£©	
+		pItemLottery->sInstAttr[4][1] = buffer[4][0]*100 + buffer[5][0];	// ä½1ä½2ï¼ˆå·5ï¼‰ ä½3ä½4ï¼ˆå·6ï¼‰	
 
 		game_db.AddLotteryTicket(this, issue, buffer);
 	}
@@ -3299,7 +3299,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 {T_B
 	if(m_CKitbag.IsPwdLocked())
 	{
-		//SystemNotice("±³°ü±»Ëø¶¨£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷.");
+		//SystemNotice("èƒŒåŒ…è¢«é”å®šï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œ.");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00057));
 		return;
 	}
@@ -3307,7 +3307,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 	//add by ALLEN 2007-10-16
 	if(IsReadBook())
 	{
-		//SystemNotice("¶ÁÊé×´Ì¬£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷.");
+		//SystemNotice("è¯»ä¹¦çŠ¶æ€ï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œ.");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00058));
 		return;
 	}
@@ -3324,7 +3324,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 
 	if(m_CKitbag.IsPwdLocked())
 	{
-		//SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨!");
+		//SystemNotice("é“å…·æ å·²é”å®š!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00050));
 		goto EndItemForgeAsk;
 	}
@@ -3337,7 +3337,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 
 	if( pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData() )
 	{
-		//SystemNotice("ÇëÇóÊ§°Ü!");
+		//SystemNotice("è¯·æ±‚å¤±è´¥!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00053));
 		goto EndItemForgeAsk;
 	}
@@ -3364,7 +3364,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 			}
 		default:
 		{
-			//SystemNotice( "²Ù×÷ÀàĞÍ´íÎó!%d", dwType );
+			//SystemNotice( "æ“ä½œç±»å‹é”™è¯¯!%d", dwType );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00055), dwType );
 			goto EndItemForgeAsk;
 			break;
@@ -3374,7 +3374,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 
 	if (!DoLifeSkillcript(szCheckCanScript, lCheckCan))
 	{
-		//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+		//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 		goto EndItemForgeAsk;
 	}
@@ -3384,7 +3384,7 @@ void CCharacter::Cmd_LifeSkillItemAsk(long dwType, SLifeSkillItem *pSItem)
 	}
 	if (!DoLifeSkillcript(szGetMoneyScript, lOptMoney))
 	{
-		//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+		//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 		goto EndItemForgeAsk;
 	}
@@ -3417,14 +3417,14 @@ void CCharacter::Cmd_LifeSkillItemAsR(long dwType, SLifeSkillItem *pSItem)
 {T_B
 	if(m_CKitbag.IsPwdLocked())
 	{
-		//SystemNotice("±³°ü±»Ëø¶¨£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷.");
+		//SystemNotice("èƒŒåŒ…è¢«é”å®šï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œ.");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00057));
 		return;
 	}
 	//add by ALLEN 2007-10-16
 	if(IsReadBook())
 	{
-		//SystemNotice("¶ÁÊé×´Ì¬£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷.");
+		//SystemNotice("è¯»ä¹¦çŠ¶æ€ï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œ.");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00058));
 		return;
 	}
@@ -3436,21 +3436,21 @@ void CCharacter::Cmd_LifeSkillItemAsR(long dwType, SLifeSkillItem *pSItem)
 
 	if (pCPly->IsInLifeSkill())
 	{
-		//SystemNotice("Ö®Ç°µÄÇëÇóÃ»ÓĞÍê³É!");
+		//SystemNotice("ä¹‹å‰çš„è¯·æ±‚æ²¡æœ‰å®Œæˆ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00052));
 		return;
 	}
 
 	if(m_CKitbag.IsPwdLocked())
 	{
-		//SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨!");
+		//SystemNotice("é“å…·æ å·²é”å®š!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00050));
 		return;
 	}
 
 	if (!pSItem)
 	{
-		//SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨!");
+		//SystemNotice("é“å…·æ å·²é”å®š!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00050));
 		return;
 	}
@@ -3458,7 +3458,7 @@ void CCharacter::Cmd_LifeSkillItemAsR(long dwType, SLifeSkillItem *pSItem)
 
 	if( pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData() )
 	{
-		SystemNotice("ÇëÇóÊ§°Ü!");
+		SystemNotice("è¯·æ±‚å¤±è´¥!");
 		return;
 	}
 
@@ -3487,7 +3487,7 @@ void CCharacter::Cmd_LifeSkillItemAsR(long dwType, SLifeSkillItem *pSItem)
 	if(!lua_isfunction(g_pLuaState,-1))
 	{
 		lua_pop(g_pLuaState,1);
-		SystemNotice("begin_manufacture_itemº¯Êı´íÎó");
+		SystemNotice("begin_manufacture_itemå‡½æ•°é”™è¯¯");
 		return ;
 	}
 	int	nParamNum = 0;
@@ -3544,10 +3544,10 @@ void CCharacter::Cmd_LifeSkillItemAsR(long dwType, SLifeSkillItem *pSItem)
 		WRITE_STRING(l_wpk,"");
 	ReflectINFof(this,l_wpk);
 T_E}
-//±³°üËø¶¨
+//èƒŒåŒ…é”å®š
 void CCharacter::Cmd_LockKitbag()
 {T_B
-    Char sState;//0:Î´Ëø¶¨ 1:ÒÑËø¶¨
+    Char sState;//0:æœªé”å®š 1:å·²é”å®š
     cChar *szPwd = GetPlayer()->GetPassword();
     if(!m_CKitbag.IsPwdLocked()){ 
 		m_CKitbag.PwdLock();
@@ -3560,10 +3560,10 @@ void CCharacter::Cmd_LockKitbag()
 	ReflectINFof(this, WtPk);
 T_E}
 
-//±³°ü½âËø
+//èƒŒåŒ…è§£é”
 void CCharacter::Cmd_UnlockKitbag( const char szPassword[] )
 {T_B
-    Char sState;//0:Î´Ëø¶¨ 1:ÒÑËø¶¨
+    Char sState;//0:æœªé”å®š 1:å·²é”å®š
 
     CPlayer	*pCply = GetPlayer();
     cChar *szPwd2 = pCply->GetPassword();
@@ -3580,10 +3580,10 @@ void CCharacter::Cmd_UnlockKitbag( const char szPassword[] )
 	ReflectINFof(this, WtPk);
 T_E}
 
-//¼ì²é±³°ü×´Ì¬
+//æ£€æŸ¥èƒŒåŒ…çŠ¶æ€
 void CCharacter::Cmd_CheckKitbagState()
 {T_B
-    Char sState;//0:Î´Ëø¶¨ 1:ÒÑËø¶¨
+    Char sState;//0:æœªé”å®š 1:å·²é”å®š
     sState = m_CKitbag.IsPwdLocked() ? 1 : 0;
 
     WPACKET WtPk	= GETWPACKET();
@@ -3606,7 +3606,7 @@ BOOL CCharacter::Cmd_AddVolunteer()
 {T_B
 	// check if level is higher than 10
 	if (GetLevel() < 10) {
-		PopupNotice("Ö»ÓĞ10¼¶¼°ÒÔÉÏµÄÍæ¼Ò¿ÉÒÔ×ÔÔ¸²Î¼Ó!");
+		PopupNotice("åªæœ‰10çº§åŠä»¥ä¸Šçš„ç©å®¶å¯ä»¥è‡ªæ„¿å‚åŠ !");
 		return false;
 	}
 	// check if map is garner2
@@ -3664,7 +3664,7 @@ CCharacter* CCharacter::FindVolunteer(const char *szName)
 	return pCha;
 }
 
-// µÀ¾ß¾«Á¶Ó¦´ğ
+// é“å…·ç²¾ç‚¼åº”ç­”
 void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 {T_B
 	CPlayer	*pCPly = GetPlayer();
@@ -3672,7 +3672,7 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 
     if(m_CKitbag.IsPwdLocked())
     {
-        //SystemNotice("µÀ¾ßÀ¸ÒÑËø¶¨!");
+        //SystemNotice("é“å…·æ å·²é”å®š!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00050));
 		goto EndItemForge;
     }
@@ -3680,21 +3680,21 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 	//add by ALLEN 2007-10-16
 	if(IsReadBook())
     {
-        //SystemNotice("¶ÁÊé×´Ì¬£¬²»ÄÜ½øĞĞÏà¹Ø²Ù×÷!");
+        //SystemNotice("è¯»ä¹¦çŠ¶æ€ï¼Œä¸èƒ½è¿›è¡Œç›¸å…³æ“ä½œ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00058));
 		goto EndItemForge;
     }
 
     if (!pCPly->IsInForge())
 	{
-		//SystemNotice("Ã»ÓĞÈÎºÎÇëÇó!");
+		//SystemNotice("æ²¡æœ‰ä»»ä½•è¯·æ±‚!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00059));
 		goto EndItemForge;
 	}
 
 	if( pCPly->GetStallData() || pCPly->GetMainCha()->GetTradeData() )
 	{
-		//SystemNotice("²Ù×÷Ê§°Ü!");
+		//SystemNotice("æ“ä½œå¤±è´¥!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00060));
 		return;
 	}
@@ -3704,7 +3704,7 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 		goto EndItemForge;
 	if (!IsRangePoint(pCForgeman->GetPos(), 6 * 100))
 	{
-		//SystemNotice("¾àÀëÌ«Ô¶!");
+		//SystemNotice("è·ç¦»å¤ªè¿œ!");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00045));
 		goto EndItemForge;
 	}
@@ -3713,66 +3713,66 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 	{
 		if (!CheckForgeItem())
 		{
-			//SystemNotice("Ìá½»µÀ¾ßÓëËùÓµÓĞµÀ¾ß²»·ûºÏ£¬ÇëÇó±»¾Ü¾ø!");
+			//SystemNotice("æäº¤é“å…·ä¸æ‰€æ‹¥æœ‰é“å…·ä¸ç¬¦åˆï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00054));
 			goto EndItemForge;
 		}
 
 		Char	*szCheckCanScript;
 		Char	*szBeginScript;
-		if (chType == 1) // ¾«Á¶
+		if (chType == 1) // ç²¾ç‚¼
 		{
 			szCheckCanScript = "can_forge_item";
 			szBeginScript = "begin_forge_item";
 		}
-		else if (chType == 2) // ºÏ³É
+		else if (chType == 2) // åˆæˆ
 		{
 			szCheckCanScript = "can_unite_item";
 			szBeginScript = "begin_unite_item";
 		}
-		else if (chType == 3) // ´òÄ¥
+		else if (chType == 3) // æ‰“ç£¨
 		{
 			szCheckCanScript = "can_milling_item";
 			szBeginScript = "begin_milling_item";
 		}
-		else if( chType == 4 ) // ÈÛºÏ
+		else if( chType == 4 ) // ç†”åˆ
 		{
 			szCheckCanScript = "can_fusion_item";
 			szBeginScript = "begin_fusion_item";
 		}
-		else if( chType == 5 ) // ×°±¸Éı¼¶
+		else if( chType == 5 ) // è£…å¤‡å‡çº§
 		{
 			szCheckCanScript = "can_upgrade_item";
 			szBeginScript = "begin_upgrade_item";
 		}
-		else if( chType == 6 ) // ¾«Áé×ªÉú
+		else if( chType == 6 ) // ç²¾çµè½¬ç”Ÿ
 		{
 			szCheckCanScript = "can_jlborn_item";
 			szBeginScript = "begin_jlborn_item";
 		}
-		else if( chType == 7 ) // ×°±¸Ìá´¿
+		else if( chType == 7 ) // è£…å¤‡æçº¯
 		{
 			szCheckCanScript = "can_tichun_item";
 			szBeginScript = "begin_tichun_item";
 		}
-		else if( chType == 8 ) // ±´¿Ç³äµç
+		else if( chType == 8 ) // è´å£³å……ç”µ
 		{
 			szCheckCanScript = "can_energy_item";
 			szBeginScript = "begin_energy_item";
 		}
-		else if( chType == 9 ) // ÌáÈ¡±¦Ê¯
+		else if( chType == 9 ) // æå–å®çŸ³
 		{
 			szCheckCanScript = "can_getstone_item";
 			szBeginScript = "begin_getstone_item";
 		}
-		else if( chType == 10 ) // ĞŞÀíÆÆ¹ø
+		else if( chType == 10 ) // ä¿®ç†ç ´é”…
 		{
 			szCheckCanScript = "can_shtool_item";
 			szBeginScript = "begin_shtool_item";
 		}
 		else
 		{
-			//SystemNotice( "²Ù×÷ÀàĞÍ´íÎó!%d", chType );
+			//SystemNotice( "æ“ä½œç±»å‹é”™è¯¯!%d", chType );
 			SystemNotice( RES_STRING(GM_CHARACTERCMD_CPP_00055), chType );
 			return;
 		}
@@ -3780,7 +3780,7 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 		Long	lCheckCan;
 		if (!DoForgeLikeScript(szCheckCanScript, lCheckCan))
 		{
-			//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+			//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 			goto EndItemForge;
 		}
@@ -3792,7 +3792,7 @@ void CCharacter::Cmd_ItemForgeAnswer(bool bForge)
 		Long	lBegin;
 		if (!DoForgeLikeScript(szBeginScript, lBegin))
 		{
-			//SystemNotice("²»ÄÜ²Ù×÷£¬ÇëÇó±»¾Ü¾ø!");
+			//SystemNotice("ä¸èƒ½æ“ä½œï¼Œè¯·æ±‚è¢«æ‹’ç»!");
 			SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00056));
 			goto EndItemForge;
 		}
@@ -3830,7 +3830,7 @@ void CCharacter::Cmd_Garner2_Reorder(short index)
 	SItemGrid *pSGridCont =  m_CKitbag.GetGridContByID(index);
 	if(3849 != pSGridCont->sID)
 	{
-		//SystemNotice("¶Ô²»Æğ,ÄúÃ»ÓĞÓÂÕßÖ®Ö¤,ÇëÈ¥ÂÒ¶·¹ÜÀíÔ±´¦ÁìÈ¡ÓÂÕßÖ®Ö¤.");
+		//SystemNotice("å¯¹ä¸èµ·,æ‚¨æ²¡æœ‰å‹‡è€…ä¹‹è¯,è¯·å»ä¹±æ–—ç®¡ç†å‘˜å¤„é¢†å–å‹‡è€…ä¹‹è¯.");
 		SystemNotice(RES_STRING(GM_CHARACTERCMD_CPP_00061));
 	}
 	else

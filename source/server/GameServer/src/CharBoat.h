@@ -12,7 +12,7 @@ namespace mission
 {
 	struct BOAT_SYNC_ATTR
 	{
-		char szName[BOAT_MAXSIZE_NAME];	// ´¬Ö»Ãû³Æ
+		char szName[BOAT_MAXSIZE_NAME];	// èˆ¹åªåç§°
 		USHORT	sBoatID;
 		BYTE	byHeader;
 		BYTE	byEngine;
@@ -30,11 +30,11 @@ namespace mission
 		CCharBoat();
 		~CCharBoat();
 		
-		// ×°ÔØ´¬Ö»½¨ÔìÊı¾İ±íĞÅÏ¢
+		// è£…è½½èˆ¹åªå»ºé€ æ•°æ®è¡¨ä¿¡æ¯
 		BOOL	Load( const char szBoat[], const char szPart[] );
 		CCharacter* SummonBoat( USHORT sBoatID );
 
-		// ½¨Ôì´¬Ö»
+		// å»ºé€ èˆ¹åª
 		BOOL	LoadBoat( CCharacter& owner, char chType );
 		BOOL	CreateBoat( CCharacter& owner, DWORD dwBoatID, char chType );
 		BOOL	Create( CCharacter& owner, USHORT sBoatID, USHORT sBerthID );
@@ -63,5 +63,5 @@ namespace mission
 
 }
 
-// Ôì´¬³§È«¾ÖÀà
+// é€ èˆ¹å‚å…¨å±€ç±»
 extern mission::CCharBoat g_CharBoat;

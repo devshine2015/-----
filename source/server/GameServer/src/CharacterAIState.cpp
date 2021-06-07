@@ -6,19 +6,19 @@
 #include "HarmRec.h"
 
 //--------------------------------------------------------
-//                       AI×´Ì¬¿ØÖÆ
+//                       AIçŠ¶æ€æ§åˆ¶
 //--------------------------------------------------------
 
 
 //-----------
-// AI×Ü¿Øº¯Êı
+// AIæ€»æ§å‡½æ•°
 //-----------
 BOOL  g_bEnableAI  = TRUE;
 
 void CCharacter::OnAI(DWORD dwCurTime)
 {T_B
 	
-	m_pHate->UpdateHarmRec(this); // ¹ÖÎïºÍÍæ¼Ò¶¼Òª¼ÆËãÉËº¦ÀÛ¼Æ
+	m_pHate->UpdateHarmRec(this); // æ€ªç‰©å’Œç©å®¶éƒ½è¦è®¡ç®—ä¼¤å®³ç´¯è®¡
 
 	if (IsPlayerCha() && getAttr(ATTR_CHATYPE) != enumCHACTRL_PLAYER_PET)	return;
 
@@ -47,7 +47,7 @@ void CCharacter::OnAI(DWORD dwCurTime)
 		m_AITarget = 0;
 	}
 
-	if (!IsLiveing())         return; // ¶ÔÏó²»´æÔÚ
+	if (!IsLiveing())         return; // å¯¹è±¡ä¸å­˜åœ¨
 
 
 	if (IsNpc())

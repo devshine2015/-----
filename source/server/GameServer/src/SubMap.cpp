@@ -47,24 +47,24 @@ bool SubMap::Init(CMapRes *pCMapRes, dbc::Short sCopyNO)
 	m_pCMapRes = pCMapRes;
 	m_pCBaseRange = 0;
 
-	// ×´Ì¬µ¥Ôª
+	// çŠ¶æ€å•å…ƒ
 	m_pCStateCell = new CStateCell**[GetStateCellLin()];
 	if (!m_pCStateCell)
-		//THROW_EXCP(excpMem,"µØÍ¼×´Ì¬µ¥Ôª¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åœ°å›¾çŠ¶æ€å•å…ƒå¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_SUBMAP_CPP_00001));
 	for (short i = 0; i < GetStateCellLin(); i++)
 	{
 		m_pCStateCell[i] = new CStateCell*[GetStateCellCol()];
 		if (!m_pCStateCell[i])
-			//THROW_EXCP(excpMem,"µØÍ¼×´Ì¬µ¥Ôª¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+			//THROW_EXCP(excpMem,"åœ°å›¾çŠ¶æ€å•å…ƒå¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 			THROW_EXCP(excpMem,RES_STRING(GM_SUBMAP_CPP_00001));
 		for (short j = 0; j < GetStateCellCol(); j++)
 			m_pCStateCell[i][j] = 0;
 	}
-	// ÊÓÒ°µ¥Ôª
+	// è§†é‡å•å…ƒ
 	m_pCEyeshotCell = new CEyeshotCell*[GetEyeshotCellLin()];
 	if (!m_pCEyeshotCell)
-		//THROW_EXCP(excpMem,"µØÍ¼ÊÓÒ°µ¥Ôª¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åœ°å›¾è§†é‡å•å…ƒå¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_SUBMAP_CPP_00002));
 	short	sECellSX, sECellEX, sECellSY, sECellEY;
 	short	sSCellNum;
@@ -72,9 +72,9 @@ bool SubMap::Init(CMapRes *pCMapRes, dbc::Short sCopyNO)
 	{
 		m_pCEyeshotCell[i] = new CEyeshotCell[GetEyeshotCellCol()];
 		if (!m_pCEyeshotCell[i])
-			//THROW_EXCP(excpMem,"µØÍ¼ÊÓÒ°µ¥Ôª¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+			//THROW_EXCP(excpMem,"åœ°å›¾è§†é‡å•å…ƒå¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 			THROW_EXCP(excpMem,RES_STRING(GM_SUBMAP_CPP_00002));
-		// ³õÊ¼»¯
+		// åˆå§‹åŒ–
 		for (short j = 0; j < GetEyeshotCellCol(); j++)
 		{
 			m_pCEyeshotCell[i][j].m_sPosX = j;
@@ -93,11 +93,11 @@ bool SubMap::Init(CMapRes *pCMapRes, dbc::Short sCopyNO)
 		}
 	}
 
-	// ×°ÔØ¸½¼Ó×ÊÔ´
+	// è£…è½½é™„åŠ èµ„æº
 	m_pCMapRes->m_pCMonsterSpawn->Load(this); // resok
 	m_pCMapRes->m_pCMapSwitchEntitySpawn->Load(this); // resok
-	LoadNpc(); // ×¢ÒâNPCÓ¦¸Ã×îºó×°ÔØ£¬±ØĞëÔÚËü×°ÔØÇ°ÏÈ³õÊ¼»¯Ò»Ğ©NPCĞèÒªµÄÆäËûĞÅÏ¢,resok
-	LoadEventEntity(); // ×°ÔØÊÂ¼şÊµÌåĞÅÏ¢,resok
+	LoadNpc(); // æ³¨æ„NPCåº”è¯¥æœ€åè£…è½½ï¼Œå¿…é¡»åœ¨å®ƒè£…è½½å‰å…ˆåˆå§‹åŒ–ä¸€äº›NPCéœ€è¦çš„å…¶ä»–ä¿¡æ¯,resok
+	LoadEventEntity(); // è£…è½½äº‹ä»¶å®ä½“ä¿¡æ¯,resok
 
 	luaL_dofile(g_pLuaState, GetResPath(m_pCMapRes->m_szMonsterCofFile)); //resok
 
@@ -112,10 +112,10 @@ bool SubMap::Init(CMapRes *pCMapRes, dbc::Short sCopyNO)
 T_E}
 
 //=============================================================================
-// lFromEntityID µÀ¾ß´Ó¸Ã½ÇÉ«ÉíÉÏÅ×³öÀ´
-// lProtChaID£¬lProtTime ¶Ô¸Ã½ÇÉ«±£»¤Ê±¼ä£¬ÈôlProtChaIDÎª0£¬Ôò²»×ö±£»¤.ÈôlProtTimeÎª0£»Ôò²ÉÓÃÏµÍ³Ä¬ÈÏ±£»¤Ê±¼ä£¬Îª-1£¬ÔòÓÀ¾Ã±£»¤
-// lOnTick µÀ¾ß´æÔÚÊ±¼ä£¬Îª0£¬Ôò²ÉÓÃÏµÍ³Ä¬ÈÏ±£»¤Ê±¼ä£»Îª-1£¬ÔòÓÀ¾Ã´æÔÚ
-// usEventType£¬pEventRec µÀ¾ßËù´øµÄÊÂ¼ş
+// lFromEntityID é“å…·ä»è¯¥è§’è‰²èº«ä¸ŠæŠ›å‡ºæ¥
+// lProtChaIDï¼ŒlProtTime å¯¹è¯¥è§’è‰²ä¿æŠ¤æ—¶é—´ï¼Œè‹¥lProtChaIDä¸º0ï¼Œåˆ™ä¸åšä¿æŠ¤.è‹¥lProtTimeä¸º0ï¼›åˆ™é‡‡ç”¨ç³»ç»Ÿé»˜è®¤ä¿æŠ¤æ—¶é—´ï¼Œä¸º-1ï¼Œåˆ™æ°¸ä¹…ä¿æŠ¤
+// lOnTick é“å…·å­˜åœ¨æ—¶é—´ï¼Œä¸º0ï¼Œåˆ™é‡‡ç”¨ç³»ç»Ÿé»˜è®¤ä¿æŠ¤æ—¶é—´ï¼›ä¸º-1ï¼Œåˆ™æ°¸ä¹…å­˜åœ¨
+// usEventTypeï¼ŒpEventRec é“å…·æ‰€å¸¦çš„äº‹ä»¶
 //=============================================================================
 CItem* SubMap::ItemSpawn(const SItemGrid *pItemInfo, Long lPosX, Long lPosY, Char chSpawnType,
 						 Long lFromEntityID, Long lProtChaID, Long lProtChaHandle, Long lProtTime, Long lOnTick,
@@ -131,7 +131,7 @@ CItem* SubMap::ItemSpawn(const SItemGrid *pItemInfo, Long lPosX, Long lPosY, Cha
 	if (!pCItem)
 		return 0;
 	memcpy(&pCItem->m_SGridContent, pItemInfo, sizeof(SItemGrid));
-	//if (pCItemRec->chExclusiveID) // ĞèÒª±£´æµ½Êı¾İ¿â£¬µ«µ±Ç°µÄÊı¾İ¿âIDÊÇ0£¬ÔòĞèÒª·ÖÅä
+	//if (pCItemRec->chExclusiveID) // éœ€è¦ä¿å­˜åˆ°æ•°æ®åº“ï¼Œä½†å½“å‰çš„æ•°æ®åº“IDæ˜¯0ï¼Œåˆ™éœ€è¦åˆ†é…
 	//{
 	//	pItemInfo->SetDBParam(-1, 0);
 	//}
@@ -174,7 +174,7 @@ CItem* SubMap::ItemSpawn(const SItemGrid *pItemInfo, Long lPosX, Long lPosY, Cha
 T_E}
 
 //=============================================================================
-// chCtrlType ½ÇÉ«¿ØÖÆÀàĞÍ£¬²Î¿¼CompCommand.h EChaCtrlType
+// chCtrlType è§’è‰²æ§åˆ¶ç±»å‹ï¼Œå‚è€ƒCompCommand.h EChaCtrlType
 //=============================================================================
 CCharacter* SubMap::ChaSpawn(Long lChaInfoID, Char chCtrlType, Short sAngle, Point *pSPos, bool bEyeshotAbility, dbc::cChar *cszChaName, const long clSearchRadius)
 {T_B
@@ -216,7 +216,7 @@ CCharacter* SubMap::ChaSpawn(Long lChaInfoID, Char chCtrlType, Short sAngle, Poi
 	Circle l_STerritory = {*pSPos, 500};
 	pCCha->SetTerritory(l_STerritory);
 
-	// ¼ÓÈë¼¼ÄÜ
+	// åŠ å…¥æŠ€èƒ½
 	pCCha->EnrichSkillBag();
 
 	Char szLogName[defLOG_NAME_LEN] = "";
@@ -229,7 +229,7 @@ CCharacter* SubMap::ChaSpawn(Long lChaInfoID, Char chCtrlType, Short sAngle, Poi
 	return pCCha;
 T_E}
 
-// Í¨¸æ¸±±¾ÄÚµÄËùÓĞÍæ¼Ò
+// é€šå‘Šå‰¯æœ¬å†…çš„æ‰€æœ‰ç©å®¶
 void SubMap::Notice(const char *szString)
 {T_B
 	WPACKET WtPk  = GETWPACKET();
@@ -250,7 +250,7 @@ void SubMap::Notice(const char *szString)
 		{
 			if (++lChaCount > lChaNum)
 			{
-				//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+				//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				LG("eyeshot activation error", "eyeshot cell[%d,%d]fact entity nubmer%d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				break;
 			}
@@ -269,7 +269,7 @@ void SubMap::Notice(const char *szString)
 				}
 
 				if (!pCCha->GetSubMap())
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÔÚ½øĞĞµØÍ¼Í¨¸æÊ±Íæ¼Ò %s(%s)[%d,%d] µÄµØÍ¼Îª¿Õ\n",
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "åœ¨è¿›è¡Œåœ°å›¾é€šå‘Šæ—¶ç©å®¶ %s(%s)[%d,%d] çš„åœ°å›¾ä¸ºç©º\n",
 					LG("eyeshot activation error", "in the wind map notify character %s(%s)[%d,%d] 's map is empty\n",
 						pCCha->GetLogName(), pCCha->GetPlyCtrlCha()->GetLogName(), pCCha->GetPos().x, pCCha->GetPos().y);
 			}
@@ -298,8 +298,8 @@ dbc::Long SubMap::CountEyeshotPlyActiveNum(dbc::Long lCellX, dbc::Long lCellY)
 	{
 		if (++lChaCount > lChaNum)
 		{
-			//LG("ÊÓÒ°¼¤»î´íÎó", "¼ÆËãÊÓÒ°µ¥Ôª[%d,%d]µÄ¼¤»î½ÇÉ«ÊıÊ±£¬Êµ¼Ê½ÇÉ«Êı %d\n", lCellX, lCellY, lChaNum);
-			LG("eyeshot activation error", "account eyeshot cell [%d,%d]'s activation character number£¬practice character number%d\n", lCellX, lCellY, lChaNum);
+			//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è®¡ç®—è§†é‡å•å…ƒ[%d,%d]çš„æ¿€æ´»è§’è‰²æ•°æ—¶ï¼Œå®é™…è§’è‰²æ•° %d\n", lCellX, lCellY, lChaNum);
+			LG("eyeshot activation error", "account eyeshot cell [%d,%d]'s activation character numberï¼Œpractice character number%d\n", lCellX, lCellY, lChaNum);
 			break;
 		}
 
@@ -318,13 +318,13 @@ dbc::Long SubMap::CountEyeshotPlyActiveNum(dbc::Long lCellX, dbc::Long lCellY)
 	return lActNum;
 T_E}
 
-// ¼ì²âÎ»ÖÃÊÇ·ñ¿ÉÒÔÍ¨¹ı
+// æ£€æµ‹ä½ç½®æ˜¯å¦å¯ä»¥é€šè¿‡
 bool SubMap::IsMoveAble(Entity *pCEnt, Long lPosX, Long lPosY)
 {T_B
 	CFightAble	*pCCha = 0;
 	if (!pCEnt || !(pCCha = pCEnt->IsFightAble()))
 		return false;
-	return g_IsMoveAble((char)pCCha->m_CChaAttr.GetAttr(ATTR_CHATYPE), pCCha->m_pCChaRecord->chTerritory, pCEnt->GetAreaAttr()); //´æÔÚÕÏ°­
+	return g_IsMoveAble((char)pCCha->m_CChaAttr.GetAttr(ATTR_CHATYPE), pCCha->m_pCChaRecord->chTerritory, pCEnt->GetAreaAttr()); //å­˜åœ¨éšœç¢
 T_E}
 
 BOOL SubMap::LoadEventEntity()
@@ -340,7 +340,7 @@ BOOL SubMap::LoadNpc()
 {T_B
 	if( m_pCMapRes->m_pNpcSpawn->Load( *this ) == -1 )
 	{
-		//THROW_EXCP( excpMem, "³õÊ¼»¯µØÍ¼NPC³öÉúĞÅÏ¢´íÎó!" );
+		//THROW_EXCP( excpMem, "åˆå§‹åŒ–åœ°å›¾NPCå‡ºç”Ÿä¿¡æ¯é”™è¯¯!" );
 		THROW_EXCP( excpMem, RES_STRING(GM_SUBMAP_CPP_00003) );
 		return FALSE;
 	}
@@ -357,7 +357,7 @@ CNpcRecord* SubMap::GetNpcInfo( USHORT sNpcID )
 	return NULL;
 }
 
-// ¼ÓÈëÊÓÒ°µ¥Ôª
+// åŠ å…¥è§†é‡å•å…ƒ
 void SubMap::Add(Entity* pCEnt)
 {T_B
 	CCharacter	*pCCha = pCEnt->IsCharacter();
@@ -367,8 +367,8 @@ void SubMap::Add(Entity* pCEnt)
 
 	if (pCEnt->m_pCEyeshotHost)
 	{
-		//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÇĞ»»£©µØÍ¼ %s ÏòÊÓÒ°µ¥Ôª[%d, %d]Ôö¼ÓÊµÌå %s Ê±£¬·¢ÏÖÆäÃ»ÓĞÍÑÀëÏÈÇ°µÄÊÓÒ°µ¥Ôª[%d, %d]\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
-		LG("map character operator error", "(switch) map %s to eyeshot cell [%d, %d]add entity %s £¬find it is not break away foregone manage cell[%d, %d]\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+		//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆåˆ‡æ¢ï¼‰åœ°å›¾ %s å‘è§†é‡å•å…ƒ[%d, %d]å¢åŠ å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶æ²¡æœ‰è„±ç¦»å…ˆå‰çš„è§†é‡å•å…ƒ[%d, %d]\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+		LG("map character operator error", "(switch) map %s to eyeshot cell [%d, %d]add entity %s ï¼Œfind it is not break away foregone manage cell[%d, %d]\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
 		return;
 	}
 	pCEnt->m_pCEyeshotHost = &m_pCEyeshotCell[l_pt.y][l_pt.x];
@@ -424,21 +424,21 @@ void SubMap::Delete(Entity* pCEnt)
 	//const Rect	&m_area = GetRange();
 	//if (l_pt.x < m_area.ltop.x || l_pt.x >= m_area.rbtm.x || l_pt.y < m_area.ltop.y || l_pt.y >= m_area.rbtm.y)
 	//{
-	//	LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÇĞ»»£©´ÓµØÍ¼ %s É¾³ıÊµÌå %s Ê±£¬·¢ÏÖ¸ÃÊµÌåµÄÎ»ÖÃ[%d, %d]·Ç·¨\n", GetName(), pCEnt->GetLogName(), l_pt.x, l_pt.y);
+	//	LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆåˆ‡æ¢ï¼‰ä»åœ°å›¾ %s åˆ é™¤å®ä½“ %s æ—¶ï¼Œå‘ç°è¯¥å®ä½“çš„ä½ç½®[%d, %d]éæ³•\n", GetName(), pCEnt->GetLogName(), l_pt.x, l_pt.y);
 	//	return;
 	//}
 	Rect		l_rect = GetEyeshot(l_pt);
 
 	if (!pCEnt->m_pCEyeshotHost)
 	{
-		//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÇĞ»»£©µØÍ¼ %s ´ÓÊÓÒ°µ¥Ôª[%d, %d]É¾³ıÊµÌå %s Ê±£¬·¢ÏÖ²»ÔÚÊÓÒ°µ¥ÔªÖĞ\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName());
-		LG("map character operator error", "(switch)map %s from eyeshot[%d, %d] delete entity %s £¬find it isn't in eyeshot cell.\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName());
+		//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆåˆ‡æ¢ï¼‰åœ°å›¾ %s ä»è§†é‡å•å…ƒ[%d, %d]åˆ é™¤å®ä½“ %s æ—¶ï¼Œå‘ç°ä¸åœ¨è§†é‡å•å…ƒä¸­\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName());
+		LG("map character operator error", "(switch)map %s from eyeshot[%d, %d] delete entity %s ï¼Œfind it isn't in eyeshot cell.\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName());
 		return;
 	}
 	if (pCEnt->m_pCEyeshotHost != &m_pCEyeshotCell[l_pt.y][l_pt.x])
 	{
-		//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÇĞ»»£©µØÍ¼ %s ´ÓÊÓÒ°µ¥Ôª[%d, %d]É¾³ıÊµÌå %s Ê±£¬·¢ÏÖÆäÓë¼ÇÂ¼ÊÓÒ°µ¥Ôª[%d, %d]²»·û\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
-		LG("map character operatot error", "(switch)map %s from eyeshot[%d, %d]delete entity %s£¬find it isn't agree with log eyeshot cell[%d, %d].\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+		//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆåˆ‡æ¢ï¼‰åœ°å›¾ %s ä»è§†é‡å•å…ƒ[%d, %d]åˆ é™¤å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶ä¸è®°å½•è§†é‡å•å…ƒ[%d, %d]ä¸ç¬¦\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+		LG("map character operatot error", "(switch)map %s from eyeshot[%d, %d]delete entity %sï¼Œfind it isn't agree with log eyeshot cell[%d, %d].\n", GetName(), l_pt.x, l_pt.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
 		return;
 	}
 	pCEnt->m_pCEyeshotHost = 0;
@@ -467,7 +467,7 @@ void SubMap::Delete(Entity* pCEnt)
 	}
 T_E}
 
-// ÍÑÀëÔ­×´Ì¬µ¥Ôª£¬¼ÓÈëĞÂµÄ×´Ì¬µ¥Ôª
+// è„±ç¦»åŸçŠ¶æ€å•å…ƒï¼ŒåŠ å…¥æ–°çš„çŠ¶æ€å•å…ƒ
 void SubMap::MoveInStateCell(CCharacter* pCCha, const Point &SSrcPos, const Point &STarPos)
 {T_B
 	Point	l_src = SSrcPos;
@@ -480,7 +480,7 @@ void SubMap::MoveInStateCell(CCharacter* pCCha, const Point &SSrcPos, const Poin
 		return;
 
 	Long		x, y;
-	// ´ÓÔ´·¶Î§É¾³ı
+	// ä»æºèŒƒå›´åˆ é™¤
 	CStateCellNode	*pCNode = pCCha->m_pCStateCellHead;
 	if (pCCha)
 	{
@@ -490,17 +490,17 @@ void SubMap::MoveInStateCell(CCharacter* pCCha, const Point &SSrcPos, const Poin
 			pCNode = pCNode->m_pCNext;
 		}
 	}
-	// ÏòÄ¿±ê·¶Î§Ìí¼Ó
+	// å‘ç›®æ ‡èŒƒå›´æ·»åŠ 
 	for (y = l_dstTerr.ltop.y; y <= l_dstTerr.rbtm.y; y++)
 	{
 		for (x = l_dstTerr.ltop.x; x <= l_dstTerr.rbtm.x; x++)
 		{
 			if (y != l_dst.y || x != l_dst.x)
 			{
-				//StateCellAddCha(x, y, pCCha, false); // ¼ÓÈëµ½ÆäËû¹ÜÀíµ¥Ôª
+				//StateCellAddCha(x, y, pCCha, false); // åŠ å…¥åˆ°å…¶ä»–ç®¡ç†å•å…ƒ
 			}
 			else
-				StateCellAddCha(x, y, pCCha, true); // ¼ÓÈëµ½ÖĞĞÄ¹ÜÀíµ¥Ôª
+				StateCellAddCha(x, y, pCCha, true); // åŠ å…¥åˆ°ä¸­å¿ƒç®¡ç†å•å…ƒ
 		}
 	}
 T_E}
@@ -529,15 +529,15 @@ T_E}
 //	const Rect l_dstTerr = GetTerritory(l_dst, lRadius);
 //
 //	Long		x, y;
-//	if (chStep == 1) // ´ÓÔ´·¶Î§É¾³ı
+//	if (chStep == 1) // ä»æºèŒƒå›´åˆ é™¤
 //	{
 //		//// log
 //		//if (!strcmp("tty", pCEnt->GetName()))
 //		//{
 //		//	char	szPrint[512] = "";
-//		//	LG("ÒÆ¶¯¹ì¼£", "Ô´  £º[%d,%d]--[%d,%d]£¬[%d,%d].\n",
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "æº  ï¼š[%d,%d]--[%d,%d]ï¼Œ[%d,%d].\n",
 //		//		l_srcTerr.ltop.x, l_srcTerr.ltop.y, l_srcTerr.rbtm.x, l_srcTerr.rbtm.y, l_src.x, l_src.y);
-//		//	LG("ÒÆ¶¯¹ì¼£", "Ä¿±ê£º[%d,%d]--[%d,%d]£¬[%d,%d].\n",
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "ç›®æ ‡ï¼š[%d,%d]--[%d,%d]ï¼Œ[%d,%d].\n",
 //		//		l_dstTerr.ltop.x, l_dstTerr.ltop.y, l_dstTerr.rbtm.x, l_dstTerr.rbtm.y, l_dst.x, l_dst.y);
 //
 //		//	CMgrNode	*pCNode = pCEnt->m_pCMgrNodeHead;
@@ -546,23 +546,23 @@ T_E}
 //		//		sprintf(szPrint + strlen(szPrint), "[%d,%d],", pCNode->m_pCMgrUnit->m_sPosX, pCNode->m_pCMgrUnit->m_sPosY);
 //		//		pCNode = pCNode->m_pCNext;
 //		//	}
-//		//	LG("ÒÆ¶¯¹ì¼£", "½ÇÉ«Õ¼ÓÃµÄµ¥Ôª£º%s.\n", szPrint);
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "è§’è‰²å ç”¨çš„å•å…ƒï¼š%s.\n", szPrint);
 //		//}
 //		////
 //
 //		CMgrNode	*pCNode = pCEnt->m_pCMgrNodeHead, *pCTempNode;
-//		if (pCNode) // Ê×½Úµã
+//		if (pCNode) // é¦–èŠ‚ç‚¹
 //		{
 //			pCTempNode = pCNode->m_pCNext;
 //
 //			x = pCNode->m_pCMgrUnit->m_sPosX;
 //			y = pCNode->m_pCMgrUnit->m_sPosY;
 //			if (x < l_dstTerr.ltop.x || x > l_dstTerr.rbtm.x
-//				|| y < l_dstTerr.ltop.y || y > l_dstTerr.rbtm.y) // ²»ÔÚÄ¿±ê·¶Î§ÄÚ
+//				|| y < l_dstTerr.ltop.y || y > l_dstTerr.rbtm.y) // ä¸åœ¨ç›®æ ‡èŒƒå›´å†…
 //				pCNode->m_pCMgrUnit->DelEntity(pCNode->m_pCEntityNode);
 //			else
 //			{
-//				if (l_src != l_dst) // Ô­À´ÊÇÖĞĞÄ£¬ÏÖÔÚ²»ÊÇ
+//				if (l_src != l_dst) // åŸæ¥æ˜¯ä¸­å¿ƒï¼Œç°åœ¨ä¸æ˜¯
 //					m_pCMgrUnit[y][x]->SetEntityIn(pCNode->m_pCEntityNode, false);
 //			}
 //
@@ -575,13 +575,13 @@ T_E}
 //			x = pCNode->m_pCMgrUnit->m_sPosX;
 //			y = pCNode->m_pCMgrUnit->m_sPosY;
 //			if (x < l_dstTerr.ltop.x || x > l_dstTerr.rbtm.x
-//				|| y < l_dstTerr.ltop.y || y > l_dstTerr.rbtm.y) // ²»ÔÚÄ¿±ê·¶Î§ÄÚ
+//				|| y < l_dstTerr.ltop.y || y > l_dstTerr.rbtm.y) // ä¸åœ¨ç›®æ ‡èŒƒå›´å†…
 //				pCNode->m_pCMgrUnit->DelEntity(pCNode->m_pCEntityNode);
 //			else
 //			{
 //				if (l_src != l_dst)
 //				{
-//					if (l_dst.x == x && l_dst.y == y) // Ô­À´²»ÊÇÖĞĞÄ£¬ÏÖÔÚÊÇ
+//					if (l_dst.x == x && l_dst.y == y) // åŸæ¥ä¸æ˜¯ä¸­å¿ƒï¼Œç°åœ¨æ˜¯
 //						m_pCMgrUnit[y][x]->SetEntityIn(pCNode->m_pCEntityNode);
 //				}
 //			}
@@ -599,9 +599,9 @@ T_E}
 //		//		sprintf(szPrint + strlen(szPrint), "[%d,%d],", pCNode->m_pCMgrUnit->m_sPosX, pCNode->m_pCMgrUnit->m_sPosY);
 //		//		pCNode = pCNode->m_pCNext;
 //		//	}
-//		//	LG("ÒÆ¶¯¹ì¼£", "´ÓÔ´É¾³ıºó£¬½ÇÉ«Õ¼ÓÃµÄµ¥Ôª£º%s.\n", szPrint);
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "ä»æºåˆ é™¤åï¼Œè§’è‰²å ç”¨çš„å•å…ƒï¼š%s.\n", szPrint);
 //
-//		//	LG("ÒÆ¶¯¹ì¼£", "Ô´·¶Î§±»É¾³ıºó£¬ÓµÓĞµÄ½ÇÉ«£º\n");
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "æºèŒƒå›´è¢«åˆ é™¤åï¼Œæ‹¥æœ‰çš„è§’è‰²ï¼š\n");
 //		//	for (y = l_srcTerr.ltop.y; y <= l_srcTerr.rbtm.y; y++)
 //		//		for (x = l_srcTerr.ltop.x; x <= l_srcTerr.rbtm.x; x++)
 //		//		{
@@ -612,7 +612,7 @@ T_E}
 //		//				sprintf(szPrint + strlen(szPrint), "%s,", pCNode->m_pCEntity->m_CLog.GetLogName());
 //		//				pCNode = pCNode->m_pCNext;
 //		//			}
-//		//			LG("ÒÆ¶¯¹ì¼£", "\tÖĞĞÄÁ´[%d,%d]£º%s\n", x, y, szPrint);
+//		//			LG("ç§»åŠ¨è½¨è¿¹", "\tä¸­å¿ƒé“¾[%d,%d]ï¼š%s\n", x, y, szPrint);
 //		//			szPrint[0] = '\0';
 //		//			pCNode = m_pCMgrUnit[y][x]->m_pCChaCross;
 //		//			while (pCNode)
@@ -620,12 +620,12 @@ T_E}
 //		//				sprintf(szPrint + strlen(szPrint), "%s,", pCNode->m_pCEntity->m_CLog.GetLogName());
 //		//				pCNode = pCNode->m_pCNext;
 //		//			}
-//		//			LG("ÒÆ¶¯¹ì¼£", "\t½»²æÁ´[%d,%d]£º%s\n", x, y, szPrint);
+//		//			LG("ç§»åŠ¨è½¨è¿¹", "\täº¤å‰é“¾[%d,%d]ï¼š%s\n", x, y, szPrint);
 //		//		}
 //		//}
 //		////
 //	}
-//	else if (chStep == 2) // ÏòÄ¿±ê·¶Î§Ìí¼Ó
+//	else if (chStep == 2) // å‘ç›®æ ‡èŒƒå›´æ·»åŠ 
 //	{
 //		pCEnt->SetPos(STarPos);
 //		if (l_src != l_dst)
@@ -635,12 +635,12 @@ T_E}
 //			for (x = l_dstTerr.ltop.x; x <= l_dstTerr.rbtm.x; x++)
 //			{
 //				if (x < l_srcTerr.ltop.x || x > l_srcTerr.rbtm.x
-//					|| y < l_srcTerr.ltop.y || y > l_srcTerr.rbtm.y) // ²»ÔÚÔ´·¶Î§ÄÚ
+//					|| y < l_srcTerr.ltop.y || y > l_srcTerr.rbtm.y) // ä¸åœ¨æºèŒƒå›´å†…
 //				{
 //					if (y != l_dst.y || x != l_dst.x)
-//						MgrUnitAddEntity(x, y, pCEnt, def_MGRUNIT_ENTITY_TYPE_CHACROSS); // ¼ÓÈëµ½ÆäËû¹ÜÀíµ¥Ôª
+//						MgrUnitAddEntity(x, y, pCEnt, def_MGRUNIT_ENTITY_TYPE_CHACROSS); // åŠ å…¥åˆ°å…¶ä»–ç®¡ç†å•å…ƒ
 //					else
-//						MgrUnitAddEntity(x, y, pCEnt, def_MGRUNIT_ENTITY_TYPE_CHAIN); // ¼ÓÈëµ½ÖĞĞÄ¹ÜÀíµ¥Ôª
+//						MgrUnitAddEntity(x, y, pCEnt, def_MGRUNIT_ENTITY_TYPE_CHAIN); // åŠ å…¥åˆ°ä¸­å¿ƒç®¡ç†å•å…ƒ
 //				}
 //			}
 //		}
@@ -656,9 +656,9 @@ T_E}
 //		//		sprintf(szPrint + strlen(szPrint), "[%d,%d],", pCNode->m_pCMgrUnit->m_sPosX, pCNode->m_pCMgrUnit->m_sPosY);
 //		//		pCNode = pCNode->m_pCNext;
 //		//	}
-//		//	LG("ÒÆ¶¯¹ì¼£", "ÏòÄ¿±êÌí¼Óºó£¬½ÇÉ«Õ¼ÓÃµÄµ¥Ôª£º%s.\n", szPrint);
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "å‘ç›®æ ‡æ·»åŠ åï¼Œè§’è‰²å ç”¨çš„å•å…ƒï¼š%s.\n", szPrint);
 //
-//		//	LG("ÒÆ¶¯¹ì¼£", "Ä¿±ê·¶Î§±»Ìí¼Óºó£¬ÓµÓĞµÄ½ÇÉ«£º\n");
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "ç›®æ ‡èŒƒå›´è¢«æ·»åŠ åï¼Œæ‹¥æœ‰çš„è§’è‰²ï¼š\n");
 //		//	for (y = l_dstTerr.ltop.y; y <= l_dstTerr.rbtm.y; y++)
 //		//		for (x = l_dstTerr.ltop.x; x <= l_dstTerr.rbtm.x; x++)
 //		//		{
@@ -669,7 +669,7 @@ T_E}
 //		//				sprintf(szPrint + strlen(szPrint), "%s,", pCNode->m_pCEntity->m_CLog.GetLogName());
 //		//				pCNode = pCNode->m_pCNext;
 //		//			}
-//		//			LG("ÒÆ¶¯¹ì¼£", "\tÖĞĞÄÁ´[%d,%d]£º%s\n", x, y, szPrint);
+//		//			LG("ç§»åŠ¨è½¨è¿¹", "\tä¸­å¿ƒé“¾[%d,%d]ï¼š%s\n", x, y, szPrint);
 //		//			szPrint[0] = '\0';
 //		//			pCNode = m_pCMgrUnit[y][x]->m_pCChaCross;
 //		//			while (pCNode)
@@ -677,17 +677,17 @@ T_E}
 //		//				sprintf(szPrint + strlen(szPrint), "%s,", pCNode->m_pCEntity->m_CLog.GetLogName());
 //		//				pCNode = pCNode->m_pCNext;
 //		//			}
-//		//			LG("ÒÆ¶¯¹ì¼£", "\t½»²æÁ´[%d,%d]£º%s\n", x, y, szPrint);
+//		//			LG("ç§»åŠ¨è½¨è¿¹", "\täº¤å‰é“¾[%d,%d]ï¼š%s\n", x, y, szPrint);
 //		//		}
-//		//	LG("ÒÆ¶¯¹ì¼£", "\n");
+//		//	LG("ç§»åŠ¨è½¨è¿¹", "\n");
 //		//}
 //		////
 //	}
 //}
 //
 //=============================================================================
-// ½øÈë¸±±¾£¨Èç¹û³É¹¦£¬Ôò¸üĞÂÊÓÒ°µ¥Ôª£¬½øĞĞÊÓÒ°Í¨¸æ£©
-// bActiveMgr ÊÇ·ñ»á¼¤»î¹ÜÀíµ¥Ôª
+// è¿›å…¥å‰¯æœ¬ï¼ˆå¦‚æœæˆåŠŸï¼Œåˆ™æ›´æ–°è§†é‡å•å…ƒï¼Œè¿›è¡Œè§†é‡é€šå‘Šï¼‰
+// bActiveMgr æ˜¯å¦ä¼šæ¿€æ´»ç®¡ç†å•å…ƒ
 //=============================================================================
 bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 {T_B
@@ -701,10 +701,10 @@ bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 	Rect	l_rect = GetEyeshot(l_pt1);
 	long	lStep = pSEntShape->radius;
 
-	if (lStep == 0) // ¶ÔÓÚ×ÔÉí°ë¾¶Îª0µÄÇé¿ö
+	if (lStep == 0) // å¯¹äºè‡ªèº«åŠå¾„ä¸º0çš„æƒ…å†µ
 		lStep = 40;
 
-	//È·¶¨³õÊ¼Î»ÖÃ
+	//ç¡®å®šåˆå§‹ä½ç½®
 	ent->m_submap	=this;
 	long l_xdlt	=0,l_ydlt	=0;
 	
@@ -714,7 +714,7 @@ bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 		{
 			long l_dist =0;
 			bool l_overflag =true;
-			while(l_overflag) //Ö±µ½È·¶¨Î»ÖÃÎªÖ¹
+			while(l_overflag) //ç›´åˆ°ç¡®å®šä½ç½®ä¸ºæ­¢
 			{
 				l_dist++;
 				for(short dir=0;dir<4;dir++){
@@ -746,7 +746,7 @@ bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 		if(ent->overlap(l_xdlt,l_ydlt))
 			l_retval = false;
 	}
-	else // Ç¿ÖÆ½øÈë
+	else // å¼ºåˆ¶è¿›å…¥
 	{}
 	//beginsee
 	if(l_retval)
@@ -764,7 +764,7 @@ bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 			}
 		}
 
-		//¼ÓÈë
+		//åŠ å…¥
 		ent->RefreshArea();
 		Add(ent);		
 		ent->m_lastpos	=ent->GetPos();
@@ -776,7 +776,7 @@ bool SubMap::Enter(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 	return l_retval;
 T_E}
 
-// Ä£ÄâEnterÀı³Ì£¬È·¶¨½øÈëÎ»ÖÃ£¬µ«²»Ö´ĞĞ½øÈë¸±±¾²Ù×÷
+// æ¨¡æ‹ŸEnterä¾‹ç¨‹ï¼Œç¡®å®šè¿›å…¥ä½ç½®ï¼Œä½†ä¸æ‰§è¡Œè¿›å…¥å‰¯æœ¬æ“ä½œ
 bool SubMap::EnsurePos(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 {T_B
 	ent->SetInitShape(*pSEntShape);
@@ -788,10 +788,10 @@ bool SubMap::EnsurePos(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 	l_pt1 = l_pt;
 	long	lStep = pSEntShape->radius;
 
-	if (lStep == 0) // ¶ÔÓÚ×ÔÉí°ë¾¶Îª0µÄÇé¿ö
+	if (lStep == 0) // å¯¹äºè‡ªèº«åŠå¾„ä¸º0çš„æƒ…å†µ
 		lStep = 40;
 
-	//È·¶¨³õÊ¼Î»ÖÃ
+	//ç¡®å®šåˆå§‹ä½ç½®
 	ent->m_submap	=this;
 	long l_xdlt	=0,l_ydlt	=0;
 	
@@ -801,7 +801,7 @@ bool SubMap::EnsurePos(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 		{
 			long l_dist =0;
 			bool l_overflag =true;
-			while(l_overflag) //Ö±µ½È·¶¨Î»ÖÃÎªÖ¹
+			while(l_overflag) //ç›´åˆ°ç¡®å®šä½ç½®ä¸ºæ­¢
 			{
 				l_dist++;
 				for(short dir=0;dir<6;dir++){
@@ -831,7 +831,7 @@ bool SubMap::EnsurePos(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 		if(ent->overlap(l_xdlt,l_ydlt))
 			l_retval = false;
 	}
-	else // Ç¿ÖÆ½øÈë
+	else // å¼ºåˆ¶è¿›å…¥
 	{}
 	//beginsee
 	if(!l_retval)
@@ -842,14 +842,14 @@ bool SubMap::EnsurePos(Square* pSEntShape, Entity * ent, cLong clSearchRadius)
 T_E}
 
 //=============================================================================
-// ³ö¸±±¾£¬ÍÑÀëÊÓÒ°µ¥Ôª£¬½øĞĞÊÓÒ°Í¨¸æ
-// bActiveMgr ÊÇ·ñ¶Ô¹ÜÀíµ¥ÔªµÄ¼ÆÊı²úÉúÓ°Ïì
+// å‡ºå‰¯æœ¬ï¼Œè„±ç¦»è§†é‡å•å…ƒï¼Œè¿›è¡Œè§†é‡é€šå‘Š
+// bActiveMgr æ˜¯å¦å¯¹ç®¡ç†å•å…ƒçš„è®¡æ•°äº§ç”Ÿå½±å“
 //=============================================================================
 void SubMap::GoOut(Entity * ent)
 {T_B
 	Point l_pt =ent->GetShape().centre;
 	Rect l_rect =GetEyeshot(l_pt);
-	//É¾³ı
+	//åˆ é™¤
 	Delete(ent);
 	//endsee
 
@@ -869,7 +869,7 @@ void SubMap::GoOut(Entity * ent)
 	ent->m_submap =0;
 T_E}
 
-// ÊÓÒ°ÄÚµÄËùÓĞÊÓÒ°µ¥Ôª½øĞĞÊÓÒ°Ë¢ĞÂ
+// è§†é‡å†…çš„æ‰€æœ‰è§†é‡å•å…ƒè¿›è¡Œè§†é‡åˆ·æ–°
 void SubMap::RefreshEyeshot(Entity *pCEnt, bool bEyeshot, bool bHide, bool bShow)
 {
 	Point l_pt = pCEnt->GetShape().centre;
@@ -969,9 +969,9 @@ CCharacter*	SubMap::FindCharacter( dbc::uLong ulID, const Point& point )
 T_E}
 
 //=============================================================================
-// plRangeBParam ÇøÓò»ù±¾²ÎÊı£º¸öÊı defSKILL_RANGE_BASEP_NUM£¬ ÄÚÈİ ÇøÓòÖĞĞÄ×ø±ê£¬·½Ïò
-// plRangeEParam ÇøÓòÀ©Õ¹²ÎÊı£º¸öÊı defSKILL_RANGE_EXTEP_NUM£¬ ÄÚÈİ ·¶Î§ÀàĞÍ£¬ÀàĞÍ²ÎÊı
-// bIncludeHideEnti ÊÇ·ñ°üº¬ÒşÉíµÄÊµÌå
+// plRangeBParam åŒºåŸŸåŸºæœ¬å‚æ•°ï¼šä¸ªæ•° defSKILL_RANGE_BASEP_NUMï¼Œ å†…å®¹ åŒºåŸŸä¸­å¿ƒåæ ‡ï¼Œæ–¹å‘
+// plRangeEParam åŒºåŸŸæ‰©å±•å‚æ•°ï¼šä¸ªæ•° defSKILL_RANGE_EXTEP_NUMï¼Œ å†…å®¹ èŒƒå›´ç±»å‹ï¼Œç±»å‹å‚æ•°
+// bIncludeHideEnti æ˜¯å¦åŒ…å«éšèº«çš„å®ä½“
 //=============================================================================
 void SubMap::BeginSearchInRange(Long *plRangeBParam, Long *plRangeEParam, bool bIncludeHideEnti)
 {T_B
@@ -1063,14 +1063,14 @@ void SubMap::BeginSearchInRange(Long *plRangeBParam, Long *plRangeEParam, bool b
 			ex = sx + GetStateCellWidth() - 1;
 			sy = i * GetStateCellHeight();
 			ey = sy + GetStateCellHeight() - 1;
-			if (m_pCBaseRange->RectHitTest(sx, sy, ex, ey)) // ¹ÜÀíµ¥ÔªÔÚ·¶Î§ÄÚ
+			if (m_pCBaseRange->RectHitTest(sx, sy, ex, ey)) // ç®¡ç†å•å…ƒåœ¨èŒƒå›´å†…
 			{
 				m_lRangeMgrUnit[m_sRangeMgrUnitNum][0] = j;
 				m_lRangeMgrUnit[m_sRangeMgrUnitNum][1] = i;
 				m_sRangeMgrUnitNum++;
 				if (m_sRangeMgrUnitNum >= defRANGE_MGRUNIU_NUM)
 				{
-					//MessageBox(NULL, "ÇøÓòËÑË÷µÄ·¶Î§³¬¹ıÉè¶¨Öµ", "´íÎó", MB_OK);
+					//MessageBox(NULL, "åŒºåŸŸæœç´¢çš„èŒƒå›´è¶…è¿‡è®¾å®šå€¼", "é”™è¯¯", MB_OK);
 					MessageBox(NULL, RES_STRING(GM_SUBMAP_CPP_00004), RES_STRING(GM_SUBMAP_CPP_00005), MB_OK);
 					return;
 				}
@@ -1114,7 +1114,7 @@ Research:
 T_E}
 
 //=============================================================================
-// ÔÚÀı³ÌBeginSearchInRangeÉè¶¨µÄ·¶Î§ÄÚÔö¼Ó×´Ì¬
+// åœ¨ä¾‹ç¨‹BeginSearchInRangeè®¾å®šçš„èŒƒå›´å†…å¢åŠ çŠ¶æ€
 //=============================================================================
 bool SubMap::RangeAddState(uChar uchFightID, uLong ulSrcWorldID, Long lSrcHandle,
 						   Char chObjType, Char chObjHabitat, Char chEffType, Short *sStateParam)
@@ -1196,7 +1196,7 @@ bool SubMap::RangeAddState(Rect *pSRange, uChar uchFightID, uLong ulSrcWorldID, 
 				bAddSuc = AddCellState(uchFightID, ulSrcWorldID, lSrcHandle, chObjType, chObjHabitat, chEffType, x, y, (uChar)sStateParam[0], (uChar)sStateParam[1], ulStartTick, sStateParam[2], pSStateR->chAddType, 0);
 			if (!bAlreadyHas && bAddSuc)
 			{
-				ActiveEyeshotCell(m_pCStateCell[y][x]->m_pCEyeshotCell->m_sPosX, m_pCStateCell[y][x]->m_pCEyeshotCell->m_sPosY); // ×´Ì¬¼¤»î¹ÜÀíµ¥Ôª
+				ActiveEyeshotCell(m_pCStateCell[y][x]->m_pCEyeshotCell->m_sPosX, m_pCStateCell[y][x]->m_pCEyeshotCell->m_sPosY); // çŠ¶æ€æ¿€æ´»ç®¡ç†å•å…ƒ
 				NotiStateCellToEyeshot((short)x, (short)y);
 			}
 		}
@@ -1250,18 +1250,18 @@ void SubMap::NotiStateCellToEyeshot(Short sCellX, Short sCellY)
 T_E}
 
 //=============================================================================
-// ÒÆ¶¯£¨ÒÆ¶¯Î»ÖÃ£¬ÊÓÒ°£©
+// ç§»åŠ¨ï¼ˆç§»åŠ¨ä½ç½®ï¼Œè§†é‡ï¼‰
 //=============================================================================
 void SubMap::MoveTo(Entity *pCEnt, const Point &STar)
 {T_B
 	if (pCEnt->GetPos() != pCEnt->m_lastpos)
 	{
 		Char	szMess[512];
-		//sprintf(szMess, "½ÇÉ« %s ÒÆ¶¯Ô­Ê¼×ø±ê´íÎó£¬ÉÏ´ÎÎ»ÖÃ[%d, %d]£¬µ±Ç°Î»ÖÃ[%d, %d]£¬Ä¿±êÎ»ÖÃ[%d, %d]",
-		sprintf(szMess, "character %s move originality coordinate error£¬last time position[%d, %d]£¬current position[%d, %d]£¬aim position[%d, %d]",
+		//sprintf(szMess, "è§’è‰² %s ç§»åŠ¨åŸå§‹åæ ‡é”™è¯¯ï¼Œä¸Šæ¬¡ä½ç½®[%d, %d]ï¼Œå½“å‰ä½ç½®[%d, %d]ï¼Œç›®æ ‡ä½ç½®[%d, %d]",
+		sprintf(szMess, "character %s move originality coordinate errorï¼Œlast time position[%d, %d]ï¼Œcurrent position[%d, %d]ï¼Œaim position[%d, %d]",
 			pCEnt->m_CLog.GetLogName(), pCEnt->m_lastpos.x, pCEnt->m_lastpos.y, pCEnt->GetPos().x, pCEnt->GetPos().y, STar.x, STar.y);
-		//::MessageBox(0,szMess,"Çëµ÷ÊÔ!",MB_OK);
-		//LG("ÒÆ¶¯´íÎó", "%s\n", szMess);
+		//::MessageBox(0,szMess,"è¯·è°ƒè¯•!",MB_OK);
+		//LG("ç§»åŠ¨é”™è¯¯", "%s\n", szMess);
 		LG("move error", "%s\n", szMess);
 		pCEnt->SetPos(pCEnt->m_lastpos);
 	}
@@ -1280,18 +1280,18 @@ void SubMap::MoveTo(Entity *pCEnt, const Point &STar)
 	tMoveMMask.End();
 	tMoveEyeshot.Begin();
 	pCEnt->SetPos(STar);
-	if (l_src != l_dst) // ÊÓ½Ç²»ÖØµş
+	if (l_src != l_dst) // è§†è§’ä¸é‡å 
 	{
-		//´ÓÔ´É¾³ı
+		//ä»æºåˆ é™¤
 		if (!pCEnt->m_pCEyeshotHost)
 		{
-			//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÒÆ¶¯£©µØÍ¼ %s ´ÓÊÓÒ°µ¥Ôª[%d, %d]É¾³ıÊµÌå %s Ê±£¬·¢ÏÖ²»ÔÚÊÓÒ°µ¥ÔªÖĞ\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName());
-			LG("map character operator error", "(move)map  %s from eyeshot cell[%d, %d]delete entity %s £¬find it isn't in the eyeshot cell.\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName());
+			//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆç§»åŠ¨ï¼‰åœ°å›¾ %s ä»è§†é‡å•å…ƒ[%d, %d]åˆ é™¤å®ä½“ %s æ—¶ï¼Œå‘ç°ä¸åœ¨è§†é‡å•å…ƒä¸­\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName());
+			LG("map character operator error", "(move)map  %s from eyeshot cell[%d, %d]delete entity %s ï¼Œfind it isn't in the eyeshot cell.\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName());
 			return;
 		}
 		if (pCEnt->m_pCEyeshotHost != &m_pCEyeshotCell[l_src.y][l_src.x])
 		{
-			//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÒÆ¶¯£©µØÍ¼ %s ´ÓÊÓÒ°µ¥Ôª[%d, %d]É¾³ıÊµÌå %s Ê±£¬·¢ÏÖÆäÓë¼ÇÂ¼ÊÓÒ°µ¥Ôª[%d, %d]²»·û\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+			//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆç§»åŠ¨ï¼‰åœ°å›¾ %s ä»è§†é‡å•å…ƒ[%d, %d]åˆ é™¤å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶ä¸è®°å½•è§†é‡å•å…ƒ[%d, %d]ä¸ç¬¦\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
 			LG("map character operator error", "(move)map %s from eyeshot cell[%d, %d]delete entity %s ,find it isn't agree with log eyeshot cell[%d, %d].\n", GetName(), l_src.x, l_src.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
 			return;
 		}
@@ -1441,18 +1441,18 @@ void SubMap::MoveTo(Entity *pCEnt, const Point &STar)
 				const long l_dstx = abs(x - l_dst.x);
 				const long l_dsty = abs(y - l_dst.y);
 				if (l_srcx <= GetEyeshotWidth() && l_srcy <= GetEyeshotWidth()
-					&& l_dstx <= GetEyeshotWidth() && l_dsty <= GetEyeshotWidth()) //Ïà½»ÇøÓò
+					&& l_dstx <= GetEyeshotWidth() && l_dsty <= GetEyeshotWidth()) //ç›¸äº¤åŒºåŸŸ
 					continue;
 				else if ((l_srcx > GetEyeshotWidth() || l_srcy > GetEyeshotWidth())
-					&& (l_dstx > GetEyeshotWidth() || l_dsty > GetEyeshotWidth())) //ÎŞ¹ØÇøÓò
+					&& (l_dstx > GetEyeshotWidth() || l_dsty > GetEyeshotWidth())) //æ— å…³åŒºåŸŸ
 					continue;
-				else if (abs(x - l_src.x) <= GetEyeshotWidth() && abs(y - l_src.y) <= GetEyeshotWidth()) //Ô´¿é¸½½üµÄ£¬endsee
+				else if (abs(x - l_src.x) <= GetEyeshotWidth() && abs(y - l_src.y) <= GetEyeshotWidth()) //æºå—é™„è¿‘çš„ï¼Œendsee
 				{
 					if (bActive)
 						InactiveEyeshotCell(x, y);
 					m_pCEyeshotCell[y][x].OutEyeshot(pCEnt);
 				}
-				else		//Ä¿±ê¿é¸½½üµÄ£¬beginsee
+				else		//ç›®æ ‡å—é™„è¿‘çš„ï¼Œbeginsee
 				{
 					if (bActive)
 						ActiveEyeshotCell(x, y);
@@ -1461,11 +1461,11 @@ void SubMap::MoveTo(Entity *pCEnt, const Point &STar)
 			}
 		}
 
-		//²åÈëÄ¿±ê
+		//æ’å…¥ç›®æ ‡
 		if (pCEnt->m_pCEyeshotHost)
 		{
-			//LG("µØÍ¼½ÇÉ«²Ù×÷´íÎó", "£¨ÒÆ¶¯£©µØÍ¼ %s ÏòÊÓÒ°µ¥Ôª[%d, %d]Ôö¼ÓÊµÌå %s Ê±£¬·¢ÏÖÆäÃ»ÓĞÍÑÀëÏÈÇ°µÄÊÓÒ°µ¥Ôª[%d, %d]\n", GetName(), l_dst.x, l_dst.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
-			LG("map character operator error", "(move)map %s from eyeshot cell[%d, %d] add entity %s £¬find it is not break away foregone manage cell[%d, %d]\n", GetName(), l_dst.x, l_dst.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+			//LG("åœ°å›¾è§’è‰²æ“ä½œé”™è¯¯", "ï¼ˆç§»åŠ¨ï¼‰åœ°å›¾ %s å‘è§†é‡å•å…ƒ[%d, %d]å¢åŠ å®ä½“ %s æ—¶ï¼Œå‘ç°å…¶æ²¡æœ‰è„±ç¦»å…ˆå‰çš„è§†é‡å•å…ƒ[%d, %d]\n", GetName(), l_dst.x, l_dst.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
+			LG("map character operator error", "(move)map %s from eyeshot cell[%d, %d] add entity %s ï¼Œfind it is not break away foregone manage cell[%d, %d]\n", GetName(), l_dst.x, l_dst.y, pCEnt->GetLogName(), pCEnt->m_pCEyeshotHost->m_sPosX, pCEnt->m_pCEyeshotHost->m_sPosY);
 			return;
 		}
 		pCEnt->m_pCEyeshotHost = &m_pCEyeshotCell[l_dst.y][l_dst.x];
@@ -1480,8 +1480,8 @@ void SubMap::MoveTo(Entity *pCEnt, const Point &STar)
 
 	DWORD	dwAllTime = tMoveState.GetTimeCount() + tMoveMMask.GetTimeCount() + tMoveEyeshot.GetTimeCount() + tMoveArea.GetTimeCount();
 	if (dwAllTime >= 50)
-		//LG("map_time", "\t\t½ÇÉ«[%s]ÊÓÒ°ÒÆ¶¯»¨·ÑµÄÊ±¼ä¹ı³¤ time = %u£¨ÆäÖĞ×´Ì¬»¨·Ñ%u£¬Ì½Ë÷¶È»¨·Ñ%u£¬ÊÓÒ°»¨·Ñ%u£¬ÇøÓò»¨·Ñ%u£©\n",
-		LG("map_time", "\t\tcharacter[%s] eyeshot move spend overabundance time time = %u£¨thereinto state spend %u£¬explore spend %u£¬eyeshot spend %u£¬area spend %u£©\n",
+		//LG("map_time", "\t\tè§’è‰²[%s]è§†é‡ç§»åŠ¨èŠ±è´¹çš„æ—¶é—´è¿‡é•¿ time = %uï¼ˆå…¶ä¸­çŠ¶æ€èŠ±è´¹%uï¼Œæ¢ç´¢åº¦èŠ±è´¹%uï¼Œè§†é‡èŠ±è´¹%uï¼ŒåŒºåŸŸèŠ±è´¹%uï¼‰\n",
+		LG("map_time", "\t\tcharacter[%s] eyeshot move spend overabundance time time = %uï¼ˆthereinto state spend %uï¼Œexplore spend %uï¼Œeyeshot spend %uï¼Œarea spend %uï¼‰\n",
 			pCEnt->GetLogName(), dwAllTime, tMoveState.GetTimeCount(), tMoveMMask.GetTimeCount(), tMoveEyeshot.GetTimeCount(), tMoveArea.GetTimeCount());
 T_E}
 
@@ -1489,7 +1489,7 @@ void SubMap::LoadMonsterInfo(void)
 {T_B
 T_E}
 
-// ÖØÖÃµØ±í×´Ì¬
+// é‡ç½®åœ°è¡¨çŠ¶æ€
 void SubMap::ClearSurfaceState(void)
 {T_B
 	CStateCell		*pCStateCell;
@@ -1500,7 +1500,7 @@ void SubMap::ClearSurfaceState(void)
 	}
 T_E}
 
-// ¸´Î»·ÇÍæ¼Ò½ÇÉ«£¬ÓÃÓÚ¸±±¾ÖØĞÂ¿ªÆôÊ±µÄ½ÇÉ«³õÊ¼»¯
+// å¤ä½éç©å®¶è§’è‰²ï¼Œç”¨äºå‰¯æœ¬é‡æ–°å¼€å¯æ—¶çš„è§’è‰²åˆå§‹åŒ–
 void SubMap::ResetNotPlyCha()
 {T_B
 	CCharacter	*pCCha;
@@ -1519,7 +1519,7 @@ void SubMap::ResetNotPlyCha()
 			{
 				if (++lChaCount > lChaNum)
 				{
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					LG("eyeshot activation error", "eyeshot cell[%d,%d] practice entity numbers%d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					break;
 				}
@@ -1536,13 +1536,13 @@ void SubMap::ResetNotPlyCha()
 	}
 T_E}
 
-// Çı³ıÍæ¼Ò½ÇÉ«£¬ÓÃÓÚ¸±±¾¹Ø±ÕÊ±£¬ËùÓĞÍæ¼Ò½ÇÉ«³ö¸±±¾
+// é©±é™¤ç©å®¶è§’è‰²ï¼Œç”¨äºå‰¯æœ¬å…³é—­æ—¶ï¼Œæ‰€æœ‰ç©å®¶è§’è‰²å‡ºå‰¯æœ¬
 void SubMap::ClearPlayerCha()
 {T_B
 	CEyeshotCell	*pCEyeCell;
 	CCharacter		*pCCha, *pCProcCha;
 	long			lChaCount, lChaNum;
-	//LG("enter_map", "µØÍ¼ %s£¨¸±±¾ºÅ %d£©£¬¿ªÊ¼Çå³ıËùÓĞÍæ¼Ò!\n", GetName(), GetCopyNO());
+	//LG("enter_map", "åœ°å›¾ %sï¼ˆå‰¯æœ¬å· %dï¼‰ï¼Œå¼€å§‹æ¸…é™¤æ‰€æœ‰ç©å®¶!\n", GetName(), GetCopyNO());
 	LG("enter_map", "map %s(copyID %d),start delete all character!\n", GetName(), GetCopyNO());
 	m_CEyeshotCellL.BeginGet();
 	while (pCEyeCell = m_CEyeshotCellL.GetNext())
@@ -1554,7 +1554,7 @@ void SubMap::ClearPlayerCha()
 		{
 			if (++lChaCount > lChaNum)
 			{
-				//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+				//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				LG("eyeshot activation error", "eyeshot cell[%d,%d]practice entity numbers %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				break;
 			}
@@ -1568,12 +1568,12 @@ void SubMap::ClearPlayerCha()
 			if(pCProcCha->IsPlayerFocusCha())
 			{
 				if (!pCProcCha->GetSubMap())
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÔÚ½øĞĞµØÍ¼Í¨¸æÊ±Íæ¼Ò %s(%s)[%d,%d] µÄµØÍ¼Îª¿Õ\n",
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "åœ¨è¿›è¡Œåœ°å›¾é€šå‘Šæ—¶ç©å®¶ %s(%s)[%d,%d] çš„åœ°å›¾ä¸ºç©º\n",
 					LG("eyeshot activation error", "in the wind map notify character %s(%s)[%d,%d] 's map is empty\n",
 						pCProcCha->GetLogName(), pCProcCha->GetPlyCtrlCha()->GetLogName(), pCProcCha->GetPos().x, pCProcCha->GetPos().y);
 
-				//LG("enter_map", "µØÍ¼ %s ¹Ø±Õ£¬Çå³ıÍæ¼Ò %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
-				LG("enter_map", "map %s close£¬clean out %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
+				//LG("enter_map", "åœ°å›¾ %s å…³é—­ï¼Œæ¸…é™¤ç©å®¶ %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
+				LG("enter_map", "map %s closeï¼Œclean out %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
 				if (!pCProcCha->IsLiveing())
 				{
 					g_CParser.DoString("Relive", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, pCProcCha, DOSTRING_PARAM_END);
@@ -1588,7 +1588,7 @@ void SubMap::ClearPlayerCha()
 		}
 	}
 	m_COutMapCha.Drop();
-	//LG("enter_map", "µØÍ¼ %s£¨¸±±¾ºÅ %d£© Çå³ıÍæ¼Ò³É¹¦!\n", GetName(), GetCopyNO());
+	//LG("enter_map", "åœ°å›¾ %sï¼ˆå‰¯æœ¬å· %dï¼‰ æ¸…é™¤ç©å®¶æˆåŠŸ!\n", GetName(), GetCopyNO());
 	LG("enter_map", "map %s( copyID %d)clean out character succeed!\n", GetName(), GetCopyNO());
 T_E}
 
@@ -1610,7 +1610,7 @@ void SubMap::ClearAllMonster(void)
 			{
 				if (++lChaCount > lChaNum)
 				{
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					LG("eyeshot activation error", "eyeshot cell[%d,%d]practice entity number %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					break;
 				}
@@ -1645,7 +1645,7 @@ void SubMap::ClearAllMonsterByName(const char* szMonsName)
 			{
 				if (++lChaCount > lChaNum)
 				{
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					LG("eyeshot activation error", "eyeshot cell[%d,%d]practice entity number %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 					break;
 				}
@@ -1670,8 +1670,8 @@ void SubMap::ClearAllCha()
 	CEyeshotCell	*pCEyeCell;
 	CCharacter		*pCCha, *pCProcCha;
 	long			lChaCount, lChaNum;
-	//LG("enter_map", "µØÍ¼ %s£¨¸±±¾ºÅ %d£©£¬¿ªÊ¼Çå³ıËùÓĞ¹ÖÎï!\n", GetName(), GetCopyNO());
-	LG("enter_map", "map %s(copyID %d)£¬start clean out all monsters\n", GetName(), GetCopyNO());
+	//LG("enter_map", "åœ°å›¾ %sï¼ˆå‰¯æœ¬å· %dï¼‰ï¼Œå¼€å§‹æ¸…é™¤æ‰€æœ‰æ€ªç‰©!\n", GetName(), GetCopyNO());
+	LG("enter_map", "map %s(copyID %d)ï¼Œstart clean out all monsters\n", GetName(), GetCopyNO());
 	m_CEyeshotCellL.BeginGet();
 	while (pCEyeCell = m_CEyeshotCellL.GetNext())
 	{
@@ -1682,7 +1682,7 @@ void SubMap::ClearAllCha()
 		{
 			if (++lChaCount > lChaNum)
 			{
-				//LG("ÊÓÒ°¼¤»î´íÎó", "ÊÓÒ°µ¥Ôª[%d,%d]Êµ¼ÊÊµÌåÊı %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
+				//LG("è§†é‡æ¿€æ´»é”™è¯¯", "è§†é‡å•å…ƒ[%d,%d]å®é™…å®ä½“æ•° %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				LG("eyeshot activation error", "eyeshot cell[%d,%d]practice entity numbers %d\n", pCEyeCell->m_sPosX, pCEyeCell->m_sPosY, lChaNum);
 				break;
 			}
@@ -1700,11 +1700,11 @@ void SubMap::ClearAllCha()
 			else
 			{
 				if (!pCProcCha->GetSubMap())
-					//LG("ÊÓÒ°¼¤»î´íÎó", "ÔÚ½øĞĞµØÍ¼Í¨¸æÊ±Íæ¼Ò %s(%s)[%d,%d] µÄµØÍ¼Îª¿Õ\n",
+					//LG("è§†é‡æ¿€æ´»é”™è¯¯", "åœ¨è¿›è¡Œåœ°å›¾é€šå‘Šæ—¶ç©å®¶ %s(%s)[%d,%d] çš„åœ°å›¾ä¸ºç©º\n",
 					LG("eyeshot activation error", "in the wind map notify character %s(%s)[%d,%d] 's map is empty\n",
 					pCProcCha->GetLogName(), pCProcCha->GetPlyCtrlCha()->GetLogName(), pCProcCha->GetPos().x, pCProcCha->GetPos().y);
 
-				//LG("enter_map", "µØÍ¼ %s ¹Ø±Õ£¬Çå³ıÍæ¼Ò %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
+				//LG("enter_map", "åœ°å›¾ %s å…³é—­ï¼Œæ¸…é™¤ç©å®¶ %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
 				LG("enter_map", "map %s close,clean out character %s[%s]!\n", GetName(), pCProcCha->GetName(), pCProcCha->GetPlyMainCha()->GetName());
 				if (!pCProcCha->IsLiveing())
 				{
@@ -1720,7 +1720,7 @@ void SubMap::ClearAllCha()
 		}
 		pCEyeCell->m_pCChaL = NULL;
 	}
-	//LG("enter_map", "µØÍ¼ %s£¨¸±±¾ºÅ %d£© Çå³ı¹ÖÎï³É¹¦!\n", GetName(), GetCopyNO());
+	//LG("enter_map", "åœ°å›¾ %sï¼ˆå‰¯æœ¬å· %dï¼‰ æ¸…é™¤æ€ªç‰©æˆåŠŸ!\n", GetName(), GetCopyNO());
 	LG("enter_map", "map %s(copyID %d)clean out monster succeed!\n", GetName(), GetCopyNO());
 T_E}
 
@@ -1935,22 +1935,22 @@ void COutMapCha::Add(CCharacter *pCObj, dbc::uLong	ulChaID, SSwitchMapInfo *pSwi
 
 	SMgrUnit	*pSCarrier = NULL;
 
-	if (m_pSFreeQueue) // ÓĞ¿ÕÏĞµÄÔØÌå
+	if (m_pSFreeQueue) // æœ‰ç©ºé—²çš„è½½ä½“
 	{
 		pSCarrier = m_pSFreeQueue;
 		m_pSFreeQueue = pSCarrier->pSNext;
 	}
-	else // ·ÖÅäĞÂµÄÔØÌå
+	else // åˆ†é…æ–°çš„è½½ä½“
 	{
 		pSCarrier = new SMgrUnit;
 		if (!pSCarrier)
 		{
-			//THROW_EXCP(excpMem, "ÇøÓò×´Ì¬¹ÜÀí¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+			//THROW_EXCP(excpMem, "åŒºåŸŸçŠ¶æ€ç®¡ç†å¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 			THROW_EXCP(excpMem, RES_STRING(GM_SUBMAP_CPP_00006));
 		}
 	}
 
-	// ÉèÖÃÊı¾İ²¢½«Ö®¼ÓÈëÖ´ĞĞ¶ÓÁĞ
+	// è®¾ç½®æ•°æ®å¹¶å°†ä¹‹åŠ å…¥æ‰§è¡Œé˜Ÿåˆ—
 	pSCarrier->pCCha = pCObj;
 	pSCarrier->ulChaID = ulChaID;
 	memcpy(&pSCarrier->SwitchInfo, pSwitchInfo, sizeof(SSwitchMapInfo));
@@ -1976,9 +1976,9 @@ void COutMapCha::Run(unsigned long ulCurTick)
 	pSCarrier = pSLastCarrier = m_pSExecQueue;
 	while (pSCarrier)
 	{
-		if (!pSCarrier->IsValidCha()) // ½ÇÉ«ÒÑ¾­ÎŞĞ§
+		if (!pSCarrier->IsValidCha()) // è§’è‰²å·²ç»æ— æ•ˆ
 		{
-			// ´ÓÖ´ĞĞ¶ÓÁĞÖĞÍÑÁ´
+			// ä»æ‰§è¡Œé˜Ÿåˆ—ä¸­è„±é“¾
 			if (pSCarrier == m_pSExecQueue)
 			{
 				m_pSExecQueue = pSCarrier->pSNext;
@@ -2021,10 +2021,10 @@ void COutMapCha::Run(unsigned long ulCurTick)
 			pSLastCarrier = pSCarrier;
 			pSCarrier = pSCarrier->pSNext;
 		}
-		else // ÔØÌåµÄ¼ÆÊ±Íê³É
+		else // è½½ä½“çš„è®¡æ—¶å®Œæˆ
 		{
 			ExecTimeCha(pSCarrier);
-			// ´ÓÖ´ĞĞ¶ÓÁĞÖĞÍÑÁ´
+			// ä»æ‰§è¡Œé˜Ÿåˆ—ä¸­è„±é“¾
 			if (pSCarrier == m_pSExecQueue)
 			{
 				m_pSExecQueue = pSCarrier->pSNext;
@@ -2054,11 +2054,11 @@ void COutMapCha::Drop()
 	pSCarrier = pSLastCarrier = m_pSExecQueue;
 	while (pSCarrier)
 	{
-		// ÔØÌåµÄ¼ÆÊ±Íê³É
+		// è½½ä½“çš„è®¡æ—¶å®Œæˆ
 		{
 			ExecTimeCha(pSCarrier);
 			ExecTimeCha(pSCarrier);
-			// ´ÓÖ´ĞĞ¶ÓÁĞÖĞÍÑÁ´
+			// ä»æ‰§è¡Œé˜Ÿåˆ—ä¸­è„±é“¾
 			if (pSCarrier == m_pSExecQueue)
 			{
 				m_pSExecQueue = pSCarrier->pSNext;
@@ -2097,14 +2097,14 @@ void COutMapCha::ExecTimeCha(SMgrUnit *pChaInfo)
 		case	enumCHA_TIMEER_ENTERMAP:
 			{
 				CCharacter	*pCCha = pChaInfo->pCCha;
-				if (pCCha->IsPlayerCha()) // ²»Ó¦¸Ã³öÏÖµÄÇé¿ö
+				if (pCCha->IsPlayerCha()) // ä¸åº”è¯¥å‡ºç°çš„æƒ…å†µ
 				{
-					//LG("¹ÖÎïÖØÉú´íÎó", "¹ÖÎïÃû³Æ %s£¬Íæ¼Ò½ÇÉ«Ãû³Æ %s(%s)\n", pCCha->GetLogName(), pCCha->GetPlyMainCha()->GetLogName(), pCCha->GetPlyCtrlCha()->GetLogName());
-					LG("monster renascence errror", "monster name %s£¬character player name %s(%s)\n", pCCha->GetLogName(), pCCha->GetPlyMainCha()->GetLogName(), pCCha->GetPlyCtrlCha()->GetLogName());
+					//LG("æ€ªç‰©é‡ç”Ÿé”™è¯¯", "æ€ªç‰©åç§° %sï¼Œç©å®¶è§’è‰²åç§° %s(%s)\n", pCCha->GetLogName(), pCCha->GetPlyMainCha()->GetLogName(), pCCha->GetPlyCtrlCha()->GetLogName());
+					LG("monster renascence errror", "monster name %sï¼Œcharacter player name %s(%s)\n", pCCha->GetLogName(), pCCha->GetPlyMainCha()->GetLogName(), pCCha->GetPlyCtrlCha()->GetLogName());
 					break;
 				}
 				
-				// ·ÇÍæ¼Ò½ÇÉ«Èç¹ûÉèÖÃÁËÉúÃüÊ±¼ä, Ôò²»»áÖØÉú
+				// éç©å®¶è§’è‰²å¦‚æœè®¾ç½®äº†ç”Ÿå‘½æ—¶é—´, åˆ™ä¸ä¼šé‡ç”Ÿ
 				if(pCCha->GetLifeTime()!=0)
 				{
 					break;
@@ -2116,13 +2116,13 @@ void COutMapCha::ExecTimeCha(SMgrUnit *pChaInfo)
 				g_ulCurID = pCCha->GetID();
 				g_lCurHandle = pCCha->GetHandle();
 
-				pCCha->setAttr(ATTR_HP, pCCha->m_CChaAttr.GetAttr(ATTR_MXHP));	// µ±Ç°HP
-				pCCha->setAttr(ATTR_SP, pCCha->m_CChaAttr.GetAttr(ATTR_MXSP));	// µ±Ç°SP
+				pCCha->setAttr(ATTR_HP, pCCha->m_CChaAttr.GetAttr(ATTR_MXHP));	// å½“å‰HP
+				pCCha->setAttr(ATTR_SP, pCCha->m_CChaAttr.GetAttr(ATTR_MXSP));	// å½“å‰SP
 				//pCCha->m_timerScripts.Reset();
 				pCCha->SetExistState(enumEXISTS_NATALITY);
 				pCCha->SwitchMap(pChaInfo->SwitchInfo.pSrcMap, pChaInfo->SwitchInfo.szTarMapName, pChaInfo->SwitchInfo.STarPos.x, pChaInfo->SwitchInfo.STarPos.y, false, enumSWITCHMAP_DIE, pChaInfo->SwitchInfo.pSrcMap->GetCopyNO());
 
-				pCCha->ResetAIState();	// ÖØÉèaiËùĞèµÄ×´Ì¬¼ÇÂ¼
+				pCCha->ResetAIState();	// é‡è®¾aiæ‰€éœ€çš„çŠ¶æ€è®°å½•
 
 				g_ulCurID = defINVALID_CHA_ID;
 				g_lCurHandle = defINVALID_CHA_HANDLE;

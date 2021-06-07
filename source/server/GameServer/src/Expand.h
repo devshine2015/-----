@@ -123,7 +123,7 @@ inline int lua_EquipStringItem(lua_State *pLS){
 
 inline int lua_GetChaGuildPermission(lua_State *pLS)
 {T_B
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	if (nParaNum != 1){
 		return 0;
 	}
@@ -167,7 +167,7 @@ inline int lua_GetChaAttr(lua_State *pLS)
 	int		nAttrVal;
 	LONG32  lAttrVal;
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	if (nParaNum > 2)
 	{
 		bSuccess = false;
@@ -216,12 +216,12 @@ inline int lua_GetChaAttr(lua_State *pLS)
 		return 0;
 T_E}
 
-// ÉèÖÃ½ÇÉ«¶ÔÓ¦ÊôĞÔµÄÖµ
+// è®¾ç½®è§’è‰²å¯¹åº”å±æ€§çš„å€¼
 inline int lua_SetChaAttr(lua_State *pLS)
 {T_B
 	bool	bSuccess = true;
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	if (nParaNum > 3)
 	{
 		bSuccess = false;
@@ -256,23 +256,23 @@ inline int lua_SetChaAttr(lua_State *pLS)
 	return 0;
 T_E}
 
-// ·µ»Ø½ÇÉ«ÀàĞÍ£º0£¬·ÇÍæ¼Ò¡£1£¬Íæ¼Ò¡£
+// è¿”å›è§’è‰²ç±»å‹ï¼š0ï¼Œéç©å®¶ã€‚1ï¼Œç©å®¶ã€‚
 inline int lua_CheckChaRole(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 int		nType = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("»ñÈ¡½ÇÉ«ÀàĞÍ CheckChaRole\n");
+//g_pCLogObj->Log("è·å–è§’è‰²ç±»å‹ CheckChaRole\n");
 g_pCLogObj->Log("Get character style :CheckChaRole\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum > 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -283,7 +283,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -298,7 +298,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "»ñÈ¡½ÇÉ«%s µÄÀàĞÍ³É¹¦¡£Öµ£º%d\n", pCCha->GetLogName(), nType);
+	//sprintf(szPrint, "è·å–è§’è‰²%s çš„ç±»å‹æˆåŠŸã€‚å€¼ï¼š%d\n", pCCha->GetLogName(), nType);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00012), pCCha->GetLogName(), nType);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -311,25 +311,25 @@ else
 return 0;
 T_E}
 
-// È¡½ÇÉ«µÄÍæ¼Ò¶ÔÏó
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»Ø£ºÍæ¼Ò¶ÔÏó£¨·ÇÍæ¼Ò¶ÔÏó·µ»Ø0£©
+// å–è§’è‰²çš„ç©å®¶å¯¹è±¡
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›ï¼šç©å®¶å¯¹è±¡ï¼ˆéç©å®¶å¯¹è±¡è¿”å›0ï¼‰
 inline int lua_GetChaPlayer(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 CPlayer	*pCPly = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡½ÇÉ«µÄÍæ¼Ò¶ÔÏó GetChaPlayer\n");
+//g_pCLogObj->Log("å–è§’è‰²çš„ç©å®¶å¯¹è±¡ GetChaPlayer\n");
 g_pCLogObj->Log("Getting the character's player object : GetChaPlayer\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum > 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -340,7 +340,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -353,7 +353,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«µÄÍæ¼Ò¶ÔÏó³É¹¦\n");
+	//g_pCLogObj->Log("å–è§’è‰²çš„ç©å®¶å¯¹è±¡æˆåŠŸ\n");
 	g_pCLogObj->Log("Getting the character's player object  succeed\n");
 #endif
 }
@@ -367,24 +367,24 @@ else
 return 0;
 T_E}
 
-// È¡Íæ¼ÒµÄ¶ÓÎé±àºÅ
-// ²ÎÊı£ºÍæ¼Ò¶ÔÏó
-// ·µ»Ø£º¶ÓÎé±àºÅ
+// å–ç©å®¶çš„é˜Ÿä¼ç¼–å·
+// å‚æ•°ï¼šç©å®¶å¯¹è±¡
+// è¿”å›ï¼šé˜Ÿä¼ç¼–å·
 inline int lua_GetPlayerTeamID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡Íæ¼ÒµÄ¶ÓÎé±àºÅ GetPlayerTeamID\n");
+//g_pCLogObj->Log("å–ç©å®¶çš„é˜Ÿä¼ç¼–å· GetPlayerTeamID\n");
 g_pCLogObj->Log("Getting the player Team ID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -395,7 +395,7 @@ CPlayer	*pCPly = (CPlayer*)lua_touserdata(pLS, 1);
 if (!pCPly)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tÍæ¼Ò¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tç©å®¶å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("the player object is inexistence,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -406,7 +406,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡Íæ¼ÒµÄ¶ÓÎé±àºÅ³É¹¦\n");
+	//g_pCLogObj->Log("å–ç©å®¶çš„é˜Ÿä¼ç¼–å·æˆåŠŸ\n");
 	g_pCLogObj->Log("Getting the player Team ID succeed \n");
 #endif
 	lua_pushnumber(pLS, pCPly->getTeamLeaderID());
@@ -417,24 +417,24 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// È¡Íæ¼ÒµÄ±àºÅ
-// ²ÎÊı£ºÍæ¼Ò¶ÔÏó
-// ·µ»Ø£º±àºÅ
+// å–ç©å®¶çš„ç¼–å·
+// å‚æ•°ï¼šç©å®¶å¯¹è±¡
+// è¿”å›ï¼šç¼–å·
 inline int lua_GetPlayerID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡Íæ¼ÒµÄ±àºÅ GetPlayerID\n");
+//g_pCLogObj->Log("å–ç©å®¶çš„ç¼–å· GetPlayerID\n");
 g_pCLogObj->Log("Getting the player ID: GetPlayerID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -445,7 +445,7 @@ CPlayer	*pCPly = (CPlayer*)lua_touserdata(pLS, 1);
 if (!pCPly)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tÍæ¼Ò¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tç©å®¶å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("the player object is inexistence,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -456,7 +456,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡Íæ¼ÒµÄ±àºÅ³É¹¦\n");
+	//g_pCLogObj->Log("å–ç©å®¶çš„ç¼–å·æˆåŠŸ\n");
 	g_pCLogObj->Log("Getting the player ID succeed\n");
 #endif
 	lua_pushnumber(pLS, pCPly->GetID());
@@ -467,25 +467,25 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// ÉèÖÃ¼¼ÄÜÇøÓò
-// ²ÎÊı£ºÇøÓòÀàĞÍ±àºÅ£¬¶ÔÓ¦¸ÃÀàĞÍµÄ²ÎÊı£¨²Î¼ûCompCommand.h ERangeType£©
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®æŠ€èƒ½åŒºåŸŸ
+// å‚æ•°ï¼šåŒºåŸŸç±»å‹ç¼–å·ï¼Œå¯¹åº”è¯¥ç±»å‹çš„å‚æ•°ï¼ˆå‚è§CompCommand.h ERangeTypeï¼‰
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SetSkillRange(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ¼¼ÄÜµÄ×÷ÓÃÇøÓò SetSkillRange\n");
+//g_pCLogObj->Log("è®¾ç½®æŠ€èƒ½çš„ä½œç”¨åŒºåŸŸ SetSkillRange\n");
 g_pCLogObj->Log("Setting the effect range of Skill SetSkillRange\n");
 
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum < 1 || nParaNum >= defSKILL_RANGE_EXTEP_NUM)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -506,7 +506,7 @@ if (bSuccess)
 	szGene[strlen(szGene)] = '\0';
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¼¼ÄÜ×÷ÓÃÇøÓò³É¹¦£ºÇøÓòÊı¾İ[%s]\n", szGene);
+	//g_pCLogObj->Log("è®¾ç½®æŠ€èƒ½ä½œç”¨åŒºåŸŸæˆåŠŸï¼šåŒºåŸŸæ•°æ®[%s]\n", szGene);
 	g_pCLogObj->Log("Setting the effect range of Skill succeed : range data[%s]\n", szGene);
 #endif
 }
@@ -514,24 +514,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ÉèÖÃ¼¼ÄÜÇøÓò×´Ì¬
-// ²ÎÊı£º×´Ì¬±àºÅ£¬µÈ¼¶£¬Ê±¼ä£¨Ãë£©
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®æŠ€èƒ½åŒºåŸŸçŠ¶æ€
+// å‚æ•°ï¼šçŠ¶æ€ç¼–å·ï¼Œç­‰çº§ï¼Œæ—¶é—´ï¼ˆç§’ï¼‰
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SetRangeState(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ¼¼ÄÜÇøÓò×´Ì¬ SetRangeState\n");
+//g_pCLogObj->Log("è®¾ç½®æŠ€èƒ½åŒºåŸŸçŠ¶æ€ SetRangeState\n");
 g_pCLogObj->Log("Setting the range of Skill state : SetRangeState\n ");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 3)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -547,7 +547,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¼¼ÄÜÇøÓò×´Ì¬³É¹¦£º±àºÅ %d£¬µÈ¼¶ %d£¬³ÖĞøÊ±¼ä %d\n",
+	//g_pCLogObj->Log("è®¾ç½®æŠ€èƒ½åŒºåŸŸçŠ¶æ€æˆåŠŸï¼šç¼–å· %dï¼Œç­‰çº§ %dï¼ŒæŒç»­æ—¶é—´ %d\n",
 	g_pCLogObj->Log("Setting the range of Skill state succeed :ID %d,grade %d,duration %d\n",sState[0], sState[1], sState[2]);
 
 #endif
@@ -556,24 +556,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// È¡µÃ¼¼ÄÜµãµÄÎ»ÖÃ£¨µ¥Î»£ºÀåÃ×£©
-// ²ÎÊı£ºÎŞ
-// ·µ»ØÖµ£ºÎ»ÖÃ[x,y]
+// å–å¾—æŠ€èƒ½ç‚¹çš„ä½ç½®ï¼ˆå•ä½ï¼šå˜ç±³ï¼‰
+// å‚æ•°ï¼šæ— 
+// è¿”å›å€¼ï¼šä½ç½®[x,y]
 inline int lua_GetSkillPos(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ¼¼ÄÜµãµÄÎ»ÖÃ GetSkillPos\n");
+//g_pCLogObj->Log("å–å¾—æŠ€èƒ½ç‚¹çš„ä½ç½® GetSkillPos\n");
 g_pCLogObj->Log("Getting the position of Skill spot :GetSkillPos\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -584,7 +584,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ¼¼ÄÜµãµÄÎ»ÖÃ³É¹¦£º[%d,%d]\n", g_SSkillPoint.x, g_SSkillPoint.y);
+	//g_pCLogObj->Log("å–å¾—æŠ€èƒ½ç‚¹çš„ä½ç½®æˆåŠŸï¼š[%d,%d]\n", g_SSkillPoint.x, g_SSkillPoint.y);
 	g_pCLogObj->Log("Getting the position of Skill spot succeed :[%d,%d]\n", g_SSkillPoint.x, g_SSkillPoint.y);
 #endif
 
@@ -596,25 +596,25 @@ else
 return 0;
 T_E}
 
-// È¡µÃ¶ÔÏóµÄ¼¼ÄÜµÈ¼¶
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-//       ¼¼ÄÜ±àºÅ
-// ·µ»ØÖµ£º¼¼ÄÜµÈ¼¶
+// å–å¾—å¯¹è±¡çš„æŠ€èƒ½ç­‰çº§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+//       æŠ€èƒ½ç¼–å·
+// è¿”å›å€¼ï¼šæŠ€èƒ½ç­‰çº§
 inline int lua_GetSkillLv(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ¶ÔÏóµÄ¼¼ÄÜµÈ¼¶ GetSkillLv\n");
+//g_pCLogObj->Log("å–å¾—å¯¹è±¡çš„æŠ€èƒ½ç­‰çº§ GetSkillLv\n");
 g_pCLogObj->Log("Getting the object's Skill grade : GetSkillLv\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -627,7 +627,7 @@ int nSkillID = (int)lua_tonumber(pLS, 2);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -643,7 +643,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ¶ÔÏó %s µÄ¼¼ÄÜ %d µÈ¼¶³É¹¦£º%d\n", pCCha->GetLogName(), nSkillID, chSkillLv);
+	//g_pCLogObj->Log("å–å¾—å¯¹è±¡ %s çš„æŠ€èƒ½ %d ç­‰çº§æˆåŠŸï¼š%d\n", pCCha->GetLogName(), nSkillID, chSkillLv);
 	g_pCLogObj->Log("Getting the object %s Skill and %d grade succeed :%d\n", pCCha->GetLogName(), nSkillID, chSkillLv);
 #endif
 
@@ -654,25 +654,25 @@ else
 return 0;
 T_E}
 
-// È¡µÃ½ÇÉ«¶ÔÓ¦µÄ×´Ì¬µÈ¼¶
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-//       ×´Ì¬±àºÅ
-// ·µ»ØÖµ£º×´Ì¬µÈ¼¶
+// å–å¾—è§’è‰²å¯¹åº”çš„çŠ¶æ€ç­‰çº§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+//       çŠ¶æ€ç¼–å·
+// è¿”å›å€¼ï¼šçŠ¶æ€ç­‰çº§
 inline int lua_GetChaStateLv(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ½ÇÉ«¶ÔÓ¦µÄ×´Ì¬µÈ¼¶ GetChaStateLv\n");
+//g_pCLogObj->Log("å–å¾—è§’è‰²å¯¹åº”çš„çŠ¶æ€ç­‰çº§ GetChaStateLv\n");
 g_pCLogObj->Log("Getting the character corresponding grade state :GetChaStateLv\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//	g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//	g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -685,7 +685,7 @@ unsigned char uchStateID = (unsigned char)lua_tonumber(pLS, 2);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -701,7 +701,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ½ÇÉ« %s µÄ×´Ì¬ %d µÈ¼¶³É¹¦£º%d\n", pCCha->GetLogName(), uchStateID, uchStateLv);
+	//g_pCLogObj->Log("å–å¾—è§’è‰² %s çš„çŠ¶æ€ %d ç­‰çº§æˆåŠŸï¼š%d\n", pCCha->GetLogName(), uchStateID, uchStateLv);
 	g_pCLogObj->Log("Getting the character %s state and %d grade succeed :%d\n", pCCha->GetLogName(), uchStateID, uchStateLv);
 #endif
 
@@ -712,24 +712,24 @@ else
 return 0;
 T_E}
 
-// È¡µÃ¼¼ÄÜ¶ÔÏóµÄ·½Ïò
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º·½Ïò£¨µ¥Î»£º¶È£©
+// å–å¾—æŠ€èƒ½å¯¹è±¡çš„æ–¹å‘
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šæ–¹å‘ï¼ˆå•ä½ï¼šåº¦ï¼‰
 inline int lua_GetObjDire(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ¼¼ÄÜ¶ÔÏóµÄ·½Ïò GetObjDire\n");
+//g_pCLogObj->Log("å–å¾—æŠ€èƒ½å¯¹è±¡çš„æ–¹å‘ GetObjDire\n");
 g_pCLogObj->Log("Getting the direction of Skill object: GetObjDire\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -740,7 +740,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -751,7 +751,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ¼¼ÄÜ¶ÔÏó %s µÄ·½Ïò³É¹¦£º%d\n", pCCha->GetLogName(), pCCha->GetAngle());
+	//g_pCLogObj->Log("å–å¾—æŠ€èƒ½å¯¹è±¡ %s çš„æ–¹å‘æˆåŠŸï¼š%d\n", pCCha->GetLogName(), pCCha->GetAngle());
 	g_pCLogObj->Log("Getting the %s direction of Skill object succeed :%d\n ", pCCha->GetLogName(), pCCha->GetAngle());
 #endif
 
@@ -762,25 +762,25 @@ else
 return 0;
 T_E}
 
-// Ôö¼Ó¼¼ÄÜ¶ÔÏóµÄ×´Ì¬
-// ²ÎÊı£ºÊ¹ÓÃ·½¶ÔÏó£¬±»ÓÃ·½¶ÔÏó
-//       ×´Ì¬±àºÅ£¬×´Ì¬µÈ¼¶£¬×´Ì¬³ÖĞøÊ±¼ä
-// ·µ»ØÖµ£ºÎŞ
+// å¢åŠ æŠ€èƒ½å¯¹è±¡çš„çŠ¶æ€
+// å‚æ•°ï¼šä½¿ç”¨æ–¹å¯¹è±¡ï¼Œè¢«ç”¨æ–¹å¯¹è±¡
+//       çŠ¶æ€ç¼–å·ï¼ŒçŠ¶æ€ç­‰çº§ï¼ŒçŠ¶æ€æŒç»­æ—¶é—´
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_AddState(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("Ôö¼Ó¼¼ÄÜ¶ÔÏóµÄ×´Ì¬ AddState\n");
+//g_pCLogObj->Log("å¢åŠ æŠ€èƒ½å¯¹è±¡çš„çŠ¶æ€ AddState\n");
 g_pCLogObj->Log("Increasing the state of Skill object : AddState\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 5)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -796,7 +796,7 @@ int		nOnTime = (int)lua_tonumber(pLS, 5);
 if (!pCSrcCha || !pCTarCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó %d ²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ %d ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tthe player object %d is inexistence,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -806,7 +806,7 @@ if (!pCSrcCha || !pCTarCha)
 if (!pCTarCha->AddSkillState(g_uchFightID, pCSrcCha->GetID(), pCSrcCha->GetHandle(), enumSKILL_TYPE_SELF, enumSKILL_TAR_LORS, enumSKILL_EFF_HELPFUL, uchStateID, uchStateLV, nOnTime, enumSSTATE_ADD_UNDEFINED, false))
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tÏòÖ÷³ÌĞòÌí¼Ó×´Ì¬²»³É¹¦[Ìí¼Ó×´Ì¬ºÅ%d£¬×î´ó×´Ì¬ºÅ%d]£¬µ÷ÓÃÊ§°Ü\n", uchStateID, SKILL_STATE_MAXID);
+	//g_pCLogObj->Log("\tå‘ä¸»ç¨‹åºæ·»åŠ çŠ¶æ€ä¸æˆåŠŸ[æ·»åŠ çŠ¶æ€å·%dï¼Œæœ€å¤§çŠ¶æ€å·%d]ï¼Œè°ƒç”¨å¤±è´¥\n", uchStateID, SKILL_STATE_MAXID);
 	g_pCLogObj->Log("\tAdding the state to Main program failed [Adding uchStateID %d,SKILL_STATE_MAXID %d] ,transfer failed", uchStateID, SKILL_STATE_MAXID);
 #endif
 	bSuccess = false;
@@ -817,7 +817,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("%s Ïò %s Ôö¼Ó¼¼ÄÜ×´Ì¬³É¹¦£º×´Ì¬ %d£¬µÈ¼¶ %d£¬³ÖĞøÊ±¼ä %d\n", pCSrcCha->GetLogName(), pCTarCha->GetLogName(), uchStateID, uchStateLV, nOnTime);
+	//g_pCLogObj->Log("%s å‘ %s å¢åŠ æŠ€èƒ½çŠ¶æ€æˆåŠŸï¼šçŠ¶æ€ %dï¼Œç­‰çº§ %dï¼ŒæŒç»­æ—¶é—´ %d\n", pCSrcCha->GetLogName(), pCTarCha->GetLogName(), uchStateID, uchStateLV, nOnTime);
 	g_pCLogObj->Log("%s add Skill state to %s succeed : state %d,grade %d,duration %d\n", pCSrcCha->GetLogName(), pCTarCha->GetLogName(), uchStateID, uchStateLV, nOnTime);
 #endif
 }
@@ -825,24 +825,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// É¾³ı¼¼ÄÜ¶ÔÏóµÄ×´Ì¬
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬×´Ì¬±àºÅ
-// ·µ»ØÖµ£ºÎŞ
+// åˆ é™¤æŠ€èƒ½å¯¹è±¡çš„çŠ¶æ€
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼ŒçŠ¶æ€ç¼–å·
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_RemoveState(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("É¾³ı¼¼ÄÜ¶ÔÏóµÄ×´Ì¬ RemoveState\n");
+//g_pCLogObj->Log("åˆ é™¤æŠ€èƒ½å¯¹è±¡çš„çŠ¶æ€ RemoveState\n");
 g_pCLogObj->Log("Delete the Skill object state :RemoveState\n ");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -855,7 +855,7 @@ unsigned char	uchStateID = (unsigned char)lua_tonumber(pLS, 2);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -865,7 +865,7 @@ if (!pCCha)
 if (!pCCha->DelSkillState(uchStateID))
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tÏòÖ÷³ÌĞòÉ¾³ı×´Ì¬²»³É¹¦[Ìí¼Ó×´Ì¬ºÅ%d£¬×î´ó×´Ì¬ºÅ%d]£¬µ÷ÓÃÊ§°Ü\n", uchStateID, SKILL_STATE_MAXID);
+	//g_pCLogObj->Log("\tå‘ä¸»ç¨‹åºåˆ é™¤çŠ¶æ€ä¸æˆåŠŸ[æ·»åŠ çŠ¶æ€å·%dï¼Œæœ€å¤§çŠ¶æ€å·%d]ï¼Œè°ƒç”¨å¤±è´¥\n", uchStateID, SKILL_STATE_MAXID);
 	g_pCLogObj->Log("\tDelete the state to Main program failed[uchStateID %d,SKILL_STATE_MAXID %d],transfer failed", uchStateID, SKILL_STATE_MAXID);	
 #endif
 	bSuccess = false;
@@ -876,7 +876,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("É¾³ı¼¼ÄÜ¶ÔÏó %s µÄ×´Ì¬³É¹¦£º×´Ì¬ %d\n", pCCha->GetLogName(), uchStateID);
+	//g_pCLogObj->Log("åˆ é™¤æŠ€èƒ½å¯¹è±¡ %s çš„çŠ¶æ€æˆåŠŸï¼šçŠ¶æ€ %d\n", pCCha->GetLogName(), uchStateID);
 	g_pCLogObj->Log("Delete the %s Skill object state succeed : uchStateID %d\n", pCCha->GetLogName(), uchStateID);
 #endif
 }
@@ -884,25 +884,25 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ½ÇÉ«ËùÔÚµØ±íµÄÄ³¸ö×´Ì¬µÄµÈ¼¶
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬×´Ì¬±àºÅ
-// ·µ»ØÖµ£º×´Ì¬µÈ¼¶£¨0±íÊ¾Ã»ÓĞ¸Ã×´Ì¬£©
+// è§’è‰²æ‰€åœ¨åœ°è¡¨çš„æŸä¸ªçŠ¶æ€çš„ç­‰çº§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼ŒçŠ¶æ€ç¼–å·
+// è¿”å›å€¼ï¼šçŠ¶æ€ç­‰çº§ï¼ˆ0è¡¨ç¤ºæ²¡æœ‰è¯¥çŠ¶æ€ï¼‰
 inline int lua_GetAreaStateLevel(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("½ÇÉ«ËùÔÚµØ±íµÄÄ³¸ö×´Ì¬µÄµÈ¼¶ GetAreaStateLevel\n");
+	//g_pCLogObj->Log("è§’è‰²æ‰€åœ¨åœ°è¡¨çš„æŸä¸ªçŠ¶æ€çš„ç­‰çº§ GetAreaStateLevel\n");
 	g_pCLogObj->Log("The certain state grade of player in area ");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	unsigned char	uchStateLv = 0;
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -915,7 +915,7 @@ inline int lua_GetAreaStateLevel(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -930,7 +930,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("½ÇÉ« %s Ëù´¦µÄµØ±í´æÔÚ¸Ã×´Ì¬£º%d\n", pCCha->GetLogName(), uchStateID);
+		//g_pCLogObj->Log("è§’è‰² %s æ‰€å¤„çš„åœ°è¡¨å­˜åœ¨è¯¥çŠ¶æ€ï¼š%d\n", pCCha->GetLogName(), uchStateID);
 		g_pCLogObj->Log("the character %s  has this state in area : %d\n", pCCha->GetLogName(), uchStateID);
 
 #endif
@@ -940,24 +940,24 @@ End:
 	return 1;
 }
 
-// ¼¼ÄÜMiss
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºÎŞ
+// æŠ€èƒ½Miss
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SkillMiss(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("¼¼ÄÜÃ»ÓĞÃüÖĞ SkillMiss\n");
+//g_pCLogObj->Log("æŠ€èƒ½æ²¡æœ‰å‘½ä¸­ SkillMiss\n");
 g_pCLogObj->Log("Skill has not hit the target : SkillMiss\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -968,7 +968,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -981,7 +981,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¶ÔÏó %s µÄ¡°¼¼ÄÜÃ»ÓĞÃüÖĞ¡°³É¹¦\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("è®¾ç½®å¯¹è±¡ %s çš„â€œæŠ€èƒ½æ²¡æœ‰å‘½ä¸­â€œæˆåŠŸ\n", pCCha->GetLogName());
 	g_pCLogObj->Log("Setting object %s 's"SkillMiss"succeed\n", pCCha->GetLogName());
 #endif
 }
@@ -989,24 +989,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ¼¼ÄÜCrt
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºÎŞ
+// æŠ€èƒ½Crt
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SkillCrt(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("¼¼ÄÜ±¬»÷ SkillCrt\n");
+//g_pCLogObj->Log("æŠ€èƒ½çˆ†å‡» SkillCrt\n");
 g_pCLogObj->Log("SkillCrt :SkillCrt\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1017,7 +1017,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -1030,7 +1030,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¶ÔÏó %s µÄ¡°¼¼ÄÜ±¬»÷¡°³É¹¦\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("è®¾ç½®å¯¹è±¡ %s çš„â€œæŠ€èƒ½çˆ†å‡»â€œæˆåŠŸ\n", pCCha->GetLogName());
 	g_pCLogObj->Log("Setting object %s 's"SkillCrt"succeed\n", pCCha->GetLogName());
 #endif
 }
@@ -1038,25 +1038,25 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ¼¼ÄÜ²»ÄÜÊ¹ÓÃ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºÎŞ
+// æŠ€èƒ½ä¸èƒ½ä½¿ç”¨
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SkillUnable(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("¼¼ÄÜ²»ÄÜÊ¹ÓÃ£¨MP£¬ÄÜÁ¿£¬µÀ¾ßµÈ²»×ã£© SkillUnable\n");
+//g_pCLogObj->Log("æŠ€èƒ½ä¸èƒ½ä½¿ç”¨ï¼ˆMPï¼Œèƒ½é‡ï¼Œé“å…·ç­‰ä¸è¶³ï¼‰ SkillUnable\n");
 g_pCLogObj->Log("the Skill can't use(MP,energy,Item and otherwise deficiency ) SkillUnable\n");
 #endif
 
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1067,7 +1067,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -1076,13 +1076,13 @@ if (!pCCha)
 
 pCCha->m_SFightProc.sState = enumFSTATE_NO_EXPEND;
 
-//LG("¼¼ÄÜÊ§°Ü", "½ÇÉ«Ãû %s¡£\n", pCCha->m_CLog.GetLogName());
-LG("skill failed", "role's name %s¡£\n", pCCha->m_CLog.GetLogName());
+//LG("æŠ€èƒ½å¤±è´¥", "è§’è‰²å %sã€‚\n", pCCha->m_CLog.GetLogName());
+LG("skill failed", "role's name %sã€‚\n", pCCha->m_CLog.GetLogName());
 End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¶ÔÏó %s µÄ¡°¼¼ÄÜ²»ÄÜÊ¹ÓÃ¡°³É¹¦\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("è®¾ç½®å¯¹è±¡ %s çš„â€œæŠ€èƒ½ä¸èƒ½ä½¿ç”¨â€œæˆåŠŸ\n", pCCha->GetLogName());
 	g_pCLogObj->Log("Setting object %s 's"SkillUnable"succeed \n", pCCha->GetLogName());
 #endif
 }
@@ -1090,24 +1090,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// Ôö¼Ó¼¼ÄÜ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬¼¼ÄÜ±àºÅ£¬µÈ¼¶£¬µÈ¼¶ÊÇÉèÖÃ»¹ÊÇÔÚÔ­À´µÄ»ù´¡ÉÏÔö¼Ó£¨1£¬ÉèÖÃ¡£0£¬Ôö¼Ó£©£¬ÊÇ·ñ¿Û³ıĞèÒªµÄ¼¼ÄÜµã£¨£±£¬¿Û³ı¡££°£¬²»¿Û³ı£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬²»³É¹¦
+// å¢åŠ æŠ€èƒ½
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼ŒæŠ€èƒ½ç¼–å·ï¼Œç­‰çº§ï¼Œç­‰çº§æ˜¯è®¾ç½®è¿˜æ˜¯åœ¨åŸæ¥çš„åŸºç¡€ä¸Šå¢åŠ ï¼ˆ1ï¼Œè®¾ç½®ã€‚0ï¼Œå¢åŠ ï¼‰ï¼Œæ˜¯å¦æ‰£é™¤éœ€è¦çš„æŠ€èƒ½ç‚¹ï¼ˆï¼‘ï¼Œæ‰£é™¤ã€‚ï¼ï¼Œä¸æ‰£é™¤ï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œä¸æˆåŠŸ
 inline int lua_AddChaSkill(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("Ôö¼Ó¼¼ÄÜ AddChaSkill\n");
+//g_pCLogObj->Log("å¢åŠ æŠ€èƒ½ AddChaSkill\n");
 g_pCLogObj->Log("Adding Skill : AddChaSkill\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum < 5)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1129,7 +1129,7 @@ if (nParaNum == 6){
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -1141,7 +1141,7 @@ pCCha = pCCha->GetPlayer()->GetMainCha();
 if (!pCCha->LearnSkill((short)nSkillID, (char)nSkillLv, bSetLv, bUsePoint, checkReq))
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tÏòÖ÷³ÌĞòÔö¼Ó¼¼ÄÜ²»³É¹¦[Ìí¼Ó¼¼ÄÜºÅ%d£¬µÈ¼¶%d£¬×î´ó¼¼ÄÜºÅ%d]£¬µ÷ÓÃÊ§°Ü\n", nSkillID, nSkillLv, defMAX_SKILL_NO);
+	//g_pCLogObj->Log("\tå‘ä¸»ç¨‹åºå¢åŠ æŠ€èƒ½ä¸æˆåŠŸ[æ·»åŠ æŠ€èƒ½å·%dï¼Œç­‰çº§%dï¼Œæœ€å¤§æŠ€èƒ½å·%d]ï¼Œè°ƒç”¨å¤±è´¥\n", nSkillID, nSkillLv, defMAX_SKILL_NO);
 	g_pCLogObj->Log("\tAdding the Skill to Main program failed[nSkillID %d,nSkillLv %d,defMAX_SKILL_NO %d],transfer failed\n", nSkillID, nSkillLv, defMAX_SKILL_NO);
 #endif
 	bSuccess = false;
@@ -1152,7 +1152,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ïò %s Ôö¼Ó¼¼ÄÜ³É¹¦£º¼¼ÄÜ±àºÅ %d£¬µÈ¼¶ %d¡££¨ÉèÖÃ %d¡£¿Û³ı¼¼ÄÜµã %d¡££©\n",
+	//g_pCLogObj->Log("å‘ %s å¢åŠ æŠ€èƒ½æˆåŠŸï¼šæŠ€èƒ½ç¼–å· %dï¼Œç­‰çº§ %dã€‚ï¼ˆè®¾ç½® %dã€‚æ‰£é™¤æŠ€èƒ½ç‚¹ %dã€‚ï¼‰\n",
 	g_pCLogObj->Log("Setting add Skill to %s succeed : nSkillID%d,nSkillLv%d,(Setting %d.Deduct SkillID %d.)\n",
 		pCCha->GetLogName(), nSkillID, nSkillLv, bSetLv ? 1 : 0, bUsePoint ? 1 : 0);
 #endif
@@ -1164,22 +1164,22 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// Ê¹ÓÃµÀ¾ßÊ§°Ü
+// ä½¿ç”¨é“å…·å¤±è´¥
 inline int lua_UseItemFailed(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("Ê¹ÓÃµÀ¾ßÊ§°Ü UseItemFailed\n");
+//g_pCLogObj->Log("ä½¿ç”¨é“å…·å¤±è´¥ UseItemFailed\n");
 g_pCLogObj->Log("Using Item Failed :UseItemFailed\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1193,7 +1193,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("µ÷ÓÃ\"Ê¹ÓÃµÀ¾ßÊ§°Ü\"³É¹¦\n");
+	//g_pCLogObj->Log("è°ƒç”¨\"ä½¿ç”¨é“å…·å¤±è´¥\"æˆåŠŸ\n");
 	g_pCLogObj->Log("transfer\"use the Item failed \"succeed \n ");
 #endif
 }
@@ -1201,13 +1201,13 @@ if (bSuccess)
 return 0;
 T_E}
 
-//// ¸øÈÎÎñÊ±Ê¹ÓÃµÀ¾ßÊ§°Ü
+//// ç»™ä»»åŠ¡æ—¶ä½¿ç”¨é“å…·å¤±è´¥
 //inline int lua_UseItemGiveMission(lua_State *pLS)
 //{T_B
 //	bool	bSuccess = true;
 //
 //
-//	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+//	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 //
 //	if (nParaNum != 1)
 //	{
@@ -1226,24 +1226,24 @@ T_E}
 //	return 0;
 //T_E}
 
-// ÉèÖÃÎïÆ·µôÂä
-// ²ÎÊı£ºµôÂä¸öÊı£¬ÎïÆ·Ë÷Òı£¨ÒÔ»ùÊı1½øĞĞ±àºÅ£©
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®ç‰©å“æ‰è½
+// å‚æ•°ï¼šæ‰è½ä¸ªæ•°ï¼Œç‰©å“ç´¢å¼•ï¼ˆä»¥åŸºæ•°1è¿›è¡Œç¼–å·ï¼‰
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SetItemFall(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃÎïÆ·µôÂä SetItemFall\n");
+//g_pCLogObj->Log("è®¾ç½®ç‰©å“æ‰è½ SetItemFall\n");
 g_pCLogObj->Log("Setting Item Fall : SetItemFall\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum < 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1254,7 +1254,7 @@ g_chItemFall[0] = (char)lua_tonumber(pLS, 1);
 if (g_chItemFall[0] > defCHA_INIT_ITEM_NUM)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tmsgÉèÖÃ±¬ÁÏ¸öÊı´íÎó£¨ÉèÖÃÖµ %d£¬ÔÊĞíÖµ %d£©£¬µ÷ÓÃÊ§°Ü\n", g_chItemFall[0], defCHA_INIT_ITEM_NUM);
+	//g_pCLogObj->Log("\tmsgè®¾ç½®çˆ†æ–™ä¸ªæ•°é”™è¯¯ï¼ˆè®¾ç½®å€¼ %dï¼Œå…è®¸å€¼ %dï¼‰ï¼Œè°ƒç”¨å¤±è´¥\n", g_chItemFall[0], defCHA_INIT_ITEM_NUM);
 	g_pCLogObj->Log("\tmsg Setting ", g_chItemFall[0], defCHA_INIT_ITEM_NUM);
 #endif
 	bSuccess = false;
@@ -1267,7 +1267,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃÎïÆ·µôÂä³É¹¦£¬µôÂä¸öÊı£º%d\n", g_chItemFall[0]);
+	//g_pCLogObj->Log("è®¾ç½®ç‰©å“æ‰è½æˆåŠŸï¼Œæ‰è½ä¸ªæ•°ï¼š%d\n", g_chItemFall[0]);
 	g_pCLogObj->Log("Setting Item fall succeed,the number of fall:%d\n", g_chItemFall[0]);
 #endif
 }
@@ -1275,24 +1275,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// »÷ÍË
-// ²ÎÊı£º¹¥»÷·½¶ÔÏó£¬ÊÜ»÷·½¶ÔÏó£¬»÷ÍË³¤¶È£¨ÀåÃ×£©
-// ·µ»ØÖµ£ºÎŞ
+// å‡»é€€
+// å‚æ•°ï¼šæ”»å‡»æ–¹å¯¹è±¡ï¼Œå—å‡»æ–¹å¯¹è±¡ï¼Œå‡»é€€é•¿åº¦ï¼ˆå˜ç±³ï¼‰
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_BeatBack(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("»÷ÍË BeatBack\n");
+//g_pCLogObj->Log("å‡»é€€ BeatBack\n");
 g_pCLogObj->Log("Beat Back :BeatBack \n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 3)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1306,7 +1306,7 @@ int		nBackLen = (int)lua_tonumber(pLS, 3);
 if (!pCSrcCha || !pCTarCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t»÷ÍË¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tå‡»é€€å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tthe Beatback object is inexistence,transfer failed \n");
 #endif
 	bSuccess = false;
@@ -1332,7 +1332,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("»÷ÍË%dcm³É¹¦\n", nBackLen);
+	//g_pCLogObj->Log("å‡»é€€%dcmæˆåŠŸ\n", nBackLen);
 	g_pCLogObj->Log("BeatBack %dcm succeed \n", nBackLen);
 #endif
 }
@@ -1340,24 +1340,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ÊÇ·ñÔÚ¾º¼¼
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º1£¬ÊÇ¡£0£¬²»ÊÇ
+// æ˜¯å¦åœ¨ç«æŠ€
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼š1ï¼Œæ˜¯ã€‚0ï¼Œä¸æ˜¯
 inline int lua_IsInGymkhana(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÊÇ·ñÔÚ¾º¼¼ IsInGymkhana\n");
+//g_pCLogObj->Log("æ˜¯å¦åœ¨ç«æŠ€ IsInGymkhana\n");
 g_pCLogObj->Log("whether is in gymkhana : IsInGymkhana\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1369,7 +1369,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -1381,7 +1381,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("½ÇÉ« %s µÄ¾º¼¼×´Ì¬ %d\n", pCCha->GetLogName(), chRet);
+	//g_pCLogObj->Log("è§’è‰² %s çš„ç«æŠ€çŠ¶æ€ %d\n", pCCha->GetLogName(), chRet);
 	g_pCLogObj->Log("character %s 's state of athletics ", pCCha->GetLogName(), chRet);
 #endif
 	lua_pushnumber(pLS, chRet);
@@ -1391,24 +1391,24 @@ else
 return 0;
 T_E}
 
-// ÊÇ·ñÔÚPK
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º1£¬ÊÇ¡£0£¬²»ÊÇ
+// æ˜¯å¦åœ¨PK
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼š1ï¼Œæ˜¯ã€‚0ï¼Œä¸æ˜¯
 inline int lua_IsInPK(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÊÇ·ñÔÚ¾º¼¼ IsInGymkhana\n");
+//g_pCLogObj->Log("æ˜¯å¦åœ¨ç«æŠ€ IsInGymkhana\n");
 g_pCLogObj->Log("whether is in gymkhana : IsInGymkhana\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -1420,7 +1420,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -1432,7 +1432,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("½ÇÉ« %s µÄPK×´Ì¬ %d\n", pCCha->GetLogName(), chRet);
+	//g_pCLogObj->Log("è§’è‰² %s çš„PKçŠ¶æ€ %d\n", pCCha->GetLogName(), chRet);
 	g_pCLogObj->Log("character %s 's PK state %d\n", pCCha->GetLogName(), chRet);
 #endif
 	lua_pushnumber(pLS, chRet);
@@ -1442,25 +1442,25 @@ else
 return 0;
 T_E}
 
-// µÃµ½±³°üÖĞÄ³Ò»µÀ¾ßµÄÊıÄ¿
-// ²ÎÊı£º½ÇÉ«£¬µÀ¾ß±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ßµÄÊıÄ¿
+// å¾—åˆ°èƒŒåŒ…ä¸­æŸä¸€é“å…·çš„æ•°ç›®
+// å‚æ•°ï¼šè§’è‰²ï¼Œé“å…·ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·çš„æ•°ç›®
 inline int lua_CheckBagItem(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("µÃµ½±³°üÖĞÄ³Ò»µÀ¾ßµÄÊıÄ¿ CheckBagItem\n");
+	//g_pCLogObj->Log("å¾—åˆ°èƒŒåŒ…ä¸­æŸä¸€é“å…·çš„æ•°ç›® CheckBagItem\n");
 	g_pCLogObj->Log("Get the number of some items in kitbag : CheckBagItem \n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	short sItemNum = 0;
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1472,7 +1472,7 @@ inline int lua_CheckBagItem(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 
 #endif
@@ -1496,7 +1496,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("½ÇÉ« %s µÄ±³°üÖĞµÀ¾ß£¨±àºÅ %d£©µÄÊıÄ¿ÊÇ %d\n", pCCha->GetLogName(), sID, sItemNum);
+		//g_pCLogObj->Log("è§’è‰² %s çš„èƒŒåŒ…ä¸­é“å…·ï¼ˆç¼–å· %dï¼‰çš„æ•°ç›®æ˜¯ %d\n", pCCha->GetLogName(), sID, sItemNum);
 		g_pCLogObj->Log("the character %s 's kitbag Item(ID %d) number is %d \n", pCCha->GetLogName(), sID, sItemNum);
 #endif
 	}
@@ -1505,25 +1505,25 @@ End:
 	return 1;
 }
 
-// µÃµ½±³°üµÄÏĞÖÃµÄ¸ñ×ÓÊı
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºÏĞÖÃµÄ¸ñ×ÓÊı
+// å¾—åˆ°èƒŒåŒ…çš„é—²ç½®çš„æ ¼å­æ•°
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šé—²ç½®çš„æ ¼å­æ•°
 inline int lua_GetChaFreeTempBagGridNum(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("µÃµ½±³°üµÄÏĞÖÃµÄ¸ñ×ÓÊı GetChaFreeBagGridNum\n");
+	//g_pCLogObj->Log("å¾—åˆ°èƒŒåŒ…çš„é—²ç½®çš„æ ¼å­æ•° GetChaFreeBagGridNum\n");
 	g_pCLogObj->Log("Get the number of grid from kitbag where leave unused :GetChaFreeBagGridNum \n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	short sFreeNum = 0;
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1535,7 +1535,7 @@ inline int lua_GetChaFreeTempBagGridNum(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1548,7 +1548,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("½ÇÉ« %s µÄ±³°üÖĞµÀ¾ß£¨±àºÅ %d£©µÄÊıÄ¿ÊÇ %d\n", pCCha->GetLogName(), sID, sItemNum);
+		//g_pCLogObj->Log("è§’è‰² %s çš„èƒŒåŒ…ä¸­é“å…·ï¼ˆç¼–å· %dï¼‰çš„æ•°ç›®æ˜¯ %d\n", pCCha->GetLogName(), sID, sItemNum);
 		g_pCLogObj->Log("the character %s 's kitbag Item(ID %d) number is %d \n", pCCha->GetLogName(), sID, sItemNum);
 #endif
 	}
@@ -1562,17 +1562,17 @@ inline int lua_GetChaFreeBagGridNum(lua_State *pLS)
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("µÃµ½±³°üµÄÏĞÖÃµÄ¸ñ×ÓÊı GetChaFreeBagGridNum\n");
+	//g_pCLogObj->Log("å¾—åˆ°èƒŒåŒ…çš„é—²ç½®çš„æ ¼å­æ•° GetChaFreeBagGridNum\n");
 	g_pCLogObj->Log("Get the number of grid from kitbag where leave unused :GetChaFreeBagGridNum \n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	short sFreeNum = 0;
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1584,7 +1584,7 @@ inline int lua_GetChaFreeBagGridNum(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");	
 #endif
 		bSuccess = false;
@@ -1597,7 +1597,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("½ÇÉ« %s µÄ±³°üÖĞµÀ¾ß£¨±àºÅ %d£©µÄÊıÄ¿ÊÇ %d\n", pCCha->GetLogName(), sID, sItemNum);
+		//g_pCLogObj->Log("è§’è‰² %s çš„èƒŒåŒ…ä¸­é“å…·ï¼ˆç¼–å· %dï¼‰çš„æ•°ç›®æ˜¯ %d\n", pCCha->GetLogName(), sID, sItemNum);
 		g_pCLogObj->Log("the character %s 's kitbag Item(ID %d) number is %d \n", pCCha->GetLogName(), sID, sItemNum);
 #endif
 	}
@@ -1606,26 +1606,26 @@ End:
 	return 1;
 }
 
-// É¾³ı±³°üÖĞµÄµÀ¾ß¡£
-// ²ÎÊı£º½ÇÉ«£¬µÀ¾ß±àºÅ£¬µÀ¾ßÊıÄ¿
-// ·µ»ØÖµ£º1 ³É¹¦£¬0 Ê§°Ü
+// åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…·ã€‚
+// å‚æ•°ï¼šè§’è‰²ï¼Œé“å…·ç¼–å·ï¼Œé“å…·æ•°ç›®
+// è¿”å›å€¼ï¼š1 æˆåŠŸï¼Œ0 å¤±è´¥
 inline int lua_DelBagItem(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("É¾³ı±³°üÖĞµÄµÀ¾ß DelBagItem\n");
+	//g_pCLogObj->Log("åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…· DelBagItem\n");
 	g_pCLogObj->Log("Delete the Item from kitbag : DelBagItem \n");
 #endif
 
 	SItemGrid *pGridCont, DelCont;
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1637,7 +1637,7 @@ inline int lua_DelBagItem(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 
 #endif
@@ -1663,7 +1663,7 @@ inline int lua_DelBagItem(lua_State *pLS)
 	if (sLeftNum > 0)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµÀ¾ßÊıÄ¿²»¹»£¨ÒªÇóÊıÄ¿ %d£¬µ±Ç°ÊıÄ¿%d£©£¬µ÷ÓÃÊ§°Ü\n", sNum, sNum - sLeftNum);
+		//g_pCLogObj->Log("\té“å…·æ•°ç›®ä¸å¤Ÿï¼ˆè¦æ±‚æ•°ç›® %dï¼Œå½“å‰æ•°ç›®%dï¼‰ï¼Œè°ƒç”¨å¤±è´¥\n", sNum, sNum - sLeftNum);
 		g_pCLogObj->Log("\tHave not enough Items(require number %d,current number %d),transfer failed \n", sNum, sNum - sLeftNum);
 #endif
 		bSuccess = false;
@@ -1694,7 +1694,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("É¾³ı±³°üÖĞµÄµÀ¾ß£¨±àºÅ£¬ÊıÄ¿£©³É¹¦\n", sID, sNum);
+		//g_pCLogObj->Log("åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…·ï¼ˆç¼–å·ï¼Œæ•°ç›®ï¼‰æˆåŠŸ\n", sID, sNum);
 		g_pCLogObj->Log("Delete the item of kitbag (ID,number) succeed \n", sID, sNum);
 #endif
 		lua_pushnumber(pLS, 1);
@@ -1705,24 +1705,24 @@ End:
 	return 1;
 }
 
-// É¾³ı±³°üÖĞµÄµÀ¾ß¡£
-// ²ÎÊı£º½ÇÉ«£¬µÀ¾ß¶ÔÏó£¬µÀ¾ßÊıÄ¿£¨0£¬ÎªÉ¾³ı¸Ã¸ñÉÏµÄËùÓĞµÀ¾ß£©
-// ·µ»ØÖµ£º1 ³É¹¦£¬0 Ê§°Ü
+// åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…·ã€‚
+// å‚æ•°ï¼šè§’è‰²ï¼Œé“å…·å¯¹è±¡ï¼Œé“å…·æ•°ç›®ï¼ˆ0ï¼Œä¸ºåˆ é™¤è¯¥æ ¼ä¸Šçš„æ‰€æœ‰é“å…·ï¼‰
+// è¿”å›å€¼ï¼š1 æˆåŠŸï¼Œ0 å¤±è´¥
 inline int lua_DelBagItem2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("É¾³ı±³°üÖĞµÄµÀ¾ß DelBagItem2\n");
+	//g_pCLogObj->Log("åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…· DelBagItem2\n");
 	g_pCLogObj->Log("Delete the item of kitbag : DelBagItem2 \n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1734,7 +1734,7 @@ inline int lua_DelBagItem2(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1754,7 +1754,7 @@ inline int lua_DelBagItem2(lua_State *pLS)
 	if (pGridCont->sNum < sNum)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµÀ¾ßÊıÄ¿²»¹»£¨ÒªÇóÊıÄ¿ %d£¬µ±Ç°ÊıÄ¿%d£©£¬µ÷ÓÃÊ§°Ü\n", sNum, pGridCont->sNum);
+		//g_pCLogObj->Log("\té“å…·æ•°ç›®ä¸å¤Ÿï¼ˆè¦æ±‚æ•°ç›® %dï¼Œå½“å‰æ•°ç›®%dï¼‰ï¼Œè°ƒç”¨å¤±è´¥\n", sNum, pGridCont->sNum);
 		g_pCLogObj->Log("\tHave not enough Items(require number %d,current number %d),transfer failed \n", sNum, pGridCont->sNum);
 #endif
 		bSuccess = false;
@@ -1769,7 +1769,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("É¾³ı±³°üÖĞµÄµÀ¾ß£¨±àºÅ£¬ÊıÄ¿£©³É¹¦\n", sID, sNum);
+		//g_pCLogObj->Log("åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…·ï¼ˆç¼–å·ï¼Œæ•°ç›®ï¼‰æˆåŠŸ\n", sID, sNum);
 		g_pCLogObj->Log("Delete the item of kitbag (ID,number) succeed \n", sID, sNum);
 #endif
 		lua_pushnumber(pLS, 1);
@@ -1780,31 +1780,31 @@ End:
 	return 1;
 }
 
-// ÒÆ³ı½ÇÉ«µÀ¾ß
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-//       µÀ¾ß±àºÅ
-//       µÀ¾ßÊıÄ¿£¨0Îª¶ÔÓ¦Î»ÖÃµÄÈ«²¿ÊıÄ¿£©
-//       ÒÆ³ı²¿Î»£¨1£¬´Ó×°±¸À¸ÒÆ³ı¡£2£¬´ÓµÀ¾ßÀ¸ÒÆ³ı¡£0£¬´Ó×°±¸À¸ºÍµÀ¾ßÀ¸ÒÆ³ı£©
-//       ÒÆ³ıÎ»ÖÃ£¨-1Îª¶ÔÓ¦²¿Î»µÄÈ«²¿Î»ÖÃ£©
-//       Ä¿±ê²¿Î»£¨0£¬ÒÆ³ıµ½µØÃæ¡£1£¬µ½µÀ¾ßÀ¸¡£2£¬É¾³ı£©
-//       ÊÇ·ñÇ¿ÖÆÒÆ³ı£¨1£¬Ç¿ÖÆÒÆ³ı¡£0£¬²»Ç¿ÖÆÒÆ³ı£©£¬µ±µÀ¾ßÀ¸±»Ëø»ò´æÔÚ²»ÄÜ²Ù×÷µÀ¾ßµÄ×´Ì¬Ê±£¬Ê¹ÓÃ´Ë²ÎÊı¿ÉºöÂÔÕâĞ©ÒòÊı
-//       ÊÇ·ñĞèÒªÍ¬²½ĞÅÏ¢£¨È±Ê¡ÖµÎª1£©
-// ·µ»ØÖµ£º1 ³É¹¦£¬0 Ê§°Ü
+// ç§»é™¤è§’è‰²é“å…·
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+//       é“å…·ç¼–å·
+//       é“å…·æ•°ç›®ï¼ˆ0ä¸ºå¯¹åº”ä½ç½®çš„å…¨éƒ¨æ•°ç›®ï¼‰
+//       ç§»é™¤éƒ¨ä½ï¼ˆ1ï¼Œä»è£…å¤‡æ ç§»é™¤ã€‚2ï¼Œä»é“å…·æ ç§»é™¤ã€‚0ï¼Œä»è£…å¤‡æ å’Œé“å…·æ ç§»é™¤ï¼‰
+//       ç§»é™¤ä½ç½®ï¼ˆ-1ä¸ºå¯¹åº”éƒ¨ä½çš„å…¨éƒ¨ä½ç½®ï¼‰
+//       ç›®æ ‡éƒ¨ä½ï¼ˆ0ï¼Œç§»é™¤åˆ°åœ°é¢ã€‚1ï¼Œåˆ°é“å…·æ ã€‚2ï¼Œåˆ é™¤ï¼‰
+//       æ˜¯å¦å¼ºåˆ¶ç§»é™¤ï¼ˆ1ï¼Œå¼ºåˆ¶ç§»é™¤ã€‚0ï¼Œä¸å¼ºåˆ¶ç§»é™¤ï¼‰ï¼Œå½“é“å…·æ è¢«é”æˆ–å­˜åœ¨ä¸èƒ½æ“ä½œé“å…·çš„çŠ¶æ€æ—¶ï¼Œä½¿ç”¨æ­¤å‚æ•°å¯å¿½ç•¥è¿™äº›å› æ•°
+//       æ˜¯å¦éœ€è¦åŒæ­¥ä¿¡æ¯ï¼ˆç¼ºçœå€¼ä¸º1ï¼‰
+// è¿”å›å€¼ï¼š1 æˆåŠŸï¼Œ0 å¤±è´¥
 inline int lua_RemoveChaItem(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("É¾³ı±³°üÖĞµÄµÀ¾ß DelBagItem\n");
+	//g_pCLogObj->Log("åˆ é™¤èƒŒåŒ…ä¸­çš„é“å…· DelBagItem\n");
 	g_pCLogObj->Log("Delete the Item from kitbag : DelBagItem \n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum < 7)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1816,7 +1816,7 @@ inline int lua_RemoveChaItem(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1851,7 +1851,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÒÆ³ı½ÇÉ«µÀ¾ß³É¹¦\n");
+		//g_pCLogObj->Log("ç§»é™¤è§’è‰²é“å…·æˆåŠŸ\n");
 		g_pCLogObj->Log("remove the character item succeed \n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -1862,24 +1862,24 @@ End:
 	return 1;
 }
 
-// È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ
-// ²ÎÊı£º½ÇÉ«
-// ·µ»ØÖµ£ºµØÍ¼Ãû
+// å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§°
+// å‚æ•°ï¼šè§’è‰²
+// è¿”å›å€¼ï¼šåœ°å›¾å
 inline int lua_GetChaMapName(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ GetMapName\n");
+	//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§° GetMapName\n");
 	g_pCLogObj->Log("Get the Map name where character in : GetMapName\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log(""\tThe parameter numbers [%d] is unlawful,transfer failed!\n"", nParaNum);
 #endif
 		bSuccess = false;
@@ -1891,7 +1891,7 @@ inline int lua_GetChaMapName(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1901,7 +1901,7 @@ inline int lua_GetChaMapName(lua_State *pLS)
 	if (!pCCha->GetSubMap())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏóµØÍ¼²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡åœ°å›¾ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe object map is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1912,7 +1912,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ³É¹¦£º%s\n", sID, szMapName);
+		//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§°æˆåŠŸï¼š%s\n", sID, szMapName);
 		g_pCLogObj->Log("Get the Map name where character in is succeed :%s\n ", sID, szMapName);
 #endif
 		lua_pushstring(pLS, pCCha->GetSubMap()->GetName());
@@ -1922,24 +1922,24 @@ End:
 	return 0;
 }
 
-// È¡½ÇÉ«ËùÔÚµÄµØÍ¼¸±±¾ºÅ
-// ²ÎÊı£º½ÇÉ«
-// ·µ»ØÖµ£º¸±±¾ºÅ£¨Ğ¡ÓÚµÈÓÚ0ÎªÎŞĞ§µÄ±àºÅ£©
+// å–è§’è‰²æ‰€åœ¨çš„åœ°å›¾å‰¯æœ¬å·
+// å‚æ•°ï¼šè§’è‰²
+// è¿”å›å€¼ï¼šå‰¯æœ¬å·ï¼ˆå°äºç­‰äº0ä¸ºæ— æ•ˆçš„ç¼–å·ï¼‰
 inline int lua_GetChaMapCopyNO(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ GetMapName\n");
+	//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§° GetMapName\n");
 	g_pCLogObj->Log("Get the Map name where character in : GetMapName\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -1951,7 +1951,7 @@ inline int lua_GetChaMapCopyNO(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1961,7 +1961,7 @@ inline int lua_GetChaMapCopyNO(lua_State *pLS)
 	if (!pCCha->GetSubMap())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏóµØÍ¼²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡åœ°å›¾ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe object map is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -1972,7 +1972,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ³É¹¦£º%s\n", sID, szMapName);
+		//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§°æˆåŠŸï¼š%s\n", sID, szMapName);
 		g_pCLogObj->Log("Get the Map name where character in is succeed :%s\n ", sID, szMapName);
 #endif
 		lua_pushnumber(pLS, pCCha->GetSubMap()->GetCopyNO() + 1);
@@ -1983,25 +1983,25 @@ End:
 	return 1;
 }
 
-// È¡½ÇÉ«ËùÔÚµÄµØÍ¼¸±±¾¶ÔÏó
-// ²ÎÊı£º½ÇÉ«
-// ·µ»ØÖµ£º¸±±¾¶ÔÏó
+// å–è§’è‰²æ‰€åœ¨çš„åœ°å›¾å‰¯æœ¬å¯¹è±¡
+// å‚æ•°ï¼šè§’è‰²
+// è¿”å›å€¼ï¼šå‰¯æœ¬å¯¹è±¡
 inline int lua_GetChaMapCopy(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	SubMap	*pCMapCopy = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµÄµØÍ¼¸±±¾¶ÔÏó GetChaMapCopy\n");
+	//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨çš„åœ°å›¾å‰¯æœ¬å¯¹è±¡ GetChaMapCopy\n");
 	g_pCLogObj->Log("Get the character 's map copy object : GetChaMapCopy\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2013,7 +2013,7 @@ inline int lua_GetChaMapCopy(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed \n");
 #endif
 		bSuccess = false;
@@ -2025,7 +2025,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«ËùÔÚµØÍ¼µÄÃû³Æ³É¹¦£º%s\n", sID, szMapName);
+		//g_pCLogObj->Log("å–è§’è‰²æ‰€åœ¨åœ°å›¾çš„åç§°æˆåŠŸï¼š%s\n", sID, szMapName);
 		g_pCLogObj->Log("Get the Map name where character in is succeed :%s\n ", sID, szMapName);
 #endif
 	}
@@ -2039,25 +2039,25 @@ End:
 		return 0;
 }
 
-// È¡½ÇÉ«µÄÖ÷½Ç
-// ²ÎÊı£º½ÇÉ«
-// ·µ»ØÖµ£ºÖ÷½Ç
+// å–è§’è‰²çš„ä¸»è§’
+// å‚æ•°ï¼šè§’è‰²
+// è¿”å›å€¼ï¼šä¸»è§’
 inline int lua_GetMainCha(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	CCharacter	*pCMainCha = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«µÄÖ÷½Ç GetMainCha\n");
+	//g_pCLogObj->Log("å–è§’è‰²çš„ä¸»è§’ GetMainCha\n");
 	g_pCLogObj->Log("Get the Main character of player : GetMainCha\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2069,7 +2069,7 @@ inline int lua_GetMainCha(lua_State *pLS)
 	if (!pCCha || !pCCha->GetPlayer())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed \n");
 #endif
 		bSuccess = false;
@@ -2082,7 +2082,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«µÄÖ÷½Ç³É¹¦\n");
+		//g_pCLogObj->Log("å–è§’è‰²çš„ä¸»è§’æˆåŠŸ\n");
 		g_pCLogObj->Log("Get the Main character of player succeed\n");
 #endif
 	}
@@ -2094,25 +2094,25 @@ End:
 	return 1;
 }
 
-// È¡´¬½ÇÉ«
-// ²ÎÊı£ºÖ÷½ÇÉ«
-// ·µ»ØÖµ£º´¬½ÇÉ«£¬Èç¹û²»´æÔÚ£¬·µ»Ø0
+// å–èˆ¹è§’è‰²
+// å‚æ•°ï¼šä¸»è§’è‰²
+// è¿”å›å€¼ï¼šèˆ¹è§’è‰²ï¼Œå¦‚æœä¸å­˜åœ¨ï¼Œè¿”å›0
 inline int lua_GetCtrlBoat(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	CCharacter	*pCCtrlBoat = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡´¬½ÇÉ« GetCtrlBoat\n");
+	//g_pCLogObj->Log("å–èˆ¹è§’è‰² GetCtrlBoat\n");
 	g_pCLogObj->Log("Get the boat character : GetCtrlBoat\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2124,7 +2124,7 @@ inline int lua_GetCtrlBoat(lua_State *pLS)
 	if (!pCCha || !pCCha->GetPlayer())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2139,7 +2139,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡´¬½ÇÉ«³É¹¦\n");
+		//g_pCLogObj->Log("å–èˆ¹è§’è‰²æˆåŠŸ\n");
 		g_pCLogObj->Log("Get the boat character succeed\n");
 #endif
 	}
@@ -2151,25 +2151,25 @@ End:
 	return 1;
 }
 
-// ÅĞ¶ÏÊÇ·ñ´¬½ÇÉ«
-// ²ÎÊı£º½ÇÉ«
-// ·µ»ØÖµ£º1 ´¬½ÇÉ«£¬0 ²»ÊÇ
+// åˆ¤æ–­æ˜¯å¦èˆ¹è§’è‰²
+// å‚æ•°ï¼šè§’è‰²
+// è¿”å›å€¼ï¼š1 èˆ¹è§’è‰²ï¼Œ0 ä¸æ˜¯
 inline int lua_ChaIsBoat(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÅĞ¶ÏÊÇ·ñ´¬½ÇÉ« ChaIsBoat\n");
+	//g_pCLogObj->Log("åˆ¤æ–­æ˜¯å¦èˆ¹è§’è‰² ChaIsBoat\n");
 	g_pCLogObj->Log("judge the character whether is boat : ChaIsBoat\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	char	chIsBoat = 0;
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2181,7 +2181,7 @@ inline int lua_ChaIsBoat(lua_State *pLS)
 	if (!pCCha || !pCCha->GetPlayer())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2195,7 +2195,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÅĞ¶ÏÊÇ·ñ´¬½ÇÉ«³É¹¦\n");
+		//g_pCLogObj->Log("åˆ¤æ–­æ˜¯å¦èˆ¹è§’è‰²æˆåŠŸ\n");
 		g_pCLogObj->Log("judge the character whether is boat succeed \n");
 #endif
 	}
@@ -2204,25 +2204,25 @@ End:
 	return 1;
 }
 
-// È¡½ÇÉ«µÄµÀ¾ß
-// ½ÇÉ«¶ÔÏó£»µÀ¾ßÇøÓò£º1£¬×°±¸À¸¡£2£¬µÀ¾ßÀ¸£»Î»ÖÃ±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ßÖ¸Õë
+// å–è§’è‰²çš„é“å…·
+// è§’è‰²å¯¹è±¡ï¼›é“å…·åŒºåŸŸï¼š1ï¼Œè£…å¤‡æ ã€‚2ï¼Œé“å…·æ ï¼›ä½ç½®ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·æŒ‡é’ˆ
 inline int lua_GetChaItem(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	SItemGrid	*pSItem = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«µÄµÀ¾ß GetChaItem\n");
+	//g_pCLogObj->Log("å–è§’è‰²çš„é“å…· GetChaItem\n");
 	g_pCLogObj->Log("Get the character Item : GetChaItem\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2234,7 +2234,7 @@ inline int lua_GetChaItem(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2247,7 +2247,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«µÄµÀ¾ß³É¹¦\n");
+		//g_pCLogObj->Log("å–è§’è‰²çš„é“å…·æˆåŠŸ\n");
 		g_pCLogObj->Log("Get the character Item succeed \n");
 #endif
 	}
@@ -2261,25 +2261,25 @@ End:
 		return 0;
 }
 
-// È¡½ÇÉ«µÄµÀ¾ß
-// ½ÇÉ«¶ÔÏó£»µÀ¾ßÇøÓò£º1£¬×°±¸À¸¡£2£¬µÀ¾ßÀ¸£»µÀ¾ß±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ßÖ¸Õë
+// å–è§’è‰²çš„é“å…·
+// è§’è‰²å¯¹è±¡ï¼›é“å…·åŒºåŸŸï¼š1ï¼Œè£…å¤‡æ ã€‚2ï¼Œé“å…·æ ï¼›é“å…·ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·æŒ‡é’ˆ
 inline int lua_GetChaItem2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	SItemGrid	*pSItem = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«µÄµÀ¾ß GetChaItem\n");
+	//g_pCLogObj->Log("å–è§’è‰²çš„é“å…· GetChaItem\n");
 	g_pCLogObj->Log("Get the character Item : GetChaItem\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2291,7 +2291,7 @@ inline int lua_GetChaItem2(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2304,7 +2304,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«µÄµÀ¾ß³É¹¦\n");
+		//g_pCLogObj->Log("å–è§’è‰²çš„é“å…·æˆåŠŸ\n");
 		g_pCLogObj->Log("Get the character Item succeed \n");
 #endif
 	}
@@ -2319,7 +2319,7 @@ End:
 }
 
 inline int lua_MoveToTemp(lua_State *pLS){
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2){
 		lua_pushnumber(pLS,  LUA_FALSE);
@@ -2378,17 +2378,17 @@ inline int lua_GetItemAttr(lua_State *pLS)
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßÊµÀıÊôĞÔ GetItemAttr\n");
+	//g_pCLogObj->Log("å–é“å…·å®ä¾‹å±æ€§ GetItemAttr\n");
 	g_pCLogObj->Log("Get Item instance attribute : GetItemAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	long	lItemAttr = 0;
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2400,7 +2400,7 @@ inline int lua_GetItemAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2433,7 +2433,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÊµÀıÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·å®ä¾‹å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Get Item instance attribute succeed\n");
 #endif
 
@@ -2475,24 +2475,24 @@ inline int lua_IsItemLocked(lua_State *pLS){
 }
 
 
-// ÉèÖÃÊµÀıµÀ¾ßÊôĞÔ
-// µÀ¾ß¶ÔÏó£»µÀ¾ßÊôĞÔ±àºÅ£»ÊôĞÔÖµ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// è®¾ç½®å®ä¾‹é“å…·å±æ€§
+// é“å…·å¯¹è±¡ï¼›é“å…·å±æ€§ç¼–å·ï¼›å±æ€§å€¼
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_SetItemAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃÊµÀıµÀ¾ßÊôĞÔ SetItemAttr\n");
+	//g_pCLogObj->Log("è®¾ç½®å®ä¾‹é“å…·å±æ€§ SetItemAttr\n");
 	g_pCLogObj->Log("Set Item instance attribute : SetItemAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2504,7 +2504,7 @@ inline int lua_SetItemAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2538,7 +2538,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃÊµÀıµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®å®ä¾‹é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Set Item instance attribute succeed \n" );
 #endif
 		lua_pushnumber(pLS, 1);
@@ -2549,24 +2549,24 @@ End:
 	return 1;
 }
 
-// Ôö¼ÓµÀ¾ßÊµÀıÊôĞÔ
-// µÀ¾ß¶ÔÏó£»µÀ¾ßÊôĞÔ±àºÅ£»ÊôĞÔÖµ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// å¢åŠ é“å…·å®ä¾‹å±æ€§
+// é“å…·å¯¹è±¡ï¼›é“å…·å±æ€§ç¼–å·ï¼›å±æ€§å€¼
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_AddItemAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊµÀıÊôĞÔ AddItemAttr\n");
+	//g_pCLogObj->Log("å¢åŠ é“å…·å®ä¾‹å±æ€§ AddItemAttr\n");
 	g_pCLogObj->Log("Add Item instance attribute : AddItemAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2578,7 +2578,7 @@ inline int lua_AddItemAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2611,7 +2611,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊµÀıÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å®ä¾‹å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add Item instance attribute succeed\n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -2622,25 +2622,25 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ßÊôĞÔ
-// µÀ¾ß¶ÔÏó£»µÀ¾ßÊôĞÔ±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ßÊôĞÔÖµ
+// å–é“å…·å±æ€§
+// é“å…·å¯¹è±¡ï¼›é“å…·å±æ€§ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·å±æ€§å€¼
 inline int lua_GetItemFinalAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßÊôĞÔ GetItemFinalAttr\n");
-	g_pCLogObj->Log("Get the Item Final attribute £ºGetItemFinalAttr\n");
+	//g_pCLogObj->Log("å–é“å…·å±æ€§ GetItemFinalAttr\n");
+	g_pCLogObj->Log("Get the Item Final attribute ï¼šGetItemFinalAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	long	lItemAttr = 0;
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2652,7 +2652,7 @@ inline int lua_GetItemFinalAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2666,7 +2666,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Get the Item Final attribute succeed \n");
 #endif
 
@@ -2677,24 +2677,24 @@ End:
 	return 0;
 }
 
-// ÉèÖÃµÀ¾ßÊôĞÔ
-// µÀ¾ß¶ÔÏó£»µÀ¾ßÊôĞÔ±àºÅ£»ÊôĞÔÖµ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// è®¾ç½®é“å…·å±æ€§
+// é“å…·å¯¹è±¡ï¼›é“å…·å±æ€§ç¼–å·ï¼›å±æ€§å€¼
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_SetItemFinalAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµÀ¾ßÊôĞÔ SetItemFinalAttr\n");
+	//g_pCLogObj->Log("è®¾ç½®é“å…·å±æ€§ SetItemFinalAttr\n");
 	g_pCLogObj->Log("Set the Item Final attribute : SetItemFinalAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2706,7 +2706,7 @@ inline int lua_SetItemFinalAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2722,7 +2722,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Set the Item Final attribute succeed\n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -2733,24 +2733,24 @@ End:
 	return 1;
 }
 
-// Ôö¼ÓµÀ¾ßÊôĞÔ
-// µÀ¾ß¶ÔÏó£»µÀ¾ßÊôĞÔ±àºÅ£»ÊôĞÔÖµ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// å¢åŠ é“å…·å±æ€§
+// é“å…·å¯¹è±¡ï¼›é“å…·å±æ€§ç¼–å·ï¼›å±æ€§å€¼
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_AddItemFinalAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ AddItemFinalAttr\n");
+	//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§ AddItemFinalAttr\n");
 	g_pCLogObj->Log("Add the Item Final attribute : AddItemFinalAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2762,7 +2762,7 @@ inline int lua_AddItemFinalAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2778,7 +2778,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add the Item Final attribute succeed ");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -2789,24 +2789,24 @@ End:
 	return 1;
 }
 
-// ¸´Î»µÀ¾ßÊôĞÔ
-// µÀ¾ß¶ÔÏó
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// å¤ä½é“å…·å±æ€§
+// é“å…·å¯¹è±¡
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_ResetItemFinalAttr(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ AddItemFinalAttr\n");
+	//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§ AddItemFinalAttr\n");
 	g_pCLogObj->Log("Add the Item Final attribute : AddItemFinalAttr\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2818,7 +2818,7 @@ inline int lua_ResetItemFinalAttr(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2835,7 +2835,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add the Item Final attribute succeed ");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -2851,11 +2851,11 @@ inline int lua_GetItemAttrRange(lua_State *pLS)
 	bool	bSuccess = true;
 	short sValue = 0;
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2871,7 +2871,7 @@ inline int lua_GetItemAttrRange(lua_State *pLS)
 	if (!pCItemRec)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2885,7 +2885,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add the Item Final attribute succeed ");
 #endif
 	}
@@ -2895,25 +2895,25 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ß¾«Á¶²ÎÊı
-// µÀ¾ß¶ÔÏó£»²ÎÊıÀàĞÍ£¨0£¬¾«Á¶µÈ¼¶¡£1£¬¾«Á¶ÄÚÈİ£©
-// ·µ»ØÖµ£º¾«Á¶²ÎÊı
+// å–é“å…·ç²¾ç‚¼å‚æ•°
+// é“å…·å¯¹è±¡ï¼›å‚æ•°ç±»å‹ï¼ˆ0ï¼Œç²¾ç‚¼ç­‰çº§ã€‚1ï¼Œç²¾ç‚¼å†…å®¹ï¼‰
+// è¿”å›å€¼ï¼šç²¾ç‚¼å‚æ•°
 inline int lua_GetItemForgeParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	long	lForgeP = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ß¾«Á¶²ÎÊı GetItemForgeParam\n");
+	//g_pCLogObj->Log("å–é“å…·ç²¾ç‚¼å‚æ•° GetItemForgeParam\n");
 	g_pCLogObj->Log("Get Item forge parameter : GetItemForgeParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2925,7 +2925,7 @@ inline int lua_GetItemForgeParam(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2942,7 +2942,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add the Item Final attribute succeed ");
 #endif
 	}
@@ -2952,24 +2952,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµÀ¾ß¾«Á¶²ÎÊı
-// µÀ¾ß¶ÔÏó£»²ÎÊıÀàĞÍ£¨0£¬¾«Á¶µÈ¼¶¡£1£¬¾«Á¶ÄÚÈİ£©£»²ÎÊıÖµ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// è®¾ç½®é“å…·ç²¾ç‚¼å‚æ•°
+// é“å…·å¯¹è±¡ï¼›å‚æ•°ç±»å‹ï¼ˆ0ï¼Œç²¾ç‚¼ç­‰çº§ã€‚1ï¼Œç²¾ç‚¼å†…å®¹ï¼‰ï¼›å‚æ•°å€¼
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_SetItemForgeParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµÀ¾ß¾«Á¶²ÎÊı SetItemForgeParam\n");
+	//g_pCLogObj->Log("è®¾ç½®é“å…·ç²¾ç‚¼å‚æ•° SetItemForgeParam\n");
 	g_pCLogObj->Log("Set Item forge parameter : SetItemForgeParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -2981,7 +2981,7 @@ inline int lua_SetItemForgeParam(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -2998,7 +2998,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÊôĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å±æ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("Add the Item Final attribute succeed ");
 #endif
 	}
@@ -3008,24 +3008,24 @@ End:
 	return 1;
 }
 
-// Ôö¼Ó×°±¸µÀ¾ßµÄÄÜÁ¿
-// ²ÎÊı£º½ÇÉ«£¬Íâ¹ÛÎ»ÖÃ£¬µÀ¾ßÀàĞÍ£¬ÔöÁ¿
-// ·µ»ØÖµ£º1 ³É¹¦£¬0 Ê§°Ü
+// å¢åŠ è£…å¤‡é“å…·çš„èƒ½é‡
+// å‚æ•°ï¼šè§’è‰²ï¼Œå¤–è§‚ä½ç½®ï¼Œé“å…·ç±»å‹ï¼Œå¢é‡
+// è¿”å›å€¼ï¼š1 æˆåŠŸï¼Œ0 å¤±è´¥
 inline int lua_AddEquipEnergy(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼Ó×°±¸µÀ¾ßµÄÄÜÁ¿ AddEquipEnergy\n");
+	//g_pCLogObj->Log("å¢åŠ è£…å¤‡é“å…·çš„èƒ½é‡ AddEquipEnergy\n");
 	g_pCLogObj->Log("Add equip item energy : AddEquipEnergy\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 4)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3037,7 +3037,7 @@ inline int lua_AddEquipEnergy(lua_State *pLS)
 	if (!pCCha || !pCCha->GetPlayer())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3050,7 +3050,7 @@ inline int lua_AddEquipEnergy(lua_State *pLS)
 	if (chPos < enumEQUIP_HEAD || chPos >= enumEQUIP_NUM)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t×°±¸µÄÎ»ÖÃ%d´íÎó£¬µ÷ÓÃÊ§°Ü\n", chPos);
+		//g_pCLogObj->Log("\tè£…å¤‡çš„ä½ç½®%dé”™è¯¯ï¼Œè°ƒç”¨å¤±è´¥\n", chPos);
 		g_pCLogObj->Log("\tequip position %d error,transfer failed\n", chPos);
 #endif
 		bSuccess = false;
@@ -3070,7 +3070,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼Ó×°±¸µÀ¾ßµÄÄÜÁ¿³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ è£…å¤‡é“å…·çš„èƒ½é‡æˆåŠŸ\n");
 		g_pCLogObj->Log("Add equip item energy succeed\n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -3081,24 +3081,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ·Ç×ÔÈ»¸´»îĞÅÏ¢
-// ²ÎÊı£ºÔ´·½½ÇÉ«£¬Ä¿±ê½ÇÉ«£¬¸´»îµÈ¼¶£¬ÖÕ¶ËÌáÊ¾ĞÅÏ¢
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®éè‡ªç„¶å¤æ´»ä¿¡æ¯
+// å‚æ•°ï¼šæºæ–¹è§’è‰²ï¼Œç›®æ ‡è§’è‰²ï¼Œå¤æ´»ç­‰çº§ï¼Œç»ˆç«¯æç¤ºä¿¡æ¯
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SetRelive(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ·Ç×ÔÈ»¸´»îĞÅÏ¢ SetRelive\n");
+	//g_pCLogObj->Log("è®¾ç½®éè‡ªç„¶å¤æ´»ä¿¡æ¯ SetRelive\n");
 	g_pCLogObj->Log("Set nonnature relive message : SetRelive\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 4)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3111,7 +3111,7 @@ inline int lua_SetRelive(lua_State *pLS)
 	if (!pCSrcCha || !pCSrcCha->GetPlayer() || !pCTarCha || !pCTarCha->GetPlayer())
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3119,13 +3119,13 @@ inline int lua_SetRelive(lua_State *pLS)
 	}
 	if(pCTarCha->GetChaRelive())
 	{ 
-		//pCSrcCha->SystemNotice("Ä¿±êÕıÔÚ½ÓÊÜÆäËûÈËµÄ¸´»îÇëÇó!");  
+		//pCSrcCha->SystemNotice("ç›®æ ‡æ­£åœ¨æ¥å—å…¶ä»–äººçš„å¤æ´»è¯·æ±‚!");  
 		pCSrcCha->SystemNotice(RES_STRING(GM_EXPAND_H_00007)); 
 		bSuccess = false;
 		goto End;
 	}
 
-	if (!pCTarCha->IsBoat()) // ´¬²»ÄÜ¸´»î
+	if (!pCTarCha->IsBoat()) // èˆ¹ä¸èƒ½å¤æ´»
 	{
 		pCTarCha->SetRelive(enumEPLAYER_RELIVE_ORIGIN, (int)lua_tonumber(pLS, 3), lua_tostring(pLS, 4));
 	}
@@ -3134,7 +3134,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ·Ç×ÔÈ»¸´»îĞÅÏ¢³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®éè‡ªç„¶å¤æ´»ä¿¡æ¯æˆåŠŸ\n");
 		g_pCLogObj->Log("Set nonnature relive message succeed\n");
 #endif
 	}
@@ -3159,7 +3159,7 @@ g_pGameApp->m_ulLeftSec = (int)lua_tonumber(pLS, 1);
 return 0;
 T_E}
 
-// È«·şÍ¨¸æ
+// å…¨æœé€šå‘Š
 inline int lua_Notice(lua_State *pLS)
 {T_B
 if (!lua_isstring(pLS, 1))
@@ -3168,10 +3168,10 @@ return 0;
 const char	*cszNotiStr = lua_tostring(pLS, 1);
 g_pGameApp->WorldNotice(cszNotiStr);
 
-//if (strstr(cszNotiStr, "º£µÁ¹ã²¥"))
+//if (strstr(cszNotiStr, "æµ·ç›—å¹¿æ’­"))
 if (strstr(cszNotiStr, RES_STRING(GM_EXPAND_H_00102)))
 if (g_cchLogMapEntry)
-LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÏµÍ³Í¨¸æ£º%s\n", cszNotiStr);
+LG("åœ°å›¾å…¥å£æµç¨‹", "ç³»ç»Ÿé€šå‘Šï¼š%s\n", cszNotiStr);
 //LG("map_entrance_flow", "system notice : %s\n", cszNotiStr);
 
 return 0;
@@ -3193,7 +3193,7 @@ inline int lua_GuildNotice(lua_State *pLS)
 //Add by sunny.sun20080804
 inline int lua_ScrollNotice( lua_State* L )
 {T_B
-int nParaNum = lua_gettop(L); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(L); // å–å¾—å‚æ•°ä¸ªæ•°
 if(	nParaNum != 2 )
 {
 #ifdef defPARSE_LOG
@@ -3209,10 +3209,10 @@ int SetNum = (int)lua_tonumber(L, 2);
 const char	*cszNotiStr = lua_tostring(L, 1);
 g_pGameApp->ScrollNotice(cszNotiStr,SetNum);
 
-//if (strstr(cszNotiStr, "º£µÁ¹ã²¥"))
+//if (strstr(cszNotiStr, "æµ·ç›—å¹¿æ’­"))
 if (strstr(cszNotiStr, RES_STRING(GM_EXPAND_H_00102)))
 if (g_cchLogMapEntry)
-LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÏµÍ³Í¨¸æ£º%s\n", cszNotiStr);
+LG("åœ°å›¾å…¥å£æµç¨‹", "ç³»ç»Ÿé€šå‘Šï¼š%s\n", cszNotiStr);
 //LG("map_entrance_flow", "system notice : %s\n", cszNotiStr);
 
 return 0;
@@ -3226,14 +3226,14 @@ inline int lua_GMNotice( lua_State *pLS )
 	g_pGameApp->GMNotice( gmNotice );
 	if (strstr(gmNotice, RES_STRING(GM_EXPAND_H_00102)))
 	if (g_cchLogMapEntry)
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÏµÍ³Í¨¸æ£º%s\n", gmNotice);
+		LG("åœ°å›¾å…¥å£æµç¨‹", "ç³»ç»Ÿé€šå‘Šï¼š%s\n", gmNotice);
 	//LG("map_entrance_flow", "system notice : %s\n", gmNotice);
 
 	return 0;
 
 T_E}
 
-// Íæ¼ÒÍ¨¸æ
+// ç©å®¶é€šå‘Š
 inline int lua_ChaNotice(lua_State *pLS)
 {T_B
 if (!lua_isstring(pLS, 1) || !lua_isstring(pLS, 2))
@@ -3242,18 +3242,18 @@ return 0;
 const char	*cszChaName = lua_tostring(pLS, 1);
 const char	*cszNotiStr = lua_tostring(pLS, 2);
 g_pGameApp->ChaNotice(cszNotiStr, cszChaName);
-//if (strstr(cszNotiStr, "º£µÁ¹ã²¥"))
+//if (strstr(cszNotiStr, "æµ·ç›—å¹¿æ’­"))
 if (strstr(cszNotiStr, RES_STRING(GM_EXPAND_H_00102)))
 if (g_cchLogMapEntry)
-LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÏµÍ³Í¨¸æ£º%s\n", cszNotiStr);
+LG("åœ°å›¾å…¥å£æµç¨‹", "ç³»ç»Ÿé€šå‘Šï¼š%s\n", cszNotiStr);
 //LG("map_entrance_flow", "system notice : %s\n", cszNotiStr);
 
 return 0;
 T_E}
 
-// µØÍ¼¸±±¾Í¨¸æ
-// ²ÎÊı£ºµØÍ¼¸±±¾¶ÔÏó£¬Í¨¸æÄÚÈİ
-// ·µ»ØÖµ£ºÎŞ
+// åœ°å›¾å‰¯æœ¬é€šå‘Š
+// å‚æ•°ï¼šåœ°å›¾å‰¯æœ¬å¯¹è±¡ï¼Œé€šå‘Šå†…å®¹
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_MapCopyNotice(lua_State *pLS)
 {T_B
 if (!lua_islightuserdata(pLS, 1) || !lua_isstring(pLS, 2))
@@ -3266,9 +3266,9 @@ pCMapCopy->Notice(cszNotiStr);
 return 0;
 T_E}
 
-// µØÍ¼¸±±¾Í¨¸æ
-// ²ÎÊı£ºµØÍ¼¶ÔÏó£¬¸±±¾±àºÅ£¨£°ÎªËùÓĞ¸±±¾£©£¬Í¨¸æÄÚÈİ
-// ·µ»ØÖµ£ºÎŞ
+// åœ°å›¾å‰¯æœ¬é€šå‘Š
+// å‚æ•°ï¼šåœ°å›¾å¯¹è±¡ï¼Œå‰¯æœ¬ç¼–å·ï¼ˆï¼ä¸ºæ‰€æœ‰å‰¯æœ¬ï¼‰ï¼Œé€šå‘Šå†…å®¹
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_MapCopyNotice2(lua_State *pLS)
 {T_B
 if (!lua_islightuserdata(pLS, 1) || !lua_isnumber(pLS, 2) || !lua_isstring(pLS, 3))
@@ -3285,24 +3285,24 @@ inline int lua_MapChaLight(lua_State *pLS)
 	return 0;
 }
 
-// ÉèÖÃ½ÇÉ«µôÁÏµÄÊôÖ÷
-// ²ÎÊı£ºµôÁÏ¶ÔÏó£¬ÊôÖ÷¶ÔÏó
-// ·µ»ØÖµ£º³É¹¦1£¬Ê§°Ü0
+// è®¾ç½®è§’è‰²æ‰æ–™çš„å±ä¸»
+// å‚æ•°ï¼šæ‰æ–™å¯¹è±¡ï¼Œå±ä¸»å¯¹è±¡
+// è¿”å›å€¼ï¼šæˆåŠŸ1ï¼Œå¤±è´¥0
 inline int lua_SetItemHost(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«µôÁÏµÄÊôÖ÷ SetItemHost\n");
+//g_pCLogObj->Log("è®¾ç½®è§’è‰²æ‰æ–™çš„å±ä¸» SetItemHost\n");
 g_pCLogObj->Log("Set the character fall item host : SetItemHost\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -3314,7 +3314,7 @@ CCharacter *pCOwnCha = (CCharacter*)lua_touserdata(pLS, 2);
 if (!pCDropCha || !pCOwnCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed!\n");
 #endif
 	bSuccess = false;
@@ -3326,7 +3326,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ« %s µôÁÏµÄÊôÖ÷ %s ³É¹¦£º%d\n", pCDropCha->GetLogName(), pCOwnCha->GetLogName());
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰² %s æ‰æ–™çš„å±ä¸» %s æˆåŠŸï¼š%d\n", pCDropCha->GetLogName(), pCOwnCha->GetLogName());
 	g_pCLogObj->Log("Set the character %s fall item host %s succeed :%d\n", pCDropCha->GetLogName(), pCOwnCha->GetLogName());
 #endif
 	lua_pushnumber(pLS, 1);
@@ -3337,24 +3337,24 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// È¡µÃ½ÇÉ«Ãû³Æ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º½ÇÉ«Ãû³Æ
+// å–å¾—è§’è‰²åç§°
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šè§’è‰²åç§°
 inline int lua_GetChaName(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ½ÇÉ«Ãû³Æ GetChaName\n");
+//g_pCLogObj->Log("å–å¾—è§’è‰²åç§° GetChaName\n");
 g_pCLogObj->Log("Get the character Name : GetChaName\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -3365,7 +3365,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -3376,7 +3376,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ½ÇÉ« %s µÄÃû³Æ³É¹¦£º%d\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("å–å¾—è§’è‰² %s çš„åç§°æˆåŠŸï¼š%d\n", pCCha->GetLogName());
 	g_pCLogObj->Log("Get the character  %s 's Name succeed : %d\n", pCCha->GetLogName());
 #endif
 
@@ -3387,25 +3387,25 @@ else
 return 0;
 T_E}
 
-// ÉèÖÃµØÍ¼Èë¿ÚµÄ¿ØÖÆÊ±¼ä
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬Ê×´ÎÖ´ĞĞÊ±¼ä£¬ºóĞøÖ´ĞĞ¼ä¸ô£¬Ö´ĞĞºóµÄÏûÊ§¼ä¸ô£¬Ö´ĞĞºóµÄµØÍ¼¹Ø±Õ¼ä¸ô
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å…¥å£çš„æ§åˆ¶æ—¶é—´
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œé¦–æ¬¡æ‰§è¡Œæ—¶é—´ï¼Œåç»­æ‰§è¡Œé—´éš”ï¼Œæ‰§è¡Œåçš„æ¶ˆå¤±é—´éš”ï¼Œæ‰§è¡Œåçš„åœ°å›¾å…³é—­é—´éš”
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SetMapEntryTime(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚµÄ¿ØÖÆÊ±¼ä SetMapEntryTime\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£çš„æ§åˆ¶æ—¶é—´ SetMapEntryTime\n");
 	g_pCLogObj->Log("Set the map entrance Time : SetMapEntryTime\n");
 #endif
 
 	string	strList[5];
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 5)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3416,13 +3416,13 @@ inline int lua_SetMapEntryTime(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
 		goto End;
 	}
-	// Ê×´Î¿ªÆôÊ±¼ä
+	// é¦–æ¬¡å¼€å¯æ—¶é—´
 	struct tm	time_set, *time_get;
 	time_t	timep;
 	time(&timep);
@@ -3431,7 +3431,7 @@ inline int lua_SetMapEntryTime(lua_State *pLS)
 	int n = Util_ResolveTextLine(szTime, strList, 5, '/');
 	if (n != 5)
 	{
-		//MessageBox(0, szTime, "ÉèÖÃµØÍ¼Èë¿Ú¿ØÖÆÊ±¼ä£¬Æä¸ñÊ½´íÎó", MB_OK);
+		//MessageBox(0, szTime, "è®¾ç½®åœ°å›¾å…¥å£æ§åˆ¶æ—¶é—´ï¼Œå…¶æ ¼å¼é”™è¯¯", MB_OK);
 		MessageBox(0, szTime, RES_STRING(GM_EXPAND_H_00111), MB_OK);
 		bSuccess = false;
 		goto End;
@@ -3445,36 +3445,36 @@ inline int lua_SetMapEntryTime(lua_State *pLS)
 	time_set.tm_isdst = time_get->tm_isdst;
 	pCMap->m_tEntryFirstTm = mktime(&time_set);
 
-	// ºóĞøÖ´ĞĞ¼ä¸ô
+	// åç»­æ‰§è¡Œé—´éš”
 	szTime = (const char*)lua_tostring(pLS, 3);
 	n = Util_ResolveTextLine(szTime, strList, 4, '/');
 	if (n != 3)
 	{
-		//MessageBox(0, szTime, "ÉèÖÃµØÍ¼Èë¿Ú¿ØÖÆÊ±¼ä£¬Æä¸ñÊ½´íÎó", MB_OK);
+		//MessageBox(0, szTime, "è®¾ç½®åœ°å›¾å…¥å£æ§åˆ¶æ—¶é—´ï¼Œå…¶æ ¼å¼é”™è¯¯", MB_OK);
 		MessageBox(0, szTime, RES_STRING(GM_EXPAND_H_00111), MB_OK);
 		bSuccess = false;
 		goto End;
 	}
 	pCMap->m_tEntryTmDis = ((Str2Int(strList[0]) * 24 + Str2Int(strList[1])) * 60 + Str2Int(strList[2])) * 60;
 
-	// Ö´ĞĞºóµÄÏûÊ§¼ä¸ô
+	// æ‰§è¡Œåçš„æ¶ˆå¤±é—´éš”
 	szTime = (const char*)lua_tostring(pLS, 4);
 	n = Util_ResolveTextLine(szTime, strList, 4, '/');
 	if (n != 3)
 	{
-		//MessageBox(0, szTime, "ÉèÖÃµØÍ¼Èë¿Ú¿ØÖÆÊ±¼ä£¬Æä¸ñÊ½´íÎó", MB_OK);
+		//MessageBox(0, szTime, "è®¾ç½®åœ°å›¾å…¥å£æ§åˆ¶æ—¶é—´ï¼Œå…¶æ ¼å¼é”™è¯¯", MB_OK);
 		MessageBox(0, szTime, RES_STRING(GM_EXPAND_H_00111), MB_OK);
 		bSuccess = false;
 		goto End;
 	}
 	pCMap->m_tEntryOutTmDis = ((Str2Int(strList[0]) * 24 + Str2Int(strList[1])) * 60 + Str2Int(strList[2])) * 60;
 
-	// Ö´ĞĞºóµÄµØÍ¼¹Ø±Õ¼ä¸ô
+	// æ‰§è¡Œåçš„åœ°å›¾å…³é—­é—´éš”
 	szTime = (const char*)lua_tostring(pLS, 5);
 	n = Util_ResolveTextLine(szTime, strList, 4, '/');
 	if (n != 3)
 	{
-		//MessageBox(0, szTime, "ÉèÖÃµØÍ¼Èë¿Ú¿ØÖÆÊ±¼ä£¬Æä¸ñÊ½´íÎó", MB_OK);
+		//MessageBox(0, szTime, "è®¾ç½®åœ°å›¾å…¥å£æ§åˆ¶æ—¶é—´ï¼Œå…¶æ ¼å¼é”™è¯¯", MB_OK);
 		MessageBox(0, szTime, RES_STRING(GM_EXPAND_H_00111), MB_OK);
 		bSuccess = false;
 		goto End;
@@ -3485,7 +3485,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)Èë¿ÚµÄ¿ØÖÆÊ±¼ä³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)å…¥å£çš„æ§åˆ¶æ—¶é—´æˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map %s entrance Time succeed :\n", pCMap->GetName());
 #endif
 
@@ -3497,24 +3497,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼ÊÇ·ñ±£´æÎ»ÖÃ
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬ÊÇ·ñ±£´æÎ»ÖÃ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾æ˜¯å¦ä¿å­˜ä½ç½®
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ˜¯å¦ä¿å­˜ä½ç½®
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCanSavePos(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÊÇ·ñ±£´æÎ»ÖÃ MapCanSavePos\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾æ˜¯å¦ä¿å­˜ä½ç½® MapCanSavePos\n");
 	g_pCLogObj->Log("Set the map whether save position : MapCanSavePos\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3525,7 +3525,7 @@ inline int lua_MapCanSavePos(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3537,7 +3537,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñ±£´æÎ»ÖÃ³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦ä¿å­˜ä½ç½®æˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map %s whether save position succeed :\n", pCMap->GetName());
 #endif
 
@@ -3549,24 +3549,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼ÊÇ·ñÒªÇ²·µËÀÍö½ÇÉ«
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬ÊÇ·ñÇ²·µ
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®åœ°å›¾æ˜¯å¦è¦é£è¿”æ­»äº¡è§’è‰²
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ˜¯å¦é£è¿”
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_RepatriateDie(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÊÇ·ñÒªÇ²·µËÀÍö½ÇÉ« RepatriateDie\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾æ˜¯å¦è¦é£è¿”æ­»äº¡è§’è‰² RepatriateDie\n");
 	g_pCLogObj->Log("Set the map whether Repatriate the die character : RepatriateDie\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3577,7 +3577,7 @@ inline int lua_RepatriateDie(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3589,7 +3589,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñÒªÇ²·µËÀÍö½ÇÉ«³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦è¦é£è¿”æ­»äº¡è§’è‰²æˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map %s whether Repatriate the die character succeed : \n", pCMap->GetName());
 #endif
 	}
@@ -3597,24 +3597,24 @@ End:
 	return 0;
 }
 
-// ÉèÖÃµØÍ¼ÊÇ·ñPK
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬ÊÇ·ñPK
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾æ˜¯å¦PK
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ˜¯å¦PK
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCanPK(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÊÇ·ñPK MapCanPK\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾æ˜¯å¦PK MapCanPK\n");
 	g_pCLogObj->Log("Set the map whether PK : MapCanPK\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3625,7 +3625,7 @@ inline int lua_MapCanPK(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3637,7 +3637,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñPK³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦PKæˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s) whether PK succeed : \n", pCMap->GetName());
 #endif
 
@@ -3649,24 +3649,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼ÊÇ·ñ¿ÉÒÔ²Ù×÷¶ÓÎé
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬ÊÇ·ñ¿É²Ù×÷£¨1£¬¿É²Ù×÷¡£0£¬²»¿É²Ù×÷£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾æ˜¯å¦å¯ä»¥æ“ä½œé˜Ÿä¼
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ˜¯å¦å¯æ“ä½œï¼ˆ1ï¼Œå¯æ“ä½œã€‚0ï¼Œä¸å¯æ“ä½œï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCanTeam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÊÇ·ñ¿ÉÒÔ²Ù×÷¶ÓÎé MapCanTeam\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾æ˜¯å¦å¯ä»¥æ“ä½œé˜Ÿä¼ MapCanTeam\n");
 	g_pCLogObj->Log("Set the map whether can work Team : MapCanTeam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3677,7 +3677,7 @@ inline int lua_MapCanTeam(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3689,7 +3689,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñPK³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦PKæˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s) whether PK succeed : \n", pCMap->GetName());
 #endif
 
@@ -3701,24 +3701,24 @@ End:
 	return 1;
 }
 
-// µØÍ¼ÊÇ·ñ¿ÉÒÔ°ÚÌ¯¡£
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬ÊÇ·ñ¿É²Ù×÷£¨1£¬¿É²Ù×÷¡£0£¬²»¿É²Ù×÷£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// åœ°å›¾æ˜¯å¦å¯ä»¥æ‘†æ‘Šã€‚
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ˜¯å¦å¯æ“ä½œï¼ˆ1ï¼Œå¯æ“ä½œã€‚0ï¼Œä¸å¯æ“ä½œï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCanStall(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¿É·ñ°ÚÌ¯£¬ MapCanTeam\n");
+	//g_pCLogObj->Log("è®¾ç½®å¯å¦æ‘†æ‘Šï¼Œ MapCanTeam\n");
 	g_pCLogObj->Log("Set the map whether can stall: MapCanTeam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3729,7 +3729,7 @@ inline int lua_MapCanStall(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3741,7 +3741,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñPK³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦PKæˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s) whether PK succeed : \n", pCMap->GetName());
 #endif
 
@@ -3758,16 +3758,16 @@ inline int lua_MapCanGuild(lua_State *pLS)
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¿É·ñÍË»á£¬ MapCanTeam\n");
+	//g_pCLogObj->Log("è®¾ç½®å¯å¦é€€ä¼šï¼Œ MapCanTeam\n");
 	g_pCLogObj->Log("Set whether can quit Team : MapCanTeam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3778,7 +3778,7 @@ inline int lua_MapCanGuild(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3790,7 +3790,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)ÊÇ·ñÍË»á³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)æ˜¯å¦é€€ä¼šæˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s)whether quit Team succeed :\n ", pCMap->GetName());
 #endif
 
@@ -3802,24 +3802,24 @@ End:
 	return 1;
 }
 
-//Íæ¼Ò¿ÉÒÔÉ±ËÀ×Ô¼ºµÄÕÙ»½¹Ö
-//²ÎÊı£ºÍæ¼Ò½ÇÉ«Ö¸Õë£¬¹ÖÖ¸Õë
-//·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+//ç©å®¶å¯ä»¥æ€æ­»è‡ªå·±çš„å¬å”¤æ€ª
+//å‚æ•°ï¼šç©å®¶è§’è‰²æŒ‡é’ˆï¼Œæ€ªæŒ‡é’ˆ
+//è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_KillMyMonster(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Íæ¼ÒÉ±ËÀ×Ô¼ºµÄÕÙ»½¹Ö£¬ KillMyMonster\n");
-	g_pCLogObj->Log("the player killed the Monster by call up £ºKillMyMonster\n");
+	//g_pCLogObj->Log("ç©å®¶æ€æ­»è‡ªå·±çš„å¬å”¤æ€ªï¼Œ KillMyMonster\n");
+	g_pCLogObj->Log("the player killed the Monster by call up ï¼šKillMyMonster\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3830,7 +3830,7 @@ inline int lua_KillMyMonster(lua_State *pLS)
 	if (!pCha || !pChaMonster)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -3844,7 +3844,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Íæ¼Ò(%s)É±ËÀÕÙ»½¹Ö(%s)³É¹¦\n", pCha ->GetName(),pChaMonster ->GetName());
+		//g_pCLogObj->Log("ç©å®¶(%s)æ€æ­»å¬å”¤æ€ª(%s)æˆåŠŸ\n", pCha ->GetName(),pChaMonster ->GetName());
 		g_pCLogObj->Log("the player(%s) killed the Monster(%s) by call up succeed\n", pCha ->GetName(),pChaMonster ->GetName());
 #endif
 
@@ -3857,24 +3857,24 @@ End:
 
 }
 
-//¸ù¾İ¹ÖÖ¸ÕëÉ±ËÀÌØ¶¨µÄÕÙ»½¹Ö
-//²ÎÊı£ºµØÍ¼Ö¸Õë£¬¹ÖÃû³Æ
-//·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+//æ ¹æ®æ€ªæŒ‡é’ˆæ€æ­»ç‰¹å®šçš„å¬å”¤æ€ª
+//å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œæ€ªåç§°
+//è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_KillMonsterInMapByName(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("É±ËÀÌØ¶¨µÄÕÙ»½¹Ö£¬ KillMonsterInMapByName\n");
+	//g_pCLogObj->Log("æ€æ­»ç‰¹å®šçš„å¬å”¤æ€ªï¼Œ KillMonsterInMapByName\n");
 	g_pCLogObj->Log("killed the specifically monster by call up :KillMonsterInMapByName\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3885,7 +3885,7 @@ inline int lua_KillMonsterInMapByName(lua_State *pLS)
 	if (!pSubmap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("the map is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3895,7 +3895,7 @@ inline int lua_KillMonsterInMapByName(lua_State *pLS)
 	if (!pMonstername)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¹ÖÎïÃû³Æ²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tæ€ªç‰©åç§°ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe Monster name is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3908,7 +3908,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("É±ËÀÌØ¶¨µÄÕÙ»½¹Ö(%s)³É¹¦\n", pChaMonster ->GetName());
+		//g_pCLogObj->Log("æ€æ­»ç‰¹å®šçš„å¬å”¤æ€ª(%s)æˆåŠŸ\n", pChaMonster ->GetName());
 		g_pCLogObj->Log("killed the specifically monster (%s)by call up succeed\n", pChaMonster ->GetName());
 #endif
 
@@ -3921,24 +3921,24 @@ End:
 
 }
 
-// ÉèÖÃµØÍ¼¸±±¾ÊıÄ¿
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬¸±±¾Êı
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å‰¯æœ¬æ•°ç›®
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œå‰¯æœ¬æ•°
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCopyNum(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼¸±±¾ÊıÄ¿PK MapCopyNum\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å‰¯æœ¬æ•°ç›®PK MapCopyNum\n");
 	g_pCLogObj->Log("Set the map copy numbers PK : MapCopyNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -3949,7 +3949,7 @@ inline int lua_MapCopyNum(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼×ÊÔ´¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾èµ„æºå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map resource object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -3961,7 +3961,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)¸±±¾ÊıÄ¿³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)å‰¯æœ¬æ•°ç›®æˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s)copy number succeed :\n", pCMap->GetName());
 #endif
 
@@ -3973,24 +3973,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼¸±±¾µÄ¿ªÊ¼ÀàĞÍ
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬¿ªÊ¼ÀàĞÍ£¨1£¬Á¢¼´¿ªÊ¼¡£2£¬ÓĞÍæ¼ÒÊ±¿ªÊ¼¡£3£¬ÊÖ¶¯¿ªÊ¼¡£Ä¬ÈÏÖµÎª2£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å‰¯æœ¬çš„å¼€å§‹ç±»å‹
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œå¼€å§‹ç±»å‹ï¼ˆ1ï¼Œç«‹å³å¼€å§‹ã€‚2ï¼Œæœ‰ç©å®¶æ—¶å¼€å§‹ã€‚3ï¼Œæ‰‹åŠ¨å¼€å§‹ã€‚é»˜è®¤å€¼ä¸º2ï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapCopyStartType(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼¸±±¾ÊıÄ¿PK MapCopyNum\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å‰¯æœ¬æ•°ç›®PK MapCopyNum\n");
 	g_pCLogObj->Log("Set the map copy numbers PK : MapCopyNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4001,7 +4001,7 @@ inline int lua_MapCopyStartType(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼×ÊÔ´¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾èµ„æºå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map resource object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4013,7 +4013,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)¸±±¾ÊıÄ¿³É¹¦£º\n", pCMap->GetName());
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)å‰¯æœ¬æ•°ç›®æˆåŠŸï¼š\n", pCMap->GetName());
 		g_pCLogObj->Log("Set the map(%s)copy number succeed : \n", pCMap->GetName());
 #endif
 
@@ -4025,24 +4025,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼ÀàĞÍ
-// ²ÎÊı£ºµØÍ¼¶ÔÏó£¬ÀàĞÍ£¨1£¬ÆÕÍ¨µØÍ¼¡£2£¬¹«»áÕ½µØÍ¼¡£3£¬¶ÓÎéÕ½µØÍ¼£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾ç±»å‹
+// å‚æ•°ï¼šåœ°å›¾å¯¹è±¡ï¼Œç±»å‹ï¼ˆ1ï¼Œæ™®é€šåœ°å›¾ã€‚2ï¼Œå…¬ä¼šæˆ˜åœ°å›¾ã€‚3ï¼Œé˜Ÿä¼æˆ˜åœ°å›¾ï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_MapType(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÀàĞÍ MapType\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾ç±»å‹ MapType\n");
 	g_pCLogObj->Log("Set the map Type : MapType\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4053,7 +4053,7 @@ inline int lua_MapType(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4065,7 +4065,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼ÀàĞÍ³É¹¦£º\n");
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾ç±»å‹æˆåŠŸï¼š\n");
 		g_pCLogObj->Log("Set the map Type succeed : \n");
 #endif
 
@@ -4077,24 +4077,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµ¥¸öµØÍ¼¸±±¾µÄÍæ¼ÒÊıÄ¿ÏŞÖÆ
-// ²ÎÊı£ºÈë¿Ú¶ÔÏó£¬Íæ¼ÒÊı
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®å•ä¸ªåœ°å›¾å‰¯æœ¬çš„ç©å®¶æ•°ç›®é™åˆ¶
+// å‚æ•°ï¼šå…¥å£å¯¹è±¡ï¼Œç©å®¶æ•°
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SingleMapCopyPlyNum(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµ¥¸öµØÍ¼¸±±¾µÄÍæ¼ÒÊıÄ¿ÏŞÖÆ SingleMapCopyPlyNum\n");
+	//g_pCLogObj->Log("è®¾ç½®å•ä¸ªåœ°å›¾å‰¯æœ¬çš„ç©å®¶æ•°ç›®é™åˆ¶ SingleMapCopyPlyNum\n");
 	g_pCLogObj->Log("Set the single map copy players number : SingleMapCopyPlyNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4105,7 +4105,7 @@ inline int lua_SingleMapCopyPlyNum(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼×ÊÔ´¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾èµ„æºå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map resource object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4117,7 +4117,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµ¥¸öµØÍ¼¸±±¾µÄÍæ¼ÒÊıÄ¿ÏŞÖÆ(%d)³É¹¦£º\n", (int)lua_tonumber(pLS, 2));
+		//g_pCLogObj->Log("è®¾ç½®å•ä¸ªåœ°å›¾å‰¯æœ¬çš„ç©å®¶æ•°ç›®é™åˆ¶(%d)æˆåŠŸï¼š\n", (int)lua_tonumber(pLS, 2));
 		g_pCLogObj->Log("Set the single map copy players number(%d) succeed :\n" , (int)lua_tonumber(pLS, 2));
 #endif
 
@@ -4129,24 +4129,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼Èë¿ÚËùÔÚµÄµØÍ¼Ãû
-// ²ÎÊı£ºµØÍ¼Ö¸Õë£¬µØÍ¼Ãû³Æ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å…¥å£æ‰€åœ¨çš„åœ°å›¾å
+// å‚æ•°ï¼šåœ°å›¾æŒ‡é’ˆï¼Œåœ°å›¾åç§°
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SetMapEntryMapName(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚÎ»ÖÃ SetMapEntryMapName\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£ä½ç½® SetMapEntryMapName\n");
 	g_pCLogObj->Log("Set the map entrance position : SetMapEntryMapName\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4157,7 +4157,7 @@ inline int lua_SetMapEntryMapName(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tthe map object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4169,7 +4169,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼(%s)Èë¿ÚÎ»ÖÃ(%s, [%d, %d])³É¹¦£º\n", pCMap->GetName(), pszName, Pos.x, Pos.y);
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾(%s)å…¥å£ä½ç½®(%s, [%d, %d])æˆåŠŸï¼š\n", pCMap->GetName(), pszName, Pos.x, Pos.y);
 		g_pCLogObj->Log("Set the map(%s) entrance position(%s,[%d, %d]) succeed : \n", pCMap->GetName(), pszName, Pos.x, Pos.y);
 #endif
 
@@ -4181,24 +4181,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃµØÍ¼Èë¿ÚÊµÌåµÄ±àºÅ
-// ²ÎÊı£ºÈë¿Ú¶ÔÏó£¬ÊµÌå±àºÅ£¬ÊÂ¼ş±àºÅ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å…¥å£å®ä½“çš„ç¼–å·
+// å‚æ•°ï¼šå…¥å£å¯¹è±¡ï¼Œå®ä½“ç¼–å·ï¼Œäº‹ä»¶ç¼–å·
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SetMapEntryEntiID(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚÊµÌåµÄ±àºÅ SetMapEntryEntiID\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£å®ä½“çš„ç¼–å· SetMapEntryEntiID\n");
 	g_pCLogObj->Log("Set the map entrance instance ID : SetMapEntryEntiID\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4209,7 +4209,7 @@ inline int lua_SetMapEntryEntiID(lua_State *pLS)
 	if (!pEntry)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tÈë¿Ú¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå…¥å£å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\t entrance object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4222,7 +4222,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("µØÍ¼Èë¿ÚÊµÌåµÄ±àºÅ(%d)³É¹¦£º\n", (int)lua_tonumber(pLS, 2));
+		//g_pCLogObj->Log("åœ°å›¾å…¥å£å®ä½“çš„ç¼–å·(%d)æˆåŠŸï¼š\n", (int)lua_tonumber(pLS, 2));
 		g_pCLogObj->Log("Set the map entrance instance ID(%d) succeed : \n", (int)lua_tonumber(pLS, 2));
 #endif
 
@@ -4234,23 +4234,23 @@ End:
 	return 1;
 }
 
-// È¡µØÍ¼Èë¿ÚµÄÎ»ÖÃĞÅÏ¢
-// ²ÎÊı£ºÈë¿Ú¶ÔÏó
-// ·µ»ØÖµ£ºµØÍ¼Ãû£¬×ø±ê£¬Ä¿±êµØÍ¼Ãû
+// å–åœ°å›¾å…¥å£çš„ä½ç½®ä¿¡æ¯
+// å‚æ•°ï¼šå…¥å£å¯¹è±¡
+// è¿”å›å€¼ï¼šåœ°å›¾åï¼Œåæ ‡ï¼Œç›®æ ‡åœ°å›¾å
 inline int lua_GetMapEntryPosInfo(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µØÍ¼Èë¿ÚµÄÎ»ÖÃĞÅÏ¢ GetMapEntryPosInfo\n");
+	//g_pCLogObj->Log("å–åœ°å›¾å…¥å£çš„ä½ç½®ä¿¡æ¯ GetMapEntryPosInfo\n");
 	g_pCLogObj->Log("Get the map entrance position info : GetMapEntryPosInfo\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
-		//LG("Èë¿Úerr", "\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//LG("å…¥å£err", "\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		LG("entry error", "\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 		bSuccess = false;
 		goto End;
@@ -4262,7 +4262,7 @@ inline int lua_GetMapEntryPosInfo(lua_State *pLS)
 	CDynMapEntryCell *pEntry = (CDynMapEntryCell *)lua_touserdata(pLS, 1);
 	if (!pEntry)
 	{
-		//LG("Èë¿Úerr", "\tÈë¿Ú¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n"); 
+		//LG("å…¥å£err", "\tå…¥å£å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n"); 
 		LG("entry error", "\t entrance object is inexistence,transfer failed\n"); 
 		bSuccess = false;
 		goto End;
@@ -4274,7 +4274,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚµÄÏŞÖÆµ¥Î»Êı(%d)³É¹¦£º\n", (int)lua_tonumber(pLS, 2));
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£çš„é™åˆ¶å•ä½æ•°(%d)æˆåŠŸï¼š\n", (int)lua_tonumber(pLS, 2));
 		g_pCLogObj->Log("Set the restrict number (%d)of map entrance succeed :\n", (int)lua_tonumber(pLS, 2));
 #endif
 		lua_pushstring(pLS, pMapN);
@@ -4286,24 +4286,24 @@ End:
 	return 0;
 }
 
-// ÉèÖÃµØÍ¼Èë¿ÚÊÂ¼şÃû
-// ²ÎÊı£ºÈë¿Ú¶ÔÏó£¬ÊÂ¼şÃû
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®åœ°å›¾å…¥å£äº‹ä»¶å
+// å‚æ•°ï¼šå…¥å£å¯¹è±¡ï¼Œäº‹ä»¶å
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SetMapEntryEventName(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚÊµÌåµÄ±àºÅ SetMapEntryEntiID\n");
+	//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£å®ä½“çš„ç¼–å· SetMapEntryEntiID\n");
 	g_pCLogObj->Log("Set the map entrance instance ID : SetMapEntryEntiID\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4314,7 +4314,7 @@ inline int lua_SetMapEntryEventName(lua_State *pLS)
 	if (!pEntry)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tÈë¿Ú¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå…¥å£å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\t entrance object is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4326,8 +4326,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃµØÍ¼Èë¿ÚÊÂ¼şÃû³É¹¦£º\n");
-		g_pCLogObj->Log("successful set the event of entry of the map £º\n");
+		//g_pCLogObj->Log("è®¾ç½®åœ°å›¾å…¥å£äº‹ä»¶åæˆåŠŸï¼š\n");
+		g_pCLogObj->Log("successful set the event of entry of the map ï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -4338,24 +4338,24 @@ End:
 	return 1;
 }
 
-// »½ÆğµØÍ¼Èë¿Ú
-// ²ÎÊı£ºµØÍ¼Ãû
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// å”¤èµ·åœ°å›¾å…¥å£
+// å‚æ•°ï¼šåœ°å›¾å
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_CallMapEntry(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("»½ÆğµØÍ¼Èë¿Ú CallMapEntry\n");
+	//g_pCLogObj->Log("å”¤èµ·åœ°å›¾å…¥å£ CallMapEntry\n");
 	g_pCLogObj->Log("Call the map entrance : CallMapEntry\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4367,7 +4367,7 @@ inline int lua_CallMapEntry(lua_State *pLS)
 	if (!pCMap)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\tµØÍ¼²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tåœ°å›¾ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("the map is inexistence,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -4379,8 +4379,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("»½ÆğµØÍ¼Èë¿Ú³É¹¦£º\n");
-		g_pCLogObj->Log("arouse the map entry succeed£º\n");
+		//g_pCLogObj->Log("å”¤èµ·åœ°å›¾å…¥å£æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("arouse the map entry succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -4391,25 +4391,25 @@ End:
 	return 1;
 }
 
-// È¡½ÇÉ«·Ö±ß±àºÅ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º·Ö±ß±àºÅ
+// å–è§’è‰²åˆ†è¾¹ç¼–å·
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šåˆ†è¾¹ç¼–å·
 inline int lua_GetChaSideID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 int		nSideID = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡½ÇÉ«·Ö±ß±àºÅ GetChaSideID\n");
+//g_pCLogObj->Log("å–è§’è‰²åˆ†è¾¹ç¼–å· GetChaSideID\n");
 g_pCLogObj->Log("Get character side ID : GetChaSideID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4421,7 +4421,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4435,7 +4435,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "È¡½ÇÉ«%s, ·Ö±ß±àºÅ %u ³É¹¦¡£Öµ£º%d\n", pCCha->GetLogName(), nSideID);
+	//sprintf(szPrint, "å–è§’è‰²%s, åˆ†è¾¹ç¼–å· %u æˆåŠŸã€‚å€¼ï¼š%d\n", pCCha->GetLogName(), nSideID);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00144), pCCha->GetLogName(), nSideID);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4448,24 +4448,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ÉèÖÃ½ÇÉ«·Ö±ß±àºÅ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬·Ö±ß±àºÅ
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// è®¾ç½®è§’è‰²åˆ†è¾¹ç¼–å·
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œåˆ†è¾¹ç¼–å·
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_SetChaSideID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«·Ö±ß±àºÅ SetChaSideID\n");
+//g_pCLogObj->Log("è®¾ç½®è§’è‰²åˆ†è¾¹ç¼–å· SetChaSideID\n");
 g_pCLogObj->Log("Set character side ID : SetChaSideID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4478,7 +4478,7 @@ long lSideID = (long)lua_tonumber(pLS, 2);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4492,7 +4492,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "ÉèÖÃ½ÇÉ«%s, ·Ö±ß±àºÅ %u ³É¹¦\n", pCCha->GetLogName(), lSideID);
+	//sprintf(szPrint, "è®¾ç½®è§’è‰²%s, åˆ†è¾¹ç¼–å· %u æˆåŠŸ\n", pCCha->GetLogName(), lSideID);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00145), pCCha->GetLogName(), lSideID);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4505,25 +4505,25 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// È¡½ÇÉ«¹«»á±àºÅ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º¹«»á±àºÅ£¨£°ÎªÎŞĞ§¹«»á£©
+// å–è§’è‰²å…¬ä¼šç¼–å·
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šå…¬ä¼šç¼–å·ï¼ˆï¼ä¸ºæ— æ•ˆå…¬ä¼šï¼‰
 inline int lua_GetChaGuildID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 int		nGuildID = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡½ÇÉ«¹«»á±àºÅ GetChaGuildID\n");
+//g_pCLogObj->Log("å–è§’è‰²å…¬ä¼šç¼–å· GetChaGuildID\n");
 g_pCLogObj->Log("Get character Guild ID : GetChaGuildID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4535,7 +4535,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4549,7 +4549,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "È¡½ÇÉ«%s, ¹«»á±àºÅ %u ³É¹¦¡£Öµ£º%d\n", pCCha->GetLogName(), nGuildID);
+	//sprintf(szPrint, "å–è§’è‰²%s, å…¬ä¼šç¼–å· %u æˆåŠŸã€‚å€¼ï¼š%d\n", pCCha->GetLogName(), nGuildID);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00147), pCCha->GetLogName(), nGuildID);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4560,25 +4560,25 @@ lua_pushnumber(pLS, nGuildID);
 return 1;
 T_E}
 
-// È¡½ÇÉ«¶ÓÎé±àºÅ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º¶ÓÎé±àºÅ£¨£°ÎªÎŞĞ§¶ÓÎé£©
+// å–è§’è‰²é˜Ÿä¼ç¼–å·
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šé˜Ÿä¼ç¼–å·ï¼ˆï¼ä¸ºæ— æ•ˆé˜Ÿä¼ï¼‰
 inline int lua_GetChaTeamID(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 int		nTeamID = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡½ÇÉ«¶ÓÎé±àºÅ GetChaTeamID\n");
+//g_pCLogObj->Log("å–è§’è‰²é˜Ÿä¼ç¼–å· GetChaTeamID\n");
 g_pCLogObj->Log("Get character Team ID : GetChaTeamID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4590,7 +4590,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4604,7 +4604,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "È¡½ÇÉ«%s, ¶ÓÎé±àºÅ %u ³É¹¦¡£Öµ£º%d\n", pCCha->GetLogName(), nTeamID);
+	//sprintf(szPrint, "å–è§’è‰²%s, é˜Ÿä¼ç¼–å· %u æˆåŠŸã€‚å€¼ï¼š%d\n", pCCha->GetLogName(), nTeamID);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00149), pCCha->GetLogName(), nTeamID);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4615,25 +4615,25 @@ lua_pushnumber(pLS, nTeamID);
 return 1;
 T_E}
 
-// ÅĞ¶Ï½ÇÉ«ÊÇ·ñÔÚPK×´Ì¬
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»Ø½ÇÉ«PK×´Ì¬£º1£¬¿ÉÒÔPK¡£0£¬²»¿ÉÒÔ¡£
+// åˆ¤æ–­è§’è‰²æ˜¯å¦åœ¨PKçŠ¶æ€
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›è§’è‰²PKçŠ¶æ€ï¼š1ï¼Œå¯ä»¥PKã€‚0ï¼Œä¸å¯ä»¥ã€‚
 inline int lua_CheckChaPKState(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 int		nPKState = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÅĞ¶Ï½ÇÉ«ÊÇ·ñÔÚPK×´Ì¬ CheckChaPKState\n");
+//g_pCLogObj->Log("åˆ¤æ–­è§’è‰²æ˜¯å¦åœ¨PKçŠ¶æ€ CheckChaPKState\n");
 g_pCLogObj->Log("check character whether in PK state : CheckChaPKState\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4645,7 +4645,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4659,7 +4659,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "ÅĞ¶Ï½ÇÉ«ÊÇ·ñÔÚPK×´Ì¬³É¹¦\n");
+	//sprintf(szPrint, "åˆ¤æ–­è§’è‰²æ˜¯å¦åœ¨PKçŠ¶æ€æˆåŠŸ\n");
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00151));
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4670,25 +4670,25 @@ lua_pushnumber(pLS, nPKState);
 return 1;
 T_E}
 
-// È¡¹«»áÃû
-// ²ÎÊı£º¹«»áID
-// ·µ»Ø£º¹«»áÃû
+// å–å…¬ä¼šå
+// å‚æ•°ï¼šå…¬ä¼šID
+// è¿”å›ï¼šå…¬ä¼šå
 inline int lua_GetGuildName(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 std::string	strGuildName;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡¹«»áÃû GetGuildName\n");
+//g_pCLogObj->Log("å–å…¬ä¼šå GetGuildName\n");
 g_pCLogObj->Log("Get the Guild name : GetGuildName\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4702,7 +4702,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¹«»áÃû³É¹¦\n");
+	//g_pCLogObj->Log("å–å…¬ä¼šåæˆåŠŸ\n");
 	g_pCLogObj->Log("Get guild name succeed\n");
 #endif
 
@@ -4713,24 +4713,24 @@ if (bSuccess)
 return 0;
 T_E}
 
-// ¹Ø±ÕµØÍ¼Èë¿Ú
-// ²ÎÊı£ºµØÍ¼Ãû³Æ
-// ·µ»ØÖµ£º1£¬³É¹¦¹Ø±Õ¡£0£¬¹Ø±ÕÊ§°Ü
+// å…³é—­åœ°å›¾å…¥å£
+// å‚æ•°ï¼šåœ°å›¾åç§°
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸå…³é—­ã€‚0ï¼Œå…³é—­å¤±è´¥
 inline int lua_CloseMapEntry(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("¹Ø±ÕµØÍ¼Èë¿Ú CloseMapEntry\n");
+	//g_pCLogObj->Log("å…³é—­åœ°å›¾å…¥å£ CloseMapEntry\n");
 	g_pCLogObj->Log("Close the map entrance : CloseMapEntry\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4749,7 +4749,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("¹Ø±ÕµØÍ¼Èë¿Ú³É¹¦\n");
+		//g_pCLogObj->Log("å…³é—­åœ°å›¾å…¥å£æˆåŠŸ\n");
 		g_pCLogObj->Log("Close map entry succeed\n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -4760,24 +4760,24 @@ End:
 	return 1;
 }
 
-// ¹Ø±ÕµØÍ¼¸±±¾
-// ²ÎÊı£ºµØÍ¼Ãû³Æ£¬¸±±¾±àºÅ
-// ·µ»ØÖµ£º1£¬³É¹¦¹Ø±Õ¡£0£¬¹Ø±ÕÊ§°Ü
+// å…³é—­åœ°å›¾å‰¯æœ¬
+// å‚æ•°ï¼šåœ°å›¾åç§°ï¼Œå‰¯æœ¬ç¼–å·
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸå…³é—­ã€‚0ï¼Œå…³é—­å¤±è´¥
 inline int lua_CloseMapCopy(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("¹Ø±ÕµØÍ¼¸±±¾ CloseMapCopy\n");
+	//g_pCLogObj->Log("å…³é—­åœ°å›¾å‰¯æœ¬ CloseMapCopy\n");
 	g_pCLogObj->Log("Close the map copy : CloseMapCopy\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2 && nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4800,7 +4800,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("¹Ø±ÕµØÍ¼¸±±¾³É¹¦\n");
+		//g_pCLogObj->Log("å…³é—­åœ°å›¾å‰¯æœ¬æˆåŠŸ\n");
 		g_pCLogObj->Log("Close map copy succeed\n");
 #endif
 		lua_pushnumber(pLS, 1);
@@ -4811,24 +4811,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ½ÇÉ«×ùÓÒÃú
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬×ùÓÒÃú
-// ·µ»ØÖµ£º£±£¬³É¹¦¡££°£¬Ê§°Ü
+// è®¾ç½®è§’è‰²åº§å³é“­
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œåº§å³é“­
+// è¿”å›å€¼ï¼šï¼‘ï¼ŒæˆåŠŸã€‚ï¼ï¼Œå¤±è´¥
 inline int lua_SetChaMotto(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«·Ö±ß±àºÅ SetChaSideID\n");
+//g_pCLogObj->Log("è®¾ç½®è§’è‰²åˆ†è¾¹ç¼–å· SetChaSideID\n");
 g_pCLogObj->Log("Set character side ID : SetChaSideID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4841,7 +4841,7 @@ const char	*cszMotto = lua_tostring(pLS, 2);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4855,7 +4855,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "ÉèÖÃ½ÇÉ«%s, ×ùÓÒÃú %s ³É¹¦\n", pCCha->GetLogName(), cszMotto);
+	//sprintf(szPrint, "è®¾ç½®è§’è‰²%s, åº§å³é“­ %s æˆåŠŸ\n", pCCha->GetLogName(), cszMotto);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00152), pCCha->GetLogName(), cszMotto);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4868,25 +4868,25 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// ½ÇÉ«ÊÇ·ñÔÚÂ½µØÇøÓò
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º£±£¬Â½µØ¡££°£¬º£Ñó
+// è§’è‰²æ˜¯å¦åœ¨é™†åœ°åŒºåŸŸ
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šï¼‘ï¼Œé™†åœ°ã€‚ï¼ï¼Œæµ·æ´‹
 inline int lua_IsChaInLand(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 char	chIsLand = 0;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«·Ö±ß±àºÅ SetChaSideID\n");
+//g_pCLogObj->Log("è®¾ç½®è§’è‰²åˆ†è¾¹ç¼–å· SetChaSideID\n");
 g_pCLogObj->Log("Set character Side ID : SetChaSideID\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -4898,7 +4898,7 @@ CCharacter	*pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -4907,7 +4907,7 @@ if (!pCCha)
 if (!pCCha->GetSubMap())
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«µØÍ¼²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+	//g_pCLogObj->Log("\tè§’è‰²åœ°å›¾ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 	g_pCLogObj->Log("\tthe character map is inexistence,transfer failed");
 #endif
 	bSuccess = false;
@@ -4922,7 +4922,7 @@ if (bSuccess)
 {
 #ifdef defPARSE_LOG
 	char	szPrint[256] = "";
-	//sprintf(szPrint, "ÉèÖÃ½ÇÉ«%s, ×ùÓÒÃú %s ³É¹¦\n", pCCha->GetLogName(), cszMotto);
+	//sprintf(szPrint, "è®¾ç½®è§’è‰²%s, åº§å³é“­ %s æˆåŠŸ\n", pCCha->GetLogName(), cszMotto);
 	sprintf(szPrint, RES_STRING(GM_EXPAND_H_00152), pCCha->GetLogName(), cszMotto);
 	g_pCLogObj->Log(szPrint);
 	g_pCLogObj->Log("\n");
@@ -4934,24 +4934,24 @@ else
 return 0;
 T_E}
 
-// ÉèÖÃ¶ÓÎéÌôÕ½µØÍ¼Ãû
-// ²ÎÊı£ºµØÍ¼Ãû
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// è®¾ç½®é˜Ÿä¼æŒ‘æˆ˜åœ°å›¾å
+// å‚æ•°ï¼šåœ°å›¾å
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_SetTeamFightMapName(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¶ÓÎéÌôÕ½µØÍ¼Ãû SetTeamFightMapName\n");
+	//g_pCLogObj->Log("è®¾ç½®é˜Ÿä¼æŒ‘æˆ˜åœ°å›¾å SetTeamFightMapName\n");
 	g_pCLogObj->Log("Set the Team fight map name : SetTeamFightMapName\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -4963,8 +4963,8 @@ inline int lua_SetTeamFightMapName(lua_State *pLS)
 	if (!cszMapName)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t·Ç·¨µØÍ¼Ãû£¬µ÷ÓÃÊ§°Ü");
-		g_pCLogObj->Log("\tUnusable map name£¬transfer failed");
+		//g_pCLogObj->Log("\téæ³•åœ°å›¾åï¼Œè°ƒç”¨å¤±è´¥");
+		g_pCLogObj->Log("\tUnusable map nameï¼Œtransfer failed");
 #endif
 		bSuccess = false;
 		goto End;
@@ -4977,7 +4977,7 @@ End:
 	{
 #ifdef defPARSE_LOG
 		char	szPrint[256] = "";
-		//sprintf(szPrint, "ÉèÖÃ¶ÓÎéÌôÕ½µØÍ¼Ãû %s ³É¹¦\n", cszMapName);
+		//sprintf(szPrint, "è®¾ç½®é˜Ÿä¼æŒ‘æˆ˜åœ°å›¾å %s æˆåŠŸ\n", cszMapName);
 		sprintf(szPrint, RES_STRING(GM_EXPAND_H_00155), cszMapName);
 		g_pCLogObj->Log(szPrint);
 		g_pCLogObj->Log("\n");
@@ -4990,24 +4990,24 @@ End:
 	return 1;
 }
 
-// È¡¸±±¾µÄ²ÎÊı
-// ²ÎÊı£º¸±±¾¹ÜÀí¶ÔÏó£¬²ÎÊı±àºÅ
-// ·µ»ØÖµ£º²ÎÊıÖµ
+// å–å‰¯æœ¬çš„å‚æ•°
+// å‚æ•°ï¼šå‰¯æœ¬ç®¡ç†å¯¹è±¡ï¼Œå‚æ•°ç¼–å·
+// è¿”å›å€¼ï¼šå‚æ•°å€¼
 inline int lua_GetMapCopyParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾µÄ²ÎÊı GetMapCopyParam\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬çš„å‚æ•° GetMapCopyParam\n");
 	g_pCLogObj->Log("Get the map copy parameter :  GetMapCopyParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5018,8 +5018,8 @@ inline int lua_GetMapCopyParam(lua_State *pLS)
 	if (!pCCpyMgr)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¹ÜÀí¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
-		g_pCLogObj->Log("\tMapcopy manage object inexistent£¬transfer failed\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬ç®¡ç†å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
+		g_pCLogObj->Log("\tMapcopy manage object inexistentï¼Œtransfer failed\n");
 #endif
 		bSuccess = false;
 		goto End;
@@ -5029,8 +5029,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy's param succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy's param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCCpyMgr->GetParam((char)lua_tonumber(pLS, 2) - 1));
@@ -5040,24 +5040,24 @@ End:
 	return 0;
 }
 
-// È¡¸±±¾µÄ²ÎÊı
-// ²ÎÊı£º¸±±¾¶ÔÏó£¬²ÎÊı±àºÅ
-// ·µ»ØÖµ£º²ÎÊıÖµ
+// å–å‰¯æœ¬çš„å‚æ•°
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡ï¼Œå‚æ•°ç¼–å·
+// è¿”å›å€¼ï¼šå‚æ•°å€¼
 inline int lua_GetMapCopyParam2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾µÄ²ÎÊı GetMapCopyParam2\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬çš„å‚æ•° GetMapCopyParam2\n");
 	g_pCLogObj->Log("Get the map copy param2 : GetMapCopyParam2\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5068,8 +5068,8 @@ inline int lua_GetMapCopyParam2(lua_State *pLS)
 	if (!pCMapCpy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
-		g_pCLogObj->Log("\Mapcopy object inexistent£¬transfer failed\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
+		g_pCLogObj->Log("\Mapcopy object inexistentï¼Œtransfer failed\n");
 #endif
 		bSuccess = false;
 		goto End;
@@ -5079,8 +5079,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy's param succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy's param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCMapCpy->GetInfoParam((char)lua_tonumber(pLS, 2) - 1));
@@ -5090,24 +5090,24 @@ End:
 	return 0;
 }
 
-// È¡¸±±¾±àºÅ
-// ²ÎÊı£º¸±±¾¹ÜÀí¶ÔÏó
-// ·µ»ØÖµ£º±àºÅ£¨Ğ¡ÓÚµÈÓÚ0ÎªÎŞĞ§Öµ£©
+// å–å‰¯æœ¬ç¼–å·
+// å‚æ•°ï¼šå‰¯æœ¬ç®¡ç†å¯¹è±¡
+// è¿”å›å€¼ï¼šç¼–å·ï¼ˆå°äºç­‰äº0ä¸ºæ— æ•ˆå€¼ï¼‰
 inline int lua_GetMapCopyID(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾±àºÅ GetMapCopyID\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å· GetMapCopyID\n");
 	g_pCLogObj->Log("Get the map copy ID :  GetMapCopyID\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5118,7 +5118,7 @@ inline int lua_GetMapCopyID(lua_State *pLS)
 	if (!pCCpyMgr)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¹ÜÀí¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬ç®¡ç†å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tMapcopy manage object inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5129,8 +5129,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy ID succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy ID succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCCpyMgr->GetPosID() + 1);
@@ -5141,24 +5141,24 @@ End:
 	return 1;
 }
 
-// È¡¸±±¾±àºÅ
-// ²ÎÊı£º¸±±¾¶ÔÏó
-// ·µ»ØÖµ£º±àºÅ£¨Ğ¡ÓÚµÈÓÚ0ÎªÎŞĞ§Öµ£©
+// å–å‰¯æœ¬ç¼–å·
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡
+// è¿”å›å€¼ï¼šç¼–å·ï¼ˆå°äºç­‰äº0ä¸ºæ— æ•ˆå€¼ï¼‰
 inline int lua_GetMapCopyID2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾±àºÅ GetMapCopyID2\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å· GetMapCopyID2\n");
 	g_pCLogObj->Log(" GetMapCopyID2\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5169,8 +5169,8 @@ inline int lua_GetMapCopyID2(lua_State *pLS)
 	if (!pCMapCopy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
-		g_pCLogObj->Log("\tMapcopy object inexistent£¬transfer failed\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
+		g_pCLogObj->Log("\tMapcopy object inexistentï¼Œtransfer failed\n");
 #endif
 		bSuccess = false;
 		goto End;
@@ -5180,8 +5180,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy ID succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy ID succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCMapCopy->GetCopyNO() + 1);
@@ -5192,24 +5192,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ¸±±¾µÄ²ÎÊı
-// ²ÎÊı£º¸±±¾¹ÜÀí¶ÔÏó£¬²ÎÊıË÷Òı£¬²ÎÊıÖµ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü¡£
+// è®¾ç½®å‰¯æœ¬çš„å‚æ•°
+// å‚æ•°ï¼šå‰¯æœ¬ç®¡ç†å¯¹è±¡ï¼Œå‚æ•°ç´¢å¼•ï¼Œå‚æ•°å€¼
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥ã€‚
 inline int lua_SetMapCopyParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¸±±¾µÄ²ÎÊı SetMapCopyParam\n");
+	//g_pCLogObj->Log("è®¾ç½®å‰¯æœ¬çš„å‚æ•° SetMapCopyParam\n");
 	g_pCLogObj->Log("SetMapCopyParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5220,7 +5220,7 @@ inline int lua_SetMapCopyParam(lua_State *pLS)
 	if (!pCCpyMgr)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¹ÜÀí¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬ç®¡ç†å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tMapcopy manage object inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5236,8 +5236,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ¸±±¾µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Set mapcopy's param succeed£º\n");
+		//g_pCLogObj->Log("è®¾ç½®å‰¯æœ¬çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Set mapcopy's param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -5248,24 +5248,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ¸±±¾µÄ²ÎÊı
-// ²ÎÊı£º¸±±¾¶ÔÏó£¬²ÎÊıË÷Òı£¬²ÎÊıÖµ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü¡£
+// è®¾ç½®å‰¯æœ¬çš„å‚æ•°
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡ï¼Œå‚æ•°ç´¢å¼•ï¼Œå‚æ•°å€¼
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥ã€‚
 inline int lua_SetMapCopyParam2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ¸±±¾µÄ²ÎÊı SetMapCopyParam\n");
+	//g_pCLogObj->Log("è®¾ç½®å‰¯æœ¬çš„å‚æ•° SetMapCopyParam\n");
 	g_pCLogObj->Log("SetMapCopyParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5276,8 +5276,8 @@ inline int lua_SetMapCopyParam2(lua_State *pLS)
 	if (!pCMapCpy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
-		g_pCLogObj->Log("\tmapcopy object inexistent£¬transfer failed\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
+		g_pCLogObj->Log("\tmapcopy object inexistentï¼Œtransfer failed\n");
 #endif
 		bSuccess = false;
 		goto End;
@@ -5292,8 +5292,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ¸±±¾µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Set mapcopy's param succeed£º\n");
+		//g_pCLogObj->Log("è®¾ç½®å‰¯æœ¬çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Set mapcopy's param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -5304,25 +5304,25 @@ End:
 	return 1;
 }
 
-// È¡Èë¿Ú¸±±¾¶ÔÏó
-// ²ÎÊı£ºÈë¿Ú¶ÔÏó£¬¸±±¾±àºÅ£¨Ğ¡ÓÚµÈÓÚ0£¬ÎªÈ¡ĞÂµÄ¿ÕÏĞ¸±±¾¡£´óÓÚ0£¬ÎªÈ¡Ö¸¶¨µÄ¸±±¾£¬Èô²»´æÔÚ£¬ÔòĞÂÔö£©
-// ·µ»ØÖµ£ºÈë¿Ú¸±±¾¶ÔÏó
+// å–å…¥å£å‰¯æœ¬å¯¹è±¡
+// å‚æ•°ï¼šå…¥å£å¯¹è±¡ï¼Œå‰¯æœ¬ç¼–å·ï¼ˆå°äºç­‰äº0ï¼Œä¸ºå–æ–°çš„ç©ºé—²å‰¯æœ¬ã€‚å¤§äº0ï¼Œä¸ºå–æŒ‡å®šçš„å‰¯æœ¬ï¼Œè‹¥ä¸å­˜åœ¨ï¼Œåˆ™æ–°å¢ï¼‰
+// è¿”å›å€¼ï¼šå…¥å£å‰¯æœ¬å¯¹è±¡
 inline int lua_GetMapEntryCopyObj(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	CMapEntryCopyCell	*pCCopyCell = NULL;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡Èë¿Ú¸±±¾¶ÔÏó GetMapEntryCopyObj\n");
+	//g_pCLogObj->Log("å–å…¥å£å‰¯æœ¬å¯¹è±¡ GetMapEntryCopyObj\n");
 	g_pCLogObj->Log("GetMapEntryCopyObj\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5333,7 +5333,7 @@ inline int lua_GetMapEntryCopyObj(lua_State *pLS)
 	if (!pCMapEntry)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¹ÜÀí¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬ç®¡ç†å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\mapcopy managed object inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5353,8 +5353,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy ID succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy ID succeedï¼š\n");
 #endif
 	}
 
@@ -5367,24 +5367,24 @@ End:
 	return 0;
 }
 
-// È¡¸±±¾µÄÍæ¼ÒÊıÄ¿
-// ²ÎÊı£º¸±±¾¶ÔÏó
-// ·µ»ØÖµ£ºÍæ¼ÒÊıÄ¿
+// å–å‰¯æœ¬çš„ç©å®¶æ•°ç›®
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡
+// è¿”å›å€¼ï¼šç©å®¶æ•°ç›®
 inline int lua_GetMapCopyPlayerNum(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾µÄÍæ¼ÒÊıÄ¿ GetMapCopyPlayerNum\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬çš„ç©å®¶æ•°ç›® GetMapCopyPlayerNum\n");
 	g_pCLogObj->Log("GetMapCopyPlayerNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5395,7 +5395,7 @@ inline int lua_GetMapCopyPlayerNum(lua_State *pLS)
 	if (!pCMapCopy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tmapcopy object inexistent, transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5406,8 +5406,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy ID succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy ID succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCMapCopy->GetPlayerNum());
@@ -5418,24 +5418,24 @@ End:
 	return 1;
 }
 
-// ¿ªÊ¼È¡¸±±¾µÄÍæ¼Ò½ÇÉ«
-// ²ÎÊı£º¸±±¾¶ÔÏó
-// ·µ»ØÖµ£ºÎŞ
+// å¼€å§‹å–å‰¯æœ¬çš„ç©å®¶è§’è‰²
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_BeginGetMapCopyPlayerCha(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾µÄÍæ¼ÒÊıÄ¿ GetMapCopyPlayerNum\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬çš„ç©å®¶æ•°ç›® GetMapCopyPlayerNum\n");
 	g_pCLogObj->Log("GetMapCopyPlayerNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5446,7 +5446,7 @@ inline int lua_BeginGetMapCopyPlayerCha(lua_State *pLS)
 	if (!pCMapCopy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tmapcopy object inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5459,33 +5459,33 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy ID succeed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy ID succeedï¼š\n");
 #endif
 	}
 
 	return 0;
 }
 
-// È¡¸±±¾µÄÍæ¼Ò½ÇÉ«
-// ²ÎÊı£º¸±±¾¶ÔÏó
-// ·µ»ØÖµ£ºÍæ¼Ò½ÇÉ«
+// å–å‰¯æœ¬çš„ç©å®¶è§’è‰²
+// å‚æ•°ï¼šå‰¯æœ¬å¯¹è±¡
+// è¿”å›å€¼ï¼šç©å®¶è§’è‰²
 inline int lua_GetMapCopyNextPlayerCha(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¸±±¾µÄÍæ¼ÒÊıÄ¿ GetMapCopyPlayerNum\n");
+	//g_pCLogObj->Log("å–å‰¯æœ¬çš„ç©å®¶æ•°ç›® GetMapCopyPlayerNum\n");
 	g_pCLogObj->Log("GetMapCopyPlayerNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 	CCharacter	*pCCha = 0;
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5496,7 +5496,7 @@ inline int lua_GetMapCopyNextPlayerCha(lua_State *pLS)
 	if (!pCMapCopy)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¸±±¾¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå‰¯æœ¬å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tmapcopy object inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5509,8 +5509,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡¸±±¾±àºÅ³É¹¦£º\n");
-		g_pCLogObj->Log("Get mapcopy IDsucceed£º\n");
+		//g_pCLogObj->Log("å–å‰¯æœ¬ç¼–å·æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get mapcopy IDsucceedï¼š\n");
 #endif
 	}
 	if (pCCha)
@@ -5521,24 +5521,24 @@ End:
 	return 0;
 }
 
-// È¡µÃ½ÇÉ«µÄµØÍ¼ÀàĞÍ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºµØÍ¼ÀàĞÍ
+// å–å¾—è§’è‰²çš„åœ°å›¾ç±»å‹
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šåœ°å›¾ç±»å‹
 inline int lua_GetChaMapType(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ½ÇÉ«Ãû³Æ GetChaName\n");
+//g_pCLogObj->Log("å–å¾—è§’è‰²åç§° GetChaName\n");
 g_pCLogObj->Log("GetChaName\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -5549,7 +5549,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -5569,8 +5569,8 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ½ÇÉ« %s µÄÃû³Æ³É¹¦£º%d\n", pCCha->GetLogName());
-	g_pCLogObj->Log("Get role %s name succeed£º%d\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("å–å¾—è§’è‰² %s çš„åç§°æˆåŠŸï¼š%d\n", pCCha->GetLogName());
+	g_pCLogObj->Log("Get role %s name succeedï¼š%d\n", pCCha->GetLogName());
 #endif
 
 	lua_pushnumber(pLS, chMapType);
@@ -5580,24 +5580,24 @@ else
 return 0;
 T_E}
 
-// ÉèÖÃ½ÇÉ«±³°üµÄ¸Ä¶¯±êÖ¾
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬¸Ä¶¯£¨1£¬²»¹ÜÊµ¼Ê¸Ä¶¯Óë·ñ¾ùÉèÎªÈ«²¿±»¸Ä¶¯¡£0£¬½öÉèÖÃÊµ¼Ê¸Ä¶¯µÄ±êÖ¾£©
-// ·µ»ØÖµ£ºÎŞ
+// è®¾ç½®è§’è‰²èƒŒåŒ…çš„æ”¹åŠ¨æ ‡å¿—
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œæ”¹åŠ¨ï¼ˆ1ï¼Œä¸ç®¡å®é™…æ”¹åŠ¨ä¸å¦å‡è®¾ä¸ºå…¨éƒ¨è¢«æ”¹åŠ¨ã€‚0ï¼Œä»…è®¾ç½®å®é™…æ”¹åŠ¨çš„æ ‡å¿—ï¼‰
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SetChaKitbagChange(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÄ¸Ä¶¯±êÖ¾ SetChaKitbagChange\n");
+//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…çš„æ”¹åŠ¨æ ‡å¿— SetChaKitbagChange\n");
 g_pCLogObj->Log("SetChaKitbagChange\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -5608,7 +5608,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -5621,32 +5621,32 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÄ¸Ä¶¯±êÖ¾³É¹¦£º%d\n", pCCha->GetLogName());
-	g_pCLogObj->Log("SetChaKitbagChange succeed£º%d\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…çš„æ”¹åŠ¨æ ‡å¿—æˆåŠŸï¼š%d\n", pCCha->GetLogName());
+	g_pCLogObj->Log("SetChaKitbagChange succeedï¼š%d\n", pCCha->GetLogName());
 #endif
 }
 
 return 0;
 T_E}
 
-// Í¬²½½ÇÉ«±³°ü
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬Í¬²½ÀàĞÍ
-// ·µ»ØÖµ£ºÎŞ
+// åŒæ­¥è§’è‰²èƒŒåŒ…
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼ŒåŒæ­¥ç±»å‹
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_SynChaKitbag(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("Í¬²½½ÇÉ«±³°ü SynChaKitbag\n");
+//g_pCLogObj->Log("åŒæ­¥è§’è‰²èƒŒåŒ… SynChaKitbag\n");
 g_pCLogObj->Log("SynChaKitbag\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -5657,7 +5657,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -5670,32 +5670,32 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Í¬²½½ÇÉ«±³°ü³É¹¦£º%d\n", pCCha->GetLogName());
-	g_pCLogObj->Log("SynChaKitbag succeed£º%d\n", pCCha->GetLogName());
+	//g_pCLogObj->Log("åŒæ­¥è§’è‰²èƒŒåŒ…æˆåŠŸï¼š%d\n", pCCha->GetLogName());
+	g_pCLogObj->Log("SynChaKitbag succeedï¼š%d\n", pCCha->GetLogName());
 #endif
 }
 
 return 0;
 T_E}
 
-// È¡µÃ½ÇÉ«µ±Ç°µØÍ¼µÄÌ½Ë÷¶È
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£ºµØÍ¼Ì½Ë÷¶È
+// å–å¾—è§’è‰²å½“å‰åœ°å›¾çš„æ¢ç´¢åº¦
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šåœ°å›¾æ¢ç´¢åº¦
 inline int lua_GetChaMapOpenScale(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("È¡µÃ½ÇÉ«µ±Ç°µØÍ¼µÄÌ½Ë÷¶È GetChaMapOpenScale\n");
+//g_pCLogObj->Log("å–å¾—è§’è‰²å½“å‰åœ°å›¾çš„æ¢ç´¢åº¦ GetChaMapOpenScale\n");
 g_pCLogObj->Log("GetChaMapOpenScale\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 1)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -5706,7 +5706,7 @@ CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 if (!pCCha)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 	bSuccess = false;
@@ -5723,7 +5723,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÃ½ÇÉ«µ±Ç°µØÍ¼µÄÌ½Ë÷¶È³É¹¦\n");
+	//g_pCLogObj->Log("å–å¾—è§’è‰²å½“å‰åœ°å›¾çš„æ¢ç´¢åº¦æˆåŠŸ\n");
 	g_pCLogObj->Log("Get the Character Map Open Scale succeed\n");
 #endif
 
@@ -5735,24 +5735,24 @@ lua_pushnumber(pLS, 0);
 return 1;
 T_E}
 
-// Íê³ÉµØÍ¼Èë¿ÚµÄ¸±±¾ÉèÖÃ
-// ²ÎÊı£ºµØÍ¼Èë¿Ú¶ÔÏó£¬¸±±¾±àºÅ
-// ·µ»ØÖµ£ºÎŞ
+// å®Œæˆåœ°å›¾å…¥å£çš„å‰¯æœ¬è®¾ç½®
+// å‚æ•°ï¼šåœ°å›¾å…¥å£å¯¹è±¡ï¼Œå‰¯æœ¬ç¼–å·
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_FinishSetMapEntryCopy(lua_State *pLS)
 {T_B
 bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-//g_pCLogObj->Log("Íê³ÉµØÍ¼Èë¿ÚµÄ¸±±¾ÉèÖÃ FinishSetMapEntryCopy\n");
+//g_pCLogObj->Log("å®Œæˆåœ°å›¾å…¥å£çš„å‰¯æœ¬è®¾ç½® FinishSetMapEntryCopy\n");
 g_pCLogObj->Log("FinishSetMapEntryCopy\n");
 #endif
 
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 2)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+	//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 	g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 	bSuccess = false;
@@ -5763,7 +5763,7 @@ CDynMapEntryCell	*pCMapEntryCell = (CDynMapEntryCell *)lua_touserdata(pLS, 1);
 if (!pCMapEntryCell)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("\tµØÍ¼Èë¿Ú¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+	//g_pCLogObj->Log("\tåœ°å›¾å…¥å£å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 	g_pCLogObj->Log("\tMap entry object is inexistent,transfer failed\n");
 #endif
 	bSuccess = false;
@@ -5776,7 +5776,7 @@ End:
 if (bSuccess)
 {
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Íê³ÉµØÍ¼Èë¿ÚµÄ¸±±¾ÉèÖÃ³É¹¦\n");
+	//g_pCLogObj->Log("å®Œæˆåœ°å›¾å…¥å£çš„å‰¯æœ¬è®¾ç½®æˆåŠŸ\n");
 	g_pCLogObj->Log("complete set the map entrance copy succeed\n"));
 #endif
 }
@@ -5784,25 +5784,25 @@ if (bSuccess)
 return 0;
 T_E}
 
-// È¡µÀ¾ßÀàĞÍ
-// µÀ¾ß¶ÔÏó
-// ·µ»ØÖµ£ºµÀ¾ßÀàĞÍ
+// å–é“å…·ç±»å‹
+// é“å…·å¯¹è±¡
+// è¿”å›å€¼ï¼šé“å…·ç±»å‹
 inline int lua_GetItemType(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	short	sItemType = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ GetItemType\n");
+	//g_pCLogObj->Log("å–é“å…·ç±»å‹ GetItemType\n");
 	g_pCLogObj->Log("GetItemType\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5814,7 +5814,7 @@ inline int lua_GetItemType(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5833,7 +5833,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -5842,25 +5842,25 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ßÀàĞÍ
-// µÀ¾ßID
-// ·µ»ØÖµ£ºµÀ¾ßÀàĞÍ
+// å–é“å…·ç±»å‹
+// é“å…·ID
+// è¿”å›å€¼ï¼šé“å…·ç±»å‹
 inline int lua_GetItemType2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	short	sItemType = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ GetItemType2\n");
+	//g_pCLogObj->Log("å–é“å…·ç±»å‹ GetItemType2\n");
 	g_pCLogObj->Log("GetItemType2\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5872,7 +5872,7 @@ inline int lua_GetItemType2(lua_State *pLS)
 	if (!pCItemRec)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5884,7 +5884,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -5894,9 +5894,9 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ßµÈ¼¶
-// µÀ¾ß¶ÔÏó
-// ·µ»ØÖµ£ºµÀ¾ßµÈ¼¶
+// å–é“å…·ç­‰çº§
+// é“å…·å¯¹è±¡
+// è¿”å›å€¼ï¼šé“å…·ç­‰çº§
 
 // lua param: item datatype
 inline int lua_GetItemLv(lua_State *pLS)
@@ -5905,16 +5905,16 @@ inline int lua_GetItemLv(lua_State *pLS)
 	short	sItemLv = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßµÈ¼¶ GetItemLv\n");
+	//g_pCLogObj->Log("å–é“å…·ç­‰çº§ GetItemLv\n");
 	g_pCLogObj->Log("GetItemLv\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -5926,7 +5926,7 @@ inline int lua_GetItemLv(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -5946,7 +5946,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßµÈ¼¶³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç­‰çº§æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item level\n");
 #endif
 	}
@@ -5994,7 +5994,7 @@ inline int lua_SetItemLv(lua_State *pLS)
 	bool	bSuccess = true;
 	short	sItemLv = 0;
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
@@ -6016,9 +6016,9 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ßµÈ¼¶
-// µÀ¾ß±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ßµÈ¼¶
+// å–é“å…·ç­‰çº§
+// é“å…·ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·ç­‰çº§
 // lua param: itemid
 inline int lua_GetItemLv2(lua_State *pLS)
 {
@@ -6026,16 +6026,16 @@ inline int lua_GetItemLv2(lua_State *pLS)
 	short	sItemLv = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßµÈ¼¶ GetItemLv\n");
+	//g_pCLogObj->Log("å–é“å…·ç­‰çº§ GetItemLv\n");
 	g_pCLogObj->Log("GetItemLv\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6054,7 +6054,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßµÈ¼¶³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç­‰çº§æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item level\n");
 #endif
 	}
@@ -6063,25 +6063,25 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ß±àºÅ
-// µÀ¾ß¶ÔÏó
-// ·µ»ØÖµ£ºµÀ¾ß±àºÅ
+// å–é“å…·ç¼–å·
+// é“å…·å¯¹è±¡
+// è¿”å›å€¼ï¼šé“å…·ç¼–å·
 inline int lua_GetItemID(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	short	sItemID = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ßID GetItemID\n");
+	//g_pCLogObj->Log("å–é“å…·ID GetItemID\n");
 	g_pCLogObj->Log("GetItemID\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6093,7 +6093,7 @@ inline int lua_GetItemID(lua_State *pLS)
 	if (!pSItem)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -6106,7 +6106,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -6115,25 +6115,25 @@ End:
 	return 1;
 }
 
-// È¡µÀ¾ß±àºÅ
-// µÀ¾ß±àºÅ
-// ·µ»ØÖµ£ºµÀ¾ß¶´Êı
+// å–é“å…·ç¼–å·
+// é“å…·ç¼–å·
+// è¿”å›å€¼ï¼šé“å…·æ´æ•°
 inline int lua_GetItemHoleNum(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	short	sHoleNum = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡µÀ¾ß¶´Êı GetItemHoleNum\n");
+	//g_pCLogObj->Log("å–é“å…·æ´æ•° GetItemHoleNum\n");
 	g_pCLogObj->Log("GetItemHoleNum\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6152,7 +6152,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -6161,25 +6161,25 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ½ÇÉ«×°±¸ÓĞĞ§ĞÔ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬×°±¸Î»ÖÃ£¬ÊÇ·ñÓĞĞ§£¨1£¬ÓĞĞ§¡£0£¬ÎŞĞ§£©
-// ·µ»ØÖµ£º1£¬ÉèÖÃ³É¹¦¡£0£¬ÉèÖÃÊ§°Ü
+// è®¾ç½®è§’è‰²è£…å¤‡æœ‰æ•ˆæ€§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œè£…å¤‡ä½ç½®ï¼Œæ˜¯å¦æœ‰æ•ˆï¼ˆ1ï¼Œæœ‰æ•ˆã€‚0ï¼Œæ— æ•ˆï¼‰
+// è¿”å›å€¼ï¼š1ï¼Œè®¾ç½®æˆåŠŸã€‚0ï¼Œè®¾ç½®å¤±è´¥
 inline int lua_SetChaEquipValid(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	char	chSetSuc = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«×°±¸ÓĞĞ§ĞÔ SetChaEquipValid\n");
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰²è£…å¤‡æœ‰æ•ˆæ€§ SetChaEquipValid\n");
 	g_pCLogObj->Log("SetChaEquipValid\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6190,7 +6190,7 @@ inline int lua_SetChaEquipValid(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -6198,7 +6198,7 @@ inline int lua_SetChaEquipValid(lua_State *pLS)
 	}
 
 	//add by ALLEN 2007-10-16	
-	if (pCCha->IsReadBook())    //¶ÁÊé×´Ì¬
+	if (pCCha->IsReadBook())    //è¯»ä¹¦çŠ¶æ€
 	{
 		bSuccess = false;
 		goto End;
@@ -6212,7 +6212,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«×°±¸ÓĞĞ§ĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®è§’è‰²è£…å¤‡æœ‰æ•ˆæ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("SetChaEquipValidSucceed\n");
 #endif
 	}
@@ -6221,25 +6221,25 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬±³°üÎ»ÖÃ£¬ÊÇ·ñÓĞĞ§£¨1£¬ÓĞĞ§¡£0£¬ÎŞĞ§£©£¬ÊÇ·ñĞèÒªÍ¬²½£¨1£¬ĞèÒª[ÓÃÓÚµÀ¾ß»Ö¸´]¡£0£¬²»ĞèÒª[ÓÃÓÚÊ¹ÓÃµÀ¾ß]£©
-// ·µ»ØÖµ£º1£¬ÉèÖÃ³É¹¦¡£0£¬ÉèÖÃÊ§°Ü
+// è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼ŒèƒŒåŒ…ä½ç½®ï¼Œæ˜¯å¦æœ‰æ•ˆï¼ˆ1ï¼Œæœ‰æ•ˆã€‚0ï¼Œæ— æ•ˆï¼‰ï¼Œæ˜¯å¦éœ€è¦åŒæ­¥ï¼ˆ1ï¼Œéœ€è¦[ç”¨äºé“å…·æ¢å¤]ã€‚0ï¼Œä¸éœ€è¦[ç”¨äºä½¿ç”¨é“å…·]ï¼‰
+// è¿”å›å€¼ï¼š1ï¼Œè®¾ç½®æˆåŠŸã€‚0ï¼Œè®¾ç½®å¤±è´¥
 inline int lua_SetChaKbItemValid(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	char	chSetSuc = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ SetChaKbItemValid\n");
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§ SetChaKbItemValid\n");
 	g_pCLogObj->Log("SetChaKbItemValid\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 4)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6250,7 +6250,7 @@ inline int lua_SetChaKbItemValid(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -6266,7 +6266,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("SetChaKbItemValidSucceed");
 #endif
 	}
@@ -6275,25 +6275,25 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬µÀ¾ß¶ÔÏó£¬ÊÇ·ñÓĞĞ§£¨1£¬ÓĞĞ§¡£0£¬ÎŞĞ§£©£¬ÊÇ·ñĞèÒªÍ¬²½£¨1£¬ĞèÒª[ÓÃÓÚµÀ¾ß»Ö¸´]¡£0£¬²»ĞèÒª[ÓÃÓÚÊ¹ÓÃµÀ¾ß]£©
-// ·µ»ØÖµ£º1£¬ÉèÖÃ³É¹¦¡£0£¬ÉèÖÃÊ§°Ü
+// è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œé“å…·å¯¹è±¡ï¼Œæ˜¯å¦æœ‰æ•ˆï¼ˆ1ï¼Œæœ‰æ•ˆã€‚0ï¼Œæ— æ•ˆï¼‰ï¼Œæ˜¯å¦éœ€è¦åŒæ­¥ï¼ˆ1ï¼Œéœ€è¦[ç”¨äºé“å…·æ¢å¤]ã€‚0ï¼Œä¸éœ€è¦[ç”¨äºä½¿ç”¨é“å…·]ï¼‰
+// è¿”å›å€¼ï¼š1ï¼Œè®¾ç½®æˆåŠŸã€‚0ï¼Œè®¾ç½®å¤±è´¥
 inline int lua_SetChaKbItemValid2(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	char	chSetSuc = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ SetChaKbItemValid2\n");
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§ SetChaKbItemValid2\n");
 	g_pCLogObj->Log("SetChaKbItemValid2\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 4)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6304,7 +6304,7 @@ inline int lua_SetChaKbItemValid2(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü\n");
+		//g_pCLogObj->Log("\tå¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥\n");
 		g_pCLogObj->Log("\tObject is inexistent,transfer failed\n");
 #endif
 		bSuccess = false;
@@ -6320,7 +6320,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«±³°üµÀ¾ßµÄÓĞĞ§ĞÔ³É¹¦\n");
+		//g_pCLogObj->Log("è®¾ç½®è§’è‰²èƒŒåŒ…é“å…·çš„æœ‰æ•ˆæ€§æˆåŠŸ\n");
 		g_pCLogObj->Log("SetChaKbItemValid 2 Succeed\n");
 #endif
 	}
@@ -6329,9 +6329,9 @@ End:
 	return 1;
 }
 
-// È¡¹«»áÌôÕ½ÈüµÄË«·½¹«»áID
-// ²ÎÊı£ºÌôÕ½µÈ¼¶
-// ·µ»ØÖµ£ºÀŞÖ÷¹«»áID£¬ÌôÕ½·½¹«»áID
+// å–å…¬ä¼šæŒ‘æˆ˜èµ›çš„åŒæ–¹å…¬ä¼šID
+// å‚æ•°ï¼šæŒ‘æˆ˜ç­‰çº§
+// è¿”å›å€¼ï¼šæ“‚ä¸»å…¬ä¼šIDï¼ŒæŒ‘æˆ˜æ–¹å…¬ä¼šID
 inline int lua_GetChallengeGuildID(lua_State *pLS)
 {
 	bool	bSuccess = true;
@@ -6339,17 +6339,17 @@ inline int lua_GetChallengeGuildID(lua_State *pLS)
 	DWORD	dwHostID = 0, dwReqID = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡¹«»áÌôÕ½ÈüµÄË«·½¹«»áID GetChallengeGuildID\n");
+	//g_pCLogObj->Log("å–å…¬ä¼šæŒ‘æˆ˜èµ›çš„åŒæ–¹å…¬ä¼šID GetChallengeGuildID\n");
 
 	g_pCLogObj->Log("GetChallengeGuildID\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6367,7 +6367,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 
@@ -6379,24 +6379,24 @@ End:
 		return 0;
 }
 
-// Í£Ö¹¹«»áÈü¾º±ê
-// ²ÎÊı£ºÌôÕ½µÈ¼¶
-// ·µ»ØÖµ£ºÎŞ
+// åœæ­¢å…¬ä¼šèµ›ç«æ ‡
+// å‚æ•°ï¼šæŒ‘æˆ˜ç­‰çº§
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_EndGuildBid(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("¿ªÊ¼¹«»áÈü¾º±ê BeginGuildBid\n");
+	//g_pCLogObj->Log("å¼€å§‹å…¬ä¼šèµ›ç«æ ‡ BeginGuildBid\n");
 	g_pCLogObj->Log("BeginGuildBid\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6417,7 +6417,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -6425,24 +6425,24 @@ End:
 	return 0;
 }
 
-// ¹«»áÈü½áÊø
-// ²ÎÊı£ºÀŞÖ÷¹«»áID£¬ÌôÕ½·½¹«»áID£¬ÀŞÖ÷ÊÇ·ñ»ñÊ¤
-// ·µ»ØÖµ£ºÎŞ
+// å…¬ä¼šèµ›ç»“æŸ
+// å‚æ•°ï¼šæ“‚ä¸»å…¬ä¼šIDï¼ŒæŒ‘æˆ˜æ–¹å…¬ä¼šIDï¼Œæ“‚ä¸»æ˜¯å¦è·èƒœ
+// è¿”å›å€¼ï¼šæ— 
 inline int lua_EndGuildChallenge(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("¹«»áÈü½áÊø EndGuildChallenge\n");
+	//g_pCLogObj->Log("å…¬ä¼šèµ›ç»“æŸ EndGuildChallenge\n");
 	g_pCLogObj->Log("EndGuildChallenge\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6455,7 +6455,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡µÀ¾ßÀàĞÍ³É¹¦\n");
+		//g_pCLogObj->Log("å–é“å…·ç±»å‹æˆåŠŸ\n");
 		g_pCLogObj->Log("Get item type succeed\n");
 #endif
 	}
@@ -6463,24 +6463,24 @@ End:
 	return 0;
 }
 
-// Ôö¼Ó±³°üÈİÁ¿
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬ÈİÁ¿µÄÔöÁ¿
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü
+// å¢åŠ èƒŒåŒ…å®¹é‡
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œå®¹é‡çš„å¢é‡
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥
 inline int lua_AddKbCap(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼Ó±³°üÈİÁ¿ AddKbCap\n");
+	//g_pCLogObj->Log("å¢åŠ èƒŒåŒ…å®¹é‡ AddKbCap\n");
 	g_pCLogObj->Log("AddKbCap\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6491,7 +6491,7 @@ inline int lua_AddKbCap(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6508,7 +6508,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼Ó±³°üÈİÁ¿³É¹¦\n");
+		//g_pCLogObj->Log("å¢åŠ èƒŒåŒ…å®¹é‡æˆåŠŸ\n");
 		g_pCLogObj->Log("AddKitbagCapSucceed\n");
 #endif
 
@@ -6521,25 +6521,25 @@ End:
 	return 1;
 }
 
-// È¡±³°üÈİÁ¿
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º±³°üÈİÁ¿
+// å–èƒŒåŒ…å®¹é‡
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼šèƒŒåŒ…å®¹é‡
 inline int lua_GetKbCap(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	short	sCap = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡±³°üÈİÁ¿ GetKbCap\n");
+	//g_pCLogObj->Log("å–èƒŒåŒ…å®¹é‡ GetKbCap\n");
 	g_pCLogObj->Log("GetKbCap\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6550,7 +6550,7 @@ inline int lua_GetKbCap(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6562,7 +6562,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡±³°üÈİÁ¿³É¹¦\n");
+		//g_pCLogObj->Log("å–èƒŒåŒ…å®¹é‡æˆåŠŸ\n");
 		g_pCLogObj->Log("GetKbCapSucceed\n");
 #endif
 	}
@@ -6572,24 +6572,24 @@ End:
 	return 1;
 }
 
-// Á½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼
-// ²ÎÊı£º½ÇÉ«¶ÔÏó1£¬½ÇÉ«¶ÔÏó2
-// ·µ»ØÖµ£º1£¬Í¬Ò»µØÍ¼¡£0£¬²»Í¬µØÍ¼¡£
+// ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡1ï¼Œè§’è‰²å¯¹è±¡2
+// è¿”å›å€¼ï¼š1ï¼ŒåŒä¸€åœ°å›¾ã€‚0ï¼Œä¸åŒåœ°å›¾ã€‚
 inline int lua_IsInSameMap(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	char	chSameMap = 0;
 
 #ifdef defPARSE_LOG
-	g_pCLogObj->Log("Á½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼ IsInSameMap\n");
+	g_pCLogObj->Log("ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾ IsInSameMap\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6601,7 +6601,7 @@ inline int lua_IsInSameMap(lua_State *pLS)
 	if (!pCCha1 || !pCCha2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6618,7 +6618,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÅĞ¶ÏÁ½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼³É¹¦\n");
+		//g_pCLogObj->Log("åˆ¤æ–­ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾æˆåŠŸ\n");
 		g_pCLogObj->Log("Check two characters whether in one map succeed\n");
 #endif
 	}
@@ -6627,25 +6627,25 @@ End:
 	return 1;
 }
 
-// Á½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼¸±±¾
-// ²ÎÊı£º½ÇÉ«¶ÔÏó1£¬½ÇÉ«¶ÔÏó2
-// ·µ»ØÖµ£º1£¬Í¬Ò»¸±±¾¡£0£¬²»Í¬¸±±¾¡£
+// ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾å‰¯æœ¬
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡1ï¼Œè§’è‰²å¯¹è±¡2
+// è¿”å›å€¼ï¼š1ï¼ŒåŒä¸€å‰¯æœ¬ã€‚0ï¼Œä¸åŒå‰¯æœ¬ã€‚
 inline int lua_IsInSameMapCopy(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	char	chSameCopy = 0;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Á½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼¸±±¾ IsInSameMapCopy\n");
+	//g_pCLogObj->Log("ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾å‰¯æœ¬ IsInSameMapCopy\n");
 	g_pCLogObj->Log("IsInSameMapCopy\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6657,7 +6657,7 @@ inline int lua_IsInSameMapCopy(lua_State *pLS)
 	if (!pCCha1 || !pCCha2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6674,7 +6674,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÅĞ¶ÏÁ½¸ö½ÇÉ«ÊÇ·ñÔÚÍ¬Ò»µØÍ¼¸±±¾³É¹¦\n");
+		//g_pCLogObj->Log("åˆ¤æ–­ä¸¤ä¸ªè§’è‰²æ˜¯å¦åœ¨åŒä¸€åœ°å›¾å‰¯æœ¬æˆåŠŸ\n");
 		g_pCLogObj->Log("Check two characters whether in one map copy succeed\n");
 #endif
 	}
@@ -6683,25 +6683,25 @@ End:
 	return 1;
 }
 
-// ½ÇÉ«ÊÇ·ñ´æ»îµÄ
-// ²ÎÊı£º½ÇÉ«¶ÔÏó
-// ·µ»ØÖµ£º1£¬´æ»îµÄ£»2£¬ËÀÍöµÄ¡£
+// è§’è‰²æ˜¯å¦å­˜æ´»çš„
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡
+// è¿”å›å€¼ï¼š1ï¼Œå­˜æ´»çš„ï¼›2ï¼Œæ­»äº¡çš„ã€‚
 inline int lua_IsChaLiving(lua_State *pLS)
 {
 	bool	bSuccess = true;
 	bool	bIsLiving = false;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("½ÇÉ«ÊÇ·ñ´æ»îµÄ IsChaLiving\n");
+	//g_pCLogObj->Log("è§’è‰²æ˜¯å¦å­˜æ´»çš„ IsChaLiving\n");
 	g_pCLogObj->Log("IsChaLiving\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 1)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6712,7 +6712,7 @@ inline int lua_IsChaLiving(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6725,7 +6725,7 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÅĞ¶Ï½ÇÉ«ÊÇ·ñ´æ»îµÄ³É¹¦\n");
+		//g_pCLogObj->Log("åˆ¤æ–­è§’è‰²æ˜¯å¦å­˜æ´»çš„æˆåŠŸ\n");
 		g_pCLogObj->Log("Check the  Character whether Living Succeed\n");
 #endif
 	}
@@ -6734,24 +6734,24 @@ End:
 	return 1;
 }
 
-// ÉèÖÃ½ÇÉ«µÄ²ÎÊı
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬²ÎÊıË÷Òı£¬²ÎÊıÖµ
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü¡£
+// è®¾ç½®è§’è‰²çš„å‚æ•°
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œå‚æ•°ç´¢å¼•ï¼Œå‚æ•°å€¼
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥ã€‚
 inline int lua_SetChaParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«µÄ²ÎÊı SetChaParam\n");
+	//g_pCLogObj->Log("è®¾ç½®è§’è‰²çš„å‚æ•° SetChaParam\n");
 	g_pCLogObj->Log("SetChaParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6762,7 +6762,7 @@ inline int lua_SetChaParam(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6778,8 +6778,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("ÉèÖÃ½ÇÉ«µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Set character param succeed£º\n");
+		//g_pCLogObj->Log("è®¾ç½®è§’è‰²çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Set character param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -6790,24 +6790,24 @@ End:
 	return 1;
 }
 
-// È¡½ÇÉ«µÄ²ÎÊı
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬²ÎÊı±àºÅ
-// ·µ»ØÖµ£º²ÎÊıÖµ
+// å–è§’è‰²çš„å‚æ•°
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œå‚æ•°ç¼–å·
+// è¿”å›å€¼ï¼šå‚æ•°å€¼
 inline int lua_GetChaParam(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("È¡½ÇÉ«µÄ²ÎÊı GetChaParam\n");
+	//g_pCLogObj->Log("å–è§’è‰²çš„å‚æ•° GetChaParam\n");
 	g_pCLogObj->Log("GetChaParam\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6818,7 +6818,7 @@ inline int lua_GetChaParam(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6829,8 +6829,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("È¡½ÇÉ«µÄ²ÎÊı³É¹¦£º\n");
-		g_pCLogObj->Log("Get character param succeed£º\n");
+		//g_pCLogObj->Log("å–è§’è‰²çš„å‚æ•°æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("Get character param succeedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, pCCha->GetScriptParam((char)lua_tonumber(pLS, 2) - 1));
@@ -6840,24 +6840,24 @@ End:
 	return 0;
 }
 
-// Ôö¼ÓµÀ¾ßÓ°Ïì
-// ²ÎÊı£º½ÇÉ«¶ÔÏó£¬µÀ¾ß¶ÔÏó£¬·½Ïò£¨1£¬Ôö¼ÓÓ°Ïì¡£0£¬ÒÆ³ıÓ°Ïì£©
-// ·µ»ØÖµ£º1£¬³É¹¦¡£0£¬Ê§°Ü¡£
+// å¢åŠ é“å…·å½±å“
+// å‚æ•°ï¼šè§’è‰²å¯¹è±¡ï¼Œé“å…·å¯¹è±¡ï¼Œæ–¹å‘ï¼ˆ1ï¼Œå¢åŠ å½±å“ã€‚0ï¼Œç§»é™¤å½±å“ï¼‰
+// è¿”å›å€¼ï¼š1ï¼ŒæˆåŠŸã€‚0ï¼Œå¤±è´¥ã€‚
 inline int lua_AddItemEffect(lua_State *pLS)
 {
 	bool	bSuccess = true;
 
 #ifdef defPARSE_LOG
-	//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÓ°Ïì AddItemEffect\n");
+	//g_pCLogObj->Log("å¢åŠ é“å…·å½±å“ AddItemEffect\n");
 	g_pCLogObj->Log("AddItemEffect\n");
 #endif
 
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 3)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t²ÎÊı¸öÊı[%d]·Ç·¨£¬µ÷ÓÃÊ§°Ü\n", nParaNum);
+		//g_pCLogObj->Log("\tå‚æ•°ä¸ªæ•°[%d]éæ³•ï¼Œè°ƒç”¨å¤±è´¥\n", nParaNum);
 		g_pCLogObj->Log("\tThe parameter numbers [%d] is unlawful,transfer failed!\n", nParaNum);
 #endif
 		bSuccess = false;
@@ -6868,7 +6868,7 @@ inline int lua_AddItemEffect(lua_State *pLS)
 	if (!pCCha)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("\t½ÇÉ«¶ÔÏó²»´æÔÚ£¬µ÷ÓÃÊ§°Ü");
+		//g_pCLogObj->Log("\tè§’è‰²å¯¹è±¡ä¸å­˜åœ¨ï¼Œè°ƒç”¨å¤±è´¥");
 		g_pCLogObj->Log("\tThe character object is inexistence,transfer failed ! \n");
 #endif
 		bSuccess = false;
@@ -6887,8 +6887,8 @@ End:
 	if (bSuccess)
 	{
 #ifdef defPARSE_LOG
-		//g_pCLogObj->Log("Ôö¼ÓµÀ¾ßÓ°Ïì³É¹¦£º\n");
-		g_pCLogObj->Log("AddItemEffectSucceed£º\n");
+		//g_pCLogObj->Log("å¢åŠ é“å…·å½±å“æˆåŠŸï¼š\n");
+		g_pCLogObj->Log("AddItemEffectSucceedï¼š\n");
 #endif
 
 		lua_pushnumber(pLS, 1);
@@ -6946,7 +6946,7 @@ inline void ReloadCal()
 inline int lua_GetWinLotteryItemno(lua_State *pLS)
 {
 	T_B
-	int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+	int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 	if (nParaNum != 2)
 	{
@@ -6974,10 +6974,10 @@ inline int lua_GetWinLotteryItemno(lua_State *pLS)
 	return 0;
 T_E}
 
-// Éú³ÉÖĞ½±ºÅÂë
+// ç”Ÿæˆä¸­å¥–å·ç 
 inline int lua_CalWinLottery(lua_State *pLS)
 {T_B
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 if (nParaNum != 2)
 {
 	return 0;
@@ -7006,7 +7006,7 @@ if(index >=0 && index <7)
 return 0;	
 T_E}
 
-// »ñÈ¡µ±Ç°ÆÚºÅ
+// è·å–å½“å‰æœŸå·
 inline int lua_GetLotteryIssue(lua_State *pLS)
 {T_B
 int issue;
@@ -7021,7 +7021,7 @@ if(game_db.GetLotteryIssue(issue))
 return 0;
 T_E}
 
-// ×·¼Ó²ÊÆ±ÆÚ
+// è¿½åŠ å½©ç¥¨æœŸ
 inline int lua_AddLotteryIssue(lua_State *pLS)
 {T_B
 int issue = (int)lua_tonumber(pLS, 1);
@@ -7030,7 +7030,7 @@ game_db.AddIssue(issue);
 return 1;
 T_E}
 
-// ¸ü¸Ä²ÊÆ±ÆÚ×´Ì¬
+// æ›´æ”¹å½©ç¥¨æœŸçŠ¶æ€
 inline int lua_DisuseLotteryIssue(lua_State *pLS)
 {T_B
 int issue = (int)lua_tonumber(pLS, 1);
@@ -7040,7 +7040,7 @@ game_db.DisuseIssue(issue, state);
 return 1;
 T_E}
 
-// ÅĞ¶ÏÊÇ·ñÊÇ×¢²áµÄºÏ·¨¶ÓÎé
+// åˆ¤æ–­æ˜¯å¦æ˜¯æ³¨å†Œçš„åˆæ³•é˜Ÿä¼
 inline int lua_IsValidRegTeam(lua_State *pLS)
 {T_B
 int teamID =(int)lua_tonumber(pLS, 1);
@@ -7060,17 +7060,17 @@ else
 return 1;
 T_E}
 
-// ÅĞ¶ÏºÏ·¨µÄ¶ÓÎé
-// -1 ²»ÊÇ¶Ó³¤
-// -2 ¶ÓÎé²»ÊÇ3¸öÈË
-// -3  ²»ÊÇÊ¦Í½
-// -4 ²»´æÔÚ½ÇÉ«
+// åˆ¤æ–­åˆæ³•çš„é˜Ÿä¼
+// -1 ä¸æ˜¯é˜Ÿé•¿
+// -2 é˜Ÿä¼ä¸æ˜¯3ä¸ªäºº
+// -3  ä¸æ˜¯å¸ˆå¾’
+// -4 ä¸å­˜åœ¨è§’è‰²
 // 1 OK
 inline int lua_IsValidTeam(lua_State *pLS)
 {T_B
-// ÊÇ·ñÔÚ¶ÓÎéÖĞ
-// ÊÇ·ñÊÇ3¸öÈËµÄ¶ÓÎé
-// ÊÇ·ñÊÇÊ¦Í½¹ØÏµ
+// æ˜¯å¦åœ¨é˜Ÿä¼ä¸­
+// æ˜¯å¦æ˜¯3ä¸ªäººçš„é˜Ÿä¼
+// æ˜¯å¦æ˜¯å¸ˆå¾’å…³ç³»
 //int masterID = (int)lua_tonumber(pLS, 1);
 CCharacter *pCCha = (CCharacter*)lua_touserdata(pLS, 1);
 CPlayer*	pTeamPlayer = pCCha->GetPlayer();
@@ -7112,7 +7112,7 @@ lua_pushnumber(pLS, (long)-3);
 return 1;
 T_E}
 
-// »ñÈ¡µ±Ç°¾º¼¼³¡Èü¼¾ºÅ
+// è·å–å½“å‰ç«æŠ€åœºèµ›å­£å·
 inline int lua_GetAmphitheaterSeason(lua_State *pLS)
 {T_B
 int season = -1;
@@ -7132,7 +7132,7 @@ else
 return 0;
 T_E}
 
-// »ñÈ¡µ±Ç°¾º¼¼³¡ÂÖ´Î
+// è·å–å½“å‰ç«æŠ€åœºè½®æ¬¡
 inline int lua_GetAmphitheaterRound(lua_State *pLS)
 {T_B
 int season = -1;
@@ -7152,7 +7152,7 @@ else
 return 0;
 T_E}
 
-// ×·¼Ó¾º¼¼³¡Èü¼¾ºÅºÍÂÖ´Î
+// è¿½åŠ ç«æŠ€åœºèµ›å­£å·å’Œè½®æ¬¡
 inline int lua_AddAmphitheaterSeason(lua_State *pLS)
 {T_B
 int season  = (int)lua_tonumber(pLS, 1);
@@ -7162,7 +7162,7 @@ game_db.AddAmphitheaterSeason(season);
 return 1;
 T_E}
 
-// ¸ü¸ÄÈü¼¾×´Ì¬
+// æ›´æ”¹èµ›å­£çŠ¶æ€
 inline int lua_DisuseAmphitheaterSeason(lua_State *pLS)
 {T_B
 int season = (int)lua_tonumber(pLS, 1);
@@ -7175,7 +7175,7 @@ return 1;
 return 0;
 T_E}
 
-// ¸ü¸ÄÈü¼¾ÂÖ´Î
+// æ›´æ”¹èµ›å­£è½®æ¬¡
 inline int lua_UpdateAmphitheaterRound(lua_State *pLS)
 {T_B
 int season = (int)lua_tonumber(pLS, 1);
@@ -7187,7 +7187,7 @@ return 1;
 return 0;
 T_E}
 
-// È¡µÃ¾º¼¼³¡²ÎÈü¶ÓÎé¸öÊı
+// å–å¾—ç«æŠ€åœºå‚èµ›é˜Ÿä¼ä¸ªæ•°
 inline int lua_GetAmphitheaterTeamCount(lua_State *pLS)
 {T_B
 int count = 0;
@@ -7201,7 +7201,7 @@ lua_pushnumber(pLS, (long)0);
 return 0;
 T_E}
 
-// È¡µÃ²ÎÈü¶ÓÎéID
+// å–å¾—å‚èµ›é˜Ÿä¼ID
 inline int lua_GetAmphitheaterNoUseTeamID(lua_State *pLS)
 {T_B
 int teamID = 0;
@@ -7215,7 +7215,7 @@ lua_pushnumber(pLS, (long)0);
 return 1;
 T_E}
 
-// ¶ÓÎé×¢²á
+// é˜Ÿä¼æ³¨å†Œ
 inline int lua_AmphitheaterTeamSignUP(lua_State *pLS)
 {T_B
 int teamID = (int)lua_tonumber(pLS, 1);
@@ -7229,7 +7229,7 @@ return 1;
 return 0;
 T_E}
 
-// ¶ÓÎé½âÉ¢
+// é˜Ÿä¼è§£æ•£
 inline int lua_AmphitheaterTeamCancel(lua_State *pLS)
 {T_B
 int teamID = (int)lua_tonumber(pLS, 1);
@@ -7241,9 +7241,9 @@ return 0;
 T_E}
 
 //Add by sunny.sun 20080723
-//ÅĞ¶Ïµ±Ç°ÈËÎïÊÇ·ñÒÑ¾­×¢²á
-//²ÎÊı ½ÇÉ«
-//·µ»ØÖµ ×¢²á·µ»Ø1£¬Ã»ÓĞ·µ»Ø0
+//åˆ¤æ–­å½“å‰äººç‰©æ˜¯å¦å·²ç»æ³¨å†Œ
+//å‚æ•° è§’è‰²
+//è¿”å›å€¼ æ³¨å†Œè¿”å›1ï¼Œæ²¡æœ‰è¿”å›0
 inline int lua_IsAmphitheaterLogin(lua_State *pLS)
 {T_B
 //int characterid = (int)lua_tonumber(pLS,1);
@@ -7257,9 +7257,9 @@ lua_pushnumber(pLS,(long)1);
 return 1;
 T_E}
 
-//ÅĞ¶ÏµØÍ¼¶ÓÎéÒÑ¾­×¢²á¸öÊı
-//²ÎÊıµØÍ¼id
-//·µ»ØÖµ ¸ÃµØÍ¼×¢²á¶ÓÎé¸öÊı0£¬1£¬2
+//åˆ¤æ–­åœ°å›¾é˜Ÿä¼å·²ç»æ³¨å†Œä¸ªæ•°
+//å‚æ•°åœ°å›¾id
+//è¿”å›å€¼ è¯¥åœ°å›¾æ³¨å†Œé˜Ÿä¼ä¸ªæ•°0ï¼Œ1ï¼Œ2
 inline int lua_IsMapFull(lua_State *pLS)
 {T_B
 int PActorIDNum = 0;
@@ -7273,8 +7273,8 @@ if(game_db.IsMapFull(MapID,PActorIDNum))
 return 0;
 T_E}
 
-//¸üĞÂ½øÈëµØÍ¼ºómap×Ö¶ÎµÄÖµÎªµØÍ¼id
-// ²ÎÊı ¶Ó³¤½ÇÉ«£¬µØÍ¼id
+//æ›´æ–°è¿›å…¥åœ°å›¾åmapå­—æ®µçš„å€¼ä¸ºåœ°å›¾id
+// å‚æ•° é˜Ÿé•¿è§’è‰²ï¼Œåœ°å›¾id
 inline int lua_UpdateMapAfterEnter(lua_State *pLS)
 {T_B
 	CCharacter *  Captain = (CCharacter*)lua_touserdata(pLS, 1);
@@ -7286,7 +7286,7 @@ inline int lua_UpdateMapAfterEnter(lua_State *pLS)
 	return 0;
 T_E}
 
-//¸üĞÂ±ÈÈü½áÊøºómap×Ö¶Î
+//æ›´æ–°æ¯”èµ›ç»“æŸåmapå­—æ®µ
 inline int lua_UpdateMap(lua_State *pLS)
 {T_B
 int Mapid = (int)lua_tonumber(pLS, 1);
@@ -7296,11 +7296,11 @@ if(game_db.UpdateMap(Mapid))
 }
 return 0;
 T_E}
-//¸üĞÂµØÍ¼¶ÓÎéÖĞmapflagÖµ
-//²ÎÊı ¶ÓÎéid£¬µØÍ¼id£¬ÒªÉè¶¨µÄmapflagÖµ
+//æ›´æ–°åœ°å›¾é˜Ÿä¼ä¸­mapflagå€¼
+//å‚æ•° é˜Ÿä¼idï¼Œåœ°å›¾idï¼Œè¦è®¾å®šçš„mapflagå€¼
 inline int lua_UpdateMapNum(lua_State *pLS)
 {T_B
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 
 if (nParaNum != 3)
 {
@@ -7318,8 +7318,8 @@ if(game_db.UpdateMapNum(Teamid,Mapid,MapFlag))
 return 0;
 
 T_E}
-//»ñµÃmapflagµÄÖµ
-//²ÎÊı ¶ÓÎéid
+//è·å¾—mapflagçš„å€¼
+//å‚æ•° é˜Ÿä¼id
 inline int lua_GetMapFlag(lua_State *pLS)
 {T_B
 int Mapflag = 0;
@@ -7331,7 +7331,7 @@ if(game_db.GetMapFlag(Teamid,Mapflag))
 }
 return 0;
 T_E}
-//¼ÆËãÆ±Êı×î¸ßµÄ¸´»î¶ÓÎé£¬²¢¸üĞÂÊ¹Æä¸´»î
+//è®¡ç®—ç¥¨æ•°æœ€é«˜çš„å¤æ´»é˜Ÿä¼ï¼Œå¹¶æ›´æ–°ä½¿å…¶å¤æ´»
 inline int lua_SetMaxBallotTeamRelive( lua_State *pLS)
 {T_B
 if(game_db.SetMaxBallotTeamRelive())
@@ -7341,10 +7341,10 @@ if(game_db.SetMaxBallotTeamRelive())
 return 0;
 T_E}
 
-//ÉèÖÃ¶ÓÎéstate×´Ì¬
+//è®¾ç½®é˜Ÿä¼stateçŠ¶æ€
 inline int lua_SetMatchResult(lua_State *pLS)
 {T_B
-int nParaNum = lua_gettop(pLS); // È¡µÃ²ÎÊı¸öÊı
+int nParaNum = lua_gettop(pLS); // å–å¾—å‚æ•°ä¸ªæ•°
 if (nParaNum != 4)
 {
 	return 0;
@@ -7361,7 +7361,7 @@ if(game_db.SetMatchResult(Teamid1,Teamid2,Id1state,Id2state))
 return 0;
 
 T_E}
-//¸ù¾İµØÍ¼idÈ¡µØÍ¼ÖĞµÄ¶ÓÎéµÄ¶Ó³¤id
+//æ ¹æ®åœ°å›¾idå–åœ°å›¾ä¸­çš„é˜Ÿä¼çš„é˜Ÿé•¿id
 inline int lua_GetCaptainByMapId(lua_State *pLS)
 {T_B
 int Mapid = (int)lua_tonumber(pLS,1);
@@ -7412,7 +7412,7 @@ if(game_db.GetCaptainByMapId(Mapid,Captainid1,Captainid2))
 return 0;
 T_E}
 
-//¸üĞÂÃ»²Î¼ÓµÄ¶ÓÎéÎª¸´»î
+//æ›´æ–°æ²¡å‚åŠ çš„é˜Ÿä¼ä¸ºå¤æ´»
 inline int lua_UpdateAbsentTeamRelive(lua_State *pLS)
 {T_B
 if(game_db.UpdateAbsentTeamRelive())
@@ -7420,7 +7420,7 @@ if(game_db.UpdateAbsentTeamRelive())
 return 0;
 T_E}
 
-// ¸üĞÂÊ¤Àû¶ÓÎéwinnumÖµ
+// æ›´æ–°èƒœåˆ©é˜Ÿä¼winnumå€¼
 inline int lua_UpdateWinnum( lua_State *pLS )
 {T_B
 	int teamid = (int)lua_tonumber(pLS,1);
@@ -7429,7 +7429,7 @@ inline int lua_UpdateWinnum( lua_State *pLS )
 	return 0;
 T_E}
 
-//È¡winnumÖĞÎ¨Ò»×î´óµÄÖµµÄ¶ÓÎé
+//å–winnumä¸­å”¯ä¸€æœ€å¤§çš„å€¼çš„é˜Ÿä¼
 inline int lua_GetUniqueMaxWinnum( lua_State *pLS )
 {T_B
 	int teamid = 0;
@@ -7441,7 +7441,7 @@ inline int lua_GetUniqueMaxWinnum( lua_State *pLS )
 	return 0;
 T_E}
 
-// ÉèÖÃmatchno×´Ì¬£¬ÓÃÀ´¸üĞÂ¶ÓÎéÊÇ·ñ½øÈëµØÍ¼
+// è®¾ç½®matchnoçŠ¶æ€ï¼Œç”¨æ¥æ›´æ–°é˜Ÿä¼æ˜¯å¦è¿›å…¥åœ°å›¾
 inline int lua_SetMatchnoState( lua_State *pLS )
 {T_B
 	int teamid = (int)lua_tonumber(pLS,1);
@@ -7450,7 +7450,7 @@ inline int lua_SetMatchnoState( lua_State *pLS )
 	return 0;
 T_E}
 
-// ¸üĞÂÏÂÒ»ÂÖ±ÈÈüÇ°state×´Ì¬
+// æ›´æ–°ä¸‹ä¸€è½®æ¯”èµ›å‰stateçŠ¶æ€
 inline int lua_UpdateState( lua_State *pLS )
 {T_B
 	if(game_db.UpdateState())	
@@ -7458,7 +7458,7 @@ inline int lua_UpdateState( lua_State *pLS )
 	return 0;
 T_E}
 
-//¼ÆËãstate=1Ê±µÄ¶ÓÎé¸öÊı£¬À´ÅĞ¶Ï¸´»îÌõ¼ş
+//è®¡ç®—state=1æ—¶çš„é˜Ÿä¼ä¸ªæ•°ï¼Œæ¥åˆ¤æ–­å¤æ´»æ¡ä»¶
 inline int lua_CloseReliveByState( lua_State *pLS )
 {T_B
 	int statenum = 0;
@@ -7470,7 +7470,7 @@ inline int lua_CloseReliveByState( lua_State *pLS )
 	return 0;
 T_E}
 
-//¸ù¾İ¶ÓÎéÇå³ımapflagÎª¿Õ
+//æ ¹æ®é˜Ÿä¼æ¸…é™¤mapflagä¸ºç©º
 inline int lua_CleanMapFlag( lua_State *pLS )
 {T_B
 	int teamid1 = (int)lua_tonumber(pLS,1);
@@ -7480,7 +7480,7 @@ inline int lua_CleanMapFlag( lua_State *pLS )
 	return 0;
 T_E}
 
-//¸ù¾İ¶ÓÎéidµÃµ½¶ÓÎé×´Ì¬
+//æ ¹æ®é˜Ÿä¼idå¾—åˆ°é˜Ÿä¼çŠ¶æ€
 inline int lua_GetStateByTeamid( lua_State *pLS )
 {T_B
 	int teamid = (int)lua_tonumber(pLS,1);
@@ -7498,7 +7498,7 @@ inline void RegisterLuaGameLogic(lua_State *L)
 g_pCLogObj = new CLogFile;
 if (!g_pCLogObj)
 {
-	//THROW_EXCP(excpMem,"lua´íÎó¼ÍÂ¼ÎÄ¼ş½¨Á¢´íÎó!");
+	//THROW_EXCP(excpMem,"luaé”™è¯¯çºªå½•æ–‡ä»¶å»ºç«‹é”™è¯¯!");
 	THROW_EXCP(excpMem,RES_STRING(GM_EXPAND_H_00160));
 }
 g_pCLogObj->SetLogName("ExecLua");

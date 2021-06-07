@@ -13,7 +13,7 @@
 class	CPlayer;
 
 /*
-*	设置实体的所有者等信息
+*	璁剧疆瀹炰綋鐨勬墍鏈夎�呯瓑淇℃伅
 *	Lark.li 
 */
 class CAttachable : public Entity

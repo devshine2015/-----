@@ -18,34 +18,34 @@ namespace mission
 		CCharMission();
 		~CCharMission();
 
-		// ÈÎÎñ¼ÇÂ¼±êÇ©±£´æ¶ÁÈ¡
+		// ä»»åŠ¡è®°å½•æ ‡ç­¾ä¿å­˜è¯»å–
 		BOOL	MisInit( char* pszBuf );
 		BOOL	MisGetData( char* pszBuf, DWORD dwSize );
 
-		// ÈÎÎñÀúÊ·¼ÇÂ¼±êÇ©´æ´¢
+		// ä»»åŠ¡å†å²è®°å½•æ ‡ç­¾å­˜å‚¨
 		BOOL	MisInitRecord( char* pszBuf );
 		BOOL	MisGetRecord( char* pszBuf, DWORD dwSize );
 
-		// ÈÎÎñ´¥·¢Æ÷±£´æºÍ¶ÁÈ¡
+		// ä»»åŠ¡è§¦å‘å™¨ä¿å­˜å’Œè¯»å–
 		BOOL	MisInitTrigger( char* pszBuf );
 		BOOL	MisGetTrigger( char* pszBuf, DWORD dwSize );
 
-		// Ëæ»úÈÎÎñÍê³É¼ÆÊı
+		// éšæœºä»»åŠ¡å®Œæˆè®¡æ•°
 		BOOL	MisInitMissionCount( char* pszBuf );
 		BOOL	MisGetMissionCount( char* pszBuf, DWORD dwSize );
 
 		void	MisClear();
 		void	SetMisChar( CCharacter& character ) { m_pRoleChar = &character; }
 
-		// ´¥·¢Æ÷ÊÂ¼ş´¦Àí
+		// è§¦å‘å™¨äº‹ä»¶å¤„ç†
 		BOOL	MisEventProc( TRIGGER_EVENT e, WPARAM wParam, LPARAM lParam );
 
-		// ¼ÇÂ¼ĞÅÏ¢
+		// è®°å½•ä¿¡æ¯
 		BOOL	MisAddTrigger( const TRIGGER_DATA& Data );
 		BOOL	MisClearTrigger( WORD wTriggerID );
 		BOOL	MisDelTrigger( WORD wTriggerID );
 
-		// ÈÎÎñ²Ù×÷
+		// ä»»åŠ¡æ“ä½œ
 		BOOL	MisAddRole( WORD wRoleID, WORD wScriptID );
 		BOOL	MisHasRole( WORD wRoleID );
 		BOOL	MisClearRole( WORD wRoleID );
@@ -53,13 +53,13 @@ namespace mission
 		BOOL	MisIsRoleFull() { return m_byNumMission >= ROLE_MAXNUM_MISSION; }
 		BOOL	MisGetMisScript( WORD wRoleID, WORD& wScriptID );
 
-		// ÉèÖÃÈÎÎñÍê³É±ê¼Ç
+		// è®¾ç½®ä»»åŠ¡å®Œæˆæ ‡è®°
 		BOOL	MisSetMissionComplete( WORD wRoleID );
 		BOOL	MisSetMissionPending( WORD wRoleID );
 		BOOL	MisSetMissionFailure( WORD wRoleID );
 		BOOL	MisHasMissionFailure( WORD wRoleID );
 
-		// ÈÎÎñ±êÇ©
+		// ä»»åŠ¡æ ‡ç­¾
 		BOOL	MisSetFlag( WORD wRoleID, WORD wFlag );
 		BOOL	MisClearFlag( WORD wRoleID, WORD wFlag );
 		BOOL	MisIsSet( WORD wRoleID, WORD wFlag );
@@ -70,7 +70,7 @@ namespace mission
 		BOOL	MisIsRecord( WORD wRec );
 		BOOL	MisIsValidRecord( WORD wRec );
 
-		// ¼ÇÂ¼ÊÓÒ°ÄÚNPCµÄÕë¶Ô¸Ã½ÇÉ«µÄÈÎÎñ×´Ì¬ĞÅÏ¢
+		// è®°å½•è§†é‡å†…NPCçš„é’ˆå¯¹è¯¥è§’è‰²çš„ä»»åŠ¡çŠ¶æ€ä¿¡æ¯
 		BOOL	MisAddMissionState( DWORD dwNpcID, BYTE byID, BYTE byState );
 		BOOL	MisGetMissionState( DWORD dwNpcID, BYTE& byState );
 		BOOL    MisClearMissionState( DWORD dwNpcID );
@@ -79,33 +79,33 @@ namespace mission
 		BOOL	MisGetCharMission( DWORD dwNpcID, BYTE byID, BYTE& byState );
 		BOOL	MisGetNextMission( DWORD dwNpcID, BYTE& byIndex, BYTE& byID, BYTE& byState );
 
-		// ÈÎÎñ¿ì½İÁÙÊ±Êı¾İĞÅÏ¢²Ù×÷
+		// ä»»åŠ¡å¿«æ·ä¸´æ—¶æ•°æ®ä¿¡æ¯æ“ä½œ
 		void	MisSetMissionPage( DWORD dwNpcID, BYTE byPrev, BYTE byNext, BYTE byState );
 		BOOL	MisGetMissionPage( DWORD dwNpcID, BYTE& byPrev, BYTE& byNext, BYTE& byState );
 		void	MisSetTempData( DWORD dwNpcID, WORD wID, BYTE byState, BYTE byMisType );
 		BOOL	MisGetTempData( DWORD dwNpcID, WORD& wID, BYTE& byState, BYTE& byMisType );
 		
-		// ²éÑ¯ÈÎÎñÈÕÖ¾ĞÅÏ¢
+		// æŸ¥è¯¢ä»»åŠ¡æ—¥å¿—ä¿¡æ¯
 		void	MisGetMisLog();
 		void	MisGetMisLogInfo( WORD wMisID );
 		void	MisLogClear( WORD wMisID );
 		void	MisLogAdd( WORD wMisID, BYTE byState );
 
-		// Ëæ»úÈÎÎñ½Ó¿Ú²Ù×÷ĞÅÏ¢
+		// éšæœºä»»åŠ¡æ¥å£æ“ä½œä¿¡æ¯
 		BOOL	MisHasRandMission( WORD wRoleID );
 		BOOL	MisAddRandMission( WORD wRoleID, WORD wScriptID, BYTE byType, BYTE byLevel, DWORD dwExp, DWORD dwMoney, USHORT sPrizeData, USHORT sPrizeType, BYTE byNumData );
 		BOOL	MisSetRandMissionData( WORD wRoleID, BYTE byIndex, const mission::MISSION_DATA& RandData );
 		BOOL	MisGetRandMission( WORD wRoleID, BYTE& byType, BYTE& byLevel, DWORD& dwExp, DWORD& dwMoney, USHORT& sPrizeData, USHORT& sPrizeType, BYTE& byNumData );
 		BOOL	MisGetRandMissionData( WORD wRoleID, BYTE byIndex, mission::MISSION_DATA& RandData );
 
-		// ¼ì²âËÍ¸ønpcµÄÎïÆ·(½ÓÊÜÎïÆ·µÄNPCÈ¡×ßÎïÆ·ºó£¬¼ÇÂ¼Ò»¸ö±ê¼Ç£¬ÊÇ·ñÈ¡×ßÓÃ¸Ã±ê¼Ç±êÊ¶)
+		// æ£€æµ‹é€ç»™npcçš„ç‰©å“(æ¥å—ç‰©å“çš„NPCå–èµ°ç‰©å“åï¼Œè®°å½•ä¸€ä¸ªæ ‡è®°ï¼Œæ˜¯å¦å–èµ°ç”¨è¯¥æ ‡è®°æ ‡è¯†)
 		BOOL	MisHasSendNpcItemFlag( WORD wRoleID, WORD wNpcID );
 		BOOL	MisNoSendNpcItemFlag( WORD wRoleID, WORD wNpcID );
 		BOOL	MisTakeRandMissionNpcItem( WORD wRoleID, WORD wNpcID, USHORT& sItemID );
 		BOOL	MisTakeAllRandNpcItem( WORD wRoleID );
 		BOOL	MisHasRandMissionNpc( WORD wRoleID, WORD wNpcID, WORD wAreaID );		
 
-		// Ìí¼ÓÒ»¸ö»¤ËÍNPC
+		// æ·»åŠ ä¸€ä¸ªæŠ¤é€NPC
 		BOOL	MisAddFollowNpc( WORD wRoleID, BYTE byIndex, WORD wNpcCharID, CCharacter* pNpc, BYTE byAiType );
 		BOOL	MisClearFollowNpc( WORD wRoleID, BYTE byIndex );
 		BOOL	MisClearAllFollowNpc( WORD wRoleID );
@@ -113,7 +113,7 @@ namespace mission
 		BOOL	MisIsFollowNpc( WORD wRoleID, BYTE byIndex, WORD wNpcCharID );
 		BOOL	MisLowDistFollowNpc( WORD wRoleID, BYTE byIndex );
 
-		// Íê³ÉÒ»¸öËæ»úÈÎÎñ
+		// å®Œæˆä¸€ä¸ªéšæœºä»»åŠ¡
 		BOOL	MisCompleteRandMission( WORD wRoleID );
 		BOOL	MisFailureRandMission( WORD wRoleID );
 		BOOL	MisAddRandMissionNum( WORD wRoleID );
@@ -123,27 +123,27 @@ namespace mission
 		WORD	MisGetRandMissionCount( WORD wRoleID );
 		WORD	MisGetRandMissionNum( WORD wRoleID );
 
-		// ¼ì²âÊÇ·ñÈÎÎñĞèÒªÎïÆ·
+		// æ£€æµ‹æ˜¯å¦ä»»åŠ¡éœ€è¦ç‰©å“
 		BOOL	MisNeedItem( USHORT sItemID );
 
-		// ÖØĞÂË¢ĞÂ»ñÈ¡ÎïÆ·´¥·¢Æ÷µÄ¼ÆÊı
+		// é‡æ–°åˆ·æ–°è·å–ç‰©å“è§¦å‘å™¨çš„è®¡æ•°
 		void	MisRefreshItemCount( USHORT sItemID );
 		BOOL	MisGetItemCount( WORD wRoleID, USHORT sItemID, USHORT& sCount );
 
-		// ½ÇÉ«ÀëÏß
+		// è§’è‰²ç¦»çº¿
 		void	MisLogout();
 		void	MisLogin();
 		void	MisEnterMap();
 		void	MisGooutMap();
 		void	MisEnterBoat( CCharacter* pBoat );
 
-		// ÈÎÎñÊÂ¼şÊµÌå½»»¥µÈ´ıÊ±¼ä
+		// ä»»åŠ¡äº‹ä»¶å®ä½“äº¤äº’ç­‰å¾…æ—¶é—´
 		void	SetEntityTime( DWORD dwTime ) { m_dwEntityTime = dwTime; }
 		BOOL	GetEntityTime( DWORD& dwTime ) { dwTime = m_dwEntityTime; return dwTime != 0; }
 
 	protected:
 		
-		// Ô¤·ÖÅäÖØÓÃ»º³å£¬³õÊ¼»¯ĞÅÏ¢
+		// é¢„åˆ†é…é‡ç”¨ç¼“å†²ï¼Œåˆå§‹åŒ–ä¿¡æ¯
 		void	Initially();
 		void	Finally();
 
@@ -152,7 +152,7 @@ namespace mission
 		void	ClearRoleTrigger( WORD wRoleID );
 		BOOL	CancelRole( WORD wRoleID, WORD wScriptID );
 
-		// ÈÎÎñÊÂ¼ş´¦Àíº¯Êı
+		// ä»»åŠ¡äº‹ä»¶å¤„ç†å‡½æ•°
 		void	KillWare( USHORT sWareID );
 		void	GetItem( USHORT sItemID, USHORT sCount );
 		void	TimeOut( USHORT sTime );
@@ -161,29 +161,29 @@ namespace mission
 		void	CharBorn();
 		void	EquipItem( USHORT sItemID, USHORT sTriID );
 
-		// ¸ù¾İÊı¾İ¿â´æ´¢µÄĞÅÏ¢°æ±¾×ª»»µ½µ±Ç°°æ±¾ĞÅÏ¢
+		// æ ¹æ®æ•°æ®åº“å­˜å‚¨çš„ä¿¡æ¯ç‰ˆæœ¬è½¬æ¢åˆ°å½“å‰ç‰ˆæœ¬ä¿¡æ¯
 		BOOL ConvertMissionInfo( const char* pszBuf, int nEdition );
 		BOOL ConvertTriggerInfo( const char* pszBuf, int nEdition );
 		BOOL ConvertMisCountInfo( const char* pszBuf, int nEdition );
 		BOOL ConvertMissionRecord( const char* pszBuf, int nEdition );
 
-		// ½ÇÉ«ÈÎÎñĞÅÏ¢(´¥·¢Æ÷¡¢±êÇ©¡¢ÀúÊ·¼ÇÂ¼)
+		// è§’è‰²ä»»åŠ¡ä¿¡æ¯(è§¦å‘å™¨ã€æ ‡ç­¾ã€å†å²è®°å½•)
 		BYTE			m_byNumTrigger;
 		TRIGGER_DATA	m_Trigger[ROLE_MAXNUM_CHARTRIGGER];
 		BYTE			m_byNumMission;
 		MISSION_INFO	m_Mission[ROLE_MAXNUM_MISSION];
 		ROLE_RECORDINFO m_RoleRecord;
-		BYTE			m_byNumGotoMap; // ÇĞ»»µØÍ¼µ¥ÔªÊÂ¼ş´¥·¢Æ÷¼ÆÊı
-		RAND_MISSION_COUNT	m_MissionCount[ROLE_MAXNUM_MISSIONCOUNT]; // Íê³ÉËæ»úÈÎÎñ¼ÆÊı
+		BYTE			m_byNumGotoMap; // åˆ‡æ¢åœ°å›¾å•å…ƒäº‹ä»¶è§¦å‘å™¨è®¡æ•°
+		RAND_MISSION_COUNT	m_MissionCount[ROLE_MAXNUM_MISSIONCOUNT]; // å®Œæˆéšæœºä»»åŠ¡è®¡æ•°
 		BYTE			m_byNumMisCount;
-		BYTE			m_byOnline;		// ¸Ã½ÇÉ«ÊÇ·ñÔÚÏß
+		BYTE			m_byOnline;		// è¯¥è§’è‰²æ˜¯å¦åœ¨çº¿
 
-		// ÊÓÒ°ÄÚNPCµÄÕë¶Ô¸Ã½ÇÉ«ÈÎÎñĞÅÏ¢
+		// è§†é‡å†…NPCçš„é’ˆå¯¹è¯¥è§’è‰²ä»»åŠ¡ä¿¡æ¯
 		MISSION_STATE   m_MissionState[ROLE_MAXNUM_INSIDE_NPCCOUNT];
-		BYTE			m_byStateIndex; // ÈÎÎñ×´Ì¬¿ì½İË÷Òı
+		BYTE			m_byStateIndex; // ä»»åŠ¡çŠ¶æ€å¿«æ·ç´¢å¼•
 		BYTE			m_byNumState;
 
-		// ÈÎÎñ¶Ô»°ĞÅÏ¢ÁÙÊ±¼ÇÂ¼
+		// ä»»åŠ¡å¯¹è¯ä¿¡æ¯ä¸´æ—¶è®°å½•
 		DWORD			m_dwTalkNpcID;
 		WORD			m_wIndex;
 		BYTE			m_byState;
@@ -192,10 +192,10 @@ namespace mission
 		BYTE			m_byPrev;
 		BYTE			m_byNext;
 
-		// ÊÂ¼şÊµÌå½»»¥µÈ´ıÊ±¼ä
+		// äº‹ä»¶å®ä½“äº¤äº’ç­‰å¾…æ—¶é—´
 		DWORD			m_dwEntityTime;
 
-		// ½ÇÉ«Ö¸Õë
+		// è§’è‰²æŒ‡é’ˆ
 		CCharacter*		m_pRoleChar;
 
 	};

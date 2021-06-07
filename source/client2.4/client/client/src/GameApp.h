@@ -43,10 +43,10 @@ namespace GUI
 
 enum eSceneType
 {
-	enumLoginScene     = 0, // µÇÂ¼³¡¾°
-	enumWorldScene     = 1,	// ÓÎÏ·³¡¾°
-	enumSelectChaScene = 2,	// Ñ¡ÔñÈËÎï
-	enumCreateChaScene = 3, // ´´½¨ÈËÎï
+	enumLoginScene     = 0, // ç™»å½•åœºæ™¯
+	enumWorldScene     = 1,	// æ¸¸æˆåœºæ™¯
+	enumSelectChaScene = 2,	// é€‰æ‹©äººç‰©
+	enumCreateChaScene = 3, // åˆ›å»ºäººç‰©
 	enumSceneEnd,
 };
 
@@ -102,8 +102,8 @@ public:
 	void				SetIsRenderTipText( bool v ){ _IsRenderTipText = v;		}
 	bool				GetIsRenderTipText()		{ return _IsRenderTipText;	}
 	
-	void				InitAllTable();			// ¶ÁÈëËùÓĞµÄ±í¸ñÎÄ±¾
-	void				ReleaseAllTable();		// ÊÍ·ÅËùÓĞµÄ±í¸ñÎÄ±¾
+	void				InitAllTable();			// è¯»å…¥æ‰€æœ‰çš„è¡¨æ ¼æ–‡æœ¬
+	void				ReleaseAllTable();		// é‡Šæ”¾æ‰€æœ‰çš„è¡¨æ ¼æ–‡æœ¬
 	
 
 	void	            HandleKeyContinue();
@@ -131,8 +131,8 @@ public:
 
 	bool				HasLogFile( const char* log_file, bool isOpen=true );
 
-	void				Loading( int nFrame=40 );				// ²ÎÊıÎª¶àÉÙÖ¡
-    static void         Waiting( bool isWaiting=true );         // ÏÔÊ¾³öÒ»¸öµÈ´ı¶Ô»°¿ò,ÕâÆä¼ä²»ÄÜ²Ù×÷UI
+	void				Loading( int nFrame=40 );				// å‚æ•°ä¸ºå¤šå°‘å¸§
+    static void         Waiting( bool isWaiting=true );         // æ˜¾ç¤ºå‡ºä¸€ä¸ªç­‰å¾…å¯¹è¯æ¡†,è¿™å…¶é—´ä¸èƒ½æ“ä½œUI
 	static bool			IsMouseContinue(int nButton)
 	{
 						if( g_Render.IsRealFPS() )
@@ -147,7 +147,7 @@ public:
 	void				ShowNotify1( const char *szStr,int setnum, DWORD dwColor );//Add by sunny.sun20080804
 	void				ShowHint( int x, int y, const char *szStr, DWORD dwColor );
 
-    static void         SetMusicSize( float fVol );         // 0~1,0¾²Òô¾°,1×î´óÒôÁ¿
+    static void         SetMusicSize( float fVol );         // 0~1,0é™éŸ³æ™¯,1æœ€å¤§éŸ³é‡
     static float        GetMusicSize()                      { return (float)_nMusicSize / 100.0f;   }
 
     static void         MsgBox( const char *pszFormat, ... );
@@ -155,12 +155,12 @@ public:
     void                ShowBigText( const char *pszFormat, ... );
     void                ShowMidText( const char *pszFormat, ... );
 
-	// ÇĞ»»³¡¾°begin
+	// åˆ‡æ¢åœºæ™¯begin
 	CGameScene*	CreateScene( stSceneInitParam* param );
-	void		GotoScene( CGameScene* scene, bool isDelCurScene=true, bool IsShowLoading=true );		// Ö±½ÓÇĞ»»µ½ÁíÒ»¸ö³¡¾°
+	void		GotoScene( CGameScene* scene, bool isDelCurScene=true, bool IsShowLoading=true );		// ç›´æ¥åˆ‡æ¢åˆ°å¦ä¸€ä¸ªåœºæ™¯
 	int			Run();
-	static CGameScene*	GetCurScene()					{ return _pCurScene;	}	// »ñµÃµ±Ç°³¡¾°
-	// ÇĞ»»³¡¾°end
+	static CGameScene*	GetCurScene()					{ return _pCurScene;	}	// è·å¾—å½“å‰åœºæ™¯
+	// åˆ‡æ¢åœºæ™¯end
 
 	void		CreateCharImg();
 
@@ -168,7 +168,7 @@ public:
 
 	HINSTANCE	GetAppInstance() const { return _hInst; }
 	
-public:	// ½Å±¾´´½¨³¡¾°
+public:	// è„šæœ¬åˆ›å»ºåœºæ™¯
 	void		LoadScriptScene( eSceneType eType );
 	void		LoadScriptScene( const char* script_file );
 
@@ -182,7 +182,7 @@ public:
 	static DWORD        GetFrameFPS();
 	static CSteadyFrame* GetFrame()						{ return _pSteady;		}
 
-	// ¸ù¾İÎÄ¼şÃû³õÊ¼»¯µ±Ç°³¡¾°£¬xuedong 2004.09.06 ÓÃÓÚ¡°Éú³ÉÕÏ°­ĞÅÏ¢ÎÄ¼ş¡°
+	// æ ¹æ®æ–‡ä»¶ååˆå§‹åŒ–å½“å‰åœºæ™¯ï¼Œxuedong 2004.09.06 ç”¨äºâ€œç”Ÿæˆéšœç¢ä¿¡æ¯æ–‡ä»¶â€œ
 	BOOL				CreateCurrentScene(char *szMapName);
 
 	CursorMgr*			GetCursor()						{ return &_stCursorMgr;	}
@@ -200,19 +200,19 @@ public:
 	CLEFont*			GetFont()						{return &g_CFont;		}
     RenderStateMgr*     GetRenderStateMgr()             { return _rsm;			}
 
-	void				SetCameraPos(D3DXVECTOR3& pos,bool bRestoreCustom=true);	// bRestoreCustom²ÎÊıÎªtrue£¬±íÊ¾Çå³ıÓÃ»§¶Ô¾µÍ·µÄ¸Ä±ä
+	void				SetCameraPos(D3DXVECTOR3& pos,bool bRestoreCustom=true);	// bRestoreCustomå‚æ•°ä¸ºtrueï¼Œè¡¨ç¤ºæ¸…é™¤ç”¨æˆ·å¯¹é•œå¤´çš„æ”¹å˜
 
 	void				SetStartMinimap(int  ix, int iy, int destx,int desty);
 	CScriptMgr*			GetScriptMgr()					{ return &_stScriptMgr;				}
 	void				ResetCaption();
 
-	void				AutoTest();			// ×Ô¶¯»¯²âÊÔ
-	void				AutoTestInfo( const char *pszFormat, ... );		// ÓÃÓÚ×Ô¶¯»¯²âÊÔÊ±ÏÔÊ¾²âÊÔÄÚÈİ
+	void				AutoTest();			// è‡ªåŠ¨åŒ–æµ‹è¯•
+	void				AutoTestInfo( const char *pszFormat, ... );		// ç”¨äºè‡ªåŠ¨åŒ–æµ‹è¯•æ—¶æ˜¾ç¤ºæµ‹è¯•å†…å®¹
 	void				AutoTestUpdate();
 
 	static bool			IsMouseInScene()				{ return _MouseInScene;				}
 
-	//ÓÃÓÚ¼ÇÂ¼/¶ÁÈ¡µÇÂ½ÓÎÏ·µÄTickÊ±¼ä
+	//ç”¨äºè®°å½•/è¯»å–ç™»é™†æ¸¸æˆçš„Tickæ—¶é—´
 	static void SetLoginTime(DWORD _dwLoginTime)		{ m_dwLoginTime=_dwLoginTime;		}
 	static DWORD GetLoginTime()							{ return m_dwLoginTime;				}
 
@@ -284,11 +284,11 @@ protected:
 	void	_SceneError( const char* info, CGameScene * p );
 	void	_HandleMsg(DWORD dwTypeID, DWORD dwParam1, DWORD dwParam2);
 
-	CGameScene*	_pStartScene;		// µÚÒ»¸ö³¡¾°
-	static CGameScene*	_pCurScene;	// Ä¿Ç°ÕıÔÚÔËĞĞµÄ³¡¾°
+	CGameScene*	_pStartScene;		// ç¬¬ä¸€ä¸ªåœºæ™¯
+	static CGameScene*	_pCurScene;	// ç›®å‰æ­£åœ¨è¿è¡Œçš„åœºæ™¯
 	static DWORD		_dwCurTick;
 
-	int			_nSwitchScene;		// ´óÓÚÁã,ÕıÔÚÇĞ»»³¡¾°
+	int			_nSwitchScene;		// å¤§äºé›¶,æ­£åœ¨åˆ‡æ¢åœºæ™¯
 
 	bool		_isRun;		
 
@@ -297,28 +297,28 @@ protected:
 
 	bool		_IsRenderTipText;
 
-private:		// ÓÃÓÚ½Å±¾
+private:		// ç”¨äºè„šæœ¬
 	bool				_IsInit;
     DWORD               _dwGameThreadID;
 
 	static DWORD		_dwMouseDownTime[2];
 
-    static int          _nMusicSize;        // ±³¾°ÒôÁ¿
-    bool                _IsUserEnabled;     // ÊÇ·ñ½ÓÊÕÓÃ»§ÊäÈë
+    static int          _nMusicSize;        // èƒŒæ™¯éŸ³é‡
+    bool                _IsUserEnabled;     // æ˜¯å¦æ¥æ”¶ç”¨æˆ·è¾“å…¥
 
     static char         _szOutBuf[256];
 	
 	CLEFont				g_CFont;
-	CLEFont             _MidFont;         // ÔÚÆÁÄ»ÖĞÑëÆ«ÉÏµÄÒ»¸öÖĞµÈ×ÖÌå
+	CLEFont             _MidFont;         // åœ¨å±å¹•ä¸­å¤®åä¸Šçš„ä¸€ä¸ªä¸­ç­‰å­—ä½“
     STipText            _stMidFont;
 
     static bool         _IsMusicSystemValid; 
 
-private:        // ±³¾°ÒôÀÖµÄÇĞ»»,¾­ÀúÈı¸ö½×¶Î:1.µ±Ç°ÒôÀÖÒôÁ¿±äĞ¡,2.ÎªÁãÊ±ÇĞ»»µ½ĞÂÒôÀÖ,²¢ÇÒÒôÀÖ±ä´ó,3.Õı³£²¥·ÅĞÂÒôÀÖ
+private:        // èƒŒæ™¯éŸ³ä¹çš„åˆ‡æ¢,ç»å†ä¸‰ä¸ªé˜¶æ®µ:1.å½“å‰éŸ³ä¹éŸ³é‡å˜å°,2.ä¸ºé›¶æ—¶åˆ‡æ¢åˆ°æ–°éŸ³ä¹,å¹¶ä¸”éŸ³ä¹å˜å¤§,3.æ­£å¸¸æ’­æ”¾æ–°éŸ³ä¹
     enum eBkgMusic { enumNoMusic, enumOldMusic, enumNewMusic, enumMusicPlay };
     eBkgMusic           _eSwitchMusic;
-    int                 _nCurMusicSize;     // ÇĞ»»ÒôÀÖÊ±µÄÒôÁ¿´óĞ¡
-    char                _szBkgMusic[256];   // ĞÂÒôÀÖ
+    int                 _nCurMusicSize;     // åˆ‡æ¢éŸ³ä¹æ—¶çš„éŸ³é‡å¤§å°
+    char                _szBkgMusic[256];   // æ–°éŸ³ä¹
 	static CSteadyFrame*	_pSteady;
 	static	bool			_MouseInScene;
 	
@@ -329,9 +329,9 @@ private:        // ±³¾°ÒôÀÖµÄÇĞ»»,¾­ÀúÈı¸ö½×¶Î:1.µ±Ç°ÒôÀÖÒôÁ¿±äĞ¡,2.ÎªÁãÊ±ÇĞ»»µ½
 	
 	int					SetNum;
 
-	static DWORD		m_dwLoginTime;		//¼ÇÂ¼µÇÂ½ÓÎÏ·µÄTickÊ±¼ä
+	static DWORD		m_dwLoginTime;		//è®°å½•ç™»é™†æ¸¸æˆçš„Tickæ—¶é—´
 
-	DWORD				_dwLoadingTick;		// ¿ªÊ¼ Loading µÄÊ±¼ä
+	DWORD				_dwLoadingTick;		// å¼€å§‹ Loading çš„æ—¶é—´
 
 
 public:

@@ -1,10 +1,10 @@
 #include "lua_gamectrl.h"
 
 
-// »ñµÃ½ÇÉ«µÄ×é¶Ó³ÉÔ±×ÜÊý, Èç¹û·µ»Ø0±íÊ¾Î´×é¶Ó
+// èŽ·å¾—è§’è‰²çš„ç»„é˜Ÿæˆå‘˜æ€»æ•°, å¦‚æžœè¿”å›ž0è¡¨ç¤ºæœªç»„é˜Ÿ
 inline int lua_IsChaInTeam(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -26,10 +26,10 @@ inline int lua_IsChaInTeam(lua_State *L)
 	return 1;
 }
 
-// »ñµÃ½ÇÉ«µÄ×é¶Ó³ÉÔ±×ÜÊý, Èç¹û·µ»Ø0±íÊ¾Î´×é¶Ó
+// èŽ·å¾—è§’è‰²çš„ç»„é˜Ÿæˆå‘˜æ€»æ•°, å¦‚æžœè¿”å›ž0è¡¨ç¤ºæœªç»„é˜Ÿ
 inline int lua_GetTeamCha(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
 	BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber(L,2));
 	if(!bValid) 
     {
@@ -55,24 +55,24 @@ inline int lua_GetTeamCha(lua_State *L)
 	CPlayer *pMember = g_pGameApp->GetPlayerByDBID(pPlayer->GetTeamMemberDBID(nNo));
 	if (!pMember)
 	{
-		// LG("harm", "¸ÃÎ»ÖÃ[%d], ¶ÓÔ±²»´æÔÚ!\n", nNo); 
+		// LG("harm", "è¯¥ä½ç½®[%d], é˜Ÿå‘˜ä¸å­˜åœ¨!\n", nNo); 
 		return 0;
 	}
 	
-	if(pMember->GetCtrlCha()->IsLiveing()==false) // Èç¹ûÒÑ¾­ËÀÍö, ·µ»Ønil
+	if(pMember->GetCtrlCha()->IsLiveing()==false) // å¦‚æžœå·²ç»æ­»äº¡, è¿”å›žnil
 	{
 		return 0;
 	}
 
 	lua_pushlightuserdata(L, pMember->GetCtrlCha());
-	// LG("harm", "·µ»Ø¸ÃÎ»ÖÃ[%d]¶ÓÔ± = [%s]\n", nNo, pMember->GetCtrlCha()->GetName());
+	// LG("harm", "è¿”å›žè¯¥ä½ç½®[%d]é˜Ÿå‘˜ = [%s]\n", nNo, pMember->GetCtrlCha()->GetName());
 	return 1;
 }
 
-// È¡µÃ½ÇÉ«½ÅÏÂµÄÇøÓòÊôÐÔ±àºÅ
+// å–å¾—è§’è‰²è„šä¸‹çš„åŒºåŸŸå±žæ€§ç¼–å·
 inline int lua_IsChaInRegion(lua_State *L)
 {T_B
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2));
 	if(!bValid) 
     {
@@ -96,10 +96,10 @@ inline int lua_IsChaInRegion(lua_State *L)
 T_E}
 
 
-// È¡µÃ½ÇÉ«µÄÀàÐÍÃû³Æ
+// å–å¾—è§’è‰²çš„ç±»åž‹åç§°
 inline int lua_GetChaDefaultName(lua_State *L)
 {T_B
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -118,22 +118,22 @@ T_E}
 
 extern int lua_GetChaAttr(lua_State *pLS);
 extern int lua_SetChaAttr(lua_State *pLS);
-// È¡µÃ½ÇÉ«µÄÖ¸¶¨ÊôÐÔ
+// å–å¾—è§’è‰²çš„æŒ‡å®šå±žæ€§
 inline int lua_GetChaAttrI(lua_State *L)
 {T_B
 	return lua_GetChaAttr(L);
 T_E}
 
-// ÉèÖÃ½ÇÉ«µÄÖ¸¶¨ÊôÐÔ
+// è®¾ç½®è§’è‰²çš„æŒ‡å®šå±žæ€§
 inline int lua_SetChaAttrI(lua_State *L)
 {T_B
 	return lua_SetChaAttr(L);
 T_E}
 
-// È¡µÃ½ÇÉ«µÄÖ¸¶¨ÊôÐÔ
+// å–å¾—è§’è‰²çš„æŒ‡å®šå±žæ€§
 inline int lua_IsPlayer(lua_State *L)
 {T_B
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -153,11 +153,11 @@ inline int lua_IsPlayer(lua_State *L)
 	return 1;
 T_E}
 
-// ÉèÖÃ½ÇÉ«ÊýÖµÊôÐÔµÄ×î´óÖµ, ÔÚÓÎÏ·Æô¶¯Ê±Ó¦¸ÃÈ«²¿ÉèÖÃÍê±Ï
+// è®¾ç½®è§’è‰²æ•°å€¼å±žæ€§çš„æœ€å¤§å€¼, åœ¨æ¸¸æˆå¯åŠ¨æ—¶åº”è¯¥å…¨éƒ¨è®¾ç½®å®Œæ¯•
 inline int lua_SetChaAttrMax(lua_State *L)
 {T_B
 
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop(L)==2 && lua_isnumber(L, 1) && lua_isnumber(L, 2));
 	if(!bValid) 
     {
@@ -176,10 +176,10 @@ inline int lua_SetChaAttrMax(lua_State *L)
 	return 0;
 T_E}
 
-// Îªµ±Ç°µØÍ¼Ìí¼ÓÌìÆøÇøÓò, µØÍ¼³õÊ¼»¯Ê±»á±»µ÷ÓÃ, ÓÎÏ·ÖÐÒ²¿ÉÒÔµ÷ÓÃ
+// ä¸ºå½“å‰åœ°å›¾æ·»åŠ å¤©æ°”åŒºåŸŸ, åœ°å›¾åˆå§‹åŒ–æ—¶ä¼šè¢«è°ƒç”¨, æ¸¸æˆä¸­ä¹Ÿå¯ä»¥è°ƒç”¨
 inline int lua_AddWeatherRegion(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop(L)==7 && lua_isnumber(L, 1) && lua_isnumber(L, 2) && lua_isnumber(L, 3) 
 		                            && lua_isnumber(L, 4) && lua_isnumber(L, 5) && lua_isnumber(L, 6)
 									&& lua_isnumber(L, 7));
@@ -210,27 +210,27 @@ inline int lua_AddWeatherRegion(lua_State *L)
 	
 	g_pScriptMap->m_WeatherMgr.AddWeatherRange(pNew);
 
-	LG("weather", "Ìí¼ÓÌìÆøÇøÓò[%d], ·¢ÉúÊ±¼ä¼ä¸ô = %d, ³ÖÐøÊ±¼ä = %d, location = %d %d, %d %d\n", btType, dwFre, dwLastTime, sx, sy, w, h);
+	LG("weather", "æ·»åŠ å¤©æ°”åŒºåŸŸ[%d], å‘ç”Ÿæ—¶é—´é—´éš” = %d, æŒç»­æ—¶é—´ = %d, location = %d %d, %d %d\n", btType, dwFre, dwLastTime, sx, sy, w, h);
 	//LG("weather", "add weather area[%d], occur time limit = %d, duration = %d, location = %d %d, %d %d\n", btType, dwFre, dwLastTime, sx, sy, w, h);
 	return 0;
 }
 
 
-// Çå³ýµ±Ç°µØÍ¼ÉÏµÄËùÓÐÌìÆøÇøÓò
+// æ¸…é™¤å½“å‰åœ°å›¾ä¸Šçš„æ‰€æœ‰å¤©æ°”åŒºåŸŸ
 inline int lua_ClearMapWeather(lua_State *L)
 {
 	if(!g_pScriptMap) return 0;
 
 	g_pScriptMap->m_WeatherMgr.ClearAll();
-	LG("weather", "Çå³ýµØÍ¼[%s]ÉÏµÄËùÓÐÌìÆøÇøÓò!\n", g_pScriptMap->GetName());
+	LG("weather", "æ¸…é™¤åœ°å›¾[%s]ä¸Šçš„æ‰€æœ‰å¤©æ°”åŒºåŸŸ!\n", g_pScriptMap->GetName());
 	//LG("weather", "weed out map[%s]upon all weather area!\n", g_pScriptMap->GetName());
 	return 0;
 }
 
-// ÉèÖÃ´¬Ö»µÄÊìÁ·¶È¼ÇÊ±
+// è®¾ç½®èˆ¹åªçš„ç†Ÿç»ƒåº¦è®°æ—¶
 inline int lua_SetBoatCtrlTick(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==2 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2));
 	if(!bValid) 
     {
@@ -246,10 +246,10 @@ inline int lua_SetBoatCtrlTick(lua_State *L)
 	return 0;
 }
 
-// È¡³ö´¬Ö»µÄÊìÁ·¶È¼ÇÊ±
+// å–å‡ºèˆ¹åªçš„ç†Ÿç»ƒåº¦è®°æ—¶
 inline int lua_GetBoatCtrlTick(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -269,12 +269,12 @@ inline int lua_GetBoatCtrlTick(lua_State *L)
 	return 1;
 }
 
-// ÕÙ»½Ä³Àà½ÇÉ«, ÀýÈç Ë®À×  ³èÎï
-// ²ÎÊý : ÕÙ»½Õß, ÕÙ»½ÀàÐÍ(1 Ë®À×  2³èÎï), ½ÇÉ«±í±àºÅ
-// ·µ»Ø ÕÙ»½³öÀ´µÄ½ÇÉ«Ö¸Õë
+// å¬å”¤æŸç±»è§’è‰², ä¾‹å¦‚ æ°´é›·  å® ç‰©
+// å‚æ•° : å¬å”¤è€…, å¬å”¤ç±»åž‹(1 æ°´é›·  2å® ç‰©), è§’è‰²è¡¨ç¼–å·
+// è¿”å›ž å¬å”¤å‡ºæ¥çš„è§’è‰²æŒ‡é’ˆ
 inline int lua_SummonCha(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==3 && lua_islightuserdata(L, 1) && lua_isnumber(L, 2) && lua_isnumber(L, 3));
 	if(!bValid) 
     {
@@ -291,7 +291,7 @@ inline int lua_SummonCha(lua_State *L)
 	int nChaType = enumCHACTRL_NONE;
 	CCharacter *pCha = NULL;
 	
-	if(sType==1)		// ·ÅÖÃË®À×
+	if(sType==1)		// æ”¾ç½®æ°´é›·
 	{
 		pCha = pHost->GetSubMap()->ChaSpawn(sChaInfoID, enumCHACTRL_PLAYER_PET, rand()%360, &Pos);
 		if (pCha)
@@ -301,7 +301,7 @@ inline int lua_SummonCha(lua_State *L)
 			pCha->m_AIType = 0;
 		}
 	}
-	else if(sType==2)		// ·ÅÖÃ³èÎï
+	else if(sType==2)		// æ”¾ç½®å® ç‰©
 	{
 		Pos.move(rand() % 360, 3 * 100);
 		pCha = pHost->GetSubMap()->ChaSpawn(sChaInfoID, enumCHACTRL_PLAYER_PET, rand()%360, &Pos);
@@ -315,7 +315,7 @@ inline int lua_SummonCha(lua_State *L)
 	
 	if(pCha==NULL)
 	{
-		pHost->SystemNotice( "ÕÙ»½½ÇÉ«[%d %d]Ê§°Ü", sType, sChaInfoID );
+		pHost->SystemNotice( "å¬å”¤è§’è‰²[%d %d]å¤±è´¥", sType, sChaInfoID );
 		//pHost->SystemNotice( "call character[%d %d]failed", sType, sChaInfoID );
 		return 0;
 	}
@@ -324,12 +324,12 @@ inline int lua_SummonCha(lua_State *L)
 	return 1;
 }
 
-// É¾³ý½ÇÉ«
-// ²ÎÊý : ½ÇÉ«¶ÔÏó
-// ·µ»Ø ÎÞ
+// åˆ é™¤è§’è‰²
+// å‚æ•° : è§’è‰²å¯¹è±¡
+// è¿”å›ž æ— 
 inline int lua_DelCha(lua_State *L)
 {
-	// ²ÎÊýºÏ·¨ÐÔÅÐ±ð
+	// å‚æ•°åˆæ³•æ€§åˆ¤åˆ«
     BOOL bValid = (lua_gettop (L)==1 && lua_islightuserdata(L, 1));
 	if(!bValid) 
     {
@@ -340,7 +340,7 @@ inline int lua_DelCha(lua_State *L)
 	CCharacter *pCTarCha = (CCharacter*)lua_touserdata(L, 1);
 	if (!pCTarCha)
 		return 0;
-	if (pCTarCha->IsPlayerCtrlCha()) // Íæ¼Òµ±Ç°¿ØÖÆ½ÇÉ«²»ÄÜÉ¾³ý
+	if (pCTarCha->IsPlayerCtrlCha()) // çŽ©å®¶å½“å‰æŽ§åˆ¶è§’è‰²ä¸èƒ½åˆ é™¤
 		return 0;
 	pCTarCha->Free();
 

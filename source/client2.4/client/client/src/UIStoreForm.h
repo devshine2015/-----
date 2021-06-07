@@ -19,46 +19,46 @@
 namespace GUI
 {
 
-	// µ¥¸öÉÌÆ·Àïµ¥¸öµÀ¾ßĞÅÏ¢
+	// å•ä¸ªå•†å“é‡Œå•ä¸ªé“å…·ä¿¡æ¯
 	struct stItemInfo
 	{
-		short       itemID;         //	µÀ¾ß±àºÅ
-		int         itemNum;        //	µÀ¾ß¸öÊı
-		int         itemFlute;      //	°¼²ÛÊı
-		short       itemAttrID[5];  //	Îå¸öÊôĞÔ±àºÅ
-		short       itemAttrVal[5]; //	Îå¸öÊôĞÔÖµ
+		short       itemID;         //	é“å…·ç¼–å·
+		int         itemNum;        //	é“å…·ä¸ªæ•°
+		int         itemFlute;      //	å‡¹æ§½æ•°
+		short       itemAttrID[5];  //	äº”ä¸ªå±æ€§ç¼–å·
+		short       itemAttrVal[5]; //	äº”ä¸ªå±æ€§å€¼
 
 		void Clear() { memset(this, 0, sizeof(stItemInfo)); }
 	};
 
-	// µ¥¸öÉÌÆ·ĞÅÏ¢
+	// å•ä¸ªå•†å“ä¿¡æ¯
 	struct stStoreInfo
 	{
-		long        comID;          //	ÉÌÆ·±àºÅ
-		char        comName[21];    //	ÉÌÆ·Ãû³Æ
-		long        comClass;       //	ÉÌÆ··ÖÀà
-		long        comTime;        //	ÉÌÆ·ÉÏ¼ÜÊ±¼ä
-		long        comPrice;       //	¼Û¸ñ
-		char        comRemark[129]; //	ÉÌÆ·±¸×¢
-		int         comNumber;      //  ÉÌÆ·Ê£Óà¸öÊı¡£-1²»ÏŞÖÆ£¬0ÏÂ¼Ü
-		time_t      comExpire;      //  ÉÌÆ·µ½ÆÚÊ±¼ä¡£
-		int         itemNum;        //  µÀ¾ß¸öÊı
-		int         isHot;          //  ÊÇ·ñÈÈÂô
-		stItemInfo  comItemInfo[6]; //  ×î¶àÁù¸öµÀ¾ß
+		long        comID;          //	å•†å“ç¼–å·
+		char        comName[21];    //	å•†å“åç§°
+		long        comClass;       //	å•†å“åˆ†ç±»
+		long        comTime;        //	å•†å“ä¸Šæ¶æ—¶é—´
+		long        comPrice;       //	ä»·æ ¼
+		char        comRemark[129]; //	å•†å“å¤‡æ³¨
+		int         comNumber;      //  å•†å“å‰©ä½™ä¸ªæ•°ã€‚-1ä¸é™åˆ¶ï¼Œ0ä¸‹æ¶
+		time_t      comExpire;      //  å•†å“åˆ°æœŸæ—¶é—´ã€‚
+		int         itemNum;        //  é“å…·ä¸ªæ•°
+		int         isHot;          //  æ˜¯å¦çƒ­å–
+		stItemInfo  comItemInfo[6]; //  æœ€å¤šå…­ä¸ªé“å…·
 
 		stStoreInfo() { memset(this, 0, sizeof(stStoreInfo)); }
 		void Clear()  { memset(this, 0, sizeof(stStoreInfo)); }
 	};
 
-	//  µ¥¸öÉÌÆ·GUI
+	//  å•ä¸ªå•†å“GUI
 	struct stStoreGui
 	{
-		CLabelEx*		labName;			// ÉÌÆ·Ãû
-		CLabelEx*		labPrice;			// ÉÌÆ·¼Û¸ñ
-		CLabelEx*		labLeftTime;		// ÉÌÆ·Ê£ÓàÊ±¼ä
-		CLabelEx*		labLeftNum;			// ÉÌÆ·Ê£Óà¸öÊı
-		CLabelEx*		labRemark;			// ÉÌÆ·ÃèÊö
-		CLabelEx*		labRightClickView;	// ÓÒ¼ü²é¿´ÏéÏ¸
+		CLabelEx*		labName;			// å•†å“å
+		CLabelEx*		labPrice;			// å•†å“ä»·æ ¼
+		CLabelEx*		labLeftTime;		// å•†å“å‰©ä½™æ—¶é—´
+		CLabelEx*		labLeftNum;			// å•†å“å‰©ä½™ä¸ªæ•°
+		CLabelEx*		labRemark;			// å•†å“æè¿°
+		CLabelEx*		labRightClickView;	// å³é”®æŸ¥çœ‹ç¥¥ç»†
 
 #ifdef NEW_STORE
 		CLabelEx*       labItem;
@@ -67,13 +67,13 @@ namespace GUI
 		CLabelEx*		labNum;
 #endif
 
-		CImage*			imgCutLine;			// ·Ö¸îÏß
-		CImage*			imgHot;				// ÈÈÂôÍ¼
-		CImage*			imgNew;				// ĞÂÆ·Í¼
-		CImage*			imgBlue;			// Ñ¡ÖĞÉÌÆ·¸ßÁÁ
-		CImage*			imgSquare;			// µÀ¾ß¸ñ×Ó
-		COneCommand*	cmdStore;			// ÉÌÆ·±í¸ñ
-		CTextButton*	btnBlue;			// ¸ßÁÁ°´Å¥
+		CImage*			imgCutLine;			// åˆ†å‰²çº¿
+		CImage*			imgHot;				// çƒ­å–å›¾
+		CImage*			imgNew;				// æ–°å“å›¾
+		CImage*			imgBlue;			// é€‰ä¸­å•†å“é«˜äº®
+		CImage*			imgSquare;			// é“å…·æ ¼å­
+		COneCommand*	cmdStore;			// å•†å“è¡¨æ ¼
+		CTextButton*	btnBlue;			// é«˜äº®æŒ‰é’®
 
 		void SetIsShow(bool v)
 		{
@@ -120,58 +120,58 @@ namespace GUI
 		CForm*		GetStoreForm()			{  return frmStore;		}
 		static int	GetPageSize()			{  return STORE_PAGE_SIZE;  }
 
-		// ³¡¾°±äºÚ
+		// åœºæ™¯å˜é»‘
 		void DarkScene(bool bDark);
 
-		// ´ÓÁÙÊ±±³°üÈ¡³ö
+		// ä»ä¸´æ—¶èƒŒåŒ…å–å‡º
 		bool PopFromTempKitbag(CGoodsGrid& rkDrag, CGoodsGrid& rkSelf, int nGridID, CCommandObj& rkItem);
 
-		// ´ò¿ªÉÌ³ÇÑ¯ÎÊ
+		// æ‰“å¼€å•†åŸè¯¢é—®
 		void OpenStoreAsk();
 
-		// Ìí¼ÓÉÌ³ÇÊ÷½áµã£¨¸¸½áµãÎªÁã±íÊ¾¸ù½áµã£©
+		// æ·»åŠ å•†åŸæ ‘ç»“ç‚¹ï¼ˆçˆ¶ç»“ç‚¹ä¸ºé›¶è¡¨ç¤ºæ ¹ç»“ç‚¹ï¼‰
 		void AddStoreTreeNode(long nParentID, long nID, const char* szCaption);
 
-		// Ìí¼ÓÉÌ³ÇÉÌÆ·ĞÅÏ¢
+		// æ·»åŠ å•†åŸå•†å“ä¿¡æ¯
 		void AddStoreItemInfo(long nSeq, long nID, const char* szName, long nPrice, const char* szRemark, bool isHot, long nTime, long nRemainNum, long nRemainTime);
 
-		// Ìí¼ÓÉÌ³ÇÉÌÆ·Ï¸½ÚĞÅÏ¢
+		// æ·»åŠ å•†åŸå•†å“ç»†èŠ‚ä¿¡æ¯
 		void AddStoreItemDetail(long nSeq, long nSubSeq, short sItemID, short sItemNum, short sFlute, short pItemAttrID[], short pItemAttrVal[]);
 
-		// Ìí¼ÓÓÃ»§ÉèÖÃ½áµã
+		// æ·»åŠ ç”¨æˆ·è®¾ç½®ç»“ç‚¹
 		void AddStoreUserTreeNode(void);
 
-		// ÉèÖÃÉÌ³ÇÁĞ±íÒ³
+		// è®¾ç½®å•†åŸåˆ—è¡¨é¡µ
 		void SetStoreItemPage(long nCurPage, long nMaxPage);
 
-		// ÉèÖÃÄ§¶¹ÊıÁ¿
+		// è®¾ç½®é­”è±†æ•°é‡
 		void SetStoreMoney(long nMoBean, long nRplMoney);
 
-		// ÉèÖÃVIPÖµ
+		// è®¾ç½®VIPå€¼
 		void SetStoreVip(long nVip);
 
-		// Ìí¼ÓÉÌ³Ç¹«¸æ
+		// æ·»åŠ å•†åŸå…¬å‘Š
 		//void AddStoreCommunique(long nID, const char* szTitle, 
 
-		// Ë¢ĞÂÉÌ³ÇÊ÷
+		// åˆ·æ–°å•†åŸæ ‘
 		void StoreTreeRefresh();
 
-		// Çå³ıÈ«²¿µÄÉÌ³ÇÊ÷½áµã
+		// æ¸…é™¤å…¨éƒ¨çš„å•†åŸæ ‘ç»“ç‚¹
 		void ClearStoreTreeNode();
 
-		// Çå³ıÈ«²¿ÉÌ³ÇÎïÆ·ÁĞ±í
+		// æ¸…é™¤å…¨éƒ¨å•†åŸç‰©å“åˆ—è¡¨
 		void ClearStoreItemList();
 
-		// ÉèÖÃÉÌ³Ç°´Å¥ÊÇ·ñ¿ÉÓÃ
+		// è®¾ç½®å•†åŸæŒ‰é’®æ˜¯å¦å¯ç”¨
 		void SetStoreBuyButtonEnable(bool b);
 
-		// »ñµÃµ±Ç°Ñ¡ÖĞID
+		// è·å¾—å½“å‰é€‰ä¸­ID
 		int GetCurSelItemID();
 
-		// ÖØÖÃ×îºó²Ù×÷Ê±¼ä£¬10 Ãë¼ä¸ô´¦Àí
+		// é‡ç½®æœ€åæ“ä½œæ—¶é—´ï¼Œ10 ç§’é—´éš”å¤„ç†
 		bool ResetLastOperate(bool bSilent = false);
 
-		// ÓÃ»§ĞÅÏ¢½áµã
+		// ç”¨æˆ·ä¿¡æ¯ç»“ç‚¹
 		static const long USER_NODEID = 0x7FFFFFFE;
 		static const long HELP_NODEID = 0x7FFFFFFF;
 
@@ -183,22 +183,22 @@ namespace GUI
 
 	private:
 
-		// ÁÙÊ±±³°ü
-		CForm*			frmTempBag;			// ÁÙÊ±±³°ü½çÃæ
-		CGoodsGrid*		grdTempBag;			// ÁÙÊ±±³°ü±í¸ñ
-		stNumBox*		m_pkNumberBox;		// Ñ¯ÎÊ¸öÊı
-		stNetTempKitbag m_NetTempKitbag;	// ÁÙÊ±±³°üÍøÂçĞ­ÒéÊı¾İ
+		// ä¸´æ—¶èƒŒåŒ…
+		CForm*			frmTempBag;			// ä¸´æ—¶èƒŒåŒ…ç•Œé¢
+		CGoodsGrid*		grdTempBag;			// ä¸´æ—¶èƒŒåŒ…è¡¨æ ¼
+		stNumBox*		m_pkNumberBox;		// è¯¢é—®ä¸ªæ•°
+		stNetTempKitbag m_NetTempKitbag;	// ä¸´æ—¶èƒŒåŒ…ç½‘ç»œåè®®æ•°æ®
 
 		static void _evtDragItemsEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 	private:
 
-		// ÉÌ³Ç
-		CForm*			frmStore;			// ÉÌ³Ç½çÃæ
-		CTreeView*		trvStore;			// Ê÷ÁĞ±í
-		CLabelEx*		labMoneyLeft;		// ½ğÇ®Ê£Óà
-		CLabelEx*		labBeanLeft;		// ´ú±ÒÊ£Óà
-		CLabelEx*		labMemberStyle;		// »áÔ±ÀàĞÍ
+		// å•†åŸ
+		CForm*			frmStore;			// å•†åŸç•Œé¢
+		CTreeView*		trvStore;			// æ ‘åˆ—è¡¨
+		CLabelEx*		labMoneyLeft;		// é‡‘é’±å‰©ä½™
+		CLabelEx*		labBeanLeft;		// ä»£å¸å‰©ä½™
+		CLabelEx*		labMemberStyle;		// ä¼šå‘˜ç±»å‹
 
 #ifndef NEW_STORE
 		CLabelEx*		labNameTitle;
@@ -207,40 +207,40 @@ namespace GUI
 		CLabelEx*		labLeftNumTitle;
 #endif
 
-		CLabelEx*		labListPage;		// Ò³±êÇ©
-		CTextButton*	btnLeftPage;		// ×ó°´Å¥
-		CTextButton*	btnRightPage;		// ÓÒ°´Å¥
-		CTextButton*	btnTrade;			// ½»Ò×°´Å¥
-		CTextButton*	btnTryon;			// ÊÔ´©°´Å¥
-		CTextButton*	btnViewAll;			// ²é¿´È«²¿ÉÌÆ·°´Å¥
-		CLabelEx*		labTrade;			// ½»Ò×°´Å¥×Ö
-		CLabelEx*		labTryon;			// ÊÔ´©°´Å¥×Ö
-		CLabelEx*		labViewAll;			// ²é¿´È«²¿ÉÌÆ·°´Å¥×Ö
-		CMemo*			memStoreHelp;		// ¸öÈËĞÅÏ¢°ïÖú
+		CLabelEx*		labListPage;		// é¡µæ ‡ç­¾
+		CTextButton*	btnLeftPage;		// å·¦æŒ‰é’®
+		CTextButton*	btnRightPage;		// å³æŒ‰é’®
+		CTextButton*	btnTrade;			// äº¤æ˜“æŒ‰é’®
+		CTextButton*	btnTryon;			// è¯•ç©¿æŒ‰é’®
+		CTextButton*	btnViewAll;			// æŸ¥çœ‹å…¨éƒ¨å•†å“æŒ‰é’®
+		CLabelEx*		labTrade;			// äº¤æ˜“æŒ‰é’®å­—
+		CLabelEx*		labTryon;			// è¯•ç©¿æŒ‰é’®å­—
+		CLabelEx*		labViewAll;			// æŸ¥çœ‹å…¨éƒ¨å•†å“æŒ‰é’®å­—
+		CMemo*			memStoreHelp;		// ä¸ªäººä¿¡æ¯å¸®åŠ©
 #ifndef NEW_STORE
-		CImage*		imgBackGround10;	// °×É«µ²°å£¨ÉÌÆ·¹ºÂòÊ±ÏÔÊ¾£¬×Ô¶¨ÒåĞÅÏ¢Ê±²»ÏÔÊ¾£©
+		CImage*		imgBackGround10;	// ç™½è‰²æŒ¡æ¿ï¼ˆå•†å“è´­ä¹°æ—¶æ˜¾ç¤ºï¼Œè‡ªå®šä¹‰ä¿¡æ¯æ—¶ä¸æ˜¾ç¤ºï¼‰
 #endif
-		stNumBox*		m_pkExchangeNum;	// ¶Ò»»´ú±ÒÊıÊäÈë¿ò
+		stNumBox*		m_pkExchangeNum;	// å…‘æ¢ä»£å¸æ•°è¾“å…¥æ¡†
 
 #ifndef NEW_STORE
-		static const int STORE_PAGE_SIZE = 9;		  // ÉÌÆ·ÁĞ±íÒ»Ò³×î¶à 9 Ìõ
+		static const int STORE_PAGE_SIZE = 9;		  // å•†å“åˆ—è¡¨ä¸€é¡µæœ€å¤š 9 æ¡
 #else
-		static const int STORE_PAGE_SIZE = 5;		  // ÉÌÆ·ÁĞ±íÒ»Ò³×î¶à 5 Ìõ 
+		static const int STORE_PAGE_SIZE = 5;		  // å•†å“åˆ—è¡¨ä¸€é¡µæœ€å¤š 5 æ¡ 
 #endif
 		stStoreGui		m_stStoreGui [STORE_PAGE_SIZE];
 		stStoreInfo		m_stStoreInfo[STORE_PAGE_SIZE];
 
-		long			m_nCurClass;		// µ±Ç°ÀàĞÍ
-		long			m_nCurSel;			// µ±Ç°Ñ¡Ôñ
-		long			m_nCurPage;			// µ±Ç°Ò³
-		long			m_nMaxPage;			// ×î´óÒ³
-		long			m_nExchangeNum;		// ¶Ò»»Êı
-		long			m_nVip;				// ÊÇ·ñÊÇVIP
+		long			m_nCurClass;		// å½“å‰ç±»å‹
+		long			m_nCurSel;			// å½“å‰é€‰æ‹©
+		long			m_nCurPage;			// å½“å‰é¡µ
+		long			m_nMaxPage;			// æœ€å¤§é¡µ
+		long			m_nExchangeNum;		// å…‘æ¢æ•°
+		long			m_nVip;				// æ˜¯å¦æ˜¯VIP
 
 
 		typedef std::map<long, string> MapNode;
 		typedef std::map<long, string>::iterator MapNodeIter;
-		MapNode			m_mapNode;		// Ê÷½áµã
+		MapNode			m_mapNode;		// æ ‘ç»“ç‚¹
 
 		void _SetIsShowUserInfo(bool bShow);
 		void _SetIsShowHelpInfo(bool bShow);
@@ -269,19 +269,19 @@ namespace GUI
 
 	private:
 
-		// ÉÌ³Ç¶ÁÈ¡½çÃæ
+		// å•†åŸè¯»å–ç•Œé¢
 		CForm*			frmStoreLoad;
 		CProgressBar*	proStoreLoad;
 		static void _evtStoreLoadFormClose(CForm* pForm, bool& IsClose);
 		static void _evtProTimeArriveEvt(CGuiData *pSender);
 		DWORD			_dwDarkScene;
 
-		static const int STORE_OPEN_TIMEOUT = 15;	// ÉÌ³Ç´ò¿ª³¬Ê±£¨µ¥Î»£ºÃë£©
+		static const int STORE_OPEN_TIMEOUT = 15;	// å•†åŸæ‰“å¼€è¶…æ—¶ï¼ˆå•ä½ï¼šç§’ï¼‰
 
 	private:
 
-		// ²é¿´ÏéÏ¸
-		static const int STORE_ITEM_COUNT = 6;	// ÉÌÆ·×î¶àÁù¸öµÀ¾ß
+		// æŸ¥çœ‹ç¥¥ç»†
+		static const int STORE_ITEM_COUNT = 6;	// å•†å“æœ€å¤šå…­ä¸ªé“å…·
 		CForm*			frmViewAll;
 		CMemo*			memViewAll;
 		CImage*			imgSquareViewAll[STORE_ITEM_COUNT];
@@ -292,11 +292,11 @@ namespace GUI
 
 	private:
 
-		// ÊÔ´©(Avata)
-		CForm*			frmTryon;		// ÊÔ´©½çÃæ
-		C3DCompent*		ui3dplayer;		// 3DÊÔ´©
+		// è¯•ç©¿(Avata)
+		CForm*			frmTryon;		// è¯•ç©¿ç•Œé¢
+		C3DCompent*		ui3dplayer;		// 3Dè¯•ç©¿
 
-		int				m_nChaRotate;	// ½ÇÉ«Ğı×ª
+		int				m_nChaRotate;	// è§’è‰²æ—‹è½¬
 		CCharacter*		m_pCurrMainCha;
 		bool			m_isFight;
 		stNetLookInfo	m_sLookInfo;
@@ -305,7 +305,7 @@ namespace GUI
 		void			ChaEquipClearAll();
 		void			ChaLeftRotate();
 		void			ChaRightRotate();
-		void			RenderChaTryon(int x, int y);	// »æÖÆ 3D ½ÇÉ«
+		void			RenderChaTryon(int x, int y);	// ç»˜åˆ¶ 3D è§’è‰²
 
 		static void	_evtChaTryonRenderEvent(C3DCompent *pSender, int x, int y);
 		static void _evtChaEquipClearAll(CGuiData *sender, int x, int y, DWORD key);

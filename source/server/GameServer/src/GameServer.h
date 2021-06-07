@@ -18,7 +18,7 @@ public:
 		datasock->SetPointer(this);
 	}
 
-	dbc::dstring 		m_gamename;			//ÔÚ·şÎñÆ÷Ö®¼ä½»»¥Ê±ºòÎ¨Ò»±êÖ¾±¾·şÎñÆ÷£¬¿ÉÒÔÊÇÖĞÎÄÒÔÏÔÊ¾ÔÚ½«À´µÄ"Íø¹ÜÏµÍ³"ÖĞ
+	dbc::dstring 		m_gamename;			//åœ¨æœåŠ¡å™¨ä¹‹é—´äº¤äº’æ—¶å€™å”¯ä¸€æ ‡å¿—æœ¬æœåŠ¡å™¨ï¼Œå¯ä»¥æ˜¯ä¸­æ–‡ä»¥æ˜¾ç¤ºåœ¨å°†æ¥çš„"ç½‘ç®¡ç³»ç»Ÿ"ä¸­
 	dbc::dstring 		m_innerip;
 	dbc::uShort			m_innerport;
 	dbc::dstring 		m_outerip;

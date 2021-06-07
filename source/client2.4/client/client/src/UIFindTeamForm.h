@@ -28,8 +28,8 @@ namespace GUI
 		void SetOwnFindTeamState(bool bState);
 		void FindTeamAsk(const char* szName);
 
-		static const int FINDTEAM_PAGE_SIZE = 10;	// Ñ°Çó×é¶ÓÒ»Ò³ÏÔÊ¾ÌõÊı
-		static const int FINDTEAM_INTERVAL  = 60;	// Á½´ÎÉêÇë¼ä¸ôÊ±¼ä£º60Ãë
+		static const int FINDTEAM_PAGE_SIZE = 10;	// å¯»æ±‚ç»„é˜Ÿä¸€é¡µæ˜¾ç¤ºæ¡æ•°
+		static const int FINDTEAM_INTERVAL  = 60;	// ä¸¤æ¬¡ç”³è¯·é—´éš”æ—¶é—´ï¼š60ç§’
 
 	protected:
 		virtual bool Init();
@@ -38,27 +38,27 @@ namespace GUI
 	private:
 
 		//
-		// Ñ°ÕÒ×é¶Ó
+		// å¯»æ‰¾ç»„é˜Ÿ
 		//
 		CForm*		frmFindTeam;
 
-		CLabelEx*		labName[FINDTEAM_PAGE_SIZE];	// ½ÇÉ«ĞÕÃû
-		CLabelEx*		labLevel[FINDTEAM_PAGE_SIZE];	// ½ÇÉ«µÈ¼¶
-		CLabelEx*		labJob[FINDTEAM_PAGE_SIZE];		// ½ÇÉ«Ö°Òµ
-		CLabelEx*		labPlace[FINDTEAM_PAGE_SIZE];	// ½ÇÉ«ËùÔÚµØ
-		CTextButton*	btnSubmit[FINDTEAM_PAGE_SIZE];	// Ìá½»°´Å¥
+		CLabelEx*		labName[FINDTEAM_PAGE_SIZE];	// è§’è‰²å§“å
+		CLabelEx*		labLevel[FINDTEAM_PAGE_SIZE];	// è§’è‰²ç­‰çº§
+		CLabelEx*		labJob[FINDTEAM_PAGE_SIZE];		// è§’è‰²èŒä¸š
+		CLabelEx*		labPlace[FINDTEAM_PAGE_SIZE];	// è§’è‰²æ‰€åœ¨åœ°
+		CTextButton*	btnSubmit[FINDTEAM_PAGE_SIZE];	// æäº¤æŒ‰é’®
 
 		CTextButton*	btnAddme;
 		CTextButton*	btnDelme;
-		CLabelEx*		labListPage;		// ÏÔÊ¾Ò³Êı
+		CLabelEx*		labListPage;		// æ˜¾ç¤ºé¡µæ•°
 
-		int				m_nCurPage;			// µ±Ç°Ò³
-		int				m_nPageNum;			// ×ÜÒ³Êı
-		DWORD			m_dwLastTick;		// ÉÏÒ»´ÎÉêÇë×é¶ÓµÄÊ±¼ä
-		std::string		m_strTeamLeader;	// ÉêÇëµÄ¶Ó³¤
+		int				m_nCurPage;			// å½“å‰é¡µ
+		int				m_nPageNum;			// æ€»é¡µæ•°
+		DWORD			m_dwLastTick;		// ä¸Šä¸€æ¬¡ç”³è¯·ç»„é˜Ÿçš„æ—¶é—´
+		std::string		m_strTeamLeader;	// ç”³è¯·çš„é˜Ÿé•¿
 
-		static void _evtFindTeamMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// Êó±êµã»÷°´Å¥ÊÂ¼ş
-		static void	_evtFindTeamCheckEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey); // ×é¶ÓÉêÇë
+		static void _evtFindTeamMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// é¼ æ ‡ç‚¹å‡»æŒ‰é’®äº‹ä»¶
+		static void	_evtFindTeamCheckEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey); // ç»„é˜Ÿç”³è¯·
 
 	};
 

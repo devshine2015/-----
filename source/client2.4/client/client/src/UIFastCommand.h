@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¿ì½İÃüÁî¿Ø¼ş
-// ×÷Õß:lh 2004-11-02
-// ÓÃÍ¾:ÓÃÓÚÈİÄÉÒ»¸ö¿ì½İÃüÁî£¬½öÖ»ÓĞÒ»¸öÖ¸ÏòÍâ²¿ÊµÌåµÄ¿ì½İ·½Ê½
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// åç§°:å¿«æ·å‘½ä»¤æ§ä»¶
+// ä½œè€…:lh 2004-11-02
+// ç”¨é€”:ç”¨äºå®¹çº³ä¸€ä¸ªå¿«æ·å‘½ä»¤ï¼Œä»…åªæœ‰ä¸€ä¸ªæŒ‡å‘å¤–éƒ¨å®ä½“çš„å¿«æ·æ–¹å¼
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 
 #pragma once
@@ -31,14 +31,14 @@ public:
 
 	static void			DelCommand( CCommandObj* p );
 
-	static CFastCommand*	FintFastCommand( CCommandObj* p );		// ²éÕÒ¶ÔÓ¦µÄ¿ì½İ¿Ø¼ş
+	static CFastCommand*	FintFastCommand( CCommandObj* p );		// æŸ¥æ‰¾å¯¹åº”çš„å¿«æ·æ§ä»¶
 
     CCommandObj*		GetCommand()					{ return _pCommand;		}
     void                DelCommand()                    { if( _pCommand ) DelCommand(_pCommand);    }
     void                AddCommand( CCommandObj* p );
 
 public:
-    GuiComEvent         evtChange;      // ¿ì½İÀ¸·¢Éú±ä»¯
+    GuiComEvent         evtChange;      // å¿«æ·æ å‘ç”Ÿå˜åŒ–
 
 protected:
     void				_SetSelf();
@@ -55,14 +55,14 @@ protected:
 
 };
 
-// ÓÃÓÚÈİÄÉÒ»¸öÃüÁîÊµÌå
+// ç”¨äºå®¹çº³ä¸€ä¸ªå‘½ä»¤å®ä½“
 class COneCommand : public CCommandCompent
 {
 public:
 	enum eShowStyle
 	{
-		enumSmall,		// Õı³£ÏÔÊ¾Í¼±ê·½Ê½
-		enumSale,		// ÏÔÊ¾ÊÛ³ö
+		enumSmall,		// æ­£å¸¸æ˜¾ç¤ºå›¾æ ‡æ–¹å¼
+		enumSale,		// æ˜¾ç¤ºå”®å‡º
 	};
 	COneCommand(CForm& frmOwn);
 	COneCommand(const COneCommand& rhs);
@@ -107,11 +107,11 @@ protected:
 	eShowStyle			_eShowStyle;
 	bool				_IsShowActive;
 
-    CGuiPic*			_pActive;			// ¼¤»îÍ¼Ïó
+    CGuiPic*			_pActive;			// æ¿€æ´»å›¾è±¡
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 
 
 }

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// ÃèÊö:EditµÄÊı¾İ½á¹¹
-// ×÷Õß:lh 2004-07-12
-// ×îºóĞŞ¸ÄÈÕÆÚ:
+// æè¿°:Editçš„æ•°æ®ç»“æ„
+// ä½œè€…:lh 2004-07-12
+// æœ€åä¿®æ”¹æ—¥æœŸ:
 //----------------------------------------------------------------------
 #pragma once
 
@@ -12,7 +12,7 @@ class CEditParse;
 class CEditStrategy;
 class CRichEdit;
 
-// ×îĞ¡µ¥Ôª
+// æœ€å°å•å…ƒ
 class CEditObj
 {
 public:
@@ -25,7 +25,7 @@ public:
 	virtual const char* GetCaption()			{ return "";		}
 	virtual DWORD		GetWordCount()			{ return 0;			}
 
-	// ×Ó¶ÔÏóµÄ²Ù×÷
+	// å­å¯¹è±¡çš„æ“ä½œ
 	virtual void	PushUnit( CEditObj* pObj )	{}
 	virtual void	ClearChilds()				{}
 	virtual	bool	IsEmpty()					{ return true;		}
@@ -34,7 +34,7 @@ public:
 
 };
 
-// ÎÄ×ÖÀà´Ó×æÏÈ
+// æ–‡å­—ç±»ä»ç¥–å…ˆ
 class CEditTextObj : public CEditObj
 {
 public:
@@ -51,17 +51,17 @@ public:
 	void		SetColor( DWORD dwColor )		{ _dwColor=dwColor;			}
 	DWORD		GetColor()						{ return _dwColor;			}
 
-	// ÓÃÓÚÅĞ¶ÏÊÇ·ñ¿ÉÒÔºÏ²¢ÎÄ×Ö
+	// ç”¨äºåˆ¤æ–­æ˜¯å¦å¯ä»¥åˆå¹¶æ–‡å­—
 	bool		IsSameType( CEditTextObj* pObj ){ return pObj->GetColor()==GetColor() && pObj->GetFont()==GetFont();	}
 
 private:
-	DWORD			_dwFont;			// ËùÓÃµÄ×ÖÌå
-	DWORD			_dwColor;			// ÑÕÉ«
+	DWORD			_dwFont;			// æ‰€ç”¨çš„å­—ä½“
+	DWORD			_dwColor;			// é¢œè‰²
 
 };
 
 
-// µ¥¸ö×Ö·û,°üÀ¨ºº×Ö
+// å•ä¸ªå­—ç¬¦,åŒ…æ‹¬æ±‰å­—
 class CEditChar : public CEditTextObj
 {
 public:
@@ -75,7 +75,7 @@ public:
 
 	int				GetWidth()					{ return _nWidth;					}
 
-	// ÓÃÓÚÏÔÊ¾±»Ñ¡ÔñÊ±
+	// ç”¨äºæ˜¾ç¤ºè¢«é€‰æ‹©æ—¶
 	void			InvertRedner( int x, int y );
 
 protected:
@@ -84,7 +84,7 @@ protected:
 
 };
 
-// ¿ØÖÆ·û
+// æ§åˆ¶ç¬¦
 class CEditControl : public CEditObj
 {
 public:
@@ -100,7 +100,7 @@ private:
 
 };
 
-// ¾ä×Ó£¬Í¬Àà×Ö·ûµÄ¼¯ºÏ£¬ÓÃÓÚ¿ìËÙÏÔÊ¾
+// å¥å­ï¼ŒåŒç±»å­—ç¬¦çš„é›†åˆï¼Œç”¨äºå¿«é€Ÿæ˜¾ç¤º
 class CEditSentence : public CEditTextObj
 {
 public:
@@ -120,12 +120,12 @@ private:
 	typedef vector<CEditChar*> chars;
 	chars			_chars;
 
-	string			_szString;			// ºÏ²¢ºóµÄ×Ö´®
+	string			_szString;			// åˆå¹¶åçš„å­—ä¸²
 	int				_nX,	_nY;
 
 };
 
-// ÎÄÕÂ£¬°üº¬ÁËËùÓĞÄÚÈİÒÔ¼°Ò»¸öÓÃ»»ĞĞµÄËã·¨
+// æ–‡ç« ï¼ŒåŒ…å«äº†æ‰€æœ‰å†…å®¹ä»¥åŠä¸€ä¸ªç”¨æ¢è¡Œçš„ç®—æ³•
 class CEditArticle : public CEditObj
 {
 public:
@@ -148,7 +148,7 @@ public:
 	void	SetColor( DWORD dwColor )		{ _dwFontColor=dwColor;		}
 	DWORD	GetColor()						{ return _dwFontColor;		}
 
-public:		// ¼üÅÌÊÂ¼ş
+public:		// é”®ç›˜äº‹ä»¶
 	void	OnKeyDown( int key, bool IsShiftPress );
 	void	DelSelect();
 
@@ -162,27 +162,27 @@ private:
 private:
 	enum eRunType
 	{
-		enumNormal,							// Õı³£Ä£Ê½
-		enumSelect,							// ÓÃ»§ÕıÔÚÑ¡Ôñ£¬´ËÊ±²»ÏÔÊ¾¹â±ê
+		enumNormal,							// æ­£å¸¸æ¨¡å¼
+		enumSelect,							// ç”¨æˆ·æ­£åœ¨é€‰æ‹©ï¼Œæ­¤æ—¶ä¸æ˜¾ç¤ºå…‰æ ‡
 	};
 
 	CRichEdit*		_pEdit;
 	CEditStrategy*	_pStrategy;
 
 	typedef vector<CEditObj*> memorys;
-	memorys			_memorys;				// Ô­Ê¼ÄÚ´æ£¬ÓÃÓÚ¹ÜÀíÄÚ´æ,Ò²ÓÃÓÚ¼ÆËã¹â±ê
+	memorys			_memorys;				// åŸå§‹å†…å­˜ï¼Œç”¨äºç®¡ç†å†…å­˜,ä¹Ÿç”¨äºè®¡ç®—å…‰æ ‡
 
 	eRunType		_eRunType;
 
-	unsigned int	_nCursor;				// ¹â±êËùÔÚÎ»ÖÃ
-	unsigned int	_nSelStart;				// ÓÃ»§Ñ¡ÔñµÄÇøÓò
+	unsigned int	_nCursor;				// å…‰æ ‡æ‰€åœ¨ä½ç½®
+	unsigned int	_nSelStart;				// ç”¨æˆ·é€‰æ‹©çš„åŒºåŸŸ
 	unsigned int	_nSelEnd;
 
-	unsigned int	_dwWordMax;				// ¿ÉÊäÈë×ÖÊıµÄ×î´óÖµ,Îª0²»ÏŞÖÆ
-	unsigned int	_dwWordNum;				// Ä¿Ç°ÎÄ×Ö¸öÊı
+	unsigned int	_dwWordMax;				// å¯è¾“å…¥å­—æ•°çš„æœ€å¤§å€¼,ä¸º0ä¸é™åˆ¶
+	unsigned int	_dwWordNum;				// ç›®å‰æ–‡å­—ä¸ªæ•°
 
-	DWORD			_dwFontColor;			// µ±Ç°×ÖÌåÑÕÉ«
-	int				_dwFontIndex;			// µ±Ç°×ÖÌå
+	DWORD			_dwFontColor;			// å½“å‰å­—ä½“é¢œè‰²
+	int				_dwFontIndex;			// å½“å‰å­—ä½“
 
 };
 
@@ -201,7 +201,7 @@ inline bool CEditArticle::AddControl( char c )
 	if( !_AddObj( pChar ) )
 	{
 		//delete pChar;
-		SAFE_DELETE(pChar); // UIµ±»ú´¦Àí
+		SAFE_DELETE(pChar); // UIå½“æœºå¤„ç†
 		return false;
 	}
 	return true;
@@ -215,7 +215,7 @@ inline bool CEditArticle::AddChar( char c1, char c2 )
 	if( !_AddObj( pChar ) )
 	{
 		//delete pChar;
-		SAFE_DELETE(pChar); // UIµ±»ú´¦Àí
+		SAFE_DELETE(pChar); // UIå½“æœºå¤„ç†
 		return true;
 	}
 	return false;

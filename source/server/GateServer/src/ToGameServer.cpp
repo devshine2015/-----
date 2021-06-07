@@ -8,12 +8,12 @@ _game_heap(1, 20), _game_list(NULL), _map_game()
 {
 	_mut_game.Create(false); _game_num = 0;
 
-	// ¿ªÊ¼¼àÌı
+	// å¼€å§‹ç›‘å¬
 	IniFile inf(fname);
 	IniSection& is = inf["ToGameServer"];
 	cChar* ip = is["IP"]; uShort port = atoi(is["Port"]);
 
-	// Æô¶¯ PING Ïß³Ì
+	// å¯åŠ¨ PING çº¿ç¨‹
 
 	SetPKParse(0, 2, 64 * 1024, 400); BeginWork(atoi(is["EnablePing"]));
 	if (OpenListenSocket(port, ip) != 0)
@@ -63,21 +63,21 @@ void ToGameServer::_del_game(GameServer* game)
 	}
 }
 
-bool ToGameServer::OnConnect(DataSocket* datasock) // ·µ»ØÖµ:true-ÔÊĞíÁ¬½Ó,false-²»ÔÊĞíÁ¬½Ó
+bool ToGameServer::OnConnect(DataSocket* datasock) // è¿”å›å€¼:true-å…è®¸è¿æ¥,false-ä¸å…è®¸è¿æ¥
 {
 	datasock->SetPointer(0);
 	datasock->SetRecvBuf(64 * 1024);
 	datasock->SetSendBuf(64 * 1024);
 	LogLine l_line(g_gatelog);
-	l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] À´ÁË,SocketÊıÄ¿= "<<GetSockTotal()+1;
+	l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] æ¥äº†,Socketæ•°ç›®= "<<GetSockTotal()+1;
 	//l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] come,Socket num= "<<GetSockTotal()+1;
 	return true;
 }
 
-void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonÖµ:0-±¾µØ³ÌĞòÕı³£ÍË³ö£»-3-ÍøÂç±»¶Ô·½¹Ø±Õ£»-1-Socket´íÎó;-5-°ü³¤¶È³¬¹ıÏŞÖÆ¡£
+void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonå€¼:0-æœ¬åœ°ç¨‹åºæ­£å¸¸é€€å‡ºï¼›-3-ç½‘ç»œè¢«å¯¹æ–¹å…³é—­ï¼›-1-Socketé”™è¯¯;-5-åŒ…é•¿åº¦è¶…è¿‡é™åˆ¶ã€‚
 {
 	LogLine l_line(g_gatelog);
-	l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] ×ßÁË,SocketÊıÄ¿= "<<GetSockTotal()+1<<",reason= "<<GetDisconnectErrText(reason).c_str();
+	l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] èµ°äº†,Socketæ•°ç›®= "<<GetSockTotal()+1<<",reason= "<<GetDisconnectErrText(reason).c_str();
 	//l_line<<newln<<"GameServer= ["<<datasock->GetPeerIP()<<"] gone,Socket num= "<<GetSockTotal()+1<<",reason= "<<GetDisconnectErrText(reason).c_str();
 	l_line<<endln;
 	if(reason ==DS_SHUTDOWN || reason ==DS_DISCONN) return;
@@ -86,19 +86,19 @@ void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonÖµ:0-
 	if (l_game == NULL)
 		return;
 
-	// ´ÓÁ´±íÖĞÉ¾³ı´Ë GameServer
+	// ä»é“¾è¡¨ä¸­åˆ é™¤æ­¤ GameServer
 	_mut_game.lock();
 	try
 	{
 		l_game = (GameServer *)(datasock->GetPointer());
 		if (l_game != NULL)
 		{
-			l_line<<newln<<"É¾³ıµô ["<<l_game->gamename.c_str()<<"]"<<endln;
+			l_line<<newln<<"åˆ é™¤æ‰ ["<<l_game->gamename.c_str()<<"]"<<endln;
 			//l_line<<newln<<" delete ["<<l_game->gamename.c_str()<<"]"<<endln;
 			_del_game(l_game);
 			for (int i = 0; i < l_game->mapcnt; ++ i)
 			{
-				l_line<<newln<<"É¾³ıµØÍ¼ ["<<l_game->maplist[i].c_str()<<"]"<<endln;
+				l_line<<newln<<"åˆ é™¤åœ°å›¾ ["<<l_game->maplist[i].c_str()<<"]"<<endln;
 				//l_line<<newln<<"delete map ["<<l_game->maplist[i].c_str()<<"]"<<endln;
 				_map_game.erase(l_game->maplist[i]);
 			}
@@ -111,16 +111,16 @@ void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonÖµ:0-
 		}
 	}catch (...)
 	{
-		l_line<<newln<<"Exception raised from OnDisconnect{´ÓÁ´±íÖĞÉ¾³ı´Ë GameServer}"<<endln;
+		l_line<<newln<<"Exception raised from OnDisconnect{ä»é“¾è¡¨ä¸­åˆ é™¤æ­¤ GameServer}"<<endln;
 		//l_line<<newln<<"Exception raised from OnDisconnect{delete GameServer from list}"<<endln;
 	}
 	_mut_game.unlock();
 
 	if (already_delete) return;
 
-	// Í¨ÖªÍ¨¹ı´ËGateServerÁ¬ÉÏ´ËGameServerµÄËùÓĞÓÃ»§£ºµØÍ¼·şÎñÆ÷¹ÊÕÏ
+	// é€šçŸ¥é€šè¿‡æ­¤GateServerè¿ä¸Šæ­¤GameServerçš„æ‰€æœ‰ç”¨æˆ·ï¼šåœ°å›¾æœåŠ¡å™¨æ•…éšœ
 	RPacket retpk = g_gtsvr->gp_conn->get_playerlist();
-	uShort ply_cnt = retpk.ReverseReadShort(); // ´ËGateServerÉÏËùÓĞÍæ¼Ò¸öÊı
+	uShort ply_cnt = retpk.ReverseReadShort(); // æ­¤GateServerä¸Šæ‰€æœ‰ç©å®¶ä¸ªæ•°
 
 	Player* ply_addr; uLong db_id;
 	Player** ply_array = new Player*[ply_cnt];
@@ -139,18 +139,18 @@ void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonÖµ:0-
 		}
 
 		try
-		{ // ¶ş´ÎÈ·ÈÏ
+		{ // äºŒæ¬¡ç¡®è®¤
 			uLong tmp_id = ply_addr->m_dbid;
-			if (tmp_id != db_id) // ´Ë½ÇÉ«ÒÑÏÂÏß
+			if (tmp_id != db_id) // æ­¤è§’è‰²å·²ä¸‹çº¿
 				continue;
-		}catch (...)		// ²úÉúÒì³££¬±êÊ¶´Ë½ÇÉ«Í¬ÑùÒÑ²»ÔÚÏß
+		}catch (...)		// äº§ç”Ÿå¼‚å¸¸ï¼Œæ ‡è¯†æ­¤è§’è‰²åŒæ ·å·²ä¸åœ¨çº¿
 		{
 			continue;
 		}
 
 		try
 		{
-			g_gtsvr->cli_conn->post_mapcrash_msg(ply_addr); // ´ËÓÃ»§ÈÔÈ»ÔÚÏß£¬·¢ËÍµØÍ¼·şÎñÆ÷¹ÊÕÏÏûÏ¢
+			g_gtsvr->cli_conn->post_mapcrash_msg(ply_addr); // æ­¤ç”¨æˆ·ä»ç„¶åœ¨çº¿ï¼Œå‘é€åœ°å›¾æœåŠ¡å™¨æ•…éšœæ¶ˆæ¯
 		}catch (...)
 		{
 			continue;
@@ -160,13 +160,13 @@ void ToGameServer::OnDisconnect(DataSocket* datasock, int reason) // reasonÖµ:0-
 	}
 
 	ply_cnt	-=l_notcount;
-	l_line<<newln<<"ÓÉÓÚGameServer ¹ÊÕÏ£¬ÒªÍ¨Öª "<<ply_cnt<<" ¸öÓÃ»§ÏÂÏß"<<endln;
+	l_line<<newln<<"ç”±äºGameServer æ•…éšœï¼Œè¦é€šçŸ¥ "<<ply_cnt<<" ä¸ªç”¨æˆ·ä¸‹çº¿"<<endln;
 	//l_line<<newln<<"becaulse GameServer trouble, notice "<<ply_cnt<<" user offline"<<endln;
 	for (i = 0; i < ply_cnt; ++ i)
 	{
-		try			//Á¢¼´¶ÏµôÕâÌõÁ¬½Ó
+		try			//ç«‹å³æ–­æ‰è¿™æ¡è¿æ¥
 		{
-			l_line<<newln<<"ÓÉÓÚGameServer ¹ÊÕÏ£¬Ö÷¶¯¶Ï¿ªÓë ["<<ply_array[i]->m_datasock->GetPeerIP()<<"] µÄÁ¬½Ó"<<endln;
+			l_line<<newln<<"ç”±äºGameServer æ•…éšœï¼Œä¸»åŠ¨æ–­å¼€ä¸ ["<<ply_array[i]->m_datasock->GetPeerIP()<<"] çš„è¿æ¥"<<endln;
 			//l_line<<newln<<"becaulse GameServer trouble, disconnect ["<<ply_array[i]->m_datasock->GetPeerIP()<<"] "<<endln;
 			g_gtsvr->cli_conn->Disconnect(ply_array[i]->m_datasock,100,-29);
 		}catch (...)
@@ -273,7 +273,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 		case CMD_MT_SWITCHMAP:
 			{
 				RPacket	l_rpk		=recvbuf;
-				uShort	l_aimnum	=l_rpk.ReverseReadShort();		//l_aimnumÓÀÔ¶µÈÓÚ1
+				uShort	l_aimnum	=l_rpk.ReverseReadShort();		//l_aimnumæ°¸è¿œç­‰äº1
 
 				Player *l_ply	=(Player *)MakePointer(l_rpk.ReverseReadLong());
 				if(l_ply->m_dbid	!=l_rpk.ReverseReadLong())					//chaid
@@ -286,14 +286,14 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				cChar	*l_srcmap	=l_rpk.ReadString();
 				Long	lSrcMapCopyNO = l_rpk.ReadLong();
 				//...
-				uLong	l_srcx	=l_rpk.ReadLong();	//×ø±ê
-				uLong	l_srcy	=l_rpk.ReadLong();	//×ø±ê
+				uLong	l_srcx	=l_rpk.ReadLong();	//åæ ‡
+				uLong	l_srcy	=l_rpk.ReadLong();	//åæ ‡
 
 				cChar	*l_map	=l_rpk.ReadString();
 				Long	lMapCopyNO = l_rpk.ReadLong();
 				//...
-				uLong	l_x	=l_rpk.ReadLong();	//×ø±ê
-				uLong	l_y	=l_rpk.ReadLong();	//×ø±ê
+				uLong	l_x	=l_rpk.ReadLong();	//åæ ‡
+				uLong	l_y	=l_rpk.ReadLong();	//åæ ‡
 				GameServer *l_game	=g_gtsvr->gm_conn->find(l_map);
 
 				LogLine l_line(g_gatelog);
@@ -302,35 +302,35 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 					l_ply->game->m_plynum--;
 					l_ply->game		=0;
 					l_ply->gm_addr	=0;
-					//l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-					l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-						//<<"	Switchµ½µØÍ¼,GateÏò["<<l_game->m_datasock->GetPeerIP()<<"]·¢ËÍÁËEnterMapÃüÁî,dbid:"<<l_ply->m_dbid
-						<<"	Switchµ½µØÍ¼,GateÏò["<<l_game->m_datasock->GetPeerIP()<<"]·¢ËÍÁËEnterMapÃüÁî,dbid:"<<l_ply->m_dbid
-						//<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
-						<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
-                    l_game->EnterMap(l_ply, l_ply->m_loginID,l_ply->m_dbid,l_ply->m_worldid, l_map, lMapCopyNO, l_x, l_y, 1,l_ply->m_sGarnerWiner);	//¸ù¾İµØÍ¼²éÕÒGameServer£¬È»ºóÇëÇóGameServerÒÔ½øÈëÕâ¸öµØÍ¼¡£
+					//l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+					l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+						//<<"	Switchåˆ°åœ°å›¾,Gateå‘["<<l_game->m_datasock->GetPeerIP()<<"]å‘é€äº†EnterMapå‘½ä»¤,dbid:"<<l_ply->m_dbid
+						<<"	Switchåˆ°åœ°å›¾,Gateå‘["<<l_game->m_datasock->GetPeerIP()<<"]å‘é€äº†EnterMapå‘½ä»¤,dbid:"<<l_ply->m_dbid
+						//<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+						<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+                    l_game->EnterMap(l_ply, l_ply->m_loginID,l_ply->m_dbid,l_ply->m_worldid, l_map, lMapCopyNO, l_x, l_y, 1,l_ply->m_sGarnerWiner);	//æ ¹æ®åœ°å›¾æŸ¥æ‰¾GameServerï¼Œç„¶åè¯·æ±‚GameServerä»¥è¿›å…¥è¿™ä¸ªåœ°å›¾ã€‚
 					l_game->m_plynum++;
-				}else if(!l_return) //Ä¿±êµØÍ¼²»¿É´ï£¬ÖØĞÂ½øÈëÔ´µØÍ¼
+				}else if(!l_return) //ç›®æ ‡åœ°å›¾ä¸å¯è¾¾ï¼Œé‡æ–°è¿›å…¥æºåœ°å›¾
 				{
 					WPacket	l_wpk	=datasock->GetWPacket();
 					l_wpk.WriteCmd(CMD_MC_SYSINFO);
-					l_wpk.WriteString(dstring("[")<<l_map<<"]µ±Ç°²»¿Éµ½´ï£¬ÇëÉÔºóÔÙÊÔ£¡");
+					l_wpk.WriteString(dstring("[")<<l_map<<"]å½“å‰ä¸å¯åˆ°è¾¾ï¼Œè¯·ç¨åå†è¯•ï¼");
 					//l_wpk.WriteString(dstring("[")<<l_map<<"] can't reach, pealse retry later!");
 					l_ply->m_datasock->SendData(l_wpk);
 
-					//l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-					l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-						//<<"	Switch»ØµØÍ¼,GateÏò["<<l_ply->game->m_datasock->GetPeerIP()<<"]·¢ËÍÁËEnterMapÃüÁî,dbid:"<<l_ply->m_dbid
-						<<"	Switch»ØµØÍ¼,GateÏò["<<l_ply->game->m_datasock->GetPeerIP()<<"]·¢ËÍÁËEnterMapÃüÁî,dbid:"<<l_ply->m_dbid
-						//<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
-						<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
-					l_ply->game->EnterMap(l_ply, l_ply->m_loginID,l_ply->m_dbid,l_ply->m_worldid, l_srcmap, lSrcMapCopyNO, l_srcx, l_srcy, 1,l_ply->m_sGarnerWiner);	//¸ù¾İµØÍ¼²éÕÒGameServer£¬È»ºóÇëÇóGameServerÒÔ½øÈëÕâ¸öµØÍ¼¡£
+					//l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+					l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+						//<<"	Switchå›åœ°å›¾,Gateå‘["<<l_ply->game->m_datasock->GetPeerIP()<<"]å‘é€äº†EnterMapå‘½ä»¤,dbid:"<<l_ply->m_dbid
+						<<"	Switchå›åœ°å›¾,Gateå‘["<<l_ply->game->m_datasock->GetPeerIP()<<"]å‘é€äº†EnterMapå‘½ä»¤,dbid:"<<l_ply->m_dbid
+						//<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+						<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+					l_ply->game->EnterMap(l_ply, l_ply->m_loginID,l_ply->m_dbid,l_ply->m_worldid, l_srcmap, lSrcMapCopyNO, l_srcx, l_srcy, 1,l_ply->m_sGarnerWiner);	//æ ¹æ®åœ°å›¾æŸ¥æ‰¾GameServerï¼Œç„¶åè¯·æ±‚GameServerä»¥è¿›å…¥è¿™ä¸ªåœ°å›¾ã€‚
 				}else
 				{
 					g_gtsvr->cli_conn->Disconnect(l_ply->m_datasock,0,-24);
 				}
 
-				//if(!l_game)						//Ä¿±êµØÍ¼²»¿É´ï
+				//if(!l_game)						//ç›®æ ‡åœ°å›¾ä¸å¯è¾¾
 				//{
 				//	//char l_tmp[256];
 				//	WPacket	l_wpk	=datasock->GetWPacket();
@@ -338,11 +338,11 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				//	char l_sysinfo[256];
 				//	strcpy(l_sysinfo,"[");
 				//	strcat(l_sysinfo,l_map);
-				//	strcat(l_sysinfo,"]µ±Ç°²»¿Éµ½´ï£¬ÇëÉÔºóÔÙÊÔ£¡");
+				//	strcat(l_sysinfo,"]å½“å‰ä¸å¯åˆ°è¾¾ï¼Œè¯·ç¨åå†è¯•ï¼");
 
 				//	l_wpk.WriteString(l_sysinfo);
 				//	l_ply->m_datasock->SendData(l_wpk);
-				//}else if(l_game !=l_ply->game && l_game->m_plynum >1500)	//ÈËÊı¹ı¶à
+				//}else if(l_game !=l_ply->game && l_game->m_plynum >1500)	//äººæ•°è¿‡å¤š
 				//{
 				//	//char l_tmp[256];
 				//	WPacket	l_wpk	=datasock->GetWPacket();
@@ -350,7 +350,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				//	char l_sysinfo[256];
 				//	strcpy(l_sysinfo,"[");
 				//	strcat(l_sysinfo,l_map);
-				//	strcat(l_sysinfo,"]ËùÔÚ·şÎñÆ÷µ±Ç°ÈËÊı¹ı¶à£¬ÇëÉÔºóÔÙÊÔ£¡");
+				//	strcat(l_sysinfo,"]æ‰€åœ¨æœåŠ¡å™¨å½“å‰äººæ•°è¿‡å¤šï¼Œè¯·ç¨åå†è¯•ï¼");
 
 				//	l_wpk.WriteString(l_sysinfo);
 				//	l_ply->m_datasock->SendData(l_wpk);
@@ -366,17 +366,17 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 		case CMD_MC_ENTERMAP:
 			{
 				RPacket	l_rpk		=recvbuf;
-				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumÓÀÔ¶µÈÓÚ1
+				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumæ°¸è¿œç­‰äº1
 
 				Player	*l_ply	=(Player *)MakePointer(l_rpk.ReverseReadLong());
 				uLong		l_dbid	=l_rpk.ReverseReadLong();
 				LogLine l_line(g_gatelog);
 				if(l_ply->m_dbid	!=l_dbid)					//chaid
 				{
-					//l_line<<newln<<"ÊÕµ½Ò»¸öÀ´×Ô["<<datasock->GetPeerIP()<<"]µÄEnterMapÃüÁî,µ«ºÍ±¾µØµÄDBID²»Ò»ÖÂ£º±¾µØ["<<l_ply->m_dbid<<"],Ô¶¶Ë["<<l_dbid<<"]"
-					l_line<<newln<<"ÊÕµ½Ò»¸öÀ´×Ô["<<datasock->GetPeerIP()<<"]µÄEnterMapÃüÁî,µ«ºÍ±¾µØµÄDBID²»Ò»ÖÂ£º±¾µØ["<<l_ply->m_dbid<<"],Ô¶¶Ë["<<l_dbid<<"]"
-						//<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<endln;
-						<<uppercase<<hex<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<endln;
+					//l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªæ¥è‡ª["<<datasock->GetPeerIP()<<"]çš„EnterMapå‘½ä»¤,ä½†å’Œæœ¬åœ°çš„DBIDä¸ä¸€è‡´ï¼šæœ¬åœ°["<<l_ply->m_dbid<<"],è¿œç«¯["<<l_dbid<<"]"
+					l_line<<newln<<"æ”¶åˆ°ä¸€ä¸ªæ¥è‡ª["<<datasock->GetPeerIP()<<"]çš„EnterMapå‘½ä»¤,ä½†å’Œæœ¬åœ°çš„DBIDä¸ä¸€è‡´ï¼šæœ¬åœ°["<<l_ply->m_dbid<<"],è¿œç«¯["<<l_dbid<<"]"
+						//<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<endln;
+						<<uppercase<<hex<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<endln;
 					return;
 				}
 				uShort	l_retcode	=l_rpk.ReadShort();
@@ -387,12 +387,12 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 					l_game->m_plynum	=l_rpk.ReverseReadLong();
 					char	l_isSwitch	=l_rpk.ReverseReadChar();
 
-					//l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-					l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-						//<<"	GateÊÕµ½ÁËÀ´×Ô["<<datasock->GetPeerIP()<<"]³É¹¦EnterMapÃüÁî,¸½´øµÄGameµØÖ·:"
-						<<"	GateÊÕµ½ÁËÀ´×Ô ["<<datasock->GetPeerIP()<<"]³É¹¦EnterMapÃüÁî,¸½´øµÄGameµØÖ·:"
-						//<<uppercase<<hex<<l_ply->gm_addr<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
-						<<uppercase<<hex<<l_ply->gm_addr<<",¸½´øGateµØÖ·:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+					//l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+					l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+						//<<"	Gateæ”¶åˆ°äº†æ¥è‡ª["<<datasock->GetPeerIP()<<"]æˆåŠŸEnterMapå‘½ä»¤,é™„å¸¦çš„Gameåœ°å€:"
+						<<"	Gateæ”¶åˆ°äº†æ¥è‡ª ["<<datasock->GetPeerIP()<<"]æˆåŠŸEnterMapå‘½ä»¤,é™„å¸¦çš„Gameåœ°å€:"
+						//<<uppercase<<hex<<l_ply->gm_addr<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
+						<<uppercase<<hex<<l_ply->gm_addr<<",é™„å¸¦Gateåœ°å€:"<<MakeULong(l_ply)<<dec<<nouppercase<<endln;
 
 					recvbuf.DiscardLast(sizeof(uShort) + sizeof(uLong)*2*l_aimnum + sizeof(uLong)*2 +sizeof(uChar));
 
@@ -418,7 +418,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 							l_wpk.WriteCmd(CMD_TM_GOOUTMAP);
 							l_wpk.WriteChar(1);
 							l_wpk.WriteLong(MakeULong(l_ply));
-							l_wpk.WriteLong(l_ply->gm_addr);			//¸½¼ÓGameServerÉÏµÄµØÖ·
+							l_wpk.WriteLong(l_ply->gm_addr);			//é™„åŠ GameServerä¸Šçš„åœ°å€
 							g_gtsvr->gm_conn->SendData(l_game->m_datasock,l_wpk);
 						}
 #endif
@@ -427,10 +427,10 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				{
 					l_ply->m_status	=1;
 					l_game->m_plynum--;
-					//l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-					l_line<<newln<<"¿Í»§¶Ë: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
-						//<<"	GateÊÕµ½ÁËÀ´×Ô["<<datasock->GetPeerIP()<<"]Ê§°ÜEnterMapÃüÁî,´íÎóÂë:"
-						<<"	GateÊÕµ½ÁËÀ´×Ô ["<<datasock->GetPeerIP()<<"]Ê§°ÜEnterMapÃüÁî,Error:"
+					//l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+					l_line<<newln<<"å®¢æˆ·ç«¯: "<<l_ply->m_datasock->GetPeerIP()<<":"<<l_ply->m_datasock->GetPeerPort()
+						//<<"	Gateæ”¶åˆ°äº†æ¥è‡ª["<<datasock->GetPeerIP()<<"]å¤±è´¥EnterMapå‘½ä»¤,é”™è¯¯ç :"
+						<<"	Gateæ”¶åˆ°äº†æ¥è‡ª ["<<datasock->GetPeerIP()<<"]å¤±è´¥EnterMapå‘½ä»¤,Error:"
 						<<l_retcode<<endln;
 
 					recvbuf.DiscardLast(sizeof(uShort) + sizeof(uLong)*2*l_aimnum);
@@ -443,7 +443,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 		case CMD_MC_STARTEXIT:
 			{
 				RPacket	l_rpk		=recvbuf;
-				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumÓÀÔ¶µÈÓÚ1
+				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumæ°¸è¿œç­‰äº1
 				Player	*l_ply	=(Player *)MakePointer(l_rpk.ReverseReadLong());
 				if( l_ply )
 				{
@@ -455,7 +455,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 		case CMD_MC_CANCELEXIT:
 			{
 				RPacket	l_rpk		=recvbuf;
-				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumÓÀÔ¶µÈÓÚ1
+				uShort	l_aimnum	=l_rpk.ReverseReadShort();					//l_aimnumæ°¸è¿œç­‰äº1
 				Player	*l_ply	=(Player *)MakePointer(l_rpk.ReverseReadLong());
 				if( l_ply )
 				{
@@ -481,7 +481,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 						MutexArmor l_lockStat(l_ply->m_mtxstat);
 						//printf( "PlayerExit id = %d, status = %d\n", l_ply->m_actid, l_ply->m_status );
 						uLong	l_ulMilliseconds	=30*1000;
-						if( l_ply->m_status == 2 && l_ply->m_exit == 1 ) // Ñ¡Ôñ½ÇÉ«
+						if( l_ply->m_status == 2 && l_ply->m_exit == 1 ) // é€‰æ‹©è§’è‰²
 						{
 							WPacket l_wpk = g_gtsvr->gp_conn->GetWPacket();
 							l_wpk.WriteCmd(CMD_TP_ENDPLAY);
@@ -497,11 +497,11 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 								g_gtsvr->cli_conn->SendData(l_ply->m_datasock,l_wpk);
 							}else
 							{
-								//·µ»Ø¸øClient
+								//è¿”å›ç»™Client
 								l_wpk.WriteCmd(CMD_MC_ENDPLAY);
 								//SendData(datasock,l_wpk);
 								g_gtsvr->cli_conn->SendData(l_ply->m_datasock,l_wpk);
-								l_ply->m_status	=1;//½øÈëÑ¡½ÇÉ«»­Ãæ×´Ì¬
+								l_ply->m_status	=1;//è¿›å…¥é€‰è§’è‰²ç”»é¢çŠ¶æ€
 								l_ply->m_exit   =0;
 								l_ply->m_dbid	=0;
 								l_ply->m_worldid=0;
@@ -511,7 +511,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 								}
 							}
 						}
-						else if( l_ply->m_status == 2 && l_ply->m_exit == 2 ) // µÇ³öÊÍ·Å×ÊÔ´
+						else if( l_ply->m_status == 2 && l_ply->m_exit == 2 ) // ç™»å‡ºé‡Šæ”¾èµ„æº
 						{
 							/*
 							WPacket l_wpk = g_gtsvr->gp_conn->GetWPacket();
@@ -532,8 +532,8 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 							l_wpk.WriteLong(l_ply->gp_addr);
 							l_ply->gp_addr	=0;
 							RPacket l_retpk	=g_gtsvr->gp_conn->SyncCall(g_gtsvr->gp_conn->get_datasock(),l_wpk,l_ulMilliseconds);
-							//printf( "PlayerExit ÊÍ·Å½ÇÉ«id = %d, status = %d\n", l_ply->m_actid, l_ply->m_status );
-							g_gtsvr->cli_conn->Disconnect(l_ply->m_datasock,0,-23);	//£­23´íÎóÂë±íÊ¾GameServerÒªÇóÌßµôÄ³ÈË
+							//printf( "PlayerExit é‡Šæ”¾è§’è‰²id = %d, status = %d\n", l_ply->m_actid, l_ply->m_status );
+							g_gtsvr->cli_conn->Disconnect(l_ply->m_datasock,0,-23);	//ï¼23é”™è¯¯ç è¡¨ç¤ºGameServerè¦æ±‚è¸¢æ‰æŸäºº
 							l_ply->Free();
 						}
 						l_lockStat.unlock();
@@ -573,7 +573,7 @@ void ToGameServer::OnProcessData(DataSocket* datasock, RPacket &recvbuf)
 				}
 			}
 			break;
-		default:		// È±Ê¡×ª·¢
+		default:		// ç¼ºçœè½¬å‘
 			{
 				if(l_cmd/500 == CMD_MC_BASE/500)
 				{
@@ -653,12 +653,12 @@ void ToGameServer::MT_LOGIN(DataSocket* datasock, RPacket& rpk)
 	retpk.WriteCmd(CMD_TM_LOGIN_ACK);
 	int cnt = Util_ResolveTextLine(map_list, gms->maplist, MAX_MAP, ';', 0);
 	LogLine l_line(g_gatelog);
-	l_line<<newln<<"ÊÕµ½GameServer ["<<gms_name<<"] µØÍ¼´®["<<map_list<<"] ¹²["<<cnt<<"]¸ö"<<endln;
-	//l_line<<newln<<"ÊÕµ½GameServer ["<<gms_name<<"] µØÍ¼´® ["<<map_list<<"] ¹² ["<<cnt<<"]¸ö"<<endln;
+	l_line<<newln<<"æ”¶åˆ°GameServer ["<<gms_name<<"] åœ°å›¾ä¸²["<<map_list<<"] å…±["<<cnt<<"]ä¸ª"<<endln;
+	//l_line<<newln<<"æ”¶åˆ°GameServer ["<<gms_name<<"] åœ°å›¾ä¸² ["<<map_list<<"] å…± ["<<cnt<<"]ä¸ª"<<endln;
 	if (cnt <= 0)
-	{ // MAP´®Óï·¨ÓĞ´í
-		l_line<<newln<<"µØÍ¼´® ["<<map_list<<"] ´æÔÚÓï·¨´íÎó£¬ÇëÒÔ';'·Ö¸ô"<<endln;
-		//l_line<<newln<<"µØÍ¼´® ["<<map_list<<"] ´æÔÚÓï·¨´íÎó£¬ÇëÒÔ ';'·Ö¸ô"<<endln;
+	{ // MAPä¸²è¯­æ³•æœ‰é”™
+		l_line<<newln<<"åœ°å›¾ä¸² ["<<map_list<<"] å­˜åœ¨è¯­æ³•é”™è¯¯ï¼Œè¯·ä»¥';'åˆ†éš”"<<endln;
+		//l_line<<newln<<"åœ°å›¾ä¸² ["<<map_list<<"] å­˜åœ¨è¯­æ³•é”™è¯¯ï¼Œè¯·ä»¥ ';'åˆ†éš”"<<endln;
 		retpk.WriteShort(ERR_TM_MAPERR);
 		datasock->SetPointer(NULL);
 		gms->Free();
@@ -671,22 +671,22 @@ void ToGameServer::MT_LOGIN(DataSocket* datasock, RPacket& rpk)
 		try
 		{
 			do
-			{ // Ê×ÏÈ¼ì²é GameServer Ãû×ÖÊÇ·ñÒÑ×¢²á
+			{ // é¦–å…ˆæ£€æŸ¥ GameServer åå­—æ˜¯å¦å·²æ³¨å†Œ
 				if (_exist_game(gms_name))
 				{
-					l_line<<newln<<"´æÔÚÍ¬ÃûµÄGameServer: "<<gms_name<<endln;
+					l_line<<newln<<"å­˜åœ¨åŒåçš„GameServer: "<<gms_name<<endln;
 					//l_line<<newln<<"the same name GameServer exsit: "<<gms_name<<endln;
 					retpk.WriteShort(ERR_TM_OVERNAME);
 					datasock->SetPointer(NULL);
 					valid = false; break;
 				}
 
-				// Æä´Î¼ì²éµØÍ¼ÃûÊÇ·ñ»áÓĞÖØ¸´µÄ
+				// å…¶æ¬¡æ£€æŸ¥åœ°å›¾åæ˜¯å¦ä¼šæœ‰é‡å¤çš„
 				for (i = 0; i < cnt; ++ i)
 				{
 					if (find(gms->maplist[i].c_str()) != NULL)
 					{
-						l_line<<newln<<"´æÔÚÍ¬ÃûµÄMAP: "<<gms->maplist[i].c_str()<<endln;
+						l_line<<newln<<"å­˜åœ¨åŒåçš„MAP: "<<gms->maplist[i].c_str()<<endln;
 						//l_line<<newln<<"the same name MAP exsit: "<<gms->maplist[i].c_str()<<endln;
 						retpk.WriteShort(ERR_TM_OVERMAP);
 						datasock->SetPointer(NULL);
@@ -697,13 +697,13 @@ void ToGameServer::MT_LOGIN(DataSocket* datasock, RPacket& rpk)
 			} while (false);
 
 			if (valid)
-			{ // ºÏ·¨µÄ GameServer£¬ ¼ÓÈëµ½±íÖĞ
-				_add_game(gms); // Ìí¼Óµ½Á´±íÖĞ
-				l_line<<newln<<"Ìí¼ÓGameServer ["<<gms_name<<"] ³É¹¦"<<endln;
+			{ // åˆæ³•çš„ GameServerï¼Œ åŠ å…¥åˆ°è¡¨ä¸­
+				_add_game(gms); // æ·»åŠ åˆ°é“¾è¡¨ä¸­
+				l_line<<newln<<"æ·»åŠ GameServer ["<<gms_name<<"] æˆåŠŸ"<<endln;
 				//l_line<<newln<<"add GameServer ["<<gms_name<<"] ok"<<endln;
-				for (i = 0; i < cnt; ++ i) // Ìí¼Óµ½ map ÖĞ
+				for (i = 0; i < cnt; ++ i) // æ·»åŠ åˆ° map ä¸­
 				{
-					l_line<<newln<<"Ìí¼Ó ["<<gms_name<<"] ÉÏµÄ ["<<gms->maplist[i].c_str()<<"] µØÍ¼³É¹¦"<<endln;
+					l_line<<newln<<"æ·»åŠ  ["<<gms_name<<"] ä¸Šçš„ ["<<gms->maplist[i].c_str()<<"] åœ°å›¾æˆåŠŸ"<<endln;
 					//l_line<<newln<<"add ["<<gms_name<<"]  ["<<gms->maplist[i].c_str()<<"] map ok"<<endln;
 					_map_game[gms->maplist[i]] = gms;
 				}
@@ -713,13 +713,13 @@ void ToGameServer::MT_LOGIN(DataSocket* datasock, RPacket& rpk)
 				retpk.WriteShort(ERR_SUCCESS);
 				retpk.WriteString(g_gtsvr->gp_conn->_myself.c_str());
 			}else
-			{ // ·Ç·¨µÄ GateServer
+			{ // éæ³•çš„ GateServer
 				gms->Free();
 			}
 		}
 		catch (...)
 		{
-			l_line<<newln<<"Exception raised from MT_LOGIN{Ìí¼ÓµØÍ¼}"<<endln;
+			l_line<<newln<<"Exception raised from MT_LOGIN{æ·»åŠ åœ°å›¾}"<<endln;
 			//l_line<<newln<<"Exception raised from MT_LOGIN{add map}"<<endln;
 		}
 		_mut_game.unlock();
@@ -736,7 +736,7 @@ GameServer* ToGameServer::find(cChar* mapname)
 	if (it == _map_game.end())
 	{
 		LogLine l_line(g_gatelog);
-		l_line<<newln<<"Î´ÕÒµ½ ["<<mapname<<"] µØÍ¼£¡£¡£¡";
+		l_line<<newln<<"æœªæ‰¾åˆ° ["<<mapname<<"] åœ°å›¾ï¼ï¼ï¼";
 		//l_line<<newln<<"not found ["<<mapname<<"] map!!!";
 		return NULL;
 	}else
@@ -772,7 +772,7 @@ void GameServer::EnterMap(Player *ply,uLong actid, uLong dbid,uLong worldid,cCha
 	l_wpk.WriteLong(x);
 	l_wpk.WriteLong(y);
 	l_wpk.WriteChar(entertype);
-	l_wpk.WriteLong(MakeULong(ply));		//µÚÒ»´Î¸½¼ÓÉÏ×Ô¼ºµÄµØÖ·
+	l_wpk.WriteLong(MakeULong(ply));		//ç¬¬ä¸€æ¬¡é™„åŠ ä¸Šè‡ªå·±çš„åœ°å€
 	l_wpk.WriteShort(swiner);
 	g_gtsvr->gm_conn->SendData(m_datasock,l_wpk);
 	ply->SetMapName(map); // Chaos Blind

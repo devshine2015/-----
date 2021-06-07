@@ -1,9 +1,9 @@
 //--------------------------------------------------------------
-// Ãû³Æ:±íµ¥¹ÜÀíÀà
-// ×÷Õß:lh 2004-07-08
-// Éè¼ÆË¼Ïë:¹ÜÀíËùÓĞ±íµ¥
-// ÓÃÍ¾:ÏÔÊ¾,Òş²Ø,²éÕÒ±íµ¥,ÇĞ»»±íµ¥Ä£°å,Ìá¹©È«¾Ö¹³×Ó»Øµ÷½Ó¿Ú
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:è¡¨å•ç®¡ç†ç±»
+// ä½œè€…:lh 2004-07-08
+// è®¾è®¡æ€æƒ³:ç®¡ç†æ‰€æœ‰è¡¨å•
+// ç”¨é€”:æ˜¾ç¤º,éšè—,æŸ¥æ‰¾è¡¨å•,åˆ‡æ¢è¡¨å•æ¨¡æ¿,æä¾›å…¨å±€é’©å­å›è°ƒæ¥å£
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //--------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -18,7 +18,7 @@ typedef bool (*KeyDownEvent) (int& key);
 typedef bool (*KeyCharEvent) (char& key);
 typedef bool (*MouseEvent) (int& x, int& y, DWORD& mouse);
 typedef bool (*MouseScrollEvent) (int& nScroll);
-typedef bool (*HotKeyEvent) ( char& key, int& control );	// ·µ»ØtrueÖĞ¶Ï
+typedef bool (*HotKeyEvent) ( char& key, int& control );	// è¿”å›trueä¸­æ–­
 
 
 class CFormMgr
@@ -28,10 +28,10 @@ public:
 	CFormMgr();
 	~CFormMgr();
 
-	static void		SetDebugMode(bool v) { _IsDebugMode=v;}		//ÉèÖÃÊÇ·ñÆô¶¯µ÷ÊÔÄ£Ê½£¨ÓÉ¿ØÖÆÌ¨ÃüÁîµ÷ÓÃ£©-added by Arcol
-	void			ShowDebugInfo();							//ÏÔÊ¾µ÷ÊÔĞÅÏ¢ -added by Arcol
-	static void		SetDrawFrameInDebugMode(bool v)	{_IsDrawFrameInDebugMode=v;}	//ÉèÖÃÔÚµ÷ÊÔÄ£Ê½ÏÂÊÇ·ñÏÔÊ¾´°¿Ú±ß¿ò -added by Arcol
-	static void		SetDrawBackGroundInDebugMode(bool v) {_IsDrawBackgroundInDebugMode=v;}	//ÖÃÔÚµ÷ÊÔÄ£Ê½ÏÂÊÇ·ñÏÔÊ¾µ×É« -added by Arcol
+	static void		SetDebugMode(bool v) { _IsDebugMode=v;}		//è®¾ç½®æ˜¯å¦å¯åŠ¨è°ƒè¯•æ¨¡å¼ï¼ˆç”±æ§åˆ¶å°å‘½ä»¤è°ƒç”¨ï¼‰-added by Arcol
+	void			ShowDebugInfo();							//æ˜¾ç¤ºè°ƒè¯•ä¿¡æ¯ -added by Arcol
+	static void		SetDrawFrameInDebugMode(bool v)	{_IsDrawFrameInDebugMode=v;}	//è®¾ç½®åœ¨è°ƒè¯•æ¨¡å¼ä¸‹æ˜¯å¦æ˜¾ç¤ºçª—å£è¾¹æ¡† -added by Arcol
+	static void		SetDrawBackGroundInDebugMode(bool v) {_IsDrawBackgroundInDebugMode=v;}	//ç½®åœ¨è°ƒè¯•æ¨¡å¼ä¸‹æ˜¯å¦æ˜¾ç¤ºåº•è‰² -added by Arcol
 
 	bool			AddForm( CForm* form, int templete=0 );
 
@@ -39,7 +39,7 @@ public:
 	unsigned int	GetFormTempleteMax()			{ return (unsigned int)_showforms.size();	}
 	int				GetFormTempletetNum()			{ return _nTempleteNo;						}
 
-	bool			SwitchTemplete( int n );		// ÇĞ»»µ±Ç°Ä£°å,Èç¹ûÎª-1,ÔòÇĞ»»µ½Ä¬ÈÏÄ£°å
+	bool			SwitchTemplete( int n );		// åˆ‡æ¢å½“å‰æ¨¡æ¿,å¦‚æœä¸º-1,åˆ™åˆ‡æ¢åˆ°é»˜è®¤æ¨¡æ¿
 
 public:
 	bool			Init(HWND hWnd);
@@ -61,15 +61,15 @@ public:
 
 	CForm*			GetHitForm( int x, int y );
 
-	CForm*			Find( const char * );			// ÔÚµ±Ç°Ä£°åÖĞ£¬²éÕÒForm
-	CForm*			Find( const char *str, int no );// ÔÚnoÄ£°åÖĞ£¬²éÕÒForm
-	CForm*			FindAll( const char* );			// ÔÚËùÓĞ±íµ¥ÖĞ£¬²éÕÒForm
+	CForm*			Find( const char * );			// åœ¨å½“å‰æ¨¡æ¿ä¸­ï¼ŒæŸ¥æ‰¾Form
+	CForm*			Find( const char *str, int no );// åœ¨noæ¨¡æ¿ä¸­ï¼ŒæŸ¥æ‰¾Form
+	CForm*			FindAll( const char* );			// åœ¨æ‰€æœ‰è¡¨å•ä¸­ï¼ŒæŸ¥æ‰¾Form
 
-	CForm*			FindESCForm();					// ²éÕÒ¿ÉÓÃESC¹Ø±ÕµÄForm
+	CForm*			FindESCForm();					// æŸ¥æ‰¾å¯ç”¨ESCå…³é—­çš„Form
 	int				ModalFormNum()					{ return (int)_modal.size();		}
 
 	typedef void (*FormFun)(CForm* pSender);
-	void			ForEach( FormFun pFun );		// ËùÓĞForm¶¼Ö´ĞĞÒ»´ÎpFunº¯Êı
+	void			ForEach( FormFun pFun );		// æ‰€æœ‰Forméƒ½æ‰§è¡Œä¸€æ¬¡pFunå‡½æ•°
 
 public:
 	void			SetEnabled( bool v )			{ _bEnabled = v;	}
@@ -77,14 +77,14 @@ public:
     void            ResetAllForm();
     void            SetScreen();
 
-	void			SetEnableHotKey(int flag, bool v);		// Î÷ÃÅÎÄµµĞŞ¸Ä
-	bool			GetEnableHotKey()				{ return _nEnableHotKey == 0xFFFFFFFF; }// Î÷ÃÅÎÄµµĞŞ¸Ä
+	void			SetEnableHotKey(int flag, bool v);		// è¥¿é—¨æ–‡æ¡£ä¿®æ”¹
+	bool			GetEnableHotKey()				{ return _nEnableHotKey == 0xFFFFFFFF; }// è¥¿é—¨æ–‡æ¡£ä¿®æ”¹
 
 	static bool		IsMouseInGui()					{ return _eMouseAction==enumMA_Gui;	}
 	static eMouseAction	GetMouseAction()			{ return _eMouseAction;	}
 
-public:	// È«¾Ö¹³×Ó
-	bool			AddFormInit( FormMgrEvent pInitFun );	// ¶ÁÈë½Å±¾ºó,³õÊ¼»¯Ê±ÊÂ¼ş
+public:	// å…¨å±€é’©å­
+	bool			AddFormInit( FormMgrEvent pInitFun );	// è¯»å…¥è„šæœ¬å,åˆå§‹åŒ–æ—¶äº‹ä»¶
 
 	bool			AddKeyDownEvent( KeyDownEvent event );
 	bool			DelKeyDownEvent( KeyDownEvent event );
@@ -113,7 +113,7 @@ private:
 	void			_ShowModal( CForm* form );
     void            _ModalClose( CForm* form );
 
-	void			_SetNewActiveForm();		// µ±Ç°¼¤»îform¶ªÊ§ºó£¬ÒªÑ°ÕÒÒ»¸öĞÂµÄform¼¤»î
+	void			_SetNewActiveForm();		// å½“å‰æ¿€æ´»formä¸¢å¤±åï¼Œè¦å¯»æ‰¾ä¸€ä¸ªæ–°çš„formæ¿€æ´»
 
 	void			_InitFormID();
 
@@ -126,9 +126,9 @@ private:
 private:
 	typedef list<CForm*> vfrm;
 	vfrm			_allForms;
-	vfrm*			_forms;						// ·ÇÄ£Ì¬ÏÔÊ¾±íµ¥×ÊÔ´,µÚÒ»¸öÎªµ±Ç°¼¤»îµÄµÄ±íµ¥
-	vfrm			_modal;						// ÕıÔÚÏÔÊ¾µÄÄ£Ì¬¿ò
-    vfrm            _show;                      // ÕıÔÚÏÔÊ¾µÄ·ÇÄ£Ì¬¿ò
+	vfrm*			_forms;						// éæ¨¡æ€æ˜¾ç¤ºè¡¨å•èµ„æº,ç¬¬ä¸€ä¸ªä¸ºå½“å‰æ¿€æ´»çš„çš„è¡¨å•
+	vfrm			_modal;						// æ­£åœ¨æ˜¾ç¤ºçš„æ¨¡æ€æ¡†
+    vfrm            _show;                      // æ­£åœ¨æ˜¾ç¤ºçš„éæ¨¡æ€æ¡†
 
 	typedef vector<vfrm*> frmtemplete;
 	frmtemplete		_showforms;
@@ -136,7 +136,7 @@ private:
 
 	bool			_bEnabled;		
 	bool			_bInit;
-	int				_nEnableHotKey;		// Î÷ÃÅÎÄµµĞŞ¸Ä
+	int				_nEnableHotKey;		// è¥¿é—¨æ–‡æ¡£ä¿®æ”¹
 
 	typedef vector<KeyDownEvent>	vkeydowns;
 	vkeydowns		_OnKeyDown;
@@ -156,16 +156,16 @@ private:
 	typedef vector<HotKeyEvent>		vhotkey;
 	vhotkey			_vhotkey;
 
-	int				_nTempleteNo;				// µ±Ç°µÄÄ£°åºÅ
+	int				_nTempleteNo;				// å½“å‰çš„æ¨¡æ¿å·
 
-    int             _nMouseHover;               // Êó±êÔÚ²»×öÈÎºÎ²Ù×÷ÒÑ¾­¶àÉÙÊ±¼ä
+    int             _nMouseHover;               // é¼ æ ‡åœ¨ä¸åšä»»ä½•æ“ä½œå·²ç»å¤šå°‘æ—¶é—´
     
     CGuiData*       _pHintGui;
 
 	static eMouseAction		_eMouseAction;
-	static bool		_IsDebugMode;				// ÊÇ·ñÔÚµ÷ÊÔÄ£Ê½ -added by Arcol
-	static bool		_IsDrawFrameInDebugMode;	// ½öÓÃÓÚµ÷ÊÔÄ£Ê½ -added by Arcol
-	static bool		_IsDrawBackgroundInDebugMode;	// ½öÓÃÓÚµ÷ÊÔÄ£Ê½ -added by Arcol
+	static bool		_IsDebugMode;				// æ˜¯å¦åœ¨è°ƒè¯•æ¨¡å¼ -added by Arcol
+	static bool		_IsDrawFrameInDebugMode;	// ä»…ç”¨äºè°ƒè¯•æ¨¡å¼ -added by Arcol
+	static bool		_IsDrawBackgroundInDebugMode;	// ä»…ç”¨äºè°ƒè¯•æ¨¡å¼ -added by Arcol
 
 private:
 	void			_DelForm( vfrm& list, CForm* frm );

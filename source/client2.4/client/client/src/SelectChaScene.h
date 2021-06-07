@@ -19,8 +19,8 @@ namespace GUI
 
 
 /**
- * ÕªÒª£º±¾ÀàÖ÷Òª´¦ÀíµÇÂ½Á÷³ÌÖĞµÄÑ¡Ôñ½ÇÉ«³¡¾°,°üÀ¨³¡¾°¶¯»­ºÍGUI±íµ¥.
- * ¡¡¡¡¡¡±¾Àà¼Ì³Ğ×ÔCGameSceneÀà.
+ * æ‘˜è¦ï¼šæœ¬ç±»ä¸»è¦å¤„ç†ç™»é™†æµç¨‹ä¸­çš„é€‰æ‹©è§’è‰²åœºæ™¯,åŒ…æ‹¬åœºæ™¯åŠ¨ç”»å’ŒGUIè¡¨å•.
+ * ã€€ã€€ã€€æœ¬ç±»ç»§æ‰¿è‡ªCGameSceneç±».
  *
  * @author: Michael Chen
  * @date: 2005-04-26
@@ -31,35 +31,35 @@ public:
     CSelectChaScene(stSceneInitParam& param);
     ~CSelectChaScene();
 
-    virtual void        LoadingCall();          // ÔÚ×°ÔØloadingºó,Ë¢ĞÂ
+    virtual void        LoadingCall();          // åœ¨è£…è½½loadingå,åˆ·æ–°
     virtual void		SetMainCha(int nChaID);
 
     static CSelectChaScene& GetCurrScene();
 
-    //É¾³ıµ±Ç°Ñ¡ÖĞµÄ½ÇÉ«
+    //åˆ é™¤å½“å‰é€‰ä¸­çš„è§’è‰²
     void                DelCurrentSelCha();
-    //ÏÔÊ¾ÏÖÓĞ½ÇÉ«
+    //æ˜¾ç¤ºç°æœ‰è§’è‰²
     bool                SelectCharacters(NetChaBehave* chabehave, int num);
-    //ĞÂÔö½ÇÉ«
+    //æ–°å¢è§’è‰²
     bool                CreateCha(const string& sName, int nChaIndex, stNetChangeChaPart* part);
 
     void                SelectChaError( int error_no, const char* error_info );
 
-    //Ïò·şÎñÆ÷·¢ËÍÉ¾³ı½ÇÉ«ÏûÏ¢
+    //å‘æœåŠ¡å™¨å‘é€åˆ é™¤è§’è‰²æ¶ˆæ¯
     void SendDelChaToServer(const char szPassword2[]);
 
-	// ¸üĞÂ°´Å¥×´Ì¬
+	// æ›´æ–°æŒ‰é’®çŠ¶æ€
     void UpdateButton();
 
-	// »ñµÃ½ÇÉ«¸öÊı
+	// è·å¾—è§’è‰²ä¸ªæ•°
 	int GetChaCount();
 
 	void ShowWelcomeNotice(bool bShow = true);
-	//UIÏà¹Øº¯Êı
+	//UIç›¸å…³å‡½æ•°
 	bool                _InitUI();
 
 protected:
-    //³¡¾°Ïà¹Øº¯Êı
+    //åœºæ™¯ç›¸å…³å‡½æ•°
     virtual void		_FrameMove(DWORD dwTimeParam);
     virtual void		_Render();
 
@@ -80,21 +80,21 @@ protected:
 //                                           int x, int y, DWORD dwKey);
 
     static void         _evtCreateDoublePwdEvent(CCompent *pSender, int nMsgType, 
-                                            int x, int y, DWORD dwKey);		// Ñ¯ÎÊÊÇ·ñÒª´´½¨¶ş´ÎÃÜÂë
+                                            int x, int y, DWORD dwKey);		// è¯¢é—®æ˜¯å¦è¦åˆ›å»ºäºŒæ¬¡å¯†ç 
 
     static void         _evtWelcomeNoticeEvent(CCompent *pSender, int nMsgType, 
-                                            int x, int y, DWORD dwKey);		// »¶Ó­½çÃæ ÊÂ¼ş´¦Àí
+                                            int x, int y, DWORD dwKey);		// æ¬¢è¿ç•Œé¢ äº‹ä»¶å¤„ç†
 
     static void         _evtCreateOKNoticeEvent(CCompent *pSender, int nMsgType, 
-                                            int x, int y, DWORD dwKey);		// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+                                            int x, int y, DWORD dwKey);		// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 
     static void         _evtChaNameAlterMouseEvent(CCompent *pSender, int nMsgType, 
-                                            int x, int y, DWORD dwKey);		// Ê×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ ÊÂ¼ş´¦Àí
+                                            int x, int y, DWORD dwKey);		// é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢ äº‹ä»¶å¤„ç†
 
-	//~ Âß¼­º¯Êı: ============================================================
+	//~ é€»è¾‘å‡½æ•°: ============================================================
 
 
-    //Ïò·şÎñÆ÷·¢ËÍ¿ªÊ¼ÓÎÏ·ÏûÏ¢
+    //å‘æœåŠ¡å™¨å‘é€å¼€å§‹æ¸¸æˆæ¶ˆæ¯
     void SendBeginPlayToServer();
 
     void SetChaDark(CCharacter* pCha);
@@ -113,20 +113,20 @@ private:
     typedef vector<ChaFont*> ChaFontPtrContainer;
     typedef ChaFontPtrContainer::iterator ChaFontPtrContainerIter;
 
-    ChaFontPtrContainer m_CharactorPtrs;        //³¡¾°ÖĞµÄ½ÇÉ«(°üÀ¨×ÖÌå)
-    vector<int>         m_XPositions;           //³¡¾°ÖĞÈı¸öÈËÎïµÄÎ»ÖÃX×ø±ê
-    vector<int>         m_YPositions;           //³¡¾°ÖĞÈı¸öÈËÎïµÄÎ»ÖÃY×ø±ê
-    vector<int>         m_Yaws;                 //³¡¾°ÖĞÈËÎïµÄĞı×ª
-    vector<int>         m_FreePositions;        //³¡¾°ÖĞ¿ÕÎ»ÖÃµÄË÷Òı
-    BYTE                m_ChaColors[3][3];      //ÈËÎïµÄÑÕÉ«
-	int					m_nChaRotates[3];       //ÈËÎïµÄÆ«ÒÆ½Ç¶È(-180~+180)
+    ChaFontPtrContainer m_CharactorPtrs;        //åœºæ™¯ä¸­çš„è§’è‰²(åŒ…æ‹¬å­—ä½“)
+    vector<int>         m_XPositions;           //åœºæ™¯ä¸­ä¸‰ä¸ªäººç‰©çš„ä½ç½®Xåæ ‡
+    vector<int>         m_YPositions;           //åœºæ™¯ä¸­ä¸‰ä¸ªäººç‰©çš„ä½ç½®Yåæ ‡
+    vector<int>         m_Yaws;                 //åœºæ™¯ä¸­äººç‰©çš„æ—‹è½¬
+    vector<int>         m_FreePositions;        //åœºæ™¯ä¸­ç©ºä½ç½®çš„ç´¢å¼•
+    BYTE                m_ChaColors[3][3];      //äººç‰©çš„é¢œè‰²
+	int					m_nChaRotates[3];       //äººç‰©çš„åç§»è§’åº¦(-180~+180)
 
 
-    //³¡¾°äÖÈ¾ºÍ¶¯»­Ïà¹ØµÄ
-    BYTE            _loadtex_flag;          //±£´æ³¡¾°äÖÈ¾ºÍ¶¯»­µÄÉèÖÃ
-    BYTE            _loadmesh_flag;         //±£´æ³¡¾°äÖÈ¾ºÍ¶¯»­µÄÉèÖÃ
+    //åœºæ™¯æ¸²æŸ“å’ŒåŠ¨ç”»ç›¸å…³çš„
+    BYTE            _loadtex_flag;          //ä¿å­˜åœºæ™¯æ¸²æŸ“å’ŒåŠ¨ç”»çš„è®¾ç½®
+    BYTE            _loadmesh_flag;         //ä¿å­˜åœºæ™¯æ¸²æŸ“å’ŒåŠ¨ç”»çš„è®¾ç½®
 
-    CSceneObj*	    pObj;                   //³¡¾°¶ÔÏó
+    CSceneObj*	    pObj;                   //åœºæ™¯å¯¹è±¡
     drIPrimitive*   pAure[3];
 
 
@@ -140,7 +140,7 @@ private:
 
     CForm*          frmCheck;
 
-    //Âß¼­
+    //é€»è¾‘
     int             m_nCurChaIndex;
 
     //
@@ -148,7 +148,7 @@ private:
 
 	bool			m_isCreateCha;
 
-	CForm*			frmWelcomeNotice;	// ¶¨Òå»¶Ó­½çÃæ  ¸Ã½çÃæ½öÔÚµ±Ç°ÕÊºÅÄÚÎŞ½ÇÉ«Ê±³öÏÖ
-	CForm*			frmCreateOKNotice;	// ¶¨ÒåÊ×´Î´´½¨½ÇÉ«³É¹¦ÌáÊ¾½çÃæ  ¸Ã½çÃæ½öÔÚ¸ÃÕÊºÅ×ßÍêµÚÒ»¸ö½ÇÉ«µÄ´´½¨Á÷³ÌºóÏÔÊ¾
-	CForm*			frmChaNameAlter;	// ¶¨Òå¸ÄÃû½çÃæ  ¸Ã½çÃæ½ö¶ÔÌ¨Íå°æ±¾ÓĞĞ§£¬Çë×öºÃ±¸·İ¹¤×÷
+	CForm*			frmWelcomeNotice;	// å®šä¹‰æ¬¢è¿ç•Œé¢  è¯¥ç•Œé¢ä»…åœ¨å½“å‰å¸å·å†…æ— è§’è‰²æ—¶å‡ºç°
+	CForm*			frmCreateOKNotice;	// å®šä¹‰é¦–æ¬¡åˆ›å»ºè§’è‰²æˆåŠŸæç¤ºç•Œé¢  è¯¥ç•Œé¢ä»…åœ¨è¯¥å¸å·èµ°å®Œç¬¬ä¸€ä¸ªè§’è‰²çš„åˆ›å»ºæµç¨‹åæ˜¾ç¤º
+	CForm*			frmChaNameAlter;	// å®šä¹‰æ”¹åç•Œé¢  è¯¥ç•Œé¢ä»…å¯¹å°æ¹¾ç‰ˆæœ¬æœ‰æ•ˆï¼Œè¯·åšå¥½å¤‡ä»½å·¥ä½œ
 };

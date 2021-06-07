@@ -6,34 +6,34 @@
 #include <string>
 
 
-// ÓÎÏ·Íâ¹ÒÀà  add by Philip.Wu  2006-07-06
+// æ¸¸æˆå¤–æŒ‚ç±»  add by Philip.Wu  2006-07-06
 class CGameWG
 {
 public:
 	CGameWG(void);
 	~CGameWG(void);
 
-	// Ë¢ĞÂµ±Ç°½ø³ÌÀïµÄÄ£¿é
+	// åˆ·æ–°å½“å‰è¿›ç¨‹é‡Œçš„æ¨¡å—
 	bool RefreshModule(void);
 
-	// ÊÇ·ñÊ¹ÓÃÁË¡°º£µÁÌìÊ¹¡±Íâ¹Ò
+	// æ˜¯å¦ä½¿ç”¨äº†â€œæµ·ç›—å¤©ä½¿â€å¤–æŒ‚
 	bool IsUseHdts(void);
 
-	// Æô¶¯Ïß³Ì
+	// å¯åŠ¨çº¿ç¨‹
 	void BeginThread(void);
 
-	// °²È«ÖÕÖ¹Ïß³Ì
+	// å®‰å…¨ç»ˆæ­¢çº¿ç¨‹
 	void SafeTerminateThread();
 
 private:
 
-	// ´æ·ÅÄ£¿éÁĞ±í
+	// å­˜æ”¾æ¨¡å—åˆ—è¡¨
 	std::list<std::string> m_lstModule;
 
-	// Ïß³Ì¾ä±ú
+	// çº¿ç¨‹å¥æŸ„
 	HANDLE m_hThread;
 
-	// Ïß³Ì»Øµ÷
+	// çº¿ç¨‹å›è°ƒ
 	static UINT CALLBACK Run(void* param);
 
 };

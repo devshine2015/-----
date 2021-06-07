@@ -41,14 +41,14 @@ bool CChaSpawn::Init(char *szSpawnTable, long lRegionNum)
 	m_pCMap = 0;
 
 	if (lRegionNum <= 0)
-		//THROW_EXCP(excpArr, "Ë¢¹ÖµÄÇøÓòÊıÄ¿³ö´í");
+		//THROW_EXCP(excpArr, "åˆ·æ€ªçš„åŒºåŸŸæ•°ç›®å‡ºé”™");
 		THROW_EXCP(excpArr, RES_STRING(GM_ENTITYSPAWN_CPP_00001));
 	strcpy(m_szSpawnTable, szSpawnTable);
 	m_lRecordNum = lRegionNum;
 
 	m_pCMonRefRecordSet = new CMonRefRecordSet(0, lRegionNum);
 	if (!m_pCMonRefRecordSet)
-		//THROW_EXCP(excpMem,"Ë¢¹Ö¼ÍÂ¼¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åˆ·æ€ªçºªå½•å¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_ENTITYSPAWN_CPP_00002));
 	if (!LoadTable(m_pCMonRefRecordSet, m_szSpawnTable))
 		return false;
@@ -56,7 +56,7 @@ bool CChaSpawn::Init(char *szSpawnTable, long lRegionNum)
 	m_lRegionNum = lRegionNum;
 	m_pSMonInfo = new SMonInfo[m_lRegionNum];
 	if (!m_pSMonInfo)
-		//THROW_EXCP(excpMem,"Ë¢¹Ö¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åˆ·æ€ªå¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_ENTITYSPAWN_CPP_00003));
 
 	memset(m_pSMonInfo, 0, sizeof(SMonInfo) * m_lRegionNum);
@@ -74,14 +74,14 @@ long CChaSpawn::Load(SubMap *pCMap)
 
 	m_lCount = 0;
 	
-	//Char	szSpawnError[512] = "½ÇÉ«³öÉú´íÎó";
-	Char szSpawnError[512] = "½ÇÉ«³öÉú´íÎó";
+	//Char	szSpawnError[512] = "è§’è‰²å‡ºç”Ÿé”™è¯¯";
+	Char szSpawnError[512] = "è§’è‰²å‡ºç”Ÿé”™è¯¯";
 
 	Char	szMap[512];
 	sprintf(szMap, "spawn mum %s", pCMap->GetName());
 	Long	lNum;
 	const Rect	&area = pCMap->GetRange();
-	//LG(szSpawnError, "½ÇÉ«³öÉú´íÎóµÄ¿ÉÄÜÔ­Òò£º1£¬³õÊ¼³öÉúÎ»ÖÃ·Ç·¨¡£2£¬ÔÚ½ÇÉ«±íÖĞÕÒ²»µ½¶ÔÓ¦µÄ¼ÇÂ¼¡£3£¬ÔÚ³öÉúÎ»ÖÃ120Ã×·¶Î§ÄÚÃ»ÓĞÕÒµ½ÊÊºÏ¸Ã½ÇÉ«µÄÇøÓòÀàĞÍ\n\n\n");
+	//LG(szSpawnError, "è§’è‰²å‡ºç”Ÿé”™è¯¯çš„å¯èƒ½åŸå› ï¼š1ï¼Œåˆå§‹å‡ºç”Ÿä½ç½®éæ³•ã€‚2ï¼Œåœ¨è§’è‰²è¡¨ä¸­æ‰¾ä¸åˆ°å¯¹åº”çš„è®°å½•ã€‚3ï¼Œåœ¨å‡ºç”Ÿä½ç½®120ç±³èŒƒå›´å†…æ²¡æœ‰æ‰¾åˆ°é€‚åˆè¯¥è§’è‰²çš„åŒºåŸŸç±»å‹\n\n\n");
 	for (int i = 0; i < m_lRegionNum; i++)
 	{
 		pMonRefRecord = GetMonRefRecordInfo(i + 1);
@@ -133,18 +133,18 @@ long CChaSpawn::Load(SubMap *pCMap)
 					lNum++;
 					if(m_lCount >= g_Config.m_nMaxCha)
 					{
-						//LG(szMap, "msg²úÉú¹ÖÎïµÄÊıÄ¿³¬¹ıÅäÖÃÖµ£¬½áÊø¡£\n");
+						//LG(szMap, "msgäº§ç”Ÿæ€ªç‰©çš„æ•°ç›®è¶…è¿‡é…ç½®å€¼ï¼Œç»“æŸã€‚\n");
 						LG(szMap, RES_STRING(GM_GAMEAPP_CPP_00016));
 						return 1;
 					}
 				}
 				else
-					//LG(szSpawnError, "½ÇÉ«³öÉú´íÎó£¬³öÉúĞÅÏ¢£ºµØÍ¼ %s[%d, %d]£¬½ÇÉ«·õ»¯±í±àºÅ %d£¬½ÇÉ«±í±àºÅ %d£¬³öÉúÎ»ÖÃ[%d, %d]\n", pCMap->GetName(), area.width(), area.height(), i + 1, pMonRefRecord->lMonster[j][0], l_pos.x, l_pos.y);
-					LG(szSpawnError, "½ÇÉ«³öÉú´íÎó£¬³öÉúĞÅÏ¢£ºµØÍ¼ %s[%d, %d]£¬½ÇÉ«·õ»¯±í±àºÅ %d£¬½ÇÉ«±í±àºÅ %d£¬³öÉúÎ»ÖÃ[%d, %d]\n",
+					//LG(szSpawnError, "è§’è‰²å‡ºç”Ÿé”™è¯¯ï¼Œå‡ºç”Ÿä¿¡æ¯ï¼šåœ°å›¾ %s[%d, %d]ï¼Œè§’è‰²å­µåŒ–è¡¨ç¼–å· %dï¼Œè§’è‰²è¡¨ç¼–å· %dï¼Œå‡ºç”Ÿä½ç½®[%d, %d]\n", pCMap->GetName(), area.width(), area.height(), i + 1, pMonRefRecord->lMonster[j][0], l_pos.x, l_pos.y);
+					LG(szSpawnError, "è§’è‰²å‡ºç”Ÿé”™è¯¯ï¼Œå‡ºç”Ÿä¿¡æ¯ï¼šåœ°å›¾ %s[%d, %d]ï¼Œè§’è‰²å­µåŒ–è¡¨ç¼–å· %dï¼Œè§’è‰²è¡¨ç¼–å· %dï¼Œå‡ºç”Ÿä½ç½®[%d, %d]\n",
 							pCMap->GetName(), area.width(), area.height(), i + 1, pMonRefRecord->lMonster[j][0], l_pos.x, l_pos.y);
 			}
 		}
-		LG(szMap, "ÌõÄ¿ %d µÄ½ÇÉ«Êı£º\t%d\n", i + 1, lNum);
+		LG(szMap, "æ¡ç›® %d çš„è§’è‰²æ•°ï¼š\t%d\n", i + 1, lNum);
 		//LG(szMap, "entry %d character number:\t%d\n", i + 1, lNum);
 	}
 	return lRet;
@@ -152,7 +152,7 @@ T_E}
 
 long CChaSpawn::Reload()
 {T_B
-	// Çå³ıËùÊôµØÍ¼ÉÏµÄËùÓĞ¹ÖÎï
+	// æ¸…é™¤æ‰€å±åœ°å›¾ä¸Šçš„æ‰€æœ‰æ€ªç‰©
 	return 0;
 T_E}
 
@@ -175,14 +175,14 @@ bool CMapSwitchEntitySpawn::Init(char *szSpawnTable, long lRecordNum)
 	m_pCMap = 0;
 
 	if (lRecordNum <= 0)
-		//THROW_EXCP(excpArr, "¼ÇÂ¼ÊıÄ¿³ö´í");
+		//THROW_EXCP(excpArr, "è®°å½•æ•°ç›®å‡ºé”™");
 		THROW_EXCP(excpArr, RES_STRING(GM_ENTITYSPAWN_CPP_00005));
 	strcpy(m_szSpawnTable, szSpawnTable);
 	m_lRecordNum = lRecordNum;
 
 	m_pCSwitchMapRecSet = new CSwitchMapRecordSet(0, lRecordNum);
 	if (!m_pCSwitchMapRecSet)
-		//THROW_EXCP(excpMem,"µØÍ¼ÇĞ»»¼ÍÂ¼¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åœ°å›¾åˆ‡æ¢çºªå½•å¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_ENTITYSPAWN_CPP_00006));
 	if (!LoadTable(m_pCSwitchMapRecSet, m_szSpawnTable))
 		return false;
@@ -245,7 +245,7 @@ bool CNpcSpawn::Init( char *szSpawnTable, long lRecordNum )
 	if( lRecordNum <= 0 || szSpawnTable == NULL ) 
 	{
 		char szTemp[128];
-		//sprintf( szTemp, "×°ÔØNPCÎÄ¼ş(%s)µÄÊıÁ¿(%d)³ö´í!", szSpawnTable, lRecordNum );
+		//sprintf( szTemp, "è£…è½½NPCæ–‡ä»¶(%s)çš„æ•°é‡(%d)å‡ºé”™!", szSpawnTable, lRecordNum );
 		sprintf( szTemp, RES_STRING(GM_ENTITYSPAWN_CPP_00007), szSpawnTable, lRecordNum );
 		THROW_EXCP( excpArr, szTemp );
 	}
@@ -256,7 +256,7 @@ bool CNpcSpawn::Init( char *szSpawnTable, long lRecordNum )
 	m_pNpcRecordSet = new CNpcRecordSet( 0, lRecordNum );
 	if( !m_pNpcRecordSet )
 	{
-		//THROW_EXCP( excpMem, "NPC¼ÇÂ¼¼¯Êı¾İ¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü£¡" );
+		//THROW_EXCP( excpMem, "NPCè®°å½•é›†æ•°æ®æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥ï¼" );
 		THROW_EXCP( excpMem, RES_STRING(GM_ENTITYSPAWN_CPP_00008) );
 	}
 	if( !LoadTable(m_pNpcRecordSet, m_szSpawnTable ))
@@ -282,11 +282,11 @@ mission::CNpc* CNpcSpawn::FindNpc( const char szName[] )
 
 long CNpcSpawn::Load( SubMap& submap )
 {
-	// ³õÊ¼»¯¸ÃµØÍ¼×°ÔØµÄNPCÖ¸ÕëÁĞ±í
+	// åˆå§‹åŒ–è¯¥åœ°å›¾è£…è½½çš„NPCæŒ‡é’ˆåˆ—è¡¨
 	memset( m_NpcList, 0, sizeof(mission::CNpc*)*ROLE_MAXNUM_MAPNPC );
 	m_sNumNpc = 0;
 
-	//printf( "×°ÔØµØÍ¼npcÎÄ¼ş[%s]...\n", m_szSpawnTable );
+	//printf( "è£…è½½åœ°å›¾npcæ–‡ä»¶[%s]...\n", m_szSpawnTable );
 	//printf( RES_STRING(GM_ENTITYSPAWN_CPP_00009), m_szSpawnTable );
 	printf("Loading [%s] files... ", m_szSpawnTable );
 
@@ -301,11 +301,11 @@ long CNpcSpawn::Load( SubMap& submap )
 		CChaRecord* pCharRecord = GetChaRecordInfo( pNpcRecord->sCharID );
 		if( pCharRecord == NULL ) {
 			hasError = true;
-			//printf( "µØÍ¼³õÊ¼»¯´íÎó£ºÎ´ÕÒµ½Ö¸¶¨IDµÄ½ÇÉ«ÊôĞÔĞÅÏ¢£¡ID = %d \n", pNpcRecord->sCharID );
+			//printf( "åœ°å›¾åˆå§‹åŒ–é”™è¯¯ï¼šæœªæ‰¾åˆ°æŒ‡å®šIDçš„è§’è‰²å±æ€§ä¿¡æ¯ï¼ID = %d \n", pNpcRecord->sCharID );
 			//printf( RES_STRING(GM_ENTITYSPAWN_CPP_00010), pNpcRecord->sCharID );
 			C_PRINT("\nerror: NPC %d model %d unfound!", i, pNpcRecord->sCharID );
-			LG( "npcinit_error", "µØÍ¼³õÊ¼»¯´íÎó£ºÎ´ÕÒµ½Ö¸¶¨IDµÄ½ÇÉ«ÊôĞÔĞÅÏ¢£¡ID = %d", pNpcRecord->sCharID );
-			//LG( "npcinit_error", "initialization map error£ºnot find appoint ID roll attribute information£¡ID = %d", pNpcRecord->sCharID );
+			LG( "npcinit_error", "åœ°å›¾åˆå§‹åŒ–é”™è¯¯ï¼šæœªæ‰¾åˆ°æŒ‡å®šIDçš„è§’è‰²å±æ€§ä¿¡æ¯ï¼ID = %d", pNpcRecord->sCharID );
+			//LG( "npcinit_error", "initialization map errorï¼šnot find appoint ID roll attribute informationï¼ID = %d", pNpcRecord->sCharID );
 			continue;
 		}
 		
@@ -341,7 +341,7 @@ long CNpcSpawn::Load( SubMap& submap )
 		}
 
 	}
-	//printf( "×°ÔØµØÍ¼npcÎÄ¼ş[%s]³É¹¦£¡\n", m_szSpawnTable );
+	//printf( "è£…è½½åœ°å›¾npcæ–‡ä»¶[%s]æˆåŠŸï¼\n", m_szSpawnTable );
 	//printf( RES_STRING(GM_ENTITYSPAWN_CPP_00011), m_szSpawnTable );
 	if (!hasError)
 	{

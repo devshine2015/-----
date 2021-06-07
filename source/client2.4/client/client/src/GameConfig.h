@@ -14,14 +14,14 @@ class CGameConfig
 public:	
 	CGameConfig();
 	
-	void	Load(char *pszFileName); // ¶ÁÅäÖÃÎÄ¼ş
-	void	SetDefault();  //Ä¬ÈÏÅäÖÃ
-	void	SetMoveClient( bool v ); //ÊÇ·ñÓë¿Í»§¶ËÍ¬²½
+	void	Load(char *pszFileName); // è¯»é…ç½®æ–‡ä»¶
+	void	SetDefault();  //é»˜è®¤é…ç½®
+	void	SetMoveClient( bool v ); //æ˜¯å¦ä¸å®¢æˆ·ç«¯åŒæ­¥
 	
 public:
 
-	// Çë×¢Òâ´Ë´¦²»Òª·ÅÖÃÈÎºÎ·Ç¹Ì¶¨ÄÚ´æ³ß´çµÄ±äÁ¿, ±ÈÈçÄ£°å, stringÖ®ÀàµÄ,
-	// ´ËÀà½«±»Ö±½ÓĞ´ÅÌºÍ¶ÁÅÌ
+	// è¯·æ³¨æ„æ­¤å¤„ä¸è¦æ”¾ç½®ä»»ä½•éå›ºå®šå†…å­˜å°ºå¯¸çš„å˜é‡, æ¯”å¦‚æ¨¡æ¿, stringä¹‹ç±»çš„,
+	// æ­¤ç±»å°†è¢«ç›´æ¥å†™ç›˜å’Œè¯»ç›˜
 	BOOL		m_bAutoLogin;
 	BOOL		m_bFullScreen;
 	SPlaceCha	m_ChaList[20];
@@ -49,13 +49,13 @@ public:
 	//	Dialog rain added.
 	int maxNumPerLine;
 
-	// ÍøÂç
-    BOOL        m_nSendHeartbeat;       // ¶àÉÙÊ±¼ä·¢ËÍÒ»´ÎĞÄÌø,µ¥Î»:s,×îĞ¡Öµ10s,¹Ø±Õ0
-	DWORD		m_nConnectTimeOut;		// ÍøÂçÁ¬½Ó³¬Ê±
+	// ç½‘ç»œ
+    BOOL        m_nSendHeartbeat;       // å¤šå°‘æ—¶é—´å‘é€ä¸€æ¬¡å¿ƒè·³,å•ä½:s,æœ€å°å€¼10s,å…³é—­0
+	DWORD		m_nConnectTimeOut;		// ç½‘ç»œè¿æ¥è¶…æ—¶
 
-    BOOL        m_bEnableLG;            // ÊÇ·ñÔÊĞíÊä³öLGĞÅÏ¢
-    BOOL        m_bEnableLGMsg;         // ÊÇ·ñÔÊĞíµ¯³öLG-Box
-	BOOL		m_bMThreadRes;			// ¶àÏß³Ì×ÊÔ´ÔØÈë
+    BOOL        m_bEnableLG;            // æ˜¯å¦å…è®¸è¾“å‡ºLGä¿¡æ¯
+    BOOL        m_bEnableLGMsg;         // æ˜¯å¦å…è®¸å¼¹å‡ºLG-Box
+	BOOL		m_bMThreadRes;			// å¤šçº¿ç¨‹èµ„æºè½½å…¥
 
 
 	int		m_nCreateScene;
@@ -64,7 +64,7 @@ public:
 	float	m_fCameraVel;
 	float	m_fCameraAccl;
 
-	//lemon add@2004.11.26, µÇÂ½×¨ÓÃ
+	//lemon add@2004.11.26, ç™»é™†ä¸“ç”¨
 	float	eyeX;
 	float   eyeY;      
 	float	eyeZ;      
@@ -81,7 +81,7 @@ public:
     float   m_fLgtFactor;
     DWORD   m_dwLgtBkColor;
 
-    // lh add@2004.12.8ÓÃÓÚµ¥»ú¿ÉÒÔÄÃÎäÆ÷
+    // lh add@2004.12.8ç”¨äºå•æœºå¯ä»¥æ‹¿æ­¦å™¨
     int     nLeftHand;
     int     nRightHand;
 
@@ -96,24 +96,24 @@ public:
 
     DWORD   m_dwFullScreenAntialias;
 
-	// ÓÃÓÚÍøÂçÇĞ»»µØÍ¼Ê±µÄ²ÎÊı
+	// ç”¨äºç½‘ç»œåˆ‡æ¢åœ°å›¾æ—¶çš„å‚æ•°
 	DWORD	m_dwMaxCha;
 	DWORD	m_dwMaxEff;
 	DWORD	m_dwMaxItem;
 	DWORD	m_dwMaxObj;
 
-	char	m_szMD5Pass[48];	// ÌîĞ´µÄMD5ÃÜÂë
+	char	m_szMD5Pass[48];	// å¡«å†™çš„MD5å¯†ç 
 
-	bool	m_IsShowConsole;	// ÊÇ·ñ¿ÉÒÔ²Ù×÷¿Ø¼şÌ¨
-	bool	m_IsTomServer;		// µÇÂ½Tom·şÎñÆ÷
+	bool	m_IsShowConsole;	// æ˜¯å¦å¯ä»¥æ“ä½œæ§ä»¶å°
+	bool	m_IsTomServer;		// ç™»é™†TomæœåŠ¡å™¨
 
-	bool	m_IsMoveClient;		// ÊÇ·ñ¿Í»§¶Ë·ÇÍ¬²½×ßÂ·
+	bool	m_IsMoveClient;		// æ˜¯å¦å®¢æˆ·ç«¯éåŒæ­¥èµ°è·¯
 
-	char	m_szVerErrorHTTP[256];	// °æ±¾²»Æ¥ÅäÊ±£¬µ÷ÓÃµÄÍøÒ³
+	char	m_szVerErrorHTTP[256];	// ç‰ˆæœ¬ä¸åŒ¹é…æ—¶ï¼Œè°ƒç”¨çš„ç½‘é¡µ
 
-	bool	IsPower()		{ return m_IsShowConsole;	}		// Èç¹ûÊÇ±à¼­Æ÷Ä£Ê½,×Ô¶¯¿ÉÒÔ²Ù×÷¿Ø¼şÌ¨
+	bool	IsPower()		{ return m_IsShowConsole;	}		// å¦‚æœæ˜¯ç¼–è¾‘å™¨æ¨¡å¼,è‡ªåŠ¨å¯ä»¥æ“ä½œæ§ä»¶å°
 
-	bool	m_IsDoublePwd;	// ÊÇ·ñÓĞ¶ş´ÎÃÜÂë
+	bool	m_IsDoublePwd;	// æ˜¯å¦æœ‰äºŒæ¬¡å¯†ç 
 
 	// Add by lark.li 20080429 for res
 	char   m_szLocale[256];
@@ -128,7 +128,7 @@ public:
 	int		m_nMovieH;
 	// End
 
-	bool	m_bGameBanner;	// ÓÎÏ·¹ã¸æÎ»
+	bool	m_bGameBanner;	// æ¸¸æˆå¹¿å‘Šä½
 };
 
 

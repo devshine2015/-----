@@ -1,20 +1,20 @@
-//Õâ¸ö.h ²»ÓÃ±»ÈÎºÎcppÒıÈë£¬½«ºêĞ´ÔÚÕâÀï£¬¿ÉÒÔÈÃVisualAssist½«ÕâĞ©ºê±äÑÕÉ«
-#define MINDPOWER_USE_DLL	//MindPowerÊ¹ÓÃ¶¯Ì¬DLL
-#define MINDPOWER_EXPORTS   //MindPower¹¤³ÌÊ¹ÓÃ£¬Êä³öDLL
-#define __KOP2__			//º£µÁÍõ2´úÄÚÈİ
-#define __CLIENT_PK_TEST__	//¿Í»§¶ËÊÕÍøÂçÏûÏ¢µÄ²âÊÔ
-#define _SERVER				//·şÎñÆ÷
-#define NOSERVER			//·Ç·şÎñÆ÷
-#define __MEM_DEBUG__		//µ÷ÊÔÄÚ´æÊ¹ÓÃÇé¿ö,¼ì²éĞ¹Â¶
-#define __EDITOR__			//±à¼­Æ÷
-#define __FPS_DEBUG__		//µ÷ÊÔĞ§ÄÜ
-#define SHUI_JING			//Ë®¾§½»Ò×Æ½Ì¨
-#define USE_TIMERPERIOD		//Ê¹ÓÃÏß³Ì£«WindowsÏûÏ¢¹Ì¶¨Ê±¼äµÄRender
-#define __SOUND__			//¶¨ÒåÊÇ·ñº¬ÒôÀÖÒôĞ§
-#define __VIM3D__			//3DÑÛ¾µÖ§³Ö
-#define LW_USE_DX8			//Ê¹ÓÃDirectX8
-#define LW_USE_DX9			//Ê¹ÓÃDirectX9
-#define __MAXEXP__			//Maxµ¼³ö²å¼ş
-#define _SKYBOX_			//Ìì¿ÕºĞ
-#define _KOSDEMO_			//KOS 9ÔÂ4ÈÕµÚÒ»´ÎÑİÊ¾°æ±¾
+//è¿™ä¸ª.h ä¸ç”¨è¢«ä»»ä½•cppå¼•å…¥ï¼Œå°†å®å†™åœ¨è¿™é‡Œï¼Œå¯ä»¥è®©VisualAssistå°†è¿™äº›å®å˜é¢œè‰²
+#define MINDPOWER_USE_DLL	//MindPowerä½¿ç”¨åŠ¨æ€DLL
+#define MINDPOWER_EXPORTS   //MindPowerå·¥ç¨‹ä½¿ç”¨ï¼Œè¾“å‡ºDLL
+#define __KOP2__			//æµ·ç›—ç‹2ä»£å†…å®¹
+#define __CLIENT_PK_TEST__	//å®¢æˆ·ç«¯æ”¶ç½‘ç»œæ¶ˆæ¯çš„æµ‹è¯•
+#define _SERVER				//æœåŠ¡å™¨
+#define NOSERVER			//éæœåŠ¡å™¨
+#define __MEM_DEBUG__		//è°ƒè¯•å†…å­˜ä½¿ç”¨æƒ…å†µ,æ£€æŸ¥æ³„éœ²
+#define __EDITOR__			//ç¼–è¾‘å™¨
+#define __FPS_DEBUG__		//è°ƒè¯•æ•ˆèƒ½
+#define SHUI_JING			//æ°´æ™¶äº¤æ˜“å¹³å°
+#define USE_TIMERPERIOD		//ä½¿ç”¨çº¿ç¨‹ï¼‹Windowsæ¶ˆæ¯å›ºå®šæ—¶é—´çš„Render
+#define __SOUND__			//å®šä¹‰æ˜¯å¦å«éŸ³ä¹éŸ³æ•ˆ
+#define __VIM3D__			//3Dçœ¼é•œæ”¯æŒ
+#define LW_USE_DX8			//ä½¿ç”¨DirectX8
+#define LW_USE_DX9			//ä½¿ç”¨DirectX9
+#define __MAXEXP__			//Maxå¯¼å‡ºæ’ä»¶
+#define _SKYBOX_			//å¤©ç©ºç›’
+#define _KOSDEMO_			//KOS 9æœˆ4æ—¥ç¬¬ä¸€æ¬¡æ¼”ç¤ºç‰ˆæœ¬
 

@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÊäÈë·¨
-// ×÷Õß:lh 2004-07-28
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:è¾“å…¥æ³•
+// ä½œè€…:lh 2004-07-28
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uiGuidata.h"
@@ -10,14 +10,14 @@ namespace GUI
 {
 class CImeInput
 {
-    static const int InputX = 120;     //  ÊäÈë¿ò¿í
-    static const int InputY = 170;     //  ÊäÈë¿ò¸ß
+    static const int InputX = 120;     //  è¾“å…¥æ¡†å®½
+    static const int InputY = 170;     //  è¾“å…¥æ¡†é«˜
 	enum
 	{
 		MAX_CHAR = 256,
 	};
 
-private:	// ½ûÖ¹¿½±´,¸´ÖÆ,¿ËÂ¡
+private:	// ç¦æ­¢æ‹·è´,å¤åˆ¶,å…‹éš†
 	CImeInput& operator=(const CImeInput& rhs);
 	CImeInput(const CImeInput& rhs);
 
@@ -69,15 +69,15 @@ private:
     char        _strSBC[5];
     char        _strInterpunction[7];
 
-	HIMC		_hImc;		// ÊäÈë¾ä±ú
+	HIMC		_hImc;		// è¾“å…¥å¥æŸ„
 	HIMC		_oldImc;
-	LPCANDIDATELIST		_pList;			// Ô¤Ñ¡×ÖÁĞ±í
+	LPCANDIDATELIST		_pList;			// é¢„é€‰å­—åˆ—è¡¨
 
-	int			_nWidth, _nHeight;		// ¿í¸ß
+	int			_nWidth, _nHeight;		// å®½é«˜
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°
 inline void	CImeInput::OnCreate( HWND hWnd, HINSTANCE hInst )
 {
 	HIMC hImc = ::ImmCreateContext();

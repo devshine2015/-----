@@ -1,7 +1,7 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:ÓÃÓÚÊµÏÖÈËÎïĞÅÏ¢½çÃæ
-// ×÷Õß:zcj 2008-8-7
-// ×îºóĞŞ¸ÄÈÕÆÚ:2008-8-7
+// åç§°:ç”¨äºå®ç°äººç‰©ä¿¡æ¯ç•Œé¢
+// ä½œè€…:zcj 2008-8-7
+// æœ€åä¿®æ”¹æ—¥æœŸ:2008-8-7
 //----------------------------------------------------------------------
 #pragma once
 #include "UIGlobalVar.h"
@@ -28,23 +28,23 @@ class CMember;
 
 //struct stPersonInfo
 //{
-//	char	szMotto[40];				// Ç©Ãû
-//	bool	bShowMotto;					// ÏÔÊ¾Ç©Ãû¿ª¹Ø
-//	char	szSex[10];					// ĞÔ±ğ
-//	short	sAge;						// ÄêÁä
-//	char	szName[50];					// Ãû×Ö
-//	char	szAnimalZodiac[50];			// ÊôÏà
-//	char	szBloodType[50];			// ÑªĞÍ
-//	int		iBirthday;					// ÉúÈÕ£¨£©
-//	char	szState[50];				// Öİ£¨Ê¡£©
-//	char	szCity[50];					// ³ÇÊĞ£¨Çø£©
-//	char	szConstellation[50];		// ĞÇ×ù
-//	char	szCareer[50];				// Ö°Òµ
-//	int		iSize;						// Í·Ïñ´óĞ¡([8 * 1024])
-//	char	pAvatar[8096];				// Í·Ïñ
-//	bool	bPprevent;					// ÊÇ·ñ×èÖ¹ÏûÏ¢
-//	int		iSupport;					// ÏÊ»¨Êı
-//	int		iOppose;					// ³ô¼¦µ°Êı
+//	char	szMotto[40];				// ç­¾å
+//	bool	bShowMotto;					// æ˜¾ç¤ºç­¾åå¼€å…³
+//	char	szSex[10];					// æ€§åˆ«
+//	short	sAge;						// å¹´é¾„
+//	char	szName[50];					// åå­—
+//	char	szAnimalZodiac[50];			// å±ç›¸
+//	char	szBloodType[50];			// è¡€å‹
+//	int		iBirthday;					// ç”Ÿæ—¥ï¼ˆï¼‰
+//	char	szState[50];				// å·ï¼ˆçœï¼‰
+//	char	szCity[50];					// åŸå¸‚ï¼ˆåŒºï¼‰
+//	char	szConstellation[50];		// æ˜Ÿåº§
+//	char	szCareer[50];				// èŒä¸š
+//	int		iSize;						// å¤´åƒå¤§å°([8 * 1024])
+//	char	pAvatar[8096];				// å¤´åƒ
+//	bool	bPprevent;					// æ˜¯å¦é˜»æ­¢æ¶ˆæ¯
+//	int		iSupport;					// é²œèŠ±æ•°
+//	int		iOppose;					// è‡­é¸¡è›‹æ•°
 //	stPersonInfo&  operator =(const stPersonInfo & _info)
 //	{
 //		strcpy(szMotto,_info.szMotto);
@@ -71,18 +71,18 @@ class CMember;
 //};
 //struct stQueryPersonInfo
 //{
-//	char	sChaName[64];			// Ãû×Ö
-//	bool	bHavePic;				// ÊÇ·ñÏÔÊ¾Í·Ïñ
-//	char	cSex[4];				// ĞÔ±ğ	  1ÊÇÄĞ 0ÊÇÅ®µÄ
-//	int		nMinAge[2];				// ÄêÁä²éÑ¯µÄm_nMinAge[1]×î´óºÍm_nMinAge[0]×îĞ¡Öµ
-//	char	szAnimalZodiac[4];		// ÉúĞ¤
-//	int		iBirthday[2];			// ²éÑ¯³öÉúÄêµÄm_nBirth[1]×î´óºÍm_nBirth[0]×îĞ¡Öµ
+//	char	sChaName[64];			// åå­—
+//	bool	bHavePic;				// æ˜¯å¦æ˜¾ç¤ºå¤´åƒ
+//	char	cSex[4];				// æ€§åˆ«	  1æ˜¯ç”· 0æ˜¯å¥³çš„
+//	int		nMinAge[2];				// å¹´é¾„æŸ¥è¯¢çš„m_nMinAge[1]æœ€å¤§å’Œm_nMinAge[0]æœ€å°å€¼
+//	char	szAnimalZodiac[4];		// ç”Ÿè‚–
+//	int		iBirthday[2];			// æŸ¥è¯¢å‡ºç”Ÿå¹´çš„m_nBirth[1]æœ€å¤§å’Œm_nBirth[0]æœ€å°å€¼
 //									 0xffff0000&month   0xffff&day
-//	char	szState[32];			// Ê¡·İ
-//	char	szCity[32];				// ³ÇÊĞ
-//	char	szConstellation[16];	// ĞÇ×ù		
-//	char	szCareer[32];			// ¹¤×÷
-//	int		nCurPage;				// µ±Ç°Ò³Êı
+//	char	szState[32];			// çœä»½
+//	char	szCity[32];				// åŸå¸‚
+//	char	szConstellation[16];	// æ˜Ÿåº§		
+//	char	szCareer[32];			// å·¥ä½œ
+//	int		nCurPage;				// å½“å‰é¡µæ•°
 //	stQueryPersonInfo& operator =(const stQueryPersonInfo& _info)
 //	{
 //		strcpy(sChaName,_info.sChaName);
@@ -104,12 +104,12 @@ class CMember;
 //};
 //struct stQueryResoultPersonInfo
 //{
-//	char	sChaName[64];		// Ãû×Ö
-//	int		nMinAge;			// ÄêÁä
-//	char	cSex[4];			// ĞÔ±ğ	  1ÊÇÄĞ 0ÊÇÅ®µÄ
-//	char	szState[32];		// Ê¡·İ
-//	char	nCity[32];			// ³ÇÊĞ
-//	char	pAvatar[8096];		// Í·ÏñÍ¼Æ¬
+//	char	sChaName[64];		// åå­—
+//	int		nMinAge;			// å¹´é¾„
+//	char	cSex[4];			// æ€§åˆ«	  1æ˜¯ç”· 0æ˜¯å¥³çš„
+//	char	szState[32];		// çœä»½
+//	char	nCity[32];			// åŸå¸‚
+//	char	pAvatar[8096];		// å¤´åƒå›¾ç‰‡
 //	stQueryResoultPersonInfo& operator =(const stQueryResoultPersonInfo& _info)
 //	{
 //		strcpy(sChaName,_info.sChaName);
@@ -132,11 +132,11 @@ public:
     bool Init();
     void End();
 
-    void RefreshInfo();								 // Ë¢ĞÂÈËÎï½çÃæ
+    void RefreshInfo();								 // åˆ·æ–°äººç‰©ç•Œé¢
 	
-	void RefreshInfoData( CMember* pCurMember );	// Ë¢ĞÂÈËÎïÊı¾İ		
+	void RefreshInfoData( CMember* pCurMember );	// åˆ·æ–°äººç‰©æ•°æ®		
 
-    void ClearInfo();								// Çå³ıÈËÎï½çÃæ
+    void ClearInfo();								// æ¸…é™¤äººç‰©ç•Œé¢
 
 	void SetShowChaInfo(bool _b);
 
@@ -156,7 +156,7 @@ public:
 
 	stQueryResoultPersonInfo* GetQueryRFrmData();
 
-	void  ClearQueryRFrmData();			// Çå¿Õ²éÑ¯½á¹ûÃæ°åÉÏ´ÎµÄÊı¾İ
+	void  ClearQueryRFrmData();			// æ¸…ç©ºæŸ¥è¯¢ç»“æœé¢æ¿ä¸Šæ¬¡çš„æ•°æ®
 
 	void UpdateInfo();
 
@@ -177,11 +177,11 @@ private:
 
 public:
 	// data
-	stPersonInfo				m_ShowInfo;		// Íæ¼ÒĞÅÏ¢
-	stQueryPersonInfo			m_QeryInfo;		// ²éÑ¯ĞÅÏ¢
-	stQueryResoultPersonInfo	m_ResoultInfo;	// ²éÑ¯½á¹ûĞÅÏ¢
+	stPersonInfo				m_ShowInfo;		// ç©å®¶ä¿¡æ¯
+	stQueryPersonInfo			m_QeryInfo;		// æŸ¥è¯¢ä¿¡æ¯
+	stQueryResoultPersonInfo	m_ResoultInfo;	// æŸ¥è¯¢ç»“æœä¿¡æ¯
 	typedef std::list<stQueryResoultPersonInfo>  ResoultList;
-	ResoultList					m_ResoultInfoList;// ²éÑ¯½á¹ûĞÅÏ¢ÁĞ±í
+	ResoultList					m_ResoultInfoList;// æŸ¥è¯¢ç»“æœä¿¡æ¯åˆ—è¡¨
 
 	//UI
 	static CForm*         m_pFrmSInfo;
@@ -189,58 +189,58 @@ public:
 	static CForm*		  m_pFrmQRInfo;
 
 	// form   search info
-	CLabel*				m_pEdtTradeGold;			//	×ùÓÒÃú
-	CLabel*				m_pLabName;					//  ÓÃ»§Ãû³Æ
-	CLabel*				m_pChaguild;				//  ¹«»áÃû³Æ
-	CLabel*				m_pChaLv;					//  ½ÇÉ«µÈ¼¶
-	CLabel*				m_pChaJob;					//	Ö°Òµ
-	CLabel*				m_pReputation;				//  ÉùÍû
-	CLabel*				m_pChaNickName;				//   ½ÇÉ«³ÆºÅ
-	CLabel*				m_pSupport;					//  Ö§³Ö¶È(ÏÊ»¨)
-	CLabel*				m_pOppose;					//	·´¶Ô£¨³ô¼¦µ°£©
-	CLabel*				m_pAttention;				//  ¹Ø×¢¶È
-	CLabel*				m_pChaSex;					//   ½ÇÉ«ĞÔ±ğ
-	CLabel*				m_pChaAge;					//   ½ÇÉ«ÄêÁä
-	CLabel*				m_pChaName;					//	 Íæ¼ÒĞÕÃû
-	CLabel*				m_pAnimalZodiac;			//	 ÊôÏà
-	CLabel*				m_pBloodType;				//	 ÑªĞÍ
-	CLabel*				m_pBirthMonth;				//	 ³öÉúÔÂ
-	CLabel*				m_pBirthDay;				//	 ³öÉúÈÕ
-	CLabel*				m_pState;					//	 ³öÉúÊ¡
-	CLabel*				m_pCity;					//	 ³öÉúÊĞ
-	CLabel*				m_pConstellation;			//	 ĞÇ×ù
-	CLabel*				m_pJob;						//	 Íæ¼ÒÕæÕıµÄÖ°Òµ
-	CLabel*				m_pIdiograph;				//	 Íæ¼ÒÇ©Ãû
-	CTextButton*		m_pAddFlowerBt;				//	 ÏÊ»¨Ìí¼Ó
-	CTextButton*		m_pAddEggBt;				//	 ³ô¼¦µ°Ìí¼Ó
-	CTextButton*		m_pChangePhoto;				//	 ¸ü»»Í·Ïñ°´Å¤
-	CImage*				m_pChaPhoto;				//	 Í·Ïñ
-	//CCheckBox*			m_pStopChat;				//	 ½ûÑÔ
-	CTextButton*		m_pBtYes;					//	 È·¶¨°´Å¤
+	CLabel*				m_pEdtTradeGold;			//	åº§å³é“­
+	CLabel*				m_pLabName;					//  ç”¨æˆ·åç§°
+	CLabel*				m_pChaguild;				//  å…¬ä¼šåç§°
+	CLabel*				m_pChaLv;					//  è§’è‰²ç­‰çº§
+	CLabel*				m_pChaJob;					//	èŒä¸š
+	CLabel*				m_pReputation;				//  å£°æœ›
+	CLabel*				m_pChaNickName;				//   è§’è‰²ç§°å·
+	CLabel*				m_pSupport;					//  æ”¯æŒåº¦(é²œèŠ±)
+	CLabel*				m_pOppose;					//	åå¯¹ï¼ˆè‡­é¸¡è›‹ï¼‰
+	CLabel*				m_pAttention;				//  å…³æ³¨åº¦
+	CLabel*				m_pChaSex;					//   è§’è‰²æ€§åˆ«
+	CLabel*				m_pChaAge;					//   è§’è‰²å¹´é¾„
+	CLabel*				m_pChaName;					//	 ç©å®¶å§“å
+	CLabel*				m_pAnimalZodiac;			//	 å±ç›¸
+	CLabel*				m_pBloodType;				//	 è¡€å‹
+	CLabel*				m_pBirthMonth;				//	 å‡ºç”Ÿæœˆ
+	CLabel*				m_pBirthDay;				//	 å‡ºç”Ÿæ—¥
+	CLabel*				m_pState;					//	 å‡ºç”Ÿçœ
+	CLabel*				m_pCity;					//	 å‡ºç”Ÿå¸‚
+	CLabel*				m_pConstellation;			//	 æ˜Ÿåº§
+	CLabel*				m_pJob;						//	 ç©å®¶çœŸæ­£çš„èŒä¸š
+	CLabel*				m_pIdiograph;				//	 ç©å®¶ç­¾å
+	CTextButton*		m_pAddFlowerBt;				//	 é²œèŠ±æ·»åŠ 
+	CTextButton*		m_pAddEggBt;				//	 è‡­é¸¡è›‹æ·»åŠ 
+	CTextButton*		m_pChangePhoto;				//	 æ›´æ¢å¤´åƒæŒ‰æ‰­
+	CImage*				m_pChaPhoto;				//	 å¤´åƒ
+	//CCheckBox*			m_pStopChat;				//	 ç¦è¨€
+	CTextButton*		m_pBtYes;					//	 ç¡®å®šæŒ‰æ‰­
 
 	// form query info
-	CEdit*				m_pQchaName;				//   ½ÇÉ«Ãû³Æ
-	CEdit*				m_pQHasPic;					//   ½ÇÉ«ÊÇ·ñÓĞÕÕÆ¬
-	CEdit*				m_pQSex;					//	 ½ÇÉ«ĞÔ±ğ
-	CEdit*				m_pQminAge;					//	 ½ÇÉ«ÄêÁä×îĞ¡
-	CEdit*				m_pQmaxAge;					//	 ½ÇÉ«ÄêÁä×î´ó
-	CEdit*				m_pQAnimalZodiac;			//	 ½ÇÉ«ÊôÏà
-	CEdit*				m_pQBirthmonth0;			//	 ½ÇÉ«ÉúÈÕ£¨ÔÂ£©µÚÒ»¸ö
-	CEdit*				m_pQBirthmonth1;			//	 ½ÇÉ«ÉúÈÕ£¨ÔÂ£©µÚ¶ş¸ö
-	CEdit*				m_pQBirthday0;				//	 ½ÇÉ«ÉúÈÕ£¨ÈÕ£©µÚÒ»¸ö
-	CEdit*				m_pQBirthday1;				//	 ½ÇÉ«ÉúÈÕ£¨ÈÕ£©µÚ¶ş¸ö
-	CEdit*				m_pQstate;					//	 ½ÇÉ«Ê¡·İ
-	CEdit*				m_pQcity;					//	 ½ÇÉ«³ÇÊĞ
-	CEdit*				m_pQConstellation;			//	 ½ÇÉ«ĞÇ×ù
-	CEdit*				m_pQjob;					//	 ½ÇÉ«Ö°Òµ
-	CTextButton*		m_pQYes;					//	 ½ÇÉ«È·¶¨
-	CTextButton*		m_pPicBox1;					//	 Ïà²á1
-	CTextButton*		m_pPicBox2;					//	 Ïà²á2
-//	CTextButton*		m_pAddPicBox;				//	 Ôö¼ÓÏà²á
+	CEdit*				m_pQchaName;				//   è§’è‰²åç§°
+	CEdit*				m_pQHasPic;					//   è§’è‰²æ˜¯å¦æœ‰ç…§ç‰‡
+	CEdit*				m_pQSex;					//	 è§’è‰²æ€§åˆ«
+	CEdit*				m_pQminAge;					//	 è§’è‰²å¹´é¾„æœ€å°
+	CEdit*				m_pQmaxAge;					//	 è§’è‰²å¹´é¾„æœ€å¤§
+	CEdit*				m_pQAnimalZodiac;			//	 è§’è‰²å±ç›¸
+	CEdit*				m_pQBirthmonth0;			//	 è§’è‰²ç”Ÿæ—¥ï¼ˆæœˆï¼‰ç¬¬ä¸€ä¸ª
+	CEdit*				m_pQBirthmonth1;			//	 è§’è‰²ç”Ÿæ—¥ï¼ˆæœˆï¼‰ç¬¬äºŒä¸ª
+	CEdit*				m_pQBirthday0;				//	 è§’è‰²ç”Ÿæ—¥ï¼ˆæ—¥ï¼‰ç¬¬ä¸€ä¸ª
+	CEdit*				m_pQBirthday1;				//	 è§’è‰²ç”Ÿæ—¥ï¼ˆæ—¥ï¼‰ç¬¬äºŒä¸ª
+	CEdit*				m_pQstate;					//	 è§’è‰²çœä»½
+	CEdit*				m_pQcity;					//	 è§’è‰²åŸå¸‚
+	CEdit*				m_pQConstellation;			//	 è§’è‰²æ˜Ÿåº§
+	CEdit*				m_pQjob;					//	 è§’è‰²èŒä¸š
+	CTextButton*		m_pQYes;					//	 è§’è‰²ç¡®å®š
+	CTextButton*		m_pPicBox1;					//	 ç›¸å†Œ1
+	CTextButton*		m_pPicBox2;					//	 ç›¸å†Œ2
+//	CTextButton*		m_pAddPicBox;				//	 å¢åŠ ç›¸å†Œ
 
 
 	// for  resoult query info
-	CList*				m_pQRList;					//	 ²éÑ¯ÏÔÊ¾½á¹ûÁĞ±í
+	CList*				m_pQRList;					//	 æŸ¥è¯¢æ˜¾ç¤ºç»“æœåˆ—è¡¨
 };
 
 }

@@ -37,7 +37,7 @@ public:
     HRESULT         LitResetTexture(DWORD item_id, DWORD lit_id);
     HRESULT         LitUnresetTexture();
 
-	void			SetForgeEffect( DWORD value, int nCharID=1 );		// ÉèÖÃ¾«Á¶Ğ§¹û±íÏÖ,±¾º¯ÊıÔÚ´´½¨µÀ¾ß³É¹¦ºóµ÷ÓÃ
+	void			SetForgeEffect( DWORD value, int nCharID=1 );		// è®¾ç½®ç²¾ç‚¼æ•ˆæœè¡¨ç°,æœ¬å‡½æ•°åœ¨åˆ›å»ºé“å…·æˆåŠŸåè°ƒç”¨
 
 public:
 	void			setIsSystem( bool v )			{ _IsSystem = v; 			}
@@ -58,7 +58,7 @@ public:
     bool            IsPick();
 
     bool            GetItemHeight(float* out_height);
-	//lemon add@2005.1.5 for ±¬ÁÏ
+	//lemon add@2005.1.5 for çˆ†æ–™
 	void			PlayArcAni(D3DXVECTOR3	vStart, D3DXVECTOR3 vEnd, float fVel = 0.01f, float fHei = 3.0f);
 protected:
 
@@ -79,7 +79,7 @@ protected:
     DWORD           _nCharacterID;
 
 protected:
-	bool			_IsSystem;					// µÀ¾ßÓÃÓÚÏµÍ³£¬²»¿É²Ù×÷
+	bool			_IsSystem;					// é“å…·ç”¨äºç³»ç»Ÿï¼Œä¸å¯æ“ä½œ
 	bool			_IsShowName;
 	CItemRecord*	_pItemInfo;
     int             _nDrapID;

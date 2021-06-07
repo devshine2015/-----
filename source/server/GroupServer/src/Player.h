@@ -39,38 +39,38 @@ public:
 	void	CheckEstop();
 	struct
 	{
-		uLong				m_acctLoginID;				// ÕÊºÅ·şÎñÆ÷ÕÊºÅDB id
+		uLong				m_acctLoginID;				// å¸å·æœåŠ¡å™¨å¸å·DB id
 		uLong				m_acctid;
 		uLong				m_sessid;
-		std::string			m_acctname;					//ÕÊ»§Ãû
+		std::string			m_acctname;					//å¸æˆ·å
 		std::string			m_passport;					//
-		std::string			m_password;					//¶ş´ÎÃÜÂë
+		std::string			m_password;					//äºŒæ¬¡å¯†ç 
 		char				m_gm;
-		char				m_clientip[16];				//¿Í»§¶ËIPµØÖ·
-		char				m_lastip[16];				//ÉÏ´ÎµÇÂ¼IP
-		char				m_lastreason[50];			//ÉÏ´Î¶Ï¿ªReason
+		char				m_clientip[16];				//å®¢æˆ·ç«¯IPåœ°å€
+		char				m_lastip[16];				//ä¸Šæ¬¡ç™»å½•IP
+		char				m_lastreason[50];			//ä¸Šæ¬¡æ–­å¼€Reason
 		char				m_lastleavetime[21];
 		Player			*	m_pingply;
 	};
 	struct
 	{
 		Mutex				m_mtxCha;
-		char				m_chanum;					//½ÇÉ«Êı
-		char				m_bp_currcha;				//BeginPlayÊ±ºòÈ·¶¨µÄcurrcha
-		char				m_currcha;					//µ±Ç°½ÇÉ«ÏÂ±ê
-		long				m_chaid[emMaxCharacters];	//½ÇÉ«IDÁĞ±í
-		std::string			m_chaname[emMaxCharacters];	//½ÇÉ«ÃûÁĞ±í
-		std::string			m_motto[emMaxCharacters];	//½ÇÉ«×ùÓÒÃú
-		short				m_icon[emMaxCharacters];	//½ÇÉ«Ğ¡Í¼±ê
-		uLong				m_guild[emMaxCharacters];	//¹«»áID
-		bool				m_estop[emMaxCharacters];	//ÊÇ·ñ±»½ûÑÔ
+		char				m_chanum;					//è§’è‰²æ•°
+		char				m_bp_currcha;				//BeginPlayæ—¶å€™ç¡®å®šçš„currcha
+		char				m_currcha;					//å½“å‰è§’è‰²ä¸‹æ ‡
+		long				m_chaid[emMaxCharacters];	//è§’è‰²IDåˆ—è¡¨
+		std::string			m_chaname[emMaxCharacters];	//è§’è‰²ååˆ—è¡¨
+		std::string			m_motto[emMaxCharacters];	//è§’è‰²åº§å³é“­
+		short				m_icon[emMaxCharacters];	//è§’è‰²å°å›¾æ ‡
+		uLong				m_guild[emMaxCharacters];	//å…¬ä¼šID
+		bool				m_estop[emMaxCharacters];	//æ˜¯å¦è¢«ç¦è¨€
 		unsigned long 				m_guildPermission[emMaxCharacters];
 		unsigned int		m_chatColour[emMaxCharacters];
-		bool volatile		m_bWG;						//ÊÇ·ñÊ¹ÓÃÁËÍâ¹Ò
+		bool volatile		m_bWG;						//æ˜¯å¦ä½¿ç”¨äº†å¤–æŒ‚
 	};
 	struct
 	{
-		InterLockedLong			m_chatnum;				//µ±Ç°µÄSessionÁÄÌì´°¿ÚÊı		
+		InterLockedLong			m_chatnum;				//å½“å‰çš„SessionèŠå¤©çª—å£æ•°		
 		bool		 volatile	m_refuse_tome;
 		bool		 volatile	m_refuse_sess;
 		Mutex					m_mtxChat;
@@ -89,7 +89,7 @@ public:
 	 * @supplierCardinality 1..* 
 	 */
 	GateServer		*	m_gate;
-	uLong 				m_gtAddr;				//GateServerÉÏ·ÖÅäµÄID,Êµ¼ÊÉÏÊÇÄÚ²¿Êı¾İ½á¹¹µÄÄÚ´æµØÖ·.
+	uLong 				m_gtAddr;				//GateServerä¸Šåˆ†é…çš„ID,å®é™…ä¸Šæ˜¯å†…éƒ¨æ•°æ®ç»“æ„çš„å†…å­˜åœ°å€.
 	bool				m_bCheat;
 	long				m_lChatMoney;
 	long				m_lTradeChatMoney;

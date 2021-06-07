@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------
-// Ãû³Æ:¹ö¶¯Ìõ
-// ×÷Õß:lh 2004-07-20
-// ÓÃÍ¾:ÓÃÓÚÅäºÏÊ÷×´¿Ø¼ş,ÁĞ±íÀ¸µÈµÄ¹ö¶¯
-// ×îºóĞŞ¸ÄÈÕÆÚ:2004-10-09
+// åç§°:æ»šåŠ¨æ¡
+// ä½œè€…:lh 2004-07-20
+// ç”¨é€”:ç”¨äºé…åˆæ ‘çŠ¶æ§ä»¶,åˆ—è¡¨æ ç­‰çš„æ»šåŠ¨
+// æœ€åä¿®æ”¹æ—¥æœŸ:2004-10-09
 //----------------------------------------------------------------------
 #pragma once
 #include "uicompent.h"
@@ -19,8 +19,8 @@ class CScroll : public CCompent
 public:
 	enum eStyle
 	{
-		btHorizontal=0, // Ë®Æ½µÄ,´Ó×ó×ÔÓÒµÄ
-		btVertical,     // ´¹Ö±µÄ£¬´ÓÏÂÖ±ÉÏµÄ      
+		btHorizontal=0, // æ°´å¹³çš„,ä»å·¦è‡ªå³çš„
+		btVertical,     // å‚ç›´çš„ï¼Œä»ä¸‹ç›´ä¸Šçš„      
 	};
 
 public:
@@ -40,7 +40,7 @@ public:
 	virtual bool	IsFrameMove()		{ return true;		}
 	virtual void	SetAlpha( BYTE alpha );
     virtual void    RenderHint( int x, int y );	
-    virtual CCompent* GetHintCompent( int x, int y );                       // ·µ»ØÓĞÌáÊ¾µÄ¿Ø¼ş
+    virtual CCompent* GetHintCompent( int x, int y );                       // è¿”å›æœ‰æç¤ºçš„æ§ä»¶
 
 	virtual bool    IsHandleMouse()		{ return true;		}
 
@@ -68,7 +68,7 @@ public:
 	// End
 
 public:
-	GuiEvent		evtChange;		// ·¢ÉúÁË¹ö¶¯
+	GuiEvent		evtChange;		// å‘ç”Ÿäº†æ»šåŠ¨
 
 protected:
 	void			_RefreshMidst();
@@ -99,7 +99,7 @@ protected:
 	void			_UpdataStep( int v );
 
 protected:
-	CGuiPic*		_pImage;		// ±³¾°Í¼
+	CGuiPic*		_pImage;		// èƒŒæ™¯å›¾
 
 	CTextButton*	_up;
 	CTextButton*	_down;
@@ -110,8 +110,8 @@ protected:
 	CStep			_step;
 	int				_nStart;
 
-	float			_fPageNum;		// ·­Ò³Ê±µÄ¼ä¾à
-	bool			_IsAutoHide;	// Èç¹ûÃ»ÓĞ·­Ò³ÊÇ·ñ×Ô¶¯Òş²Ø
+	float			_fPageNum;		// ç¿»é¡µæ—¶çš„é—´è·
+	bool			_IsAutoHide;	// å¦‚æœæ²¡æœ‰ç¿»é¡µæ˜¯å¦è‡ªåŠ¨éšè—
 
 private:
 	int				_nMinDrag, _nMaxDrag;

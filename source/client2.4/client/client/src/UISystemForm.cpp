@@ -1,22 +1,22 @@
-#include "StdAfx.h"
 #include "uisystemform.h"
-#include <stdio.h> 
-#include <windows.h> 
-#include "uiform.h"
-#include "uicheckbox.h"
-#include "Gameapp.h"
-#include "uiformmgr.h"
-#include "uiprogressbar.h"
-#include "packetcmd.h"
-#include "loginscene.h"
-#include "cameractrl.h"
 #include "Character.h"
 #include "GameConfig.h"
-#include "UIMinimapForm.h"
-#include "uistartform.h"
+#include "Gameapp.h"
+#include "StdAfx.h"
 #include "UIEquipForm.h"
-#include "UIItemCommand.h"
 #include "UIFastCommand.h"
+#include "UIItemCommand.h"
+#include "UIMinimapForm.h"
+#include "cameractrl.h"
+#include "loginscene.h"
+#include "packetcmd.h"
+#include "uicheckbox.h"
+#include "uiform.h"
+#include "uiformmgr.h"
+#include "uiprogressbar.h"
+#include "uistartform.h"
+#include <stdio.h>
+#include <windows.h>
 #ifdef __SOUND__
 #ifndef USE_DSOUND
 #include "AudioThread.h"
@@ -30,1046 +30,1090 @@ using namespace GUI;
 //---------------------------------------------------------
 
 /**
-* ½«ÏµÍ³µÄÊÓÆµÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
-* @return: success Return 0.
-*/
+ * å°†ç³»ç»Ÿçš„è§†é¢‘é…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
+ * @return: success Return 0.
+ */
 
-CSystemProperties::SVideo::SVideo() :	
-bFullScreen(false), bPixel1024(false), nTexture(0), nQuality(0),
-bAnimation(false), bCameraRotate(false), bGroundMark(false), bDepth32(false)
-{
-}
+CSystemProperties::SVideo::SVideo()
+    : bFullScreen(false), bPixel1024(false), nTexture(0), nQuality(0),
+      bAnimation(false), bCameraRotate(false), bGroundMark(false),
+      bDepth32(false) {}
 
-int CSystemProperties::ApplyVideo()
-{
-	//video
+int CSystemProperties::ApplyVideo() {
+  // video
 
-	//bCameraRotate
-	g_pGameApp->GetMainCam()->EnableRotation( m_videoProp.bCameraRotate );
-	//bViewFar
-	//g_pGameApp->GetMainCam()->EnableUpdown( m_videoProp.bViewFar ) ;//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-	//nTexture-bGroundMark-nQuality
-	g_pGameApp->GetCurScene()->SetTextureLOD(m_videoProp.nTexture);
+  // bCameraRotate
+  g_pGameApp->GetMainCam()->EnableRotation(m_videoProp.bCameraRotate);
+  // bViewFar
+  // g_pGameApp->GetMainCam()->EnableUpdown( m_videoProp.bViewFar )
+  // ;//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22 nTexture-bGroundMark-nQuality
+  g_pGameApp->GetCurScene()->SetTextureLOD(m_videoProp.nTexture);
 
-	GetRender().SetIsChangeResolution(true);
+  GetRender().SetIsChangeResolution(true);
 
-	//ÉĞÎ´Ê¹ÓÃ
-	//bAnimation
+  //å°šæœªä½¿ç”¨
+  // bAnimation
 
-	//bDepth32-bFullScreen-bPixel1024
-	int width(0), height(0);
-	if (m_videoProp.bPixel1024)
-	{
-		width = 1024;
-		height = 768;
-	}
-	else
-	{
-		width = 800;
-		height = 600;
-	}
-	D3DFORMAT  format = m_videoProp.bDepth32 ? D3DFMT_D24X8 : D3DFMT_D16;
+  // bDepth32-bFullScreen-bPixel1024
+  int width(0), height(0);
+  if (m_videoProp.bPixel1024) {
+    width = 1024;
+    height = 768;
+  } else {
+    width = 800;
+    height = 600;
+  }
+  D3DFORMAT format = m_videoProp.bDepth32 ? D3DFMT_D24X8 : D3DFMT_D16;
 
-	LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-	if(FAILED(dev_obj->CheckCurrentDeviceFormat(BBFI_DEPTHSTENCIL, format)))
-	{
-		format = D3DFMT_D16;
-	}
-	g_pGameApp->ChangeVideoStyle( width ,height ,format ,!m_videoProp.bFullScreen  );
+  LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+  if (FAILED(dev_obj->CheckCurrentDeviceFormat(BBFI_DEPTHSTENCIL, format))) {
+    format = D3DFMT_D16;
+  }
+  g_pGameApp->ChangeVideoStyle(width, height, format, !m_videoProp.bFullScreen);
 
-	return 0;
+  return 0;
 }
 /**
-* ½«ÏµÍ³ÒôÆµÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
-* @return: success Return 0.
-*/
-int CSystemProperties::ApplyAudio()
-{
+ * å°†ç³»ç»ŸéŸ³é¢‘é…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
+ * @return: success Return 0.
+ */
+int CSystemProperties::ApplyAudio() {
 #ifdef __SOUND__
-	//audio
-	g_pGameApp->GetCurScene()->SetSoundSize( m_audioProp.nMusicEffect / 10.0f );			
-	g_pGameApp->SetMusicSize( m_audioProp.nMusicSound / 10.0f  );
-	g_pGameApp->mSoundManager->SetVolume(  m_audioProp.nMusicEffect / 10.0f  );
+  // audio
+  g_pGameApp->GetCurScene()->SetSoundSize(m_audioProp.nMusicEffect / 10.0f);
+  g_pGameApp->SetMusicSize(m_audioProp.nMusicSound / 10.0f);
+  g_pGameApp->mSoundManager->SetVolume(m_audioProp.nMusicEffect / 10.0f);
 #endif
-	return 0;
-
+  return 0;
 }
 //-----------------------------------------------------------------------------
-int CSystemProperties::ApplyGameOption()
-{
-	g_Config.SetMoveClient(m_gameOption.bRunMode);
+int CSystemProperties::ApplyGameOption() {
+  g_Config.SetMoveClient(m_gameOption.bRunMode);
 
-	// Success
-	return 0;
-}
-
-
-/**
-* ½«ÏµÍ³ÅäÖÃÔÚÓÎÏ·ÖĞÉúĞ§.
-* @return: success Return 0.
-*          video failure Return -1.
-*          audio failure Return -2.
-*          gameOption failureboth Return -3.
-*			other failure Return -4.
-*/
-int CSystemProperties::Apply()
-{
-	int nVideo = ApplyVideo();
-	int nAudio = ApplyAudio();
-	int nGameOption = ApplyGameOption();
-	if (nVideo == 0 && nAudio == 0 && nGameOption == 0)
-		return 0;
-	if (nVideo != 0)
-		return -1;
-	if (nAudio != 0)
-		return -2;
-	if (nGameOption != 0)
-		return -3;
-	return -4;
-
+  // Success
+  return 0;
 }
 
 /**
-* The help function of reading the propties from the file(*.ini).
-* @param: szIniFileName The name of ini file
-* @return: 0 Success.
-*          -1 File is not exist.
-*          -2 File is destroyed.
-*			-3 Filename is null or its length is zero.
-*/
-int CSystemProperties::readFromFile(const char * szIniFileName)
-{
-	//return 0;
+ * å°†ç³»ç»Ÿé…ç½®åœ¨æ¸¸æˆä¸­ç”Ÿæ•ˆ.
+ * @return: success Return 0.
+ *          video failure Return -1.
+ *          audio failure Return -2.
+ *          gameOption failureboth Return -3.
+ *			other failure Return -4.
+ */
+int CSystemProperties::Apply() {
+  int nVideo = ApplyVideo();
+  int nAudio = ApplyAudio();
+  int nGameOption = ApplyGameOption();
+  if (nVideo == 0 && nAudio == 0 && nGameOption == 0)
+    return 0;
+  if (nVideo != 0)
+    return -1;
+  if (nAudio != 0)
+    return -2;
+  if (nGameOption != 0)
+    return -3;
+  return -4;
+}
+
+/**
+ * The help function of reading the propties from the file(*.ini).
+ * @param: szIniFileName The name of ini file
+ * @return: 0 Success.
+ *          -1 File is not exist.
+ *          -2 File is destroyed.
+ *			-3 Filename is null or its length is zero.
+ */
+int CSystemProperties::readFromFile(const char *szIniFileName) {
+  // return 0;
 #define DEFAULT_NUM -2
 
-	if ((!szIniFileName) || (strlen(szIniFileName) == 0))
-	{
-		return -3;
-	}
+  if ((!szIniFileName) || (strlen(szIniFileName) == 0)) {
+    return -3;
+  }
 
-	int iTemp;
-	// video
-	iTemp = GetPrivateProfileInt("video", "texture", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.nTexture = iTemp;
+  int iTemp;
+  // video
+  iTemp = GetPrivateProfileInt("video", "texture", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.nTexture = iTemp;
 
-	iTemp = GetPrivateProfileInt("video", "animation", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bAnimation = int2bool(iTemp);
+  iTemp =
+      GetPrivateProfileInt("video", "animation", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bAnimation = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("video", "cameraRotate", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bCameraRotate = int2bool(iTemp);
+  iTemp =
+      GetPrivateProfileInt("video", "cameraRotate", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bCameraRotate = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("video", "groundMark", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bGroundMark = int2bool(iTemp);
+  iTemp =
+      GetPrivateProfileInt("video", "groundMark", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bGroundMark = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("video", "depth32", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bDepth32 = int2bool(iTemp);
+  iTemp = GetPrivateProfileInt("video", "depth32", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bDepth32 = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("video", "quality", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.nQuality = iTemp;
+  iTemp = GetPrivateProfileInt("video", "quality", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.nQuality = iTemp;
 
-	iTemp = GetPrivateProfileInt("video", "fullScreen", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bFullScreen = int2bool(iTemp);
+  iTemp =
+      GetPrivateProfileInt("video", "fullScreen", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bFullScreen = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("video", "pixel1024", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_videoProp.bPixel1024 = int2bool(iTemp);
+  iTemp =
+      GetPrivateProfileInt("video", "pixel1024", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_videoProp.bPixel1024 = int2bool(iTemp);
 
-	// audio
-	iTemp = GetPrivateProfileInt("audio", "musicSound", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_audioProp.nMusicSound = iTemp;
+  // audio
+  iTemp =
+      GetPrivateProfileInt("audio", "musicSound", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_audioProp.nMusicSound = iTemp;
 
-	iTemp = GetPrivateProfileInt("audio", "musicEffect", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_audioProp.nMusicEffect = iTemp;
+  iTemp =
+      GetPrivateProfileInt("audio", "musicEffect", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_audioProp.nMusicEffect = iTemp;
 
-	// gameOption
-	iTemp = GetPrivateProfileInt("gameOption", "runMode", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_gameOption.bRunMode = int2bool(iTemp);
+  // gameOption
+  iTemp =
+      GetPrivateProfileInt("gameOption", "runMode", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_gameOption.bRunMode = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("gameOption", "helpMode", 1, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_gameOption.bHelpMode = int2bool(iTemp);
+  iTemp = GetPrivateProfileInt("gameOption", "helpMode", 1, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_gameOption.bHelpMode = int2bool(iTemp);
 
-	iTemp = GetPrivateProfileInt("gameOption", "CmpEquip", 1, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_gameOption.bCmpEquip = int2bool(iTemp);
+  iTemp = GetPrivateProfileInt("gameOption", "CmpEquip", 1, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_gameOption.bCmpEquip = int2bool(iTemp);
 
-	// Add by lark.li 20080826 begin
-	iTemp = GetPrivateProfileInt("startOption", "first", DEFAULT_NUM, szIniFileName);
-	if (iTemp == DEFAULT_NUM)	return DEFAULT_NUM;
-	m_startOption.bFirst = int2bool(iTemp);
-	// End
+  // Add by lark.li 20080826 begin
+  iTemp =
+      GetPrivateProfileInt("startOption", "first", DEFAULT_NUM, szIniFileName);
+  if (iTemp == DEFAULT_NUM)
+    return DEFAULT_NUM;
+  m_startOption.bFirst = int2bool(iTemp);
+  // End
 
-	// success
-	return 0;
+  // success
+  return 0;
 }
 /**
-* The help function of write the propties to the file(*.ini).
-* @param: szIniFileName The name of ini file.
-* @return: 0 Success.
-*          -1 Error.
-*			-2 File can not be created.
-*			-3 Filename is null or its length is zero.
-*/
-int CSystemProperties::writeToFile(const char * szIniFileName)
-{
+ * The help function of write the propties to the file(*.ini).
+ * @param: szIniFileName The name of ini file.
+ * @return: 0 Success.
+ *          -1 Error.
+ *			-2 File can not be created.
+ *			-3 Filename is null or its length is zero.
+ */
+int CSystemProperties::writeToFile(const char *szIniFileName) {
 #define OTHER_ERROR -1
 #define ERROE_FILE_CANNT_CREAT -2
 
-	if ((!szIniFileName) || (strlen(szIniFileName) == 0))
-	{
-		return -3;
-	}
+  if ((!szIniFileName) || (strlen(szIniFileName) == 0)) {
+    return -3;
+  }
 
-	// video
-	if (!WriteInteger("video", "texture", m_videoProp.nTexture, szIniFileName))
-	{
-		FILE *fp;
-		fopen_s( &fp, szIniFileName, "wb");
-		if( fp )
-		{
-			fclose(fp);
-		}
-		else
-		{
-			return ERROE_FILE_CANNT_CREAT;
-		}
-	}
+  // video
+  if (!WriteInteger("video", "texture", m_videoProp.nTexture, szIniFileName)) {
+    FILE *fp;
+    fopen_s(&fp, szIniFileName, "wb");
+    if (fp) {
+      fclose(fp);
+    } else {
+      return ERROE_FILE_CANNT_CREAT;
+    }
+  }
 
-	if (!WriteInteger("video", "animation", bool2int(m_videoProp.bAnimation), szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "cameraRotate", bool2int(m_videoProp.bCameraRotate), szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "groundMark", bool2int(m_videoProp.bGroundMark), szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "depth32", bool2int(m_videoProp.bDepth32), szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "quality", m_videoProp.nQuality, szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "fullScreen", bool2int(m_videoProp.bFullScreen), szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("video", "pixel1024", bool2int(m_videoProp.bPixel1024), szIniFileName))
-		return OTHER_ERROR;
+  if (!WriteInteger("video", "animation", bool2int(m_videoProp.bAnimation),
+                    szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "cameraRotate",
+                    bool2int(m_videoProp.bCameraRotate), szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "groundMark", bool2int(m_videoProp.bGroundMark),
+                    szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "depth32", bool2int(m_videoProp.bDepth32),
+                    szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "quality", m_videoProp.nQuality, szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "fullScreen", bool2int(m_videoProp.bFullScreen),
+                    szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("video", "pixel1024", bool2int(m_videoProp.bPixel1024),
+                    szIniFileName))
+    return OTHER_ERROR;
 
-	// audio
-	if (!WriteInteger("audio", "musicSound", m_audioProp.nMusicSound, szIniFileName))
-		return OTHER_ERROR;
-	if (!WriteInteger("audio", "musicEffect", m_audioProp.nMusicEffect, szIniFileName))
-		return OTHER_ERROR;
+  // audio
+  if (!WriteInteger("audio", "musicSound", m_audioProp.nMusicSound,
+                    szIniFileName))
+    return OTHER_ERROR;
+  if (!WriteInteger("audio", "musicEffect", m_audioProp.nMusicEffect,
+                    szIniFileName))
+    return OTHER_ERROR;
 
-	// gameOption
-	if (!WriteInteger("gameOption", "runMode", bool2int(m_gameOption.bRunMode), szIniFileName))
-		return OTHER_ERROR;
+  // gameOption
+  if (!WriteInteger("gameOption", "runMode", bool2int(m_gameOption.bRunMode),
+                    szIniFileName))
+    return OTHER_ERROR;
 
-	if (!WriteInteger("gameOption", "helpMode", bool2int(m_gameOption.bHelpMode), szIniFileName))
-		return OTHER_ERROR;
+  if (!WriteInteger("gameOption", "helpMode", bool2int(m_gameOption.bHelpMode),
+                    szIniFileName))
+    return OTHER_ERROR;
 
-	if (!WriteInteger("gameOption", "CmpEquip", bool2int(m_gameOption.bCmpEquip), szIniFileName))
-		return OTHER_ERROR;
+  if (!WriteInteger("gameOption", "CmpEquip", bool2int(m_gameOption.bCmpEquip),
+                    szIniFileName))
+    return OTHER_ERROR;
 
-	// Add by lark.li 20080826 begin
-	if (!WriteInteger("startOption", "first", bool2int(m_startOption.bFirst), szIniFileName))
-		return OTHER_ERROR;
-	// End
+  // Add by lark.li 20080826 begin
+  if (!WriteInteger("startOption", "first", bool2int(m_startOption.bFirst),
+                    szIniFileName))
+    return OTHER_ERROR;
+  // End
 
-	// Success
-	return 0;
+  // Success
+  return 0;
 }
 
-bool CSystemProperties::int2bool(int n)
-{
-	if (0 == n)
-		return false;
-	else 
-		return true;
+bool CSystemProperties::int2bool(int n) {
+  if (0 == n)
+    return false;
+  else
+    return true;
 }
 
-int	CSystemProperties::bool2int(bool b)
-{
-	return b?1:0;
-}
+int CSystemProperties::bool2int(bool b) { return b ? 1 : 0; }
 
-
-
-//video½çÃæµÄ²ÎÊı
-static int     	g_nCbxTexture;
-static int		g_nCbxMovie;
-static int		g_nCbxCamera;
-static int		g_nCbxView;
-static int     	g_nCbxTrail;
-static int     	g_nCbxColor;
-static int     	g_nCbxSize;
-static int     	g_nCbxModel;
-static int     	g_bCbxQuality;
-static float   	g_fPosMusic = -1.0f;           //»·¾³ÒôÀÖºÍ¼´Ê±ÒôĞ§
-static float   	g_fPosMidi =  -1.0f;
-static bool    	g_bChangeAudio = false;        //ÊÇ·ñ¸Ä±äÒôÆµ
+// videoç•Œé¢çš„å‚æ•°
+static int g_nCbxTexture;
+static int g_nCbxMovie;
+static int g_nCbxCamera;
+static int g_nCbxView;
+static int g_nCbxTrail;
+static int g_nCbxColor;
+static int g_nCbxSize;
+static int g_nCbxModel;
+static int g_bCbxQuality;
+static float g_fPosMusic = -1.0f; //ç¯å¢ƒéŸ³ä¹å’Œå³æ—¶éŸ³æ•ˆ
+static float g_fPosMidi = -1.0f;
+static bool g_bChangeAudio = false; //æ˜¯å¦æ”¹å˜éŸ³é¢‘
 
 //---------------------------------------------------------------------------
 // class CVideoMgr
 //---------------------------------------------------------------------------
 
-CSystemMgr::CSystemMgr() 
-: m_isLoad(false),frmSystem(0), frmAudio(0), proAudioMusic(0), proAudioMidi(0),
-frmVideo(0), cbxTexture(0), cbxMovie(0), cbxCamera(0), cbxTrail(0), 
-cbxColor(0), cbxSize(0), cbxModel(0), cbxQuality(0), frmAskRelogin(0),
-frmAskExit(0), frmAskChange(0)
-{}
+CSystemMgr::CSystemMgr()
+    : m_isLoad(false), frmSystem(0), frmAudio(0), proAudioMusic(0),
+      proAudioMidi(0), frmVideo(0), cbxTexture(0), cbxMovie(0), cbxCamera(0),
+      cbxTrail(0), cbxColor(0), cbxSize(0), cbxModel(0), cbxQuality(0),
+      frmAskRelogin(0), frmAskExit(0), frmAskChange(0) {}
 
+void CSystemMgr::LoadCustomProp() {
+  //è¯»å–ç³»ç»Ÿé…ç½®å¹¶åº”ç”¨(Michael Chen 2005-04-27)
 
+  if (!m_isLoad) {
+    if (m_sysProp.Load("user\\system.ini")) {
+      //è¯»å–é…ç½®æ–‡ä»¶å¤±è´¥,ç”¨é»˜è®¤å€¼å¡«å……
+      m_sysProp.m_videoProp.nTexture = 0;
+      m_sysProp.m_videoProp.bAnimation = true;
+      m_sysProp.m_videoProp.bCameraRotate = true;
+      // m_sysProp.m_videoProp.bViewFar=true;      //å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen
+      // 2005-04-22
+      m_sysProp.m_videoProp.bGroundMark = true;
+      m_sysProp.m_videoProp.bDepth32 = true;
+      m_sysProp.m_videoProp.nQuality = 0;
+      m_sysProp.m_videoProp.bFullScreen =
+          false; // g_pGameApp->IsFullScreen() == TRUE ? true : false;
+      m_sysProp.m_videoProp.bPixel1024 =
+          true; // g_Render.GetScrWidth() > 1000 ? true : false;
 
-void CSystemMgr::LoadCustomProp()
-{
-	//¶ÁÈ¡ÏµÍ³ÅäÖÃ²¢Ó¦ÓÃ(Michael Chen 2005-04-27)
+      m_sysProp.m_audioProp.nMusicSound =
+          0; // static_cast<int>(10.0f* g_pGameApp->GetMusicSize());
+      m_sysProp.m_audioProp.nMusicEffect =
+          0; // static_cast<int>(10.0f*
+             // g_pGameApp->GetCurScene()->GetSoundSize());
 
-	if (!m_isLoad)
-	{
-		if (m_sysProp.Load("user\\system.ini"))
-		{
-			//¶ÁÈ¡ÅäÖÃÎÄ¼şÊ§°Ü,ÓÃÄ¬ÈÏÖµÌî³ä
-			m_sysProp.m_videoProp.nTexture=0;
-			m_sysProp.m_videoProp.bAnimation=true;
-			m_sysProp.m_videoProp.bCameraRotate=true;
-			//m_sysProp.m_videoProp.bViewFar=true;      //È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-			m_sysProp.m_videoProp.bGroundMark=true;
-			m_sysProp.m_videoProp.bDepth32=true;
-			m_sysProp.m_videoProp.nQuality=0;
-			m_sysProp.m_videoProp.bFullScreen=false;//g_pGameApp->IsFullScreen() == TRUE ? true : false;
-			m_sysProp.m_videoProp.bPixel1024= true;//g_Render.GetScrWidth() > 1000 ? true : false;
+      m_sysProp.m_gameOption.bRunMode = true;
+    }
+    m_sysProp.m_gameOption.bRunMode =
+        true; //æ— è®ºæ–‡ä»¶çš„è®¾ç½®å¦‚ä½•ï¼Œè¿™ä¸€é¡¹éƒ½ä¸ºtrueï¼Œä¸´æ—¶
 
-			m_sysProp.m_audioProp.nMusicSound=0;//static_cast<int>(10.0f* g_pGameApp->GetMusicSize());
-			m_sysProp.m_audioProp.nMusicEffect=0;//static_cast<int>(10.0f* g_pGameApp->GetCurScene()->GetSoundSize());
-
-			m_sysProp.m_gameOption.bRunMode = true;
-		}
-		m_sysProp.m_gameOption.bRunMode = true;	//ÎŞÂÛÎÄ¼şµÄÉèÖÃÈçºÎ£¬ÕâÒ»Ïî¶¼Îªtrue£¬ÁÙÊ±
-
-		m_isLoad = true;
-	}
-	CCharacter::SetIsShowShadow(m_sysProp.m_videoProp.bGroundMark);
-
+    m_isLoad = true;
+  }
+  CCharacter::SetIsShowShadow(m_sysProp.m_videoProp.bGroundMark);
 }
-bool CSystemMgr::Init()
-{
+bool CSystemMgr::Init() {
 
-	frmSystem = _FindForm("frmSystem");//ÏµÍ³±íµ¥ 
-	if(!frmSystem ) 		return false;
-	frmSystem->evtEntrustMouseEvent = _evtSystemFromMouseEvent;
+  frmSystem = _FindForm("frmSystem"); //ç³»ç»Ÿè¡¨å•
+  if (!frmSystem)
+    return false;
+  frmSystem->evtEntrustMouseEvent = _evtSystemFromMouseEvent;
 
+  LoadCustomProp(); //è¯»å–ç”¨æˆ·è‡ªå®šä¹‰çš„é…ç½®
 
-	LoadCustomProp();       //¶ÁÈ¡ÓÃ»§×Ô¶¨ÒåµÄÅäÖÃ
+  ///////////// Videoç³»åˆ—
+  frmVideo = _FindForm("frmVideo");
+  if (!frmVideo)
+    return false;
+  frmVideo->evtEntrustMouseEvent = _evtVideoFormMouseEvent;
 
-	///////////// VideoÏµÁĞ
-	frmVideo = _FindForm("frmVideo");
-	if( !frmVideo )		return false;
-	frmVideo->evtEntrustMouseEvent = _evtVideoFormMouseEvent;
+  cbxTexture = (CCheckGroup *)frmVideo->Find("cbxTexture"); //è´´å›¾ç²¾åº¦
+  if (!cbxTexture)
+    return Error("msgui.cluç•Œé¢<%s>ä¸Šæ‰¾ä¸åˆ°æ§ä»¶<%s>", frmVideo->GetName(),
+                 "cbxTexture");
+  cbxTexture->SetActiveIndex(
+      m_sysProp.m_videoProp
+          .nTexture); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxTexture = ( CCheckGroup *)frmVideo->Find( "cbxTexture" ); //ÌùÍ¼¾«¶È
-	if (! cbxTexture)	return Error( "msgui.clu½çÃæ<%s>ÉÏÕÒ²»µ½¿Ø¼ş<%s>", frmVideo->GetName(), "cbxTexture" );
-	cbxTexture->SetActiveIndex(m_sysProp.m_videoProp.nTexture); //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxMovie = (CCheckGroup *)frmVideo->Find("cbxMovie"); //è´´å›¾ç²¾åº¦
+  if (!cbxMovie)
+    return Error("msgui.cluç•Œé¢<%s>ä¸Šæ‰¾ä¸åˆ°æ§ä»¶<%s>", frmVideo->GetName(),
+                 "cbxMovie");
+  cbxMovie->SetActiveIndex(
+      m_sysProp.m_videoProp.bAnimation
+          ? 0
+          : 1); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxMovie = ( CCheckGroup *)frmVideo->Find( "cbxMovie" ); //ÌùÍ¼¾«¶È
-	if (! cbxMovie )	return Error( "msgui.clu½çÃæ<%s>ÉÏÕÒ²»µ½¿Ø¼ş<%s>", frmVideo->GetName(), "cbxMovie" );
-	cbxMovie->SetActiveIndex(m_sysProp.m_videoProp.bAnimation ? 0 : 1); //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxCamera = (CCheckGroup *)frmVideo->Find("cbxCamera"); //è´´å›¾ç²¾åº¦
+  if (!cbxCamera)
+    return Error("msgui.cluç•Œé¢<%s>ä¸Šæ‰¾ä¸åˆ°æ§ä»¶<%s>", frmVideo->GetName(),
+                 "cbxCamera");
+  cbxCamera->SetActiveIndex(
+      m_sysProp.m_videoProp.bCameraRotate
+          ? 0
+          : 1); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxCamera = ( CCheckGroup *)frmVideo->Find( "cbxCamera" ); //ÌùÍ¼¾«¶È
-	if (! cbxCamera )	return Error( "msgui.clu½çÃæ<%s>ÉÏÕÒ²»µ½¿Ø¼ş<%s>", frmVideo->GetName(), "cbxCamera" );
-	cbxCamera->SetActiveIndex(m_sysProp.m_videoProp.bCameraRotate ? 0 : 1); //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  /** å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22
+  cbxView = ( CCheckGroup *)frmVideo->Find( "cbxView" ); //è´´å›¾ç²¾åº¦
+  if (! cbxView )		return Error( "msgui.cluç•Œé¢<%s>ä¸Šæ‰¾ä¸åˆ°æ§ä»¶<%s>",
+  frmVideo->GetName(), "cbxView" );
+  cbxView->SetActiveIndex(m_sysProp.m_videoProp.bViewFar ? 0 : 1);
+  //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
+  */
 
-	/** È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-	cbxView = ( CCheckGroup *)frmVideo->Find( "cbxView" ); //ÌùÍ¼¾«¶È
-	if (! cbxView )		return Error( "msgui.clu½çÃæ<%s>ÉÏÕÒ²»µ½¿Ø¼ş<%s>", frmVideo->GetName(), "cbxView" );
-	cbxView->SetActiveIndex(m_sysProp.m_videoProp.bViewFar ? 0 : 1);    //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
-	*/
+  cbxTrail = (CCheckGroup *)frmVideo->Find("cbxTrail"); //è´´å›¾ç²¾åº¦
+  if (!cbxTrail)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(),
+                 "cbxTrail");
+  cbxTrail->SetActiveIndex(
+      m_sysProp.m_videoProp.bGroundMark
+          ? 0
+          : 1); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxTrail = ( CCheckGroup *)frmVideo->Find( "cbxTrail" ); //ÌùÍ¼¾«¶È
-	if (! cbxTrail )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(), "cbxTrail" );
-	cbxTrail->SetActiveIndex(m_sysProp.m_videoProp.bGroundMark ? 0 : 1);    //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxColor = (CCheckGroup *)frmVideo->Find("cbxColor"); //è´´å›¾ç²¾åº¦
+  if (!cbxColor)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(),
+                 "cbxColor");
+  cbxColor->SetActiveIndex(
+      m_sysProp.m_videoProp.bDepth32
+          ? 1
+          : 0); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxColor = ( CCheckGroup *)frmVideo->Find( "cbxColor" ); //ÌùÍ¼¾«¶È
-	if (! cbxColor )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(), "cbxColor" );
-	cbxColor->SetActiveIndex(m_sysProp.m_videoProp.bDepth32 ? 1 : 0);   //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxSize = (CCheckGroup *)frmVideo->Find("cbxSize"); //è´´å›¾ç²¾åº¦
+  if (!cbxSize)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(),
+                 "cbxSize");
+  cbxSize->SetActiveIndex(
+      m_sysProp.m_videoProp.bPixel1024
+          ? 1
+          : 0); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxSize = ( CCheckGroup *)frmVideo->Find( "cbxSize" ); //ÌùÍ¼¾«¶È
-	if (! cbxSize )		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(), "cbxSize" );
-	cbxSize->SetActiveIndex(m_sysProp.m_videoProp.bPixel1024 ? 1 : 0);  //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxModel = (CCheckGroup *)frmVideo->Find("cbxModel"); //è´´å›¾ç²¾åº¦
+  if (!cbxModel)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(),
+                 "cbxModel");
+  cbxModel->SetActiveIndex(
+      m_sysProp.m_videoProp.bFullScreen
+          ? 0
+          : 1); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
 
-	cbxModel = ( CCheckGroup *)frmVideo->Find( "cbxModel" ); //ÌùÍ¼¾«¶È
-	if (! cbxModel )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(), "cbxModel" );	
-	cbxModel->SetActiveIndex(m_sysProp.m_videoProp.bFullScreen ? 0 : 1);    //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
+  cbxQuality = (CCheckGroup *)frmVideo->Find("cbxQuality"); //è´´å›¾ç²¾åº¦
+  if (!cbxQuality)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(),
+                 "cbxQuality");
+  cbxQuality->SetActiveIndex(
+      m_sysProp.m_videoProp
+          .nQuality); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
+  cbxQuality->evtSelectChange = _evtVideoChangeChange;
 
-	cbxQuality = ( CCheckGroup *)frmVideo->Find( "cbxQuality" ); //ÌùÍ¼¾«¶È
-	if (! cbxQuality )	return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmVideo->GetName(), "cbxQuality" );
-	cbxQuality->SetActiveIndex(m_sysProp.m_videoProp.nQuality); //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
-	cbxQuality->evtSelectChange  = _evtVideoChangeChange;
+  //////////Audioç³»åˆ—
+  frmAudio = _FindForm("frmAudio");
+  if (!frmAudio)
+    return false;
+  frmAudio->evtEntrustMouseEvent = _evtAudioFormMouseEvent;
 
-	//////////AudioÏµÁĞ
-	frmAudio = _FindForm("frmAudio");
-	if( !frmAudio )         return false;
-	frmAudio->evtEntrustMouseEvent = _evtAudioFormMouseEvent;
+  proAudioMusic = dynamic_cast<CProgressBar *>(frmAudio->Find("proAudioMusic"));
+  if (!proAudioMusic)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmAudio->GetName(),
+                 "proAudioMusic");
+  proAudioMusic->SetPosition(static_cast<float>(
+      m_sysProp.m_audioProp
+          .nMusicSound)); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š Michael Chen 2005-04-22
+  proAudioMusic->evtMouseDown = _evtMainMusicMouseDown;
 
-	proAudioMusic  = dynamic_cast<CProgressBar *>(frmAudio->Find("proAudioMusic"));    
-	if( !proAudioMusic )		return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmAudio->GetName(), "proAudioMusic" );
-	proAudioMusic->SetPosition( static_cast<float>(m_sysProp.m_audioProp.nMusicSound) );    //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
-	proAudioMusic->evtMouseDown = _evtMainMusicMouseDown;
-
-	proAudioMidi  = dynamic_cast<CProgressBar *>(frmAudio->Find("proAudioMidi"));    
-	if( !proAudioMidi )			return Error( RES_STRING(CL_LANGUAGE_MATCH_45), frmAudio->GetName(), "proAudioMidi" );
-	proAudioMidi->SetPosition( static_cast<float>(m_sysProp.m_audioProp.nMusicEffect) );    //½«ÅäÖÃÎÄ¼şµÄÉèÖÃÏÔÊ¾ÔÚ¿Ø¼şÉÏ Michael Chen 2005-04-22
-	proAudioMidi->evtMouseDown = _evtMainMusicMouseDown;
+  proAudioMidi = dynamic_cast<CProgressBar *>(frmAudio->Find("proAudioMidi"));
+  if (!proAudioMidi)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmAudio->GetName(),
+                 "proAudioMidi");
+  proAudioMidi->SetPosition(static_cast<float>(
+      m_sysProp.m_audioProp.nMusicEffect)); //å°†é…ç½®æ–‡ä»¶çš„è®¾ç½®æ˜¾ç¤ºåœ¨æ§ä»¶ä¸Š
+                                            //Michael Chen 2005-04-22
+  proAudioMidi->evtMouseDown = _evtMainMusicMouseDown;
 
 #ifndef __EDITOR__
-	//////// GameOptionÏµÁĞ
-	frmGameOption = _FindForm("frmGame");
-	if (!frmGameOption) return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(), "frmGame");
-	frmGameOption->evtEntrustMouseEvent = _evtGameOptionFormMouseDown;
-	frmGameOption->evtBeforeShow = _evtGameOptionFormBeforeShow;
+  //////// GameOptionç³»åˆ—
+  frmGameOption = _FindForm("frmGame");
+  if (!frmGameOption)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(),
+                 "frmGame");
+  frmGameOption->evtEntrustMouseEvent = _evtGameOptionFormMouseDown;
+  frmGameOption->evtBeforeShow = _evtGameOptionFormBeforeShow;
 
-	cbxRunMode = (CCheckGroup*)frmGameOption->Find("cbxRunmodel");
-	if (!cbxRunMode) return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(), "cbxRunmodel");
+  cbxRunMode = (CCheckGroup *)frmGameOption->Find("cbxRunmodel");
+  if (!cbxRunMode)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(),
+                 "cbxRunmodel");
 
-	cbxLockMode = (CCheckGroup*)frmGameOption->Find("cbxLockmodel");
-	if (!cbxLockMode) return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(), "cbxLockmodel");
+  cbxLockMode = (CCheckGroup *)frmGameOption->Find("cbxLockmodel");
+  if (!cbxLockMode)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(),
+                 "cbxLockmodel");
 
-	cbxHelpMode = (CCheckGroup*)frmGameOption->Find("cbxHelpmodel");
-	if (!cbxHelpMode) return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(), "cbxHelpmodel");
+  cbxHelpMode = (CCheckGroup *)frmGameOption->Find("cbxHelpmodel");
+  if (!cbxHelpMode)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(),
+                 "cbxHelpmodel");
 
-	cbxEquipCmp = (CCheckGroup*)frmGameOption->Find("comequip");
-	if (!cbxEquipCmp) return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(), "comequip");
+  cbxEquipCmp = (CCheckGroup *)frmGameOption->Find("comequip");
+  if (!cbxEquipCmp)
+    return Error(RES_STRING(CL_LANGUAGE_MATCH_45), frmGameOption->GetName(),
+                 "comequip");
 
-	//////// ÆäËü
-	frmAskRelogin = _FindForm("frmAskRelogin");
-	if( frmAskRelogin ) frmAskRelogin->evtEntrustMouseEvent = _evtAskReloginFormMouseDown;
+  //////// å…¶å®ƒ
+  frmAskRelogin = _FindForm("frmAskRelogin");
+  if (frmAskRelogin)
+    frmAskRelogin->evtEntrustMouseEvent = _evtAskReloginFormMouseDown;
 
-	frmAskExit = _FindForm("frmAskExit");
-	if( frmAskExit ) frmAskExit->evtEntrustMouseEvent = _evtAskExitFormMouseDown;
+  frmAskExit = _FindForm("frmAskExit");
+  if (frmAskExit)
+    frmAskExit->evtEntrustMouseEvent = _evtAskExitFormMouseDown;
 
-	frmAskChange = _FindForm("frmAskChange");
-	if( frmAskChange ) frmAskChange->evtEntrustMouseEvent = _evtAskChangeFormMouseDown;
+  frmAskChange = _FindForm("frmAskChange");
+  if (frmAskChange)
+    frmAskChange->evtEntrustMouseEvent = _evtAskChangeFormMouseDown;
 #endif
 
-	return true;
+  return true;
 }
 
-void CSystemMgr::End()
-{
-	//½«ÏµÍ³ÅäÖÃ±£´æµ½ÎÄ¼ş(Michael Chen 2005-04-19)
-	if (cbxTexture)
-		m_sysProp.m_videoProp.nTexture = cbxTexture->GetActiveIndex();
-	if (cbxMovie)
-		m_sysProp.m_videoProp.bAnimation = cbxMovie->GetActiveIndex() == 0 ? true : false;
-	if (cbxCamera)
-		m_sysProp.m_videoProp.bCameraRotate = cbxCamera->GetActiveIndex() == 0 ? true : false;
-	//m_sysProp.m_videoProp.bViewFar = cbxView->GetActiveIndex() == 0 ? true : false;È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-	if (cbxTrail)
-		m_sysProp.m_videoProp.bGroundMark = cbxTrail->GetActiveIndex() == 0 ? true : false;
-	if (cbxColor)
-		m_sysProp.m_videoProp.bDepth32 = cbxColor->GetActiveIndex() == 0? false : true;
-	if (cbxQuality)
-		m_sysProp.m_videoProp.nQuality = cbxQuality->GetActiveIndex();
-	if (cbxModel)
-		m_sysProp.m_videoProp.bFullScreen = cbxModel->GetActiveIndex() == 0 ? true : false;
-	if (cbxSize)
-		m_sysProp.m_videoProp.bPixel1024 = cbxSize->GetActiveIndex() == 0 ? false : true;
+void CSystemMgr::End() {
+  //å°†ç³»ç»Ÿé…ç½®ä¿å­˜åˆ°æ–‡ä»¶(Michael Chen 2005-04-19)
+  if (cbxTexture)
+    m_sysProp.m_videoProp.nTexture = cbxTexture->GetActiveIndex();
+  if (cbxMovie)
+    m_sysProp.m_videoProp.bAnimation =
+        cbxMovie->GetActiveIndex() == 0 ? true : false;
+  if (cbxCamera)
+    m_sysProp.m_videoProp.bCameraRotate =
+        cbxCamera->GetActiveIndex() == 0 ? true : false;
+  // m_sysProp.m_videoProp.bViewFar = cbxView->GetActiveIndex() == 0 ? true :
+  // false;å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22
+  if (cbxTrail)
+    m_sysProp.m_videoProp.bGroundMark =
+        cbxTrail->GetActiveIndex() == 0 ? true : false;
+  if (cbxColor)
+    m_sysProp.m_videoProp.bDepth32 =
+        cbxColor->GetActiveIndex() == 0 ? false : true;
+  if (cbxQuality)
+    m_sysProp.m_videoProp.nQuality = cbxQuality->GetActiveIndex();
+  if (cbxModel)
+    m_sysProp.m_videoProp.bFullScreen =
+        cbxModel->GetActiveIndex() == 0 ? true : false;
+  if (cbxSize)
+    m_sysProp.m_videoProp.bPixel1024 =
+        cbxSize->GetActiveIndex() == 0 ? false : true;
 
-	if (proAudioMusic)
-		m_sysProp.m_audioProp.nMusicSound=static_cast<int>(proAudioMusic->GetPosition());
-	if (proAudioMidi)
-		m_sysProp.m_audioProp.nMusicEffect=static_cast<int>(proAudioMidi->GetPosition());
+  if (proAudioMusic)
+    m_sysProp.m_audioProp.nMusicSound =
+        static_cast<int>(proAudioMusic->GetPosition());
+  if (proAudioMidi)
+    m_sysProp.m_audioProp.nMusicEffect =
+        static_cast<int>(proAudioMidi->GetPosition());
 
-	if (cbxRunMode)
-		m_sysProp.m_gameOption.bRunMode = cbxRunMode->GetActiveIndex() == 0 ? false : true;
+  if (cbxRunMode)
+    m_sysProp.m_gameOption.bRunMode =
+        cbxRunMode->GetActiveIndex() == 0 ? false : true;
 
-	if (m_sysProp.Save("user\\system.ini"))
-	{
-		// error when save the system properties.
-	}
-	//end of modifying by Michael Chen
+  if (m_sysProp.Save("user\\system.ini")) {
+    // error when save the system properties.
+  }
+  // end of modifying by Michael Chen
 }
 
-void CSystemMgr::_evtVideoChangeChange(CGuiData *pSender)
-{
-	CCheckGroup * g = dynamic_cast<CCheckGroup*>(pSender);
-	if( !g ) return;
+void CSystemMgr::_evtVideoChangeChange(CGuiData *pSender) {
+  CCheckGroup *g = dynamic_cast<CCheckGroup *>(pSender);
+  if (!g)
+    return;
 
-	if (g->GetActiveIndex()==0 )
-	{
-		g_stUISystem.cbxTexture->SetActiveIndex(0);
-		g_stUISystem.cbxMovie->SetActiveIndex(0);
-		g_stUISystem.cbxCamera->SetActiveIndex(0);
-		//g_stUISystem.cbxView->SetActiveIndex(0);//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_stUISystem.cbxTrail->SetActiveIndex(0);
-		g_stUISystem.cbxColor->SetActiveIndex(0);			
-	}
-	else if ( g->GetActiveIndex()==1)
-	{
-		g_stUISystem.cbxTexture->SetActiveIndex(1);
-		g_stUISystem.cbxMovie->SetActiveIndex(0);
-		g_stUISystem.cbxCamera->SetActiveIndex(1);
-		//g_stUISystem.cbxView->SetActiveIndex(0);//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_stUISystem.cbxTrail->SetActiveIndex(0);
-		g_stUISystem.cbxColor->SetActiveIndex(1);	
-	}
-	else if (g->GetActiveIndex()==2 )
-	{
-		g_stUISystem.cbxTexture->SetActiveIndex(2);
-		g_stUISystem.cbxMovie->SetActiveIndex(1);
-		g_stUISystem.cbxCamera->SetActiveIndex(1);
-		//g_stUISystem.cbxView->SetActiveIndex(1);//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_stUISystem.cbxTrail->SetActiveIndex(1);
-		g_stUISystem.cbxColor->SetActiveIndex(1);	
-	}
+  if (g->GetActiveIndex() == 0) {
+    g_stUISystem.cbxTexture->SetActiveIndex(0);
+    g_stUISystem.cbxMovie->SetActiveIndex(0);
+    g_stUISystem.cbxCamera->SetActiveIndex(0);
+    // g_stUISystem.cbxView->SetActiveIndex(0);//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen
+    // 2005-04-22
+    g_stUISystem.cbxTrail->SetActiveIndex(0);
+    g_stUISystem.cbxColor->SetActiveIndex(0);
+  } else if (g->GetActiveIndex() == 1) {
+    g_stUISystem.cbxTexture->SetActiveIndex(1);
+    g_stUISystem.cbxMovie->SetActiveIndex(0);
+    g_stUISystem.cbxCamera->SetActiveIndex(1);
+    // g_stUISystem.cbxView->SetActiveIndex(0);//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen
+    // 2005-04-22
+    g_stUISystem.cbxTrail->SetActiveIndex(0);
+    g_stUISystem.cbxColor->SetActiveIndex(1);
+  } else if (g->GetActiveIndex() == 2) {
+    g_stUISystem.cbxTexture->SetActiveIndex(2);
+    g_stUISystem.cbxMovie->SetActiveIndex(1);
+    g_stUISystem.cbxCamera->SetActiveIndex(1);
+    // g_stUISystem.cbxView->SetActiveIndex(1);//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen
+    // 2005-04-22
+    g_stUISystem.cbxTrail->SetActiveIndex(1);
+    g_stUISystem.cbxColor->SetActiveIndex(1);
+  }
 }
 
-void CSystemMgr::_evtVideoFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
+void CSystemMgr::_evtVideoFormMouseEvent(CCompent *pSender, int nMsgType, int x,
+                                         int y, DWORD dwKey) {
+  string name = pSender->GetName();
 
-	//frmVideo±íµ¥µÄ´¦Àí
-	if (name== "btnYes")						//Ö±½Ó¹Ø±Õ±íµ¥
-	{			
-		int  nTextureHigh = g_stUISystem.cbxTexture->GetActiveIndex();
-		bool bMovieOn     = g_stUISystem.cbxMovie->GetActiveIndex()==0?true:false;
-		bool bCameraOn    = g_stUISystem.cbxCamera->GetActiveIndex()==0?true:false;
-		//bool bViewFar     = g_stUISystem.cbxView->GetActiveIndex()==0?true:false;//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		bool bTrailOn     = g_stUISystem.cbxTrail->GetActiveIndex()==0?true:false;
-		CCharacter::SetIsShowShadow(bTrailOn);
-		D3DFORMAT  format = g_stUISystem.cbxColor->GetActiveIndex()==0?D3DFMT_D24X8 : D3DFMT_D16;
+  // frmVideoè¡¨å•çš„å¤„ç†
+  if (name == "btnYes") //ç›´æ¥å…³é—­è¡¨å•
+  {
+    int nTextureHigh = g_stUISystem.cbxTexture->GetActiveIndex();
+    bool bMovieOn = g_stUISystem.cbxMovie->GetActiveIndex() == 0 ? true : false;
+    bool bCameraOn =
+        g_stUISystem.cbxCamera->GetActiveIndex() == 0 ? true : false;
+    // bool bViewFar     =
+    // g_stUISystem.cbxView->GetActiveIndex()==0?true:false;//å–æ¶ˆè§†é‡è¿œè¿‘(Michael
+    // Chen 2005-04-22
+    bool bTrailOn = g_stUISystem.cbxTrail->GetActiveIndex() == 0 ? true : false;
+    CCharacter::SetIsShowShadow(bTrailOn);
+    D3DFORMAT format = g_stUISystem.cbxColor->GetActiveIndex() == 0
+                           ? D3DFMT_D24X8
+                           : D3DFMT_D16;
 
-		int  width =        g_stUISystem.cbxSize->GetActiveIndex()==0? 800 :1024;
-		int  height =       g_stUISystem.cbxSize->GetActiveIndex()==0? 600:768 ;
+    int width = g_stUISystem.cbxSize->GetActiveIndex() == 0 ? 800 : 1024;
+    int height = g_stUISystem.cbxSize->GetActiveIndex() == 0 ? 600 : 768;
 
-		bool bWindowed =    g_stUISystem.cbxModel->GetActiveIndex()==0?false:true;
+    bool bWindowed =
+        g_stUISystem.cbxModel->GetActiveIndex() == 0 ? false : true;
 
-		g_pGameApp->GetMainCam()->EnableRotation( bCameraOn );		
-		g_stUISystem.m_sysProp.m_videoProp.bCameraRotate = bCameraOn;
+    g_pGameApp->GetMainCam()->EnableRotation(bCameraOn);
+    g_stUISystem.m_sysProp.m_videoProp.bCameraRotate = bCameraOn;
 
-		if(bCameraOn==false)
-		{
-			g_Render.EnableClearTarget(FALSE);
-		}
-		else
-		{
-			g_Render.EnableClearTarget(TRUE);
-		}
-		//g_pGameApp->GetMainCam()->EnableUpdown( bViewFar ) ;//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_pGameApp->GetCurScene()->SetTextureLOD(nTextureHigh);
+    if (bCameraOn == false) {
+      g_Render.EnableClearTarget(FALSE);
+    } else {
+      g_Render.EnableClearTarget(TRUE);
+    }
+    // g_pGameApp->GetMainCam()->EnableUpdown( bViewFar )
+    // ;//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen 2005-04-22
+    g_pGameApp->GetCurScene()->SetTextureLOD(nTextureHigh);
 
-		g_Config.m_bFullScreen = FALSE;
-		if(! bWindowed)
-		{
-			width  = GetSystemMetrics(SM_CXSCREEN);
-			height = GetSystemMetrics(SM_CYSCREEN);
-			bWindowed = TRUE;
-			g_Config.m_bFullScreen = TRUE;
-		}
+    g_Config.m_bFullScreen = FALSE;
+    if (!bWindowed) {
+      width = GetSystemMetrics(SM_CXSCREEN);
+      height = GetSystemMetrics(SM_CYSCREEN);
+      bWindowed = TRUE;
+      g_Config.m_bFullScreen = TRUE;
+    }
 
-		GetRender().SetIsChangeResolution(true);
+    GetRender().SetIsChangeResolution(true);
 
-		LEIDeviceObject* dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
-		if(FAILED(dev_obj->CheckCurrentDeviceFormat(BBFI_DEPTHSTENCIL, format)))
-		{
-			format = D3DFMT_D16;
-		}
-		g_pGameApp->ChangeVideoStyle( width ,height ,format ,bWindowed  );
-		pSender->GetForm()->SetIsShow(false);  
+    LEIDeviceObject *dev_obj = g_Render.GetInterfaceMgr()->dev_obj;
+    if (FAILED(dev_obj->CheckCurrentDeviceFormat(BBFI_DEPTHSTENCIL, format))) {
+      format = D3DFMT_D16;
+    }
+    g_pGameApp->ChangeVideoStyle(width, height, format, bWindowed);
+    pSender->GetForm()->SetIsShow(false);
 
-		g_stUISystem.frmSystem->SetIsShow(false);
-		return;
-	}
-	else if (name == "btnNo" ||name=="btnClose" )       
-	{
-		g_stUISystem.cbxTexture->SetActiveIndex(g_nCbxTexture);
-		g_stUISystem.cbxMovie->SetActiveIndex(g_nCbxMovie);
-		g_stUISystem.cbxCamera->SetActiveIndex(g_nCbxCamera);
-		//g_stUISystem.cbxView->SetActiveIndex(g_nCbxView);//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_stUISystem.cbxTrail->SetActiveIndex(g_nCbxTrail);
-		g_stUISystem.cbxColor->SetActiveIndex(g_nCbxColor);
-		g_stUISystem.cbxSize->SetActiveIndex(g_nCbxSize);
-		g_stUISystem.cbxModel->SetActiveIndex(g_nCbxModel);
-		g_stUISystem.cbxQuality->SetActiveIndex(g_bCbxQuality);
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  } else if (name == "btnNo" || name == "btnClose") {
+    g_stUISystem.cbxTexture->SetActiveIndex(g_nCbxTexture);
+    g_stUISystem.cbxMovie->SetActiveIndex(g_nCbxMovie);
+    g_stUISystem.cbxCamera->SetActiveIndex(g_nCbxCamera);
+    // g_stUISystem.cbxView->SetActiveIndex(g_nCbxView);//å–æ¶ˆè§†é‡è¿œè¿‘(Michael
+    // Chen 2005-04-22
+    g_stUISystem.cbxTrail->SetActiveIndex(g_nCbxTrail);
+    g_stUISystem.cbxColor->SetActiveIndex(g_nCbxColor);
+    g_stUISystem.cbxSize->SetActiveIndex(g_nCbxSize);
+    g_stUISystem.cbxModel->SetActiveIndex(g_nCbxModel);
+    g_stUISystem.cbxQuality->SetActiveIndex(g_bCbxQuality);
 
-		pSender->GetForm()->SetIsShow(false);  
-		return;
-	}	 
+    pSender->GetForm()->SetIsShow(false);
+    return;
+  }
 }
 
-void CSystemMgr::_evtSystemFromMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
+void CSystemMgr::_evtSystemFromMouseEvent(CCompent *pSender, int nMsgType,
+                                          int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
 
-	//frmSystem±íµ¥µÄ´¦Àí
-	if( name=="btnClose" || name == "btnNo" )
-	{
-		pSender->GetForm()->Close();
-		return;
-	}
-	if (name== "btnChange") 
-	{
-		CForm* f = CFormMgr::s_Mgr.Find( "frmAskChange" );
-		if( f ) 	f->SetIsShow(true);
-		g_stUISystem.frmSystem->SetIsShow(false) ;
-		return;
-	}
-	else if( name=="btnGame" )
-	{
-		CForm* f = CFormMgr::s_Mgr.Find( "frmGame" );
-		if( f ) 	f->SetIsShow(true);
-		g_stUISystem.frmSystem->SetIsShow(false) ;
-		return;
-	}
-	else if (name == "btnRelogin")
-	{
-		if (g_TomServer.bEnable)
-		{
-			g_pGameApp->MsgBox( RES_STRING(CL_LANGUAGE_MATCH_773) );
-			return;
-		}
-		CForm* f = CFormMgr::s_Mgr.Find( "frmAskRelogin" );
-		if( f ) 	f->SetIsShow(true);
-		g_stUISystem.frmSystem->SetIsShow(false) ;
-		return;
-	}
-	else if (name == "btnExit" )
-	{
-		CForm* f = CFormMgr::s_Mgr.Find( "frmAskExit" );
-		if(f)  	f->SetIsShow(true);
-		g_stUISystem.frmSystem->SetIsShow(false) ;
-		return;
-	}
-	else if (name == "btnAudio")
-	{
+  // frmSystemè¡¨å•çš„å¤„ç†
+  if (name == "btnClose" || name == "btnNo") {
+    pSender->GetForm()->Close();
+    return;
+  }
+  if (name == "btnChange") {
+    CForm *f = CFormMgr::s_Mgr.Find("frmAskChange");
+    if (f)
+      f->SetIsShow(true);
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  } else if (name == "btnGame") {
+    CForm *f = CFormMgr::s_Mgr.Find("frmGame");
+    if (f)
+      f->SetIsShow(true);
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  } else if (name == "btnRelogin") {
+    if (g_TomServer.bEnable) {
+      g_pGameApp->MsgBox(RES_STRING(CL_LANGUAGE_MATCH_773));
+      return;
+    }
+    CForm *f = CFormMgr::s_Mgr.Find("frmAskRelogin");
+    if (f)
+      f->SetIsShow(true);
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  } else if (name == "btnExit") {
+    CForm *f = CFormMgr::s_Mgr.Find("frmAskExit");
+    if (f)
+      f->SetIsShow(true);
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  } else if (name == "btnAudio") {
 #ifdef __SOUND__
-		CForm *f = CFormMgr::s_Mgr.Find("frmAudio");
-		if (!f)   return ;
+    CForm *f = CFormMgr::s_Mgr.Find("frmAudio");
+    if (!f)
+      return;
 
-		f->SetIsShow(true);
-		if(g_fPosMusic<0.0f && g_fPosMidi<0.0f )
-		{
-			g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();				
-			g_fPosMidi  = g_stUISystem.proAudioMidi->GetPosition();
-			g_pGameApp->SetMusicSize( g_fPosMusic/10.0f);
-			g_pGameApp->GetCurScene()->SetSoundSize( g_fPosMidi /10.0f );
-			g_pGameApp->mSoundManager->SetVolume(  g_fPosMidi /10.0f   );
-
-		}
-		if(g_bChangeAudio)
-		{
-			g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();				
-			g_fPosMidi  = g_stUISystem.proAudioMidi->GetPosition();
-			g_pGameApp->SetMusicSize( g_fPosMusic/10.0f);
-			g_pGameApp->GetCurScene()->SetSoundSize( g_fPosMidi /10.0f );
-			g_pGameApp->mSoundManager->SetVolume(  g_fPosMidi /10.0f   );
-		}							
-		g_stUISystem.frmSystem->SetIsShow(false) ;
+    f->SetIsShow(true);
+    if (g_fPosMusic < 0.0f && g_fPosMidi < 0.0f) {
+      g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();
+      g_fPosMidi = g_stUISystem.proAudioMidi->GetPosition();
+      g_pGameApp->SetMusicSize(g_fPosMusic / 10.0f);
+      g_pGameApp->GetCurScene()->SetSoundSize(g_fPosMidi / 10.0f);
+      g_pGameApp->mSoundManager->SetVolume(g_fPosMidi / 10.0f);
+    }
+    if (g_bChangeAudio) {
+      g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();
+      g_fPosMidi = g_stUISystem.proAudioMidi->GetPosition();
+      g_pGameApp->SetMusicSize(g_fPosMusic / 10.0f);
+      g_pGameApp->GetCurScene()->SetSoundSize(g_fPosMidi / 10.0f);
+      g_pGameApp->mSoundManager->SetVolume(g_fPosMidi / 10.0f);
+    }
+    g_stUISystem.frmSystem->SetIsShow(false);
 #endif
-		return ;
-	}
-	else if (name == "btnVideo")
-	{
-		CForm *f = CFormMgr::s_Mgr.Find("frmVideo") ;
-		if(!f)      return;
+    return;
+  } else if (name == "btnVideo") {
+    CForm *f = CFormMgr::s_Mgr.Find("frmVideo");
+    if (!f)
+      return;
 
-		f->SetIsShow(true);				
-		g_nCbxTexture = g_stUISystem.cbxTexture->GetActiveIndex();
-		g_nCbxMovie   = g_stUISystem.cbxMovie->GetActiveIndex();
-		g_nCbxCamera  = g_stUISystem.cbxCamera->GetActiveIndex();
-		//g_nCbxView    = g_stUISystem.cbxView->GetActiveIndex();//È¡ÏûÊÓÒ°Ô¶½ü(Michael Chen 2005-04-22
-		g_nCbxTrail   = g_stUISystem.cbxTrail->GetActiveIndex();
-		g_nCbxColor   = g_stUISystem.cbxColor->GetActiveIndex();
-		g_nCbxSize    = g_stUISystem.cbxSize->GetActiveIndex();
-		g_nCbxModel   = g_stUISystem.cbxModel->GetActiveIndex();
-		g_bCbxQuality = g_stUISystem.cbxQuality->GetActiveIndex();		
-		g_stUISystem.frmSystem->SetIsShow(false) ;
-		return ;
-	}
+    f->SetIsShow(true);
+    g_nCbxTexture = g_stUISystem.cbxTexture->GetActiveIndex();
+    g_nCbxMovie = g_stUISystem.cbxMovie->GetActiveIndex();
+    g_nCbxCamera = g_stUISystem.cbxCamera->GetActiveIndex();
+    // g_nCbxView    =
+    // g_stUISystem.cbxView->GetActiveIndex();//å–æ¶ˆè§†é‡è¿œè¿‘(Michael Chen
+    // 2005-04-22
+    g_nCbxTrail = g_stUISystem.cbxTrail->GetActiveIndex();
+    g_nCbxColor = g_stUISystem.cbxColor->GetActiveIndex();
+    g_nCbxSize = g_stUISystem.cbxSize->GetActiveIndex();
+    g_nCbxModel = g_stUISystem.cbxModel->GetActiveIndex();
+    g_bCbxQuality = g_stUISystem.cbxQuality->GetActiveIndex();
+    g_stUISystem.frmSystem->SetIsShow(false);
+    return;
+  }
 }
 
-void CSystemMgr::_evtAudioFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
+void CSystemMgr::_evtAudioFormMouseEvent(CCompent *pSender, int nMsgType, int x,
+                                         int y, DWORD dwKey) {
 #ifdef __SOUND__
-	string name=pSender->GetName();
+  string name = pSender->GetName();
 
-	//frmAudio±íµ¥µÄ´¦Àí
-	if (name=="btnYes")						//Ö±½Ó¹Ø±Õ±íµ¥
-	{
-		g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();				
-		g_fPosMidi  = g_stUISystem.proAudioMidi->GetPosition();
-		g_pGameApp->SetMusicSize( g_fPosMusic/10.0f);
-		g_pGameApp->GetCurScene()->SetSoundSize( g_fPosMidi /10.0f );
-		g_pGameApp->mSoundManager->SetVolume(  g_fPosMidi /10.0f   );
+  // frmAudioè¡¨å•çš„å¤„ç†
+  if (name == "btnYes") //ç›´æ¥å…³é—­è¡¨å•
+  {
+    g_fPosMusic = g_stUISystem.proAudioMusic->GetPosition();
+    g_fPosMidi = g_stUISystem.proAudioMidi->GetPosition();
+    g_pGameApp->SetMusicSize(g_fPosMusic / 10.0f);
+    g_pGameApp->GetCurScene()->SetSoundSize(g_fPosMidi / 10.0f);
+    g_pGameApp->mSoundManager->SetVolume(g_fPosMidi / 10.0f);
 
-		g_bChangeAudio = true;
-		pSender->GetForm()->SetIsShow(false) ;  
-		return  ;
-	}
-	else if (name=="btnNo")                   // ·µ»Øµ½Ô­À´µÄÒôÁ¿£¬²¢¹Ø±Õ±íµ¥
-	{
-		g_stUISystem.proAudioMusic->SetPosition(g_fPosMusic);	
-		g_stUISystem.proAudioMidi->SetPosition(g_fPosMidi);
-		g_pGameApp->SetMusicSize( g_fPosMusic/10.0f);
-		g_pGameApp->GetCurScene()->SetSoundSize( g_fPosMidi /10.0f );
-		g_pGameApp->mSoundManager->SetVolume(  g_fPosMidi /10.0f   );
-		g_bChangeAudio = false;
-		pSender->GetForm()->SetIsShow(false) ;  
-		return;
-	}	 
+    g_bChangeAudio = true;
+    pSender->GetForm()->SetIsShow(false);
+    return;
+  } else if (name == "btnNo") // è¿”å›åˆ°åŸæ¥çš„éŸ³é‡ï¼Œå¹¶å…³é—­è¡¨å•
+  {
+    g_stUISystem.proAudioMusic->SetPosition(g_fPosMusic);
+    g_stUISystem.proAudioMidi->SetPosition(g_fPosMidi);
+    g_pGameApp->SetMusicSize(g_fPosMusic / 10.0f);
+    g_pGameApp->GetCurScene()->SetSoundSize(g_fPosMidi / 10.0f);
+    g_pGameApp->mSoundManager->SetVolume(g_fPosMidi / 10.0f);
+    g_bChangeAudio = false;
+    pSender->GetForm()->SetIsShow(false);
+    return;
+  }
 #endif
 }
 
-void CSystemMgr::_evtMainMusicMouseDown(CGuiData *pSender, int x, int y, DWORD key)
-{
+void CSystemMgr::_evtMainMusicMouseDown(CGuiData *pSender, int x, int y,
+                                        DWORD key) {
 #ifdef __SOUND__
-	CProgressBar *	proAudioMidi  = g_stUISystem.proAudioMidi;
-	CProgressBar *  proAudioMusic = g_stUISystem.proAudioMusic;
+  CProgressBar *proAudioMidi = g_stUISystem.proAudioMidi;
+  CProgressBar *proAudioMusic = g_stUISystem.proAudioMusic;
 
-	string name = pSender->GetName();
-	float fPos;
+  string name = pSender->GetName();
+  float fPos;
 
-	//	if ( stricmp ("frmAudio", pSender->GetForm()->GetName() ) == 0 )
-	if ( _stricmp ("frmAudio", pSender->GetForm()->GetName() ) == 0 )
-	{
-		if(name =="proAudioMusic")
-		{
-			fPos = 10.0f*(float)(x - proAudioMusic->GetLeft() - proAudioMusic->GetForm()->GetLeft() ) /(float)proAudioMusic->GetWidth() ;
-			proAudioMusic->SetPosition( fPos);			
-			proAudioMusic->Refresh();	
-			g_pGameApp->SetMusicSize( fPos/10.0f  );
+  //	if ( stricmp ("frmAudio", pSender->GetForm()->GetName() ) == 0 )
+  if (_stricmp("frmAudio", pSender->GetForm()->GetName()) == 0) {
+    if (name == "proAudioMusic") {
+      fPos = 10.0f *
+             (float)(x - proAudioMusic->GetLeft() -
+                     proAudioMusic->GetForm()->GetLeft()) /
+             (float)proAudioMusic->GetWidth();
+      proAudioMusic->SetPosition(fPos);
+      proAudioMusic->Refresh();
+      g_pGameApp->SetMusicSize(fPos / 10.0f);
 
-		}
-		else if(name =="proAudioMidi" )
-		{
-			fPos = 10.0f* (float)(x - proAudioMidi->GetLeft() - proAudioMidi->GetForm()->GetLeft() ) /(float)proAudioMidi->GetWidth() ;
-			proAudioMidi->SetPosition( fPos);			
-			proAudioMidi->Refresh();
-			g_pGameApp->mSoundManager->SetVolume( fPos/10.0f  );
-			g_pGameApp->GetCurScene()->SetSoundSize( fPos/10.0f  );
-		}
-	}
+    } else if (name == "proAudioMidi") {
+      fPos = 10.0f *
+             (float)(x - proAudioMidi->GetLeft() -
+                     proAudioMidi->GetForm()->GetLeft()) /
+             (float)proAudioMidi->GetWidth();
+      proAudioMidi->SetPosition(fPos);
+      proAudioMidi->Refresh();
+      g_pGameApp->mSoundManager->SetVolume(fPos / 10.0f);
+      g_pGameApp->GetCurScene()->SetSoundSize(fPos / 10.0f);
+    }
+  }
 #endif
 }
 
-void CSystemMgr::_evtAskReloginFormMouseDown(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	pSender->GetForm()->SetIsShow(false);
+void CSystemMgr::_evtAskReloginFormMouseDown(CCompent *pSender, int nMsgType,
+                                             int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  pSender->GetForm()->SetIsShow(false);
 
-	if (name== "btnYes") 
-	{			
-		g_ChaExitOnTime.Relogin();
-		return;
-	}
+  if (name == "btnYes") {
+    g_ChaExitOnTime.Relogin();
+    return;
+  }
 }
 
-void CSystemMgr::_evtAskExitFormMouseDown(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	pSender->GetForm()->SetIsShow(false);
+void CSystemMgr::_evtAskExitFormMouseDown(CCompent *pSender, int nMsgType,
+                                          int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  pSender->GetForm()->SetIsShow(false);
 
-	if (name== "btnYes") 
-	{
-		g_ChaExitOnTime.ExitApp();
-	}
+  if (name == "btnYes") {
+    g_ChaExitOnTime.ExitApp();
+  }
 }
 
-void CSystemMgr::_evtAskChangeFormMouseDown(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	pSender->GetForm()->SetIsShow(false);
+void CSystemMgr::_evtAskChangeFormMouseDown(CCompent *pSender, int nMsgType,
+                                            int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  pSender->GetForm()->SetIsShow(false);
 
-	if (name== "btnYes")	// ½ÇÉ«
-	{
-		g_ChaExitOnTime.ChangeCha();
-	}
+  if (name == "btnYes") // è§’è‰²
+  {
+    g_ChaExitOnTime.ChangeCha();
+  }
 }
 
-void CSystemMgr::_evtGameOptionFormMouseDown(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey)
-{
-	string name = pSender->GetName();
-	if (name!="btnYes") return;
+void CSystemMgr::_evtGameOptionFormMouseDown(CCompent *pSender, int nMsgType,
+                                             int x, int y, DWORD dwKey) {
+  string name = pSender->GetName();
+  if (name != "btnYes")
+    return;
 
-	CCheckGroup *	pGroup  = g_stUISystem.cbxRunMode;
-	if( pGroup )
-	{
-		g_stUISystem.m_sysProp.m_gameOption.bRunMode = pGroup->GetActiveIndex() == 0 ? false : true;
-		g_stUISystem.m_sysProp.ApplyGameOption();
-	}
+  CCheckGroup *pGroup = g_stUISystem.cbxRunMode;
+  if (pGroup) {
+    g_stUISystem.m_sysProp.m_gameOption.bRunMode =
+        pGroup->GetActiveIndex() == 0 ? false : true;
+    g_stUISystem.m_sysProp.ApplyGameOption();
+  }
 
-	// ×Ô¶¯¼ÓËø×´Ì¬
-	pGroup = g_stUISystem.cbxLockMode;
-	if(pGroup)
-	{
-		g_stUISystem.m_sysProp.m_gameOption.bLockMode = pGroup->GetActiveIndex() == 1 ? true : false;
-		// ·¢ËÍ·şÎñÆ÷
-		CS_AutoKitbagLock(g_stUISystem.m_sysProp.m_gameOption.bLockMode);
-	}
+  // è‡ªåŠ¨åŠ é”çŠ¶æ€
+  pGroup = g_stUISystem.cbxLockMode;
+  if (pGroup) {
+    g_stUISystem.m_sysProp.m_gameOption.bLockMode =
+        pGroup->GetActiveIndex() == 1 ? true : false;
+    // å‘é€æœåŠ¡å™¨
+    CS_AutoKitbagLock(g_stUISystem.m_sysProp.m_gameOption.bLockMode);
+  }
 
-	// ÏÔÊ¾°ïÖú×´Ì¬
-	pGroup = g_stUISystem.cbxHelpMode;
-	if(pGroup)
-	{
-		bool bHelpMode = pGroup->GetActiveIndex() == 1 ? true : false;
-		g_stUISystem.m_sysProp.m_gameOption.bHelpMode = bHelpMode;
+  // æ˜¾ç¤ºå¸®åŠ©çŠ¶æ€
+  pGroup = g_stUISystem.cbxHelpMode;
+  if (pGroup) {
+    bool bHelpMode = pGroup->GetActiveIndex() == 1 ? true : false;
+    g_stUISystem.m_sysProp.m_gameOption.bHelpMode = bHelpMode;
 
-		if(! bHelpMode) g_stUIStart.ShowLevelUpHelpButton(bHelpMode);
-		g_stUIStart.ShowInfoCenterButton(bHelpMode);
+    if (!bHelpMode)
+      g_stUIStart.ShowLevelUpHelpButton(bHelpMode);
+    g_stUIStart.ShowInfoCenterButton(bHelpMode);
 
-		::WritePrivateProfileString("gameOption", "helpMode", bHelpMode ? "1" : "0", "./user/system.ini");
-	}
+    ::WritePrivateProfileString("gameOption", "helpMode", bHelpMode ? "1" : "0",
+                                "./user/system.ini");
+  }
 
-	pGroup = g_stUISystem.cbxEquipCmp;
-	if(pGroup)
-	{
-		bool bCmpEquip = pGroup->GetActiveIndex() == 1 ? true : false;
-		g_stUISystem.m_sysProp.m_gameOption.bCmpEquip = bCmpEquip;
+  pGroup = g_stUISystem.cbxEquipCmp;
+  if (pGroup) {
+    bool bCmpEquip = pGroup->GetActiveIndex() == 1 ? true : false;
+    g_stUISystem.m_sysProp.m_gameOption.bCmpEquip = bCmpEquip;
 
-		::WritePrivateProfileString("gameOption", "CmpEquip", bCmpEquip ? "1" : "0", "./user/system.ini");
-	}
+    ::WritePrivateProfileString("gameOption", "CmpEquip", bCmpEquip ? "1" : "0",
+                                "./user/system.ini");
+  }
 }
 
-void CSystemMgr::_evtGameOptionFormBeforeShow(CForm* pForm, bool& IsShow)
-{
-	CCheckGroup *	pGroup  = g_stUISystem.cbxRunMode;
-	if( pGroup )
-		pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bRunMode ? 1 : 0);
+void CSystemMgr::_evtGameOptionFormBeforeShow(CForm *pForm, bool &IsShow) {
+  CCheckGroup *pGroup = g_stUISystem.cbxRunMode;
+  if (pGroup)
+    pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bRunMode ? 1
+                                                                        : 0);
 
-	pGroup = g_stUISystem.cbxLockMode;
-	if( pGroup )
-		pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bLockMode ? 1 : 0);
+  pGroup = g_stUISystem.cbxLockMode;
+  if (pGroup)
+    pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bLockMode ? 1
+                                                                         : 0);
 
-	pGroup = g_stUISystem.cbxHelpMode;
-	if( pGroup )
-		pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bHelpMode ? 1 : 0);
+  pGroup = g_stUISystem.cbxHelpMode;
+  if (pGroup)
+    pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bHelpMode ? 1
+                                                                         : 0);
 
-	pGroup = g_stUISystem.cbxEquipCmp;
-	if( pGroup )
-		pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bCmpEquip ? 1 : 0);
+  pGroup = g_stUISystem.cbxEquipCmp;
+  if (pGroup)
+    pGroup->SetActiveIndex(g_stUISystem.m_sysProp.m_gameOption.bCmpEquip ? 1
+                                                                         : 0);
 }
 
+void CSystemMgr::CloseForm() { g_ChaExitOnTime.Cancel(); }
 
-void CSystemMgr::CloseForm()
-{
-	g_ChaExitOnTime.Cancel();
-}
-
-void CSystemMgr::FrameMove(DWORD dwTime)
-{
-	g_ChaExitOnTime.FrameMove( dwTime );
-}
+void CSystemMgr::FrameMove(DWORD dwTime) { g_ChaExitOnTime.FrameMove(dwTime); }
 
 //---------------------------------------------------------------------------
 // class CChaExitOnTime
 //---------------------------------------------------------------------------
-namespace GUI
-{
-	CChaExitOnTime g_ChaExitOnTime;
+namespace GUI {
+CChaExitOnTime g_ChaExitOnTime;
 };
 
 CChaExitOnTime::CChaExitOnTime()
-: _eOptionType(enumInit), _dwStartTime(0), _dwEndTime(0), _IsEnabled(false)
-{
+    : _eOptionType(enumInit), _dwStartTime(0), _dwEndTime(0),
+      _IsEnabled(false) {}
+
+bool CChaExitOnTime::_IsTime() {
+  if (_eOptionType != enumInit) {
+    if (CGameApp::GetCurTick() > _dwStartTime + 60 * 1000 * 5) {
+      _eOptionType = enumInit;
+      return false;
+    }
+
+    g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_774));
+    return true;
+  }
+
+  return false;
 }
 
-bool CChaExitOnTime::_IsTime()
-{
-	if( _eOptionType!=enumInit )
-	{
-		if( CGameApp::GetCurTick() > _dwStartTime + 60 * 1000 * 5 )
-		{
-			_eOptionType = enumInit;
-			return false;
-		}
+void CChaExitOnTime::ChangeCha() {
+  if (_IsTime())
+    return;
 
-		g_pGameApp->SysInfo( RES_STRING(CL_LANGUAGE_MATCH_774) );
-		return true;
-	}
+  _eOptionType = enumChangeCha;
+  _dwStartTime = CGameApp::GetCurTick();
 
-	return false;
-}
+  _dwEndTime = 0;
 
-void CChaExitOnTime::ChangeCha()
-{
-	if( _IsTime() ) return;
-
-	_eOptionType = enumChangeCha;
-	_dwStartTime = CGameApp::GetCurTick();
-
-	_dwEndTime = 0;
-
-	g_stUIMap.CloseRadar();	// ÍË³öÊ±¹Ø±ÕÀ×´ï¼ıÍ·  add by Philip.Wu  2006-06-21
-	CS_EndPlay();
+  g_stUIMap.CloseRadar(); // é€€å‡ºæ—¶å…³é—­é›·è¾¾ç®­å¤´  add by Philip.Wu  2006-06-21
+  CS_EndPlay();
 
 #ifdef __SOUND__
 #ifndef USE_DSOUND
-	if( g_dwCurMusicID )
-	{
-		AudioSDL::get_instance()->stop( g_dwCurMusicID );
-		g_dwCurMusicID = 0;
-		Sleep( 60 );
-	}
+  if (g_dwCurMusicID) {
+    AudioSDL::get_instance()->stop(g_dwCurMusicID);
+    g_dwCurMusicID = 0;
+    Sleep(60);
+  }
 #else
-	g_pGameApp->mMP3->Close();
-	Sleep( 60 );
+  g_pGameApp->mMP3->Close();
+  Sleep(60);
 #endif
 #endif
-	if( !_IsEnabled )
-	{
-		TimeArrived();
-	}
+  if (!_IsEnabled) {
+    TimeArrived();
+  }
 }
 
-void CChaExitOnTime::ExitApp()
-{
-	if( _IsTime() ) return;
+void CChaExitOnTime::ExitApp() {
+  if (_IsTime())
+    return;
 
-	_eOptionType = enumExitApp;
-	_dwStartTime = CGameApp::GetCurTick();
+  _eOptionType = enumExitApp;
+  _dwStartTime = CGameApp::GetCurTick();
 
-	_dwEndTime = 0;
-	CS_Logout();
+  _dwEndTime = 0;
+  CS_Logout();
 
-	if( !_IsEnabled )
-	{
-		TimeArrived();
-	}
+  if (!_IsEnabled) {
+    TimeArrived();
+  }
 }
 
-void CChaExitOnTime::Relogin()
-{
-	if( _IsTime() ) return;
+void CChaExitOnTime::Relogin() {
+  if (_IsTime())
+    return;
 
-	_eOptionType = enumRelogin;
-	_dwStartTime = CGameApp::GetCurTick();
+  _eOptionType = enumRelogin;
+  _dwStartTime = CGameApp::GetCurTick();
 
-	_dwEndTime = 0;
+  _dwEndTime = 0;
 
-	g_stUIMap.CloseRadar();	// ÍË³öÊ±¹Ø±ÕÀ×´ï¼ıÍ·  add by Philip.Wu  2006-06-21
-	CS_Logout();
+  g_stUIMap.CloseRadar(); // é€€å‡ºæ—¶å…³é—­é›·è¾¾ç®­å¤´  add by Philip.Wu  2006-06-21
+  CS_Logout();
 #ifdef __SOUND__
 #ifndef USE_DSOUND
-	if( g_dwCurMusicID )
-	{
-		AudioSDL::get_instance()->stop( g_dwCurMusicID );
-		g_dwCurMusicID = 0;
-		Sleep( 60 );
-	}
+  if (g_dwCurMusicID) {
+    AudioSDL::get_instance()->stop(g_dwCurMusicID);
+    g_dwCurMusicID = 0;
+    Sleep(60);
+  }
 #else
-	g_pGameApp->mMP3->Close();
-	Sleep( 60 );
+  g_pGameApp->mMP3->Close();
+  Sleep(60);
 #endif
 #endif
-	if( !_IsEnabled )
-	{
-		TimeArrived();
-	}
+  if (!_IsEnabled) {
+    TimeArrived();
+  }
 }
 
-void CChaExitOnTime::Cancel()
-{
-	if( !_IsEnabled ) return;
+void CChaExitOnTime::Cancel() {
+  if (!_IsEnabled)
+    return;
 
-	if( _eOptionType==enumInit ) return;
+  if (_eOptionType == enumInit)
+    return;
 
-	extern void CS_CancelExit();
-	CS_CancelExit();
+  extern void CS_CancelExit();
+  CS_CancelExit();
 
-	_eOptionType = enumInit;
+  _eOptionType = enumInit;
 }
 
-void CChaExitOnTime::FrameMove(DWORD dwTime)
-{
-	if( !_IsEnabled ) return;
+void CChaExitOnTime::FrameMove(DWORD dwTime) {
+  if (!_IsEnabled)
+    return;
 
-	if( _eOptionType==enumInit ) return;
+  if (_eOptionType == enumInit)
+    return;
 
-	if( _dwEndTime==0 ) return;
+  if (_dwEndTime == 0)
+    return;
 
-	if( dwTime < _dwEndTime ) 
-	{
-		static CTimeWork time(1000);
-		if( time.IsTimeOut( dwTime ) )
-		{
-			g_pGameApp->ShowBigText( RES_STRING(CL_LANGUAGE_MATCH_775), (_dwEndTime - dwTime)/1000 );
-			return;
-		}
-	}
+  if (dwTime < _dwEndTime) {
+    static CTimeWork time(1000);
+    if (time.IsTimeOut(dwTime)) {
+      g_pGameApp->ShowBigText(RES_STRING(CL_LANGUAGE_MATCH_775),
+                              (_dwEndTime - dwTime) / 1000);
+      return;
+    }
+  }
 }
 
-bool CChaExitOnTime::TimeArrived()
-{
-	switch( _eOptionType )
-	{
-	case enumChangeCha:
-		{
-			g_pGameApp->LoadScriptScene(enumLoginScene);
-			g_pGameApp->SetLoginTime(0);
+bool CChaExitOnTime::TimeArrived() {
+  switch (_eOptionType) {
+  case enumChangeCha: {
+    g_pGameApp->LoadScriptScene(enumLoginScene);
+    g_pGameApp->SetLoginTime(0);
 
-			CLoginScene* pScene = dynamic_cast<CLoginScene*>(g_pGameApp->GetCurScene());
-			if( pScene ) 
-			{
-				if( g_NetIF->IsConnected() )
-					pScene->ShowChaList();
-				else
-					pScene->ShowRegionList();
-			}
-		}
-		break;
-	case enumExitApp:
-		{
-			CS_Disconnect( DS_DISCONN );
-			g_pGameApp->SetLoginTime(0);
+    CLoginScene *pScene =
+        dynamic_cast<CLoginScene *>(g_pGameApp->GetCurScene());
+    if (pScene) {
+      if (g_NetIF->IsConnected())
+        pScene->ShowChaList();
+      else
+        pScene->ShowRegionList();
+    }
+  } break;
+  case enumExitApp: {
+    CS_Disconnect(DS_DISCONN);
+    g_pGameApp->SetLoginTime(0);
 
-			g_pGameApp->SetIsRun( false );
-		}
-		break;
-	case enumRelogin:
-		{
-			CS_Disconnect( DS_DISCONN );
-			g_pGameApp->SetLoginTime(0);
+    g_pGameApp->SetIsRun(false);
+  } break;
+  case enumRelogin: {
+    CS_Disconnect(DS_DISCONN);
+    g_pGameApp->SetLoginTime(0);
 
-			g_pGameApp->LoadScriptScene(enumLoginScene);
-			CLoginScene* pScene = dynamic_cast<CLoginScene*>(g_pGameApp->GetCurScene());
-			if( pScene )
-			{
-				pScene->ShowRegionList();
-			}
-		}
-		break;
-	};
+    g_pGameApp->LoadScriptScene(enumLoginScene);
+    CLoginScene *pScene =
+        dynamic_cast<CLoginScene *>(g_pGameApp->GetCurScene());
+    if (pScene) {
+      pScene->ShowRegionList();
+    }
+  } break;
+  };
 
-	if( _eOptionType!=enumInit ) 
-	{
-		_eOptionType = enumInit;	
-		return true;
-	}
-	return false;
+  if (_eOptionType != enumInit) {
+    _eOptionType = enumInit;
+    return true;
+  }
+  return false;
 }
 
-void CChaExitOnTime::NetStartExit( DWORD dwExitTime )
-{
-	_dwEndTime = CGameApp::GetCurTick() + dwExitTime;
+void CChaExitOnTime::NetStartExit(DWORD dwExitTime) {
+  _dwEndTime = CGameApp::GetCurTick() + dwExitTime;
 
-	g_pGameApp->SysInfo( RES_STRING(CL_LANGUAGE_MATCH_776), dwExitTime / 1000 );
+  g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_776), dwExitTime / 1000);
 }
 
-void CChaExitOnTime::NetCancelExit()
-{
-	_eOptionType = enumInit;
+void CChaExitOnTime::NetCancelExit() {
+  _eOptionType = enumInit;
 
-	g_pGameApp->SysInfo( RES_STRING(CL_LANGUAGE_MATCH_777) );
+  g_pGameApp->SysInfo(RES_STRING(CL_LANGUAGE_MATCH_777));
 }
 
-void CChaExitOnTime::Reset()		
-{ 
-	_eOptionType = enumInit;
-}
-
+void CChaExitOnTime::Reset() { _eOptionType = enumInit; }

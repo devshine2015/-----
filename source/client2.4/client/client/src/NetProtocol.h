@@ -28,9 +28,9 @@ struct SMoveList
 
 struct stNetMoveInfo // enumACTION_MOVE
 {
-	DWORD dwAveragePing; // µ¥Î»£ººÁÃë£¬Í¨¹ı NetIF::GetAveragePing() »ñµÃ£¬´ËÖµ³ËÒÔËÙ¶È¾ÍÊÇÔ¤ÒÆ¶¯µÄ¾àÀë
-	POINT pos_buf[defMAX_POS_NUM]; // ÒÆ¶¯¹ÕµãĞòÁĞ£¨°üº¬µ±Ç°Î»ÖÃ£©
-	DWORD pos_num; // ÓĞĞ§µãµÄ¸öÊı
+	DWORD dwAveragePing; // å•ä½ï¼šæ¯«ç§’ï¼Œé€šè¿‡ NetIF::GetAveragePing() è·å¾—ï¼Œæ­¤å€¼ä¹˜ä»¥é€Ÿåº¦å°±æ˜¯é¢„ç§»åŠ¨çš„è·ç¦»
+	POINT pos_buf[defMAX_POS_NUM]; // ç§»åŠ¨æ‹ç‚¹åºåˆ—ï¼ˆåŒ…å«å½“å‰ä½ç½®ï¼‰
+	DWORD pos_num; // æœ‰æ•ˆç‚¹çš„ä¸ªæ•°
 
 	stNetMoveInfo() : dwAveragePing(0), pos_num(0) { };
 };
@@ -38,11 +38,11 @@ struct stNetMoveInfo // enumACTION_MOVE
 struct stNetSkillInfo // enumACTION_SKILL
 {
 	BYTE	byFightID;
-	char	chMove;		// 1£¬Ö±½ÓÊ¹ÓÃ¼¼ÄÜ¡£2£¬ÒÆ¶¯µ½Î»ÖÃÔÙÊ¹ÓÃ¼¼ÄÜ
+	char	chMove;		// 1ï¼Œç›´æ¥ä½¿ç”¨æŠ€èƒ½ã€‚2ï¼Œç§»åŠ¨åˆ°ä½ç½®å†ä½¿ç”¨æŠ€èƒ½
 
-	long	lSkillID;		// 0£¬ÎïÀí¹¥»÷¡£>0£¬Ä§·¨¹¥»÷
+	long	lSkillID;		// 0ï¼Œç‰©ç†æ”»å‡»ã€‚>0ï¼Œé­”æ³•æ”»å‡»
 
-	// ÈôÄ¿±êÊÇÊµÌå£¬Ôò·Ö±ğ±íÊ¾WorldID,Handle¡£ÈôÄ¿±êÊÇ×ø±ê£¬Ôò·Ö±ğ±íÊ¾×ø±êµÄx,y
+	// è‹¥ç›®æ ‡æ˜¯å®ä½“ï¼Œåˆ™åˆ†åˆ«è¡¨ç¤ºWorldID,Handleã€‚è‹¥ç›®æ ‡æ˜¯åæ ‡ï¼Œåˆ™åˆ†åˆ«è¡¨ç¤ºåæ ‡çš„x,y
 	struct
 	{
 		long	lTarInfo1;
@@ -56,18 +56,18 @@ struct stNetSkillInfo // enumACTION_SKILL
 
 struct stNetNotiMove // enumACTION_MOVE
 {
-	short	sState;					// ×´Ì¬£¨²Î¼ûCompCommand.h EMoveState£©¡£
-	short	sStopState;				// Í£Ö¹×´Ì¬enumEXISTS_WAITING»òenumEXISTS_SLEEPING
-	POINT	SPos[defMAX_POS_NUM];	// ÒÆ¶¯¹ÕµãĞòÁĞ£¨°üº¬µ±Ç°Î»ÖÃ£©
-	long	nPointNum;				// ÓĞĞ§µãµÄ¸öÊı
+	short	sState;					// çŠ¶æ€ï¼ˆå‚è§CompCommand.h EMoveStateï¼‰ã€‚
+	short	sStopState;				// åœæ­¢çŠ¶æ€enumEXISTS_WAITINGæˆ–enumEXISTS_SLEEPING
+	POINT	SPos[defMAX_POS_NUM];	// ç§»åŠ¨æ‹ç‚¹åºåˆ—ï¼ˆåŒ…å«å½“å‰ä½ç½®ï¼‰
+	long	nPointNum;				// æœ‰æ•ˆç‚¹çš„ä¸ªæ•°
 
 	stNetNotiMove() : sState(0), sStopState(0), nPointNum(0) { };
 };
 
 struct stEffect
 {
-	long	lAttrID;	// Ó°ÏìµÄÊôĞÔID
-	LONG64	lVal;		// Ó°ÏìµÄÊıÖµ
+	long	lAttrID;	// å½±å“çš„å±æ€§ID
+	LONG64	lVal;		// å½±å“çš„æ•°å€¼
 
 	stEffect() : lAttrID(0), lVal(0){ }
 };
@@ -75,7 +75,7 @@ struct stEffect
 struct stSkillState
 {
 	BYTE	chID;
-	BYTE	chLv;       // ÎªÁãÉ¾³ıÕâ¸ö×´Ì¬,´óÓÚÁãÌî¼ÓÕâ¸ö×´Ì¬
+	BYTE	chLv;       // ä¸ºé›¶åˆ é™¤è¿™ä¸ªçŠ¶æ€,å¤§äºé›¶å¡«åŠ è¿™ä¸ªçŠ¶æ€
 
 	stSkillState() : chID(0), chLv(0) { };
 };
@@ -84,29 +84,29 @@ struct stAreaSkillState
 {
 	BYTE	chID;
 	BYTE	chLv;
-	long	lWorldID;	// Ê©¼ÓÕßµÄÎ¨Ò»±êÊ¶
+	long	lWorldID;	// æ–½åŠ è€…çš„å”¯ä¸€æ ‡è¯†
 	unsigned char	uchFightID;
 
 	stAreaSkillState() : chID(0), chLv(0), lWorldID(0), uchFightID(0) { };
 };
 
-struct stNetNotiSkillRepresent //¼¼ÄÜ±íÏÖ enumACTION_SKILL_SRC
+struct stNetNotiSkillRepresent //æŠ€èƒ½è¡¨ç° enumACTION_SKILL_SRC
 {
 	BYTE	byFightID;
-	short	sAngle;         // ·½Ïò£¬serverÍ¨¸æ
-	short	sState;			// ×´Ì¬£¨²Î¼ûCompCommand.h EFightState£©
-	short	sStopState;		// Í£Ö¹×´Ì¬enumEXISTS_WAITING»òenumEXISTS_SLEEPING
-	char	chCrt;          // 0£¬Ã»ÓĞ±¬»÷¡£1£¬´æÔÚ±¬»÷
+	short	sAngle;         // æ–¹å‘ï¼Œserveré€šå‘Š
+	short	sState;			// çŠ¶æ€ï¼ˆå‚è§CompCommand.h EFightStateï¼‰
+	short	sStopState;		// åœæ­¢çŠ¶æ€enumEXISTS_WAITINGæˆ–enumEXISTS_SLEEPING
+	char	chCrt;          // 0ï¼Œæ²¡æœ‰çˆ†å‡»ã€‚1ï¼Œå­˜åœ¨çˆ†å‡»
 
-	long	lSkillID;		// ¼¼ÄÜ±àºÅ
-	long	lSkillSpeed;	// ¼¼ÄÜÊ¹ÓÃÆµÂÊ£¨ºÁÃë£©
-	char	chObjType;		// Ä¿±êÀàĞÍ£º0£¬ÊµÌå¡£1£¬×ø±ê
-	long	lTargetID;		// Ä¿±êID
-	POINT	STargetPoint;	// Ä¿±êµã
-	short	sExecTime;	    // ×÷ÓÃ´ÎÊı,´óÓÚµÈÓÚÁã
+	long	lSkillID;		// æŠ€èƒ½ç¼–å·
+	long	lSkillSpeed;	// æŠ€èƒ½ä½¿ç”¨é¢‘ç‡ï¼ˆæ¯«ç§’ï¼‰
+	char	chObjType;		// ç›®æ ‡ç±»å‹ï¼š0ï¼Œå®ä½“ã€‚1ï¼Œåæ ‡
+	long	lTargetID;		// ç›®æ ‡ID
+	POINT	STargetPoint;	// ç›®æ ‡ç‚¹
+	short	sExecTime;	    // ä½œç”¨æ¬¡æ•°,å¤§äºç­‰äºé›¶
 
-	CSizeArray<stEffect>		SEffect;	// Ó°ÏìµÄ½á¹ûĞòÁĞ
-	CSizeArray<stSkillState>	SState;		// ¼¼ÄÜ×´Ì¬
+	CSizeArray<stEffect>		SEffect;	// å½±å“çš„ç»“æœåºåˆ—
+	CSizeArray<stSkillState>	SState;		// æŠ€èƒ½çŠ¶æ€
 
 	stNetNotiSkillRepresent() : byFightID(0), sAngle(0), sState(0), sStopState(0), chCrt(0), lSkillID(0), lSkillSpeed(0), chObjType(0),
 		lTargetID(0), sExecTime(0)
@@ -115,29 +115,29 @@ struct stNetNotiSkillRepresent //¼¼ÄÜ±íÏÖ enumACTION_SKILL_SRC
 	}
 };
 
-struct stNetNotiSkillEffect // ¼¼ÄÜµÄ×÷ÓÃ½á¹û enumACTION_SKILL_TAR
+struct stNetNotiSkillEffect // æŠ€èƒ½çš„ä½œç”¨ç»“æœ enumACTION_SKILL_TAR
 {
 	BYTE	byFightID;
-	short	sState;			// ×´Ì¬£¨²Î¼ûCompCommand.h EFightState£©
-	bool	bDoubleAttack;	// Ë«±¶¹¥»÷
+	short	sState;			// çŠ¶æ€ï¼ˆå‚è§CompCommand.h EFightStateï¼‰
+	bool	bDoubleAttack;	// åŒå€æ”»å‡»
 	bool	bMiss;			// Miss;
-	bool	bBeatBack;		// ÊÇ·ñ»÷ÍË
-	Point	SPos;			// »÷ÍËºóµÄÎ»ÖÃ
-	long	lSkillID;		// Ê¹ÓÃµÄ¼¼ÄÜID
-	char	chObjType;		// Ä¿±êÀàĞÍ£º0£¬ÊµÌå¡£1£¬×ø±ê
-	long	lSrcID;			// Ê¹ÓÃ·½µÄ½ÇÉ«ID
-	Point	SSrcPos;		// Ê¹ÓÃ·½µÄÎ»ÖÃ
-	Point	SSkillTPos;		// ¼¼ÄÜÂäµã
-	short	sExecTime;		// ×÷ÓÃ´ÎÊı,ÎªÒ»
+	bool	bBeatBack;		// æ˜¯å¦å‡»é€€
+	Point	SPos;			// å‡»é€€åçš„ä½ç½®
+	long	lSkillID;		// ä½¿ç”¨çš„æŠ€èƒ½ID
+	char	chObjType;		// ç›®æ ‡ç±»å‹ï¼š0ï¼Œå®ä½“ã€‚1ï¼Œåæ ‡
+	long	lSrcID;			// ä½¿ç”¨æ–¹çš„è§’è‰²ID
+	Point	SSrcPos;		// ä½¿ç”¨æ–¹çš„ä½ç½®
+	Point	SSkillTPos;		// æŠ€èƒ½è½ç‚¹
+	short	sExecTime;		// ä½œç”¨æ¬¡æ•°,ä¸ºä¸€
 
-	// ×ÔÉí
-	CSizeArray<stEffect>		SEffect;	// Ó°ÏìµÄ½á¹ûĞòÁĞ
-	CSizeArray<stSkillState>	SState;		// ¼¼ÄÜ×´Ì¬
+	// è‡ªèº«
+	CSizeArray<stEffect>		SEffect;	// å½±å“çš„ç»“æœåºåˆ—
+	CSizeArray<stSkillState>	SState;		// æŠ€èƒ½çŠ¶æ€
 
-	// ¼¼ÄÜÔ´
-	short						sSrcState;	// ×´Ì¬£¨²Î¼ûCompCommand.h EFightState£©
-	CSizeArray<stEffect>		SSrcEffect;	// Ó°ÏìµÄ½á¹ûĞòÁĞ
-	CSizeArray<stSkillState>	SSrcState;	// ¼¼ÄÜ×´Ì¬
+	// æŠ€èƒ½æº
+	short						sSrcState;	// çŠ¶æ€ï¼ˆå‚è§CompCommand.h EFightStateï¼‰
+	CSizeArray<stEffect>		SSrcEffect;	// å½±å“çš„ç»“æœåºåˆ—
+	CSizeArray<stSkillState>	SSrcState;	// æŠ€èƒ½çŠ¶æ€
 
 	stNetNotiSkillEffect() : byFightID(0), sState(0), bDoubleAttack(false), bMiss(false), bBeatBack(false),
 			lSkillID(0), chObjType(0), lSrcID(0), sExecTime(0), sSrcState(0)
@@ -148,8 +148,8 @@ struct stNetNotiSkillEffect // ¼¼ÄÜµÄ×÷ÓÃ½á¹û enumACTION_SKILL_TAR
 
 struct stNetPKCtrl
 {
-	bool	bInGymkhana;	// ÔÚ¾º¼¼³¡£¬´ËÊ±²»ÔÊĞíÉèÖÃbInPK
-	bool	bInPK;			// ÔÚPK
+	bool	bInGymkhana;	// åœ¨ç«æŠ€åœºï¼Œæ­¤æ—¶ä¸å…è®¸è®¾ç½®bInPK
+	bool	bInPK;			// åœ¨PK
 
 	void	Exec( CCharacter* pCha );
 	void	Exec( unsigned long	ulWorldID );
@@ -184,41 +184,41 @@ class CEvent;
 struct stNetEvent
 {
 	long			lEntityID;
-	char			chEntityType;					// 1-½ÇÉ«,2-µÀ¾ß
+	char			chEntityType;					// 1-è§’è‰²,2-é“å…·
 	unsigned short	usEventID;
 	const char*		cszEventName;
 
-	CEvent*			ChangeEvent();					// ¸Ä±äÊÂ¼şÊôĞÔ
+	CEvent*			ChangeEvent();					// æ”¹å˜äº‹ä»¶å±æ€§
 
-	CEvent*			Exec( CSceneNode* pNode );		// ´´½¨ÊÂ¼ş
+	CEvent*			Exec( CSceneNode* pNode );		// åˆ›å»ºäº‹ä»¶
 
 	stNetEvent() : lEntityID(0), chEntityType(0), usEventID(0), cszEventName(NULL) { };
 };
 
 struct stNetLookInfo
 {
-	char	chSynType;	// ²Î¼û ESynLookType£¬µ±ÖµÎªenumSYN_LOOK_CHANGEÊ±£¬Ö»ÓĞSLook.sIDµÄÖµ´óÓÚ0£¬²Å¸üĞÂ¸ÃÎ»ÖÃ
+	char	chSynType;	// å‚è§ ESynLookTypeï¼Œå½“å€¼ä¸ºenumSYN_LOOK_CHANGEæ—¶ï¼Œåªæœ‰SLook.sIDçš„å€¼å¤§äº0ï¼Œæ‰æ›´æ–°è¯¥ä½ç½®
 	stNetChangeChaPart	SLook;
 
 	stNetLookInfo() : chSynType(0) { };
 };
 
-struct stNetActorCreate				// ´´½¨½ÇÉ«µÄĞÅÏ¢
+struct stNetActorCreate				// åˆ›å»ºè§’è‰²çš„ä¿¡æ¯
 {
 	stNetActorCreate() : ulWorldID(0), lHandle(0), ulChaID(0), chCtrlType(0), sAngle(0), ulTLeaderID(0), sState(0)
 		, sIcon(0), chSeeType(enumENTITY_SEEN_NEW), szCommName(NULL), strGuildName(""), strMottoName(""), strGuildMotto(""),
 		strStallName(""), szName(NULL) {}
 
 	unsigned long	ulWorldID;
-	unsigned long	ulCommID;		// Í¨ĞÅID
-	const char		*szCommName;	// Í¨ĞĞ½ÇÉ«Ãû
-	long			lHandle;		// ·şÎñÆ÷µÄĞÅÏ¢£¬Ô­Öµ·µ»Ø
+	unsigned long	ulCommID;		// é€šä¿¡ID
+	const char		*szCommName;	// é€šè¡Œè§’è‰²å
+	long			lHandle;		// æœåŠ¡å™¨çš„ä¿¡æ¯ï¼ŒåŸå€¼è¿”å›
 	unsigned long	ulChaID;
-	char			chCtrlType;		// ¿ØÖÆÀàĞÍ£¨Íæ¼Ò£¬NPC£¬¹ÖÎïµÈ¡£²Î¿¼CompCommand.h EChaCtrlType£©
+	char			chCtrlType;		// æ§åˆ¶ç±»å‹ï¼ˆç©å®¶ï¼ŒNPCï¼Œæ€ªç‰©ç­‰ã€‚å‚è€ƒCompCommand.h EChaCtrlTypeï¼‰
 	Circle			SArea;
-	short			sAngle;			// ·½Ïò£¬serverÍ¨¸æ
-	unsigned long	ulTLeaderID;	// ¶Ó³¤ID£¬Ã»ÓĞÎª0
-	short			sState;			// ×´Ì¬ 0x00£¬Éú»îÖĞ¡£0x01£¬ËÀÍöÖĞ¡£0x02£¬¸´»îÖĞ
+	short			sAngle;			// æ–¹å‘ï¼Œserveré€šå‘Š
+	unsigned long	ulTLeaderID;	// é˜Ÿé•¿IDï¼Œæ²¡æœ‰ä¸º0
+	short			sState;			// çŠ¶æ€ 0x00ï¼Œç”Ÿæ´»ä¸­ã€‚0x01ï¼Œæ­»äº¡ä¸­ã€‚0x02ï¼Œå¤æ´»ä¸­
 	string 			strMottoName;
 	short			sIcon;
 	long			lGuildID;
@@ -226,16 +226,16 @@ struct stNetActorCreate				// ´´½¨½ÇÉ«µÄĞÅÏ¢
 	string 			strGuildMotto;
 	string			strStallName;
 	char			*szName;
-	char			chSeeType;		// ³öÏÖµÄÀàĞÍ,EEntitySeenType
-	char			chGMLv;			// GMµÈ¼¶
+	char			chSeeType;		// å‡ºç°çš„ç±»å‹,EEntitySeenType
+	char			chGMLv;			// GMç­‰çº§
 
-	stNetChaSideInfo	SSideInfo;	// ·Ö±ßĞÅÏ¢
+	stNetChaSideInfo	SSideInfo;	// åˆ†è¾¹ä¿¡æ¯
 	stNetLookInfo		SLookInfo;
 	stNetPKCtrl		SPKCtrl;
 	stNetEvent		SEvent;
 	stNetAppendLook	SAppendLook;
 
-	char			chMainCha;		// 0-ÆäËü½ÇÉ«,1-ÎªÖ÷½Ç,2-Ö÷½ÇµÄµÀ¾ß
+	char			chMainCha;		// 0-å…¶å®ƒè§’è‰²,1-ä¸ºä¸»è§’,2-ä¸»è§’çš„é“å…·
 
 	CCharacter*		CreateCha();
 	void			SetValue( CCharacter* pCha );
@@ -243,15 +243,15 @@ struct stNetActorCreate				// ´´½¨½ÇÉ«µÄĞÅÏ¢
 
 struct stNetNPCShow
 {
-	BYTE			byNpcType;	 // ÊÓÒ°³öÏÖÊ± 
-    BYTE            byNpcState;  // Èç¹ûÊÇNPC,Ôò¸½´øNPC×´Ì¬
+	BYTE			byNpcType;	 // è§†é‡å‡ºç°æ—¶ 
+    BYTE            byNpcState;  // å¦‚æœæ˜¯NPC,åˆ™é™„å¸¦NPCçŠ¶æ€
 
 	void			SetNpcShow( CCharacter* pCha );
 
 	stNetNPCShow() : byNpcType(0), byNpcState(0) { };
 };
 
-struct stNetLeanInfo // ÒĞ¿¿
+struct stNetLeanInfo // å€šé 
 {
 	char	chState;
 
@@ -263,123 +263,123 @@ struct stNetLeanInfo // ÒĞ¿¿
 	stNetLeanInfo() : chState(0), lPose(0), lAngle(0), lPosX(0), lPosY(0), lHeight(0) { };
 };
 
-struct stNetSwitchMap // ½ÇÉ«¸´»îµÄĞÅÏ¢
+struct stNetSwitchMap // è§’è‰²å¤æ´»çš„ä¿¡æ¯
 {
 	short	sEnterRet;
 	char	*szMapName;
 	char	chEnterType;
 	bool	bIsNewCha;
-	bool	bCanTeam;	// µØÍ¼ÊÇ·ñ¿É²Ù×÷¶ÓÎé
+	bool	bCanTeam;	// åœ°å›¾æ˜¯å¦å¯æ“ä½œé˜Ÿä¼
 
 	stNetSwitchMap() : sEnterRet(0), szMapName(NULL), chEnterType(0), bCanTeam(false), bIsNewCha(false) { };
 };
 
-// Ëµ»°
-struct stNetSysInfo		// ÏµÍ³ĞÅÏ¢£ºÌáÊ¾Ä³ÈË²»ÔÚÏßÉÏµÈ
+// è¯´è¯
+struct stNetSysInfo		// ç³»ç»Ÿä¿¡æ¯ï¼šæç¤ºæŸäººä¸åœ¨çº¿ä¸Šç­‰
 {
-	const char *m_sysinfo;		// ÏµÍ³ĞÅÏ¢ÄÚÈİ
+	const char *m_sysinfo;		// ç³»ç»Ÿä¿¡æ¯å†…å®¹
 	stNetSysInfo() : m_sysinfo(NULL) { };
 };
 
-struct stNetSay			// ÊÓÒ°ÄÚËµ»°
+struct stNetSay			// è§†é‡å†…è¯´è¯
 {
-	unsigned long	m_srcid;	// Ëµ»°ÈËµÄID
-	const char	*	m_content;	// ÄÚÈİ
+	unsigned long	m_srcid;	// è¯´è¯äººçš„ID
+	const char	*	m_content;	// å†…å®¹
 
 	stNetSay() : m_srcid(0), m_content(NULL) { };
 };
 
-// Ê°È¡µÀ¾ßÁ÷³Ì
-// 1.¿Í»§¶ËÊ°È¡µ½µÀ¾ß,·¢ËÍÊ°È¡µÀ¾ßµ½·şÎñÆ÷
-// 2.·şÎñÆ÷Í¨ÖªÖ÷¿Í»§¶Ë,µÀ¾ßÀ¸·¢Éú±ä»¯
-// 3.·şÎñÆ÷Í¨ÖªËùÓĞ¿Í»§¶Ë,µØÃæÉÏµÀ¾ßÏûÊ§
+// æ‹¾å–é“å…·æµç¨‹
+// 1.å®¢æˆ·ç«¯æ‹¾å–åˆ°é“å…·,å‘é€æ‹¾å–é“å…·åˆ°æœåŠ¡å™¨
+// 2.æœåŠ¡å™¨é€šçŸ¥ä¸»å®¢æˆ·ç«¯,é“å…·æ å‘ç”Ÿå˜åŒ–
+// 3.æœåŠ¡å™¨é€šçŸ¥æ‰€æœ‰å®¢æˆ·ç«¯,åœ°é¢ä¸Šé“å…·æ¶ˆå¤±
 // 
 // 
-// ×°±¸µÀ¾ß
-// 1.ÔÚµÀ¾ßÀ¸Ñ¡ÔñµÀ¾ßÍÏ¶¯µ½×°±¸À¸,·¢ËÍ×°±¸Ğ­Òé
-//    ³É¹¦:1.Í¨ÖªËùÓĞ¿Í»§¶ËÍâ¹Û·¢Éú±ä»¯,Í¬Ê±Ö÷¿Í»§¶Ë¸üĞÂÏàÓ¦×°±¸À¸
-//         2.Í¨ÖªÖ÷¿Í»§¶ËµÀ¾ßÀ¸·¢Éú±ä»¯
+// è£…å¤‡é“å…·
+// 1.åœ¨é“å…·æ é€‰æ‹©é“å…·æ‹–åŠ¨åˆ°è£…å¤‡æ ,å‘é€è£…å¤‡åè®®
+//    æˆåŠŸ:1.é€šçŸ¥æ‰€æœ‰å®¢æˆ·ç«¯å¤–è§‚å‘ç”Ÿå˜åŒ–,åŒæ—¶ä¸»å®¢æˆ·ç«¯æ›´æ–°ç›¸åº”è£…å¤‡æ 
+//         2.é€šçŸ¥ä¸»å®¢æˆ·ç«¯é“å…·æ å‘ç”Ÿå˜åŒ–
 
-struct stNetItemCreate	// ÎïÆ·³öÏÖ£¬ÏûÊ§
+struct stNetItemCreate	// ç‰©å“å‡ºç°ï¼Œæ¶ˆå¤±
 {
 	long	lWorldID;
-	long	lHandle;		// ·şÎñÆ÷ĞÅÏ¢£¬Ô­Öµ·µ»Ø
-	long	lEntityAddr;	// ·şÎñ¶ËµÄÊµÌåµØÖ·
+	long	lHandle;		// æœåŠ¡å™¨ä¿¡æ¯ï¼ŒåŸå€¼è¿”å›
+	long	lEntityAddr;	// æœåŠ¡ç«¯çš„å®ä½“åœ°å€
 	long	lID;
 	Point	SPos;
 	short	sAngle;
-	short	sNum;			// ÎïÆ·¸öÊı
-	char	chAppeType;		// ³öÉúÀàĞÍ£¨²Î¼ûCompCommand.h EItemAppearType£©
-	long	lFromID;		// Å×³öÔ´µÄID£¬Èç¹ûÎª0£¬Ôò²»´æÔÚÅ×³öÔ´
+	short	sNum;			// ç‰©å“ä¸ªæ•°
+	char	chAppeType;		// å‡ºç”Ÿç±»å‹ï¼ˆå‚è§CompCommand.h EItemAppearTypeï¼‰
+	long	lFromID;		// æŠ›å‡ºæºçš„IDï¼Œå¦‚æœä¸º0ï¼Œåˆ™ä¸å­˜åœ¨æŠ›å‡ºæº
 
 	stNetEvent	SEvent;
 
 	stNetItemCreate() : lWorldID(0), lHandle(0), lEntityAddr(0), lID(0), sAngle(0), sNum(0),chAppeType(0),  lFromID(0) { };
 };
 
-struct stNetItemUnfix	// µÀ¾ßĞ¶×°
+struct stNetItemUnfix	// é“å…·å¸è£…
 {
-	char    chLinkID;	// Linkµã
-	short	sGridID;	// ´óÓÚµÈÓÚÁã,¶ªÆúµ½ÎïÆ·À¸µÄÎ»ÖÃ,-1,¶ªÆúµ½ÎïÆ·À¸,²»Ö¸¶¨Î»ÖÃ,-2,¶ªÆúÔÚµØÃæ
-    long	lPosX;		// ¶ªÆúÔÚµØÃæµÄÎ»ÖÃ
+	char    chLinkID;	// Linkç‚¹
+	short	sGridID;	// å¤§äºç­‰äºé›¶,ä¸¢å¼ƒåˆ°ç‰©å“æ çš„ä½ç½®,-1,ä¸¢å¼ƒåˆ°ç‰©å“æ ,ä¸æŒ‡å®šä½ç½®,-2,ä¸¢å¼ƒåœ¨åœ°é¢
+    long	lPosX;		// ä¸¢å¼ƒåœ¨åœ°é¢çš„ä½ç½®
     long	lPosY;
 
 	stNetItemUnfix() : chLinkID(0), sGridID(0), lPosX(0), lPosY(0) { };
 };
 
-struct stNetItemPick	// µÀ¾ßµÄÊ°È¡
+struct stNetItemPick	// é“å…·çš„æ‹¾å–
 {
 	long	lWorldID;
 	long	lHandle;
 };
 
-struct stNetItemThrow	// µÀ¾ßµÄ¶ªÆú
+struct stNetItemThrow	// é“å…·çš„ä¸¢å¼ƒ
 {
-	short	sGridID;	// ÎïÆ·À¸Î»ÖÃ
-	long	lNum;		// ¶ªÆúÎïÆ·µÄ¸öÊı
-	long	lPosX;		// ¶ªÆúÔÚµØÃæµÄÎ»ÖÃ
+	short	sGridID;	// ç‰©å“æ ä½ç½®
+	long	lNum;		// ä¸¢å¼ƒç‰©å“çš„ä¸ªæ•°
+	long	lPosX;		// ä¸¢å¼ƒåœ¨åœ°é¢çš„ä½ç½®
 	long	lPosY;
 };
 
-struct stNetItemPos		// µÀ¾ß¸Ä±äÔÚÀ¸ÖĞµÄÎ»ÖÃ
+struct stNetItemPos		// é“å…·æ”¹å˜åœ¨æ ä¸­çš„ä½ç½®
 {
-	short	sSrcGridID;	// ÎïÆ·À¸Î»ÖÃ
-	short	sSrcNum;	// Ô´ÎïÆ·µÄÊıÁ¿,Èç¹ûÎªÁã£¬ÔòÊÇÈ«²¿ÎïÆ·½»»»
-	short	sTarGridID;	// ÎïÆ·À¸Î»ÖÃ
+	short	sSrcGridID;	// ç‰©å“æ ä½ç½®
+	short	sSrcNum;	// æºç‰©å“çš„æ•°é‡,å¦‚æœä¸ºé›¶ï¼Œåˆ™æ˜¯å…¨éƒ¨ç‰©å“äº¤æ¢
+	short	sTarGridID;	// ç‰©å“æ ä½ç½®
 };
 
-struct stNetBank		// ÒøĞĞ½»»¥
+struct stNetBank		// é“¶è¡Œäº¤äº’
 {
-	char	chSrcType;	// Ô´¸ñÀàĞÍ 0£¬µÀ¾ßÀ¸ 1£¬ÒøĞĞ
-	short	sSrcID;		// ÎïÆ·À¸Î»ÖÃ
-	short	sSrcNum;	// ÎïÆ·²Ù×÷Êı
-	char	chTarType;	// Ä¿±ê¸ñÀàĞÍ
-	short	sTarID;		// ÎïÆ·À¸Î»ÖÃ
+	char	chSrcType;	// æºæ ¼ç±»å‹ 0ï¼Œé“å…·æ  1ï¼Œé“¶è¡Œ
+	short	sSrcID;		// ç‰©å“æ ä½ç½®
+	short	sSrcNum;	// ç‰©å“æ“ä½œæ•°
+	char	chTarType;	// ç›®æ ‡æ ¼ç±»å‹
+	short	sTarID;		// ç‰©å“æ ä½ç½®
 };
 
-struct stNetTempKitbag	// ÁÙÊ±±³°üÍÏÖÁ±³°ü
+struct stNetTempKitbag	// ä¸´æ—¶èƒŒåŒ…æ‹–è‡³èƒŒåŒ…
 {
-	short   sSrcGridID;	// ÁÙÊ±±³°üÎ»ÖÃ
-	short	sSrcNum;	// ÍÏ¶¯¸öÊı
-	short	sTarGridID;	// ±³°üÎ»ÖÃ
+	short   sSrcGridID;	// ä¸´æ—¶èƒŒåŒ…ä½ç½®
+	short	sSrcNum;	// æ‹–åŠ¨ä¸ªæ•°
+	short	sTarGridID;	// èƒŒåŒ…ä½ç½®
 };
 
-struct stNetUseItem		// Ê¹ÓÃµÀ¾ß
+struct stNetUseItem		// ä½¿ç”¨é“å…·
 {
 	stNetUseItem() {sTarGridID = -1;}
-	short	sGridID;	// ÎïÆ·À¸Î»ÖÃ
-	short	sTarGridID;	// Ä¿±êÎ»ÖÃ£¨ÓÃÓÚ¸ø¾«ÁéÎ¹Ê³µÈÇé¿ö£©
+	short	sGridID;	// ç‰©å“æ ä½ç½®
+	short	sTarGridID;	// ç›®æ ‡ä½ç½®ï¼ˆç”¨äºç»™ç²¾çµå–‚é£Ÿç­‰æƒ…å†µï¼‰
 };
 
-struct stNetDelItem		// É¾³ıµÀ¾ß
+struct stNetDelItem		// åˆ é™¤é“å…·
 {
-	short	sGridID;	// ÎïÆ·À¸Î»ÖÃ
+	short	sGridID;	// ç‰©å“æ ä½ç½®
 };
 
-struct stNetItemInfo	// µÀ¾ßĞÅÏ¢
+struct stNetItemInfo	// é“å…·ä¿¡æ¯
 {
 	char	chType;
-	short	sGridID;	// ÎïÆ·À¸Î»ÖÃ
+	short	sGridID;	// ç‰©å“æ ä½ç½®
 };
 
 struct stTempChangeChaPart
@@ -388,24 +388,24 @@ struct stTempChangeChaPart
 	DWORD           dwItemID;
 };
 
-struct stNetKitbag				    // Õû¸öµÀ¾ßÀ¸¸üĞÂ
+struct stNetKitbag				    // æ•´ä¸ªé“å…·æ æ›´æ–°
 {
-	char	chBagType;				// 0£¬µÀ¾ßÀ¸ 1£¬ÒøĞĞ
-	char	chType;					// ¸üĞÂÀàĞÍ£¨²Î¿¼CompCommand.hµÄESynKitbagType£©
-    int     nKeybagNum;             // µÀ¾ßÀ¸¸ñ×ÓÊı
+	char	chBagType;				// 0ï¼Œé“å…·æ  1ï¼Œé“¶è¡Œ
+	char	chType;					// æ›´æ–°ç±»å‹ï¼ˆå‚è€ƒCompCommand.hçš„ESynKitbagTypeï¼‰
+    int     nKeybagNum;             // é“å…·æ æ ¼å­æ•°
     struct stGrid
     {
-	    short	    sGridID;		// ±í¸ñID
+	    short	    sGridID;		// è¡¨æ ¼ID
 	    SItemGrid	SGridContent;
     };
-    int     nGridNum;               // ÓĞĞ§µÄ¸ñ×ÓÊı
+    int     nGridNum;               // æœ‰æ•ˆçš„æ ¼å­æ•°
     stGrid  Grid[defMAX_KBITEM_NUM_PER_TYPE];     
 };
 
-struct stNetSkillBag			    // ¸üĞÂ¼¼ÄÜÀ¸
+struct stNetSkillBag			    // æ›´æ–°æŠ€èƒ½æ 
 {
-	char			chType;			// ¸üĞÂÀàĞÍ£¨²Î¿¼CompCommand.hµÄESynSkillBagType£©
-	CSizeArray<SSkillGridEx>		SBag;	// ¼¼ÄÜÄÚÈİ
+	char			chType;			// æ›´æ–°ç±»å‹ï¼ˆå‚è€ƒCompCommand.hçš„ESynSkillBagTypeï¼‰
+	CSizeArray<SSkillGridEx>		SBag;	// æŠ€èƒ½å†…å®¹
 };
 
 struct stNetDefaultSkill
@@ -415,15 +415,15 @@ struct stNetDefaultSkill
 	void	Exec(void);
 };
 
-struct stNetSkillState				// ¸üĞÂ¼¼ÄÜ×´Ì¬
+struct stNetSkillState				// æ›´æ–°æŠ€èƒ½çŠ¶æ€
 {
-	char	chType;					// ¸üĞÂÀàĞÍ£¨Î´¶¨Òå£©
+	char	chType;					// æ›´æ–°ç±»å‹ï¼ˆæœªå®šä¹‰ï¼‰
 	CSizeArray<stSkillState> SState;
 };
 
-struct stNetChangeCha				// ¸ü»»½ÇÉ«Ğ­Òé
+struct stNetChangeCha				// æ›´æ¢è§’è‰²åè®®
 {
-	unsigned long	ulMainChaID;	// Ö÷½ÇID
+	unsigned long	ulMainChaID;	// ä¸»è§’ID
 };
 
 struct stNetActivateEvent
@@ -433,7 +433,7 @@ struct stNetActivateEvent
 	short	sEventID;
 };
 
-struct stNetFace                    // ¿Í»§¶Ë»»±íÇé,¶ÔÓ¦enumACTION_FACE
+struct stNetFace                    // å®¢æˆ·ç«¯æ¢è¡¨æƒ…,å¯¹åº”enumACTION_FACE
 {
     short   sPose;              
     short	sAngle;
@@ -444,7 +444,7 @@ struct stLookEnergy
 	short	sEnergy[enumEQUIP_NUM];
 };
 
-// ¶Ô»°´°¿ÚĞÅÏ¢
+// å¯¹è¯çª—å£ä¿¡æ¯
 typedef struct _NET_FUNCITEM
 {
 	char szFunc[ROLE_MAXNUM_FUNCITEMSIZE];
@@ -465,7 +465,7 @@ typedef struct _NET_FUNCPAGE
 
 } NET_FUNCPAGE, *PNET_FUNCPAGE;
 
-// ÈÎÎñÁĞ±íĞÅÏ¢
+// ä»»åŠ¡åˆ—è¡¨ä¿¡æ¯
 typedef struct _NET_MISSIONLIST
 {
 	BYTE byListType;
@@ -481,7 +481,7 @@ typedef struct _NET_MISSIONLIST
 
 #define HELPINFO_DESPSIZE 4096
 
-// ÏÔÊ¾Í¼ĞÎ£¬ÎÄ×Ö£¬²¥·ÅÉùÒô
+// æ˜¾ç¤ºå›¾å½¢ï¼Œæ–‡å­—ï¼Œæ’­æ”¾å£°éŸ³
 typedef struct _NET_HELPINFO
 {
 	BYTE byType;
@@ -493,7 +493,7 @@ typedef struct _NET_HELPINFO
 
 } NET_HELPINFO, *PNET_HELPINFO;
 
-// ÈÎÎñÒ³ĞÅÏ¢
+// ä»»åŠ¡é¡µä¿¡æ¯
 typedef struct _NET_MISNEED
 {
 	BYTE byType;
@@ -548,7 +548,7 @@ typedef struct _NET_MISLOG_LIST
 
 } NET_MISLOG_LIST, *PNET_MISLOG_LIST;
 
-// ½»Ò×´°¿ÚĞÅÏ¢
+// äº¤æ˜“çª—å£ä¿¡æ¯
 typedef struct _NET_TRADEPAGE
 {
 	BYTE   byCount;
@@ -596,23 +596,23 @@ struct NET_CHARTRADE_BOATDATA
 
 };
 
-// ½ÇÉ«½»Ò×ÎïÆ·ÊµÀıĞÅÏ¢½á¹¹
+// è§’è‰²äº¤æ˜“ç‰©å“å®ä¾‹ä¿¡æ¯ç»“æ„
 typedef struct _NET_CHARTRADE_ITEMDATA
 {
 	BYTE byForgeLv;
 	BYTE byHasAttr;
 
-	short sInstAttr[defITEM_INSTANCE_ATTR_NUM][2];	// ÊµÀıÊôĞÔ
-	short sEndure[2];	// ÄÍ¾Ã¶È£¨µ±Ç°Öµ/×î´óÖµ£©
-	short sEnergy[2];	// ÄÜÁ¿£¨µ±Ç°Öµ/×î´óÖµ£©
+	short sInstAttr[defITEM_INSTANCE_ATTR_NUM][2];	// å®ä¾‹å±æ€§
+	short sEndure[2];	// è€ä¹…åº¦ï¼ˆå½“å‰å€¼/æœ€å¤§å€¼ï¼‰
+	short sEnergy[2];	// èƒ½é‡ï¼ˆå½“å‰å€¼/æœ€å¤§å€¼ï¼‰
 
-	long	lDBParam[enumITEMDBP_MAXNUM];	// Êı¾İ¿â²ÎÊı
+	long	lDBParam[enumITEMDBP_MAXNUM];	// æ•°æ®åº“å‚æ•°
 	bool	bValid;
 
 } NET_CHARTRADE_ITEMDATA, *PNET_CHARTRADE_ITEMDATA;
 
-// ¹«»áÌôÕ½ĞÅÏ¢½á¹¹
-#define MAX_GUILD_CHALLLEVEL				3	// ¹«»áÅÅÃû£¬Ç°Èı
+// å…¬ä¼šæŒ‘æˆ˜ä¿¡æ¯ç»“æ„
+#define MAX_GUILD_CHALLLEVEL				3	// å…¬ä¼šæ’åï¼Œå‰ä¸‰
 typedef struct _NET_GUILD_CHALLINFO
 {
 	BYTE byIsLeader;
@@ -625,10 +625,10 @@ typedef struct _NET_GUILD_CHALLINFO
 } NET_GUILD_CHALLINFO, *PNET_GUILD_CHALLINFO;
 struct NetChaBehave
 {
-	const char	*	sCharName;			//½ÇÉ«Ãû
-	const char	*	sJob;				//Ö°Òµ
-	short			iDegree;			//½ÇÉ«µÈ¼¶
-	const LOOK	*	sLook;				//Íâ¹ÛÊı¾İ
+	const char	*	sCharName;			//è§’è‰²å
+	const char	*	sJob;				//èŒä¸š
+	short			iDegree;			//è§’è‰²ç­‰çº§
+	const LOOK	*	sLook;				//å¤–è§‚æ•°æ®
 };
 
 struct stNetShortCutChange
@@ -640,15 +640,15 @@ struct stNetShortCutChange
 
 struct stNetNpcMission
 {
-    BYTE    byType;     // ÀàĞÍ
-    USHORT  sNum;		// ĞèÒª´İ»ÙÎï¼ş×ÜÊıÁ¿
-    USHORT  sID;	    // ±»´İ»ÙÎï¼şÀàĞÍID
-    USHORT  sCount;     // ÒÑÍê³É¼ÆÊı    
+    BYTE    byType;     // ç±»å‹
+    USHORT  sNum;		// éœ€è¦æ‘§æ¯ç‰©ä»¶æ€»æ•°é‡
+    USHORT  sID;	    // è¢«æ‘§æ¯ç‰©ä»¶ç±»å‹ID
+    USHORT  sCount;     // å·²å®Œæˆè®¡æ•°    
 };
 
 struct stNetAreaState
 {
-	short				sAreaX;			// Ã×
+	short				sAreaX;			// ç±³
 	short				sAreaY;
 	char				chStateNum;
 	stAreaSkillState	State[AREA_STATE_NUM];
@@ -663,34 +663,34 @@ struct stNetChaAttr
 
 struct stNetQueryRelive
 {
-	char		chType;	// Í¬CompCommandµÄEPlayerReliveType
+	char		chType;	// åŒCompCommandçš„EPlayerReliveType
 	const char	*szSrcChaName;
 };
 
-// ·şÎñÆ÷ÒªÇó´ò¿ªÀí·¢½çÃæ
+// æœåŠ¡å™¨è¦æ±‚æ‰“å¼€ç†å‘ç•Œé¢
 struct stNetOpenHair
 {
 	void Exec();
 };
 
-// ÇëÇó¸ü»»·¢ĞÍ
+// è¯·æ±‚æ›´æ¢å‘å‹
 struct stNetUpdateHair
 {
-	short	sScriptID;			// ¶ÔÓ¦µÄHair½Å±¾ID,Èç¹ûÎª0Ôò´ú±í¹Ø±ÕÀí·¢½çÃæ
-	short	sGridLoc[4];		// ÎïÆ·ËùÔÚµÄ¸ñ×Ó
+	short	sScriptID;			// å¯¹åº”çš„Hairè„šæœ¬ID,å¦‚æœä¸º0åˆ™ä»£è¡¨å…³é—­ç†å‘ç•Œé¢
+	short	sGridLoc[4];		// ç‰©å“æ‰€åœ¨çš„æ ¼å­
 };
 
-// ¸ü»»·¢ĞÍµÄ·µ»ØÖµ
+// æ›´æ¢å‘å‹çš„è¿”å›å€¼
 struct stNetUpdateHairRes
 {
-	unsigned long	ulWorldID;			// ¶ÔÓ¦½ÇÉ«
-	int				nScriptID;			// ¸ü»»ºóµÄ½Å±¾ID
-	const char*		szReason;			// ¸ü»»Ê±µÄÔ­Òò,¸ü»»³É¹¦Îª:ok,¸ü»»Îª²îµÄ·¢ĞÍÎª£ºfail,¸ü»»Ê§°ÜÎª:ÆäËüÔ­Òò
+	unsigned long	ulWorldID;			// å¯¹åº”è§’è‰²
+	int				nScriptID;			// æ›´æ¢åçš„è„šæœ¬ID
+	const char*		szReason;			// æ›´æ¢æ—¶çš„åŸå› ,æ›´æ¢æˆåŠŸä¸º:ok,æ›´æ¢ä¸ºå·®çš„å‘å‹ä¸ºï¼šfail,æ›´æ¢å¤±è´¥ä¸º:å…¶å®ƒåŸå› 
 
 	void	Exec();
 };
 
-// ¶Ô·½ÊÕµ½µÄ¶ÓÎéÌôÕ½ÇëÇó
+// å¯¹æ–¹æ”¶åˆ°çš„é˜Ÿä¼æŒ‘æˆ˜è¯·æ±‚
 struct stNetTeamFightAsk
 {
 	struct
@@ -767,7 +767,7 @@ struct SForgeCell
 
 struct stNetItemForgeAsk
 {
-	char	chType;	// 1£¬¾«Á¶¡£2£¬ºÏ³É
+	char	chType;	// 1ï¼Œç²¾ç‚¼ã€‚2ï¼Œåˆæˆ
 	SForgeCell	SGroup[defMAX_FORGE_GROUP_NUM];
 };
 
@@ -805,15 +805,15 @@ struct stNetEspeItem
 	} SContent[4];
 };
 
-// ºÚÊĞÉÌÈË½á¹¹Ìå
+// é»‘å¸‚å•†äººç»“æ„ä½“
 struct stBlackTrade
 {
 	short sIndex;		// 
-	short sSrcID;		// ĞèÇóÎïÆ·ID
-	short sSrcNum;		// ĞèÇóÎïÆ·ÊıÁ¿
-	short sTarID;		// Ä¿±êÎïÆ·ID
-	short sTarNum;		// Ä¿±êÎïÆ·ÊıÁ¿
-	short sTimeNum;		// timeÖµ
+	short sSrcID;		// éœ€æ±‚ç‰©å“ID
+	short sSrcNum;		// éœ€æ±‚ç‰©å“æ•°é‡
+	short sTarID;		// ç›®æ ‡ç‰©å“ID
+	short sTarNum;		// ç›®æ ‡ç‰©å“æ•°é‡
+	short sTimeNum;		// timeå€¼
 };
 
 
@@ -821,11 +821,11 @@ struct stChurchChallenge
 {
 	short sChurchID;	// id
 	char  szName[32];	// name
-	char  szChaName[32];// µ±Ç°¾¹ÅÄÕß
-	short sCount;		// ÊıÁ¿
-	long  nBasePrice;	// µ×¼Û
-	long  nMinbid;		// ×îµÍ³ö¼Û
-	long  nCurPrice;	// µ±Ç°¾ºÅÄ¼Û
+	char  szChaName[32];// å½“å‰ç«Ÿæ‹è€…
+	short sCount;		// æ•°é‡
+	long  nBasePrice;	// åº•ä»·
+	long  nMinbid;		// æœ€ä½å‡ºä»·
+	long  nCurPrice;	// å½“å‰ç«æ‹ä»·
 
 	stChurchChallenge()	{ memset(this, 0, sizeof(stChurchChallenge)); }
 };
@@ -833,23 +833,23 @@ struct stChurchChallenge
 // Add by lark.li 20080807 
 struct stPersonInfo
 {
-	char szMotto[40];				// Ç©Ãû
-	bool bShowMotto;				// ÏÔÊ¾Ç©Ãû¿ª¹Ø
-	char szSex[10];					// ĞÔ±ğ
-	short sAge;						// ÄêÁä
-	char szName[50];				// Ãû×Ö
-	char szAnimalZodiac[50];		// ÊôÏà
-	char szBloodType[50];			// ÑªĞÍ
-	int  iBirthday;					// ÉúÈÕ£¨£©
-	char szState[50];				// Öİ£¨Ê¡£©
-	char szCity[50];				// ³ÇÊĞ£¨Çø£©
-	char szConstellation[50];		// ĞÇ×ù
-	char szCareer[50];				// Ö°Òµ
-	int iSize;						// Í·Ïñ´óĞ¡([8 * 1024])
-	char pAvatar[8096];					// Í·Ïñ
-	bool bPprevent;					// ÊÇ·ñ×èÖ¹ÏûÏ¢
-	int iSupport;					// ÏÊ»¨Êı
-	int iOppose;					// ³ô¼¦µ°Êı
+	char szMotto[40];				// ç­¾å
+	bool bShowMotto;				// æ˜¾ç¤ºç­¾åå¼€å…³
+	char szSex[10];					// æ€§åˆ«
+	short sAge;						// å¹´é¾„
+	char szName[50];				// åå­—
+	char szAnimalZodiac[50];		// å±ç›¸
+	char szBloodType[50];			// è¡€å‹
+	int  iBirthday;					// ç”Ÿæ—¥ï¼ˆï¼‰
+	char szState[50];				// å·ï¼ˆçœï¼‰
+	char szCity[50];				// åŸå¸‚ï¼ˆåŒºï¼‰
+	char szConstellation[50];		// æ˜Ÿåº§
+	char szCareer[50];				// èŒä¸š
+	int iSize;						// å¤´åƒå¤§å°([8 * 1024])
+	char pAvatar[8096];					// å¤´åƒ
+	bool bPprevent;					// æ˜¯å¦é˜»æ­¢æ¶ˆæ¯
+	int iSupport;					// é²œèŠ±æ•°
+	int iOppose;					// è‡­é¸¡è›‹æ•°
 
 	stPersonInfo&  operator =(const stPersonInfo & _info)
 	{
@@ -898,19 +898,19 @@ struct stPersonInfo
 
 struct stQueryPersonInfo
 {
-	char	sChaName[64];			// Ãû×Ö
-	bool	bHavePic;				// ÊÇ·ñÏÔÊ¾Í·Ïñ
-	char	cSex[4];				// ĞÔ±ğ	  1ÊÇÄĞ 0ÊÇÅ®µÄ
-	int		nMinAge[2];				// ÄêÁä²éÑ¯µÄm_nMinAge[1]×î´óºÍm_nMinAge[0]×îĞ¡Öµ
-	char	szAnimalZodiac[4];		// ÉúĞ¤
-	int		iBirthday[2];			// ²éÑ¯³öÉúÄêµÄm_nBirth[1]×î´óºÍm_nBirth[0]×îĞ¡Öµ
+	char	sChaName[64];			// åå­—
+	bool	bHavePic;				// æ˜¯å¦æ˜¾ç¤ºå¤´åƒ
+	char	cSex[4];				// æ€§åˆ«	  1æ˜¯ç”· 0æ˜¯å¥³çš„
+	int		nMinAge[2];				// å¹´é¾„æŸ¥è¯¢çš„m_nMinAge[1]æœ€å¤§å’Œm_nMinAge[0]æœ€å°å€¼
+	char	szAnimalZodiac[4];		// ç”Ÿè‚–
+	int		iBirthday[2];			// æŸ¥è¯¢å‡ºç”Ÿå¹´çš„m_nBirth[1]æœ€å¤§å’Œm_nBirth[0]æœ€å°å€¼
 									// 0xffff0000&month   0xffff&day
-	char	szState[32];			// Ê¡·İ
-	char	szCity[32];				// ³ÇÊĞ
-	char	szConstellation[16];	// ĞÇ×ù		
-	char	szCareer[32];			// ¹¤×÷
-	int		nPageItemNum;			// Ò»Ò³ÏÔÊ¾µÄ¸öÊı
-	int		nCurPage;				// µ±Ç°Ò³Êı
+	char	szState[32];			// çœä»½
+	char	szCity[32];				// åŸå¸‚
+	char	szConstellation[16];	// æ˜Ÿåº§		
+	char	szCareer[32];			// å·¥ä½œ
+	int		nPageItemNum;			// ä¸€é¡µæ˜¾ç¤ºçš„ä¸ªæ•°
+	int		nCurPage;				// å½“å‰é¡µæ•°
 	
 	stQueryPersonInfo()
 	{
@@ -938,12 +938,12 @@ struct stQueryPersonInfo
 };
 struct stQueryResoultPersonInfo
 {
-	char	sChaName[64];		// Ãû×Ö
-	int		nMinAge;			// ÄêÁä
-	char	cSex[4];			// ĞÔ±ğ	  1ÊÇÄĞ 0ÊÇÅ®µÄ
-	char	szState[32];		// Ê¡·İ
-	char	nCity[32];			// ³ÇÊĞ
-	char	pAvatar[8096];		// Í·ÏñÍ¼Æ¬
+	char	sChaName[64];		// åå­—
+	int		nMinAge;			// å¹´é¾„
+	char	cSex[4];			// æ€§åˆ«	  1æ˜¯ç”· 0æ˜¯å¥³çš„
+	char	szState[32];		// çœä»½
+	char	nCity[32];			// åŸå¸‚
+	char	pAvatar[8096];		// å¤´åƒå›¾ç‰‡
 
 	
 	stQueryResoultPersonInfo()
@@ -966,8 +966,8 @@ struct stQueryResoultPersonInfo
 
 // End
 
-extern void	NetLoginSuccess(char byPassword, char iCharNum,NetChaBehave chabehave[]);//¼ÓÃÜKey//½ÇÉ«ÊıÄ¿//½ÇÉ«ĞÅÏ¢
-extern void NetLoginFailure(unsigned short Errno);	                //µÇÂ½´íÎóĞÅÏ¢
+extern void	NetLoginSuccess(char byPassword, char iCharNum,NetChaBehave chabehave[]);//åŠ å¯†Key//è§’è‰²æ•°ç›®//è§’è‰²ä¿¡æ¯
+extern void NetLoginFailure(unsigned short Errno);	                //ç™»é™†é”™è¯¯ä¿¡æ¯
 extern void	NetBeginPlay(unsigned short Errno);
 extern void	NetEndPlay(char iCharNum,NetChaBehave chabehave[]);
 extern void NetNewCha(unsigned short Errno);
@@ -1012,45 +1012,45 @@ extern void NetQueryRelive(unsigned int nID, stNetQueryRelive &SQueryRelive);
 extern void NetPreMoveTime(unsigned long ulTime);
 extern void NetMapMask(unsigned int nID, BYTE *pMask, long lLen);
 
-// ÏÔÊ¾npc½»Ò×ÎïÆ·½çÃæ
+// æ˜¾ç¤ºnpcäº¤æ˜“ç‰©å“ç•Œé¢
 extern void NetShowTrade( const NET_TRADEINFO& TradeInfo, BYTE byCmd, DWORD dwNpcID, DWORD dwParam );
 extern void NetUpdateTradeAllData( const NET_TRADEINFO& TradeInfo, BYTE byCmd, DWORD dwNpcID, DWORD dwParam );
 extern void NetUpdateTradeData( DWORD dwNpcID, BYTE byPage, BYTE byIndex, USHORT sItemID, USHORT sCount, DWORD dwPrice );
 
-// Óënpc½»Ò×½á¹û
+// ä¸npcäº¤æ˜“ç»“æœ
 extern void NetTradeResult( BYTE byCmd, BYTE byIndex, BYTE byCount, USHORT sItemID, DWORD dwMoney );
 
-// ÏÔÊ¾½ÇÉ«½»Ò×ÑûÇë
+// æ˜¾ç¤ºè§’è‰²äº¤æ˜“é‚€è¯·
 extern void NetShowCharTradeRequest( BYTE byType, DWORD dwRequestID );
 
-// ¿ªÊ¼½øĞĞ½ÇÉ«½»Ò×
+// å¼€å§‹è¿›è¡Œè§’è‰²äº¤æ˜“
 extern void NetShowCharTradeInfo( BYTE byType, DWORD dwAcceptID, DWORD dwRequestID );
 
-// È¡Ïû½ÇÉ«½»Ò×
+// å–æ¶ˆè§’è‰²äº¤æ˜“
 extern void NetCancelCharTrade( DWORD dwCharID );
 
-// ½ÇÉ«½»Ò×È·ÈÏ½»Ò×Êı¾İĞÅÏ¢
+// è§’è‰²äº¤æ˜“ç¡®è®¤äº¤æ˜“æ•°æ®ä¿¡æ¯
 extern void NetValidateTradeData( DWORD dwCharID );
 
-// ½ÇÉ«½»Ò×È·ÈÏ½»Ò×
+// è§’è‰²äº¤æ˜“ç¡®è®¤äº¤æ˜“
 extern void NetValidateTrade( DWORD dwCharID );
 
-// ½ÇÉ«½»Ò×ÍÏ¶¯´¬³¤Ö¤Ã÷ÎïÆ·
+// è§’è‰²äº¤æ˜“æ‹–åŠ¨èˆ¹é•¿è¯æ˜ç‰©å“
 extern void NetTradeAddBoat( DWORD dwCharID, BYTE byOpType, USHORT sItemID, BYTE byIndex, 
 							BYTE byCount, BYTE byItemIndex, const NET_CHARTRADE_BOATDATA& Data );
 
-// ½ÇÉ«½»Ò×ÍÏ¶¯ÎïÆ·
+// è§’è‰²äº¤æ˜“æ‹–åŠ¨ç‰©å“
 extern void NetTradeAddItem( DWORD dwCharID, BYTE byOpType, USHORT sItemID, BYTE byIndex, 
 							BYTE byCount, BYTE byItemIndex, const NET_CHARTRADE_ITEMDATA& Data );
 
-// ½ÇÉ«½»Ò×½çÃæÏÔÊ¾½ğÇ®ÊıÁ¿
+// è§’è‰²äº¤æ˜“ç•Œé¢æ˜¾ç¤ºé‡‘é’±æ•°é‡
 extern void NetTradeShowMoney( DWORD dwCharID, DWORD dwMoney );
 
-// ½ÇÉ«½»Ò×½á¹û
+// è§’è‰²äº¤æ˜“ç»“æœ
 extern void NetTradeSuccess();
 extern void NetTradeFailed();
 
-// °ÚÌ¯
+// æ‘†æ‘Š
 extern void NetStallInfo( DWORD dwCharID, BYTE byNum, const char szName[] );
 extern void NetStallAddBoat( BYTE byGrid, USHORT sItemID, BYTE byCount, DWORD dwMoney, NET_CHARTRADE_BOATDATA& Data );
 extern void NetStallAddItem( BYTE byGrid, USHORT sItemID, BYTE byCount, DWORD dwMoney, NET_CHARTRADE_ITEMDATA& Data );
@@ -1107,4 +1107,4 @@ extern void NetChaPlayEffect(unsigned int uiWorldID, int nEffectID);
 
 extern void NetChurchChallenge(const stChurchChallenge* pInfo);
 
-extern void NetClose(); //½áÊøÍøÂç£¬ÊÍ·ÅÄÚ´æ by Waiting 2009-06-18
+extern void NetClose(); //ç»“æŸç½‘ç»œï¼Œé‡Šæ”¾å†…å­˜ by Waiting 2009-06-18

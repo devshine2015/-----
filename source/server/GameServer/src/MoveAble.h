@@ -24,40 +24,40 @@ public:
 
 	struct STarget
 	{
-		// ´Ë½á¹¹¼°º¬ÒåÍ¬SFightInitµÄ¶ÔÓ¦½á¹¹
+		// æ­¤ç»“æ„åŠå«ä¹‰åŒSFightInitçš„å¯¹åº”ç»“æ„
 		struct
 		{
-			dbc::Char		chType;	// 0£¬ÎŞÄ¿±ê¡£1£¬Ä¿±êÊÇÊµÌå¡£2£¬Ä¿±êÊÇ×ø±ê
+			dbc::Char		chType;	// 0ï¼Œæ— ç›®æ ‡ã€‚1ï¼Œç›®æ ‡æ˜¯å®ä½“ã€‚2ï¼Œç›®æ ‡æ˜¯åæ ‡
 			dbc::Long		lInfo1;
 			dbc::Long		lInfo2;
 		};
 		//
-		dbc::uLong	ulDist;		// ¶ÔÄ¿±êµÄ¾àÀë£¨ÀåÃ×£©
+		dbc::uLong	ulDist;		// å¯¹ç›®æ ‡çš„è·ç¦»ï¼ˆå˜ç±³ï¼‰
 	};
 
 	struct SMoveInit
 	{
-		//dbc::uLong	ulSpeed;		// ÒÆ¶¯ËÙ¶È£¨ÀåÃ×/Ãë£©
-		dbc::uShort	usPing;			// Ò»¸öÍøÂçÀ´»ØµÄÊ±¼ä
+		//dbc::uLong	ulSpeed;		// ç§»åŠ¨é€Ÿåº¦ï¼ˆå˜ç±³/ç§’ï¼‰
+		dbc::uShort	usPing;			// ä¸€ä¸ªç½‘ç»œæ¥å›çš„æ—¶é—´
 
-		SPointList	SInflexionInfo;	// ĞèÒªÖ´ĞĞÒÆ¶¯µÄµãĞòÁĞ
-		STarget		STargetInfo;	// ÒÆ¶¯µÄÄ¿±êĞÅÏ¢
+		SPointList	SInflexionInfo;	// éœ€è¦æ‰§è¡Œç§»åŠ¨çš„ç‚¹åºåˆ—
+		STarget		STargetInfo;	// ç§»åŠ¨çš„ç›®æ ‡ä¿¡æ¯
 
-		dbc::Short	sStopState;		// ÒÆ¶¯Í£Ö¹ºóµÄ×´Ì¬£¨enumEXISTS_WAITING, enumEXISTS_SLEEPING£©
+		dbc::Short	sStopState;		// ç§»åŠ¨åœæ­¢åçš„çŠ¶æ€ï¼ˆenumEXISTS_WAITING, enumEXISTS_SLEEPINGï¼‰
 	};
 
 	struct SMoveProc
 	{
-		dbc::Short	sCurInflexion;	// µ±Ç°×ªÍäµã
+		dbc::Short	sCurInflexion;	// å½“å‰è½¬å¼¯ç‚¹
 
-		dbc::uLong	ulElapse;		// Ô¤ÒÆ¶¯ºÄÊ±£¨ºÁÃë£©
+		dbc::uLong	ulElapse;		// é¢„ç§»åŠ¨è€—æ—¶ï¼ˆæ¯«ç§’ï¼‰
 		dbc::uLong	ulCacheTick;
 
-		dbc::Short	sState;		// ²Î¼ûCompCommand.hÖĞµÄEMoveStateÃ¶¾ÙÀàĞÍ
-		dbc::Char	chRequestState;	// ÇëÇóµÄÒÆ¶¯×´Ì¬£º0£¬ÎŞÇëÇó¡£1£¬ÇëÇóÍ£Ö¹ÒÆ¶¯¡£2£¬ÇëÇó¿ªÊ¼ÒÆ¶¯
-		dbc::Char	chLagMove;		// 0£¬²»»º´æÒÆ¶¯ÇëÇó¡£1£¬»º´æ
+		dbc::Short	sState;		// å‚è§CompCommand.hä¸­çš„EMoveStateæšä¸¾ç±»å‹
+		dbc::Char	chRequestState;	// è¯·æ±‚çš„ç§»åŠ¨çŠ¶æ€ï¼š0ï¼Œæ— è¯·æ±‚ã€‚1ï¼Œè¯·æ±‚åœæ­¢ç§»åŠ¨ã€‚2ï¼Œè¯·æ±‚å¼€å§‹ç§»åŠ¨
+		dbc::Char	chLagMove;		// 0ï¼Œä¸ç¼“å­˜ç§»åŠ¨è¯·æ±‚ã€‚1ï¼Œç¼“å­˜
 
-		SPointList	SNoticePoint;	// Í¨¸æ¸øÖÕ¶ËµÄµãĞòÁĞ
+		SPointList	SNoticePoint;	// é€šå‘Šç»™ç»ˆç«¯çš„ç‚¹åºåˆ—
 	};
 
 	struct SMoveRedundance
@@ -103,7 +103,7 @@ protected:
 	bool		SetMoveOnInfo(SMoveInit* pSMoveI);
 
 private:
-	virtual void AfterStepMove(void){}; // ´¦ÀíµØÍ¼ÇĞ»»£¬¸Ãº¯ÊıÃ»ÓĞ·ÅÔÚAttemptMoveÀı³ÌÖĞ£¬ÊÇÒòÎªAfterStepMove¿ÉÄÜ½øĞĞµØÍ¼ÇĞ»»¶øµ¼ÖÂµ±Ç°µØÍ¼Îª¿Õ£¬¶øAttemptMoveÖ®ºó¿ÉÄÜ½øĞĞÊÓÒ°Í¨¸æ£¬µØÍ¼²»ÄÜÎª¿Õ
+	virtual void AfterStepMove(void){}; // å¤„ç†åœ°å›¾åˆ‡æ¢ï¼Œè¯¥å‡½æ•°æ²¡æœ‰æ”¾åœ¨AttemptMoveä¾‹ç¨‹ä¸­ï¼Œæ˜¯å› ä¸ºAfterStepMoveå¯èƒ½è¿›è¡Œåœ°å›¾åˆ‡æ¢è€Œå¯¼è‡´å½“å‰åœ°å›¾ä¸ºç©ºï¼Œè€ŒAttemptMoveä¹‹åå¯èƒ½è¿›è¡Œè§†é‡é€šå‘Šï¼Œåœ°å›¾ä¸èƒ½ä¸ºç©º
 	virtual void SubsequenceMove(){};
 
 	void BeginMove(dbc::uLong ulElapse = 0);
@@ -116,8 +116,8 @@ private:
 	Point NearlyPointFromPointToLine(const Point *pPort1, const Point *pPort2, const Point *pCenter);
 	bool SegmentEnterCircle(Point *pSPort1, Point *pSPort2, Circle *pSCircle, Point *pResult);
 
-	dbc::uShort	m_usHeartbeatFreq;	// ÒÆ¶¯Ö´ĞĞµÄĞÄÌø£¨ÆµÂÊ£©£¬µ¥Î»£¨ºÁÃë£©
-	dbc::uLong	m_ulHeartbeatTick;	// µ¥Î»£¨ºÁÃë£©
+	dbc::uShort	m_usHeartbeatFreq;	// ç§»åŠ¨æ‰§è¡Œçš„å¿ƒè·³ï¼ˆé¢‘ç‡ï¼‰ï¼Œå•ä½ï¼ˆæ¯«ç§’ï¼‰
+	dbc::uLong	m_ulHeartbeatTick;	// å•ä½ï¼ˆæ¯«ç§’ï¼‰
 	bool		m_bOnMove;
 
 	CTimer		m_timeRun;

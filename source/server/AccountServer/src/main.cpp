@@ -1,4 +1,4 @@
-// ¾­·ÖÎö,´ËÏîÄ¿½á¹¹´æÔÚÑÏÖØÎÊÌâ,ÓĞ¶à´¦µØ·½Ç·È±Ïß³ÌÍ¬²½¿¼ÂÇ,½¨ÒéÖØĞ´ - by Arcol
+// ç»åˆ†æ,æ­¤é¡¹ç›®ç»“æ„å­˜åœ¨ä¸¥é‡é—®é¢˜,æœ‰å¤šå¤„åœ°æ–¹æ¬ ç¼ºçº¿ç¨‹åŒæ­¥è€ƒè™‘,å»ºè®®é‡å†™ - by Arcol
 
 // main.cpp : Defines the entry point for the console application.
 //
@@ -33,7 +33,7 @@ CResourceBundleManage  g_ResourceBundleManage("AccountServer.loc");	//Add by lar
 //BillThread bt;
 
 
-//std::string g_BTSAddr[2] = {"61.152.115.79:7243", "61.152.115.79:7243"}; ¾ÉµÄBTSµØÖ·
+//std::string g_BTSAddr[2] = {"61.152.115.79:7243", "61.152.115.79:7243"}; æ—§çš„BTSåœ°å€
 //std::string g_BTSAddr[2] = {"61.152.115.172:7243", "61.152.115.173:7243"};
 
 void __cdecl Ctrlc_Dispatch(int sig)
@@ -49,17 +49,17 @@ LRESULT OnInitDialog(HWND hwnd)
     //SetWindowText(hwnd, "AccountServer");
     SetWindowText(hwnd, RES_STRING(AS_MAIN_CPP_00008));
 
-	//ÈÏÖ¤
+	//è®¤è¯
 	SetDlgItemText(hwnd,IDC_TOP,RES_STRING(AS_MAIN_CPP_00018));
-	//¶ÓÁĞ°ü£º 0
+	//é˜Ÿåˆ—åŒ…ï¼š 0
 	SetDlgItemText(hwnd,IDC_QUEUECAP,RES_STRING(AS_MAIN_CPP_00019));
-	//²¢·¢Êı£º 0
+	//å¹¶å‘æ•°ï¼š 0
 	SetDlgItemText(hwnd,IDC_TASKCNT,RES_STRING(AS_MAIN_CPP_00020));
 	//GroupServer
 	SetDlgItemText(hwnd,IDC_MID,RES_STRING(AS_MAIN_CPP_00021));
-	//¼Æ·Ñ
+	//è®¡è´¹
 	SetDlgItemText(hwnd,IDC_BOTTOM,RES_STRING(AS_MAIN_CPP_00022));
-	//ÍË³ö
+	//é€€å‡º
 	SetDlgItemText(hwnd,IDOK,RES_STRING(AS_MAIN_CPP_00023));
     // Auth thread report list
     {
@@ -226,12 +226,12 @@ LRESULT OnTimer(HWND hwnd, UINT idEvent)
         }
 
         HWND hQueueCap = GetDlgItem(hwnd, IDC_QUEUECAP);
-        //sprintf(buf, "¶ÓÁĞ°ü£º %d", g_Auth.GetPkTotal());
+        //sprintf(buf, "é˜Ÿåˆ—åŒ…ï¼š %d", g_Auth.GetPkTotal());
         sprintf(buf, RES_STRING(AS_MAIN_CPP_00024), g_Auth.GetPkTotal());
         SetWindowText(hQueueCap, (LPCTSTR)buf);
 
         HWND hTaskCnt = GetDlgItem(hwnd, IDC_TASKCNT);
-        //sprintf(buf, "²¢·¢Êı£º %d", proc->GetTaskCount());
+        //sprintf(buf, "å¹¶å‘æ•°ï¼š %d", proc->GetTaskCount());
         sprintf(buf, RES_STRING(AS_MAIN_CPP_00025), proc->GetTaskCount());
         SetWindowText(hTaskCnt, (LPCTSTR)buf);
     }
@@ -347,14 +347,14 @@ BOOL CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
         /*
         printf("cBTI_Disconnected [WPARAM=%d, LPARAM=%d]\n", wParam, lParam);
         ++ g_nDisconn;
-        char buf[20]; sprintf(buf, "¶Ï¿ª´ÎÊı£º%d", g_nDisconn);
+        char buf[20]; sprintf(buf, "æ–­å¼€æ¬¡æ•°ï¼š%d", g_nDisconn);
         SetWindowText(GetDlgItem(hwndDlg, IDC_DISCONNCNT), buf);*/
         break;
 
     case cBTI_Closed:
         printf("cBTI_Closed [WPARAM=%d, LPARAM=%d]\n", wParam, lParam);
         break;
-    case cBTI_TIME:     //  ·À³ÁÃÔ
+    case cBTI_TIME:     //  é˜²æ²‰è¿·
         g_BillService.AdjustExpScale((long)wParam, (long)lParam);
         break;
 	case WM_USER_LOG:
@@ -404,14 +404,14 @@ int main(int argc, char* argv[])
 {
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	C_PRINT("AccountServer 1.38 (by: Sheep Squad)\n");
-	C_PRINT("AccountServer 1.38 (ÓÅ»¯by: ÉÏ¹Ùè¤è¤)\n");
+	C_PRINT("AccountServer 1.38 (ä¼˜åŒ–by: ä¸Šå®˜ç‘œç‘œ)\n");
 	C_TITLE("AccountServer.exe")
 
 	SEHTranslator translator;
 
 	T_B
 
-    // ´´½¨Ö÷´°¿Ú
+    // åˆ›å»ºä¸»çª—å£
 	_CrtSetDbgFlag ( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );		//Add by Arcol (2005-12-2)
 
 	C_TITLE("AccountServer.exe")
@@ -429,7 +429,7 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-    // ³õÊ¼»¯BTI
+    // åˆå§‹åŒ–BTI
 	//if (!g_BillThread.CreateBillingSystem(g_hMainWnd))
 	if (!g_BillService.CreateBillingSystem(g_hMainWnd))
 	{
@@ -447,12 +447,12 @@ int main(int argc, char* argv[])
 		return -1;
 	}
 
-    // Æô¶¯ÈÏÖ¤¼Æ·ÑÏß³Ì
+    // å¯åŠ¨è®¤è¯è®¡è´¹çº¿ç¨‹
 	//bt.Launch();
 	//g_BillThread.Launch();
     atp.Launch();
 
-    // ³õÊ¼»¯ÍøÂç
+    // åˆå§‹åŒ–ç½‘ç»œ
     TcpCommApp::WSAStartup();
     comm = ThreadPool::CreatePool(10, 10, 256);
 
@@ -467,7 +467,7 @@ int main(int argc, char* argv[])
         Sleep(10 * 1000);
         return -1;
     } catch (...) {
-        //printf("AccountServer³õÊ¼»¯ÆÚ¼ä·¢ÉúÎ´Öª´íÎó£¬ÇëÍ¨Öª¿ª·¢Õß\n");
+        //printf("AccountServeråˆå§‹åŒ–æœŸé—´å‘ç”ŸæœªçŸ¥é”™è¯¯ï¼Œè¯·é€šçŸ¥å¼€å‘è€…\n");
    		printf(RES_STRING(AS_MAIN_CPP_00006));
 		comm->DestroyPool();
         TcpCommApp::WSACleanup();
@@ -475,20 +475,20 @@ int main(int argc, char* argv[])
         return -2;
     }
 
-    // ÏûÏ¢Ñ­»·
+    // æ¶ˆæ¯å¾ªç¯
     MSG msg;
     while (GetMessage(&msg, NULL, 0, 0)) {
         TranslateMessage(&msg);
         DispatchMessage(&msg);
     }
 
-    // Ğ¶ÔØÍøÂç
+    // å¸è½½ç½‘ç»œ
     delete g_As2;
     if (comm != NULL) comm->DestroyPool();
     if (proc != NULL) proc->DestroyPool();
     TcpCommApp::WSACleanup();
 
-    // ÈÏÖ¤¡¢¼Æ·ÑÏß³ÌÍË³ö
+    // è®¤è¯ã€è®¡è´¹çº¿ç¨‹é€€å‡º
     //bt.NotifyToExit();
 	//g_BillThread.NotifyToExit();
     atp.NotifyToExit();
@@ -496,7 +496,7 @@ int main(int argc, char* argv[])
     atp.WaitForExit();
 	//g_BillThread.WaitForExit(-1);
 
-    // ¼ÇÂ¼×îºó×´Ì¬
+    // è®°å½•æœ€åçŠ¶æ€
     LG("RunLabel", "\n");
     for (char i = 0; i < AuthThreadPool::AT_MAXNUM; ++ i) {
         LG("RunLabel", "%02d %04d\n", AuthThreadPool::RunLabel[i],

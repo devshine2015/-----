@@ -23,11 +23,11 @@ public:
 	void	InitMemory();
 
     void    Exec();             
-    void    Gouge( int nGouge );                // ½«Ò»¸ö°ü·Ö¸ô³ÉÎª¼¸´ÎÖ´ĞĞ
+    void    Gouge( int nGouge );                // å°†ä¸€ä¸ªåŒ…åˆ†éš”æˆä¸ºå‡ æ¬¡æ‰§è¡Œ
 
-    bool    AddHarm( CAttackEffect* s, CSkillRecord *pSkill );        // ¼ÓÈëÍøÂç´«À´µÄÉËº¦°ü,ÔÚÉËº¦Ê±Ö´ĞĞ
-    bool    AddRep( CAttackRepSynchro* s );         // ±íÏÖ°ü,ÔÚ¿ªÊ¼Ö´ĞĞÊ±Ö´ĞĞ
-    bool    IsAllowStateOver();                 // ÊÇ·ñÔÊĞí×´Ì¬½áÊø
+    bool    AddHarm( CAttackEffect* s, CSkillRecord *pSkill );        // åŠ å…¥ç½‘ç»œä¼ æ¥çš„ä¼¤å®³åŒ…,åœ¨ä¼¤å®³æ—¶æ‰§è¡Œ
+    bool    AddRep( CAttackRepSynchro* s );         // è¡¨ç°åŒ…,åœ¨å¼€å§‹æ‰§è¡Œæ—¶æ‰§è¡Œ
+    bool    IsAllowStateOver();                 // æ˜¯å¦å…è®¸çŠ¶æ€ç»“æŸ
 
     void    ReadyExec()             { _nReadyExec++;            }
 	void    SetIsOuter( bool v );
@@ -56,18 +56,18 @@ private:
 
 private:
     int         _nFightID;
-    CActor*     _pActor;            // ËùÊôActor
+    CActor*     _pActor;            // æ‰€å±Actor
 	CCharacter* _pCha;
 
-    synchros    _harm;              // ÉËº¦°ü,ÔÚ¹Ø¼üÖ¡²¥·Å
-    synchros    _rep;               // ±íÏÖ°ü,ÔÚ¿ªÊ¼Ê±²¥·Å
+    synchros    _harm;              // ä¼¤å®³åŒ…,åœ¨å…³é”®å¸§æ’­æ”¾
+    synchros    _rep;               // è¡¨ç°åŒ…,åœ¨å¼€å§‹æ—¶æ’­æ”¾
 
     CSkillRecord*   _pSkill;
 
-    int         _nReadyExec;        // ¿Í»§¶ËÕıÔÚ×¼±¸Ö´ĞĞµÄ´ÎÊı
+    int         _nReadyExec;        // å®¢æˆ·ç«¯æ­£åœ¨å‡†å¤‡æ‰§è¡Œçš„æ¬¡æ•°
 
-	bool		_IsOuter;			// ÊÇ·ñÓĞÍâ²¿µ÷ÓÃ
+	bool		_IsOuter;			// æ˜¯å¦æœ‰å¤–éƒ¨è°ƒç”¨
 
 };
 
-// ÄÚÁªº¯Êı
+// å†…è”å‡½æ•°

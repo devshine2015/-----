@@ -6,29 +6,29 @@
 #include "MPSkyBox.h"
 #endif
 #include "Character.h"
-#include "SceneObj.h"
 #include "SceneItem.h"
+#include "SceneObj.h"
 #include "SceneObjFile.h"
 #ifdef __EDITOR__
 #include "MPEditor.h"
 #endif
-#include "Scene.h"
-#include "GameConfig.h"
-#include "EffectObj.h"
-#include "Track.h"
-#include "LEFont.h"
-#include "SmallMap.h"
-#include "UIFormMgr.h" 
-#include "script.h"
-#include "GlobalVar.h"
 #include "DrawPointList.h"
+#include "EffectObj.h"
+#include "GameConfig.h"
+#include "GameLoading.h"
+#include "GameMovie.h"
+#include "GlobalVar.h"
+#include "LEFont.h"
 #include "PacketCmd.h"
+#include "Scene.h"
+#include "SmallMap.h"
+#include "SteadyFrame.h"
+#include "Track.h"
+#include "UICozeForm.h"
+#include "UIFormMgr.h"
 #include "UIRender.h"
 #include "UIsystemform.h"
-#include "SteadyFrame.h"
-#include "UICozeForm.h"
-#include "GameMovie.h"
-#include "GameLoading.h"
+#include "script.h"
 
 #ifdef __SOUND__
 #ifndef USE_DSOUND
@@ -42,504 +42,480 @@ extern CGameMovie g_GameMovie;
 #include "TestDemo.h"
 #endif
 
+DWORD CGameApp::_dwMouseDownTime[2] = {0};
+int CGameApp::_nMusicSize = 50;
+char CGameApp::_szOutBuf[256] = {0};
+bool CGameApp::_IsMusicSystemValid = false;
+CGameScene *CGameApp::_pCurScene = NULL;
+DWORD CGameApp::_dwCurTick = 0;
+DWORD CGameApp::m_dwLoginTime = 0;
 
-DWORD		CGameApp::_dwMouseDownTime[2]	= { 0 };
-int			CGameApp::_nMusicSize			= 50;
-char		CGameApp::_szOutBuf[256]		= { 0 };
-bool		CGameApp::_IsMusicSystemValid	= false;
-CGameScene*	CGameApp::_pCurScene			= NULL;
-DWORD		CGameApp::_dwCurTick			= 0;
-DWORD		CGameApp::m_dwLoginTime			= 0;
+const BYTE verifyName[] = {0xf8, 0x05, 0x1a, 0xe4, 0x98, 0x5e, 0xb8, 0x9e};
 
-const BYTE verifyName[]={0xf8,0x05,0x1a,0xe4,0x98,0x5e,0xb8,0x9e};
-
-const BYTE verifyDialog[]={0xf0, 0xdc, 0xea, 0x7b, 0x40, 0xeb, 0xc4, 0x47};
-static  CSteadyFrame steady;
-CSteadyFrame* CGameApp::_pSteady = &steady;
+const BYTE verifyDialog[] = {0xf0, 0xdc, 0xea, 0x7b, 0x40, 0xeb, 0xc4, 0x47};
+static CSteadyFrame steady;
+CSteadyFrame *CGameApp::_pSteady = &steady;
 extern void LimitCurrentProc();
 
 CGameApp::CGameApp()
-:_bEnableSuperKey(FALSE),
- _pCamTrack(NULL),
- _IsRenderTipText(false),
- _IsInit(false),
- _nSwitchScene(1),
- _IsUserEnabled(true),
- _eSwitchMusic(enumNoMusic), 
- _nCurMusicSize(1)
-{
-	LimitCurrentProc();
-	_pDrawPoints = new CDrawPointList;
-	_pMainCam = new CCameraCtrl;
+    : _bEnableSuperKey(FALSE), _pCamTrack(NULL), _IsRenderTipText(false),
+      _IsInit(false), _nSwitchScene(1), _IsUserEnabled(true),
+      _eSwitchMusic(enumNoMusic), _nCurMusicSize(1) {
+  LimitCurrentProc();
+  _pDrawPoints = new CDrawPointList;
+  _pMainCam = new CCameraCtrl;
 #ifdef _SKYBOX_
-	_pSkyBox = new CMPSkyBox;
+  _pSkyBox = new CMPSkyBox;
 #endif
-	xp = SHOWRSIZE / 2;
-	yp = SHOWRSIZE / 2;
+  xp = SHOWRSIZE / 2;
+  yp = SHOWRSIZE / 2;
 
-    _rsm = 0;
+  _rsm = 0;
 
-    memset( _szBkgMusic, 0, sizeof(_szBkgMusic) );
+  memset(_szBkgMusic, 0, sizeof(_szBkgMusic));
 
-#if(defined USE_TIMERPERIOD)
-    _TimerPeriod = 0;
+#if (defined USE_TIMERPERIOD)
+  _TimerPeriod = 0;
 #endif
 
-	btest = false;
-	ihei = 0;
+  btest = false;
+  ihei = 0;
 
-	_pNotify = new CTextHint;
+  _pNotify = new CTextHint;
 
-	_pNotify->SetHintIsCenter( false );
-	_pNotify->SetFixWidth( 430 );
-	_pNotify->SetBkgColor( 0x60000000 );
-	_pNotify->SetIsHeadShadow( false );
+  _pNotify->SetHintIsCenter(false);
+  _pNotify->SetFixWidth(430);
+  _pNotify->SetBkgColor(0x60000000);
+  _pNotify->SetIsHeadShadow(false);
 
-	//Add by sunny.sun20080804
-	//Begin
-	_pNotify1 = new CTextScrollHint;
-	_pNotify1->SetFixWidth( 430 );
-	_pNotify1->SetBkgColor( 0x60000000 );
-	//End
-	_dwNotifyTime = 0;	
-	_dwNotifyTime1 = 0;
+  // Add by sunny.sun20080804
+  // Begin
+  _pNotify1 = new CTextScrollHint;
+  _pNotify1->SetFixWidth(430);
+  _pNotify1->SetBkgColor(0x60000000);
+  // End
+  _dwNotifyTime = 0;
+  _dwNotifyTime1 = 0;
 
-	//_ctrl = new Ninja::LinearController < D3DXVECTOR3 >;
-	//_pNinjaCamera = new Ninja::Camera( _ctrl );
+  //_ctrl = new Ninja::LinearController < D3DXVECTOR3 >;
+  //_pNinjaCamera = new Ninja::Camera( _ctrl );
 
-	// Added by CLP
-	_camera_target_ctrl = new Ninja::LinearController < D3DXVECTOR3 >;
-	_camera_eye_ctrl = new Ninja::LinearController < Ninja::SphereCoord >;
-	_pNinjaCamera = new Ninja::Camera( _camera_target_ctrl, _camera_eye_ctrl );
+  // Added by CLP
+  _camera_target_ctrl = new Ninja::LinearController<D3DXVECTOR3>;
+  _camera_eye_ctrl = new Ninja::LinearController<Ninja::SphereCoord>;
+  _pNinjaCamera = new Ninja::Camera(_camera_target_ctrl, _camera_eye_ctrl);
 
 #ifdef __SOUND__
 #ifdef USE_DSOUND
-	mSoundManager = NULL;
-	mMP3 = NULL;
+  mSoundManager = NULL;
+  mMP3 = NULL;
 #endif
 #endif
 }
 
+CGameApp::~CGameApp() {
+  //ÂÆâÂÖ®ÈáäÊîæÂÜÖÂ≠ò by Waiting 2009-06-18
+  for (list<STipText *>::iterator it = _TipText.begin(); it != _TipText.end();
+       it++) {
+    STipText *pText = (*it);
+    SAFE_DELETE(pText);
+  }
+  _TipText.clear();
 
-CGameApp::~CGameApp()
-{   
-    //∞≤»´ Õ∑≈ƒ⁄¥Ê by Waiting 2009-06-18
-	for(list<STipText*>::iterator it = _TipText.begin(); it!=_TipText.end(); it++)
-	{
-		STipText *pText = (*it);
-		SAFE_DELETE(pText);
-	}
-	_TipText.clear();
-
-	SAFE_DELETE(_pNotify1);
-	SAFE_DELETE(_pNotify);
+  SAFE_DELETE(_pNotify1);
+  SAFE_DELETE(_pNotify);
 
 #ifdef __SOUND__
 #ifdef USE_DSOUND
-	SAFE_DELETE(mSoundManager); //∞≤»´ Õ∑≈ƒ⁄¥Ê by Waiting 2009-06-18
-	SAFE_DELETE(mMP3); //∞≤»´ Õ∑≈ƒ⁄¥Ê by Waiting 2009-06-18
+  SAFE_DELETE(mSoundManager); //ÂÆâÂÖ®ÈáäÊîæÂÜÖÂ≠ò by Waiting 2009-06-18
+  SAFE_DELETE(mMP3);          //ÂÆâÂÖ®ÈáäÊîæÂÜÖÂ≠ò by Waiting 2009-06-18
 #endif
 #endif
 #ifdef _SKYBOX_
-	SAFE_DELETE( _pSkyBox );
+  SAFE_DELETE(_pSkyBox);
 #endif
-    SAFE_DELETE( _pMainCam );
-	SAFE_DELETE( _pNinjaCamera );
-	SAFE_DELETE( _camera_target_ctrl );
-	SAFE_DELETE( _camera_eye_ctrl );
+  SAFE_DELETE(_pMainCam);
+  SAFE_DELETE(_pNinjaCamera);
+  SAFE_DELETE(_camera_target_ctrl);
+  SAFE_DELETE(_camera_eye_ctrl);
 }
 
-void CGameApp::End()
-{
-	_IsInit = false;
+void CGameApp::End() {
+  _IsInit = false;
 
-	delete _pDrawPoints;
+  delete _pDrawPoints;
 
-	SAFE_DELETE( _pCamTrack );
+  SAFE_DELETE(_pCamTrack);
 
-	CNavigationBar::g_cNaviBar.Clear();
-	GameLoading::Destory();
+  CNavigationBar::g_cNaviBar.Clear();
+  GameLoading::Destory();
 
-	_stCursorMgr.ClearMemory();
-    if( _pCurScene )
-    {
-        _pCurScene->_Clear();
-        _pCurScene->_ClearMemory();
-        delete _pCurScene;
-        _pCurScene = NULL;
-    }
+  _stCursorMgr.ClearMemory();
+  if (_pCurScene) {
+    _pCurScene->_Clear();
+    _pCurScene->_ClearMemory();
+    delete _pCurScene;
+    _pCurScene = NULL;
+  }
 
-	CGameScene::_ClearScene();
+  CGameScene::_ClearScene();
 
-    // CCharacterSet *pCharSet = CCharacterSet::I();
-	// SAFE_DELETE( pCharSet );
+  // CCharacterSet *pCharSet = CCharacterSet::I();
+  // SAFE_DELETE( pCharSet );
 
-    //CSceneItemSet* pItemSet = CSceneItemSet::I();
-    //SAFE_DELETE( pItemSet );
+  // CSceneItemSet* pItemSet = CSceneItemSet::I();
+  // SAFE_DELETE( pItemSet );
 
-	ReleaseAllTable();
+  ReleaseAllTable();
 
-	_stScriptMgr.Clear();
+  _stScriptMgr.Clear();
 
-    SAFE_DELETE( _pMainCam );    
-	
-    g_CFont.ReleaseFont();
-    _MidFont.ReleaseFont();
+  SAFE_DELETE(_pMainCam);
 
-    g_CEffBox.ReleaseBox();
-    CPathBox.ReleaseBox();
+  g_CFont.ReleaseFont();
+  _MidFont.ReleaseFont();
 
-	CGuiFont::s_Font.Clear();
+  g_CEffBox.ReleaseBox();
+  CPathBox.ReleaseBox();
 
-    SAFE_DELETE(_rsm);
-	
-	if( !g_Render.IsRealFPS() )
-		_pSteady->Exit(); // Add by lark.li 20080923 begin
+  CGuiFont::s_Font.Clear();
+
+  SAFE_DELETE(_rsm);
+
+  if (!g_Render.IsRealFPS())
+    _pSteady->Exit(); // Add by lark.li 20080923 begin
 
 #ifdef TESTDEMO
-    ReleaseTestDemo();
+  ReleaseTestDemo();
 #endif
 
-    LEGameApp::End();
+  LEGameApp::End();
 }
 
-
-BOOL CGameApp::_Init()
-{	
-	CCozeForm::GetInstance();
-	//InitAllTable();
+BOOL CGameApp::_Init() {
+  CCozeForm::GetInstance();
+  // InitAllTable();
 
 #ifdef _LUA_GAME
-	extern HINSTANCE g_hInstance;
-	extern void CreateScriptDebugWindow(HINSTANCE hInst, HWND hParent);
-	CreateScriptDebugWindow(g_hInstance, g_pGameApp->GetHWND());
+  extern HINSTANCE g_hInstance;
+  extern void CreateScriptDebugWindow(HINSTANCE hInst, HWND hParent);
+  CreateScriptDebugWindow(g_hInstance, g_pGameApp->GetHWND());
 #endif
 
-	if(!LoadTerrainSet("scripts/table/TerrainInfo", FALSE))
-        return 0;
+  if (!LoadTerrainSet("scripts/table/TerrainInfo", FALSE))
+    return 0;
 
-	// ‘⁄≥ı ºªØ◊ ‘¥±Ì∏Ò∫Û£¨≥ı ºªØ◊ ‘¥ -- Michael Chen
-	if(!LoadResourceSet("scripts/table/ResourceInfo", g_Config.m_nMaxResourceNum, FALSE))
-		return 0;
-	if (!LoadResource() || !LoadRes2() /*|| !LoadRes3()*/)
-	{
-		return 0;
-	}
+  // Âú®ÂàùÂßãÂåñËµÑÊ∫êË°®Ê†ºÂêéÔºåÂàùÂßãÂåñËµÑÊ∫ê -- Michael Chen
+  if (!LoadResourceSet("scripts/table/ResourceInfo", g_Config.m_nMaxResourceNum,
+                       FALSE))
+    return 0;
+  if (!LoadResource() || !LoadRes2() /*|| !LoadRes3()*/) {
+    return 0;
+  }
 
-	if( g_Config.m_bEditor  )
-	{
-		if( !LoadRes3() )
-			return 0;
-	}
+  if (g_Config.m_bEditor) {
+    if (!LoadRes3())
+      return 0;
+  }
 
-	_IsInit = false;
+  _IsInit = false;
 
-	{ // init loading res mt flag
-        drIByteSet* res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
-        res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, g_Config.m_bMThreadRes);
-        res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, 0 );//g_Config.m_bMThreadRes);
+  { // init loading res mt flag
+    drIByteSet *res_bs = g_Render.GetInterfaceMgr()->res_mgr->GetByteSet();
+    res_bs->SetValue(OPT_RESMGR_LOADTEXTURE_MT, g_Config.m_bMThreadRes);
+    res_bs->SetValue(OPT_RESMGR_LOADMESH_MT, 0); // g_Config.m_bMThreadRes);
 
-        // tex encoder
-        res_bs->SetValue(OPT_RESMGR_TEXENCODE, 1);
-    }
+    // tex encoder
+    res_bs->SetValue(OPT_RESMGR_TEXENCODE, 1);
+  }
 
-    { // init loading helper object instance flag
-        drIOptionMgr* opt_mgr = g_Render.GetInterfaceMgr()->sys->GetOptionMgr();
-        opt_mgr->SetByteFlag(OPTION_FLAG_CREATEHELPERPRIMITIVE, g_Config.m_bEditor);
-    }
+  { // init loading helper object instance flag
+    drIOptionMgr *opt_mgr = g_Render.GetInterfaceMgr()->sys->GetOptionMgr();
+    opt_mgr->SetByteFlag(OPTION_FLAG_CREATEHELPERPRIMITIVE, g_Config.m_bEditor);
+  }
 
 #ifdef __SOUND__
-	//_IsMusicSystemValid = ::mus_mgr_init( g_Config.m_bEnableMusic!=0 );	// music
+  //_IsMusicSystemValid = ::mus_mgr_init( g_Config.m_bEnableMusic!=0 );	// music
 #ifdef USE_DSOUND
-	if( mSoundManager == NULL )
-		mSoundManager = new DSoundManager( GetHWND() );
-	if( mMP3 == NULL )
-		mMP3 = new WMp3;
-	mMP3->InternalVolume( TRUE );
+  if (mSoundManager == NULL)
+    mSoundManager = new DSoundManager(GetHWND());
+  if (mMP3 == NULL)
+    mMP3 = new WMp3;
+  mMP3->InternalVolume(TRUE);
 #else
-	 AudioSDL::get_instance()->init();
+  AudioSDL::get_instance()->init();
 #endif
 
-	_IsMusicSystemValid = true;
-    if( !_IsMusicSystemValid && g_Config.m_bEnableMusic!=0 )
-    {
-        LG( "init", RES_STRING(CL_LANGUAGE_MATCH_65) );
-    }
+  _IsMusicSystemValid = true;
+  if (!_IsMusicSystemValid && g_Config.m_bEnableMusic != 0) {
+    LG("init", RES_STRING(CL_LANGUAGE_MATCH_65));
+  }
 #endif
-	_bConnected = FALSE;
-	
-	// ConsoleœµÕ≥ π”√µƒªÿµ˜∫Ø ˝
-	extern const char* ConsoleCallback(const char *pszCmd);
-	_pConsole->SetCmdFN(ConsoleCallback);
+  _bConnected = FALSE;
+
+  // ConsoleÁ≥ªÁªü‰ΩøÁî®ÁöÑÂõûË∞ÉÂáΩÊï∞
+  extern const char *ConsoleCallback(const char *pszCmd);
+  _pConsole->SetCmdFN(ConsoleCallback);
 
 #ifdef __FPS_DEBUG__
-	g_Render.EnablePrint(INFO_FPS, TRUE);
+  g_Render.EnablePrint(INFO_FPS, TRUE);
 #endif
-	g_Render.EnablePrint(INFO_GAME, TRUE);
+  g_Render.EnablePrint(INFO_GAME, TRUE);
 
-	// #define LEFONT_BOLD        0x0001
-	// #define MPFONT_ITALIC      0x0002
-	// #define MPFONT_UNLINE      0x0004
+  // #define LEFONT_BOLD        0x0001
+  // #define MPFONT_ITALIC      0x0002
+  // #define MPFONT_UNLINE      0x0004
 
 #ifdef USE_RENDER
-	g_CFont.CreateFont(&g_Render,const_cast<char*>(RES_STRING(CL_LANGUAGE_MATCH_66)), 12);
-    _MidFont.CreateFont(&g_Render,const_cast<char*>(RES_STRING(CL_LANGUAGE_MATCH_67)), 16, 3, LEFONT_BOLD);
+  g_CFont.CreateFont(&g_Render,
+                     const_cast<char *>(RES_STRING(CL_LANGUAGE_MATCH_66)), 12);
+  _MidFont.CreateFont(&g_Render,
+                      const_cast<char *>(RES_STRING(CL_LANGUAGE_MATCH_67)), 16,
+                      3, LEFONT_BOLD);
 #else
-	g_CFont.CreateFont(g_Render.GetDevice(),const_cast<char*>(RES_STRING(CL_LANGUAGE_MATCH_66)), 12);
-    _MidFont.CreateFont(&g_Render,const_cast<char*>(RES_STRING(CL_LANGUAGE_MATCH_67)), 16, 3, LEFONT_BOLD);
+  g_CFont.CreateFont(g_Render.GetDevice(),
+                     const_cast<char *>(RES_STRING(CL_LANGUAGE_MATCH_66)), 12);
+  _MidFont.CreateFont(&g_Render,
+                      const_cast<char *>(RES_STRING(CL_LANGUAGE_MATCH_67)), 16,
+                      3, LEFONT_BOLD);
 #endif
-	g_CFont.BindingRes(&ResMgr);
-    _MidFont.BindingRes(&ResMgr);
+  g_CFont.BindingRes(&ResMgr);
+  _MidFont.BindingRes(&ResMgr);
 
-	//SIZE sizes;
-	//g_CFont.GetTextSize("IDE\nokdote\n¥Â≥«π˙π§º˛∏± Èº« »˝µ»∑÷",&sizes);
+  // SIZE sizes;
+  // g_CFont.GetTextSize("IDE\nokdote\nÊùëÂüéÂõΩÂ∑•‰ª∂ÂâØ‰π¶ËÆ∞ ‰∏âÁ≠âÂàÜ",&sizes);
 
-    memset( _stMidFont.szText, 0, sizeof(_stMidFont.szText) );
-    _stMidFont.dwBeginTime = 0;
+  memset(_stMidFont.szText, 0, sizeof(_stMidFont.szText));
+  _stMidFont.dwBeginTime = 0;
 
-	//LETexSet *pTextureSet = new LETexSet(0, 2048);
-	GetTextureID( "texture/ui/brow/0.tga" );
+  // LETexSet *pTextureSet = new LETexSet(0, 2048);
+  GetTextureID("texture/ui/brow/0.tga");
 
-	if( !_stScriptMgr.Init() )
-	{
-		LG("init", RES_STRING(CL_LANGUAGE_MATCH_68));
-		return FALSE;
-	}
-   
-	string curr_ver = __TIME__;
-	curr_ver += " "; curr_ver += __DATE__;
-	// cout << curr_ver.c_str() << endl;
-    
-   	_pCamTrack = new CPointTrack;
-	
-	InitAllTable();
+  if (!_stScriptMgr.Init()) {
+    LG("init", RES_STRING(CL_LANGUAGE_MATCH_68));
+    return FALSE;
+  }
 
-    GetCursor()->InitMemory();
+  string curr_ver = __TIME__;
+  curr_ver += " ";
+  curr_ver += __DATE__;
+  // cout << curr_ver.c_str() << endl;
 
-    extern void InitPoseData();
-    InitPoseData();
-    
+  _pCamTrack = new CPointTrack;
+
+  InitAllTable();
+
+  GetCursor()->InitMemory();
+
+  extern void InitPoseData();
+  InitPoseData();
+
 #if 1
-    // by lsh
-    // ±ÿ–Ë‘⁄CSceneObjInfo‘ÿ»Î∫Ûµ˜”√
-    extern void LoadResModelBuf(LEIResourceMgr* res_mgr);
+  // by lsh
+  // ÂøÖÈúÄÂú®CSceneObjInfoËΩΩÂÖ•ÂêéË∞ÉÁî®
+  extern void LoadResModelBuf(LEIResourceMgr * res_mgr);
 #ifdef __FPS_DEBUG__
-	MPTimer t;
-	t.Begin();
+  MPTimer t;
+  t.Begin();
 #endif
-    LoadResModelBuf(g_Render.GetInterfaceMgr()->res_mgr);
+  LoadResModelBuf(g_Render.GetInterfaceMgr()->res_mgr);
 #ifdef __FPS_DEBUG__
-	DWORD res_t = t.End();
+  DWORD res_t = t.End();
 #endif
 #endif
-	
-	extern bool UIMainInit( CFormMgr* pSender );
-	CFormMgr::s_Mgr.AddFormInit( UIMainInit );				// ∂¡»ÎΩ≈±æ∫Û,≥ı ºªØ ± ¬º˛
 
-	if( !CFormMgr::s_Mgr.Init( g_pGameApp->GetHWND() ) )    // by lh ÷¥––ÕÍ≥…CLU_LoadScript∫Ûµ˜”√
-	{
-		ErrorReport(RES_STRING(CL_LANGUAGE_MATCH_69));
-		return FALSE;
-	}
+  extern bool UIMainInit(CFormMgr * pSender);
+  CFormMgr::s_Mgr.AddFormInit(UIMainInit); // ËØªÂÖ•ËÑöÊú¨Âêé,ÂàùÂßãÂåñÊó∂‰∫ã‰ª∂
 
-	GetRender().RegisterFunc();
+  if (!CFormMgr::s_Mgr.Init(
+          g_pGameApp->GetHWND())) // by lh ÊâßË°åÂÆåÊàêCLU_LoadScriptÂêéË∞ÉÁî®
+  {
+    ErrorReport(RES_STRING(CL_LANGUAGE_MATCH_69));
+    return FALSE;
+  }
 
-	CFormMgr::s_Mgr.SetEnabled( true );
+  GetRender().RegisterFunc();
 
-	if( !_stScriptMgr.LoadScript() )
-	{
-		ErrorReport(RES_STRING(CL_LANGUAGE_MATCH_70));
-		return FALSE;
-	}
+  CFormMgr::s_Mgr.SetEnabled(true);
 
-	g_NetIF	= new NetIF;
+  if (!_stScriptMgr.LoadScript()) {
+    ErrorReport(RES_STRING(CL_LANGUAGE_MATCH_70));
+    return FALSE;
+  }
+
+  g_NetIF = new NetIF;
 #ifdef __EDITOR__
-	g_Editor.Init(1);
+  g_Editor.Init(1);
 #endif
 
-	// ◊∞‘ÿ≥ı º≥°æ∞
-	LoadScriptScene( (eSceneType)g_Config.m_nCreateScene );
+  // Ë£ÖËΩΩÂàùÂßãÂú∫ÊôØ
+  LoadScriptScene((eSceneType)g_Config.m_nCreateScene);
 
-	//LoadRes4();
+  // LoadRes4();
 
-    GetRender().Init();
+  GetRender().Init();
 
 #ifdef FLOAT_INVALID
-	int i = _controlfp(0,0);
-	i &= ~(EM_ZERODIVIDE | EM_OVERFLOW | EM_INVALID);
-	_controlfp(i, MCW_EM);
+  int i = _controlfp(0, 0);
+  i &= ~(EM_ZERODIVIDE | EM_OVERFLOW | EM_INVALID);
+  _controlfp(i, MCW_EM);
 #endif
 
-	SetFocus(GetHWND());
+  SetFocus(GetHWND());
 
-    if(g_Config.m_bEditor) SetIsRenderTipText(true);
+  if (g_Config.m_bEditor)
+    SetIsRenderTipText(true);
 
-    _rsm = new RenderStateMgr;
-    _rsm->Init(g_Render.GetInterfaceMgr()->dev_obj);
+  _rsm = new RenderStateMgr;
+  _rsm->Init(g_Render.GetInterfaceMgr()->dev_obj);
 
-    _IsInit = true;
-    
-	ResetCaption();
+  _IsInit = true;
 
-	if( !CGameScene::_InitScene() )
-	{
-		LG( "init", "msgCGameScene::_InitScene() return false" );
-		return false;
-	}
+  ResetCaption();
+
+  if (!CGameScene::_InitScene()) {
+    LG("init", "msgCGameScene::_InitScene() return false");
+    return false;
+  }
 
 #ifdef USE_TIMERPERIOD
-    extern void CALLBACK __timer_period_proc(UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
+  extern void CALLBACK __timer_period_proc(
+      UINT uTimerID, UINT uMsg, DWORD_PTR dwUser, DWORD_PTR dw1, DWORD_PTR dw2);
 
-    //DWORD fps = (DWORD)((1.0f / 30.0f) * 1000);
-    DWORD fps = _dwFPSInterval;
-    HWND hwnd = g_pGameApp->GetHWND();
-    LEGUIDCreateObject((DR_VOID**)&_TimerPeriod, LW_GUID_TIMERPERIOD);
-    _TimerPeriod->SetEvent(fps, fps, __timer_period_proc, (DWORD_PTR)hwnd, TIME_PERIODIC|TIME_CALLBACK_FUNCTION);
+  // DWORD fps = (DWORD)((1.0f / 30.0f) * 1000);
+  DWORD fps = _dwFPSInterval;
+  HWND hwnd = g_pGameApp->GetHWND();
+  LEGUIDCreateObject((DR_VOID **)&_TimerPeriod, LW_GUID_TIMERPERIOD);
+  _TimerPeriod->SetEvent(fps, fps, __timer_period_proc, (DWORD_PTR)hwnd,
+                         TIME_PERIODIC | TIME_CALLBACK_FUNCTION);
 #endif
-	
-    drIOptionMgr* opt_mgr = g_Render.GetInterfaceMgr()->sys->GetOptionMgr();
-#if(defined OPT_CULL_1)
+
+  drIOptionMgr *opt_mgr = g_Render.GetInterfaceMgr()->sys->GetOptionMgr();
+#if (defined OPT_CULL_1)
 #pragma message("-------------Primitive Culling Opened-------------")
-    opt_mgr->SetByteFlag(OPTION_FLAG_CULLPRIMITIVE_MODEL, 1);
+  opt_mgr->SetByteFlag(OPTION_FLAG_CULLPRIMITIVE_MODEL, 1);
 #else
 #pragma message("-------------Primitive Culling Closed-------------")
-    opt_mgr->SetByteFlag(OPTION_FLAG_CULLPRIMITIVE_MODEL, 0);
+  opt_mgr->SetByteFlag(OPTION_FLAG_CULLPRIMITIVE_MODEL, 0);
 #endif
 
-	//LPD3DXEFFECT peff,peff2;
-	//LPD3DXBUFFER	pbuff;
-	//D3DXCreateEffectFromFile(g_Render.GetDevice(),"shader\\dx8\\eff.fx",&peff,NULL);
-	//peff->GetCompiledEffect(&pbuff);
-	//if(FAILED(D3DXCreateEffect(g_Render.GetDevice(),pbuff->GetBufferPointer(),pbuff->GetBufferSize(),&peff2,NULL)))
-	//{
-	//	INT EF = 0;
-	//}
+  // LPD3DXEFFECT peff,peff2;
+  // LPD3DXBUFFER	pbuff;
+  // D3DXCreateEffectFromFile(g_Render.GetDevice(),"shader\\dx8\\eff.fx",&peff,NULL);
+  // peff->GetCompiledEffect(&pbuff);
+  // if(FAILED(D3DXCreateEffect(g_Render.GetDevice(),pbuff->GetBufferPointer(),pbuff->GetBufferSize(),&peff2,NULL)))
+  //{
+  //	INT EF = 0;
+  //}
 
-    // …Ë÷√ÕÊº“◊‘∂®“Âµƒ“Ù∆µ…Ë÷√(Modify by Michael Chen 2005-04-27)
-    if ( !g_stUISystem.m_isLoad)
-    {
-        g_stUISystem.LoadCustomProp();
-    }
-	g_pGameApp->GetCurScene()->SetTextureLOD(
-		g_stUISystem.m_sysProp.m_videoProp.nTexture);
-	GetRender().SetIsChangeResolution(true);
+  // ËÆæÁΩÆÁé©ÂÆ∂Ëá™ÂÆö‰πâÁöÑÈü≥È¢ëËÆæÁΩÆ(Modify by Michael Chen 2005-04-27)
+  if (!g_stUISystem.m_isLoad) {
+    g_stUISystem.LoadCustomProp();
+  }
+  g_pGameApp->GetCurScene()->SetTextureLOD(
+      g_stUISystem.m_sysProp.m_videoProp.nTexture);
+  GetRender().SetIsChangeResolution(true);
 
-    g_stUISystem.m_sysProp.ApplyAudio();
+  g_stUISystem.m_sysProp.ApplyAudio();
 
-	// …Ë÷√ÕÊº“◊‘∂®“Âµƒ”Œœ∑…Ë÷√(Modify by Michael Chen 2006-01-17)
-	g_stUISystem.m_sysProp.ApplyGameOption();
+  // ËÆæÁΩÆÁé©ÂÆ∂Ëá™ÂÆö‰πâÁöÑÊ∏∏ÊàèËÆæÁΩÆ(Modify by Michael Chen 2006-01-17)
+  g_stUISystem.m_sysProp.ApplyGameOption();
 
 #ifdef TESTDEMO
-    InitTestDemo();
+  InitTestDemo();
 #endif
 
-	//std::list<int> listtest;
-	//listtest.push_back(1);
-	//listtest.push_back(1);
-	//listtest.push_back(1);
-	//listtest.push_back(1);
-	//listtest.push_back(1);
+  // std::list<int> listtest;
+  // listtest.push_back(1);
+  // listtest.push_back(1);
+  // listtest.push_back(1);
+  // listtest.push_back(1);
+  // listtest.push_back(1);
 
-	//listtest.remove(NULL);
+  // listtest.remove(NULL);
 
-	// º«¬º÷˜œﬂ≥ÃID£¨∑Ω±„“‘∫Ûµ˜ ‘
-//	DWORD id = GetCurrentThreadId();
-//	LG( "threadid", "%d:%s\n", id, "WinMain" );		
+  // ËÆ∞ÂΩï‰∏ªÁ∫øÁ®ãIDÔºåÊñπ‰æø‰ª•ÂêéË∞ÉËØï
+  //	DWORD id = GetCurrentThreadId();
+  //	LG( "threadid", "%d:%s\n", id, "WinMain" );
 
-	//_pConsole->Show(TRUE);
+  //_pConsole->Show(TRUE);
 
-	return TRUE;
+  return TRUE;
 }
 
-
 extern bool UIClear();
-void CGameApp::_End()
-{
-    CFormMgr::s_Mgr.SetEnabled( false );
+void CGameApp::_End() {
+  CFormMgr::s_Mgr.SetEnabled(false);
 
+  (_pCurScene);
 
-	
-	( _pCurScene );
+  //  LG("end", "NetIF release start\n");
+  SAFE_DELETE(g_NetIF);
+  NetClose(); //ÂÆâÂÖ®ÈáäÊîæÂÜÖÂ≠ò by Waiting 2009-06-18
+              //  LG("end", "NetIF release end\n");
 
-//  LG("end", "NetIF release start\n");
-    SAFE_DELETE( g_NetIF );
-	NetClose(); //∞≤»´ Õ∑≈ƒ⁄¥Ê by Waiting 2009-06-18
-//  LG("end", "NetIF release end\n");
+  CUIInterface::All_End(); //ÂøÖÈúÄÂú®CFormMgr::s_Mgr.Clear()‰πãÂâç
+  CFormMgr::s_Mgr.Clear();
+  UIClear(); //ÁßªÂà∞ÊâÄÊúâFormÈáäÊîæ‰πãÂêé by Waiting 2009-06-29
 
-	CUIInterface::All_End(); //±ÿ–Ë‘⁄CFormMgr::s_Mgr.Clear()÷Æ«∞
-	CFormMgr::s_Mgr.Clear();
-	UIClear(); //“∆µΩÀ˘”–Form Õ∑≈÷Æ∫Û by Waiting 2009-06-29
-
-	UnloadResourceSet();
-    UnloadTerrainSet();
+  UnloadResourceSet();
+  UnloadTerrainSet();
 
 #ifdef __SOUND__
 #ifndef USE_DSOUND
-	if( g_dwCurMusicID )
-	{
-		AudioSDL::get_instance()->stop( g_dwCurMusicID );
-		g_dwCurMusicID = 0;
-		Sleep( 60 );
-	}
+  if (g_dwCurMusicID) {
+    AudioSDL::get_instance()->stop(g_dwCurMusicID);
+    g_dwCurMusicID = 0;
+    Sleep(60);
+  }
 
-	AudioSDL::get_instance()->release();
+  AudioSDL::get_instance()->release();
 
 #else
-	if( mMP3 )
-		mMP3->Close();
-	Sleep( 60 );
+  if (mMP3)
+    mMP3->Close();
+  Sleep(60);
 #endif
 #endif
-#if(defined USE_TIMERPERIOD)
-    if(_TimerPeriod)
-    {
-        _TimerPeriod->KillEvent();
-        SAFE_RELEASE(_TimerPeriod);
-    }
+#if (defined USE_TIMERPERIOD)
+  if (_TimerPeriod) {
+    _TimerPeriod->KillEvent();
+    SAFE_RELEASE(_TimerPeriod);
+  }
 #endif
 }
 
-void	CGameApp::OnLostDevice()
-{
-	 _pDrawPoints->OnLostDevice();
-
-}
-void	CGameApp::OnResetDevice()
-{
-	_pDrawPoints->OnResetDevice();
-}
+void CGameApp::OnLostDevice() { _pDrawPoints->OnLostDevice(); }
+void CGameApp::OnResetDevice() { _pDrawPoints->OnResetDevice(); }
 
 #ifdef __SOUND__
 #ifdef USE_DSOUND
 
-void CGameApp::PlaySample( string SoundName, double Volume, int Pan)
-{
-	int SoundChannel = mSoundManager->LoadSound( SoundName );
-	if( SoundChannel == -1 )
-		return;
-	
-	SoundInstance* aSoundInstance = mSoundManager->GetSoundInstance( SoundChannel );
-	if( aSoundInstance )
-	{
-		// add by rock.wang 090624 begin
-		// ∏˘æ›…˘‘¥…Ë÷√“Ù¡ø“‘º∞◊Û”“…˘µ¿Pan
-		aSoundInstance->SetVolume( Volume );
-		aSoundInstance->SetPan( Pan );
-		// end
-		aSoundInstance->Play( false, true );
-	}
+void CGameApp::PlaySample(string SoundName, double Volume, int Pan) {
+  int SoundChannel = mSoundManager->LoadSound(SoundName);
+  if (SoundChannel == -1)
+    return;
+
+  SoundInstance *aSoundInstance = mSoundManager->GetSoundInstance(SoundChannel);
+  if (aSoundInstance) {
+    // add by rock.wang 090624 begin
+    // Ê†πÊçÆÂ£∞Ê∫êËÆæÁΩÆÈü≥Èáè‰ª•ÂèäÂ∑¶Âè≥Â£∞ÈÅìPan
+    aSoundInstance->SetVolume(Volume);
+    aSoundInstance->SetPan(Pan);
+    // end
+    aSoundInstance->Play(false, true);
+  }
 }
 
-void CGameApp::PlayMusic( string MusicName )
-{
-	mMP3->Close();
-	if( !mMP3->OpenMp3File( MusicName.c_str(), 2000, 0, 0 ) )
-		return;
+void CGameApp::PlayMusic(string MusicName) {
+  mMP3->Close();
+  if (!mMP3->OpenMp3File(MusicName.c_str(), 2000, 0, 0))
+    return;
 
-	if( !mMP3->LoadID3( ID3_VERSION1 ) )
-		mMP3->LoadID3( ID3_VERSION2 );
+  if (!mMP3->LoadID3(ID3_VERSION1))
+    mMP3->LoadID3(ID3_VERSION2);
 
-	mMP3->PlayLoop( 0, mMP3->GetSongLength(), 5000 );
+  mMP3->PlayLoop(0, mMP3->GetSongLength(), 5000);
 }
 
 #endif

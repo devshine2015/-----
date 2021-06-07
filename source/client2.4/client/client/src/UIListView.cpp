@@ -1,254 +1,224 @@
-#include "StdAfx.h"
 #include "uilistview.h"
+#include "StdAfx.h"
 
 using namespace GUI;
 //---------------------------------------------------------------------------
 // class CListView
 //---------------------------------------------------------------------------
-CListView::CListView(CForm& frmOwn, int nCol, eStyle eTitle)
-: CCompent(frmOwn), _nColumnHeight(16), _eTitle(eTitle), _pTitle(NULL)
-{
-	_IsFocus = false;
+CListView::CListView(CForm &frmOwn, int nCol, eStyle eTitle)
+    : CCompent(frmOwn), _nColumnHeight(16), _eTitle(eTitle), _pTitle(NULL) {
+  _IsFocus = false;
 
-	_pList = new CList(frmOwn, nCol);
-	_pList->SetParent(this);
-	
-	switch( _eTitle )
-	{
-	case eWindowTitle: _pTitle = new CWindowsTitle(this); break;
-	case eSimpleTitle: _pTitle = new CImageTitle(this); break;
-	default: _pTitle = new CListTitle(this); break;		
-	}
-	_pTitle->SetParent(this);
+  _pList = new CList(frmOwn, nCol);
+  _pList->SetParent(this);
+
+  switch (_eTitle) {
+  case eWindowTitle:
+    _pTitle = new CWindowsTitle(this);
+    break;
+  case eSimpleTitle:
+    _pTitle = new CImageTitle(this);
+    break;
+  default:
+    _pTitle = new CListTitle(this);
+    break;
+  }
+  _pTitle->SetParent(this);
 }
 
-CListView::CListView( const CListView& rhs )
-: CCompent(rhs), _pList(new CList(*rhs._pList))
-{
-	_SetSelf(rhs);
+CListView::CListView(const CListView &rhs)
+    : CCompent(rhs), _pList(new CList(*rhs._pList)) {
+  _SetSelf(rhs);
 }
 
-CListView& CListView::operator=(const CListView& rhs)
-{
-	CCompent::operator =( rhs );
+CListView &CListView::operator=(const CListView &rhs) {
+  CCompent::operator=(rhs);
 
-	_SetSelf(rhs);
-	return *this;
-}	 
-
-void CListView::_SetSelf(const CListView& rhs)
-{
-	*_pList = *rhs._pList;
-	_pList->SetParent(this);
-
-	_pTitle->SetParent(this);
-
-	_nColumnHeight = rhs._nColumnHeight;
-	evtColumnClick = rhs.evtColumnClick;
+  _SetSelf(rhs);
+  return *this;
 }
 
-CListView::~CListView(void)
-{
-    //安全释放内存 by Waiting 2009-06-18
-	if( _pTitle )
-	{
-		switch( _eTitle )
-		{
-		case eWindowTitle:
-			{
-				CWindowsTitle* pTitle = (CWindowsTitle*)_pTitle;
-				delete pTitle;
-			}
-			break;
-		case eSimpleTitle:
-			{
-				CImageTitle* pTitle = (CImageTitle*)_pTitle;
-				delete pTitle;
-			}
-			break;
-		default:			
-			delete _pTitle;
-			break;		
-		}
-		_pTitle = NULL;
-	}
+void CListView::_SetSelf(const CListView &rhs) {
+  *_pList = *rhs._pList;
+  _pList->SetParent(this);
+
+  _pTitle->SetParent(this);
+
+  _nColumnHeight = rhs._nColumnHeight;
+  evtColumnClick = rhs.evtColumnClick;
 }
 
-void CListView::Init()
-{
-	_pTitle->Init();
-
-	if( _eTitle!=eNoTitle )
-	{
-		_pList->SetPos(0, _nColumnHeight);
-		_pList->SetSize( GetWidth(), GetHeight() - _nColumnHeight );
-	}
-	else
-	{
-		_pList->SetPos(0, 0);
-		_pList->SetSize( GetWidth(), GetHeight() );
-	}
-	_pList->Init();
-	_pList->SetName( GetName() );
+CListView::~CListView(void) {
+  //瀹夊叏閲婃斁鍐呭瓨 by Waiting 2009-06-18
+  if (_pTitle) {
+    switch (_eTitle) {
+    case eWindowTitle: {
+      CWindowsTitle *pTitle = (CWindowsTitle *)_pTitle;
+      delete pTitle;
+    } break;
+    case eSimpleTitle: {
+      CImageTitle *pTitle = (CImageTitle *)_pTitle;
+      delete pTitle;
+    } break;
+    default:
+      delete _pTitle;
+      break;
+    }
+    _pTitle = NULL;
+  }
 }
 
-void CListView::Render()
-{	
-	_pTitle->Render();
-	_pList->Render();
+void CListView::Init() {
+  _pTitle->Init();
+
+  if (_eTitle != eNoTitle) {
+    _pList->SetPos(0, _nColumnHeight);
+    _pList->SetSize(GetWidth(), GetHeight() - _nColumnHeight);
+  } else {
+    _pList->SetPos(0, 0);
+    _pList->SetSize(GetWidth(), GetHeight());
+  }
+  _pList->Init();
+  _pList->SetName(GetName());
 }
 
-void CListView::Refresh()
-{
-	CCompent::Refresh();
-
-	if( _eTitle!=eNoTitle )
-	{
-		_pList->SetSize( GetWidth(), GetHeight() - _nColumnHeight );
-	}
-	else
-	{
-		_pList->SetSize( GetWidth(), GetHeight() );
-	}
-	_pTitle->Refresh();
-	_pList->Refresh();
+void CListView::Render() {
+  _pTitle->Render();
+  _pList->Render();
 }
 
-bool CListView::MouseRun( int x, int y, DWORD key )
-{
-	if( !IsNormal() ) return false;
+void CListView::Refresh() {
+  CCompent::Refresh();
 
-	if( InRect( x, y ) )
-	{
-		if( (key & Mouse_LDown) && !_isChild && GetActive()!=this ) _SetActive();
-
-		if( _pList->MouseRun(x,y,key) ) return true;
-		if( _pTitle->MouseRun(x,y,key) ) return true;
-		return true;
-	}
-
-	return _IsMouseIn;
+  if (_eTitle != eNoTitle) {
+    _pList->SetSize(GetWidth(), GetHeight() - _nColumnHeight);
+  } else {
+    _pList->SetSize(GetWidth(), GetHeight());
+  }
+  _pTitle->Refresh();
+  _pList->Refresh();
 }
 
-bool CListView::MouseScroll( int nScroll )
-{
-	if( !IsNormal() ) return false;
+bool CListView::MouseRun(int x, int y, DWORD key) {
+  if (!IsNormal())
+    return false;
 
-	return _pList->MouseScroll( nScroll );
+  if (InRect(x, y)) {
+    if ((key & Mouse_LDown) && !_isChild && GetActive() != this)
+      _SetActive();
+
+    if (_pList->MouseRun(x, y, key))
+      return true;
+    if (_pTitle->MouseRun(x, y, key))
+      return true;
+    return true;
+  }
+
+  return _IsMouseIn;
 }
 
+bool CListView::MouseScroll(int nScroll) {
+  if (!IsNormal())
+    return false;
 
-bool CListView::SetShowRow( int n )
-{
-	if( _pList->SetShowRow( n ) )
-	{
-		if( _eTitle!=eNoTitle )
-		{
-			SetSize( _pList->GetWidth(), _pList->GetHeight() + _nColumnHeight );
-		}
-		else
-		{
-			SetSize( _pList->GetWidth(), _pList->GetHeight() );
-		}
-		return true;
-	}
-	return true;
+  return _pList->MouseScroll(nScroll);
 }
 
-bool CListView::OnKeyDown( int key )
-{ 
-	if( IsNormal() ) return _pList->OnKeyDown(key);
-
-	return false;
+bool CListView::SetShowRow(int n) {
+  if (_pList->SetShowRow(n)) {
+    if (_eTitle != eNoTitle) {
+      SetSize(_pList->GetWidth(), _pList->GetHeight() + _nColumnHeight);
+    } else {
+      SetSize(_pList->GetWidth(), _pList->GetHeight());
+    }
+    return true;
+  }
+  return true;
 }
 
-void CListView::SetAlpha( BYTE alpha )
-{
-	_pTitle->SetAlpha( alpha );
-	_pList->SetAlpha( alpha );
+bool CListView::OnKeyDown(int key) {
+  if (IsNormal())
+    return _pList->OnKeyDown(key);
+
+  return false;
 }
 
-void CListView::SetMargin( int left, int top, int right, int bottom )
-{
-	_pList->SetMargin( left, top, right, bottom );
+void CListView::SetAlpha(BYTE alpha) {
+  _pTitle->SetAlpha(alpha);
+  _pList->SetAlpha(alpha);
 }
 
-CItemRow* CListView::AddItemRow()
-{
-	return GetList()->GetItems()->NewItem();
+void CListView::SetMargin(int left, int top, int right, int bottom) {
+  _pList->SetMargin(left, top, right, bottom);
 }
 
-bool CListView::UpdateItemObj( int nRow, int nCol, CItemObj* pObj )
-{
-	CItemRow* pRow = GetList()->GetItems()->GetItem( nRow );
-	if( !pRow ) return false;
+CItemRow *CListView::AddItemRow() { return GetList()->GetItems()->NewItem(); }
 
-	if( nCol>=(int)pRow->GetMax() ) return false;
+bool CListView::UpdateItemObj(int nRow, int nCol, CItemObj *pObj) {
+  CItemRow *pRow = GetList()->GetItems()->GetItem(nRow);
+  if (!pRow)
+    return false;
 
-	pRow->SetIndex( nCol, pObj );
-	return true;
+  if (nCol >= (int)pRow->GetMax())
+    return false;
+
+  pRow->SetIndex(nCol, pObj);
+  return true;
 }
 
-CItemObj* CListView::GetItemObj( int nRow, int nCol )
-{
-	CItemRow* pRow = GetList()->GetItems()->GetItem( nRow );
-	if( !pRow ) return NULL;
+CItemObj *CListView::GetItemObj(int nRow, int nCol) {
+  CItemRow *pRow = GetList()->GetItems()->GetItem(nRow);
+  if (!pRow)
+    return NULL;
 
-	if( nCol>=(int)pRow->GetMax() ) return NULL;
+  if (nCol >= (int)pRow->GetMax())
+    return NULL;
 
-	return pRow->GetIndex( nCol );
+  return pRow->GetIndex(nCol);
 }
 
 //---------------------------------------------------------------------------
 // class CListView::CWindowsTitle
 //---------------------------------------------------------------------------
-CListView::CWindowsTitle::CWindowsTitle( CListView* pList )
-: CListTitle(pList) 
-{
-	_pColumn = new CContainer(*pList->GetForm());
-	_pColumn->SetParent(pList);
-	CImage* p = NULL;
-	int nCol = pList->GetList()->GetItems()->GetColumn();
-	for( int i=0; i<nCol; i++ )
-	{
-		p = new CImage(*pList->GetForm());
-		_pColumn->AddCompent( p );		
-	}
+CListView::CWindowsTitle::CWindowsTitle(CListView *pList) : CListTitle(pList) {
+  _pColumn = new CContainer(*pList->GetForm());
+  _pColumn->SetParent(pList);
+  CImage *p = NULL;
+  int nCol = pList->GetList()->GetItems()->GetColumn();
+  for (int i = 0; i < nCol; i++) {
+    p = new CImage(*pList->GetForm());
+    _pColumn->AddCompent(p);
+  }
 }
 
-void CListView::CWindowsTitle::Init()
-{ 
-	int nCol = _pList->GetList()->GetItems()->GetColumn();
-	int colHeight = _pList->GetColumnHeight();
-	CImage* p = NULL;
-	for( int i=0; i<nCol; i++ )
-	{
-		p = dynamic_cast<CImage*>(_pColumn->GetIndex(i));
-		if( p ) 
-		{
-			p->evtMouseDown = CListView::OnColumnClick;
-			p->SetSize( _pList->GetList()->GetItems()->GetColumnWidth(i), colHeight );
-		}
-	}
-	_pColumn->ForEach(_InitColumnPos); 
+void CListView::CWindowsTitle::Init() {
+  int nCol = _pList->GetList()->GetItems()->GetColumn();
+  int colHeight = _pList->GetColumnHeight();
+  CImage *p = NULL;
+  for (int i = 0; i < nCol; i++) {
+    p = dynamic_cast<CImage *>(_pColumn->GetIndex(i));
+    if (p) {
+      p->evtMouseDown = CListView::OnColumnClick;
+      p->SetSize(_pList->GetList()->GetItems()->GetColumnWidth(i), colHeight);
+    }
+  }
+  _pColumn->ForEach(_InitColumnPos);
 }
 
-void CListView::CWindowsTitle::_InitColumnPos( CCompent* pThis, unsigned int index )
-{
-	CContainer * p = (CContainer*)pThis->GetParent();
-	CCompent* prior = p->GetIndex( index - 1 );
-	if( prior && ( index > 0 ) )
-	{
-		pThis->SetPos( prior->GetWidth() + prior->GetLeft(), 0 );
-	}
+void CListView::CWindowsTitle::_InitColumnPos(CCompent *pThis,
+                                              unsigned int index) {
+  CContainer *p = (CContainer *)pThis->GetParent();
+  CCompent *prior = p->GetIndex(index - 1);
+  if (prior && (index > 0)) {
+    pThis->SetPos(prior->GetWidth() + prior->GetLeft(), 0);
+  }
 }
 
-void CListView::CWindowsTitle::SetColumnWidth( unsigned int nCol, unsigned int width )
-{
-	if( _pList->GetList()->GetItems()->SetColumnWidth( nCol, width ) )
-	{
-		CCompent* p = _pColumn->GetIndex( nCol );
-		if( p ) p->SetSize( width, p->GetHeight() );
-	}
+void CListView::CWindowsTitle::SetColumnWidth(unsigned int nCol,
+                                              unsigned int width) {
+  if (_pList->GetList()->GetItems()->SetColumnWidth(nCol, width)) {
+    CCompent *p = _pColumn->GetIndex(nCol);
+    if (p)
+      p->SetSize(width, p->GetHeight());
+  }
 }
-

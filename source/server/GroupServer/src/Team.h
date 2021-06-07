@@ -9,7 +9,7 @@ _DBC_USING
 class	Player;
 
 /**
- * @alias ×é¶Ó 
+ * @alias ç»„é˜Ÿ 
  */
 class Team :public PreAllocStru , public RunBiDirectItem<::Team> , public RunBiDirectChain<TeamMember>
 {

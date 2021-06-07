@@ -46,10 +46,10 @@ public:
 protected:
 
 private:
-	dbc::Short	m_sUnitCountX;	// ºáÏòÕÏ°­¿éÊıÄ¿
-	dbc::Short	m_sUnitCountY;	// ×İÏòÕÏ°­¿éÊıÄ¿
-	dbc::Short	m_sUnitWidth;	// ÊôĞÔ¿é¿í£¨ÀåÃ×£©
-	dbc::Short	m_sUnitHeight;	// ÊôĞÔ¿é¸ß£¨ÀåÃ×£©
+	dbc::Short	m_sUnitCountX;	// æ¨ªå‘éšœç¢å—æ•°ç›®
+	dbc::Short	m_sUnitCountY;	// çºµå‘éšœç¢å—æ•°ç›®
+	dbc::Short	m_sUnitWidth;	// å±æ€§å—å®½ï¼ˆå˜ç±³ï¼‰
+	dbc::Short	m_sUnitHeight;	// å±æ€§å—é«˜ï¼ˆå˜ç±³ï¼‰
 
 	int			m_nID;
 
@@ -61,56 +61,56 @@ private:
 
 enum EMapEntryStep
 {
-	enumMAPENTRY_CREATE,	// ´´½¨µØÍ¼Èë¿Ú
-	enumMAPENTRY_DESTROY,	// Ïú»ÙÈë¿Ú
-	enumMAPENTRY_SUBPLAYER,	// ÊÍ·ÅÍæ¼Ò
-	enumMAPENTRY_SUBCOPY,	// ÊÍ·Å¸±±¾
-	enumMAPENTRY_RETURN,	// ²Ù×÷·µ»Ø
-	enumMAPENTRY_COPYPARAM,	// ¸±±¾²ÎÊı£¨Èç·Ö±ßĞÅÏ¢£©
-	enumMAPENTRY_COPYRUN,	// ¸±±¾ÔËĞĞ
+	enumMAPENTRY_CREATE,	// åˆ›å»ºåœ°å›¾å…¥å£
+	enumMAPENTRY_DESTROY,	// é”€æ¯å…¥å£
+	enumMAPENTRY_SUBPLAYER,	// é‡Šæ”¾ç©å®¶
+	enumMAPENTRY_SUBCOPY,	// é‡Šæ”¾å‰¯æœ¬
+	enumMAPENTRY_RETURN,	// æ“ä½œè¿”å›
+	enumMAPENTRY_COPYPARAM,	// å‰¯æœ¬å‚æ•°ï¼ˆå¦‚åˆ†è¾¹ä¿¡æ¯ï¼‰
+	enumMAPENTRY_COPYRUN,	// å‰¯æœ¬è¿è¡Œ
 };
 
 enum EMapEntryOptRet
 {
-	enumMAPENTRYO_CREATE_SUC,		// ´´½¨³É¹¦
-	enumMAPENTRYO_DESTROY_SUC,		// Ïú»Ù³É¹¦
-	enumMAPENTRYO_COPY_CLOSE_SUC,	// ¸±±¾¹Ø±Õ³É¹¦
+	enumMAPENTRYO_CREATE_SUC,		// åˆ›å»ºæˆåŠŸ
+	enumMAPENTRYO_DESTROY_SUC,		// é”€æ¯æˆåŠŸ
+	enumMAPENTRYO_COPY_CLOSE_SUC,	// å‰¯æœ¬å…³é—­æˆåŠŸ
 };
 
 enum EMapState
 {
-	enumMAP_STATE_OPEN,			// ´ò¿ª
-	enumMAP_STATE_CLOSE,		// ¹Ø±Õ
-	enumMAP_STATE_ASK_CLOSE,	// ÇëÇó¹Ø±Õ
+	enumMAP_STATE_OPEN,			// æ‰“å¼€
+	enumMAP_STATE_CLOSE,		// å…³é—­
+	enumMAP_STATE_ASK_CLOSE,	// è¯·æ±‚å…³é—­
 };
 
 enum EMapEntryState
 {
-	enumMAPENTRY_STATE_ASK_OPEN,	// ÇëÇó¿ªÆô
-	enumMAPENTRY_STATE_OPEN,		// ¿ªÆô
-	enumMAPENTRY_STATE_CLOSE,		// ¹Ø±Õ£¨´ÓÎ´¿ª·Å¹ı£©
-	enumMAPENTRY_STATE_ASK_CLOSE,	// ÇëÇó¹Ø±Õ
-	enumMAPENTRY_STATE_CLOSE_SUC,	// ¹Ø±Õ£¨ÒÑ¾­¿ª·Å¹ı£©
+	enumMAPENTRY_STATE_ASK_OPEN,	// è¯·æ±‚å¼€å¯
+	enumMAPENTRY_STATE_OPEN,		// å¼€å¯
+	enumMAPENTRY_STATE_CLOSE,		// å…³é—­ï¼ˆä»æœªå¼€æ”¾è¿‡ï¼‰
+	enumMAPENTRY_STATE_ASK_CLOSE,	// è¯·æ±‚å…³é—­
+	enumMAPENTRY_STATE_CLOSE_SUC,	// å…³é—­ï¼ˆå·²ç»å¼€æ”¾è¿‡ï¼‰
 };
 
-enum EMapType // ´ËÖµÒ²ÓÃÓÚ½Å±¾£¬²»ÄÜ¸ü¸Ä
+enum EMapType // æ­¤å€¼ä¹Ÿç”¨äºè„šæœ¬ï¼Œä¸èƒ½æ›´æ”¹
 {
-	enumMAPTYPE_NORMAL			= 1, // ÆÕÍ¨µØÍ¼
-	enumMAPTYPE_GUILD_FIGHT		= 2, // ¹«»áÕ½µØÍ¼
-	enumMAPTYPE_TEAM_FIGHT		= 3, // ¶ÓÎéÕ½µØÍ¼
+	enumMAPTYPE_NORMAL			= 1, // æ™®é€šåœ°å›¾
+	enumMAPTYPE_GUILD_FIGHT		= 2, // å…¬ä¼šæˆ˜åœ°å›¾
+	enumMAPTYPE_TEAM_FIGHT		= 3, // é˜Ÿä¼æˆ˜åœ°å›¾
 };
 
-enum EMapCopyStartType // ´ËÖµÒ²ÓÃÓÚ½Å±¾£¬²»ÄÜ¸ü¸Ä
+enum EMapCopyStartType // æ­¤å€¼ä¹Ÿç”¨äºè„šæœ¬ï¼Œä¸èƒ½æ›´æ”¹
 {
-	enumMAPCOPY_START_NOW		= 1, // Á¢¼´¿ªÊ¼
-	enumMAPCOPY_START_PLAYER	= 2, // ÓĞÍæ¼ÒÊ±¿ªÊ¼
-	enumMAPCOPY_START_CONDITION	= 3, // Ìõ¼ş¿ªÊ¼
+	enumMAPCOPY_START_NOW		= 1, // ç«‹å³å¼€å§‹
+	enumMAPCOPY_START_PLAYER	= 2, // æœ‰ç©å®¶æ—¶å¼€å§‹
+	enumMAPCOPY_START_CONDITION	= 3, // æ¡ä»¶å¼€å§‹
 };
 
-enum EMapCopyStartCdtType // ¸±±¾¿ªÊ¼Ìõ¼şÀàĞÍ
+enum EMapCopyStartCdtType // å‰¯æœ¬å¼€å§‹æ¡ä»¶ç±»å‹
 {
-	enumMAPCOPY_START_CDT_UNKN,		// Î´ÖªµÄÌõ¼ş
-	enumMAPCOPY_START_CDT_PLYNUM,	// Íæ¼ÒÈËÊı
+	enumMAPCOPY_START_CDT_UNKN,		// æœªçŸ¥çš„æ¡ä»¶
+	enumMAPCOPY_START_CDT_PLYNUM,	// ç©å®¶äººæ•°
 };
 
 class CMapRes
@@ -152,12 +152,12 @@ public:
 	void		SetCanPK(bool bCan = true) {m_bCanPK = bCan;}
 	bool		CanPK(void) {return m_bCanPK;}
 	void		SetCanTeam(bool bCan = true) {m_bCanTeam = bCan;}
-	void		SetCanStall(bool bCan = true){m_bCanStall = bCan;}//ÉèÖÃÄÜ·ñ°ÚÌ¯
+	void		SetCanStall(bool bCan = true){m_bCanStall = bCan;}//è®¾ç½®èƒ½å¦æ‘†æ‘Š
 	void		SetCanGuild(bool bCan = true) { m_bCanGuild = bCan; }
 	void		SetGuildWar(bool bGuildWar) { m_bGuildWar = bGuildWar; }
 	bool		CanGuildWar() { return m_bGuildWar; }
 	bool		CanTeam(void) {return m_bCanTeam;}
-	bool		CanStall(void) {return m_bCanStall;}//ÄÜ·ñ°ÚÌ¯
+	bool		CanStall(void) {return m_bCanStall;}//èƒ½å¦æ‘†æ‘Š
 	bool		CanGuild(void) { return m_bCanGuild; }
 	void		SetType(dbc::Char chType = enumMAPTYPE_NORMAL) {m_chType = chType;}
 	dbc::Char	GetType(void) {return m_chType;}
@@ -181,7 +181,7 @@ public:
 
 	mission::CNpc*		FindNpc( const char szName[] );
 
-	// ÊÓÒ°µ¥Ôª
+	// è§†é‡å•å…ƒ
 	struct
 	{
 		dbc::cShort		m_csEyeshotCellWidth;
@@ -189,7 +189,7 @@ public:
 		dbc::Short		m_sEyeshotCellLin;
 		dbc::Short		m_sEyeshotCellCol;
 	};
-	// ×´Ì¬µ¥Ôª
+	// çŠ¶æ€å•å…ƒ
 	struct
 	{
 		dbc::cShort		m_csStateCellWidth;
@@ -217,19 +217,19 @@ public:
 	CMapSwitchEntitySpawn	*m_pCMapSwitchEntitySpawn;
 	CNpcSpawn*				m_pNpcSpawn;
 
-	// Èë¿ÚĞÅÏ¢
+	// å…¥å£ä¿¡æ¯
 	struct
 	{
 		dbc::Char	m_szEntryMapName[MAX_MAPNAME_LENGTH];
 		Point		m_SEntryPos;
-		dbc::Char	m_chEntryState;		// Èë¿Ú×´Ì¬£ºEMapEntryState
+		dbc::Char	m_chEntryState;		// å…¥å£çŠ¶æ€ï¼šEMapEntryState
 
-		time_t		m_tEntryFirstTm;	// Èë¿ÚµÚÒ»´ÎÖ´ĞĞµÄÊ±¼ä
-		time_t		m_tEntryTmDis;		// Èë¿ÚµÚÒ»´ÎÖ´ĞĞºó£¬ÒÔºó¸÷´ÎÖ´ĞĞµÄÊ±¼ä¼ä¸ô
-		time_t		m_tEntryOutTmDis;	// Èë¿ÚÃ¿´ÎÖ´ĞĞºó£¬µ½ÏûÊ§µÄÊ±¼ä¼ä¸ô
-		time_t		m_tMapClsTmDis;		// Èë¿ÚÃ¿´ÎÖ´ĞĞºó£¬µ½µØÍ¼¹Ø±ÕµÄÊ±¼ä¼ä¸ô
+		time_t		m_tEntryFirstTm;	// å…¥å£ç¬¬ä¸€æ¬¡æ‰§è¡Œçš„æ—¶é—´
+		time_t		m_tEntryTmDis;		// å…¥å£ç¬¬ä¸€æ¬¡æ‰§è¡Œåï¼Œä»¥åå„æ¬¡æ‰§è¡Œçš„æ—¶é—´é—´éš”
+		time_t		m_tEntryOutTmDis;	// å…¥å£æ¯æ¬¡æ‰§è¡Œåï¼Œåˆ°æ¶ˆå¤±çš„æ—¶é—´é—´éš”
+		time_t		m_tMapClsTmDis;		// å…¥å£æ¯æ¬¡æ‰§è¡Œåï¼Œåˆ°åœ°å›¾å…³é—­çš„æ—¶é—´é—´éš”
 
-		FILE		*m_pfEntryFile;			// Èë¿ÚÎÄ¼ş
+		FILE		*m_pfEntryFile;			// å…¥å£æ–‡ä»¶
 	};
 
 	struct{
@@ -246,17 +246,17 @@ public:
 protected:
 
 private:
-	bool		m_bValid;	// ±êÊ¾±¾µØÍ¼ÊÇ·ñÓĞĞ§
-	dbc::Char	m_chState;	// µØÍ¼×´Ì¬£ºEMapState
+	bool		m_bValid;	// æ ‡ç¤ºæœ¬åœ°å›¾æ˜¯å¦æœ‰æ•ˆ
+	dbc::Char	m_chState;	// åœ°å›¾çŠ¶æ€ï¼šEMapState
 
-	BYTE	m_byMapID; // µØÍ¼ID
+	BYTE	m_byMapID; // åœ°å›¾ID
 
 	struct
 	{
-		bool	m_bCanSavePos;	// ½ÇÉ«ÔÚ¸ÃµØÍ¼ÉÏÊÇ·ñ¿ÉÒÔ±£´æÎ»ÖÃ
-		bool	m_bCanPK;		// ½ÇÉ«ÔÚ¸ÃµØÍ¼ÉÏÊÇ·ñ¿ÉÒÔPK
-		bool	m_bCanTeam;		// ½ÇÉ«ÔÚ¸ÃµØÍ¼ÉÏÊÇ·ñ¿ÉÒÔ²Ù×÷¶ÓÎé
-		bool	m_bCanStall;	// ½ÇÉ«ÔÚ¸ÃµØÍ¼ÊÇ·ñ¿ÉÒÔ°ÚÌ¯
+		bool	m_bCanSavePos;	// è§’è‰²åœ¨è¯¥åœ°å›¾ä¸Šæ˜¯å¦å¯ä»¥ä¿å­˜ä½ç½®
+		bool	m_bCanPK;		// è§’è‰²åœ¨è¯¥åœ°å›¾ä¸Šæ˜¯å¦å¯ä»¥PK
+		bool	m_bCanTeam;		// è§’è‰²åœ¨è¯¥åœ°å›¾ä¸Šæ˜¯å¦å¯ä»¥æ“ä½œé˜Ÿä¼
+		bool	m_bCanStall;	// è§’è‰²åœ¨è¯¥åœ°å›¾æ˜¯å¦å¯ä»¥æ‘†æ‘Š
 		bool	m_bCanGuild;
 	};
 
@@ -270,12 +270,12 @@ private:
 
 	struct
 	{
-		dbc::Char	m_chCopyStartType;		// ¸±±¾¿ªÊ¼ÀàĞÍ EMapCopyStartType
-		dbc::Char	m_chCopyStartCdtType;	// ¸±±¾¿ªÊ¼Ìõ¼şÀàĞÍ
-		dbc::Long	m_lCopyStartCdtVal;	// ¸±±¾¿ªÊ¼Ìõ¼şÖµ
+		dbc::Char	m_chCopyStartType;		// å‰¯æœ¬å¼€å§‹ç±»å‹ EMapCopyStartType
+		dbc::Char	m_chCopyStartCdtType;	// å‰¯æœ¬å¼€å§‹æ¡ä»¶ç±»å‹
+		dbc::Long	m_lCopyStartCdtVal;	// å‰¯æœ¬å¼€å§‹æ¡ä»¶å€¼
 	};
 
-	bool	m_bRepatriateDie;	// ÊÇ·ñÒªÇ²·µËÀÍö½ÇÉ«
+	bool	m_bRepatriateDie;	// æ˜¯å¦è¦é£è¿”æ­»äº¡è§’è‰²
 
 	dbc::Short	m_sUsedCopySearch;
 
@@ -283,7 +283,7 @@ private:
 
 };
 
-// µØÍ¼ID²úÉúÆ÷£¬¸ù¾İµØÍ¼ÃûÎ¨Ò»ĞÔ±£Ö¤IDÎ¨Ò»,·½±ãµØÍ¼²Ù×÷
+// åœ°å›¾IDäº§ç”Ÿå™¨ï¼Œæ ¹æ®åœ°å›¾åå”¯ä¸€æ€§ä¿è¯IDå”¯ä¸€,æ–¹ä¾¿åœ°å›¾æ“ä½œ
 class CMapID
 {
 public:

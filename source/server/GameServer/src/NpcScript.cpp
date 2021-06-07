@@ -16,7 +16,7 @@ using namespace mission;
 
 WPACKET g_WritePacket;
 
-// ÍøÂç±¨ÎÄ¶ÁÈ¡
+// ç½‘ç»œæŠ¥æ–‡è¯»å–
 inline int lua_GetPacket( lua_State *L )
 {T_B
 	g_WritePacket = GETWPACKET();
@@ -116,8 +116,8 @@ inline int lua_ReadString( lua_State *L )
 	{
 		E_LUANULL;
 	}
-	//lua_pushstring( L, ( pszData ) ? pszData : "ÎŞĞ§×Ö·ûÖ¸Õë£¡" );
-	lua_pushstring( L, ( pszData ) ? pszData : "Ineffective char pointer£¡" );
+	//lua_pushstring( L, ( pszData ) ? pszData : "æ— æ•ˆå­—ç¬¦æŒ‡é’ˆï¼" );
+	lua_pushstring( L, ( pszData ) ? pszData : "Ineffective char pointerï¼" );
 	return 1;
 T_E}
 
@@ -350,7 +350,7 @@ inline int lua_GetMonsterName( lua_State* L )
 
 	USHORT sMonsterID = (USHORT)lua_tonumber( L, 1 );
 	
-	//char szName[64] = "Î´Öª";
+	//char szName[64] = "æœªçŸ¥";
 	char szName[64];
 	strncpy( szName, RES_STRING(GM_NPCSCRIPT_CPP_00001), 64 - 1 );
 
@@ -376,7 +376,7 @@ inline int lua_GetItemName( lua_State* L )
 
 	USHORT sItemID = (USHORT)lua_tonumber( L, 1 );
 
-	//char szItem[64] = "Î´Öª";
+	//char szItem[64] = "æœªçŸ¥";
 	char szItem[64];
 	strncpy( szItem, RES_STRING(GM_NPCSCRIPT_CPP_00001), 64 - 1 );
 
@@ -402,7 +402,7 @@ inline int lua_GetAreaName( lua_State* L )
 	}
 
 	USHORT sAreaID = (USHORT)lua_tonumber( L, 1 );
-	//char szArea[128] = "Î´ÖªÇøÓò";
+	//char szArea[128] = "æœªçŸ¥åŒºåŸŸ";
 	char szArea[128];
 	strncpy( szArea, RES_STRING(GM_NPCSCRIPT_CPP_00002), 128 - 1 );
 
@@ -529,7 +529,7 @@ inline int lua_Rand( lua_State* L )
 	return 1;
 T_E}
 
-// ½Å±¾µ÷ÊÔº¯Êı
+// è„šæœ¬è°ƒè¯•å‡½æ•°
 inline int lua_DebugInfo( lua_State* L )
 {T_B
 	BOOL bValid = ( lua_gettop( L ) == 1 && lua_isnumber( L, 1 ) );
@@ -832,7 +832,7 @@ inline int lua_FindNpc( lua_State* L )
 	const char* pszNpc = lua_tostring( L, 1 );
 	CNpc* pNpc = NULL;
 	try { pNpc = g_pGameApp->FindNpc( pszNpc ); }
-	catch(...) { LG( "find_npc", "findnpc error£¬exception!" ); }
+	catch(...) { LG( "find_npc", "findnpc errorï¼Œexception!" ); }
 
 	if( !pNpc )
 	{
@@ -851,7 +851,7 @@ inline int lua_ReloadNpcInfo( lua_State* L )
 	//LoadScript();
 	//if( g_pGameApp->ReloadNpcInfo( *this ) )
 	//{
-	//	printf( "NPC¶Ô»°ºÍÈÎÎñlua½Å±¾¸üĞÂ³É¹¦£¡" );
+	//	printf( "NPCå¯¹è¯å’Œä»»åŠ¡luaè„šæœ¬æ›´æ–°æˆåŠŸï¼" );
 	//}
 	return 0;
 T_E}
@@ -1116,7 +1116,7 @@ inline int RegisterNpcScript()
 	REGFN(ReloadNpcInfo);
 	REGFN(FindNpc);
 
-	// npcÍøÂçº¯Êı×¢²á
+	// npcç½‘ç»œå‡½æ•°æ³¨å†Œ
 	REGFN(ReadCmd);
 	REGFN(ReadByte);
 	REGFN(ReadWord);

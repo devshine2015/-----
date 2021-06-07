@@ -17,7 +17,7 @@ class CForgeMgr;
 struct stNumBox;
 
 
-// ¿ªÊ¼²Ëµ¥
+// å¼€å§‹èœå•
 class CStartMgr : public CUIInterface
 {
 	static const int NO_USE = -1;
@@ -45,7 +45,7 @@ public:
 	void			CheckMouseDown(int x, int y);
 	void			ShowBigText( const char* str );
 
-	void			ShowQueryReliveForm( int nType, const char* str );				// ÏÔÊ¾ÊÇ·ñÔ­µØ¸´»î¿ò
+	void			ShowQueryReliveForm( int nType, const char* str );				// æ˜¾ç¤ºæ˜¯å¦åŸåœ°å¤æ´»æ¡†
 
 	void			ShowShipSailForm( bool isShow = true );
 	void			UpdateShipSailForm();
@@ -65,9 +65,9 @@ public:
 	void			ShowLevelUpHelpButton(bool bShow = true);
 	void			ShowLevelUpaddButton(bool bShow = true);		//	Add by alfred.shi
 
-	void			ShowAfkButton( bool bShow = true );				//	¹Ò»ú
-	static void		EventSendTimeChange(CGuiData *pSender);			//	¹Ò»ú¾­ÑéÑ¡ÔñÊÂ¼ş
-	void			ShowExpForm( bool bShow = true );				//	¹Ò»ú
+	void			ShowAfkButton( bool bShow = true );				//	æŒ‚æœº
+	static void		EventSendTimeChange(CGuiData *pSender);			//	æŒ‚æœºç»éªŒé€‰æ‹©äº‹ä»¶
+	void			ShowExpForm( bool bShow = true );				//	æŒ‚æœº
 	
 	
 	void			ShowInfoCenterButton(bool bShow = true);
@@ -77,10 +77,10 @@ public:
 
 	static CTextButton*	GetShowQQButton();
 
-	// NPCÖ¸Òı add by alfred.shi 20080709
+	// NPCæŒ‡å¼• add by alfred.shi 20080709
 	void			ShowNPCHelper(const char * mapName,bool isShow /*= true*/);
 	const char*		GetCurrMapName() {return strMapName;}
-	//Å®Éñ°´Å¥½çÃæ add by alfred.shi 20080724;
+	//å¥³ç¥æŒ‰é’®ç•Œé¢ add by alfred.shi 20080724;
 	//CForm*			frmQueen;
 	void			ShowQueenButtonForm(bool isShow = true);
 	CList*			GetNpcList(){return lstNpcList;}
@@ -102,25 +102,25 @@ protected:
 private:
 	static void		_evtStartFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	static void		_evtFormMouseClick(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);	//	¹Ò»ú
+	static void		_evtFormMouseClick(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);	//	æŒ‚æœº
 
 	static void		_evtReliveFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
 	static void		_evtTaskMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	// ¶ÓÎéµ¥ÌôµÄ¶Ô»°¿ò»Øµ÷
+	// é˜Ÿä¼å•æŒ‘çš„å¯¹è¯æ¡†å›è°ƒ
 	static void		_evtAskTeamFightMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	static void		_evtChaActionChange(CGuiData *pSender);       //¸Ä±ä½ÇÉ«µÄ¶¯»­
-	static void		_evtChaHeartChange(CGuiData *pSender);         //¸Ä±ä½ÇÉ«µÄĞÄÇé
+	static void		_evtChaActionChange(CGuiData *pSender);       //æ”¹å˜è§’è‰²çš„åŠ¨ç”»
+	static void		_evtChaHeartChange(CGuiData *pSender);         //æ”¹å˜è§’è‰²çš„å¿ƒæƒ…
 
 	static void		_evtPopMenu(CGuiData *pSender, int x, int y, DWORD key);
 
-	static void		_evtSelfMouseDown(CGuiData *pSender,int x,int y ,DWORD key);	// ¸ø×Ô¼º¼ÓÑªÊÂ¼ş
+	static void		_evtSelfMouseDown(CGuiData *pSender,int x,int y ,DWORD key);	// ç»™è‡ªå·±åŠ è¡€äº‹ä»¶
 
 	static void		_evtOriginReliveFormMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	static void		_evtShowBoatAttr(CGuiData *pSender,int x,int y ,DWORD key);		// ÏÔÊ¾´¬Ö»ÊôĞÔ
+	static void		_evtShowBoatAttr(CGuiData *pSender,int x,int y ,DWORD key);		// æ˜¾ç¤ºèˆ¹åªå±æ€§
 
 	static void		_NewFrmMainMouseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
@@ -128,9 +128,9 @@ private:
 
 	static void		_CloseEvent(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);
 
-	//static const int HELP_PICTURE_COUNT = 68;	// ĞÂÊÖ°ïÖúÖ÷Ìâ¸öÊı
-	static const int HELP_PICTURE_COUNT = 84;	// ĞÂÊÖ°ïÖúÖ÷Ìâ¸öÊı Modify by sunny.sun 20080828
-	static const int HELP_LV1_BEGIN     = 28;	// Level1µÄÍ¼Æ¬ÏÂ±ê
+	//static const int HELP_PICTURE_COUNT = 68;	// æ–°æ‰‹å¸®åŠ©ä¸»é¢˜ä¸ªæ•°
+	static const int HELP_PICTURE_COUNT = 84;	// æ–°æ‰‹å¸®åŠ©ä¸»é¢˜ä¸ªæ•° Modify by sunny.sun 20080828
+	static const int HELP_LV1_BEGIN     = 28;	// Level1çš„å›¾ç‰‡ä¸‹æ ‡
 
 private:
 	CForm*			frmMain800;
@@ -139,7 +139,7 @@ private:
 	//CTextButton*	btnStart;
 	static CTextButton*	btnQQ;
 
-	//Íæ¼Ò×Ô¼ºµÄÑªÌõ£¬sp£¬ expºÍÃû×Ö
+	//ç©å®¶è‡ªå·±çš„è¡€æ¡ï¼Œspï¼Œ expå’Œåå­—
 	CForm*			frmDetail;
 	CProgressBar*	proMainHP;
 	CProgressBar*	proMainSP;
@@ -148,67 +148,67 @@ private:
 	CLabel*			labMainLevel;
 	CImage*		    imgLeader;
 
- //   CProgressBar*	proMainHP1;		//½ÇÉ«µÄÉúÃüÖµ
-	//CProgressBar*	proMainHP2;		//½ÇÉ«µÄÉúÃüÖµ
-	//CProgressBar*	proMainHP3;		//½ÇÉ«µÄÉúÃüÖµ
-	//CProgressBar*	proMainSP;		//½ÇÉ«µÄÉúÃüÖµ   	
+ //   CProgressBar*	proMainHP1;		//è§’è‰²çš„ç”Ÿå‘½å€¼
+	//CProgressBar*	proMainHP2;		//è§’è‰²çš„ç”Ÿå‘½å€¼
+	//CProgressBar*	proMainHP3;		//è§’è‰²çš„ç”Ÿå‘½å€¼
+	//CProgressBar*	proMainSP;		//è§’è‰²çš„ç”Ÿå‘½å€¼   	
 
-	// Íæ¼Ò¾­Ñé£¬µÈ¼¶
+	// ç©å®¶ç»éªŒï¼Œç­‰çº§
 	//CLabel*			_pShowExp;
 	//CLabel*			_pShowLevel;
 
-	CForm*			frmMainChaRelive;			// Ö÷½Ç¸´»î±íµ¥
+	CForm*			frmMainChaRelive;			// ä¸»è§’å¤æ´»è¡¨å•
 
-	// ±íÇé,¶¯×÷
+	// è¡¨æƒ…,åŠ¨ä½œ
 	CGrid*			grdAction;
 	CGrid*			grdHeart;
 
-	// ÏÔÊ¾´ó±êÌâ
+	// æ˜¾ç¤ºå¤§æ ‡é¢˜
 	CTitle*			tlCity;
 	CTitle*			tlField;
 
-	// ³¡¾°ÖĞµÄÓÒ¼ü²Ëµ¥
+	// åœºæ™¯ä¸­çš„å³é”®èœå•
 	static CMenu*	mainMouseRight;
 
-	//´¬Ö»º½ĞĞÊ±µÄ½çÃæ
+	//èˆ¹åªèˆªè¡Œæ—¶çš„ç•Œé¢
 	CForm*			frmShipSail;
 	CLabelEx*		labCanonShow;
 	CLabelEx*		labSailorShow;
 	CLabelEx*		labLevelShow;
 	CLabelEx*		labExpShow;
-	CProgressBar*	proSailor;				//ÄÍ¾Ã¹ö¶¯Ìõ
-	CProgressBar*	proCanon;				//²¹¸ø¹ö¶¯Ìõ
+	CProgressBar*	proSailor;				//è€ä¹…æ»šåŠ¨æ¡
+	CProgressBar*	proCanon;				//è¡¥ç»™æ»šåŠ¨æ¡
 
-	bool			_IsNewer;				// ÊÇ·ñÎªĞÂÊÖ
+	bool			_IsNewer;				// æ˜¯å¦ä¸ºæ–°æ‰‹
 
-	// ÏÔÊ¾×Ô¶¯¸úËæÌáÊ¾
+	// æ˜¾ç¤ºè‡ªåŠ¨è·Ÿéšæç¤º
 	CForm*			frmFollow;
 	CLabel*			labFollow;
 
 	CMenu*			mnuSelf;
 
-	bool			_IsCanTeam;				// ÊÇ·ñÄÜ¹»Ê¹ÓÃ×é¶ÓÀë¶ÓµÈÓë¶ÓÎéÏà¹ØµÄ²Ù×÷
+	bool			_IsCanTeam;				// æ˜¯å¦èƒ½å¤Ÿä½¿ç”¨ç»„é˜Ÿç¦»é˜Ÿç­‰ä¸é˜Ÿä¼ç›¸å…³çš„æ“ä½œ
 
-	// ³èÎï½çÃæ
+	// å® ç‰©ç•Œé¢
 	CForm*			frmMainPet;
 	CImage*			imgPetHead;
 	CLabel*			labPetLv;
 	CProgressBar*	proPetHP;
 	CProgressBar*	proPetSP;
 
-	// ĞÂÊÖ°ïÖú½çÃæ
-	CForm*			frmHelpSystem;			// °ïÖú½çÃæ
-	CTextButton*	btnLevelUpHelp;			// Éı¼¶°ïÖú°´Å¥
-	CTextButton*	btnLevelUpadd;			// Éı¼¶ÊôĞÔ
-	CList*			lstHelpList;			// °ïÖúÁĞ±í
+	// æ–°æ‰‹å¸®åŠ©ç•Œé¢
+	CForm*			frmHelpSystem;			// å¸®åŠ©ç•Œé¢
+	CTextButton*	btnLevelUpHelp;			// å‡çº§å¸®åŠ©æŒ‰é’®
+	CTextButton*	btnLevelUpadd;			// å‡çº§å±æ€§
+	CList*			lstHelpList;			// å¸®åŠ©åˆ—è¡¨
 	
-	//	¹Ò»ú
+	//	æŒ‚æœº
 	stNumBox*		m_NumBox;
-	CTextButton*	btnafk;					//	¹Ò»ú°´Å¥
+	CTextButton*	btnafk;					//	æŒ‚æœºæŒ‰é’®
 	CForm*			frmElfAfk;
-	CLabel*			labelfexp;				//	ÏÔÊ¾¹Ò»úÊ±¼ä
+	CLabel*			labelfexp;				//	æ˜¾ç¤ºæŒ‚æœºæ—¶é—´
 	CTextButton*	btnelfafkYes;
-	COneCommand*	cmdexpItem[xxoo];				//	ÍÏ·Å¾­Ñé¼Ó³ÉµÀ¾ß
+	COneCommand*	cmdexpItem[xxoo];				//	æ‹–æ”¾ç»éªŒåŠ æˆé“å…·
 	int             iPutPos[xxoo];
 	CForm*			frmElfchat;
 	CTextButton*	btnClose;
@@ -220,26 +220,26 @@ private:
 	CLabel*			ElfTxt12;
 	CLabel*			ElfTxt14;
 	static CCombo*	cboexp;
-	static CForm*	frmDaoJu;				//½»Ò××ó±ßµÄµÀ¾ß±íµ¥(»ò´¬²Õ)
+	static CForm*	frmDaoJu;				//äº¤æ˜“å·¦è¾¹çš„é“å…·è¡¨å•(æˆ–èˆ¹èˆ±)
 	static CGoodsGrid* grdDaoJu;
 	//	end
 
 	
-	CImage*			imgHelpShow1[HELP_PICTURE_COUNT];		// Í¼Æ¬
-	CImage*			imgHelpShow2[HELP_PICTURE_COUNT];		// Í¼Æ¬
-	CImage*			imgHelpShow3[HELP_PICTURE_COUNT];		// Í¼Æ¬
-	CImage*			imgHelpShow4[HELP_PICTURE_COUNT];		// Í¼Æ¬
+	CImage*			imgHelpShow1[HELP_PICTURE_COUNT];		// å›¾ç‰‡
+	CImage*			imgHelpShow2[HELP_PICTURE_COUNT];		// å›¾ç‰‡
+	CImage*			imgHelpShow3[HELP_PICTURE_COUNT];		// å›¾ç‰‡
+	CImage*			imgHelpShow4[HELP_PICTURE_COUNT];		// å›¾ç‰‡
 
-	// ±³°ü°´Å¥½çÃæ
+	// èƒŒåŒ…æŒ‰é’®ç•Œé¢
 	CForm*			frmBag;
 
-	// Éç½»°´Å¥½çÃæ
+	// ç¤¾äº¤æŒ‰é’®ç•Œé¢
 	CForm*			frmSociliaty;
-	//Å®Éñ°´Å¥½çÃæ add by alfred.shi 20080724
+	//å¥³ç¥æŒ‰é’®ç•Œé¢ add by alfred.shi 20080724
 	CForm*			frmQueen;
 	
 
-	// NPCÖ¸Òı½çÃæ add by alfred.shi 20080709
+	// NPCæŒ‡å¼•ç•Œé¢ add by alfred.shi 20080709
 	CForm*			frmNpcShow;
 	CPage*			listPage;
 	CList*			lstNpcList;
@@ -248,7 +248,7 @@ private:
 	CList*			lstCurrList;
 	const char*		strMapName;
 private:
-	// ¶ÔÓ¦µÄÖ÷½ÇÍâ¹Û
+	// å¯¹åº”çš„ä¸»è§’å¤–è§‚
 	static CCharacter2D*	pMainCha;				
     static void				_MainChaRenderEvent(C3DCompent *pSender, int x, int y);
 	static void				_OnSelfMenu(CGuiData *pSender, int x, int y, DWORD key);

@@ -26,7 +26,7 @@ namespace mission
 	{T_B
 		if( szFunc[0] == '0' ) return TRUE;
 
-		// ³õÊ¼»¯NPC½Å±¾È«¾Ö±äÁ¿ĞÅÏ¢
+		// åˆå§‹åŒ–NPCè„šæœ¬å…¨å±€å˜é‡ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "ResetNpcInfo" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -41,9 +41,9 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 2, 0, 0 );
 		if( nStatus )
 		{
-			//LG( "NpcInit", "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[ResetNpcInfo]µ÷ÓÃÊ§°Ü!", szName );
+			//LG( "NpcInit", "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[ResetNpcInfo]è°ƒç”¨å¤±è´¥!", szName );
 			LG( "NpcInit", "npc[%s]'s script init dispose function[ResetNpcInfo]transfer error!", szName );
-			//printf( "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[ResetNpcInfo]µ÷ÓÃÊ§°Ü!\n", szName );
+			//printf( "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[ResetNpcInfo]è°ƒç”¨å¤±è´¥!\n", szName );
 			printf( RES_STRING(GM_WORLDEUDEMON_CPP_00001), szName );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -51,7 +51,7 @@ namespace mission
 		}
 		lua_settop(g_pLuaState, 0);
 
-		// µ÷ÓÃNPC³õÊ¼»¯È«¾Ö±äÁ¿ĞÅÏ¢Èë¿Úº¯Êı
+		// è°ƒç”¨NPCåˆå§‹åŒ–å…¨å±€å˜é‡ä¿¡æ¯å…¥å£å‡½æ•°
 		lua_getglobal( g_pLuaState, szFunc );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -63,9 +63,9 @@ namespace mission
 		nStatus = lua_pcall( g_pLuaState, 0, 0, 0 );
 		if( nStatus )
 		{
-			//LG( "NpcInit", "npc[%s]µÄ½Å±¾Êı¾İ´¦Àíº¯Êı[%s]µ÷ÓÃÊ§°Ü!", szName, szFunc );
+			//LG( "NpcInit", "npc[%s]çš„è„šæœ¬æ•°æ®å¤„ç†å‡½æ•°[%s]è°ƒç”¨å¤±è´¥!", szName, szFunc );
 			LG( "NpcInit", "npc[%s]'s script data dispose function[%s]transfer failed!", szName, szFunc );
-			//printf( "npc[%s]µÄ½Å±¾Êı¾İ´¦Àíº¯Êı[%s]µ÷ÓÃÊ§°Ü!\n", szName, szFunc );
+			//printf( "npc[%s]çš„è„šæœ¬æ•°æ®å¤„ç†å‡½æ•°[%s]è°ƒç”¨å¤±è´¥!\n", szName, szFunc );
 			printf( RES_STRING(GM_WORLDEUDEMON_CPP_00002), szName, szFunc );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -73,7 +73,7 @@ namespace mission
 		}
 		lua_settop(g_pLuaState, 0);
 
-		// »ñÈ¡NPCµÄ¶Ô»°ĞÅÏ¢ºÍ½»Ò×ĞÅÏ¢
+		// è·å–NPCçš„å¯¹è¯ä¿¡æ¯å’Œäº¤æ˜“ä¿¡æ¯
 		lua_getglobal( g_pLuaState, "GetNpcInfo" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -88,9 +88,9 @@ namespace mission
 		nStatus = lua_pcall( g_pLuaState, 2, 0, 0 );
 		if( nStatus )
 		{
-			//LG( "NpcInit", "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[GetNpcInfo]µ÷ÓÃÊ§°Ü!", szName );
+			//LG( "NpcInit", "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[GetNpcInfo]è°ƒç”¨å¤±è´¥!", szName );
 			LG( "NpcInit", "npc[%s]'s script init dispose fuction[GetNpcInfo]transfer failed!", szName );
-			//printf( "npc[%s]µÄ½Å±¾³õÊ¼»¯´¦Àíº¯Êı[GetNpcInfo]µ÷ÓÃÊ§°Ü!\n", szName );
+			//printf( "npc[%s]çš„è„šæœ¬åˆå§‹åŒ–å¤„ç†å‡½æ•°[GetNpcInfo]è°ƒç”¨å¤±è´¥!\n", szName );
 			printf( RES_STRING(GM_WORLDEUDEMON_CPP_00003), szName );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);
@@ -105,10 +105,10 @@ namespace mission
 	{
 		Clear();
 
-		// ³õÊ¼»¯npc½Å±¾ĞÅÏ¢
+		// åˆå§‹åŒ–npcè„šæœ¬ä¿¡æ¯
 		InitScript( szMsgProc, szName );
 		
-		// npcÅäÖÃ±í±àºÅ
+		// npcé…ç½®è¡¨ç¼–å·
 		m_sNpcID = 0;
 
 		// 
@@ -120,7 +120,7 @@ namespace mission
 		sprintf(szLogName, "Cha-%s+%u", GetName(), GetID());
 		m_CLog.SetLogName(szLogName);
 
-		// Ä¬ÈÏÊ¹ÓÃµÚÒ»¸ö½ÇÉ«ĞÅÏ¢
+		// é»˜è®¤ä½¿ç”¨ç¬¬ä¸€ä¸ªè§’è‰²ä¿¡æ¯
 		m_pCChaRecord = (CChaRecord*)GetChaRecordInfo( 1 );
 		m_cat = (SHORT)m_pCChaRecord->lID;
 
@@ -132,7 +132,7 @@ namespace mission
     
 	HRESULT CWorldEudemon::MsgProc( CCharacter& character, RPACKET& packet )
 	{
-		// µ÷ÓÃNPC½Å±¾¶Ô»°´¦Àíº¯Êı
+		// è°ƒç”¨NPCè„šæœ¬å¯¹è¯å¤„ç†å‡½æ•°
 		lua_getglobal( g_pLuaState, "NpcProc" );
 		if( !lua_isfunction( g_pLuaState, -1 ) )
 		{
@@ -149,7 +149,7 @@ namespace mission
 		int nStatus = lua_pcall( g_pLuaState, 4, 0, 0 );
 		if( nStatus )
 		{
-			//character.SystemNotice( "npc[%s]µÄ½Å±¾ÏûÏ¢´¦Àíº¯Êı[NpcProc]µ÷ÓÃÊ§°Ü!", m_name );
+			//character.SystemNotice( "npc[%s]çš„è„šæœ¬æ¶ˆæ¯å¤„ç†å‡½æ•°[NpcProc]è°ƒç”¨å¤±è´¥!", m_name );
 			character.SystemNotice( RES_STRING(GM_WORLDEUDEMON_CPP_00004), m_name );
 			lua_callalert( g_pLuaState, nStatus );
 			lua_settop(g_pLuaState, 0);

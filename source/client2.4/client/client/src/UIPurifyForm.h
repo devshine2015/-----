@@ -27,18 +27,18 @@ namespace GUI
 		void DragItemToEquipGrid(int nIndex);
 
 		static const int NO_USE     = -1;
-		static const int TYPE_COUNT =  4;	// 类型个数
+		static const int TYPE_COUNT =  4;	// 绫诲瀷涓暟
 
-		static const int PURIFY_TYPE      =  7;	// 道具提纯
-		static const int ENERGY_TYPE      =  8;	// 贝壳充电
-		static const int GETSTONE_TYPE    =  9;	// 提取宝石
-		static const int REPAIR_OVEN_TYPE = 10;	// 修理破锅
+		static const int PURIFY_TYPE      =  7;	// 閬撳叿鎻愮函
+		static const int ENERGY_TYPE      =  8;	// 璐濆３鍏呯數
+		static const int GETSTONE_TYPE    =  9;	// 鎻愬彇瀹濈煶
+		static const int REPAIR_OVEN_TYPE = 10;	// 淇悊鐮撮攨
 
-		static const int PURIFY_CELL_COUNT = 2;	// 格子个数
-		static const int PURIFY_ONE  = 0;		// 精灵1
-		static const int PURIFY_TWO  = 1;		// 精灵2
+		static const int PURIFY_CELL_COUNT = 2;	// 鏍煎瓙涓暟
+		static const int PURIFY_ONE  = 0;		// 绮剧伒1
+		static const int PURIFY_TWO  = 1;		// 绮剧伒2
 
-		int GetType() {  return m_nType;	}	// 类型
+		int GetType() {  return m_nType;	}	// 绫诲瀷
 
 	protected:
 		virtual bool Init();
@@ -68,11 +68,11 @@ namespace GUI
 		void		SendNetProtocol();
 
 
-		static void _evtDragPurifyOne(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// 拖入武器
-		static void _evtDragPurifyTwo(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// 拖入提纯武器
+		static void _evtDragPurifyOne(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// 鎷栧叆姝﹀櫒
+		static void _evtDragPurifyTwo(CGuiData *pSender,CCommandObj* pItem,bool& isAccept);	// 鎷栧叆鎻愮函姝﹀櫒
 
-		static void _evtMainMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// 鼠标点击按钮事件
-		static void _evtClosePurifyForm(CForm* pForm, bool& IsClose);	// 关闭窗体事件
+		static void _evtMainMouseButton(CCompent *pSender, int nMsgType, int x, int y, DWORD dwKey);// 榧犳爣鐐瑰嚮鎸夐挳浜嬩欢
+		static void _evtClosePurifyForm(CForm* pForm, bool& IsClose);	// 鍏抽棴绐椾綋浜嬩欢
 	};
 
 }

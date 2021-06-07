@@ -70,25 +70,25 @@ bool CMapRes::Init()
 
 	if( !g_MapID.GetID( m_strMapName.c_str(), m_byMapID ) )
 	{
-		LG("initmap", "ÅäÖÃµØÍ¼¡¶%s¡·£¬IDĞÅÏ¢´íÎó!", m_strMapName.c_str() );
-		//LG("initmap", "configure map(%s)£¬ID info error\n", m_strMapName.c_str() );
+		LG("initmap", "é…ç½®åœ°å›¾ã€Š%sã€‹ï¼ŒIDä¿¡æ¯é”™è¯¯!", m_strMapName.c_str() );
+		//LG("initmap", "configure map(%s)ï¼ŒID info error\n", m_strMapName.c_str() );
 		char szData[128];
-		//sprintf( szData, "SubMap::LoadNpc:»ñÈ¡µØÍ¼¡¶%s¡·IDÊ§°Ü!", m_strMapName.c_str() );
+		//sprintf( szData, "SubMap::LoadNpc:è·å–åœ°å›¾ã€Š%sã€‹IDå¤±è´¥!", m_strMapName.c_str() );
 		sprintf( szData, RES_STRING(GM_MAPRES_CPP_00001), m_strMapName.c_str() );
-		//MessageBox( NULL, szData, "´íÎó", IDOK );
+		//MessageBox( NULL, szData, "é”™è¯¯", IDOK );
 		MessageBox( NULL, szData, RES_STRING(GM_MAPRES_CPP_00002), IDOK );
 		return false;
 	}
 	else
 	{
-		LG("initmap", "ÉèÖÃµØÍ¼¡¶%s¡·£¬ID = %d!", m_strMapName.c_str(), m_byMapID );
-		//LG("initmap", "set makp (%s)£¬ID = %d!\n", m_strMapName.c_str(), m_byMapID );
+		LG("initmap", "è®¾ç½®åœ°å›¾ã€Š%sã€‹ï¼ŒID = %d!", m_strMapName.c_str(), m_byMapID );
+		//LG("initmap", "set makp (%s)ï¼ŒID = %d!\n", m_strMapName.c_str(), m_byMapID );
 	}
 	g_MapID.SetMap( m_byMapID, this );	
 
 	if (m_CBlock.Load(GetResPath(m_szObstacleFile)) == 0)
 	{
-		LG("init", "Îï¼şÕÏ°­ÎÄ¼ş[%s]¶ÁÈë´íÎó, ¼ÌĞø!\n", m_szObstacleFile);
+		LG("init", "ç‰©ä»¶éšœç¢æ–‡ä»¶[%s]è¯»å…¥é”™è¯¯, ç»§ç»­!\n", m_szObstacleFile);
 		//LG("init", " Loa object obstacle file[%s] error,continue!\n", m_szObstacleFile);
 		return false;
 	}
@@ -98,17 +98,17 @@ bool CMapRes::Init()
 	m_SRange.ltop.y = 0;
 	m_SRange.rbtm.x = nMapWidth * 100;
 	m_SRange.rbtm.y = nMapHeight * 100;
-	//¼ì²é¸÷µØÍ¼·¶Î§µÄºÏ·¨ĞÔ
+	//æ£€æŸ¥å„åœ°å›¾èŒƒå›´çš„åˆæ³•æ€§
 	if((m_SRange.width() % m_csEyeshotCellWidth) || (m_SRange.height() % m_csEyeshotCellHeight))
 	{
-		LG("init", "µØÍ¼[%s]µÄ³¤¶È»ò¿í¶È²»ÊÇ¹ÜÀíµ¥Ôª¿í¶ÈµÄ±¶Êı\n", m_strMapName);
+		LG("init", "åœ°å›¾[%s]çš„é•¿åº¦æˆ–å®½åº¦ä¸æ˜¯ç®¡ç†å•å…ƒå®½åº¦çš„å€æ•°\n", m_strMapName);
 		//LG("init", "the map[%s]'s length or width isn't the multiple of manage cell\n", m_strMapName);
 		return false;
 	}
 
 	if (m_CTerrain.Init((_TCHAR*)GetResPath(m_szSectionFile)) == 0)
 	{
-		LG("init", "µØÍ¼ÇøÓòÎÄ¼ş[%s]¶ÁÈë´íÎó!", m_szSectionFile);
+		LG("init", "åœ°å›¾åŒºåŸŸæ–‡ä»¶[%s]è¯»å…¥é”™è¯¯!", m_szSectionFile);
 		//LG("init", "Load the map section file [%s]error !", m_szSectionFile);
 		//return false;
 	}
@@ -121,27 +121,27 @@ bool CMapRes::Init()
 	m_pCMonsterSpawn = new CChaSpawn();
 	if (!m_pCMonsterSpawn->Init(m_szMonsterSpawnFile, 200))
 	{
-		//THROW_EXCP( excpMem, "×°ÔØµØÍ¼¹ÖÎïÎÄ¼ş´íÎó!" );
+		//THROW_EXCP( excpMem, "è£…è½½åœ°å›¾æ€ªç‰©æ–‡ä»¶é”™è¯¯!" );
 		THROW_EXCP( excpMem, RES_STRING(GM_MAPRES_CPP_00003) );
 	}
 	m_pCMapSwitchEntitySpawn = new CMapSwitchEntitySpawn();
 	if (!m_pCMapSwitchEntitySpawn->Init(m_szMapSwitchFile, 100))
 	{
-		//THROW_EXCP( excpMem, "×°ÔØµØÍ¼Ìø×ªµãÎÄ¼ş´íÎó!" );
+		//THROW_EXCP( excpMem, "è£…è½½åœ°å›¾è·³è½¬ç‚¹æ–‡ä»¶é”™è¯¯!" );
 		THROW_EXCP( excpMem, RES_STRING(GM_MAPRES_CPP_00004) );
 	}
 	m_pNpcSpawn = new CNpcSpawn();
 	if (!m_pNpcSpawn->Init(m_szNpcSpawnFile, 200))
 	{
-		//THROW_EXCP( excpMem, "×°ÔØµØÍ¼¹ÖÎïNPC¼ş´íÎó!" );
+		//THROW_EXCP( excpMem, "è£…è½½åœ°å›¾æ€ªç‰©NPCä»¶é”™è¯¯!" );
 		THROW_EXCP( excpMem, RES_STRING(GM_MAPRES_CPP_00005) );
 	}
 
 	if (!InitCtrl())
-		//THROW_EXCP( excpMem, "³õÊ¼»¯µØÍ¼ÅäÖÃ´íÎó!" );
+		//THROW_EXCP( excpMem, "åˆå§‹åŒ–åœ°å›¾é…ç½®é”™è¯¯!" );
 		THROW_EXCP( excpMem, RES_STRING(GM_MAPRES_CPP_00006) );
 
-	LG("init", "µØÍ¼ %s ×ÊÔ´³õÊ¼»¯³É¹¦\n", m_strMapName.c_str());
+	LG("init", "åœ°å›¾ %s èµ„æºåˆå§‹åŒ–æˆåŠŸ\n", m_strMapName.c_str());
 	//LG("init", "map %s init resource succeed\n", m_strMapName.c_str());
 
 	m_chCopyStartCdtType = enumMAPCOPY_START_CDT_UNKN;
@@ -154,7 +154,7 @@ bool CMapRes::SetCopyNum(dbc::Short sCpyNum)
 {
 	if (m_pCMapCopy || sCpyNum < 1 || sCpyNum > defMAX_MAP_COPY_NUM)
 	{
-		//LG("¸±±¾ÊıÄ¿´íÎó", "msgÉè¶¨µÄ¸±±¾ÊıÄ¿ %d ³¬¹ı×î´óÖµ %d!\n", sCpyNum, defMAX_MAP_COPY_NUM);
+		//LG("å‰¯æœ¬æ•°ç›®é”™è¯¯", "msgè®¾å®šçš„å‰¯æœ¬æ•°ç›® %d è¶…è¿‡æœ€å¤§å€¼ %d!\n", sCpyNum, defMAX_MAP_COPY_NUM);
 		LG("copy number error", RES_STRING(GM_GAMEAPP_CPP_00008), sCpyNum, defMAX_MAP_COPY_NUM);
 		return false;
 	}
@@ -174,7 +174,7 @@ BOOL CMapRes::SummonNpc( USHORT sAreaID, const char szNpc[], USHORT sTime )
 	return m_pNpcSpawn->SummonNpc( szNpc, sAreaID, sTime );
 T_E}
 
-// ¸ù¾İµØÍ¼¿ØÖÆ½Å±¾³õÊ¼»¯Ò»Ğ©¿ØÖÆĞÅÏ¢
+// æ ¹æ®åœ°å›¾æ§åˆ¶è„šæœ¬åˆå§‹åŒ–ä¸€äº›æ§åˆ¶ä¿¡æ¯
 bool CMapRes::InitCtrl(void)
 {T_B
 	if (g_IsFileExist(GetResPath(m_szCtrlFile)))
@@ -200,10 +200,10 @@ bool CMapRes::InitCtrl(void)
 	g_CParser.DoString("init_entry", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 	g_CParser.DoString("config", enumSCRIPT_RETURN_NONE, 0, enumSCRIPT_PARAM_LIGHTUSERDATA, 1, this, DOSTRING_PARAM_END);
 
-	// ³õÊ¼»¯¸±±¾
+	// åˆå§‹åŒ–å‰¯æœ¬
 	m_pCMapCopy = new SubMap[m_sMapCpyNum];
 	if (!m_pCMapCopy)
-		//THROW_EXCP(excpMem,"µØÍ¼¸±±¾¶ÔÏó¹¹Ôì¹ı³ÌÖĞ·ÖÅäÄÚ´æÊ§°Ü");
+		//THROW_EXCP(excpMem,"åœ°å›¾å‰¯æœ¬å¯¹è±¡æ„é€ è¿‡ç¨‹ä¸­åˆ†é…å†…å­˜å¤±è´¥");
 		THROW_EXCP(excpMem,RES_STRING(GM_MAPRES_CPP_00007));
 	for (Short i = 0; i < m_sMapCpyNum; i++)
 	{
@@ -216,7 +216,7 @@ bool CMapRes::InitCtrl(void)
 	return true;
 T_E}
 
-// ´´½¨Èë¿Ú£¬ÏòÄ¿±êµØÍ¼·¢ËÍÈë¿ÚµÄ´´½¨½Å±¾ÎÄ¼ş.
+// åˆ›å»ºå…¥å£ï¼Œå‘ç›®æ ‡åœ°å›¾å‘é€å…¥å£çš„åˆ›å»ºè„šæœ¬æ–‡ä»¶.
 bool CMapRes::CreateEntry(void)
 {T_B
 	if(!m_pfEntryFile)
@@ -240,9 +240,9 @@ bool CMapRes::CreateEntry(void)
 
 	if (g_cchLogMapEntry)
 	{
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "\n");
+		LG("åœ°å›¾å…¥å£æµç¨‹", "\n");
 		//LG("the map entrance flow ", "\n");
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÇëÇó´´½¨Èë¿Ú£ºÎ»ÖÃ %s --> %s[%u, %u]\n", GetName(), m_szEntryMapName, m_SEntryPos.x, m_SEntryPos.y);
+		LG("åœ°å›¾å…¥å£æµç¨‹", "è¯·æ±‚åˆ›å»ºå…¥å£ï¼šä½ç½® %s --> %s[%u, %u]\n", GetName(), m_szEntryMapName, m_SEntryPos.x, m_SEntryPos.y);
 		//LG("the map entrance flow ", "ask for found entrance : position %s --> %s[%u, %u]\n", GetName(), m_szEntryMapName, m_SEntryPos.x, m_SEntryPos.y);
 	}
 	WPACKET	wpk	=GETWPACKET();
@@ -261,7 +261,7 @@ bool CMapRes::CreateEntry(void)
 		{
 			if (!feof(m_pfEntryFile))
 			{
-				//LG("entry_error", "msgÈë¿Ú½Å±¾£¨%s/entry.lua£©µÄĞĞ³¤¶È³¬¹ıÔ¤Éè³¤¶È£¨%u£©£¬Õâ¿ÉÄÜµ¼ÖÂÈë¿Ú´´½¨Ê§°Ü£¬È¡Ïû´´½¨¸ÃÈë¿Ú.½Å±¾ĞĞ£º%s\n", GetName(), csLineCharNum, szLine);
+				//LG("entry_error", "msgå…¥å£è„šæœ¬ï¼ˆ%s/entry.luaï¼‰çš„è¡Œé•¿åº¦è¶…è¿‡é¢„è®¾é•¿åº¦ï¼ˆ%uï¼‰ï¼Œè¿™å¯èƒ½å¯¼è‡´å…¥å£åˆ›å»ºå¤±è´¥ï¼Œå–æ¶ˆåˆ›å»ºè¯¥å…¥å£.è„šæœ¬è¡Œï¼š%s\n", GetName(), csLineCharNum, szLine);
 				LG("entry_error", RES_STRING(GM_GAMEAPP_CPP_00009), GetName(), csLineCharNum, szLine);
 				return false;
 			}
@@ -290,11 +290,11 @@ bool CMapRes::CreateEntry(void)
 	return true;
 T_E}
 
-// ÊÍ·ÅÈë¿Ú£¬ÏòÄ¿±êµØÍ¼·¢ËÍÈë¿Ú¹Ø±ÕÃüÁî
+// é‡Šæ”¾å…¥å£ï¼Œå‘ç›®æ ‡åœ°å›¾å‘é€å…¥å£å…³é—­å‘½ä»¤
 bool CMapRes::DestroyEntry(void)
 {T_B
 	if (g_cchLogMapEntry)
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÇëÇó¹Ø±ÕÈë¿Ú£ºÎ»ÖÃ %s --> %s\n", GetName(), m_szEntryMapName);
+		LG("åœ°å›¾å…¥å£æµç¨‹", "è¯·æ±‚å…³é—­å…¥å£ï¼šä½ç½® %s --> %s\n", GetName(), m_szEntryMapName);
 		//LG("map entrance flow", "ask for close entrance:position %s --> %s\n", GetName(), m_szEntryMapName);
 	WPACKET	wpk	=GETWPACKET();
 	WRITE_CMD(wpk, CMD_MT_MAPENTRY);
@@ -313,7 +313,7 @@ bool CMapRes::DestroyEntry(void)
 	return true;
 T_E}
 
-// ¸æËßÈë¿Úµ÷Õûµ±Ç°Íæ¼ÒÊıÄ¿
+// å‘Šè¯‰å…¥å£è°ƒæ•´å½“å‰ç©å®¶æ•°ç›®
 bool CMapRes::SubEntryPlayer(dbc::Short sCopyNO)
 {T_B
 	if (!strcmp(m_szEntryMapName, ""))
@@ -338,15 +338,15 @@ bool CMapRes::SubEntryPlayer(dbc::Short sCopyNO)
 	return true;
 T_E}
 
-// ÇëÇóÈë¿Ú¹Ø±Õ¸±±¾
+// è¯·æ±‚å…¥å£å…³é—­å‰¯æœ¬
 bool CMapRes::SubEntryCopy(dbc::Short sCopyNO)
 {T_B
 	if (!strcmp(m_szEntryMapName, ""))
 		return true;
 
 	if (g_cchLogMapEntry)
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÇëÇó¹Ø±ÕµØÍ¼¸±±¾£¨%s£º%d£©\n", GetName(), sCopyNO);
-		//LG("map entrance flow", "ask for close copy map(%s£º%d)\n", GetName(), sCopyNO);
+		LG("åœ°å›¾å…¥å£æµç¨‹", "è¯·æ±‚å…³é—­åœ°å›¾å‰¯æœ¬ï¼ˆ%sï¼š%dï¼‰\n", GetName(), sCopyNO);
+		//LG("map entrance flow", "ask for close copy map(%sï¼š%d)\n", GetName(), sCopyNO);
 	WPACKET	wpk	=GETWPACKET();
 	WRITE_CMD(wpk, CMD_MT_MAPENTRY);
 	WRITE_STRING(wpk, m_szEntryMapName);
@@ -389,7 +389,7 @@ bool CMapRes::Close(void)
 	if (m_chState == enumMAP_STATE_CLOSE)
 	{
 		if (g_cchLogMapEntry)
-			LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÒÑ¾­¹Ø±ÕµØÍ¼£º%s\n", GetName());
+			LG("åœ°å›¾å…¥å£æµç¨‹", "å·²ç»å…³é—­åœ°å›¾ï¼š%s\n", GetName());
 			//LG("map entrance flow", "already close the map:%s\n", GetName());
 		return true;
 	}
@@ -403,7 +403,7 @@ bool CMapRes::Close(void)
 		CopyClose();
 
 		if (g_cchLogMapEntry)
-			LG("µØÍ¼Èë¿ÚÁ÷³Ì", "³É¹¦¹Ø±ÕµØÍ¼£º%s\n", GetName());
+			LG("åœ°å›¾å…¥å£æµç¨‹", "æˆåŠŸå…³é—­åœ°å›¾ï¼š%s\n", GetName());
 			//LG("map entrance flow", "close map succeed :%s\n", GetName());
 		return true;
 	}
@@ -412,14 +412,14 @@ bool CMapRes::Close(void)
 	{
 		m_chState = enumMAP_STATE_ASK_CLOSE;
 		if (g_cchLogMapEntry)
-			LG("µØÍ¼Èë¿ÚÁ÷³Ì", "ÇëÇó¹Ø±ÕµØÍ¼£º%s\n", GetName());
+			LG("åœ°å›¾å…¥å£æµç¨‹", "è¯·æ±‚å…³é—­åœ°å›¾ï¼š%s\n", GetName());
 			//LG("map entrance flow", "ask for close map:%s\n", GetName());
 	}
 
 	return false;
 T_E}
 
-// ¿ØÖÆÈë¿ÚµÄÉúÃüĞÎÌ¬
+// æ§åˆ¶å…¥å£çš„ç”Ÿå‘½å½¢æ€
 void CMapRes::Run(DWORD dwCurTime)
 {T_B
 	if (!m_timeRun.IsOK(dwCurTime))
@@ -446,24 +446,24 @@ void CMapRes::Run(DWORD dwCurTime)
 	time_t	tDist = tNowTime - m_tEntryFirstTm;
 	if (m_tEntryTmDis != 0)
 		tDist = tDist % m_tEntryTmDis;
-	if (m_tEntryOutTmDis == 0) // ÓÀ²»ÏûÊ§
+	if (m_tEntryOutTmDis == 0) // æ°¸ä¸æ¶ˆå¤±
 		bOpenEntry = true;
 	else
 	{
-		if (tDist < m_tEntryOutTmDis) // ¿ªÆô
+		if (tDist < m_tEntryOutTmDis) // å¼€å¯
 			bOpenEntry = true;
 	}
 
-	if (tDist >= m_tEntryOutTmDis) // ÏûÊ§
+	if (tDist >= m_tEntryOutTmDis) // æ¶ˆå¤±
 	{
 		bCloseEntry = true;
-		if (m_tEntryOutTmDis == 0) // ÓÀ²»ÏûÊ§
+		if (m_tEntryOutTmDis == 0) // æ°¸ä¸æ¶ˆå¤±
 			bCloseEntry = false;
 	}
-	if (tDist >= m_tMapClsTmDis) // ¹Ø±ÕµØÍ¼
+	if (tDist >= m_tMapClsTmDis) // å…³é—­åœ°å›¾
 	{
 		bClose = true;
-		if (m_tMapClsTmDis == 0) // ÓÀ²»¹Ø±Õ
+		if (m_tMapClsTmDis == 0) // æ°¸ä¸å…³é—­
 			bClose = false;
 	}
 
@@ -489,14 +489,14 @@ void CMapRes::Run(DWORD dwCurTime)
 	if (m_chState == enumMAP_STATE_OPEN && tBeepT > 0 && tBeepT < 50)
 	{
 		Char szInfo[128];
-		//sprintf(szInfo, "±¾µØÍ¼·şÎñÊ±¼äÒÑµ½£¬½«ÔÚ%dÃëºó¹Ø±Õ", tBeepT);
+		//sprintf(szInfo, "æœ¬åœ°å›¾æœåŠ¡æ—¶é—´å·²åˆ°ï¼Œå°†åœ¨%dç§’åå…³é—­", tBeepT);
 		sprintf(szInfo, RES_STRING(GM_MAPRES_CPP_00008), tBeepT);
 		CopyNotice(szInfo);
 	}
 
 T_E}
 
-// ´ò¿ªÈë¿Ú
+// æ‰“å¼€å…¥å£
 bool CMapRes::OpenEntry(void)
 {T_B
 	if (m_chEntryState == enumMAPENTRY_STATE_OPEN)
@@ -519,7 +519,7 @@ bool CMapRes::OpenEntry(void)
 	return true;
 T_E}
 
-// ¹Ø±ÕÈë¿Ú
+// å…³é—­å…¥å£
 bool CMapRes::CloseEntry(void)
 {T_B
 	if (m_chEntryState == enumMAPENTRY_STATE_ASK_OPEN)
@@ -539,15 +539,15 @@ bool CMapRes::CloseEntry(void)
 	return true;
 T_E}
 
-// ´Ëº¯Êı´ıĞø£¨¸±±¾¹Ø±Õ²Ù×÷ÒªµÈµ½Èë¿ÚµÄÏà¹Ø²Ù×÷³É¹¦·µ»Øºó²ÅÄÜÖ´ĞĞ£©
+// æ­¤å‡½æ•°å¾…ç»­ï¼ˆå‰¯æœ¬å…³é—­æ“ä½œè¦ç­‰åˆ°å…¥å£çš„ç›¸å…³æ“ä½œæˆåŠŸè¿”å›åæ‰èƒ½æ‰§è¡Œï¼‰
 bool CMapRes::CopyClose(dbc::Short sCopyNO)
 {T_B
 	if (sCopyNO >= GetCopyNum())
 		return false;
 
 	if (g_cchLogMapEntry)
-		LG("µØÍ¼Èë¿ÚÁ÷³Ì", "¹Ø±ÕµØÍ¼¸±±¾£¨%s£º%d£©\n", GetName(), sCopyNO);
-		//LG("map entrance flow", "close map copy £¨%s£º%d£©\n", GetName(), sCopyNO);
+		LG("åœ°å›¾å…¥å£æµç¨‹", "å…³é—­åœ°å›¾å‰¯æœ¬ï¼ˆ%sï¼š%dï¼‰\n", GetName(), sCopyNO);
+		//LG("map entrance flow", "close map copy ï¼ˆ%sï¼š%dï¼‰\n", GetName(), sCopyNO);
 	if (sCopyNO < 0)
 	{
 		for (Short i = 0; i < m_sMapCpyNum; i++)
@@ -577,7 +577,7 @@ bool CMapRes::CopyNotice(const char *szString, dbc::Short sCopyNO)
 	return true;
 T_E}
 
-// ¹Ø±Õ¸±±¾
+// å…³é—­å‰¯æœ¬
 bool CMapRes::ReleaseCopy(dbc::Short sCopyNO)
 {T_B
 	return SubEntryCopy(sCopyNO);
@@ -592,7 +592,7 @@ void CMapRes::CheckEntryState(dbc::Char chState)
 			m_chEntryState = chState;
 			Open();
 		}
-		else // ²»¿ÉÄÜ³öÏÖµÄÇé¿ö
+		else // ä¸å¯èƒ½å‡ºç°çš„æƒ…å†µ
 		{
 		}
 
@@ -608,7 +608,7 @@ void CMapRes::CheckEntryState(dbc::Char chState)
 		{
 			m_chEntryState = chState;
 		}
-		else // ²»¿ÉÄÜ³öÏÖµÄÇé¿ö
+		else // ä¸å¯èƒ½å‡ºç°çš„æƒ…å†µ
 		{
 		}
 
@@ -619,7 +619,7 @@ void CMapRes::CheckEntryState(dbc::Char chState)
 	}
 T_E}
 
-// È¡ÏÖÒ»¸öÕıÔÚÔËĞĞµÄ¸±±¾
+// å–ç°ä¸€ä¸ªæ­£åœ¨è¿è¡Œçš„å‰¯æœ¬
 SubMap* CMapRes::GetNextUsedCopy(void)
 {T_B
 	if (!m_pCMapCopy)

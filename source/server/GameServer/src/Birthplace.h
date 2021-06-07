@@ -1,14 +1,14 @@
 #include "stdafx.h"
 #define MAX_BIRTHPOINT 12
 
-struct SBirthPoint // µ¥¸ö³öÉúµã
+struct SBirthPoint // å•ä¸ªå‡ºç”Ÿç‚¹
 {
-	char szMapName[16];  // µØÍ¼Ãû
-	int  x;				 // µØÍ¼×ø±ê
+	char szMapName[16];  // åœ°å›¾å
+	int  x;				 // åœ°å›¾åæ ‡
 	int  y;
 };
 
-struct SBirthplace // ³öÉúµØ, °üº¬¶à¸ö³öÉúµã
+struct SBirthplace // å‡ºç”Ÿåœ°, åŒ…å«å¤šä¸ªå‡ºç”Ÿç‚¹
 {
 	SBirthPoint PointList[MAX_BIRTHPOINT];
 	int nCount;
@@ -17,7 +17,7 @@ struct SBirthplace // ³öÉúµØ, °üº¬¶à¸ö³öÉúµã
 	
 	void	Add(const char *pszMapName, int x, int y)
 	{
-		if(nCount>=MAX_BIRTHPOINT) return; // ÓĞ×î´ó³öÉúµãÏŞÖÆ
+		if(nCount>=MAX_BIRTHPOINT) return; // æœ‰æœ€å¤§å‡ºç”Ÿç‚¹é™åˆ¶
 		
 		strcpy(PointList[nCount].szMapName, pszMapName);
 		PointList[nCount].x = x;
@@ -27,7 +27,7 @@ struct SBirthplace // ³öÉúµØ, °üº¬¶à¸ö³öÉúµã
 };
 
 
-class CBirthMgr // ³öÉúµØ¹ÜÀí
+class CBirthMgr // å‡ºç”Ÿåœ°ç®¡ç†
 {
 public:
 
@@ -41,18 +41,18 @@ protected:
 	map<string, SBirthplace*>  _LocIdx;
 };
 
-// Ìí¼Óµ¥¸ö³öÉúµã
+// æ·»åŠ å•ä¸ªå‡ºç”Ÿç‚¹
 inline void CBirthMgr::AddBirthPoint(const char *pszLocation, const char *pszMapName, int x, int y)
 {
 	SBirthplace *p = NULL;
 	map<string, SBirthplace*>::iterator it = _LocIdx.find(pszLocation);
-	if(it!=_LocIdx.end()) // ÒÑ´æÔÚµÄ³öÉúµØ
+	if(it!=_LocIdx.end()) // å·²å­˜åœ¨çš„å‡ºç”Ÿåœ°
 	{
 		p = (*it).second;
 	}
 	else
 	{
-		// ĞÂ²úÉúµÄ³öÉúµØ
+		// æ–°äº§ç”Ÿçš„å‡ºç”Ÿåœ°
 		p = new SBirthplace;
 		_LocIdx[pszLocation] = p;
 	}
@@ -68,7 +68,7 @@ inline SBirthPoint* CBirthMgr::GetRandBirthPoint(const char *pszLocation)
 		SBirthplace *p = (*it).second;
 		int nSel = rand()%(p->nCount);
 		SBirthPoint *pPoint = &(p->PointList[nSel]);
-		//LG("birth", "Ñ¡ÖĞÁËËæ»ú³öÉúµã[%s] %d %d\n", pPoint->szMapName, pPoint->x, pPoint->y);
+		//LG("birth", "é€‰ä¸­äº†éšæœºå‡ºç”Ÿç‚¹[%s] %d %d\n", pPoint->szMapName, pPoint->x, pPoint->y);
 		return pPoint;
 	}
 	return NULL;
@@ -81,7 +81,7 @@ inline SBirthPoint* GetRandBirthPoint(const char *pszChaName, const char *pszLoc
 	SBirthPoint* pBirth = g_BirthMgr.GetRandBirthPoint(pszLocation);
 	if(pBirth==NULL)
 	{
-		//LG("birth_error", "ÎŞĞ§µÄ³öÉúµØ[%s], Cha = [%s], ½«±»Ç¿ĞĞËÍÍù°×Òø³Ç\n", pszLocation, pszChaName);
+		//LG("birth_error", "æ— æ•ˆçš„å‡ºç”Ÿåœ°[%s], Cha = [%s], å°†è¢«å¼ºè¡Œé€å¾€ç™½é“¶åŸ\n", pszLocation, pszChaName);
 		LG("birth_error", "invalid birth place[%s], Cha = [%s],will force to silver city\n", pszLocation, pszChaName);
 		pBirth = g_BirthMgr.GetRandBirthPoint(RES_STRING(GM_BIRTHPLACE_H_00001));
 	}
