@@ -35,6 +35,7 @@ client/
 server/resource
 server/LOG
 server/logfile
+source/client2.4/client/client/temp/Release
 
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
