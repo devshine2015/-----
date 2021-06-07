@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<str>
+	<Configure1>
+		<BackUp>1</BackUp>
+		<Subdir>1</Subdir>
+		<Case_Sensitive>1</Case_Sensitive>
+		<MutilReplace>0</MutilReplace>
+		<Force_ReadOnly>0</Force_ReadOnly>
+		<ReplaceType>1</ReplaceType>
+	</Configure1>
+	<Configure2>
+		<Language>Chinese_Simplified</Language>
+		<SelectFileExt>*.cpp;*.h</SelectFileExt>
+		<DefaultFileExt>*.txt;*.htm;*.c;*.cpp;*.h;*.hpp;*.pas;*.dpr;*.bpr;*.asp;*.php;*.cgi;*.ini;*.bat;*.inc;*.java;*.py;*.dfm;*.js;*.sql</DefaultFileExt>
+		<itsSelf>0</itsSelf>
+		<OutPutDir></OutPutDir>
+		<Extract_File_Source_Add>1</Extract_File_Source_Add>
+		<Extract_Add_Empty_Row>0</Extract_Add_Empty_Row>
+		<Extract_Include_Start>1</Extract_Include_Start>
+		<Extract_Include_End>1</Extract_Include_End>
+	</Configure2>
+	<History>
+		<Target>443A5CBAA3B5C1CDF5636C69656E74322E345C636C69656E745C636C69656E74D4ADCABC767373C9CFB5C4202D20B8B1B1BE5C7372635C;1</Target>
+		<NormalReplaceMemo1>4D50443344437265617465506172616D41646A757374496E666F</NormalReplaceMemo1>
+		<NormalReplaceMemo2>4C45443344437265617465506172616D41646A757374496E666F</NormalReplaceMemo2>
+		<CharacterReplaceMemo1></CharacterReplaceMemo1>
+		<CharacterReplaceMemo2></CharacterReplaceMemo2>
+		<CharacterReplaceMemo3></CharacterReplaceMemo3>
+		<RegexReplaceMemo1></RegexReplaceMemo1>
+		<RegexReplaceMemo2></RegexReplaceMemo2>
+	</History>
+	<MultiReplace>
+		<RepacleRulesFile>E:\MyProject\UltraReplace\MultiRules\6666666.nrr</RepacleRulesFile>
+	</MultiReplace>
+	<Other>
+		<DefaultEditer>notepad.exe</DefaultEditer>
+	</Other>
+</str>

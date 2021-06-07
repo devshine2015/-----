@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A2C79674-2511-4784-B82C-D75DE84C7FFE}</ProjectGuid>
+    <RootNamespace>GroupServer</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)..\Bin\</OutDir>
+    <IntDir>$(ProjectDir)..\tmp\Debug\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)..\Bin\</OutDir>
+    <IntDir>$(ProjectDir)..\tmp\Release\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/EHa %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\..\..\Common\Server\sdk\include;$(ProjectDir)..\..\..\Common\Util\include;$(ProjectDir)..\..\..\Common\Common\include;$(ProjectDir)..\..\..\Common\CaLua\include;$(ProjectDir)..\..\..\Common\ICUHelper\inc;$(ProjectDir)..\..\..\Common\icu\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MinimalRebuild>true</MinimalRebuild>
+      <ExceptionHandling />
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;LIBDBC_D.lib;util.lib;WinMM.lib;Common.lib;ICUHelper_D.lib;icudt.lib;icuucd.lib;icuind.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName)_D.exe</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\..\Common\Util\lib;$(ProjectDir)..\..\..\Common\Common\lib;$(ProjectDir)..\..\..\Common\CaLua\lib;$(ProjectDir)..\..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\..\Common\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ProgramDatabaseFile>$(OutDir)$(ProjectName)_D.pdb</ProgramDatabaseFile>
+      <SubSystem>Console</SubSystem>
+      <TargetMachine>MachineX86</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions>/EHa %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\src;$(ProjectDir)..\..\Common\Server\sdk\include;$(ProjectDir)..\..\Common\Util\include;$(ProjectDir)..\..\Common\Common\include;$(ProjectDir)..\..\Common\CaLua\include;$(ProjectDir)..\..\Common\ICUHelper\inc;$(ProjectDir)..\..\Common\icu\include</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_USE_32BIT_TIME_T;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling />
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader />
+      <WarningLevel>Level3</WarningLevel>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ForceConformanceInForLoopScope>false</ForceConformanceInForLoopScope>
+    </ClCompile>
+    <Link>
+      <AdditionalDependencies>Ws2_32.lib;LIBDBC.lib;Util.lib;WinMM.lib;Common.lib;ICUHelper.lib;icudt.lib;icuuc.lib;icuin.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\Common\Server\sdk\lib;$(ProjectDir)..\..\Common\Util\lib;$(ProjectDir)..\..\Common\Common\lib;$(ProjectDir)..\..\Common\CaLua\lib;$(ProjectDir)..\..\Common\ICUHelper\lib;$(ProjectDir)..\..\Common\icu\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>LIBCMTD.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <SubSystem>Console</SubSystem>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>MachineX86</TargetMachine>
+      <LargeAddressAware>false</LargeAddressAware>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\DBConnect.cpp" />
+    <ClCompile Include="..\src\Friend.cpp" />
+    <ClCompile Include="..\src\GroupServerApp.cpp" />
+    <ClCompile Include="..\src\GroupServerAppChat.cpp" />
+    <ClCompile Include="..\src\GroupServerAppFrnd.cpp" />
+    <ClCompile Include="..\src\GroupServerAppGuld.cpp" />
+    <ClCompile Include="..\src\GroupServerAppInit.cpp" />
+    <ClCompile Include="..\src\GroupServerAppMaster.cpp" />
+    <ClCompile Include="..\src\GroupServerAppPrsn.cpp" />
+    <ClCompile Include="..\src\GroupServerAppServ.cpp" />
+    <ClCompile Include="..\src\GroupServerAppTeam.cpp" />
+    <ClCompile Include="..\src\GroupSMain.cpp" />
+    <ClCompile Include="..\src\Guild.cpp" />
+    <ClCompile Include="..\src\GuildMember.cpp" />
+    <ClCompile Include="..\src\Invitation.cpp" />
+    <ClCompile Include="..\src\LuaFunc.cpp" />
+    <ClCompile Include="..\src\Master.cpp" />
+    <ClCompile Include="..\src\Parser.cpp" />
+    <ClCompile Include="..\src\Player.cpp" />
+    <ClCompile Include="..\src\Script.cpp" />
+    <ClCompile Include="..\src\SessionChat.cpp" />
+    <ClCompile Include="..\src\stdafx.cpp">
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+      <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(IntDir)%(Filename)1.obj</ObjectFileName>
+    </ClCompile>
+    <ClCompile Include="..\src\Team.cpp" />
+    <ClCompile Include="..\src\TeamMember.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\DBConnect.h" />
+    <ClInclude Include="..\src\Friend.h" />
+    <ClInclude Include="..\src\GateServer.h" />
+    <ClInclude Include="..\src\GroupServerApp.h" />
+    <ClInclude Include="..\src\Guild.h" />
+    <ClInclude Include="..\src\GuildMember.h" />
+    <ClInclude Include="..\src\Invitation.h" />
+    <ClInclude Include="..\src\LuaFunc.h" />
+    <ClInclude Include="..\src\Master.h" />
+    <ClInclude Include="..\src\Parser.h" />
+    <ClInclude Include="..\src\Player.h" />
+    <ClInclude Include="..\src\Script.h" />
+    <ClInclude Include="..\src\SessionChat.h" />
+    <ClInclude Include="..\src\stdafx.h" />
+    <ClInclude Include="..\src\Team.h" />
+    <ClInclude Include="..\src\TeamMember.h" />
+    <ClInclude Include="GuildBankMsg.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Bin\ChaNameFilter.txt" />
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Bin\GroupServer.cfg" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

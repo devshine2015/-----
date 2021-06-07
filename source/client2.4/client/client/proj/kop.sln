@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "kop", "kop.vcproj", "{595AD564-2531-4FB6-A058-81D42E7697A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Editor|Win32 = Editor|Win32
+		EditorD|Win32 = EditorD|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Debug|Win32.Build.0 = Debug|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Editor|Win32.ActiveCfg = Editor|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Editor|Win32.Build.0 = Editor|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.EditorD|Win32.ActiveCfg = EditorD|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.EditorD|Win32.Build.0 = EditorD|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Release|Win32.ActiveCfg = Release|Win32
+		{595AD564-2531-4FB6-A058-81D42E7697A4}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
