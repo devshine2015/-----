@@ -766,6 +766,7 @@ const char* CCreateChaScene::GetCityNames(int index)
 		return RES_STRING(CL_LANGUAGE_MATCH_39);
 	case 1:
 		return "vampire";//RES_STRING(CL_LANGUAGE_MATCH_40);
+		//return RES_STRING(CL_LANGUAGE_MATCH_40);
 	case 2:
 		return RES_STRING(CL_LANGUAGE_MATCH_41);
 	}

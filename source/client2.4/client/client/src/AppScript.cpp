@@ -23,7 +23,7 @@ void CGameApp::LoadScriptScene( eSceneType eType )
 				SMapInfo.bIsNewCha = false;
 				SMapInfo.chEnterType = 1;
 				SMapInfo.sEnterRet = 0;
-				SMapInfo.szMapName = "vampire";
+				SMapInfo.szMapName = "garner";
 				g_pGameApp->GetMainCam()->m_bSelectMode = TRUE;
 				NetSwitchMap(SMapInfo);
 			}

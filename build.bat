@@ -1,4 +1,7 @@
 @echo off
+@rem change version
+
+@rem compile
 cd source\server
 call compile-all.bat
 cd ..\..

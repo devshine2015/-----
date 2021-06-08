@@ -1475,27 +1475,27 @@ void CGameApp::InitAllTable()
 
 	// txt
 //这些移到DLL中创建，为了正确释放内存 by Waiting 2009-06-18
-// 	LETerrainSet *pTerrainSet = new LETerrainSet(0, 100);		
-// 	pTerrainSet->LoadRawDataInfo("scripts/table/TerrainInfo", bBinary);
+ 	LETerrainSet *pTerrainSet = new LETerrainSet(0, 100);		
+ 	pTerrainSet->LoadRawDataInfo("scripts/table/TerrainInfo", bBinary);
 		
-// 	CEff_ParamSet* pEffSetp = new CEff_ParamSet(0, 100);
-// 	pEffSetp->LoadRawDataInfo("scripts/table/MagicSingleinfo", bBinary);
+ 	CEff_ParamSet* pEffSetp = new CEff_ParamSet(0, 100);
+ 	pEffSetp->LoadRawDataInfo("scripts/table/MagicSingleinfo", bBinary);
 
-//	CGroup_ParamSet* pGroupSet = new CGroup_ParamSet(0, 10);
-//	pGroupSet->LoadRawDataInfo("scripts/table/MagicGroupInfo", bBinary);
+	CGroup_ParamSet* pGroupSet = new CGroup_ParamSet(0, 10);
+	pGroupSet->LoadRawDataInfo("scripts/table/MagicGroupInfo", bBinary);
 
 	// 只是为了MakeBin使用
 	//2016注释
-	//if(!g_bBinaryTable)
-	//{
-	//	LETerrainSet *pTerrainSet = new LETerrainSet(0, 100);		
-	//	pTerrainSet->LoadRawDataInfo("scripts/table/TerrainInfo", bBinary);
-	//	CEff_ParamSet* pEffSetp = new CEff_ParamSet(0, 100);
-	//	pEffSetp->LoadRawDataInfo("scripts/table/MagicSingleinfo", bBinary);
+	if(!g_bBinaryTable)
+	{
+		LETerrainSet *pTerrainSet = new LETerrainSet(0, 100);		
+		pTerrainSet->LoadRawDataInfo("scripts/table/TerrainInfo", bBinary);
+		CEff_ParamSet* pEffSetp = new CEff_ParamSet(0, 100);
+		pEffSetp->LoadRawDataInfo("scripts/table/MagicSingleinfo", bBinary);
 
-	//	CGroup_ParamSet* pGroupSet = new CGroup_ParamSet(0, 10);
-	//	pGroupSet->LoadRawDataInfo("scripts/table/MagicGroupInfo", bBinary);
-	//}
+		CGroup_ParamSet* pGroupSet = new CGroup_ParamSet(0, 10);
+		pGroupSet->LoadRawDataInfo("scripts/table/MagicGroupInfo", bBinary);
+	}
 
 	CItemRefineSet* pItemRefineSet = new CItemRefineSet(0, g_Config.m_nMaxItemType);
 	pItemRefineSet->LoadRawDataInfo("scripts/table/ItemRefineInfo", bBinary);
